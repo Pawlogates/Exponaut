@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cye4e8j2v48jf"
+path="res://.godot/imported/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Tunnels of the Knaaren.mp3-31f9e1cc911d0b7c83fcde48539c134e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Tunnels of the Knaaren.mp3"
+dest_files=["res://.godot/imported/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Tunnels of the Knaaren.mp3-31f9e1cc911d0b7c83fcde48539c134e.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

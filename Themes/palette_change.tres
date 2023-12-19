@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://b6n3mjh3jswls"]
+
+[ext_resource type="Shader" path="res://Themes/palette_changeShader.gdshader" id="1_0fgh5"]
+
+[sub_resource type="Gradient" id="Gradient_nxcgd"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fw7pj"]
+gradient = SubResource("Gradient_nxcgd")
+
+[resource]
+shader = ExtResource("1_0fgh5")
+shader_parameter/disableProcessing = false
+shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/cycleMode = 1
+shader_parameter/cycleRate = 120.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true
+shader_parameter/palette = SubResource("GradientTexture2D_fw7pj")

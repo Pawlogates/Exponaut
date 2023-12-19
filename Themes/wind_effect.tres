@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bl823gio4gtca"]
+
+[ext_resource type="Shader" path="res://Themes/wind_effect.gdshader" id="1_v4ocp"]
+
+[resource]
+shader = ExtResource("1_v4ocp")
+shader_parameter/speed = 10.0
+shader_parameter/minStrength = 0.4
+shader_parameter/maxStrength = 0.4
+shader_parameter/strengthScale = 500.0
+shader_parameter/interval = 3.5
+shader_parameter/detail = 1.0
+shader_parameter/distortion = 0.0
+shader_parameter/heightOffset = 0.0
+shader_parameter/offset = 0.0

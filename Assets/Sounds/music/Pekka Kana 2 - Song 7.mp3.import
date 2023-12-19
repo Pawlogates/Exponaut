@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c2kyrlx74qvo5"
+path="res://.godot/imported/Pekka Kana 2 - Song 7.mp3-8dc8d0205c429be0c20ddf727b2efda9.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Pekka Kana 2 - Song 7.mp3"
+dest_files=["res://.godot/imported/Pekka Kana 2 - Song 7.mp3-8dc8d0205c429be0c20ddf727b2efda9.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

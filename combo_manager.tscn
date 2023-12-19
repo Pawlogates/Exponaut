@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhjuxvebimqov"]
+
+[ext_resource type="Script" path="res://Scripts/ComboManager.gd" id="1_bhqmy"]
+[ext_resource type="AudioStream" uid="uid://vn2emi73bj4f" path="res://Assets/Sounds/sfx/combo_reset.wav" id="2_h4ctp"]
+
+[node name="ComboManager" type="Node2D"]
+script = ExtResource("1_bhqmy")
+
+[node name="combo_cycle_timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_h4ctp")
+
+[connection signal="timeout" from="combo_cycle_timer" to="." method="_on_combo_cycle_timer_timeout"]

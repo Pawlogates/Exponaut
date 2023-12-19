@@ -1,0 +1,6 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://bmb74yx4w0ka3"]
+
+[ext_resource type="Shader" path="res://Themes/screenTextureShader.gdshader" id="1_m3n7h"]
+
+[resource]
+shader = ExtResource("1_m3n7h")

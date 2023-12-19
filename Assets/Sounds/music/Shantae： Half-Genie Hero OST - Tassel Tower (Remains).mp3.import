@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://5v3sg5c76sbo"
+path="res://.godot/imported/Shantae： Half-Genie Hero OST - Tassel Tower (Remains).mp3-cfb1839284f1c5f06f03bffdce026326.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Shantae： Half-Genie Hero OST - Tassel Tower (Remains).mp3"
+dest_files=["res://.godot/imported/Shantae： Half-Genie Hero OST - Tassel Tower (Remains).mp3-cfb1839284f1c5f06f03bffdce026326.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

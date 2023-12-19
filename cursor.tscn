@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://nrn8d4a323jd"]
+
+[ext_resource type="Texture2D" uid="uid://mqmb84ae2aw8" path="res://Assets/Graphics/sprites/menu_deco.png" id="1_pppow"]
+
+[node name="Cursor" type="Node2D"]
+visible = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_pppow")

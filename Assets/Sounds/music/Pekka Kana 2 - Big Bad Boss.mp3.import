@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://peellea3e4hn"
+path="res://.godot/imported/Pekka Kana 2 - Big Bad Boss.mp3-d3e733492802b5ee3cb65c2a2bcd12a2.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Pekka Kana 2 - Big Bad Boss.mp3"
+dest_files=["res://.godot/imported/Pekka Kana 2 - Big Bad Boss.mp3-d3e733492802b5ee3cb65c2a2bcd12a2.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

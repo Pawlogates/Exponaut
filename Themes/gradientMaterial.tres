@@ -1,0 +1,16 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dund1w38xrd7n"]
+
+[ext_resource type="Shader" path="res://Themes/gradientEffect.gdshader" id="1_l2o3j"]
+
+[sub_resource type="Gradient" id="Gradient_5a053"]
+offsets = PackedFloat32Array(0, 0.497355, 1)
+colors = PackedColorArray(1, 0, 0, 0.619608, 1, 1, 0, 0.427451, 0.878431, 0.776471, 1, 0.278431)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_t5jbt"]
+gradient = SubResource("Gradient_5a053")
+fill_to = Vector2(2, 0)
+
+[resource]
+shader = ExtResource("1_l2o3j")
+shader_parameter/opacity_scale = 0.4
+shader_parameter/gradient = SubResource("GradientTexture2D_t5jbt")

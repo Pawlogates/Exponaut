@@ -1,0 +1,69 @@
+[gd_scene load_steps=7 format=3 uid="uid://nyr7qjtu4enc"]
+
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_ojdt3"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wup6b"]
+atlas = ExtResource("1_ojdt3")
+region = Rect2(0, 320, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_45hng"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wup6b")
+}],
+"loop": true,
+"name": &"default",
+"speed": 0.0
+}]
+
+[sub_resource type="Animation" id="Animation_de8fa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_nh02v"]
+resource_name = "loop"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-64, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4jlhx"]
+_data = {
+"RESET": SubResource("Animation_de8fa"),
+"loop": SubResource("Animation_nh02v")
+}
+
+[node name="Node2D" type="Sprite2D"]
+z_index = 1
+position = Vector2(64, 0)
+
+[node name="water_top" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_45hng")
+autoplay = "default"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="water_top"]
+autoplay = "loop"
+libraries = {
+"": SubResource("AnimationLibrary_4jlhx")
+}

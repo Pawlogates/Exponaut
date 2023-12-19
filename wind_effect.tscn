@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://ba7xf48q3pi8o"]
+
+[ext_resource type="Material" uid="uid://bl823gio4gtca" path="res://Themes/wind_effect.tres" id="1_yrs4c"]
+[ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/fg_gradient.png" id="2_4mpbr"]
+
+[node name="Wind Effect" type="TextureRect"]
+material = ExtResource("1_yrs4c")
+offset_right = 192.0
+offset_bottom = 128.0
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("2_4mpbr")

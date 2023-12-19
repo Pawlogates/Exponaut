@@ -1,0 +1,139 @@
+[gd_scene load_steps=14 format=3 uid="uid://6vpm41lnycqx"]
+
+[ext_resource type="Script" path="res://Enemies/enemy_hedgehog.gd" id="1_cdb05"]
+[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_ue3lu"]
+[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_bbnjs"]
+[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_8h67t"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tbyi6"]
+atlas = ExtResource("2_ue3lu")
+region = Rect2(340, 689, 68, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkttj"]
+atlas = ExtResource("2_ue3lu")
+region = Rect2(136, 689, 68, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_swrfg"]
+atlas = ExtResource("2_ue3lu")
+region = Rect2(204, 689, 68, 65)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ec7yj"]
+atlas = ExtResource("2_ue3lu")
+region = Rect2(272, 690, 68, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rf625"]
+atlas = ExtResource("2_ue3lu")
+region = Rect2(0, 690, 68, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rmtrc"]
+atlas = ExtResource("2_ue3lu")
+region = Rect2(68, 690, 68, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tbyi6")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkttj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swrfg")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ec7yj")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rf625")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rmtrc")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
+size = Vector2(56, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
+size = Vector2(20, 32)
+
+[node name="enemyHedgehog" type="CharacterBody2D" groups=["enemies"]]
+z_index = 1
+collision_layer = 0
+script = ExtResource("1_cdb05")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 2
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_5cx1g")
+animation = &"attack"
+
+[node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="AttackedTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="DeadTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+light_mask = 2
+visibility_layer = 2
+collision_layer = 0
+collision_mask = 2
+
+[node name="main_collision" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_4klqh")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_7kt5p")
+
+[node name="particle_limiter" type="Timer" parent="."]
+wait_time = 0.2
+one_shot = true
+
+[node name="hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_bbnjs")
+
+[node name="death" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_8h67t")
+volume_db = 5.0
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
+[connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
+[connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_direction_timer_timeout"]
+[connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

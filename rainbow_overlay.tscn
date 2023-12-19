@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://de3ioqftpuhxu"]
+
+[ext_resource type="Material" uid="uid://de530i570qiym" path="res://Themes/rainbow_overlay.tres" id="1_sxt2k"]
+
+[node name="Rainbow Overlay" type="ColorRect"]
+material = ExtResource("1_sxt2k")
+offset_right = 128.0
+offset_bottom = 64.0

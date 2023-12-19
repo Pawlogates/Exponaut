@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cu07inf4ih7tt"
+path="res://.godot/imported/Pekka Kana 2 - Song 12.mp3-86bbae8ea9a50d455de7a4dbde3d4d90.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Pekka Kana 2 - Song 12.mp3"
+dest_files=["res://.godot/imported/Pekka Kana 2 - Song 12.mp3-86bbae8ea9a50d455de7a4dbde3d4d90.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
