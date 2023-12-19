@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cj7olb7u17b5p"
+path="res://.godot/imported/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Lake.mp3-4204030db96cdd502cae3b73cee2b5ce.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Lake.mp3"
+dest_files=["res://.godot/imported/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Lake.mp3-4204030db96cdd502cae3b73cee2b5ce.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

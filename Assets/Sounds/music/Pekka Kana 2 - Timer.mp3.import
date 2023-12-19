@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://ctkgys6vted0u"
+path="res://.godot/imported/Pekka Kana 2 - Timer.mp3-f61007011dee78e254bcacfa9d843420.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Pekka Kana 2 - Timer.mp3"
+dest_files=["res://.godot/imported/Pekka Kana 2 - Timer.mp3-f61007011dee78e254bcacfa9d843420.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

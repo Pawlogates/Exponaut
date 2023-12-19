@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cnnovklyc6yjw"
+path="res://.godot/imported/The Won-Stoppable Wonderful 100 (Wonderful Live) - The Wonderful 101： Remastered Music Extended.mp3-8465ab1a0e584672532428b953f83cd2.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/The Won-Stoppable Wonderful 100 (Wonderful Live) - The Wonderful 101： Remastered Music Extended.mp3"
+dest_files=["res://.godot/imported/The Won-Stoppable Wonderful 100 (Wonderful Live) - The Wonderful 101： Remastered Music Extended.mp3-8465ab1a0e584672532428b953f83cd2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

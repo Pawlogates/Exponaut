@@ -1,0 +1,78 @@
+[gd_scene load_steps=6 format=3 uid="uid://flag654itsqj"]
+
+[ext_resource type="Material" uid="uid://dund1w38xrd7n" path="res://Themes/gradientMaterial.tres" id="1_h8y37"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_832g4"]
+
+[sub_resource type="Animation" id="Animation_amegw"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/gradient:fill_from:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/gradient:fill_from:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_k43qq"]
+resource_name = "new_animation"
+length = 10.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:material:shader_parameter/gradient:fill_from:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(-2, -0.25, 0, 0.25, 0, -2, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0, -2, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.1, 5, 10)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/gradient:fill_from:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.1, 5, 10)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ten2"]
+_data = {
+"RESET": SubResource("Animation_amegw"),
+"new_animation": SubResource("Animation_k43qq")
+}
+
+[node name="Gradient" type="TextureRect"]
+material = ExtResource("1_h8y37")
+offset_left = -192.0
+offset_top = -128.0
+offset_right = 192.0
+offset_bottom = 156.0
+scale = Vector2(1, 0.9)
+texture = SubResource("PlaceholderTexture2D_832g4")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "new_animation"
+libraries = {
+"": SubResource("AnimationLibrary_8ten2")
+}

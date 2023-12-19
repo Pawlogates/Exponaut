@@ -1,0 +1,12 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://jgkgc27kua6h"]
+
+[ext_resource type="Shader" path="res://Themes/textureFilterShader.gdshader" id="1_tsl2c"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_ljfph"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_u2rsy"]
+noise = SubResource("FastNoiseLite_ljfph")
+
+[resource]
+shader = ExtResource("1_tsl2c")
+shader_parameter/distortionTexture = SubResource("NoiseTexture2D_u2rsy")

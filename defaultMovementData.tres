@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="playerMovementData" load_steps=2 format=3 uid="uid://7ohqgqkvih67"]
+
+[ext_resource type="Script" path="res://Scripts/playerMovementData.gd" id="1_arvyl"]
+
+[resource]
+script = ExtResource("1_arvyl")
+SPEED = 400.0
+JUMP_VELOCITY = -450.0
+ACCELERATION = 1200
+FRICTION = 1200
+AIR_SLOWDOWN = -400
+AIR_ACCELERATION = 1200
+GRAVITY_SCALE = 1

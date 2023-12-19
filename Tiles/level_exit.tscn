@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://dctah68au68co"]
+
+[ext_resource type="Script" path="res://Scripts/level_exit.gd" id="1_rcdj4"]
+[ext_resource type="Texture2D" uid="uid://h6fc33v2kjcs" path="res://Assets/Graphics/tilesets/tileset5.png" id="2_upmee"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8h05s"]
+size = Vector2(64, 64)
+
+[node name="LevelExit" type="Area2D"]
+z_index = 1
+collision_mask = 2
+script = ExtResource("1_rcdj4")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 1
+shape = SubResource("RectangleShape2D_8h05s")
+debug_color = Color(0, 0.6, 0.701961, 0.419608)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_upmee")
+region_enabled = true
+region_rect = Rect2(896, 0, 64, 64)
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

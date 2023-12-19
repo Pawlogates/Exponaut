@@ -1,0 +1,48 @@
+[gd_scene load_steps=18 format=3 uid="uid://cdppta5y51e08"]
+
+[ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_6ck4y"]
+[ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_e1gk0"]
+[ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Tiles/move_block_h.tscn" id="3_4de3j"]
+[ext_resource type="PackedScene" uid="uid://va38cadkefjo" path="res://Tiles/move_block_v.tscn" id="4_pp0eg"]
+[ext_resource type="PackedScene" uid="uid://cwylhbfoqohrq" path="res://Tiles/one_way_up.tscn" id="5_ae7xx"]
+[ext_resource type="PackedScene" uid="uid://b3l8f8715wudj" path="res://Collectibles/collectibleCarrot.tscn" id="6_84n4e"]
+[ext_resource type="PackedScene" uid="uid://nyr7qjtu4enc" path="res://Tiles/water_top.tscn" id="6_sbokm"]
+[ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://deco_waterfall.tscn" id="7_758lm"]
+[ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="7_eyh5l"]
+[ext_resource type="PackedScene" uid="uid://ceppiucikm3xr" path="res://Collectibles/collectibleGreenJewel.tscn" id="8_f4ssp"]
+[ext_resource type="PackedScene" uid="uid://6vpm41lnycqx" path="res://Enemies/enemy_hedgehog.tscn" id="9_w4f3t"]
+[ext_resource type="PackedScene" uid="uid://cjqinbb60vh6" path="res://Enemies/enemy_frog.tscn" id="10_o6yos"]
+[ext_resource type="PackedScene" uid="uid://c63l38ki43ymp" path="res://Enemies/enemy_bossMetalHen.tscn" id="11_uq7dw"]
+[ext_resource type="PackedScene" uid="uid://dctah68au68co" path="res://Tiles/level_exit.tscn" id="12_dw20f"]
+[ext_resource type="PackedScene" uid="uid://dl5i4pgp0735j" path="res://godrays.tscn" id="14_qv5ys"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
+resource_name = "objects"
+scenes/1/scene = ExtResource("1_6ck4y")
+scenes/2/scene = ExtResource("6_84n4e")
+scenes/3/scene = ExtResource("7_eyh5l")
+scenes/4/scene = ExtResource("8_f4ssp")
+scenes/5/scene = ExtResource("9_w4f3t")
+scenes/6/scene = ExtResource("10_o6yos")
+scenes/7/scene = ExtResource("11_uq7dw")
+scenes/8/scene = ExtResource("14_qv5ys")
+scenes/9/scene = ExtResource("12_dw20f")
+scenes/10/scene = ExtResource("2_e1gk0")
+scenes/11/scene = ExtResource("3_4de3j")
+scenes/12/scene = ExtResource("4_pp0eg")
+scenes/13/scene = ExtResource("5_ae7xx")
+scenes/14/scene = ExtResource("6_sbokm")
+scenes/15/scene = ExtResource("7_758lm")
+
+[sub_resource type="TileSet" id="TileSet_bxi0m"]
+tile_size = Vector2i(64, 64)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetScenesCollectionSource_kxjp3")
+
+[node name="tileset_objects" type="TileMap"]
+visibility_layer = 2
+tile_set = SubResource("TileSet_bxi0m")
+rendering_quadrant_size = 64
+format = 2
+layer_0/name = "main"
+layer_0/z_index = 1

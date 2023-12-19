@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl5i4pgp0735j"]
+
+[ext_resource type="Shader" path="res://Themes/godrays.gdshader" id="1_3ykqu"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ecuhd"]
+shader = ExtResource("1_3ykqu")
+shader_parameter/angle = 0.3
+shader_parameter/position = 0.145
+shader_parameter/spread = 1.0
+shader_parameter/cutoff = 0.1
+shader_parameter/falloff = 0.6
+shader_parameter/edge_fade = 0.3
+shader_parameter/speed = 1.0
+shader_parameter/ray1_density = 8.0
+shader_parameter/ray2_density = 30.0
+shader_parameter/ray2_intensity = 0.3
+shader_parameter/color = Color(1, 0.9, 0.65, 0.8)
+shader_parameter/hdr = false
+shader_parameter/seed = 5.0
+
+[node name="godrays" type="ColorRect"]
+z_index = -2
+material = SubResource("ShaderMaterial_ecuhd")
+offset_right = 640.0
+offset_bottom = 384.0

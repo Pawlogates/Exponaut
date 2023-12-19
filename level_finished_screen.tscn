@@ -1,0 +1,54 @@
+[gd_scene load_steps=5 format=3 uid="uid://dijgiqym3g0vv"]
+
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_6vvdi"]
+[ext_resource type="Script" path="res://Scripts/all_collected.gd" id="2_kqj8x"]
+[ext_resource type="FontFile" uid="uid://b2dw8ahwf0e75" path="res://IMPACT.TTF" id="3_ymqlq"]
+
+[sub_resource type="Theme" id="Theme_thkv2"]
+
+[node name="Level Finished" type="ColorRect"]
+process_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6vvdi")
+color = Color(0, 0, 0, 0.2)
+script = ExtResource("2_kqj8x")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme = SubResource("Theme_thkv2")
+theme_override_fonts/font = ExtResource("3_ymqlq")
+theme_override_font_sizes/font_size = 75
+text = "Level Finished"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="RetryBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+text = "Retry"
+
+[node name="NextLevelBtn" type="Button" parent="CenterContainer/VBoxContainer/HBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+text = "Next Level"
+
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/RetryBtn" to="." method="_on_retry_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/HBoxContainer/NextLevelBtn" to="." method="_on_next_level_btn_pressed"]
