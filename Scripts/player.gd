@@ -10,7 +10,7 @@ var was_wall_normal = Vector2.ZERO
 @export var node: AnimatedSprite2D
 
 
-var starParticleScene = load("res://particles_star.tscn")
+var starParticleScene = preload("res://particles_star.tscn")
 var starParticle = starParticleScene.instantiate()
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -79,7 +79,7 @@ var started_dash = false
 var speedBlockActive = false
 var dash_slowdown = false
 
-var scene_projectile_quick = load("res://projectile_basic_quick.tscn")
+var scene_projectile_quick = preload("res://projectile_basic_quick.tscn")
 
 
 func apply_gravity(delta):
@@ -272,7 +272,7 @@ func _physics_process(delta):
 		jump_leniency.start()
 		
 	if Input.is_action_just_pressed("ui_cancel"):
-		movement_data = load("res://fasterMovementData.tres")
+		movement_data = preload("res://fasterMovementData.tres")
 	
 	var just_left_wall = was_on_wall and not is_on_wall()
 	

@@ -7,7 +7,7 @@ signal cheese_collected
 
 
 @onready var animation_player = $AnimationPlayer
-@onready var animation_player2 = $"../collectDisplayAnimAnchor/AnimationPlayer"
+@onready var animation_player2 = %AnimationPlayer
 var collected = false
 
 

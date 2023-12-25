@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://c715r3lp3xn71"]
+[gd_scene load_steps=5 format=3 uid="uid://bboe7o3eljgvr"]
 
 [ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/bg1.png" id="1_k2hca"]
+[ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/bg1a.png" id="2_dice4"]
+[ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/bg1b.png" id="3_f6lwm"]
+[ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://deco_waterfall.tscn" id="4_iu5ul"]
 
 [node name="background" type="Node2D"]
 z_index = -5
@@ -9,9 +12,10 @@ z_index = -5
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
 scroll_offset = Vector2(0.57, 0.73)
-scroll_base_scale = Vector2(0.8, 0.5)
+scroll_base_scale = Vector2(0.6, 0.2)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground"]
+z_index = -5
 texture_repeat = 3
 motion_mirroring = Vector2(2560, 0)
 
@@ -21,3 +25,391 @@ offset_top = -560.0
 offset_right = 2560.0
 offset_bottom = 1360.0
 texture = ExtResource("1_k2hca")
+
+[node name="ParallaxBackground4" type="ParallaxBackground" parent="CanvasLayer"]
+layer = -98
+scroll_offset = Vector2(0.57, 0.73)
+scroll_base_scale = Vector2(0.9, 0.5)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground4"]
+z_index = -3
+texture_repeat = 3
+motion_mirroring = Vector2(2560, 0)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ParallaxBackground4/ParallaxLayer"]
+texture_repeat = 3
+offset_top = -560.0
+offset_right = 2560.0
+offset_bottom = 1360.0
+texture = ExtResource("2_dice4")
+
+[node name="ParallaxBackground5" type="ParallaxBackground" parent="CanvasLayer"]
+layer = -99
+scroll_offset = Vector2(0.57, 0.73)
+scroll_base_scale = Vector2(0.75, 0.5)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground5"]
+modulate = Color(1, 1, 1, 0.388235)
+z_index = -4
+texture_repeat = 3
+position = Vector2(-256, 346)
+motion_mirroring = Vector2(4096, 0)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ParallaxBackground5/ParallaxLayer"]
+texture_repeat = 3
+offset_top = -560.0
+offset_right = 2560.0
+offset_bottom = 1360.0
+scale = Vector2(1.6, 0.6)
+texture = ExtResource("3_f6lwm")
+
+[node name="ParallaxBackground2" type="ParallaxBackground" parent="CanvasLayer"]
+scroll_base_scale = Vector2(0.6, 0.5)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground2"]
+
+[node name="deco_waterfall" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -112)
+
+[node name="deco_waterfall2" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -240)
+
+[node name="deco_waterfall3" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -368)
+
+[node name="deco_waterfall4" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -496)
+
+[node name="deco_waterfall5" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 144)
+
+[node name="deco_waterfall6" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 16)
+
+[node name="deco_waterfall16" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -880)
+
+[node name="deco_waterfall17" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1008)
+
+[node name="deco_waterfall18" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1136)
+
+[node name="deco_waterfall19" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1264)
+
+[node name="deco_waterfall20" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -624)
+
+[node name="deco_waterfall21" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -752)
+
+[node name="deco_waterfall22" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1648)
+
+[node name="deco_waterfall23" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1776)
+
+[node name="deco_waterfall24" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1904)
+
+[node name="deco_waterfall25" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -2032)
+
+[node name="deco_waterfall26" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1392)
+
+[node name="deco_waterfall27" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -1520)
+
+[node name="deco_waterfall7" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 656)
+
+[node name="deco_waterfall8" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 528)
+
+[node name="deco_waterfall9" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 400)
+
+[node name="deco_waterfall10" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 272)
+
+[node name="deco_waterfall11" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 912)
+
+[node name="deco_waterfall12" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 784)
+
+[node name="deco_waterfall13" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 1296)
+
+[node name="deco_waterfall14" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 1168)
+
+[node name="deco_waterfall15" parent="CanvasLayer/ParallaxBackground2/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 1040)
+
+[node name="ParallaxBackground3" type="ParallaxBackground" parent="CanvasLayer"]
+scroll_base_scale = Vector2(0.7, 0.5)
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground3"]
+modulate = Color(1, 1, 1, 0.4)
+position = Vector2(880, -768)
+scale = Vector2(0.2, 0.2)
+
+[node name="deco_waterfall" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, -192)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall2" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 192)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall3" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 576)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall4" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 960)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall5" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 1344)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall6" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 1728)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall7" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 2112)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall8" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 2496)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall9" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 2880)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall10" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 3264)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall11" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 3648)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall12" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 4032)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall13" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 4416)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall14" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 4800)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall15" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 5184)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall16" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 5568)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall17" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 5952)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall18" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 6336)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall19" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 6720)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall20" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 7104)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall21" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 7488)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall22" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 7872)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall23" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 8256)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall24" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 8640)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall25" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 9024)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall26" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 9408)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall27" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 9792)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall28" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 10176)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall29" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 10560)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall30" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 10944)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall31" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(96, 11328)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall32" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -5950)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall33" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -5566)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall34" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -5182)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall35" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -4798)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall36" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -4414)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall37" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -4030)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall38" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -3646)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall39" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -3262)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall40" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -2878)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall41" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -2494)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall42" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -2110)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall43" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -1726)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall44" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -1342)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall45" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -958.001)
+scale = Vector2(3, 3)
+
+[node name="deco_waterfall46" parent="CanvasLayer/ParallaxBackground3/ParallaxLayer" instance=ExtResource("4_iu5ul")]
+modulate = Color(1, 1, 1, 0.352941)
+position = Vector2(95, -574.001)
+scale = Vector2(3, 3)

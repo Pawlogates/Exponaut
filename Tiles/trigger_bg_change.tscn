@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk1o70r1mo5kw"]
+
+[ext_resource type="Script" path="res://trigger_bgChange.gd" id="1_3hbpa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
+size = Vector2(48, 48)
+
+[node name="trigger_bgChange" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_3hbpa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jb7dg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

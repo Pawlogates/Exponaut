@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dfsj4rvxwhoow"
+path="res://.godot/imported/Music MSF.mp3-9d60bcc2d79d6649ea6e668b3508ca71.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Music MSF.mp3"
+dest_files=["res://.godot/imported/Music MSF.mp3-9d60bcc2d79d6649ea6e668b3508ca71.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

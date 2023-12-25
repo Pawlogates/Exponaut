@@ -108,6 +108,7 @@ _data = {
 size = Vector2(64, 64)
 
 [node name="move_blockH" type="StaticBody2D"]
+z_index = 1
 collision_layer = 3
 collision_mask = 3
 
@@ -117,10 +118,10 @@ region_enabled = true
 region_rect = Rect2(704, 512, 64, 64)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
-autoplay = "moveH_loop"
 libraries = {
 "": SubResource("AnimationLibrary_1356v")
 }
+autoplay = "moveH_loop"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 96)

@@ -18,11 +18,11 @@ const JUMP_VELOCITY = -250.0
 
 var hp = 7
 
-var starParticle_fastScene = load("res://particles_starFast.tscn")
+var starParticle_fastScene = preload("res://particles_starFast.tscn")
 var starParticle_fast = starParticle_fastScene.instantiate()
-var hit_effectScene = load("res://hit_effect.tscn")
+var hit_effectScene = preload("res://hit_effect.tscn")
 var hit_effect = hit_effectScene.instantiate()
-var dead_effectScene = load("res://dead_effect.tscn")
+var dead_effectScene = preload("res://dead_effect.tscn")
 var dead_effect = dead_effectScene.instantiate()
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -31,6 +31,13 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 var direction = -1
 
 
+
+
+
+func _ready():
+	set_physics_process(false)
+	
+	
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -70,7 +77,7 @@ func _on_area_2d_area_entered(area):
 		attacking = true
 		attacking_timer.start()
 		
-	elif area.name == "projectile_basic_quick" or "projectile_basic_quick2" or "projectile_basic_quick3" or "projectile_basic_quick4":
+	elif area.is_in_group("player_projectile"):
 		if not dead:
 			attacked = true
 			attacked_timer.start()
@@ -78,6 +85,7 @@ func _on_area_2d_area_entered(area):
 			hit_effect = hit_effectScene.instantiate()
 			add_child(hit_effect)
 			hp -= 1
+			Globals.enemyHit.emit()
 			if hp <= 0:
 				dead = true
 				if dead:
@@ -148,3 +156,11 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 
 
+
+
+func offScreen_unload():
+	set_physics_process(false)
+
+
+func offScreen_load():
+	set_physics_process(true)

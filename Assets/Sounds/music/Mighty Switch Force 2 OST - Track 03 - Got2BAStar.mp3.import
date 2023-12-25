@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b6o0qgiccm15p"
+path="res://.godot/imported/Mighty Switch Force 2 OST - Track 03 - Got2BAStar.mp3-6415d25944f05faf1b8eb888a0fa4a5d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Mighty Switch Force 2 OST - Track 03 - Got2BAStar.mp3"
+dest_files=["res://.godot/imported/Mighty Switch Force 2 OST - Track 03 - Got2BAStar.mp3-6415d25944f05faf1b8eb888a0fa4a5d.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

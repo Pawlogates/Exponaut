@@ -115,57 +115,13 @@ tracks/7/keys = {
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
-tracks/8/type = "bezier"
+tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../collectDisplayAnimAnchor/collectedDisplay:modulate:r")
+tracks/8/path = NodePath("CollisionShape2D:disabled")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/9/type = "bezier"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("../collectDisplayAnimAnchor/collectedDisplay:modulate:g")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/10/type = "bezier"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("../collectDisplayAnimAnchor/collectedDisplay:modulate:b")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/11/type = "bezier"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath("../collectDisplayAnimAnchor/collectedDisplay:modulate:a")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/12/type = "value"
-tracks/12/imported = false
-tracks/12/enabled = true
-tracks/12/path = NodePath("CollisionShape2D:disabled")
-tracks/12/interp = 1
-tracks/12/loop_wrap = true
-tracks/12/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -359,74 +315,19 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("collectedDisplay:theme_override_colors/font_color:r")
+tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/7/type = "bezier"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("collectedDisplay:theme_override_colors/font_color:g")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/8/type = "bezier"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("collectedDisplay:theme_override_colors/font_color:b")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/9/type = "bezier"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("collectedDisplay:theme_override_colors/font_color:a")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/10/type = "bezier"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath(".:scale:x")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/11/type = "bezier"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath(".:scale:y")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 
 [sub_resource type="Animation" id="Animation_gitew"]
 resource_name = "score_value"
 length = 3.0
-step = 0.01
+step = 0.05
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -435,8 +336,8 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.45, 3)
+"points": PackedFloat32Array(-220, -0.25, 0, 0.25, 0, -220, -0.25, 0, 0.25, 0, -220, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.75, 3)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -446,8 +347,8 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, -24, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.45, 3)
+"points": PackedFloat32Array(-80, -0.25, 0, 0.25, 0, -80, -0.25, 0, 1.5, 0, -240, 0, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.75, 3)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
@@ -458,7 +359,7 @@ tracks/2/loop_wrap = true
 tracks/2/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0),
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.25, 0.45, 3)
+"times": PackedFloat32Array(0, 0.5, 0.75, 3)
 }
 tracks/3/type = "bezier"
 tracks/3/imported = false
@@ -469,7 +370,7 @@ tracks/3/loop_wrap = true
 tracks/3/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0),
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.25, 0.45, 3)
+"times": PackedFloat32Array(0, 0.5, 0.75, 3)
 }
 tracks/4/type = "bezier"
 tracks/4/imported = false
@@ -480,7 +381,7 @@ tracks/4/loop_wrap = true
 tracks/4/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0),
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.25, 0.45, 3)
+"times": PackedFloat32Array(0, 0.5, 0.75, 3)
 }
 tracks/5/type = "bezier"
 tracks/5/imported = false
@@ -491,73 +392,18 @@ tracks/5/loop_wrap = true
 tracks/5/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0, 0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.25, 0.45, 3)
+"times": PackedFloat32Array(0, 0.5, 0.75, 3)
 }
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("collectedDisplay:theme_override_colors/font_color:r")
+tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1.2)
-}
-tracks/7/type = "bezier"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("collectedDisplay:theme_override_colors/font_color:g")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1.2)
-}
-tracks/8/type = "bezier"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("collectedDisplay:theme_override_colors/font_color:b")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1.2)
-}
-tracks/9/type = "bezier"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("collectedDisplay:theme_override_colors/font_color:a")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1.2)
-}
-tracks/10/type = "bezier"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath(".:scale:x")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.45)
-}
-tracks/11/type = "bezier"
-tracks/11/imported = false
-tracks/11/enabled = true
-tracks/11/path = NodePath(".:scale:y")
-tracks/11/interp = 1
-tracks/11/loop_wrap = true
-tracks/11/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(1e-05, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.45)
+"points": PackedFloat32Array(5, -0.25, 0, 0.25, 0, 32, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
@@ -567,6 +413,7 @@ _data = {
 }
 
 [node name="carrot" type="Node2D"]
+scale = Vector2(0.85, 0.85)
 script = ExtResource("1_0be6x")
 
 [node name="carrot" type="Area2D" parent="." groups=["Collectibles"]]
@@ -596,28 +443,28 @@ autoplay = "loop"
 [node name="Timer" type="Timer" parent="carrot"]
 wait_time = 4.0
 
-[node name="collectDisplayAnimAnchor" type="Node2D" parent="."]
+[node name="collectedDisplayAnimAnchor" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
+offset_right = 440.0
+offset_bottom = 160.0
+color = Color(1, 1, 1, 0)
 
-[node name="collectedDisplay" type="Label" parent="collectDisplayAnimAnchor"]
-offset_left = -32.5
-offset_top = -100.0
-offset_right = 99.5
-offset_bottom = 9.0
-scale = Vector2(0.5, 0.5)
+[node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
+layout_mode = 0
+offset_right = 440.0
+offset_bottom = 160.0
 theme = ExtResource("5_w6tm7")
-theme_override_colors/font_color = Color(1, 0, 0, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 86
+theme_override_font_sizes/font_size = 0
 text = "test"
 horizontal_alignment = 1
 script = ExtResource("6_126mw")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="collectDisplayAnimAnchor"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="collectedDisplayAnimAnchor"]
+unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_ihjei")
 }
 
 [connection signal="body_entered" from="carrot" to="." method="_on_collectible_entered"]
 [connection signal="body_entered" from="carrot" to="carrot" method="_on_collectible_entered"]
-[connection signal="body_entered" from="carrot" to="collectDisplayAnimAnchor/collectedDisplay" method="_on_collectible_entered"]
+[connection signal="body_entered" from="carrot" to="collectedDisplayAnimAnchor/collectedDisplay" method="_on_carrot_body_entered"]

@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=2 format=3 uid="uid://cfdyinxw562my"]
 
-[ext_resource type="FontFile" uid="uid://b2dw8ahwf0e75" path="res://IMPACT.TTF" id="1_g3x3f"]
+[ext_resource type="FontFile" uid="uid://bxebncx20vx5q" path="res://Assets/Graphics/font_main.png" id="1_lxtsv"]
 
 [resource]
-Label/fonts/font = ExtResource("1_g3x3f")
+Label/fonts/font = ExtResource("1_lxtsv")

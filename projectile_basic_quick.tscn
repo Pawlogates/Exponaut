@@ -305,7 +305,7 @@ tracks/10/path = NodePath("Area2D/projectile_hitbox:disabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.2, 0.7, 0.9),
+"times": PackedFloat32Array(0, 0.1, 0.7, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -420,7 +420,7 @@ tracks/9/path = NodePath("CollisionShape2D:scale")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.65, 0.9),
+"times": PackedFloat32Array(0, 0.2, 0.65, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(1e-05, 1e-05), Vector2(1, 1), Vector2(1, 1), Vector2(1e-05, 1e-05)]
@@ -432,7 +432,7 @@ tracks/10/path = NodePath("Area2D/projectile_hitbox:disabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.65, 0.9),
+"times": PackedFloat32Array(0, 0.1, 0.65, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -559,7 +559,7 @@ tracks/10/path = NodePath("Area2D/projectile_hitbox:disabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.25, 0.65, 0.9),
+"times": PackedFloat32Array(0, 0.1, 0.65, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -685,7 +685,7 @@ tracks/10/path = NodePath("Area2D/projectile_hitbox:disabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.7, 0.9),
+"times": PackedFloat32Array(0, 0.1, 0.7, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -811,7 +811,7 @@ tracks/10/path = NodePath("Area2D/projectile_hitbox:disabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.7, 0.9),
+"times": PackedFloat32Array(0, 0.1, 0.7, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -937,7 +937,7 @@ tracks/10/path = NodePath("Area2D/projectile_hitbox:disabled")
 tracks/10/interp = 1
 tracks/10/loop_wrap = true
 tracks/10/keys = {
-"times": PackedFloat32Array(0, 0.3, 0.7, 0.9),
+"times": PackedFloat32Array(0, 0.1, 0.7, 0.9),
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 1,
 "values": [true, false, false, true]
@@ -968,7 +968,7 @@ collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_p5f2x")
 
-[node name="Area2D" type="Area2D" parent="projectile_basic_quick"]
+[node name="Area2D" type="Area2D" parent="projectile_basic_quick" groups=["player_projectile"]]
 z_index = 5
 collision_layer = 2
 collision_mask = 4

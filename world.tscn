@@ -53,7 +53,11 @@ script = ExtResource("1_8iwd0")
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("3_mn32p")]
 
-[node name="background" parent="." instance=ExtResource("10_ian1u")]
+[node name="bg_current" parent="." instance=ExtResource("10_ian1u")]
+unique_name_in_owner = true
+
+[node name="bg_previous" parent="." instance=ExtResource("10_ian1u")]
+unique_name_in_owner = true
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 position = Vector2(0, 48)
@@ -61,7 +65,6 @@ position = Vector2(0, 48)
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
 stream = ExtResource("7_qn11y")
 volume_db = -5.0
-autoplay = true
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
@@ -150,5 +153,5 @@ libraries = {
 
 [node name="Cursor" parent="." instance=ExtResource("13_83o1d")]
 
-[connection signal="next_level" from="HUD/Level Finished" to="." method="_on_all_collected_next_level"]
-[connection signal="retry" from="HUD/Level Finished" to="." method="_on_all_collected_retry"]
+[connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
+[connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]

@@ -1,5 +1,5 @@
 extends Node
 
-signal all_collected
+signal exitReached
 signal shot_charged
 signal shot

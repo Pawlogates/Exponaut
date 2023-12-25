@@ -14,7 +14,6 @@ func _process(delta):
 
 
 func _on_area_entered(area):
-	#if area.is_in_group("player"):
-	print(area)
-	Globals.playerHit1.emit()
+	if area.is_in_group("player"):
+		Globals.playerHit1.emit()
 

@@ -27,11 +27,11 @@ var flying = false
 
 var hp = 10
 
-var starParticle_fastScene = load("res://particles_starFast.tscn")
+var starParticle_fastScene = preload("res://particles_starFast.tscn")
 var starParticle_fast = starParticle_fastScene.instantiate()
-var hit_effectScene = load("res://hit_effect.tscn")
+var hit_effectScene = preload("res://hit_effect.tscn")
 var hit_effect = hit_effectScene.instantiate()
-var dead_effectScene = load("res://dead_effect.tscn")
+var dead_effectScene = preload("res://dead_effect.tscn")
 var dead_effect = dead_effectScene.instantiate()
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -43,8 +43,7 @@ var direction = -1
 
 
 func _ready():
-
-	pass
+	set_physics_process(false)
 
 
 func _physics_process(delta):
@@ -97,13 +96,14 @@ func _on_area_2d_area_entered(area):
 		attacking = true
 		attacking_timer.start()
 		
-	elif area.name == "projectile_basic_quick" or "projectile_basic_quick2" or "projectile_basic_quick3" or "projectile_basic_quick4":
+	elif area.is_in_group("player_projectile"):
 		if not dead:
 			attacked = true
 			attacked_timer.start()
 			hit.play()
 			add_child(hit_effect)
 			hp -= 1
+			Globals.enemyHit.emit()
 			if hp <= 0:
 				dead = true
 				if dead:
@@ -190,3 +190,11 @@ func _on_fly_end_timeout():
 
 
 
+
+
+func offScreen_unload():
+	set_physics_process(false)
+
+
+func offScreen_load():
+	set_physics_process(true)

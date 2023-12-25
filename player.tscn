@@ -331,6 +331,7 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
+z_index = 1
 collision_layer = 2
 floor_max_angle = 1.0472
 floor_snap_length = 15.0

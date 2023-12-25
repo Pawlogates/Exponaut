@@ -7,6 +7,8 @@ func _ready():
 	Globals.carrot_collected.connect(carrot_collected)
 	Globals.cheese_collected.connect(cheese_collected)
 	Globals.jewelGreen_collected.connect(jewelGreen_collected)
+	
+	Globals.enemyHit.connect(enemyHit_reset_combo_cycle)
 
 
 
@@ -82,8 +84,17 @@ func jewelGreen_collected():
 	reset_combo_timer()
 
 
+
+
 func _on_combo_cycle_timer_timeout():
 	print("combo reset :skull:")
 	reset_combo_tier()
 	Globals.level_score += Globals.combo_score
 	Globals.combo_score = 0
+
+
+
+
+func enemyHit_reset_combo_cycle():
+	check_combo_tier()
+	reset_combo_timer()

@@ -13,7 +13,7 @@ var collected_in_cycle = 0
 var total_score = 0
 
 
-var playerHP = 9
+var playerHP
 var player_posX
 var player_posY
 
@@ -26,10 +26,19 @@ signal carrot_collected
 signal cheese_collected
 signal jewelGreen_collected
 
-signal ExitZoneEntered
+signal enemyHit
+
 
 signal playerHit1
 signal playerHit2
 signal playerHit3
 
 signal shot_charged
+
+
+#Background change
+
+signal bgChange_entered
+
+var bgFile_previous = preload("res://Assets/Graphics/bg1.png")
+var bgFile_current = preload("res://Assets/Graphics/bg1.png")
