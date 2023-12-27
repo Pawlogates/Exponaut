@@ -36,7 +36,15 @@ signal playerHit3
 signal shot_charged
 
 
+
+#Save state
+
 signal saveState_loaded
+
+var saved_player_posX = player_posX
+var saved_player_posY = player_posY
+
+var saved_level_score = level_score
 
 
 

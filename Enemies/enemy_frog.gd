@@ -166,18 +166,23 @@ func handle_turn():
 
 func _ready():
 	set_physics_process(false)
+	sprite.visible = false
 	self.remove_from_group("Persist")
-
+	
 
 #IS IN VISIBLE RANGE?
 
 func offScreen_unload():
 	set_physics_process(false)
+	sprite.visible = false
 	self.remove_from_group("Persist")
+	print("unloaded")
 
 func offScreen_load():
 	set_physics_process(true)
+	sprite.visible = true
 	self.add_to_group("Persist")
+	print("loaded")
 
 
 

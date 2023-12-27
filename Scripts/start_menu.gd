@@ -4,9 +4,9 @@ extends CenterContainer
 
 func _ready():
 	#debug below
-	get_tree().change_scene_to_packed(preload("res://Levels/level1.tscn"))
+	#get_tree().change_scene_to_packed(preload("res://Levels/level1.tscn"))
+	
 	RenderingServer.set_default_clear_color(Color.BLACK)
-		
 	start_game.grab_focus()
 
 

@@ -1,12 +1,13 @@
-[gd_scene load_steps=15 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=16 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
 [ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://parallax_background_gradient.tscn" id="3_mn32p"]
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Themes/Score_theme.tres" id="5_1aw6r"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="5_ay58j"]
+[ext_resource type="AudioStream" uid="uid://cdall1ibqqpha" path="res://Assets/Sounds/music/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Deadlands.mp3" id="5_hddan"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://level_finished_screen.tscn" id="6_mgn80"]
-[ext_resource type="AudioStream" uid="uid://bkx3d575rckat" path="res://Assets/Sounds/music/tutorial_loop.mp3" id="7_qn11y"]
+[ext_resource type="AudioStream" uid="uid://c0uv4pl4astv0" path="res://Assets/Sounds/music/Pekka Kana 2 - Frogs.mp3" id="6_wsqx4"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://score_display.tscn" id="7_vhiat"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://background.tscn" id="10_ian1u"]
@@ -61,11 +62,19 @@ unique_name_in_owner = true
 script = null
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
+unique_name_in_owner = true
 position = Vector2(0, 48)
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="Player"]
-stream = ExtResource("7_qn11y")
+[node name="ambience" type="AudioStreamPlayer" parent="Player"]
+unique_name_in_owner = true
+stream = ExtResource("5_hddan")
 volume_db = -5.0
+autoplay = true
+
+[node name="music" type="AudioStreamPlayer" parent="Player"]
+unique_name_in_owner = true
+stream = ExtResource("6_wsqx4")
+autoplay = true
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

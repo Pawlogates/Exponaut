@@ -90,11 +90,14 @@ func _physics_process(delta):
 	if not bg_position_set:
 		%bg_previous/CanvasLayer/bg.offset.x = move_toward(%bg_previous/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x, 100 * bgMove_growthSpeed * delta)
 		%bg_previous/CanvasLayer/bg.offset.y = move_toward(%bg_previous/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y, 50 * bgMove_growthSpeed * delta)
-		bgMove_growthSpeed *= 1.05
+		
+		%bg_current/CanvasLayer/bg.offset.x = move_toward(%bg_current/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x, 100 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg.offset.y = move_toward(%bg_current/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y, 50 * bgMove_growthSpeed * delta)
+		bgMove_growthSpeed *= 1.01
 		
 		if bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y:
 			bg_position_set = true
-			bgMove_growthSpeed = 1
+			bgMove_growthSpeed = 0.1
 			bgMove_started = false
 			
 		else:
@@ -186,6 +189,7 @@ var bg_free_to_change = true
 
 func bg_change():
 	await Globals.bgTransition_finished
+	save_game()
 	if bg_free_to_change:
 		bg_free_to_change = false
 		print("BG CHANGE STARTED")
@@ -205,7 +209,7 @@ func bg_change():
 
 
 var bg_position_set = true
-var bgMove_growthSpeed = 1
+var bgMove_growthSpeed = 0.1
 var bgMove_started = false
 
 func bg_move():
@@ -237,6 +241,15 @@ func save_game():
 
 		# Store the save dictionary as a new line in the save file.
 		save_game.store_line(json_string)
+		
+		
+		Globals.saved_player_posX = %Player.position.x
+		Globals.saved_player_posY = %Player.position.y
+		
+		Globals.saved_level_score = Globals.level_score
+		Globals.combo_score = 0
+		Globals.combo_tier = 1
+		Globals.collected_in_cycle = 0
 
 
 
@@ -281,4 +294,12 @@ func load_game():
 			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
 				continue
 			new_object.set(i, node_data[i])
-			
+		
+		
+		%Player.position.x = Globals.saved_player_posX
+		%Player.position.y = Globals.saved_player_posY
+		
+		Globals.level_score = Globals.saved_level_score
+		Globals.combo_score = 0
+		Globals.combo_tier = 1
+		Globals.collected_in_cycle = 0

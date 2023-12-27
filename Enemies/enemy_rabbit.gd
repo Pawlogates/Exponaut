@@ -166,6 +166,7 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 func _ready():
 	set_physics_process(false)
+	sprite.visible = false
 	self.remove_from_group("Persist")
 
 
@@ -173,10 +174,12 @@ func _ready():
 
 func offScreen_unload():
 	set_physics_process(false)
+	sprite.visible = false
 	self.remove_from_group("Persist")
 
 func offScreen_load():
 	set_physics_process(true)
+	sprite.visible = true
 	self.add_to_group("Persist")
 
 

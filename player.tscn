@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://c8h4j4lx8a1sp" path="res://Assets/Sounds/sfx/tennis.wav" id="6_kw0xd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
-size = Vector2(48, 112)
+size = Vector2(40, 112)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ami3x"]
 resource_local_to_scene = true

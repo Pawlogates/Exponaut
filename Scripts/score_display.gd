@@ -25,4 +25,15 @@ func _process(_delta):
 		
 	self.text = str(displayScore)
 	
+
+
+
+func _ready():
+	Globals.saveState_loaded.connect(score_correct)
+
+
+func score_correct():
+	displayScore = Globals.saved_level_score
 	
+
+

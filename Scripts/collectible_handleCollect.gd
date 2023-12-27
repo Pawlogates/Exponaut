@@ -16,6 +16,7 @@ var removable = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_physics_process(false)
+	animation_player.active = false
 	
 	var xpos = self.global_position.x
 	animation_player.advance(abs(xpos) / 100)
@@ -34,10 +35,12 @@ func saveState_loaded():
 
 func offScreen_unload():
 	set_physics_process(false)
+	animation_player.active = false
 	
 
 func offScreen_load():
 	set_physics_process(true)
+	animation_player.active = true
 	
 
 

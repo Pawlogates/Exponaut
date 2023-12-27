@@ -251,7 +251,7 @@ func _process(delta):
 
 		
 	if not Input.is_action_pressed("move_DOWN") and can_stand_up and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up and crouch_walking or not is_on_floor() and can_stand_up and crouch_walking:
-		player_collision.shape.extents = Vector2(32, 56)
+		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
 
 		crouching = false
@@ -338,7 +338,7 @@ func apply_air_slowdown(direction, delta):
 
 func _on_dash_timer_timeout():
 	is_dashing = false
-	player_collision.shape.extents = Vector2(32, 56)
+	player_collision.shape.extents = Vector2(20, 56)
 	player_collision.position = Vector2(0, 0)
 
 
@@ -422,3 +422,7 @@ func _on_dash_end_slowdown_timeout():
 
 func _on_dash_end_slowdown_active_timeout():
 	dash_end_slowdown = false
+
+
+
+

@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dl5i4pgp0735j"]
+[gd_scene load_steps=4 format=3 uid="uid://dl5i4pgp0735j"]
 
 [ext_resource type="Shader" path="res://Themes/godrays.gdshader" id="1_3ykqu"]
+[ext_resource type="Script" path="res://godrays.gd" id="1_dcrxb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ecuhd"]
 shader = ExtResource("1_3ykqu")
@@ -23,3 +24,4 @@ z_index = -2
 material = SubResource("ShaderMaterial_ecuhd")
 offset_right = 640.0
 offset_bottom = 384.0
+script = ExtResource("1_dcrxb")
