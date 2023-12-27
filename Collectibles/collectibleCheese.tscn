@@ -1,11 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://cxf0o1vwjahvw"]
+[gd_scene load_steps=15 format=3 uid="uid://cxf0o1vwjahvw"]
 
-[ext_resource type="Script" path="res://Scripts/collectibleParticleSpawner.gd" id="1_k3pp5"]
-[ext_resource type="Script" path="res://Scripts/collectibleCheese.gd" id="2_l74eb"]
+[ext_resource type="Script" path="res://Scripts/collectible_handleCollect.gd" id="1_tb5aw"]
 [ext_resource type="Texture2D" uid="uid://bfxuxkhjpgcg0" path="res://Assets/Graphics/sprites/Sprites_square.png" id="3_uyl06"]
 [ext_resource type="AudioStream" uid="uid://boc43cfqju4es" path="res://Assets/Sounds/sfx/collect1.wav" id="4_htqm0"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_vcwt6"]
-[ext_resource type="Script" path="res://Scripts/collectedDisplayCheese.gd" id="6_cq7n1"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mky4k"]
 atlas = ExtResource("3_uyl06")
@@ -412,14 +410,14 @@ _data = {
 "score_value": SubResource("Animation_gitew")
 }
 
-[node name="cheese" type="Node2D"]
+[node name="cheese" type="Node2D" groups=["Persist"]]
 scale = Vector2(0.9, 0.9)
-script = ExtResource("1_k3pp5")
+script = ExtResource("1_tb5aw")
+collectibleScoreValue = 100
 
 [node name="cheese" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0
 collision_mask = 2
-script = ExtResource("2_l74eb")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="cheese"]
 position = Vector2(0, -24)
@@ -431,15 +429,18 @@ autoplay = "jewel_anim"
 shape = SubResource("CircleShape2D_7n505")
 
 [node name="collect1" type="AudioStreamPlayer2D" parent="cheese"]
+unique_name_in_owner = true
 stream = ExtResource("4_htqm0")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="cheese"]
+unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_yo3ck")
 }
 autoplay = "loop"
 
 [node name="Timer" type="Timer" parent="cheese"]
+unique_name_in_owner = true
 wait_time = 4.0
 
 [node name="collectedDisplayAnimAnchor" type="ColorRect" parent="."]
@@ -449,6 +450,7 @@ offset_bottom = 160.0
 color = Color(1, 1, 1, 0)
 
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
+unique_name_in_owner = true
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 160.0
@@ -456,14 +458,20 @@ theme = ExtResource("5_vcwt6")
 theme_override_font_sizes/font_size = 0
 text = "test"
 horizontal_alignment = 1
-script = ExtResource("6_cq7n1")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="collectedDisplayAnimAnchor"]
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_ihjei")
 }
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+modulate = Color(1, 1, 1, 0.0980392)
+rect = Rect2(-500, -500, 1000, 1000)
+
 [connection signal="body_entered" from="cheese" to="." method="_on_collectible_entered"]
 [connection signal="body_entered" from="cheese" to="cheese" method="_on_collectible_entered"]
 [connection signal="body_entered" from="cheese" to="collectedDisplayAnimAnchor/collectedDisplay" method="_on_cheese_body_entered"]
+[connection signal="timeout" from="cheese/Timer" to="." method="_on_timer_timeout"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

@@ -14,8 +14,7 @@ var collected = false
 
 func _ready():
 
-	var xpos = self.global_position.x
-	animation_player.advance(abs(xpos) / 100)
+
 
 
 func _on_collectible_entered(body):

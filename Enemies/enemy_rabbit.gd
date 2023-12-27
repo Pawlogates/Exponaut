@@ -34,10 +34,9 @@ var direction = -1
 
 
 
-func _ready():
-	set_physics_process(false)
-	
-	
+
+
+
 func _physics_process(delta):
 	# Add the gravity.
 	if not is_on_floor():
@@ -164,12 +163,23 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 
 
+
+func _ready():
+	set_physics_process(false)
+	self.remove_from_group("Persist")
+
+
+#IS IN VISIBLE RANGE?
+
 func offScreen_unload():
 	set_physics_process(false)
-
+	self.remove_from_group("Persist")
 
 func offScreen_load():
 	set_physics_process(true)
+	self.add_to_group("Persist")
+
+
 
 
 func _on_patrol_direction_timer_timeout():
@@ -204,3 +214,18 @@ func _on_scan_for_player_area_exited(area):
 
 func _on_follow_delay_timeout():
 	followDelay = false
+
+
+
+
+func save():
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"direction" : direction,
+		"health" : hp,
+		
+	}
+	return save_dict

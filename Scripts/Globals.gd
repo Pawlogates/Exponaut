@@ -36,9 +36,18 @@ signal playerHit3
 signal shot_charged
 
 
+signal saveState_loaded
+
+
+
 #Background change
 
 signal bgChange_entered
+signal bgMove_entered
+signal bgTransition_finished
 
 var bgFile_previous = preload("res://Assets/Graphics/bg1.png")
 var bgFile_current = preload("res://Assets/Graphics/bg1.png")
+
+var bgOffset_target_x = 0
+var bgOffset_target_y = 0

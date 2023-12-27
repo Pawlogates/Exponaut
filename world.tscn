@@ -58,6 +58,7 @@ unique_name_in_owner = true
 
 [node name="bg_previous" parent="." instance=ExtResource("10_ian1u")]
 unique_name_in_owner = true
+script = null
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 position = Vector2(0, 48)

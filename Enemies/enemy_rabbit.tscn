@@ -180,7 +180,7 @@ size = Vector2(64, 96)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h4lu"]
 size = Vector2(640, 64)
 
-[node name="enemyRabbit" type="CharacterBody2D" groups=["enemies"]]
+[node name="enemyRabbit" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_gbuos")
@@ -239,6 +239,7 @@ stream = ExtResource("4_er5gx")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [node name="scanForPlayer" type="Area2D" parent="."]

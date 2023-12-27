@@ -180,9 +180,8 @@ func handle_air_acceleration(direction, delta):
 
 #MAIN
 
-func _physics_process(delta):
+func _process(delta):
 	direction = Input.get_axis("move_L", "move_R")
-	
 	apply_gravity(delta)
 	handle_wall_jump()
 	handle_jump(delta)

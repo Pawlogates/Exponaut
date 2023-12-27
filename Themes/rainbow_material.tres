@@ -1,0 +1,9 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://g07ca37hnt0w"]
+
+[ext_resource type="Shader" path="res://Themes/rainbow_effect.gdshader" id="1_cfesp"]
+
+[resource]
+shader = ExtResource("1_cfesp")
+shader_parameter/strength = 0.5
+shader_parameter/speed = 0.5
+shader_parameter/angle = 0.0

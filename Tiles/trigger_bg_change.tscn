@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://trigger_bgChange.gd" id="1_3hbpa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
-size = Vector2(48, 48)
+size = Vector2(64, 64)
 
 [node name="trigger_bgChange" type="Area2D"]
 collision_layer = 0

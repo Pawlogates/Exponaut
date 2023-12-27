@@ -16,7 +16,6 @@ func _process(delta):
 @export var Background_filePath = preload("res://Assets/Graphics/bg1.png")
 
 func _on_area_entered(area):
-	print(area.name)
 	if area.name == "Player_hitbox_main":
 		Globals.bgFile_previous = Globals.bgFile_current
 		if Globals.bgFile_current != self.Background_filePath:

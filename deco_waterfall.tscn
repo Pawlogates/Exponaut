@@ -55,7 +55,7 @@ _data = {
 }
 
 [node name="deco_waterfall" type="Node2D"]
-z_index = 1
+z_index = -1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 z_index = -1
@@ -65,7 +65,7 @@ frame_progress = 0.25992
 speed_scale = 2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "loop"
 libraries = {
 "": SubResource("AnimationLibrary_tpxjg")
 }
+autoplay = "loop"

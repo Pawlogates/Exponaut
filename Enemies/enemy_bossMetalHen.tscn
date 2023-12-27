@@ -91,7 +91,7 @@ size = Vector2(112, 128)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(144, 160)
 
-[node name="enemyBossMetalHen" type="CharacterBody2D" groups=["enemies"]]
+[node name="enemyBossMetalHen" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_uw6vv")
@@ -137,6 +137,7 @@ stream = ExtResource("4_ywy5t")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [node name="flyCooldown" type="Timer" parent="."]
@@ -156,7 +157,7 @@ one_shot = true
 [connection signal="timeout" from="jumpTimer" to="." method="_on_jump_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="timeout" from="flyCooldown" to="." method="_on_fly_cooldown_timeout"]
 [connection signal="timeout" from="flyEnd" to="." method="_on_fly_end_timeout"]

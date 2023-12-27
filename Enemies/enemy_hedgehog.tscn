@@ -76,7 +76,7 @@ size = Vector2(56, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(20, 32)
 
-[node name="enemyHedgehog" type="CharacterBody2D" groups=["enemies"]]
+[node name="enemyHedgehog" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_cdb05")
@@ -128,6 +128,7 @@ stream = ExtResource("4_8h67t")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]

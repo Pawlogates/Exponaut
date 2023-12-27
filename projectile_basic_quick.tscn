@@ -959,22 +959,23 @@ _data = {
 size = Vector2(85.3333, 80)
 
 [node name="Node2D" type="Node2D"]
-z_index = 5
+z_index = 50
 scale = Vector2(0.75, 0.75)
 
 [node name="projectile_basic_quick" type="CharacterBody2D" parent="." groups=["player_projectile"]]
-z_index = 5
+z_index = 50
 collision_layer = 2
 collision_mask = 4
 script = ExtResource("1_p5f2x")
 
 [node name="Area2D" type="Area2D" parent="projectile_basic_quick" groups=["player_projectile"]]
-z_index = 5
+z_index = 50
 collision_layer = 2
 collision_mask = 4
 
 [node name="Sprite2D" type="Sprite2D" parent="projectile_basic_quick/Area2D"]
 modulate = Color(1, 1, 1, 0)
+z_index = 50
 scale = Vector2(-1, -1)
 texture = ExtResource("2_w86v7")
 
@@ -984,7 +985,7 @@ shape = SubResource("RectangleShape2D_8hc3l")
 disabled = true
 
 [node name="charged_shot" type="Sprite2D" parent="projectile_basic_quick/Area2D"]
-z_index = -5
+z_index = 50
 material = ExtResource("3_lj8ku")
 rotation = 3.14159
 scale = Vector2(1e-05, 1e-05)
