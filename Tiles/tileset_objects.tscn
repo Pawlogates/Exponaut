@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=22 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_6ck4y"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_e1gk0"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://6vpm41lnycqx" path="res://Enemies/enemy_hedgehog.tscn" id="9_w4f3t"]
 [ext_resource type="PackedScene" uid="uid://cjqinbb60vh6" path="res://Enemies/enemy_frog.tscn" id="10_o6yos"]
 [ext_resource type="PackedScene" uid="uid://cljye56wi53e8" path="res://Enemies/enemy_bat.tscn" id="10_qeclp"]
+[ext_resource type="PackedScene" uid="uid://ca4g5sy70xmju" path="res://Enemies/enemy_pig.tscn" id="11_ly8lr"]
 [ext_resource type="PackedScene" uid="uid://c63l38ki43ymp" path="res://Enemies/enemy_bossMetalHen.tscn" id="11_uq7dw"]
 [ext_resource type="PackedScene" uid="uid://dctah68au68co" path="res://Tiles/level_exit.tscn" id="12_dw20f"]
 [ext_resource type="PackedScene" uid="uid://dl5i4pgp0735j" path="res://godrays.tscn" id="14_qv5ys"]
@@ -39,6 +40,7 @@ scenes/15/scene = ExtResource("7_758lm")
 scenes/16/scene = ExtResource("8_nlqwt")
 scenes/17/scene = ExtResource("9_lceiu")
 scenes/18/scene = ExtResource("10_qeclp")
+scenes/19/scene = ExtResource("11_ly8lr")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(64, 64)
@@ -51,4 +53,15 @@ tile_set = SubResource("TileSet_bxi0m")
 rendering_quadrant_size = 64
 format = 2
 layer_0/name = "main"
-layer_0/z_index = 1
+layer_1/name = "main_a"
+layer_1/z_index = 1
+layer_1/tile_data = PackedInt32Array()
+layer_2/name = "main_b"
+layer_2/z_index = 2
+layer_2/tile_data = PackedInt32Array()
+layer_3/name = "main_c"
+layer_3/z_index = 3
+layer_3/tile_data = PackedInt32Array()
+layer_4/name = "main_d"
+layer_4/z_index = 4
+layer_4/tile_data = PackedInt32Array()

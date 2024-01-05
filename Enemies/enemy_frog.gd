@@ -98,6 +98,20 @@ func _on_area_2d_area_entered(area):
 					sprite.play("dead")
 					death.play()
 					add_child(dead_effect)
+	
+	
+	
+	#SAVE START
+	
+	elif area.name == "loadingZone1" or area.name == "loadingZone2" or area.name == "loadingZone3":
+		loadingZone = area.name
+		add_to_group(loadingZone)
+		
+		#print("this object is in: ", loadingZone)
+	
+	#SAVE END
+
+
 
 
 func manage_animation():
@@ -165,31 +179,90 @@ func handle_turn():
 
 
 func _ready():
+	set_process(false)
 	set_physics_process(false)
-	sprite.visible = false
-	self.remove_from_group("Persist")
 	
+	set_process_input(false)
+	set_process_internal(false)
+	set_process_unhandled_input(false)
+	set_process_unhandled_key_input(false)
+	set_process_mode(PROCESS_MODE_DISABLED)
+	
+	sprite.pause()
+	sprite.visible = false
+	$Area2D.set_monitoring(false)
+	$Area2D.set_monitorable(false)
+	
+	$Area2D/main_collision.disabled = true
+	$CollisionShape2D.disabled = true
+	$AnimatedSprite2D/AttackingTimer.set_paused(true)
+	$AnimatedSprite2D/AttackedTimer.set_paused(true)
+	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	
+
+
+
+
 
 #IS IN VISIBLE RANGE?
 
 func offScreen_unload():
+	set_process(false)
 	set_physics_process(false)
+	
+	set_process_input(false)
+	set_process_internal(false)
+	set_process_unhandled_input(false)
+	set_process_unhandled_key_input(false)
+	set_process_mode(PROCESS_MODE_DISABLED)
+	
+	sprite.pause()
 	sprite.visible = false
-	self.remove_from_group("Persist")
-	print("unloaded")
+	$Area2D.set_monitoring(false)
+	$Area2D.set_monitorable(false)
+	
+	$Area2D/main_collision.disabled = true
+	$CollisionShape2D.disabled = true
+	$AnimatedSprite2D/AttackingTimer.set_paused(true)
+	$AnimatedSprite2D/AttackedTimer.set_paused(true)
+	$AnimatedSprite2D/DeadTimer.set_paused(true)
+
+
 
 func offScreen_load():
+	set_process(true)
 	set_physics_process(true)
+	
+	set_process_input(true)
+	set_process_internal(true)
+	set_process_unhandled_input(true)
+	set_process_unhandled_key_input(true)
+	set_process_mode(PROCESS_MODE_INHERIT)
+	
+	sprite.play()
 	sprite.visible = true
-	self.add_to_group("Persist")
-	print("loaded")
+	$Area2D.set_monitoring(true)
+	$Area2D.set_monitorable(true)
+	
+	$Area2D/main_collision.disabled = false
+	$CollisionShape2D.disabled = false
+	$AnimatedSprite2D/AttackingTimer.set_paused(false)
+	$AnimatedSprite2D/AttackedTimer.set_paused(false)
+	$AnimatedSprite2D/DeadTimer.set_paused(false)
 
 
 
 
+
+
+
+#SAVE START
+
+var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
+		"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
@@ -199,3 +272,5 @@ func save():
 		
 	}
 	return save_dict
+
+#SAVE END

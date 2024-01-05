@@ -2,7 +2,7 @@ extends Node2D
 
 @export var next_level: PackedScene
 
-@onready var canvas_layer = %CanvasLayer
+@onready var canvas_layer = %HUD
 
 
 @onready var level_finished = %"Level Finished"
@@ -15,7 +15,7 @@ extends Node2D
 
 @onready var health_display = %health
 
-var playerStartHP = 50
+@export var playerStartHP = 50
 
 
 var levelTime = 0
@@ -25,6 +25,11 @@ var start_level_msec = 0.0
 @onready var start_pos = global_position
 
 
+@onready var tileset_main = $tileset_main
+@onready var tileset_objects = $tileset_objects
+@onready var tileset_objects_small = $tileset_objectsSmall
+
+
 
 
 
@@ -32,8 +37,22 @@ var start_level_msec = 0.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	
+	#$tileset_objects.queue_free() #DEBUG
+	#$tileset_objectsSmall.queue_free() #DEBUG
 	get_tree().paused = false
 	
+	Globals.save.connect(save_game)
+	
+	
+	
+	%HUD.visible = true
+	
+	tileset_objects.set_layer_enabled(0, true)
+	tileset_objects.set_layer_enabled(1, true)
+	tileset_objects.set_layer_enabled(2, true)
+	tileset_objects.set_layer_enabled(3, true)
+	tileset_objects.set_layer_enabled(4, true)
+	tileset_objects_small.set_layer_enabled(0, true)
 	
 	
 	Globals.playerHP = playerStartHP
@@ -75,16 +94,33 @@ func _ready():
 	
 
 
+
+var quickLoad_blocked = true
+
 func _physics_process(delta):
+	%fps.text = str("fps: ", Engine.get_frames_per_second())
+	%test.text = str("total enemies on the map: ", Globals.test)
+	%test2.text = str("total objects queued for next reload: ", Globals.test2)
+	%test3.text = str("number of people who asked: ", Globals.test3)
+	%test4.text = str("current active loading zone: ", Globals.test4)
+	
 	levelTime = Time.get_ticks_msec() - start_level_msec
 	level_timeDisplay.text = str(levelTime / 1000.0)
 	
-	if Input.is_action_just_pressed("quicksave"):
+	if Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
+		quickLoad_blocked = true
 		save_game()
+		$QuickloadLimiter.start()
 		
-	if Input.is_action_just_pressed("quickload"):
+		Globals.test3 = 0 #DEBUG
+		
+	if Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
+		quickLoad_blocked = true
 		load_game()
-		Globals.saveState_loaded.emit()
+		$QuickloadLimiter.start()
+		
+		Globals.test3 = 0 #DEBUG
+	
 	
 	
 	if not bg_position_set:
@@ -189,10 +225,10 @@ var bg_free_to_change = true
 
 func bg_change():
 	await Globals.bgTransition_finished
-	save_game()
+	
 	if bg_free_to_change:
 		bg_free_to_change = false
-		print("BG CHANGE STARTED")
+		#print("BG CHANGE STARTED")
 		%bg_previous/bg_transition.play("bg_hide")
 		
 		%bg_current/CanvasLayer/bg/ParallaxLayer/TextureRect.texture = Globals.bgFile_current
@@ -220,7 +256,7 @@ func bg_move():
 #Save state
 
 func save_game():
-	var save_game = FileAccess.open("user://savegame.save", FileAccess.WRITE)
+	var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for node in save_nodes:
 		# Check the node is an instanced scene so it can be instanced again during load.
@@ -240,16 +276,16 @@ func save_game():
 		var json_string = JSON.stringify(node_data)
 
 		# Store the save dictionary as a new line in the save file.
-		save_game.store_line(json_string)
+		save_gameFile.store_line(json_string)
 		
 		
-		Globals.saved_player_posX = %Player.position.x
-		Globals.saved_player_posY = %Player.position.y
+	Globals.saved_player_posX = %Player.position.x
+	Globals.saved_player_posY = %Player.position.y
 		
-		Globals.saved_level_score = Globals.level_score
-		Globals.combo_score = 0
-		Globals.combo_tier = 1
-		Globals.collected_in_cycle = 0
+	Globals.saved_level_score = Globals.level_score
+	Globals.combo_score = 0
+	Globals.combo_tier = 1
+	Globals.collected_in_cycle = 0
 
 
 
@@ -258,48 +294,55 @@ func load_game():
 	if not FileAccess.file_exists("user://savegame.save"):
 		return # Error! We don't have a save to load.
 
-	# We need to revert the game state so we're not cloning objects
-	# during loading. This will vary wildly depending on the needs of a
-	# project, so take care with this step.
-	# For our example, we will accomplish this by deleting saveable objects.
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for i in save_nodes:
-		i.queue_free()
+		if i.is_in_group(Globals.loadingZone_current):
+			i.queue_free()
 
-	# Load the file line by line and process that dictionary to restore
-	# the object it represents.
-	var save_game = FileAccess.open("user://savegame.save", FileAccess.READ)
-	while save_game.get_position() < save_game.get_length():
-		var json_string = save_game.get_line()
+	var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.READ)
+	while save_gameFile.get_position() < save_gameFile.get_length():
+		var json_string = save_gameFile.get_line()
 
-		# Creates the helper class to interact with JSON
 		var json = JSON.new()
 
-		# Check if there is any error while parsing the JSON string, skip in case of failure
 		var parse_result = json.parse(json_string)
 		if not parse_result == OK:
 			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 			continue
 
-		# Get the data from the JSON object
 		var node_data = json.get_data()
 
-		# Firstly, we need to create the object and add it to the tree and set its position.
-		var new_object = load(node_data["filename"]).instantiate()
-		get_node(node_data["parent"]).add_child(new_object)
-		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 
-		# Now we set the remaining variables.
-		for i in node_data.keys():
-			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
-				continue
-			new_object.set(i, node_data[i])
 		
+		if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current:
+			var new_object = load(node_data["filename"]).instantiate()
+			get_node(node_data["parent"]).add_child(new_object)
+			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+
+			for i in node_data.keys():
+				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
+					continue
+				new_object.set(i, node_data[i])
+			
+		else:
+			continue
+			
 		
-		%Player.position.x = Globals.saved_player_posX
-		%Player.position.y = Globals.saved_player_posY
+	%Player.position.x = Globals.saved_player_posX
+	%Player.position.y = Globals.saved_player_posY
 		
-		Globals.level_score = Globals.saved_level_score
-		Globals.combo_score = 0
-		Globals.combo_tier = 1
-		Globals.collected_in_cycle = 0
+	Globals.level_score = Globals.saved_level_score
+	Globals.combo_score = 0
+	Globals.combo_tier = 1
+	Globals.collected_in_cycle = 0
+	
+	Globals.saveState_loaded.emit()
+	
+
+
+
+
+
+func _on_quickload_limiter_timeout():
+	quickLoad_blocked = false
+	Globals.test3 = 1 #DEBUG

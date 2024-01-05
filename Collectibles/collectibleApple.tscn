@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://r1lqi6osrrgp"]
+[gd_scene load_steps=18 format=3 uid="uid://r1lqi6osrrgp"]
 
 [ext_resource type="Script" path="res://Scripts/collectible_handleCollect.gd" id="1_yiy56"]
 [ext_resource type="Texture2D" uid="uid://bfxuxkhjpgcg0" path="res://Assets/Graphics/sprites/Sprites_square.png" id="2_8rykn"]
-[ext_resource type="AudioStream" uid="uid://boc43cfqju4es" path="res://Assets/Sounds/sfx/collect1.wav" id="3_epp7i"]
+[ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_c1cc3"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_ish0l"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_1y3oj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c3blr"]
@@ -379,6 +380,18 @@ tracks/6/keys = {
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("%collectedDisplay:material:shader_parameter/strength")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_gitew"]
 resource_name = "score_value"
@@ -473,32 +486,35 @@ scale = Vector2(0.8, 0.8)
 script = ExtResource("1_yiy56")
 collectibleScoreValue = 10
 
-[node name="apple" type="Area2D" parent="." groups=["Collectibles"]]
+[node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0
 collision_mask = 2
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="apple"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+unique_name_in_owner = true
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_tm4hn")
 animation = &"jewel_anim"
 autoplay = "jewel_anim"
 frame_progress = 0.646066
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="apple"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+unique_name_in_owner = true
 shape = SubResource("CircleShape2D_7n505")
 
-[node name="collect1" type="AudioStreamPlayer2D" parent="apple"]
+[node name="collect1" type="AudioStreamPlayer2D" parent="Area2D"]
 unique_name_in_owner = true
-stream = ExtResource("3_epp7i")
+stream = ExtResource("3_c1cc3")
+volume_db = 10.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="apple"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D"]
 unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_yo3ck")
 }
 autoplay = "loop"
 
-[node name="Timer" type="Timer" parent="apple"]
+[node name="Timer" type="Timer" parent="Area2D"]
 unique_name_in_owner = true
 wait_time = 4.0
 
@@ -510,6 +526,8 @@ color = Color(1, 1, 1, 0)
 
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
+z_index = 25
+material = ExtResource("4_ish0l")
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 160.0
@@ -528,8 +546,9 @@ libraries = {
 modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
-[connection signal="body_entered" from="apple" to="." method="_on_collectible_entered"]
-[connection signal="timeout" from="apple/Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_apple_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
+[connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
 [connection signal="animation_finished" from="collectedDisplayAnimAnchor/AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

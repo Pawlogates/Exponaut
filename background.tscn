@@ -61,7 +61,7 @@ _data = {
 }
 
 [node name="background" type="Node2D"]
-z_index = -5
+z_index = -10
 script = ExtResource("1_gwj4p")
 
 [node name="bg_transition" type="AnimationPlayer" parent="."]

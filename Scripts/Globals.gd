@@ -40,11 +40,15 @@ signal shot_charged
 #Save state
 
 signal saveState_loaded
+signal save
 
 var saved_player_posX = player_posX
 var saved_player_posY = player_posY
 
+
 var saved_level_score = level_score
+
+var loadingZone_current = 0
 
 
 
@@ -59,3 +63,10 @@ var bgFile_current = preload("res://Assets/Graphics/bg1.png")
 
 var bgOffset_target_x = 0
 var bgOffset_target_y = 0
+
+
+var test = 0
+var test2 = 0
+var test3 = 0
+var test4 = "none"
+

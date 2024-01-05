@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://d2aewsoy6ts01"]
+
+[ext_resource type="Script" path="res://Tiles/loadingZone.gd" id="1_6lb3e"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
+size = Vector2(1280, 1280)
+
+[node name="loadingZone" type="Area2D"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("1_6lb3e")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jb7dg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

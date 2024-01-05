@@ -108,6 +108,10 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
+[node name="DeadTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
 [node name="Area2D" type="Area2D" parent="."]
 light_mask = 2
 visibility_layer = 2

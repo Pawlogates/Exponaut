@@ -386,6 +386,7 @@ shape = SubResource("RectangleShape2D_q480c")
 
 [node name="Player_hitbox_main" type="Area2D" parent="."]
 collision_layer = 2
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_main"]
 shape = SubResource("RectangleShape2D_ct51a")
@@ -427,15 +428,24 @@ libraries = {
 wait_time = 0.2
 one_shot = true
 
+[node name="DEBUG test refresh" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="loadDelay" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkCollisionSwitch" to="." method="_on_crouch_walk_collision_switch_timeout"]
 [connection signal="timeout" from="idle_timer" to="." method="_on_idle_timer_timeout"]
 [connection signal="body_entered" from="Player_hitbox_tileDetection" to="." method="_on_player_hitbox_tile_detection_body_entered"]
 [connection signal="body_exited" from="Player_hitbox_tileDetection" to="." method="_on_player_hitbox_tile_detection_body_exited"]
-[connection signal="area_entered" from="Player_hitbox_main" to="." method="_on_hazard_check_area_entered"]
+[connection signal="area_entered" from="Player_hitbox_main" to="." method="_on_player_hitbox_main_area_entered"]
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="dash_timer/dash_speedBlock" to="." method="_on_dash_speed_block_timeout"]
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_delay" to="." method="_on_dash_end_slowdown_timeout"]
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_active" to="." method="_on_dash_end_slowdown_active_timeout"]
 [connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
+[connection signal="timeout" from="DEBUG test refresh" to="." method="_on_debug_test_refresh_timeout"]
+[connection signal="timeout" from="loadDelay" to="." method="_on_load_delay_timeout"]

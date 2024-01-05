@@ -188,9 +188,7 @@ script = ExtResource("1_gbuos")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"damage"
-frame = 1
-frame_progress = 0.270421
+animation = &"idle"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -205,6 +203,7 @@ wait_time = 0.75
 one_shot = true
 
 [node name="Area2D" type="Area2D" parent="."]
+unique_name_in_owner = true
 light_mask = 2
 visibility_layer = 2
 collision_layer = 0
@@ -228,7 +227,7 @@ one_shot = true
 shape = SubResource("RectangleShape2D_7kt5p")
 
 [node name="particle_limiter" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.05
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]

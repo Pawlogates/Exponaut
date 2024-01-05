@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://vfi7fplip3ph"]
 
 [ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/sprites/star.png" id="1_2cork"]
-[ext_resource type="Script" path="res://Sprite2DFast.gd" id="2_dli83"]
+[ext_resource type="Script" path="res://Scripts/particle_starFast.gd" id="2_lgd3i"]
 
 [sub_resource type="Animation" id="Animation_e3hko"]
 length = 0.001
@@ -220,7 +220,7 @@ _data = {
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0.698039, 0, 0, 1)
 texture = ExtResource("1_2cork")
-script = ExtResource("2_dli83")
+script = ExtResource("2_lgd3i")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

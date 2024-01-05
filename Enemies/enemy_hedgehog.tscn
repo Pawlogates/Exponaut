@@ -71,7 +71,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
-size = Vector2(56, 32)
+size = Vector2(64, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(20, 32)
@@ -79,6 +79,8 @@ size = Vector2(20, 32)
 [node name="enemyHedgehog" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
+floor_max_angle = 1.0472
+floor_snap_length = 15.0
 script = ExtResource("1_cdb05")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -130,6 +132,10 @@ volume_db = 5.0
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
+
+[node name="scanForLedge" type="RayCast2D" parent="."]
+position = Vector2(-32, -8)
+target_position = Vector2(0, 88)
 
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]

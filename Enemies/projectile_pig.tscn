@@ -1,0 +1,63 @@
+[gd_scene load_steps=9 format=3 uid="uid://cgygc2y12hn6l"]
+
+[ext_resource type="Script" path="res://Enemies/projectile_pig.gd" id="1_ntnh4"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_xjjuo"]
+[ext_resource type="AudioStream" uid="uid://m4x8f78vmnba" path="res://Assets/Sounds/sfx/pig_attack.wav" id="3_bm1ah"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0xdgo"]
+radius = 17.8885
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4me25"]
+radius = 17.8885
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ute71"]
+atlas = ExtResource("2_xjjuo")
+region = Rect2(900, 252, 60, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_82umk"]
+atlas = ExtResource("2_xjjuo")
+region = Rect2(960, 252, 60, 60)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jfau3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ute71")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_82umk")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[node name="projectile_pig" type="CharacterBody2D"]
+collision_layer = 2
+safe_margin = 5.0
+script = ExtResource("1_ntnh4")
+
+[node name="scan" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="scan_collision" type="CollisionShape2D" parent="scan"]
+shape = SubResource("CircleShape2D_0xdgo")
+
+[node name="main_collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4me25")
+
+[node name="animation" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_jfau3")
+animation = &"shoot"
+autoplay = "shoot"
+
+[node name="remove_delay" type="Timer" parent="."]
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_bm1ah")
+autoplay = true
+
+[connection signal="area_entered" from="scan" to="." method="_on_scan_area_entered"]
+[connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

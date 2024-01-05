@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 50.0
+const SPEED = 150.0
 const JUMP_VELOCITY = -250.0
 
 @onready var sprite = $AnimatedSprite2D
@@ -33,9 +33,19 @@ var direction = -1
 
 
 
-
+#MAIN PROCESS
 
 func _physics_process(delta):
+	if not $scanForLedge.get_collider() and is_on_floor() or is_on_wall():
+		if direction == 1:
+			direction = -1
+			$scanForLedge.position.x = -32
+			
+		else:
+			direction = 1
+			$scanForLedge.position.x = 32
+			
+			
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
@@ -44,7 +54,7 @@ func _physics_process(delta):
 	# As good practice, you should replace UI actions with custom gameplay actions.
 	
 	if direction and not dead:
-		velocity.x = direction * SPEED
+		velocity.x = move_toward(velocity.x, direction * SPEED, delta * 800)
 
 
 	else:
@@ -55,13 +65,13 @@ func _physics_process(delta):
 		
 
 
-func _on_direction_timer_timeout():
-	if not dead:
-		velocity.y = JUMP_VELOCITY
-		if direction == -1:
-			direction = 1
-		else:
-			direction = -1
+#func _on_direction_timer_timeout():
+#	if not dead:
+#		velocity.y = JUMP_VELOCITY
+#		if direction == -1:
+#			direction = 1
+#		else:
+#			direction = -1
 
 
 var attacked = false;
@@ -90,6 +100,18 @@ func _on_area_2d_area_entered(area):
 					sprite.play("dead")
 					death.play()
 					add_child(dead_effect)
+					
+	
+	#SAVE START
+	
+	elif area.name == "loadingZone1" or area.name == "loadingZone2" or area.name == "loadingZone3":
+		loadingZone = area.name
+		add_to_group(loadingZone)
+		
+		#print("this object is in: ", loadingZone)
+	
+	#SAVE END
+
 
 
 func manage_animation():
@@ -154,32 +176,94 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 
 
-
 func _ready():
+	set_process(false)
 	set_physics_process(false)
+	
+	set_process_input(false)
+	set_process_internal(false)
+	set_process_unhandled_input(false)
+	set_process_unhandled_key_input(false)
+	set_process_mode(PROCESS_MODE_DISABLED)
+	
+	sprite.pause()
 	sprite.visible = false
-	self.remove_from_group("Persist")
+	$Area2D.set_monitoring(false)
+	$Area2D.set_monitorable(false)
+	
+	$Area2D/main_collision.disabled = true
+	$CollisionShape2D.disabled = true
+	$AnimatedSprite2D/AttackingTimer.set_paused(true)
+	$AnimatedSprite2D/AttackedTimer.set_paused(true)
+	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	$scanForLedge.set_enabled(false)
+	
+
+
+
+
 
 
 #IS IN VISIBLE RANGE?
 
 func offScreen_unload():
+	set_process(false)
 	set_physics_process(false)
+	
+	set_process_input(false)
+	set_process_internal(false)
+	set_process_unhandled_input(false)
+	set_process_unhandled_key_input(false)
+	set_process_mode(PROCESS_MODE_DISABLED)
+	
+	sprite.pause()
 	sprite.visible = false
-	self.remove_from_group("Persist")
+	$Area2D.set_monitoring(false)
+	$Area2D.set_monitorable(false)
+	
+	$Area2D/main_collision.disabled = true
+	$CollisionShape2D.disabled = true
+	$AnimatedSprite2D/AttackingTimer.set_paused(true)
+	$AnimatedSprite2D/AttackedTimer.set_paused(true)
+	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	$scanForLedge.set_enabled(false)
+
 
 
 func offScreen_load():
+	set_process(true)
 	set_physics_process(true)
+	
+	set_process_input(true)
+	set_process_internal(true)
+	set_process_unhandled_input(true)
+	set_process_unhandled_key_input(true)
+	set_process_mode(PROCESS_MODE_INHERIT)
+	
+	sprite.play()
 	sprite.visible = true
-	self.add_to_group("Persist")
+	$Area2D.set_monitoring(true)
+	$Area2D.set_monitorable(true)
+	
+	$Area2D/main_collision.disabled = false
+	$CollisionShape2D.disabled = false
+	$AnimatedSprite2D/AttackingTimer.set_paused(false)
+	$AnimatedSprite2D/AttackedTimer.set_paused(false)
+	$AnimatedSprite2D/DeadTimer.set_paused(false)
+	$scanForLedge.set_enabled(true)
 
 
 
 
+
+
+#SAVE START
+
+var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
+		"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
@@ -189,3 +273,5 @@ func save():
 		
 	}
 	return save_dict
+
+#SAVE END

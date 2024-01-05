@@ -23,6 +23,10 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var start_pos = global_position
 
 @onready var player_collision = $CollisionShape2D
+@onready var player_hitbox = $Player_hitbox_main/CollisionShape2D
+
+
+
 @onready var dash_timer = $dash_timer
 
 @onready var damage = $damage
@@ -63,6 +67,9 @@ var shooting = false
 
 
 func _ready():
+	
+	Globals.saveState_loaded.connect(saveState_loaded)
+		
 	Globals.playerHit1.connect(reduceHp1)
 	Globals.playerHit2.connect(reduceHp2)
 	Globals.playerHit3.connect(reduceHp3)
@@ -147,12 +154,12 @@ func handle_wall_jump():
 		
 	
 	
-func apply_friction(direction, delta):
+func apply_friction(delta):
 	if direction == 0:
 		velocity.x = move_toward(velocity.x, 0, movement_data.FRICTION * delta)
 		
 		
-func handle_acceleration_direction(direction, delta):
+func handle_acceleration_direction(delta):
 	
 	if not is_on_floor(): return
 	
@@ -163,7 +170,7 @@ func handle_acceleration_direction(direction, delta):
 	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
 		velocity.x = velocity.x * 0.5
 		
-func handle_air_acceleration(direction, delta):
+func handle_air_acceleration(delta):
 	
 	if is_on_floor(): return
 	
@@ -191,7 +198,8 @@ func _process(delta):
 		var projectile_quick = scene_projectile_quick.instantiate()
 		add_child(projectile_quick)
 		
-		
+	
+	
 	if not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
 		shooting = true
 		shoot_anim_delay.start()
@@ -203,8 +211,8 @@ func _process(delta):
 	if direction != 0:
 		Globals.direction = direction
 	
-	handle_acceleration_direction(direction, delta)
-	handle_air_acceleration(direction, delta)
+	handle_acceleration_direction(delta)
+	handle_air_acceleration(delta)
 	var was_in_air = not is_on_floor()
 	var was_on_floor = is_on_floor()
 	var was_on_wall = is_on_wall_only()
@@ -220,7 +228,9 @@ func _process(delta):
 		$dash_timer.start()
 		player_collision.shape.extents = Vector2(40, 20)
 		player_collision.position += Vector2(0, 32)
-	
+		
+		player_hitbox.position += Vector2(0, 32)
+		player_hitbox.shape.extents = Vector2(40, 20)
 	
 	move_and_slide()
 	
@@ -253,6 +263,10 @@ func _process(delta):
 	if not Input.is_action_pressed("move_DOWN") and can_stand_up and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up and crouch_walking or not is_on_floor() and can_stand_up and crouch_walking:
 		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
+		
+		player_hitbox.shape.extents = Vector2(20, 56)
+		player_hitbox.position = Vector2(0, 0)
+		
 
 		crouching = false
 		crouch_walking = false
@@ -280,10 +294,10 @@ func _process(delta):
 	
 	
 	
-	apply_friction(direction, delta)
-	apply_air_slowdown(direction, delta)
+	apply_friction(delta)
+	apply_air_slowdown(delta)
 	
-	update_anim(direction)
+	update_anim()
 	Globals.player_posX = player.get_global_position()[0]
 	Globals.player_posY = player.get_global_position()[1]
 	
@@ -296,7 +310,7 @@ func _process(delta):
 
 
 
-func update_anim(direction):
+func update_anim():
 	
 	if is_on_floor():
 		
@@ -331,23 +345,24 @@ func _on_idle_timer_timeout():
 		
 		
 		
-func apply_air_slowdown(direction, delta):
+func apply_air_slowdown(delta):
 	if direction == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, movement_data.AIR_SLOWDOWN * delta)
 	
 
 func _on_dash_timer_timeout():
 	is_dashing = false
+	
 	player_collision.shape.extents = Vector2(20, 56)
 	player_collision.position = Vector2(0, 0)
-
-
-
-
-
-func _on_hazard_check_area_entered():
-	global_position = start_pos
 	
+	player_hitbox.shape.extents = Vector2(20, 56)
+	player_hitbox.position = Vector2(0, 0)
+
+
+
+
+
 	
 func reduceHp1():
 	damage.play()
@@ -391,6 +406,8 @@ func _on_crouch_walk_anim_delay_timeout():
 func _on_crouch_walk_collision_switch_timeout():
 	player_collision.shape.extents = Vector2(40, 20)
 	player_collision.position += Vector2(0, 36)
+	player_hitbox.shape.extents = Vector2(40, 20)
+	player_hitbox.position += Vector2(0, 36)
 
 
 
@@ -401,10 +418,10 @@ func _on_jump_build_velocity_timeout():
 
 
 #CHECK IF INSIDE TILES
-func _on_player_hitbox_tile_detection_body_entered(body):
+func _on_player_hitbox_tile_detection_body_entered(_body):
 	can_stand_up = false
 
-func _on_player_hitbox_tile_detection_body_exited(body):
+func _on_player_hitbox_tile_detection_body_exited(_body):
 	can_stand_up = true
 
 
@@ -422,6 +439,41 @@ func _on_dash_end_slowdown_timeout():
 
 func _on_dash_end_slowdown_active_timeout():
 	dash_end_slowdown = false
+
+
+
+
+
+
+#DEBUG
+
+#func _on_debug_test_refresh_timeout():
+	#Globals.test = get_tree().get_nodes_in_group("enemies").size()
+	#Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size()
+	#Globals.test3 = Globals.loadingZone_current
+
+#DEBUG END
+
+
+
+
+#SAVE START
+
+func _on_player_hitbox_main_area_entered(area):
+	if area.name == "loadingZone1" or area.name == "loadingZone2" or area.name == "loadingZone3":
+		$loadDelay.start()
+	
+#SAVE END
+
+
+func _on_load_delay_timeout():
+	Globals.save.emit()
+
+
+func saveState_loaded():
+	$Camera2D.position_smoothing_enabled = false
+	await get_tree().create_timer(0.1, false).timeout
+	$Camera2D.position_smoothing_enabled = true
 
 
 

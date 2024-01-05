@@ -1,0 +1,65 @@
+[gd_scene load_steps=9 format=3 uid="uid://ejquvj514e14"]
+
+[ext_resource type="Script" path="res://Enemies/projectile_tank.gd" id="1_m1ngt"]
+[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_prwp6"]
+[ext_resource type="AudioStream" uid="uid://clfm3kx0huoh4" path="res://Assets/Sounds/sfx/projectile_shoot.wav" id="3_g8jyg"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_0xdgo"]
+radius = 8.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4me25"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f5e2u"]
+atlas = ExtResource("2_prwp6")
+region = Rect2(11, 287, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el7jx"]
+atlas = ExtResource("2_prwp6")
+region = Rect2(27, 287, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jfau3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f5e2u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el7jx")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[node name="projectile_tank" type="CharacterBody2D"]
+collision_layer = 2
+safe_margin = 5.0
+script = ExtResource("1_m1ngt")
+
+[node name="scan" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="scan_collision" type="CollisionShape2D" parent="scan"]
+shape = SubResource("CircleShape2D_0xdgo")
+
+[node name="main_collision" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_4me25")
+
+[node name="animation" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_jfau3")
+animation = &"shoot"
+autoplay = "shoot"
+frame_progress = 0.061022
+
+[node name="remove_delay" type="Timer" parent="."]
+wait_time = 1.5
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_g8jyg")
+autoplay = true
+
+[connection signal="area_entered" from="scan" to="." method="_on_scan_area_entered"]
+[connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

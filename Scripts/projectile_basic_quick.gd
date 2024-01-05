@@ -28,7 +28,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _physics_process(delta):
+func _physics_process(_delta):
 	
 	if Input.is_action_just_released("attack_fast") and not charged and not started:
 		Events.shot.emit()
@@ -104,5 +104,5 @@ func _on_timer_timeout():
 	
 
 
-func _on_animation_player_animation_finished(shot_anim):
+func _on_animation_player_animation_finished(_shot_anim):
 	queue_free()

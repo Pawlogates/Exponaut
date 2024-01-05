@@ -87,7 +87,7 @@ func jewelGreen_collected():
 
 
 func _on_combo_cycle_timer_timeout():
-	print("combo reset :skull:")
+	#print("combo reset")
 	reset_combo_tier()
 	Globals.level_score += Globals.combo_score
 	Globals.combo_score = 0

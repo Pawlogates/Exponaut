@@ -1,0 +1,210 @@
+[gd_scene load_steps=16 format=3 uid="uid://pu6px63ietmi"]
+
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
+[ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
+[ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://parallax_background_gradient.tscn" id="3_mn32p"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Themes/Score_theme.tres" id="5_1aw6r"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="5_ay58j"]
+[ext_resource type="AudioStream" uid="uid://cdall1ibqqpha" path="res://Assets/Sounds/music/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Deadlands.mp3" id="5_hddan"]
+[ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://level_finished_screen.tscn" id="6_mgn80"]
+[ext_resource type="AudioStream" uid="uid://c0uv4pl4astv0" path="res://Assets/Sounds/music/Pekka Kana 2 - Frogs.mp3" id="6_wsqx4"]
+[ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://score_display.tscn" id="7_vhiat"]
+[ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
+[ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://background.tscn" id="10_ian1u"]
+[ext_resource type="PackedScene" uid="uid://nrn8d4a323jd" path="res://cursor.tscn" id="13_83o1d"]
+
+[sub_resource type="Animation" id="Animation_ru8b6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/StartInContainer/CenterContainer/StartIn:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Start in 3"]
+}
+
+[sub_resource type="Animation" id="Animation_mgprj"]
+resource_name = "StartInAnim"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/StartInContainer/CenterContainer/StartIn:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["Start in 3", "Start in 2", "Start in 1"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vhdqb"]
+_data = {
+"RESET": SubResource("Animation_ru8b6"),
+"StartInAnim": SubResource("Animation_mgprj")
+}
+
+[node name="World" type="Node2D"]
+script = ExtResource("1_8iwd0")
+
+[node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("3_mn32p")]
+
+[node name="bg_current" parent="." instance=ExtResource("10_ian1u")]
+unique_name_in_owner = true
+
+[node name="bg_previous" parent="." instance=ExtResource("10_ian1u")]
+unique_name_in_owner = true
+script = null
+
+[node name="Player" parent="." instance=ExtResource("2_5ht3g")]
+unique_name_in_owner = true
+position = Vector2(0, 48)
+
+[node name="ambience" type="AudioStreamPlayer" parent="Player"]
+unique_name_in_owner = true
+stream = ExtResource("5_hddan")
+volume_db = -5.0
+autoplay = true
+
+[node name="music" type="AudioStreamPlayer" parent="Player"]
+unique_name_in_owner = true
+stream = ExtResource("6_wsqx4")
+autoplay = true
+
+[node name="HUD" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 30
+
+[node name="Level Finished" parent="HUD" instance=ExtResource("6_mgn80")]
+unique_name_in_owner = true
+visible = false
+metadata/_edit_use_anchors_ = true
+
+[node name="StartInContainer" type="ColorRect" parent="HUD"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.133333)
+
+[node name="ColorRect" type="ColorRect" parent="HUD/StartInContainer"]
+layout_mode = 2
+offset_left = 768.0
+offset_top = 448.0
+offset_right = 1152.0
+offset_bottom = 627.0
+color = Color(0, 0, 0, 0.384314)
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/StartInContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartIn" type="Label" parent="HUD/StartInContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_1aw6r")
+theme_override_font_sizes/font_size = 32
+text = "Start in 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainerTime" type="CenterContainer" parent="HUD"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 72.0
+grow_horizontal = 2
+
+[node name="levelTime" type="Label" parent="HUD/CenterContainerTime"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+text = "time"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 5
+visible_ratio = 1.25
+
+[node name="CenterContainerHealth" type="CenterContainer" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -128.0
+offset_top = 24.0
+offset_bottom = 72.0
+grow_horizontal = 0
+
+[node name="health" type="Label" parent="HUD/CenterContainerHealth"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+text = "hp"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainerFps" type="CenterContainer" parent="HUD"]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.15
+anchor_right = 1.0
+anchor_bottom = 0.15
+offset_left = -128.0
+offset_bottom = 45.0
+grow_horizontal = 0
+
+[node name="fps" type="Label" parent="HUD/CenterContainerFps"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+text = "hp"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainerTest" type="CenterContainer" parent="HUD"]
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 0.2
+anchor_right = 1.0
+anchor_bottom = 0.2
+offset_left = -128.0
+offset_bottom = 45.0
+grow_horizontal = 0
+
+[node name="test" type="Label" parent="HUD/CenterContainerTest"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+text = "hp"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScoreDisplay" parent="HUD" instance=ExtResource("7_vhiat")]
+position = Vector2(64, 64)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_vhdqb")
+}
+
+[node name="ComboManager" parent="." instance=ExtResource("9_yw32x")]
+
+[node name="Cursor" parent="." instance=ExtResource("13_83o1d")]
+
+[connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
+[connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]

@@ -11,11 +11,11 @@ func _ready():
 var transitioning = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if not transitioning and not bg_transition.current_animation == "bg_show" and not bg_transition.current_animation == "bg_hide":
 		transitioning = true
 		Globals.bgTransition_finished.emit()
-		print("bg_freed")
+		#print("bg_freed")
 		%bg_transition_buffer_delay.start()
 
 
