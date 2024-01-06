@@ -82,6 +82,7 @@ layer = 30
 
 [node name="Level Finished" parent="HUD" instance=ExtResource("6_mgn80")]
 unique_name_in_owner = true
+process_mode = 4
 visible = false
 metadata/_edit_use_anchors_ = true
 

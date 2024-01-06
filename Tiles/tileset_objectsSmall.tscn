@@ -39,6 +39,7 @@ sources/0 = SubResource("TileSetScenesCollectionSource_kxjp3")
 
 [node name="tileset_objectsSmall" type="TileMap"]
 visibility_layer = 2
+z_index = 1
 position = Vector2(16, 16)
 tile_set = SubResource("TileSet_bxi0m")
 rendering_quadrant_size = 32

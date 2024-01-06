@@ -177,6 +177,8 @@ func _on_visible_on_screen_notifier_2d_screen_exited():
 
 
 func _ready():
+	add_to_group("loadingZone0")
+	
 	set_physics_process(false)
 	sprite.visible = false
 

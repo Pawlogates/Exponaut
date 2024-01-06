@@ -55,7 +55,6 @@ _data = {
 }
 
 [node name="Node2D" type="Sprite2D"]
-z_index = 1
 position = Vector2(64, 0)
 
 [node name="water_top" type="AnimatedSprite2D" parent="."]
@@ -63,7 +62,7 @@ sprite_frames = SubResource("SpriteFrames_45hng")
 autoplay = "default"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="water_top"]
-autoplay = "loop"
 libraries = {
 "": SubResource("AnimationLibrary_4jlhx")
 }
+autoplay = "loop"

@@ -447,10 +447,10 @@ func _on_dash_end_slowdown_active_timeout():
 
 #DEBUG
 
-#func _on_debug_test_refresh_timeout():
-	#Globals.test = get_tree().get_nodes_in_group("enemies").size()
-	#Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size()
-	#Globals.test3 = Globals.loadingZone_current
+func _on_debug_test_refresh_timeout():
+	Globals.test = get_tree().get_nodes_in_group("Persist").size()
+	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size()
+	Globals.test4 = Globals.loadingZone_current
 
 #DEBUG END
 

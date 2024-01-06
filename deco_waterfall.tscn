@@ -55,10 +55,10 @@ _data = {
 }
 
 [node name="deco_waterfall" type="Node2D"]
-z_index = -1
+z_index = -2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-z_index = -1
+z_index = -2
 sprite_frames = SubResource("SpriteFrames_mwqpd")
 autoplay = "default"
 frame_progress = 0.25992

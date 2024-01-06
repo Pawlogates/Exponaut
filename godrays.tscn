@@ -20,7 +20,7 @@ shader_parameter/hdr = false
 shader_parameter/seed = 5.0
 
 [node name="godrays" type="ColorRect"]
-z_index = -2
+z_index = 40
 material = SubResource("ShaderMaterial_ecuhd")
 offset_right = 640.0
 offset_bottom = 384.0

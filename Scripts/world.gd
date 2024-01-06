@@ -78,7 +78,7 @@ func _ready():
 		level_finished.next_level_btn.text = "Results"
 		next_level = preload("res://VictoryScreen.tscn")
 	
-	RenderingServer.set_default_clear_color(Color.DARK_RED)
+	RenderingServer.set_default_clear_color(Color.SKY_BLUE)
 	
 
 	#get_tree().paused = true
@@ -99,7 +99,7 @@ var quickLoad_blocked = true
 
 func _physics_process(delta):
 	%fps.text = str("fps: ", Engine.get_frames_per_second())
-	%test.text = str("total enemies on the map: ", Globals.test)
+	%test.text = str("total persistent objects present: ", Globals.test)
 	%test2.text = str("total objects queued for next reload: ", Globals.test2)
 	%test3.text = str("number of people who asked: ", Globals.test3)
 	%test4.text = str("current active loading zone: ", Globals.test4)
@@ -296,7 +296,7 @@ func load_game():
 
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for i in save_nodes:
-		if i.is_in_group(Globals.loadingZone_current):
+		if i.is_in_group(Globals.loadingZone_current) or i.is_in_group("LoadingZone0"):
 			i.queue_free()
 
 	var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.READ)
@@ -314,7 +314,7 @@ func load_game():
 
 
 		
-		if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current:
+		if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "LoadingZone0":
 			var new_object = load(node_data["filename"]).instantiate()
 			get_node(node_data["parent"]).add_child(new_object)
 			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])

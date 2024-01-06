@@ -20,6 +20,8 @@ var removable = false
 #OFFSCREEN START
 
 func _ready():
+	add_to_group("loadingZone0")
+	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -27,16 +29,13 @@ func _ready():
 	set_process_internal(false)
 	set_process_unhandled_input(false)
 	set_process_unhandled_key_input(false)
-	set_process_mode(PROCESS_MODE_DISABLED)
 	
 	sprite.pause()
 	sprite.visible = false
 	animation_player.active = false
 	animation_player_2.active = false
-	$Area2D.set_monitoring(false)
 	$Area2D.set_monitorable(false)
 	
-	%CollisionShape2D.disabled = true
 	
 	#OFFSCREEN END
 	
@@ -67,16 +66,13 @@ func offScreen_unload():
 	set_process_internal(false)
 	set_process_unhandled_input(false)
 	set_process_unhandled_key_input(false)
-	set_process_mode(PROCESS_MODE_DISABLED)
 	
 	sprite.pause()
 	sprite.visible = false
 	animation_player.active = false
 	animation_player_2.active = false
-	$Area2D.set_monitoring(false)
 	$Area2D.set_monitorable(false)
 	
-	%CollisionShape2D.disabled = true
 	
 	
 
@@ -88,16 +84,13 @@ func offScreen_load():
 	set_process_internal(true)
 	set_process_unhandled_input(true)
 	set_process_unhandled_key_input(true)
-	set_process_mode(PROCESS_MODE_INHERIT)
 	
 	sprite.play()
 	sprite.visible = true
 	animation_player.active = true
 	animation_player_2.active = true
-	$Area2D.set_monitoring(true)
 	$Area2D.set_monitorable(true)
 	
-	%CollisionShape2D.disabled = false
 	
 
 
@@ -187,7 +180,14 @@ func _on_animation_player_2_animation_finished(_anim_name):
 #SAVE START
 
 func _on_apple_area_entered(area):
-	if area.name == "loadingZone1" or area.name == "loadingZone2" or area.name == "loadingZone3":
+	if area.name == "loadingZone1" or area.name == "loadingZone2" or area.name == "loadingZone3" or area.name == "loadingZone4" or area.name == "loadingZone5":
+		remove_from_group("loadingZone0")
+		remove_from_group("loadingZone1")
+		remove_from_group("loadingZone2")
+		remove_from_group("loadingZone3")
+		remove_from_group("loadingZone4")
+		remove_from_group("loadingZone5")
+		
 		loadingZone = area.name
 		add_to_group(loadingZone)
 		

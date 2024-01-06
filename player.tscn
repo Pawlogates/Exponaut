@@ -429,7 +429,7 @@ wait_time = 0.2
 one_shot = true
 
 [node name="DEBUG test refresh" type="Timer" parent="."]
-wait_time = 0.5
+autostart = true
 
 [node name="loadDelay" type="Timer" parent="."]
 wait_time = 0.5

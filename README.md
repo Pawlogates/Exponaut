@@ -1,2 +1,0 @@
-# Combonaut
-My game (WIP)

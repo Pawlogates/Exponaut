@@ -78,18 +78,22 @@ one_shot = true
 
 [node name="bg" type="ParallaxBackground" parent="CanvasLayer"]
 scroll_offset = Vector2(0.57, 0.73)
-scroll_base_scale = Vector2(0.6, 0.2)
+scroll_base_scale = Vector2(0.7, 0.2)
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/bg"]
 z_index = -5
 texture_repeat = 3
-motion_mirroring = Vector2(2560, 0)
+motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/ParallaxLayer"]
 texture_repeat = 3
-offset_top = -560.0
-offset_right = 2560.0
-offset_bottom = 1360.0
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_top = -500.0
+offset_right = 1920.0
+offset_bottom = 940.0
+grow_vertical = 2
 texture = ExtResource("1_8apbw")
 
 [node name="bg_b" type="ParallaxBackground" parent="CanvasLayer"]
@@ -100,13 +104,13 @@ scroll_base_scale = Vector2(0.9, 0.5)
 [node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/bg_b"]
 z_index = -3
 texture_repeat = 3
-motion_mirroring = Vector2(2560, 0)
+motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg_b/ParallaxLayer"]
 texture_repeat = 3
-offset_top = -560.0
-offset_right = 2560.0
-offset_bottom = 1360.0
+offset_top = 200.0
+offset_right = 1920.0
+offset_bottom = 1060.0
 texture = ExtResource("2_linep")
 
 [node name="bg_a" type="ParallaxBackground" parent="CanvasLayer"]
@@ -118,15 +122,13 @@ scroll_base_scale = Vector2(0.75, 0.5)
 modulate = Color(1, 1, 1, 0.388235)
 z_index = -4
 texture_repeat = 3
-position = Vector2(-256, 346)
-motion_mirroring = Vector2(4096, 0)
+motion_mirroring = Vector2(2560, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg_a/ParallaxLayer"]
 texture_repeat = 3
-offset_top = -560.0
+offset_top = 200.0
 offset_right = 2560.0
-offset_bottom = 1360.0
-scale = Vector2(1.6, 0.6)
+offset_bottom = 626.0
 texture = ExtResource("3_qdcue")
 
 [node name="waterfall" type="ParallaxBackground" parent="CanvasLayer"]

@@ -3913,7 +3913,7 @@ sources/2 = SubResource("TileSetAtlasSource_i8idr")
 
 [node name="tileset_main" type="TileMap"]
 visibility_layer = 2
-z_index = -5
+z_index = 1
 tile_set = SubResource("TileSet_bxi0m")
 rendering_quadrant_size = 64
 format = 2
@@ -3936,3 +3936,9 @@ layer_5/tile_data = PackedInt32Array()
 layer_6/name = "fg3"
 layer_6/z_index = 4
 layer_6/tile_data = PackedInt32Array()
+layer_7/name = "back"
+layer_7/z_index = -25
+layer_7/tile_data = PackedInt32Array()
+layer_8/name = "front"
+layer_8/z_index = 100
+layer_8/tile_data = PackedInt32Array()
