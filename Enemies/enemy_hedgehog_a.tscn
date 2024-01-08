@@ -107,7 +107,7 @@ one_shot = true
 [node name="Area2D" type="Area2D" parent="."]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 0
+collision_layer = 4
 collision_mask = 2
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
@@ -144,5 +144,5 @@ rect = Rect2(-500, -500, 1000, 1000)
 [connection signal="timeout" from="Timer" to="." method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

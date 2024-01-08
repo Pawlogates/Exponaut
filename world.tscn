@@ -8,10 +8,10 @@
 [ext_resource type="AudioStream" uid="uid://cdall1ibqqpha" path="res://Assets/Sounds/music/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Deadlands.mp3" id="5_hddan"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://level_finished_screen.tscn" id="6_mgn80"]
 [ext_resource type="AudioStream" uid="uid://c0uv4pl4astv0" path="res://Assets/Sounds/music/Pekka Kana 2 - Frogs.mp3" id="6_wsqx4"]
+[ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://quicksaved_display.tscn" id="7_nexah"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://score_display.tscn" id="7_vhiat"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://background.tscn" id="10_ian1u"]
-[ext_resource type="PackedScene" uid="uid://nrn8d4a323jd" path="res://cursor.tscn" id="13_83o1d"]
 
 [sub_resource type="Animation" id="Animation_ru8b6"]
 length = 0.001
@@ -88,12 +88,13 @@ metadata/_edit_use_anchors_ = true
 
 [node name="StartInContainer" type="ColorRect" parent="HUD"]
 unique_name_in_owner = true
+process_mode = 4
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0, 0, 0, 0.133333)
 
 [node name="ColorRect" type="ColorRect" parent="HUD/StartInContainer"]
 layout_mode = 2
@@ -167,6 +168,7 @@ grow_horizontal = 0
 
 [node name="fps" type="Label" parent="HUD/CenterContainerFps"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
@@ -186,9 +188,11 @@ grow_horizontal = 0
 
 [node name="test" type="Label" parent="HUD/CenterContainerTest"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
+theme_override_font_sizes/font_size = 24
 text = "debug 1"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -205,9 +209,11 @@ grow_horizontal = 0
 
 [node name="test2" type="Label" parent="HUD/CenterContainerTest2"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
+theme_override_font_sizes/font_size = 24
 text = "debug 2"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -224,9 +230,11 @@ grow_horizontal = 0
 
 [node name="test3" type="Label" parent="HUD/CenterContainerTest3"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
+theme_override_font_sizes/font_size = 24
 text = "debug 3"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -243,15 +251,20 @@ grow_horizontal = 0
 
 [node name="test4" type="Label" parent="HUD/CenterContainerTest4"]
 unique_name_in_owner = true
+visible = false
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
+theme_override_font_sizes/font_size = 24
 text = "debug 3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ScoreDisplay" parent="HUD" instance=ExtResource("7_vhiat")]
 position = Vector2(64, 64)
+
+[node name="quicksavedDisplay" parent="HUD" instance=ExtResource("7_nexah")]
+position = Vector2(1024, 896)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -262,11 +275,8 @@ libraries = {
 
 [node name="ComboManager" parent="." instance=ExtResource("9_yw32x")]
 
-[node name="Cursor" parent="." instance=ExtResource("13_83o1d")]
-
 [node name="QuickloadLimiter" type="Timer" parent="."]
 one_shot = true
-autostart = true
 
 [connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
 [connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]

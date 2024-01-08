@@ -40,15 +40,19 @@ signal shot_charged
 #Save state
 
 signal saveState_loaded
+signal saveState_saved
 signal save
+
+var is_saving = false
+
+
 
 var saved_player_posX = player_posX
 var saved_player_posY = player_posY
 
-
 var saved_level_score = level_score
 
-var loadingZone_current = 0
+var loadingZone_current = "none"
 
 
 

@@ -3,8 +3,7 @@ extends Area2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	self.name = loadingZone_name
-
+	self.add_to_group(loadingZone_ID)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
@@ -13,8 +12,10 @@ func _process(_delta):
 
 
 
-@export var loadingZone_name = "loadingZone0"
+@export var loadingZone_ID = "loadingZone0"
 
 func _on_area_entered(area):
 	if area.name == "Player_hitbox_main":
-		Globals.loadingZone_current = loadingZone_name
+		Globals.loadingZone_current = loadingZone_ID
+	
+	

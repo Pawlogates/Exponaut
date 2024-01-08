@@ -109,7 +109,8 @@ func _on_area_2d_area_entered(area):
 	
 	#SAVE START
 	
-	elif area.name == "loadingZone1" or area.name == "loadingZone2" or area.name == "loadingZone3" or area.name == "loadingZone4" or area.name == "loadingZone5":
+	elif area.is_in_group("loadingZone_area"):
+	
 		remove_from_group("loadingZone0")
 		remove_from_group("loadingZone1")
 		remove_from_group("loadingZone2")
@@ -117,11 +118,12 @@ func _on_area_2d_area_entered(area):
 		remove_from_group("loadingZone4")
 		remove_from_group("loadingZone5")
 		
-		loadingZone = area.name
+		loadingZone = area.loadingZone_ID
 		add_to_group(loadingZone)
+		Globals.save.emit()
 		
 		#print("this object is in: ", loadingZone)
-	
+
 	#SAVE END
 	
 
@@ -277,7 +279,7 @@ func offScreen_load():
 
 #SAVE START
 
-var loadingZone = "loadingZone0"
+@onready var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {

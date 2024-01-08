@@ -5,9 +5,9 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
 size = Vector2(1280, 1280)
 
-[node name="loadingZone" type="Area2D"]
+[node name="loadingZone" type="Area2D" groups=["loadingZone_area"]]
 collision_layer = 2
-collision_mask = 2
+collision_mask = 6
 script = ExtResource("1_6lb3e")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

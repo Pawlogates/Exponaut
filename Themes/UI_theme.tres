@@ -1,0 +1,9 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://iquv0go478mb"]
+
+[ext_resource type="FontFile" uid="uid://bxebncx20vx5q" path="res://Assets/Graphics/font_main.png" id="1_axwgo"]
+
+[resource]
+default_font = ExtResource("1_axwgo")
+Label/colors/font_color = Color(0, 1, 1, 1)
+Label/colors/font_shadow_color = Color(0, 0, 0, 1)
+Label/fonts/font = ExtResource("1_axwgo")

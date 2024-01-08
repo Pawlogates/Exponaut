@@ -1,27 +1,30 @@
-[gd_scene load_steps=2 format=3 uid="uid://bi5xs4kte6qai"]
+[gd_scene load_steps=3 format=3 uid="uid://bi5xs4kte6qai"]
 
+[ext_resource type="Script" path="res://parallax_background_gradient.gd" id="1_hvrc8"]
 [ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/fg_gradient.png" id="1_n3xco"]
 
 [node name="ParallaxBackgroundGradient" type="Node2D"]
 z_index = 50
+script = ExtResource("1_hvrc8")
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 layer = 25
-scroll_offset = Vector2(0.57, 0.73)
-scroll_base_scale = Vector2(3, 0.5)
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.72549)
 z_index = 25
 texture_repeat = 3
-motion_mirroring = Vector2(4000, 2500)
+motion_scale = Vector2(2.5, 1.25)
+motion_mirroring = Vector2(2560, 1600)
 
 [node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
-modulate = Color(1, 1, 1, 0.74902)
 z_index = 50
 texture_repeat = 3
-offset_top = -720.0
 offset_right = 2560.0
-offset_bottom = 1200.0
-scale = Vector2(1.6, 1.4)
+offset_bottom = 1600.0
 texture = ExtResource("1_n3xco")
 metadata/_edit_use_anchors_ = true

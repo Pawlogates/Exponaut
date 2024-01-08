@@ -66,6 +66,8 @@ var direction = 1
 var shooting = false
 
 
+
+
 func _ready():
 	
 	Globals.saveState_loaded.connect(saveState_loaded)
@@ -79,6 +81,180 @@ func _ready():
 	
 	Globals.player_posX = player.get_global_position()[0]
 	Globals.player_posY = player.get_global_position()[1]
+
+
+
+#MAIN START
+
+func _process(delta):
+	direction = Input.get_axis("move_L", "move_R")
+	apply_gravity(delta)
+	handle_wall_jump()
+	handle_jump(delta)
+	
+	
+	if Input.is_action_just_pressed("attack_fast"):
+		var projectile_quick = scene_projectile_quick.instantiate()
+		add_child(projectile_quick)
+		
+	
+	
+	if not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
+		shooting = true
+		shoot_anim_delay.start()
+		animated_sprite_2d.play("shoot")
+		if direction != 0:
+			animated_sprite_2d.flip_h = (direction < 0)
+	
+	
+	if direction != 0:
+		Globals.direction = direction
+	
+	handle_acceleration_direction(delta)
+	handle_air_acceleration(delta)
+	var was_in_air = not is_on_floor()
+	var was_on_floor = is_on_floor()
+	var was_on_wall = is_on_wall_only()
+	
+	if was_on_wall:
+		was_wall_normal = get_wall_normal()
+		
+	if not is_on_floor():
+		$idle_timer.stop()
+	
+	if Input.is_action_just_pressed("dash") and is_dashing == false and not crouch_walking and not crouching:
+		is_dashing = true
+		$dash_timer.start()
+		player_collision.shape.extents = Vector2(40, 20)
+		player_collision.position += Vector2(0, 32)
+		
+		player_hitbox.position += Vector2(0, 32)
+		player_hitbox.shape.extents = Vector2(40, 20)
+	
+	move_and_slide()
+	
+	#CROUCHING LOGIC
+	if is_on_floor():
+		if direction != 0:
+			animated_sprite_2d.flip_h = (direction < 0)
+		if Input.is_action_pressed("move_DOWN") and not crouch_walking and not crouchTimer:
+			crouch_walk_anim_delay.start()
+			crouch_walk_collision_switch.start()
+			crouching = true
+			crouchTimer = true
+			animated_sprite_2d.play("crouch")
+			
+			crouchMultiplier = 0.6
+			movement_data.SPEED = 400 * crouchMultiplier
+			
+		
+		if crouch_walking:
+			animated_sprite_2d.play("crouch_walk")
+			crouching = false
+			
+			crouchMultiplier = 0.4
+			movement_data.SPEED = 400.0 * crouchMultiplier
+			
+	
+	
+	if not Input.is_action_pressed("move_DOWN") and can_stand_up and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up and crouch_walking or not is_on_floor() and can_stand_up and crouch_walking:
+		player_collision.shape.extents = Vector2(20, 56)
+		player_collision.position = Vector2(0, 0)
+		
+		player_hitbox.shape.extents = Vector2(20, 56)
+		player_hitbox.position = Vector2(0, 0)
+		
+		
+		crouching = false
+		crouch_walking = false
+		crouch_walk_anim_delay.stop()
+		crouch_walk_collision_switch.stop()
+		movement_data.SPEED = 400.0
+		crouchMultiplier = 1
+		crouchTimer = false
+		
+	
+	
+	var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
+	
+	if just_left_ledge:
+		jump_leniency.start()
+		
+	if Input.is_action_just_pressed("ui_cancel"):
+		movement_data = preload("res://fasterMovementData.tres")
+	
+	var just_left_wall = was_on_wall and not is_on_wall()
+	
+	if just_left_wall:
+		wall_jump_leniency.start()
+	
+	
+	
+	apply_friction(delta)
+	apply_air_slowdown(delta)
+	
+	update_anim()
+	Globals.player_posX = player.get_global_position()[0]
+	Globals.player_posY = player.get_global_position()[1]
+	
+	just_wall_jumped = false
+	
+	if velocity.y == 0 and is_on_floor() and was_in_air and not shooting and not crouch_walking and not crouching:
+		animated_sprite_2d.play("idle")
+	
+	
+	
+	
+	if Input.is_action_pressed("zoom_out"):
+		print(zoomValue)
+		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 0.1, 0.01 * delta * 50 * zoomValue)
+		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 0.1, 0.01 * delta * 50 * zoomValue)
+		
+		if $Camera2D.zoom.x < 0.25:
+			zoomValue = 0.25
+			
+		elif $Camera2D.zoom.x < 0.5:
+			zoomValue = 0.35
+			
+		elif $Camera2D.zoom.x < 0.75:
+			zoomValue = 0.5
+			
+		elif $Camera2D.zoom.x > 1.2:
+			zoomValue = 1.5
+			
+		else:
+			zoomValue = 1
+		
+	
+	if Input.is_action_pressed("zoom_in"):
+		print(zoomValue)
+		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 2, 0.01 * delta * 50 * zoomValue)
+		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 2, 0.01 * delta * 50 * zoomValue)
+		
+		if $Camera2D.zoom.x < 0.25:
+			zoomValue = 0.25
+			
+		elif $Camera2D.zoom.x < 0.5:
+			zoomValue = 0.35
+			
+		elif $Camera2D.zoom.x < 0.75:
+			zoomValue = 0.5
+			
+		elif $Camera2D.zoom.x > 1.2:
+			zoomValue = 1.5
+			
+		else:
+			zoomValue = 1
+
+#MAIN END
+
+
+
+var zoomValue = 1
+
+
+
+
 
 
 var is_dashing = false
@@ -185,128 +361,7 @@ func handle_air_acceleration(delta):
 	
 
 
-#MAIN
 
-func _process(delta):
-	direction = Input.get_axis("move_L", "move_R")
-	apply_gravity(delta)
-	handle_wall_jump()
-	handle_jump(delta)
-	
-	
-	if Input.is_action_just_pressed("attack_fast"):
-		var projectile_quick = scene_projectile_quick.instantiate()
-		add_child(projectile_quick)
-		
-	
-	
-	if not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
-		shooting = true
-		shoot_anim_delay.start()
-		animated_sprite_2d.play("shoot")
-		if direction != 0:
-			animated_sprite_2d.flip_h = (direction < 0)
-	
-	
-	if direction != 0:
-		Globals.direction = direction
-	
-	handle_acceleration_direction(delta)
-	handle_air_acceleration(delta)
-	var was_in_air = not is_on_floor()
-	var was_on_floor = is_on_floor()
-	var was_on_wall = is_on_wall_only()
-	
-	if was_on_wall:
-		was_wall_normal = get_wall_normal()
-		
-	if not is_on_floor():
-		$idle_timer.stop()
-	
-	if Input.is_action_just_pressed("dash") and is_dashing == false and not crouch_walking and not crouching:
-		is_dashing = true
-		$dash_timer.start()
-		player_collision.shape.extents = Vector2(40, 20)
-		player_collision.position += Vector2(0, 32)
-		
-		player_hitbox.position += Vector2(0, 32)
-		player_hitbox.shape.extents = Vector2(40, 20)
-	
-	move_and_slide()
-	
-	#CROUCHING LOGIC
-	if is_on_floor():
-		if direction != 0:
-			animated_sprite_2d.flip_h = (direction < 0)
-		if Input.is_action_pressed("move_DOWN") and not crouch_walking and not crouchTimer:
-			crouch_walk_anim_delay.start()
-			crouch_walk_collision_switch.start()
-			crouching = true
-			crouchTimer = true
-			animated_sprite_2d.play("crouch")
-			
-			crouchMultiplier = 0.6
-			movement_data.SPEED = 400 * crouchMultiplier
-
-			
-		if crouch_walking:
-			animated_sprite_2d.play("crouch_walk")
-			crouching = false
-			
-			crouchMultiplier = 0.4
-			movement_data.SPEED = 400.0 * crouchMultiplier
-			
-			
-
-
-		
-	if not Input.is_action_pressed("move_DOWN") and can_stand_up and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up and crouch_walking or not is_on_floor() and can_stand_up and crouch_walking:
-		player_collision.shape.extents = Vector2(20, 56)
-		player_collision.position = Vector2(0, 0)
-		
-		player_hitbox.shape.extents = Vector2(20, 56)
-		player_hitbox.position = Vector2(0, 0)
-		
-
-		crouching = false
-		crouch_walking = false
-		crouch_walk_anim_delay.stop()
-		crouch_walk_collision_switch.stop()
-		movement_data.SPEED = 400.0
-		crouchMultiplier = 1
-		crouchTimer = false
-
-		
-			
-			
-	var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
-	
-	if just_left_ledge:
-		jump_leniency.start()
-		
-	if Input.is_action_just_pressed("ui_cancel"):
-		movement_data = preload("res://fasterMovementData.tres")
-	
-	var just_left_wall = was_on_wall and not is_on_wall()
-	
-	if just_left_wall:
-		wall_jump_leniency.start()
-	
-	
-	
-	apply_friction(delta)
-	apply_air_slowdown(delta)
-	
-	update_anim()
-	Globals.player_posX = player.get_global_position()[0]
-	Globals.player_posY = player.get_global_position()[1]
-	
-	just_wall_jumped = false
-	
-	if velocity.y == 0 and is_on_floor() and was_in_air and not shooting and not crouch_walking and not crouching:
-		animated_sprite_2d.play("idle")
-	
-	
 
 
 
@@ -449,8 +504,9 @@ func _on_dash_end_slowdown_active_timeout():
 
 func _on_debug_test_refresh_timeout():
 	Globals.test = get_tree().get_nodes_in_group("Persist").size()
-	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size()
+	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size() + get_tree().get_nodes_in_group("loadingZone0").size()
 	Globals.test4 = Globals.loadingZone_current
+	
 
 #DEBUG END
 
@@ -460,14 +516,17 @@ func _on_debug_test_refresh_timeout():
 #SAVE START
 
 func _on_player_hitbox_main_area_entered(area):
-	if area.name == "loadingZone1" or area.name == "loadingZone2" or area.name == "loadingZone3":
-		$loadDelay.start()
+	if area.is_in_group("loadingZone_area"):
+			Globals.save.emit()
+			
+	#SAVE END
 	
-#SAVE END
+	
+	if area.is_in_group("bgmove"):
+		get_parent().bgMove_growthSpeed = 1
+		print(get_parent().bgMove_growthSpeed)
+	
 
-
-func _on_load_delay_timeout():
-	Globals.save.emit()
 
 
 func saveState_loaded():

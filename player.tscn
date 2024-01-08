@@ -376,6 +376,7 @@ wait_time = 0.15
 one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+z_index = 1
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 
@@ -425,15 +426,12 @@ libraries = {
 }
 
 [node name="jumpBuildVelocity" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.1
 one_shot = true
 
 [node name="DEBUG test refresh" type="Timer" parent="."]
+wait_time = 3.0
 autostart = true
-
-[node name="loadDelay" type="Timer" parent="."]
-wait_time = 0.5
-one_shot = true
 
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
@@ -448,4 +446,3 @@ one_shot = true
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_active" to="." method="_on_dash_end_slowdown_active_timeout"]
 [connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
 [connection signal="timeout" from="DEBUG test refresh" to="." method="_on_debug_test_refresh_timeout"]
-[connection signal="timeout" from="loadDelay" to="." method="_on_load_delay_timeout"]

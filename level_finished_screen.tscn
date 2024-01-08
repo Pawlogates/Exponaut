@@ -14,7 +14,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6vvdi")
-color = Color(0, 0, 0, 0.2)
 script = ExtResource("2_kqj8x")
 
 [node name="CenterContainer" type="CenterContainer" parent="."]

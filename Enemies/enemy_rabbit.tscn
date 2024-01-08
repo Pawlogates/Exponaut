@@ -206,7 +206,7 @@ one_shot = true
 unique_name_in_owner = true
 light_mask = 2
 visibility_layer = 2
-collision_layer = 0
+collision_layer = 4
 collision_mask = 2
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
@@ -258,7 +258,7 @@ shape = SubResource("RectangleShape2D_2h4lu")
 [connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="area_entered" from="scanForPlayer" to="." method="_on_scan_for_player_area_entered"]
 [connection signal="area_exited" from="scanForPlayer" to="." method="_on_scan_for_player_area_exited"]
