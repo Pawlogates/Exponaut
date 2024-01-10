@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d0ev5ctdik86d"]
+[gd_scene load_steps=22 format=3 uid="uid://d0ev5ctdik86d"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_7e82i"]
 [ext_resource type="AudioStream" uid="uid://s3qogbrmevaa" path="res://Assets/Sounds/music/salad_ext.mp3" id="2_ryapv"]
@@ -7,18 +7,19 @@
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="5_et5dt"]
 [ext_resource type="Texture2D" uid="uid://buwqadivlxhsm" path="res://Assets/Graphics/bg9.png" id="8_es2d3"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="8_m7blg"]
-[ext_resource type="Texture2D" uid="uid://4irn2vfckk4i" path="res://Assets/Graphics/backgrounds/bg_sunsetRed.png" id="9_30rj7"]
 [ext_resource type="Texture2D" uid="uid://w4snge8ql743" path="res://Assets/Graphics/bg10.png" id="10_1aswk"]
+[ext_resource type="Texture2D" uid="uid://c0o0u2gecllc6" path="res://Assets/Graphics/bg2a.png" id="11_0ckkt"]
 [ext_resource type="Texture2D" uid="uid://dsqa3f4pw5rov" path="res://Assets/Graphics/bg2.png" id="11_qop4i"]
+[ext_resource type="Texture2D" uid="uid://b6ykdc8w7hpm2" path="res://Assets/Graphics/bg5a.png" id="13_7bx7v"]
 [ext_resource type="Texture2D" uid="uid://cstrkdig8bra3" path="res://Assets/Graphics/bg7.png" id="13_g8g7q"]
 [ext_resource type="Texture2D" uid="uid://bxxvgscwky4sx" path="res://Assets/Graphics/bg6.png" id="13_ikqdo"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Tiles/trigger_music_change.tscn" id="13_sr783"]
 [ext_resource type="AudioStream" uid="uid://c0uv4pl4astv0" path="res://Assets/Sounds/music/Pekka Kana 2 - Frogs.mp3" id="14_ldu5k"]
-[ext_resource type="AudioStream" uid="uid://nw88evcfhcsm" path="res://Assets/Sounds/music/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Tower of the Leptys.mp3" id="14_wk0ne"]
 [ext_resource type="AudioStream" uid="uid://c2kyrlx74qvo5" path="res://Assets/Sounds/music/Pekka Kana 2 - Song 7.mp3" id="16_xgam6"]
 [ext_resource type="AudioStream" uid="uid://ci1bxce7xn885" path="res://Assets/Sounds/music/Pekka Kana 2 - Song 6.mp3" id="17_snqdw"]
 [ext_resource type="AudioStream" uid="uid://peellea3e4hn" path="res://Assets/Sounds/music/Pekka Kana 2 - Big Bad Boss.mp3" id="18_3ggyr"]
 [ext_resource type="AudioStream" uid="uid://bs67q1ngme2gq" path="res://Assets/Sounds/music/Pekka Kana 2 - Pekka Kana.mp3" id="18_xfnrt"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="19_0htxa"]
 [ext_resource type="PackedScene" uid="uid://d2aewsoy6ts01" path="res://Tiles/loadingZone.tscn" id="21_8gk3a"]
 
 [node name="World" instance=ExtResource("1_7e82i")]
@@ -28,6 +29,7 @@ z_index = -5
 
 [node name="Player" parent="." index="0"]
 z_index = 2
+position = Vector2(6752, -1728)
 
 [node name="music" parent="Player" index="17"]
 stream = ExtResource("2_ryapv")
@@ -58,6 +60,9 @@ layer_4/enabled = false
 layer_0/enabled = false
 layer_0/z_index = 0
 layer_0/tile_data = PackedInt32Array(-917519, 0, 65536, -1245199, 0, 65536, -1835016, 0, 65536, -1900544, 0, 65536, -1114099, 0, 65536, -1507320, 0, 262144, -1441786, 0, 196608, -1441782, 0, 196608, -1441784, 0, 65536, -1507318, 0, 65536, -1507322, 0, 65536, -1114106, 0, 65536, -1310712, 0, 65536, -2555978, 0, 65536, -2555977, 0, 65536, -2555976, 0, 65536, -2555975, 0, 65536, -2555974, 0, 65536, -2621511, 0, 65536, -2621512, 0, 65536, -2621513, 0, 65536, -2687048, 0, 65536, -2097254, 0, 196608, -2031718, 0, 196608, -1966182, 0, 196608, -1966183, 0, 196608, -2031719, 0, 196608, -2097255, 0, 196608, -2097253, 0, 196608, -2031717, 0, 196608, -1966181, 0, 196608, -917541, 0, 131072, -786469, 0, 131072, -786467, 0, 65536, -786471, 0, 65536, -917543, 0, 65536, -917539, 0, 65536, -655397, 0, 131072, -524333, 0, 131072, -589870, 0, 131072, -589868, 0, 131072, -524331, 0, 131072, -1769377, 0, 65536, -1900449, 0, 65536, -1900447, 0, 65536, -1769375, 0, 65536, -1769373, 0, 65536, -1900445, 0, 65536, -1900443, 0, 65536, -1900441, 0, 65536, -1507244, 0, 262144, -1507242, 0, 262144, -983004, 0, 131072, -917468, 0, 131072, -851932, 0, 131072, -851931, 0, 131072, -917467, 0, 131072, -983003, 0, 131072, -983005, 0, 131072, -917469, 0, 131072, -851933, 0, 131072, -1572847, 0, 65536, -1507310, 0, 65536, -1572845, 0, 65536, -393180, 0, 65536, -327644, 0, 65536, -262108, 0, 65536, -196572, 0, 65536, -131036, 0, 65536, -131035, 0, 65536, -196571, 0, 65536, -262107, 0, 65536, -327643, 0, 65536, -393179, 0, 65536, -65500, 0, 65536, -65499, 0, 65536, -393190, 0, 262144, -524262, 0, 65536, -262118, 0, 65536, -131046, 0, 262144, -655334, 0, 262144, -786406, 0, 65536, 65515, 0, 65536, -65560, 0, 65536, -131099, 0, 65536, -65566, 0, 65536, -33, 0, 65536, 65500, 0, 65536, 131033, 0, 65536, 196566, 0, 65536, 327619, 0, 65536, 262084, 0, 65536, 327621, 0, 65536, -2162741, 0, 65536, -2162740, 0, 65536, -2162739, 0, 65536, -2162738, 0, 65536, -2162737, 0, 65536, -2228272, 0, 65536, -2293807, 0, 65536, -2293806, 0, 65536, -2293805, 0, 65536, -2293804, 0, 65536, -2293803, 0, 65536, -1966030, 0, 131072, -1966028, 0, 131072, -1900493, 0, 131072, -2031565, 0, 131072, -2293711, 0, 196608, -2293709, 0, 196608, -2293707, 0, 196608, -3473177, 0, 65536, -3473176, 0, 65536, -3473175, 0, 65536, -3473174, 0, 65536, -3473173, 0, 65536, -3473172, 0, 65536, -3473171, 0, 65536, -3473170, 0, 65536, -3473169, 0, 65536, -3473168, 0, 65536, -3473179, 0, 65536, -3473178, 0, 65536, -7012123, 0, 65536, -7143195, 0, 65536, -7143197, 0, 65536, -7012125, 0, 65536, -7274269, 0, 65536, -6881053, 0, 65536, -4521627, 0, 65536, -4390555, 0, 65536, -4390553, 0, 65536, -4521625, 0, 65536, -3473087, 0, 65536, -3473085, 0, 65536, -3473083, 0, 65536, -3473081, 0, 65536, -3473079, 0, 65536, -3473077, 0, 65536, -3473075, 0, 65536, -3473073, 0, 65536, -3538719, 0, 262144, -3473182, 0, 262144, -3407645, 0, 262144, -14351861, 0, 65536, -14482933, 0, 65536, -14482931, 0, 65536, -14351859, 0, 65536, -15007223, 0, 65536, -15007225, 0, 65536, -15007224, 0, 65536, -15007222, 0, 65536, -15007221, 0, 65536, -15007220, 0, 65536, -15007219, 0, 65536, -13630975, 0, 65536, -13565440, 0, 65536, -13499903, 0, 65536, -13434368, 0, 65536, -13368831, 0, 65536, -13303296, 0, 65536, -13237759, 0, 65536, -13172224, 0, 65536, -13565405, 0, 196608, -13499868, 0, 196608, -13565403, 0, 196608, -13499866, 0, 196608, -2489926, 0, 65536, -2489925, 0, 65536, -2489924, 0, 65536, -2489923, 0, 65536, -2489922, 0, 65536, -2489921, 0, 65536, -2489920, 0, 65536, -2489919, 0, 65536, -2489918, 0, 65536, -2489917, 0, 65536, -2489916, 0, 65536, -2489915, 0, 65536, -2489914, 0, 65536, -2489913, 0, 65536, -2489912, 0, 65536, -2489911, 0, 65536, -2620996, 0, 131072, -2620995, 0, 131072, -2620994, 0, 131072, -2620993, 0, 131072, -2620992, 0, 131072, -2686529, 0, 131072, -2686530, 0, 131072, -2686531, 0, 131072, -2752066, 0, 131072, -2489910, 0, 65536, -2686758, 0, 262144, -2555686, 0, 262144, -2555684, 0, 262144, -2686756, 0, 262144, -2686754, 0, 262144, -2555682, 0, 262144, -2686752, 0, 262144, -2555680, 0, 262144, -5308365, 0, 65536, -5308364, 0, 65536, -5308363, 0, 65536, -5308362, 0, 65536, -5308361, 0, 65536, -5308360, 0, 65536, -5308359, 0, 65536, -5963721, 0, 65536, -5963720, 0, 65536, -5963719, 0, 65536, -5963718, 0, 65536, -5963717, 0, 65536)
+
+[node name="bg_previous" parent="." index="6"]
+z_index = -9
 
 [node name="HUD" parent="." index="7"]
 visible = false
@@ -107,99 +112,102 @@ loadingZone_ID = "loadingZone3"
 position = Vector2(13888, -3648)
 scale = Vector2(4, 16)
 Background_filePath = ExtResource("8_es2d3")
+Background_a_filePath = null
+Background_b_filePath = null
 
-[node name="trigger_bgChange2" parent="triggers" index="1" instance=ExtResource("8_m7blg")]
-position = Vector2(-2680, -2520)
-scale = Vector2(29.9, 1)
-Background_filePath = ExtResource("9_30rj7")
-
-[node name="trigger_bgChange3" parent="triggers" index="2" instance=ExtResource("8_m7blg")]
-position = Vector2(3296, -1912)
-scale = Vector2(1, 37.75)
+[node name="trigger_bgChange3" parent="triggers" index="1" instance=ExtResource("8_m7blg")]
+position = Vector2(3296, -1728)
+scale = Vector2(1, 32)
 Background_filePath = ExtResource("10_1aswk")
+Background_a_filePath = null
+Background_b_filePath = null
 
-[node name="trigger_bgChange6" parent="triggers" index="3" instance=ExtResource("8_m7blg")]
-position = Vector2(3104, -1912)
-scale = Vector2(1, 37.75)
+[node name="trigger_bgChange6" parent="triggers" index="2" instance=ExtResource("8_m7blg")]
+position = Vector2(3104, -1664)
+scale = Vector2(1, 32)
+
+[node name="trigger_bgChange14" parent="triggers" index="3" instance=ExtResource("8_m7blg")]
+position = Vector2(2080, -3840)
+scale = Vector2(1, 32)
 
 [node name="trigger_bgChange4" parent="triggers" index="4" instance=ExtResource("8_m7blg")]
-position = Vector2(4672, -3008)
-scale = Vector2(4, 18)
+position = Vector2(4704, -3008)
+scale = Vector2(1, 18)
+Background_filePath = ExtResource("11_qop4i")
+Background_a_filePath = ExtResource("11_0ckkt")
+
+[node name="trigger_bgChange7" parent="triggers" index="5" instance=ExtResource("8_m7blg")]
+position = Vector2(2272, -4032)
+scale = Vector2(1, 32)
+Background_filePath = ExtResource("11_qop4i")
+Background_a_filePath = ExtResource("11_0ckkt")
+
+[node name="trigger_bgChange8" parent="triggers" index="6" instance=ExtResource("8_m7blg")]
+position = Vector2(5312, -1888)
+scale = Vector2(12, 1)
 Background_filePath = ExtResource("11_qop4i")
 
-[node name="trigger_bgChange11" parent="triggers" index="5" instance=ExtResource("8_m7blg")]
-position = Vector2(13312, -2624)
-scale = Vector2(4, 48)
+[node name="trigger_bgChange10" parent="triggers" index="7" instance=ExtResource("8_m7blg")]
+position = Vector2(6240, -2048)
+scale = Vector2(1, 14)
 Background_filePath = ExtResource("13_ikqdo")
+Background_a_filePath = ExtResource("13_7bx7v")
 
-[node name="trigger_bgChange9" parent="triggers" index="6" instance=ExtResource("8_m7blg")]
-position = Vector2(9520, -2256)
-scale = Vector2(1, 10)
-
-[node name="trigger_bgChange8" parent="triggers" index="7" instance=ExtResource("8_m7blg")]
-position = Vector2(5248, -1888)
-scale = Vector2(14, 1)
-Background_filePath = ExtResource("11_qop4i")
-
-[node name="trigger_bgChange10" parent="triggers" index="8" instance=ExtResource("8_m7blg")]
-position = Vector2(7264, -1864)
-scale = Vector2(4, 10)
-Background_filePath = ExtResource("13_ikqdo")
-
-[node name="trigger_bgChange12" parent="triggers" index="9" instance=ExtResource("8_m7blg")]
-position = Vector2(34, -3007)
-scale = Vector2(4, 10)
-Background_filePath = ExtResource("9_30rj7")
-
-[node name="trigger_bgChange13" parent="triggers" index="10" instance=ExtResource("8_m7blg")]
-position = Vector2(15040, -1600)
-scale = Vector2(4, 16)
+[node name="trigger_bgChange13" parent="triggers" index="8" instance=ExtResource("8_m7blg")]
+position = Vector2(13920, -1568)
+scale = Vector2(1, 6)
 Background_filePath = ExtResource("13_g8g7q")
 
-[node name="trigger_bgChange5" parent="triggers" index="11" instance=ExtResource("8_m7blg")]
-position = Vector2(5312, -1632)
+[node name="trigger_bgChange5" parent="triggers" index="9" instance=ExtResource("8_m7blg")]
+position = Vector2(5312, -1760)
 scale = Vector2(12, 1)
 Background_filePath = ExtResource("10_1aswk")
+Background_a_filePath = null
+Background_b_filePath = null
 
-[node name="trigger_musicChange" parent="triggers" index="12" instance=ExtResource("13_sr783")]
+[node name="trigger_musicChange" parent="triggers" index="10" instance=ExtResource("13_sr783")]
 position = Vector2(3968, -1408)
 scale = Vector2(4, 4)
 
-[node name="trigger_musicChange8" parent="triggers" index="13" instance=ExtResource("13_sr783")]
-position = Vector2(-2896, -2496)
-scale = Vector2(16, 4)
-music_file = ExtResource("14_wk0ne")
-
-[node name="trigger_musicChange2" parent="triggers" index="14" instance=ExtResource("13_sr783")]
-position = Vector2(3616, -1888)
-scale = Vector2(1, 24)
+[node name="trigger_musicChange2" parent="triggers" index="11" instance=ExtResource("13_sr783")]
+position = Vector2(3616, -1664)
+scale = Vector2(1, 22)
 music_file = ExtResource("14_ldu5k")
 
-[node name="trigger_musicChange5" parent="triggers" index="15" instance=ExtResource("13_sr783")]
+[node name="trigger_musicChange5" parent="triggers" index="12" instance=ExtResource("13_sr783")]
 position = Vector2(12128, -1664)
 scale = Vector2(1, 24)
 music_file = ExtResource("18_3ggyr")
 
-[node name="trigger_musicChange6" parent="triggers" index="16" instance=ExtResource("13_sr783")]
+[node name="trigger_musicChange6" parent="triggers" index="13" instance=ExtResource("13_sr783")]
 position = Vector2(14240, -3712)
 scale = Vector2(1, 24)
 music_file = ExtResource("16_xgam6")
 
-[node name="trigger_musicChange7" parent="triggers" index="17" instance=ExtResource("13_sr783")]
+[node name="trigger_musicChange7" parent="triggers" index="14" instance=ExtResource("13_sr783")]
 position = Vector2(13088, -4992)
 scale = Vector2(1, 24)
 music_file = ExtResource("17_snqdw")
 
-[node name="trigger_musicChange3" parent="triggers" index="18" instance=ExtResource("13_sr783")]
+[node name="trigger_musicChange3" parent="triggers" index="15" instance=ExtResource("13_sr783")]
 position = Vector2(4896, -2816)
 scale = Vector2(1, 16)
 music_file = ExtResource("18_xfnrt")
 
-[node name="trigger_musicChange9" parent="triggers" index="19" instance=ExtResource("13_sr783")]
+[node name="trigger_musicChange9" parent="triggers" index="16" instance=ExtResource("13_sr783")]
 position = Vector2(5792, -2496)
 scale = Vector2(1, 16)
 music_file = ExtResource("18_xfnrt")
 
-[node name="trigger_musicChange4" parent="triggers" index="20" instance=ExtResource("13_sr783")]
-position = Vector2(5184, -1568)
-scale = Vector2(16, 1)
+[node name="trigger_musicChange4" parent="triggers" index="17" instance=ExtResource("13_sr783")]
+position = Vector2(5280, -1632)
+scale = Vector2(11, 1)
+
+[node name="trigger_bgMove" parent="triggers" index="18" instance=ExtResource("19_0htxa")]
+position = Vector2(5312, -1824)
+scale = Vector2(12, 1)
+bgMove_y = -300
+
+[node name="trigger_bgMoveRESET" parent="triggers" index="19" instance=ExtResource("19_0htxa")]
+position = Vector2(5280, -1568)
+scale = Vector2(11, 1)

@@ -121,7 +121,7 @@ func _on_collectible_entered(body):
 			Globals.level_score += collectibleScoreValue
 			Globals.combo_score += collectibleScoreValue * Globals.combo_tier
 		
-		Globals.apple_collected.emit()
+		Globals.itemCollected.emit()
 		
 		
 		

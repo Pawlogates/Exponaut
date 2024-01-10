@@ -7,13 +7,15 @@
 z_index = 50
 script = ExtResource("1_hvrc8")
 
-[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
 layer = 25
 scale = Vector2(2, 2)
 transform = Transform2D(2, 0, 0, 2, 0, 0)
 scroll_ignore_camera_zoom = true
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0.72549)
 z_index = 25
@@ -21,7 +23,7 @@ texture_repeat = 3
 motion_scale = Vector2(2.5, 1.25)
 motion_mirroring = Vector2(2560, 1600)
 
-[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/ParallaxLayer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
 z_index = 50
 texture_repeat = 3
 offset_right = 2560.0

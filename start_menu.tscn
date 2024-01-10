@@ -19,12 +19,21 @@ theme = ExtResource("1_6004i")
 [node name="StartGame" type="Button" parent="VBoxContainer"]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 8
 text = "Start"
 
-[node name="Quit" type="Button" parent="VBoxContainer"]
+[node name="Time Attack Mode" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
 layout_mode = 2
+text = "Time Attack Mode"
+
+[node name="Quit" type="Button" parent="VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 0
 text = "Quit
 "
 
 [connection signal="pressed" from="VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="pressed" from="VBoxContainer/Time Attack Mode" to="." method="_on_time_attack_mode_pressed"]
 [connection signal="pressed" from="VBoxContainer/Quit" to="." method="_on_quit_pressed"]

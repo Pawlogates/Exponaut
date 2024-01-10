@@ -3,11 +3,7 @@ extends Node2D
 
 func _ready():
 	
-	Globals.apple_collected.connect(apple_collected)
-	Globals.carrot_collected.connect(carrot_collected)
-	Globals.cheese_collected.connect(cheese_collected)
-	Globals.jewelGreen_collected.connect(jewelGreen_collected)
-	
+	Globals.itemCollected.connect(collected_item_reset_combo_cycle)
 	Globals.enemyHit.connect(enemyHit_reset_combo_cycle)
 
 
@@ -55,33 +51,12 @@ func reset_combo_timer():
 
 
 
-func apple_collected():
+func collected_item_reset_combo_cycle():
 	check_combo_tier()
 	Globals.collected_in_cycle += 1
 	
 	reset_combo_timer()
 	
-	
-
-func carrot_collected():
-	check_combo_tier()
-	Globals.collected_in_cycle += 1
-	
-	reset_combo_timer()
-	
-
-func cheese_collected():
-	check_combo_tier()
-	Globals.collected_in_cycle += 1
-	
-	reset_combo_timer()
-	
-
-func jewelGreen_collected():
-	check_combo_tier()
-	Globals.collected_in_cycle += 1
-	
-	reset_combo_timer()
 
 
 

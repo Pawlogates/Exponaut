@@ -8,5 +8,5 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	%ParallaxLayer.motion_offset.x += 1
-	%ParallaxLayer.motion_offset.y += 0.1
+	%ParallaxLayer.motion_offset.x += 100 * delta
+	%ParallaxLayer.motion_offset.y += 20 * delta

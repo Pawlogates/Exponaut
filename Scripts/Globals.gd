@@ -14,6 +14,8 @@ var total_score = 0
 
 
 var playerHP
+
+var player_pos
 var player_posX
 var player_posY
 
@@ -21,11 +23,7 @@ var player_posY
 
 #signals
 
-signal apple_collected
-signal carrot_collected
-signal cheese_collected
-signal jewelGreen_collected
-
+signal itemCollected
 signal enemyHit
 
 
@@ -65,6 +63,12 @@ signal bgTransition_finished
 var bgFile_previous = preload("res://Assets/Graphics/bg1.png")
 var bgFile_current = preload("res://Assets/Graphics/bg1.png")
 
+var bg_a_File_previous = preload("res://Assets/Graphics/bg1a.png")
+var bg_a_File_current = preload("res://Assets/Graphics/bg1a.png")
+
+var bg_b_File_previous = preload("res://Assets/Graphics/bg1b.png")
+var bg_b_File_current = preload("res://Assets/Graphics/bg1b.png")
+
 var bgOffset_target_x = 0
 var bgOffset_target_y = 0
 
@@ -74,3 +78,7 @@ var test2 = 0
 var test3 = 0
 var test4 = "none"
 
+
+
+
+var mode_timeAttack = false

@@ -66,9 +66,15 @@ var direction = 1
 var shooting = false
 
 
+var debugMovement = false
+
 
 
 func _ready():
+	Globals.player_pos = player.get_global_position()
+	Globals.player_posX = player.get_global_position()[0]
+	Globals.player_posY = player.get_global_position()[1]
+	
 	
 	Globals.saveState_loaded.connect(saveState_loaded)
 		
@@ -79,129 +85,131 @@ func _ready():
 	Events.shot_charged.connect(charged_effect)
 	Events.shot.connect(cancel_effect)
 	
-	Globals.player_posX = player.get_global_position()[0]
-	Globals.player_posY = player.get_global_position()[1]
+	
 
 
 
 #MAIN START
 
 func _process(delta):
-	direction = Input.get_axis("move_L", "move_R")
-	apply_gravity(delta)
-	handle_wall_jump()
-	handle_jump(delta)
-	
-	
-	if Input.is_action_just_pressed("attack_fast"):
-		var projectile_quick = scene_projectile_quick.instantiate()
-		add_child(projectile_quick)
+	if not debugMovement:
+		direction = Input.get_axis("move_L", "move_R")
+		apply_gravity(delta)
+		handle_wall_jump()
+		handle_jump(delta)
 		
-	
-	
-	if not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
-		shooting = true
-		shoot_anim_delay.start()
-		animated_sprite_2d.play("shoot")
-		if direction != 0:
-			animated_sprite_2d.flip_h = (direction < 0)
-	
-	
-	if direction != 0:
-		Globals.direction = direction
-	
-	handle_acceleration_direction(delta)
-	handle_air_acceleration(delta)
-	var was_in_air = not is_on_floor()
-	var was_on_floor = is_on_floor()
-	var was_on_wall = is_on_wall_only()
-	
-	if was_on_wall:
-		was_wall_normal = get_wall_normal()
 		
-	if not is_on_floor():
-		$idle_timer.stop()
-	
-	if Input.is_action_just_pressed("dash") and is_dashing == false and not crouch_walking and not crouching:
-		is_dashing = true
-		$dash_timer.start()
-		player_collision.shape.extents = Vector2(40, 20)
-		player_collision.position += Vector2(0, 32)
-		
-		player_hitbox.position += Vector2(0, 32)
-		player_hitbox.shape.extents = Vector2(40, 20)
-	
-	move_and_slide()
-	
-	#CROUCHING LOGIC
-	if is_on_floor():
-		if direction != 0:
-			animated_sprite_2d.flip_h = (direction < 0)
-		if Input.is_action_pressed("move_DOWN") and not crouch_walking and not crouchTimer:
-			crouch_walk_anim_delay.start()
-			crouch_walk_collision_switch.start()
-			crouching = true
-			crouchTimer = true
-			animated_sprite_2d.play("crouch")
-			
-			crouchMultiplier = 0.6
-			movement_data.SPEED = 400 * crouchMultiplier
+		if Input.is_action_just_pressed("attack_fast"):
+			var projectile_quick = scene_projectile_quick.instantiate()
+			add_child(projectile_quick)
 			
 		
-		if crouch_walking:
-			animated_sprite_2d.play("crouch_walk")
+		
+		if not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
+			shooting = true
+			shoot_anim_delay.start()
+			animated_sprite_2d.play("shoot")
+			if direction != 0:
+				animated_sprite_2d.flip_h = (direction < 0)
+		
+		
+		if direction != 0:
+			Globals.direction = direction
+		
+		handle_acceleration_direction(delta)
+		handle_air_acceleration(delta)
+		var was_in_air = not is_on_floor()
+		var was_on_floor = is_on_floor()
+		var was_on_wall = is_on_wall_only()
+		
+		if was_on_wall:
+			was_wall_normal = get_wall_normal()
+			
+		if not is_on_floor():
+			$idle_timer.stop()
+		
+		if Input.is_action_just_pressed("dash") and is_dashing == false and not crouch_walking and not crouching:
+			is_dashing = true
+			$dash_timer.start()
+			player_collision.shape.extents = Vector2(40, 20)
+			player_collision.position += Vector2(0, 32)
+			
+			player_hitbox.position += Vector2(0, 32)
+			player_hitbox.shape.extents = Vector2(40, 20)
+		
+		move_and_slide()
+		
+		#CROUCHING LOGIC
+		if is_on_floor():
+			if direction != 0:
+				animated_sprite_2d.flip_h = (direction < 0)
+			if Input.is_action_pressed("move_DOWN") and not crouch_walking and not crouchTimer:
+				crouch_walk_anim_delay.start()
+				crouch_walk_collision_switch.start()
+				crouching = true
+				crouchTimer = true
+				animated_sprite_2d.play("crouch")
+				
+				crouchMultiplier = 0.6
+				movement_data.SPEED = 400 * crouchMultiplier
+				
+			
+			if crouch_walking:
+				animated_sprite_2d.play("crouch_walk")
+				crouching = false
+				
+				crouchMultiplier = 0.4
+				movement_data.SPEED = 400.0 * crouchMultiplier
+				
+		
+		
+		if not Input.is_action_pressed("move_DOWN") and can_stand_up and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up and crouch_walking or not is_on_floor() and can_stand_up and crouch_walking:
+			player_collision.shape.extents = Vector2(20, 56)
+			player_collision.position = Vector2(0, 0)
+			
+			player_hitbox.shape.extents = Vector2(20, 56)
+			player_hitbox.position = Vector2(0, 0)
+			
+			
 			crouching = false
+			crouch_walking = false
+			crouch_walk_anim_delay.stop()
+			crouch_walk_collision_switch.stop()
+			movement_data.SPEED = 400.0
+			crouchMultiplier = 1
+			crouchTimer = false
 			
-			crouchMultiplier = 0.4
-			movement_data.SPEED = 400.0 * crouchMultiplier
+		
+		
+		var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
+		
+		if just_left_ledge:
+			jump_leniency.start()
 			
-	
-	
-	if not Input.is_action_pressed("move_DOWN") and can_stand_up and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up and crouch_walking or not is_on_floor() and can_stand_up and crouch_walking:
-		player_collision.shape.extents = Vector2(20, 56)
-		player_collision.position = Vector2(0, 0)
-		
-		player_hitbox.shape.extents = Vector2(20, 56)
-		player_hitbox.position = Vector2(0, 0)
+			
 		
 		
-		crouching = false
-		crouch_walking = false
-		crouch_walk_anim_delay.stop()
-		crouch_walk_collision_switch.stop()
-		movement_data.SPEED = 400.0
-		crouchMultiplier = 1
-		crouchTimer = false
+		var just_left_wall = was_on_wall and not is_on_wall()
 		
-	
-	
-	var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
-	
-	if just_left_ledge:
-		jump_leniency.start()
+		if just_left_wall:
+			wall_jump_leniency.start()
 		
-	if Input.is_action_just_pressed("ui_cancel"):
-		movement_data = preload("res://fasterMovementData.tres")
-	
-	var just_left_wall = was_on_wall and not is_on_wall()
-	
-	if just_left_wall:
-		wall_jump_leniency.start()
-	
-	
-	
-	apply_friction(delta)
-	apply_air_slowdown(delta)
-	
-	update_anim()
-	Globals.player_posX = player.get_global_position()[0]
-	Globals.player_posY = player.get_global_position()[1]
-	
-	just_wall_jumped = false
-	
-	if velocity.y == 0 and is_on_floor() and was_in_air and not shooting and not crouch_walking and not crouching:
-		animated_sprite_2d.play("idle")
-	
+		
+		
+		apply_friction(delta)
+		apply_air_slowdown(delta)
+		
+		update_anim()
+		
+		Globals.player_pos = player.get_global_position()
+		Globals.player_posX = player.get_global_position()[0]
+		Globals.player_posY = player.get_global_position()[1]
+		
+		just_wall_jumped = false
+		
+		if velocity.y == 0 and is_on_floor() and was_in_air and not shooting and not crouch_walking and not crouching:
+			animated_sprite_2d.play("idle")
+		
 	
 	
 	
@@ -245,7 +253,37 @@ func _process(delta):
 			
 		else:
 			zoomValue = 1
-
+			
+			
+	
+	
+	#DEBUG
+	
+	if not debugMovement and Input.is_action_just_pressed("ui_cancel"):
+		#movement_data = preload("res://fasterMovementData.tres")
+		debugMovement = true
+		
+	elif debugMovement and Input.is_action_just_pressed("ui_cancel"):
+		#movement_data = preload("res://fasterMovementData.tres")
+		debugMovement = false
+		
+		
+	
+	if debugMovement:
+		
+		if Input.is_action_pressed("move_R"):
+			global_position.x += 40
+		
+		if Input.is_action_pressed("move_L"):
+			global_position.x -= 40
+		
+		if Input.is_action_pressed("move_UP"):
+			global_position.y -= 40
+		
+		if Input.is_action_pressed("move_DOWN"):
+			global_position.y += 40
+	
+	
 #MAIN END
 
 
@@ -522,9 +560,8 @@ func _on_player_hitbox_main_area_entered(area):
 	#SAVE END
 	
 	
-	if area.is_in_group("bgmove"):
+	elif area.is_in_group("bgMove_area"):
 		get_parent().bgMove_growthSpeed = 1
-		print(get_parent().bgMove_growthSpeed)
 	
 
 

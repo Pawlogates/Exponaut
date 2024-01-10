@@ -82,13 +82,11 @@ layer = 30
 
 [node name="Level Finished" parent="HUD" instance=ExtResource("6_mgn80")]
 unique_name_in_owner = true
-process_mode = 4
 visible = false
 metadata/_edit_use_anchors_ = true
 
 [node name="StartInContainer" type="ColorRect" parent="HUD"]
 unique_name_in_owner = true
-process_mode = 4
 visible = false
 anchors_preset = 15
 anchor_right = 1.0
@@ -135,8 +133,8 @@ theme = ExtResource("5_ay58j")
 text = "time"
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 5
-visible_ratio = 1.25
+visible_characters = 0
+visible_ratio = 0.0
 
 [node name="CenterContainerHealth" type="CenterContainer" parent="HUD"]
 anchors_preset = 1

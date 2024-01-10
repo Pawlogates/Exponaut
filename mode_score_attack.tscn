@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvvuh1tlyahup"]
+
+[ext_resource type="Script" path="res://mode_scoreAttack.gd" id="1_q63rt"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="2_0yjpv"]
+
+[node name="mode_scoreAttack" type="CharacterBody2D"]
+script = ExtResource("1_q63rt")
+
+[node name="scoreAttack_penaltyMultiplier" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="scoreAttack_timeLeft_reduction" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="scoreAttack_timeLeft_display" type="Label" parent="."]
+unique_name_in_owner = true
+offset_right = 416.0
+offset_bottom = 192.0
+theme = ExtResource("2_0yjpv")
+text = "test"
+
+[connection signal="timeout" from="scoreAttack_penaltyMultiplier" to="." method="_on_score_attack_penalty_multiplier_timeout"]
+[connection signal="timeout" from="scoreAttack_timeLeft_reduction" to="." method="_on_score_attack_time_left_reduction_timeout"]

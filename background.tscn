@@ -1,17 +1,17 @@
-[gd_scene load_steps=10 format=3 uid="uid://qvxb24kyh4pu"]
+[gd_scene load_steps=14 format=3 uid="uid://qvxb24kyh4pu"]
 
-[ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/bg1.png" id="1_8apbw"]
 [ext_resource type="Script" path="res://background.gd" id="1_gwj4p"]
+[ext_resource type="Texture2D" uid="uid://dlgroumdkvx8t" path="res://Assets/Graphics/bg5.png" id="2_1ycxj"]
 [ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://deco_waterfall.tscn" id="2_30uck"]
-[ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/bg1a.png" id="2_linep"]
 [ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/bg1b.png" id="3_qdcue"]
+[ext_resource type="Texture2D" uid="uid://b6ykdc8w7hpm2" path="res://Assets/Graphics/bg5a.png" id="5_62w3a"]
 
 [sub_resource type="Animation" id="Animation_03oew"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_main/TextureRect:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -20,6 +20,62 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/bg/bg_a:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/bg/bg_main:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_vh0kr"]
+resource_name = "bg_a_hide"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/bg/bg_a:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qlg7v"]
+resource_name = "bg_a_show"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/bg/bg_a:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_70ixk"]
 resource_name = "bg_hide"
@@ -27,11 +83,43 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_main/TextureRect:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg/bg_main:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_w6w7v"]
+resource_name = "bg_b_show"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_rihoq"]
+resource_name = "bg_b_hide"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -43,7 +131,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_main/TextureRect:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg/bg_main:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -56,6 +144,10 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u4m3j"]
 _data = {
 "RESET": SubResource("Animation_03oew"),
+"bg_a_hide": SubResource("Animation_vh0kr"),
+"bg_a_show": SubResource("Animation_qlg7v"),
+"bg_b_hide": SubResource("Animation_rihoq"),
+"bg_b_show": SubResource("Animation_w6w7v"),
 "bg_hide": SubResource("Animation_70ixk"),
 "bg_show": SubResource("Animation_hukmv")
 }
@@ -74,6 +166,18 @@ libraries = {
 unique_name_in_owner = true
 one_shot = true
 
+[node name="bg_a_transition" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_u4m3j")
+}
+
+[node name="bg_b_transition" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_u4m3j")
+}
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="bg" type="ParallaxBackground" parent="CanvasLayer"]
@@ -85,11 +189,11 @@ motion_scale = Vector2(0.75, 0.25)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_main"]
-texture_repeat = 3
-offset_top = -2300.0
+offset_top = -1400.0
 offset_right = 1920.0
 offset_bottom = 940.0
-texture = ExtResource("1_8apbw")
+texture = ExtResource("2_1ycxj")
+stretch_mode = 4
 
 [node name="waterfall2" type="ParallaxLayer" parent="CanvasLayer/bg"]
 modulate = Color(1, 1, 1, 0.4)
@@ -460,7 +564,9 @@ texture_repeat = 3
 offset_top = 100.0
 offset_right = 1920.0
 offset_bottom = 960.0
-texture = ExtResource("2_linep")
+texture = ExtResource("5_62w3a")
 
 [connection signal="animation_finished" from="bg_transition" to="." method="_on_bg_transition_animation_finished"]
 [connection signal="timeout" from="bg_transition/bg_transition_buffer_delay" to="." method="_on_bg_transition_buffer_delay_timeout"]
+[connection signal="animation_finished" from="bg_a_transition" to="." method="_on_bg_transition_animation_finished"]
+[connection signal="animation_finished" from="bg_b_transition" to="." method="_on_bg_transition_animation_finished"]

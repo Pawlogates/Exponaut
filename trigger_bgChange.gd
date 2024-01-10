@@ -14,6 +14,8 @@ func _process(_delta):
 
 
 @export var Background_filePath = preload("res://Assets/Graphics/bg1.png")
+@export var Background_a_filePath = preload("res://Assets/Graphics/bg1a.png")
+@export var Background_b_filePath = preload("res://Assets/Graphics/bg1b.png")
 
 func _on_area_entered(area):
 	if area.name == "Player_hitbox_main":
@@ -22,3 +24,15 @@ func _on_area_entered(area):
 			
 			Globals.bgFile_current = self.Background_filePath
 			Globals.bgChange_entered.emit()
+		
+		
+		Globals.bg_a_File_previous = Globals.bg_a_File_current
+		if Globals.bg_a_File_current != self.Background_a_filePath:
+			
+			Globals.bg_a_File_current = self.Background_a_filePath
+		
+		
+		Globals.bg_b_File_previous = Globals.bg_b_File_current
+		if Globals.bg_b_File_current != self.Background_b_filePath:
+			
+			Globals.bg_b_File_current = self.Background_b_filePath

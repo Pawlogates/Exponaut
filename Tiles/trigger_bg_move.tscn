@@ -5,8 +5,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
 size = Vector2(64, 64)
 
-[node name="trigger_bgMove" type="Area2D"]
-collision_layer = 0
+[node name="trigger_bgMove" type="Area2D" groups=["bgMove_area"]]
+collision_layer = 4
 collision_mask = 2
 script = ExtResource("1_gf4s4")
 

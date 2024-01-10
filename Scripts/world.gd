@@ -20,6 +20,9 @@ extends Node2D
 
 var levelTime = 0
 var start_level_msec = 0.0
+var levelTime_visible = 0
+
+
 @onready var level_timeDisplay = %levelTime
 
 @onready var start_pos = global_position
@@ -30,12 +33,17 @@ var start_level_msec = 0.0
 @onready var tileset_objects_small = $tileset_objectsSmall
 
 
-
+var mode_timeAttack_manager = preload("res://mode_score_attack.tscn").instantiate()
 
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Globals.mode_timeAttack:
+		add_child(mode_timeAttack_manager)
+	
+	#%bg_current.queue_free()
+	#%bg_previous.queue_free()
 	#$tileset_objects.queue_free() #DEBUG
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	get_tree().paused = false
@@ -105,6 +113,8 @@ var debugToggle = false
 
 
 
+
+var scoreAttack_timeLeft
 var quickLoad_blocked = true
 
 #MAIN START
@@ -116,9 +126,22 @@ func _physics_process(delta):
 	test3.text = str("number of people who asked: ", Globals.test3)
 	test4.text = str("current active loading zone: ", Globals.test4)
 	
-	levelTime = Time.get_ticks_msec() - start_level_msec
-	level_timeDisplay.text = str(levelTime / 1000.0)
 	
+	levelTime = Time.get_ticks_msec() - start_level_msec
+	levelTime_visible = levelTime / 1000.0
+	level_timeDisplay.text = str(levelTime_visible)
+	
+	if levelTime_visible > 10000:
+		level_timeDisplay.visible_characters = 6
+	elif levelTime_visible > 1000:
+		level_timeDisplay.visible_characters = 5
+	elif levelTime_visible > 100:
+		level_timeDisplay.visible_characters = 4
+	elif levelTime_visible > 10:
+		level_timeDisplay.visible_characters = 3
+	else:
+		level_timeDisplay.visible_characters = 2
+		
 	
 	if Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
 		quickLoad_blocked = true
@@ -153,12 +176,31 @@ func _physics_process(delta):
 		
 		%bg_current/CanvasLayer/bg.offset.x = move_toward(%bg_current/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x, 100 * bgMove_growthSpeed * delta)
 		%bg_current/CanvasLayer/bg.offset.y = move_toward(%bg_current/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
-		bgMove_growthSpeed *= 0.99
+		
+		#bg_a
+		
+		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x * 3, 250 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y * 3, 450 * bgMove_growthSpeed * delta)
+		
+		%bg_current/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x * 3, 250 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y * 3, 450 * bgMove_growthSpeed * delta)
+		
+		#bg_b
+		
+		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x * 2.15, 200 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y * 2.15, 350 * bgMove_growthSpeed * delta)
+		
+		%bg_current/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x * 2.15, 200 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y * 2.15, 350 * bgMove_growthSpeed * delta)
+		
+
+		
+		bgMove_growthSpeed *= 0.995
 		bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.05, 1)
 		
 		print(50 * bgMove_growthSpeed * delta)
 		
-		if bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y:
+		if bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.y == Globals.bgOffset_target_y:
 			bg_position_set = true
 			bgMove_growthSpeed = 1
 			bgMove_started = false
@@ -200,20 +242,20 @@ func _physics_process(delta):
 
 func reduceHp1():
 	Globals.playerHP -= 1
-	health_display.text = str(Globals.playerHP)
+	health_display.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		retry()
 	
 
 func reduceHp2():
 	Globals.playerHP -= 2
-	health_display.text = str(Globals.playerHP)
+	health_display.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		retry()
 
 func reduceHp3():
 	Globals.playerHP -= 3
-	health_display.text = str(Globals.playerHP)
+	health_display.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		retry()
 
@@ -287,13 +329,21 @@ func bg_change():
 		bg_free_to_change = false
 		#print("BG CHANGE STARTED")
 		%bg_previous/bg_transition.play("bg_hide")
+		%bg_previous/bg_a_transition.play("bg_a_hide")
+		%bg_previous/bg_b_transition.play("bg_b_hide")
 		
 		%bg_current/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bgFile_current
+		%bg_current/CanvasLayer/bg/bg_a/TextureRect.texture = Globals.bg_a_File_current
+		%bg_current/CanvasLayer/bg/bg_b/TextureRect.texture = Globals.bg_b_File_current
+		
 		%bg_current/bg_transition.play("bg_show")
+		%bg_current/bg_a_transition.play("bg_a_show")
+		%bg_current/bg_b_transition.play("bg_b_show")
 		
 		%bg_current.name = "bg_TEMP"
 		%bg_previous.name = "bg_current"
 		%bg_TEMP.name = "bg_previous"
+		
 		
 		await Globals.bgTransition_finished
 		bg_free_to_change = true
@@ -302,7 +352,7 @@ func bg_change():
 
 
 var bg_position_set = true
-var bgMove_growthSpeed = 0.1
+var bgMove_growthSpeed = 1
 var bgMove_started = false
 
 func bg_move():
