@@ -1,10 +1,12 @@
-[gd_scene load_steps=41 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=43 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b1wgp"]
 [ext_resource type="Resource" uid="uid://7ohqgqkvih67" path="res://defaultMovementData.tres" id="2_22q7a"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/Sprites_player.png" id="4_0pok8"]
-[ext_resource type="AudioStream" uid="uid://cmjcinnwd2nbu" path="res://Assets/Sounds/sfx/p_damage.wav" id="5_hcfbh"]
-[ext_resource type="AudioStream" uid="uid://c8h4j4lx8a1sp" path="res://Assets/Sounds/sfx/tennis.wav" id="6_kw0xd"]
+[ext_resource type="AudioStream" uid="uid://c4abnorpa10f6" path="res://Assets/Sounds/sfx/rooster_damage.wav" id="4_aj6ys"]
+[ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_jwqoa"]
+[ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="6_hh6re"]
+[ext_resource type="AudioStream" uid="uid://cdct8pvtgedke" path="res://Assets/Sounds/sfx/rooster_death.wav" id="7_fxiqb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
 size = Vector2(40, 112)
@@ -238,7 +240,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q480c"]
-size = Vector2(64, 112)
+size = Vector2(48, 112)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ct51a"]
 size = Vector2(32, 80)
@@ -368,7 +370,7 @@ wait_time = 0.25
 one_shot = true
 
 [node name="jump_leniency" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.15
 one_shot = true
 
 [node name="wallJump_leniency" type="Timer" parent="."]
@@ -381,13 +383,15 @@ position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 
 [node name="Player_hitbox_tileDetection" type="Area2D" parent="."]
+input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_tileDetection"]
 shape = SubResource("RectangleShape2D_q480c")
 
-[node name="Player_hitbox_main" type="Area2D" parent="."]
+[node name="Player_hitbox_main" type="Area2D" parent="." groups=["player"]]
 collision_layer = 2
 collision_mask = 7
+input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_main"]
 shape = SubResource("RectangleShape2D_ct51a")
@@ -409,16 +413,16 @@ wait_time = 0.1
 one_shot = true
 
 [node name="damage" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_hcfbh")
+stream = ExtResource("4_aj6ys")
 
 [node name="jump" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_kw0xd")
+stream = ExtResource("5_jwqoa")
 
 [node name="wall_jump" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_hcfbh")
+stream = ExtResource("6_hh6re")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_hcfbh")
+stream = ExtResource("7_fxiqb")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -429,7 +433,7 @@ libraries = {
 wait_time = 0.1
 one_shot = true
 
-[node name="DEBUG test refresh" type="Timer" parent="."]
+[node name="DEBUG refresh" type="Timer" parent="."]
 wait_time = 3.0
 autostart = true
 
@@ -445,4 +449,4 @@ autostart = true
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_delay" to="." method="_on_dash_end_slowdown_timeout"]
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_active" to="." method="_on_dash_end_slowdown_active_timeout"]
 [connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
-[connection signal="timeout" from="DEBUG test refresh" to="." method="_on_debug_test_refresh_timeout"]
+[connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]

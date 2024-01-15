@@ -15,7 +15,7 @@ extends Node2D
 
 @onready var health_display = %health
 
-@export var playerStartHP = 50
+@export var playerStartHP = 15
 
 
 var levelTime = 0
@@ -41,6 +41,9 @@ var mode_timeAttack_manager = preload("res://mode_score_attack.tscn").instantiat
 func _ready():
 	if Globals.mode_timeAttack:
 		add_child(mode_timeAttack_manager)
+		%music.stream = preload("res://Assets/Sounds/music/salad_ext.mp3")
+		%music.volume_db = -3
+		%music.play()
 	
 	#%bg_current.queue_free()
 	#%bg_previous.queue_free()
@@ -99,6 +102,9 @@ func _ready():
 	#get_tree().paused = false
 	
 	
+	
+	Globals.cheated_state = false
+	
 
 
 
@@ -120,27 +126,21 @@ var quickLoad_blocked = true
 #MAIN START
 
 func _physics_process(delta):
-	fps.text = str("fps: ", Engine.get_frames_per_second())
-	test.text = str("total persistent objects present: ", Globals.test)
-	test2.text = str("total objects queued for next reload: ", Globals.test2)
-	test3.text = str("number of people who asked: ", Globals.test3)
-	test4.text = str("current active loading zone: ", Globals.test4)
-	
 	
 	levelTime = Time.get_ticks_msec() - start_level_msec
 	levelTime_visible = levelTime / 1000.0
 	level_timeDisplay.text = str(levelTime_visible)
 	
 	if levelTime_visible > 10000:
-		level_timeDisplay.visible_characters = 6
+		level_timeDisplay.visible_characters = 7
 	elif levelTime_visible > 1000:
-		level_timeDisplay.visible_characters = 5
+		level_timeDisplay.visible_characters = 6
 	elif levelTime_visible > 100:
-		level_timeDisplay.visible_characters = 4
+		level_timeDisplay.visible_characters = 5
 	elif levelTime_visible > 10:
-		level_timeDisplay.visible_characters = 3
+		level_timeDisplay.visible_characters = 4
 	else:
-		level_timeDisplay.visible_characters = 2
+		level_timeDisplay.visible_characters = 3
 		
 	
 	if Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
@@ -149,7 +149,6 @@ func _physics_process(delta):
 		$QuickloadLimiter.start()
 		Globals.is_saving = true
 		
-		Globals.test3 = 0 #DEBUG
 		
 		await get_tree().create_timer(1.0, false).timeout
 		Globals.is_saving = false
@@ -161,7 +160,6 @@ func _physics_process(delta):
 		$QuickloadLimiter.start()
 		Globals.is_saving = true
 		
-		Globals.test3 = 0 #DEBUG
 		
 		await get_tree().create_timer(1.0, false).timeout
 		Globals.is_saving = false
@@ -198,7 +196,6 @@ func _physics_process(delta):
 		bgMove_growthSpeed *= 0.995
 		bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.05, 1)
 		
-		print(50 * bgMove_growthSpeed * delta)
 		
 		if bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.y == Globals.bgOffset_target_y:
 			bg_position_set = true
@@ -207,6 +204,12 @@ func _physics_process(delta):
 			
 		else:
 			bgMove_started = true
+	
+	
+	
+	if Input.is_action_just_pressed("restart"):
+		retry()
+	
 	
 	
 	
@@ -244,20 +247,23 @@ func reduceHp1():
 	Globals.playerHP -= 1
 	health_display.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
-		retry()
+		%Player/death.play()
+		retry_loadSave()
 	
 
 func reduceHp2():
 	Globals.playerHP -= 2
 	health_display.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
-		retry()
+		%Player/death.play()
+		retry_loadSave()
 
 func reduceHp3():
 	Globals.playerHP -= 3
 	health_display.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
-		retry()
+		%Player/death.play()
+		retry_loadSave()
 
 
 
@@ -278,11 +284,18 @@ func _on_exitReached_retry():
 	retry()
 
 
+
+
+
 func exitReached_show_screen():
-	level_finished.show()
-	level_finished.retry_btn.grab_focus()
+	if Globals.collected_collectibles >= 750:
+		level_finished.show()
+		level_finished.retry_btn.grab_focus()
+		
+		get_tree().paused = true
 	
-	get_tree().paused = true
+	else:
+		%message.text = str("you need at least 750 collectibles bud :pinched_fingers: :pinching_hand: and so far you've only got ", Globals.collected_collectibles)
 	
 
 
@@ -313,6 +326,15 @@ func retry():
 	Globals.collected_in_cycle = 0
 	
 	Globals.playerHP = playerStartHP
+
+
+
+func retry_loadSave():
+	await get_tree().create_timer(0.1, false).timeout
+	Globals.playerHP = playerStartHP
+	health_display.text = str("HP:", Globals.playerHP)
+	load_game()
+
 
 
 
@@ -365,6 +387,8 @@ func bg_move():
 func save_game():
 	if not Globals.is_saving:
 		Globals.is_saving = true
+		
+		await Globals.comboReset
 		
 		var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 		var save_nodes = get_tree().get_nodes_in_group("Persist")
@@ -438,7 +462,7 @@ func load_game():
 			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 
 			for i in node_data.keys():
-				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
+				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
 					continue
 				new_object.set(i, node_data[i])
 			
@@ -463,8 +487,7 @@ func load_game():
 
 func _on_quickload_limiter_timeout():
 	quickLoad_blocked = false
-	Globals.test3 = 1 #DEBUG
-
+	
 
 func saved_from_outside():
 	quickLoad_blocked = true
@@ -472,5 +495,21 @@ func saved_from_outside():
 	await get_tree().create_timer(0.2, false).timeout
 	save_game()
 	$QuickloadLimiter.start()
+
+
+
+
+
+
+
+
+
+
+func _on_debug_refresh_timeout():
+	fps.text = str("fps: ", Engine.get_frames_per_second())
+	test.text = str("total persistent objects present: ", Globals.test)
+	test2.text = str("total objects queued for next reload: ", Globals.test2)
+	test3.text = str("total collectibles: ", Globals.test3)
+	test4.text = str("current active loading zone: ", Globals.test4)
 	
-	Globals.test3 = 0 #DEBUG
+	%message.text = str(Globals.collected_collectibles)

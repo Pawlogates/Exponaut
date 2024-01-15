@@ -22,14 +22,24 @@ func _process(_delta):
 	if displayScore != Globals.level_score and Globals.level_score - displayScore > 25000:
 		displayScore += 250
 		
-		
+	
 	self.text = str(displayScore)
 	
+	
+	
+	if Globals.cheated_state == true:
+		self.text = str("cringe")
+		
+
+
 
 
 
 func _ready():
 	Globals.saveState_loaded.connect(score_correct)
+	
+	Globals.cheated.connect(cheated_replaceScore)
+	
 
 
 func score_correct():
@@ -37,3 +47,7 @@ func score_correct():
 	
 
 
+
+
+func cheated_replaceScore():
+	Globals.cheated_state = true

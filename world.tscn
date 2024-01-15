@@ -154,6 +154,25 @@ text = "hp"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="CenterContainerMessage" type="CenterContainer" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 64.0
+offset_top = -88.0
+offset_right = 192.0
+offset_bottom = -40.0
+grow_vertical = 0
+
+[node name="message" type="Label" parent="HUD/CenterContainerMessage"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+theme_override_font_sizes/font_size = 16
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="CenterContainerFps" type="CenterContainer" parent="HUD"]
 anchors_preset = -1
 anchor_left = 1.0
@@ -276,6 +295,11 @@ libraries = {
 [node name="QuickloadLimiter" type="Timer" parent="."]
 one_shot = true
 
+[node name="DEBUG refresh" type="Timer" parent="."]
+wait_time = 4.0
+autostart = true
+
 [connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
 [connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
 [connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]
+[connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]

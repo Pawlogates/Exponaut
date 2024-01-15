@@ -1,21 +1,10 @@
-extends CharacterBody2D
+extends enemy_basic
 
 
 const SPEED = 400.0
 const JUMP_VELOCITY = -600.0
 
-@onready var sprite = $AnimatedSprite2D
 
-@onready var attacking_timer = $AnimatedSprite2D/AttackingTimer
-@onready var attacked_timer = $AnimatedSprite2D/AttackedTimer
-
-
-@onready var particle_limiter = $particle_limiter
-
-@onready var hit = $hit
-@onready var death = $death
-
-@onready var enemy_frog = $"."
 
 @onready var start_pos = global_position
 
@@ -25,16 +14,7 @@ var frog_y
 var jumped = true
 var flying = false
 
-var hp = 10
 
-var starParticle_fastScene = preload("res://particles_starFast.tscn")
-var hit_effectScene = preload("res://hit_effect.tscn")
-var dead_effectScene = preload("res://dead_effect.tscn")
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-var direction = -1
 
 
 
@@ -80,9 +60,7 @@ func _on_jump_timer_timeout():
 	
 
 
-var attacked = false;
-var attacking = false;
-var dead = false;
+
 
 func _on_area_2d_area_entered(area):
 	if area.name == "Player_hitbox_main" and not dead:
@@ -157,26 +135,8 @@ func manage_animation():
 	
 
 
-func _on_attacking_timer_timeout():
-	attacking = false
 
 
-func _on_attacked_timer_timeout():
-	attacked = false
-
-
-
-
-var particle_buffer = false
-
-func _on_particle_limiter_timeout():
-	particle_buffer = false
-
-
-func _on_visible_on_screen_notifier_2d_screen_exited():
-	if dead:
-		queue_free()
-		
 
 
 
@@ -207,70 +167,21 @@ func _on_fly_end_timeout():
 
 
 func _ready():
-	add_to_group("loadingZone0")
-	
-	set_process(false)
-	set_physics_process(false)
-	
-	set_process_input(false)
-	set_process_internal(false)
-	set_process_unhandled_input(false)
-	set_process_unhandled_key_input(false)
-	
-	sprite.pause()
-	sprite.visible = false
-	$Area2D.set_monitorable(false)
-	
-	$CollisionShape2D.disabled = true
-	$AnimatedSprite2D/AttackingTimer.set_paused(true)
-	$AnimatedSprite2D/AttackedTimer.set_paused(true)
-	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	basic_onReady()
+	hp = 15
 
 
 
 
 
-
-#IS IN VISIBLE RANGE?
+#UNLOADING LOGIC
 
 func offScreen_unload():
-	set_process(false)
-	set_physics_process(false)
-	
-	set_process_input(false)
-	set_process_internal(false)
-	set_process_unhandled_input(false)
-	set_process_unhandled_key_input(false)
-	
-	sprite.pause()
-	sprite.visible = false
-	$Area2D.set_monitorable(false)
-	
-	$CollisionShape2D.disabled = true
-	$AnimatedSprite2D/AttackingTimer.set_paused(true)
-	$AnimatedSprite2D/AttackedTimer.set_paused(true)
-	$AnimatedSprite2D/DeadTimer.set_paused(true)
-
+	basic_offScreen_unload()
 
 
 func offScreen_load():
-	set_process(true)
-	set_physics_process(true)
-	
-	set_process_input(true)
-	set_process_internal(true)
-	set_process_unhandled_input(true)
-	set_process_unhandled_key_input(true)
-	
-	sprite.play()
-	sprite.visible = true
-	$Area2D.set_monitorable(true)
-	
-	$CollisionShape2D.disabled = false
-	$AnimatedSprite2D/AttackingTimer.set_paused(false)
-	$AnimatedSprite2D/AttackedTimer.set_paused(false)
-	$AnimatedSprite2D/DeadTimer.set_paused(false)
-
+	basic_offScreen_load()
 
 
 
@@ -278,8 +189,6 @@ func offScreen_load():
 
 
 #SAVE START
-
-@onready var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {

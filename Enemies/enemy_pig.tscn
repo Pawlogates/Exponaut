@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Enemies/enemy_pig.gd" id="1_2r6vt"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_ky0hj"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_lf7eb"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_t8e2e"]
+[ext_resource type="AudioStream" uid="uid://1ghx8flvsx4o" path="res://Assets/Sounds/sfx/pig_damage.wav" id="3_jla2o"]
+[ext_resource type="AudioStream" uid="uid://dlxotk6tqrgv4" path="res://Assets/Sounds/sfx/pig_death.wav" id="4_m73cs"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a2rf2"]
 atlas = ExtResource("2_ky0hj")
@@ -238,8 +238,6 @@ script = ExtResource("1_2r6vt")
 position = Vector2(0, 10)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
 animation = &"falling"
-frame = 4
-frame_progress = 1.0
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -253,11 +251,12 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 4)
@@ -281,10 +280,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_lf7eb")
+stream = ExtResource("3_jla2o")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_t8e2e")
+stream = ExtResource("4_m73cs")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -294,8 +293,9 @@ rect = Rect2(-500, -500, 1000, 1000)
 [node name="scanForPlayer" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
+input_pickable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
 position = Vector2(-320, 36)
 shape = SubResource("RectangleShape2D_2h4lu")
@@ -305,6 +305,7 @@ unique_name_in_owner = true
 wait_time = 0.5
 
 [node name="scanForLedge" type="RayCast2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(-32, 0)
 target_position = Vector2(0, 128)
 
@@ -316,7 +317,6 @@ target_position = Vector2(0, 128)
 [connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="area_entered" from="scanForPlayer" to="." method="_on_scan_for_player_area_entered"]
 [connection signal="area_exited" from="scanForPlayer" to="." method="_on_scan_for_player_area_exited"]

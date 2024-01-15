@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Enemies/enemy_hedgehog.gd" id="1_cdb05"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_ue3lu"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_bbnjs"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_8h67t"]
+[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_mc1wu"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_fex8l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tbyi6"]
 atlas = ExtResource("2_ue3lu")
@@ -100,11 +100,12 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 8)
@@ -123,10 +124,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_bbnjs")
+stream = ExtResource("3_mc1wu")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_8h67t")
+stream = ExtResource("4_fex8l")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -134,6 +135,7 @@ modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [node name="scanForLedge" type="RayCast2D" parent="."]
+unique_name_in_owner = true
 position = Vector2(-32, -8)
 target_position = Vector2(0, 88)
 
@@ -144,5 +146,4 @@ target_position = Vector2(0, 88)
 [connection signal="timeout" from="Timer" to="." method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

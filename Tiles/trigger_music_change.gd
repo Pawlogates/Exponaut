@@ -15,6 +15,7 @@ func _process(_delta):
 @export var music_file = preload("res://Assets/Sounds/music/tutorial_loop.mp3")
 
 func _on_area_entered(area):
-	if area.name == "Player_hitbox_main" and not %music.stream == music_file:
-		%music.stream = music_file
-		%music.playing = true
+	if not Globals.mode_timeAttack:
+		if area.name == "Player_hitbox_main" and not %music.stream == music_file:
+			%music.stream = music_file
+			%music.playing = true

@@ -70,6 +70,11 @@ var debugMovement = false
 
 
 
+
+
+var total_collectibles = 0
+
+
 func _ready():
 	Globals.player_pos = player.get_global_position()
 	Globals.player_posX = player.get_global_position()[0]
@@ -86,6 +91,10 @@ func _ready():
 	Events.shot.connect(cancel_effect)
 	
 	
+	
+	#total collectibles
+	await get_tree().create_timer(0.5, false).timeout
+	total_collectibles = get_tree().get_nodes_in_group("Collectibles").size()
 
 
 
@@ -128,14 +137,23 @@ func _process(delta):
 		if not is_on_floor():
 			$idle_timer.stop()
 		
-		if Input.is_action_just_pressed("dash") and is_dashing == false and not crouch_walking and not crouching:
+		
+		
+		#DASH LOGIC
+		
+		if Input.is_action_just_pressed("dash") and is_on_floor() and is_dashing == false and not crouch_walking and not crouching:
 			is_dashing = true
 			$dash_timer.start()
-			player_collision.shape.extents = Vector2(40, 20)
+			player_collision.shape.extents = Vector2(20, 20)
 			player_collision.position += Vector2(0, 32)
 			
 			player_hitbox.position += Vector2(0, 32)
-			player_hitbox.shape.extents = Vector2(40, 20)
+			player_hitbox.shape.extents = Vector2(20, 20)
+		
+		#DASH LOGIC END
+		
+		
+		
 		
 		move_and_slide()
 		
@@ -254,7 +272,12 @@ func _process(delta):
 		else:
 			zoomValue = 1
 			
-			
+	
+	
+	if Input.is_action_pressed("zoom_reset"):
+		$Camera2D.zoom.x = 1
+		$Camera2D.zoom.y = 1
+	
 	
 	
 	#DEBUG
@@ -262,6 +285,7 @@ func _process(delta):
 	if not debugMovement and Input.is_action_just_pressed("ui_cancel"):
 		#movement_data = preload("res://fasterMovementData.tres")
 		debugMovement = true
+		Globals.cheated.emit()
 		
 	elif debugMovement and Input.is_action_just_pressed("ui_cancel"):
 		#movement_data = preload("res://fasterMovementData.tres")
@@ -284,21 +308,39 @@ func _process(delta):
 			global_position.y += 40
 	
 	
+	
+	
+	
+	#STUCK IN WALL
+	
+	if not can_stand_up and Input.is_action_just_pressed("jump"):
+		position.y += 3
+		position.x += -3
+	
+	if not can_stand_up and velocity.y > 2000:
+		position.y += 30
+		position.x += -15
+	
+	
+	
+
+
 #MAIN END
+
+
+
+
 
 
 
 var zoomValue = 1
 
 
-
-
-
-
 var is_dashing = false
 var started_dash = false
 var speedBlockActive = false
 var dash_slowdown = false
+var wall_jump = false
 
 var scene_projectile_quick = preload("res://projectile_basic_quick.tscn")
 
@@ -326,10 +368,14 @@ func apply_gravity(delta):
 	if dash_end_slowdown:
 		velocity.x = move_toward(velocity.x, 0, 4000 * delta)
 	
+
+
+
 func handle_jump(delta):
 
-	if is_on_floor() or is_on_wall():
+	if is_on_floor(): #or is_on_wall():
 		air_jump = true
+		wall_jump = true
 	
 	if is_on_floor() or jump_leniency.time_left > 0.0:
 		
@@ -339,8 +385,7 @@ func handle_jump(delta):
 			jumpBuildVelocity_active = true
 	
 	if jumpBuildVelocity_active and Input.is_action_pressed("jump"):
-		velocity.y = move_toward(velocity.y, movement_data.JUMP_VELOCITY, 4500 * delta)
-		
+		velocity.y = move_toward(velocity.y, movement_data.JUMP_VELOCITY, 6000 * delta)
 	
 	elif not is_on_floor():
 		
@@ -351,7 +396,11 @@ func handle_jump(delta):
 			velocity.y = movement_data.JUMP_VELOCITY * 0.8
 			air_jump = false
 			jump.play()
-			
+		
+
+
+
+
 func handle_wall_jump():
 	if not is_on_wall_only() and wall_jump_leniency.time_left <= 0.0: return
 	var wall_normal = get_wall_normal()
@@ -360,19 +409,25 @@ func handle_wall_jump():
 		wall_normal = was_wall_normal
 	
 	
-	if Input.is_action_just_pressed("jump"):
+	if Input.is_action_just_pressed("jump") and wall_jump:
 		velocity.x = wall_normal.x * movement_data.SPEED / 2
 		velocity.y = movement_data.JUMP_VELOCITY
 		just_wall_jumped = true
+		wall_jump = false
 		
 		
 	
-	
+
+
+
 func apply_friction(delta):
 	if direction == 0:
 		velocity.x = move_toward(velocity.x, 0, movement_data.FRICTION * delta)
 		
-		
+
+
+
+
 func handle_acceleration_direction(delta):
 	
 	if not is_on_floor(): return
@@ -383,7 +438,11 @@ func handle_acceleration_direction(delta):
 		
 	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
 		velocity.x = velocity.x * 0.5
-		
+
+
+
+
+
 func handle_air_acceleration(delta):
 	
 	if is_on_floor(): return
@@ -422,26 +481,30 @@ func update_anim():
 			animated_sprite_2d.flip_h = (direction < 0)
 		
 		
-		
-		
+
+
+
 func idle_after_delay():
 	if $idle_timer.is_stopped():
 		
 		$idle_timer.start()
 		
 
+
+
 func _on_idle_timer_timeout():
 	if not is_dashing and not shooting and not crouch_walking and not crouching:
 		animated_sprite_2d.play("idle")
 		
-		
-		
-		
-		
+
+
+
+
 func apply_air_slowdown(delta):
 	if direction == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, movement_data.AIR_SLOWDOWN * delta)
 	
+
 
 func _on_dash_timer_timeout():
 	is_dashing = false
@@ -456,7 +519,7 @@ func _on_dash_timer_timeout():
 
 
 
-	
+
 func reduceHp1():
 	damage.play()
 	
@@ -497,9 +560,9 @@ func _on_crouch_walk_anim_delay_timeout():
 	crouchTimer = false
 
 func _on_crouch_walk_collision_switch_timeout():
-	player_collision.shape.extents = Vector2(40, 20)
+	player_collision.shape.extents = Vector2(20, 20)
 	player_collision.position += Vector2(0, 36)
-	player_hitbox.shape.extents = Vector2(40, 20)
+	player_hitbox.shape.extents = Vector2(20, 20)
 	player_hitbox.position += Vector2(0, 36)
 
 
@@ -538,13 +601,19 @@ func _on_dash_end_slowdown_active_timeout():
 
 
 
+
+
+var collected_collectibles = 0
+
+
 #DEBUG
 
-func _on_debug_test_refresh_timeout():
-	Globals.test = get_tree().get_nodes_in_group("Persist").size()
-	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size() + get_tree().get_nodes_in_group("loadingZone0").size()
+func debug_refresh():
+	Globals.test = get_tree().get_nodes_in_group("Persist").size() + get_tree().get_nodes_in_group("bonusBox").size()
+	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size() + get_tree().get_nodes_in_group("loadingZone4").size() + get_tree().get_nodes_in_group("loadingZone0").size()
+	Globals.test3 = get_tree().get_nodes_in_group("Collectibles").size()
+	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size()
 	Globals.test4 = Globals.loadingZone_current
-	
 
 #DEBUG END
 
@@ -570,7 +639,17 @@ func saveState_loaded():
 	$Camera2D.position_smoothing_enabled = false
 	await get_tree().create_timer(0.1, false).timeout
 	$Camera2D.position_smoothing_enabled = true
+	
+	player_collision.shape.extents = Vector2(20, 56)
+	player_collision.position = Vector2(0, 0)
+	
+	player_hitbox.shape.extents = Vector2(20, 56)
+	player_hitbox.position = Vector2(0, 0)
 
 
 
 
+
+
+func _on_debug_refresh_timeout():
+	debug_refresh()

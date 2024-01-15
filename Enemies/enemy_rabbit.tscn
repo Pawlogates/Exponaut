@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Enemies/enemy_rabbit.gd" id="1_gbuos"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_f8ojv"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_kgqow"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_er5gx"]
+[ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="3_858qk"]
+[ext_resource type="AudioStream" uid="uid://d0q7oj4n6rdh1" path="res://Assets/Sounds/sfx/rabbit_death.wav" id="4_ptd0t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6loau"]
 atlas = ExtResource("2_f8ojv")
@@ -202,12 +202,13 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 unique_name_in_owner = true
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 4)
@@ -231,10 +232,10 @@ wait_time = 0.05
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_kgqow")
+stream = ExtResource("3_858qk")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_er5gx")
+stream = ExtResource("4_ptd0t")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -244,8 +245,9 @@ rect = Rect2(-500, -500, 1000, 1000)
 [node name="scanForPlayer" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
+input_pickable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
 position = Vector2(-320, 4)
 shape = SubResource("RectangleShape2D_2h4lu")
@@ -258,7 +260,6 @@ shape = SubResource("RectangleShape2D_2h4lu")
 [connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="area_entered" from="scanForPlayer" to="." method="_on_scan_for_player_area_entered"]
 [connection signal="area_exited" from="scanForPlayer" to="." method="_on_scan_for_player_area_exited"]

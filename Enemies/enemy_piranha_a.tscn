@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Enemies/enemy_piranha_a.gd" id="1_cnee6"]
 [ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_h3b7h"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_m54wh"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_n54os"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_pvs1e"]
+[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_d83oo"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_yuska"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lkwqr"]
 shader = ExtResource("2_h3b7h")
@@ -129,9 +129,10 @@ size = Vector2(64, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h4lu"]
 size = Vector2(640, 48)
 
-[node name="enemyPiranha" type="CharacterBody2D" groups=["Persist", "enemies"]]
+[node name="enemyPiranha_a" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
+floor_max_angle = 0.523599
 script = ExtResource("1_cnee6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -152,11 +153,12 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_4klqh")
@@ -179,10 +181,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_n54os")
+stream = ExtResource("4_d83oo")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_pvs1e")
+stream = ExtResource("5_yuska")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -192,8 +194,9 @@ rect = Rect2(-500, -500, 1000, 1000)
 [node name="scanForPlayer" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
+input_pickable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
 position = Vector2(-320, 0)
 shape = SubResource("RectangleShape2D_2h4lu")
@@ -206,7 +209,6 @@ shape = SubResource("RectangleShape2D_2h4lu")
 [connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="area_entered" from="scanForPlayer" to="." method="_on_scan_for_player_area_entered"]
 [connection signal="area_exited" from="scanForPlayer" to="." method="_on_scan_for_player_area_exited"]

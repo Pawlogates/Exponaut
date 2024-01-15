@@ -1,37 +1,23 @@
-[gd_scene load_steps=18 format=3 uid="uid://ceppiucikm3xr"]
+[gd_scene load_steps=16 format=3 uid="uid://ceppiucikm3xr"]
 
 [ext_resource type="Script" path="res://Scripts/collectible_handleCollect.gd" id="1_n4yos"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_6xuoy"]
 [ext_resource type="AudioStream" uid="uid://bo45uwl5danjl" path="res://Assets/Sounds/sfx/collect_jewelBig.wav" id="3_pfsge"]
-[ext_resource type="Texture2D" uid="uid://bfxuxkhjpgcg0" path="res://Assets/Graphics/sprites/Sprites_square.png" id="3_we2vb"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_yuvvx"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_afge5"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_6m38p"]
-atlas = ExtResource("3_we2vb")
-region = Rect2(192, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5df35"]
-atlas = ExtResource("3_we2vb")
-region = Rect2(256, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xgq5p"]
-atlas = ExtResource("3_we2vb")
-region = Rect2(128, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_adsys"]
+atlas = ExtResource("2_6xuoy")
+region = Rect2(330, 725, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tm4hn"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_6m38p")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5df35")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xgq5p")
+"texture": SubResource("AtlasTexture_adsys")
 }],
 "loop": true,
-"name": &"jewel_anim",
+"name": &"anim",
 "speed": 5.0
 }]
 
@@ -139,6 +125,18 @@ tracks/8/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../collectedDisplayAnimAnchor:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-220, -80)]
 }
 
 [sub_resource type="Animation" id="Animation_wwvab"]
@@ -328,7 +326,7 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
+tracks/6/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -410,7 +408,7 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
+tracks/6/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -437,9 +435,8 @@ collision_mask = 2
 unique_name_in_owner = true
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_tm4hn")
-animation = &"jewel_anim"
-autoplay = "jewel_anim"
-frame_progress = 0.342251
+animation = &"anim"
+autoplay = "anim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true
@@ -489,10 +486,8 @@ libraries = {
 modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_apple_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
-[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_collectible_entered"]
-[connection signal="body_entered" from="Area2D" to="collectedDisplayAnimAnchor/collectedDisplay" method="_on_j_green_body_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
 [connection signal="animation_finished" from="collectedDisplayAnimAnchor/AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]

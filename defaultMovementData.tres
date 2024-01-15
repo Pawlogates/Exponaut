@@ -5,7 +5,7 @@
 [resource]
 script = ExtResource("1_arvyl")
 SPEED = 400.0
-JUMP_VELOCITY = -450.0
+JUMP_VELOCITY = -500.0
 ACCELERATION = 1200
 FRICTION = 1200
 AIR_SLOWDOWN = -400

@@ -3,8 +3,9 @@ extends Node2D
 
 func _ready():
 	
-	Globals.itemCollected.connect(collected_item_reset_combo_cycle)
+	Globals.itemCollected.connect(itemCollected_reset_combo_cycle)
 	Globals.enemyHit.connect(enemyHit_reset_combo_cycle)
+	
 
 
 
@@ -35,6 +36,8 @@ func reset_combo_tier():
 	
 	audio_stream_player.play()
 	
+	Globals.comboReset.emit()
+	
 	
 
 
@@ -51,12 +54,21 @@ func reset_combo_timer():
 
 
 
-func collected_item_reset_combo_cycle():
+
+func itemCollected_reset_combo_cycle():
 	check_combo_tier()
 	Globals.collected_in_cycle += 1
 	
 	reset_combo_timer()
 	
+
+
+func enemyHit_reset_combo_cycle():
+	check_combo_tier()
+	reset_combo_timer()
+
+
+
 
 
 
@@ -70,6 +82,8 @@ func _on_combo_cycle_timer_timeout():
 
 
 
-func enemyHit_reset_combo_cycle():
-	check_combo_tier()
-	reset_combo_timer()
+
+
+func _on_timer_timeout():
+	if Globals.collected_in_cycle == 0:
+		Globals.comboReset.emit()

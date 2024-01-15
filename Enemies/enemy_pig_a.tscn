@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Enemies/enemy_pig_a.gd" id="1_qpi1i"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_gx7e7"]
 [ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_q5i3a"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_8gqr1"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_oomcl"]
+[ext_resource type="AudioStream" uid="uid://1ghx8flvsx4o" path="res://Assets/Sounds/sfx/pig_damage.wav" id="4_kl23y"]
+[ext_resource type="AudioStream" uid="uid://dlxotk6tqrgv4" path="res://Assets/Sounds/sfx/pig_death.wav" id="5_7a53j"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_omepn"]
 shader = ExtResource("2_q5i3a")
@@ -232,7 +232,7 @@ size = Vector2(64, 96)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h4lu"]
 size = Vector2(640, 24)
 
-[node name="enemyPig" type="CharacterBody2D" groups=["Persist", "enemies"]]
+[node name="enemyPig_a" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_qpi1i")
@@ -257,11 +257,12 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 4)
@@ -285,10 +286,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_8gqr1")
+stream = ExtResource("4_kl23y")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_oomcl")
+stream = ExtResource("5_7a53j")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -298,8 +299,9 @@ rect = Rect2(-500, -500, 1000, 1000)
 [node name="scanForPlayer" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
+input_pickable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
 position = Vector2(-320, 36)
 shape = SubResource("RectangleShape2D_2h4lu")
@@ -317,7 +319,6 @@ autostart = true
 [connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="area_entered" from="scanForPlayer" to="." method="_on_scan_for_player_area_entered"]
 [connection signal="area_exited" from="scanForPlayer" to="." method="_on_scan_for_player_area_exited"]

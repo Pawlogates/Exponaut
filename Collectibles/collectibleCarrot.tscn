@@ -1,23 +1,23 @@
 [gd_scene load_steps=16 format=3 uid="uid://b3l8f8715wudj"]
 
 [ext_resource type="Script" path="res://Scripts/collectible_handleCollect.gd" id="1_gmake"]
-[ext_resource type="Texture2D" uid="uid://bfxuxkhjpgcg0" path="res://Assets/Graphics/sprites/Sprites_square.png" id="3_qhirc"]
-[ext_resource type="AudioStream" uid="uid://dkous7ntqpu10" path="res://Assets/Sounds/sfx/collect3.wav" id="3_y7loo"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_ja0ke"]
+[ext_resource type="AudioStream" uid="uid://by1ctnoy7wy83" path="res://Assets/Sounds/sfx/collect5.wav" id="3_fwg6q"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_fjkh1"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_w6tm7"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ptjan"]
-atlas = ExtResource("3_qhirc")
-region = Rect2(256, 0, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_jeemi"]
+atlas = ExtResource("2_ja0ke")
+region = Rect2(535, 491, 36, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tm4hn"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ptjan")
+"texture": SubResource("AtlasTexture_jeemi")
 }],
 "loop": true,
-"name": &"jewel_anim",
+"name": &"anim",
 "speed": 5.0
 }]
 
@@ -253,7 +253,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(-220, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/1/type = "bezier"
@@ -264,7 +264,7 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(-80, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/2/type = "bezier"
@@ -314,7 +314,7 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
+tracks/6/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -396,12 +396,12 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
+tracks/6/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(5, -0.25, 0, 0.25, 0, 32, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(5, -0.25, 0, 0.25, 0, 24, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5)
 }
 
@@ -412,7 +412,6 @@ _data = {
 }
 
 [node name="carrot" type="Node2D" groups=["Persist"]]
-scale = Vector2(0.85, 0.85)
 script = ExtResource("1_gmake")
 collectibleScoreValue = 30
 
@@ -424,9 +423,8 @@ collision_mask = 2
 unique_name_in_owner = true
 position = Vector2(0, -24)
 sprite_frames = SubResource("SpriteFrames_tm4hn")
-animation = &"jewel_anim"
-autoplay = "jewel_anim"
-frame_progress = 0.714114
+animation = &"anim"
+autoplay = "anim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true
@@ -434,7 +432,7 @@ shape = SubResource("CircleShape2D_7n505")
 
 [node name="collect1" type="AudioStreamPlayer2D" parent="Area2D"]
 unique_name_in_owner = true
-stream = ExtResource("3_y7loo")
+stream = ExtResource("3_fwg6q")
 volume_db = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D"]
@@ -450,8 +448,10 @@ wait_time = 4.0
 
 [node name="collectedDisplayAnimAnchor" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
-offset_right = 440.0
-offset_bottom = 160.0
+offset_left = -220.0
+offset_top = -80.0
+offset_right = 220.0
+offset_bottom = 80.0
 color = Color(1, 1, 1, 0)
 
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
@@ -476,10 +476,8 @@ libraries = {
 modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_apple_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
-[connection signal="body_entered" from="Area2D" to="Area2D" method="_on_collectible_entered"]
-[connection signal="body_entered" from="Area2D" to="collectedDisplayAnimAnchor/collectedDisplay" method="_on_carrot_body_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
 [connection signal="animation_finished" from="collectedDisplayAnimAnchor/AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]

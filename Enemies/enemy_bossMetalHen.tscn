@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Enemies/enemy_bossMetalHen.gd" id="1_uw6vv"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_i4wkj"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_ld2fy"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_ywy5t"]
+[ext_resource type="AudioStream" uid="uid://dktvinfcsfjdf" path="res://Assets/Sounds/sfx/robot_damage.wav" id="3_tkw8o"]
+[ext_resource type="AudioStream" uid="uid://bh4ltljsggx0d" path="res://Assets/Sounds/sfx/effect_explosion2.wav" id="4_fmm6y"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_efqsc"]
 atlas = ExtResource("2_i4wkj")
@@ -112,11 +112,12 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 8)
@@ -134,10 +135,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_ld2fy")
+stream = ExtResource("3_tkw8o")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_ywy5t")
+stream = ExtResource("4_fmm6y")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -161,7 +162,6 @@ one_shot = true
 [connection signal="timeout" from="jumpTimer" to="." method="_on_jump_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="timeout" from="flyCooldown" to="." method="_on_fly_cooldown_timeout"]
 [connection signal="timeout" from="flyEnd" to="." method="_on_fly_end_timeout"]

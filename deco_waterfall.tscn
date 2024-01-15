@@ -62,7 +62,6 @@ z_index = -2
 sprite_frames = SubResource("SpriteFrames_mwqpd")
 autoplay = "default"
 frame_progress = 0.25992
-speed_scale = 2.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -14,4 +14,9 @@ autostart = true
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_h4ctp")
 
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
 [connection signal="timeout" from="combo_cycle_timer" to="." method="_on_combo_cycle_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

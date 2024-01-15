@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b2vmuqx3rs6io"
+path="res://.godot/imported/Rayman 3 - The Tower of the Leptys Soundscape (Part 1).mp3-897b3cd04d7d014ca0cd0225611e2f86.mp3str"
+
+[deps]
+
+source_file="res://Assets/Sounds/music/Rayman 3 - The Tower of the Leptys Soundscape (Part 1).mp3"
+dest_files=["res://.godot/imported/Rayman 3 - The Tower of the Leptys Soundscape (Part 1).mp3-897b3cd04d7d014ca0cd0225611e2f86.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

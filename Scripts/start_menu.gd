@@ -4,6 +4,7 @@ extends CenterContainer
 @onready var time_attack_mode_btn = %"Time Attack Mode"
 @onready var quit_btn = %Quit
 
+@onready var startScene = preload("res://Levels/level1.tscn")
 
 
 func _ready():
@@ -33,5 +34,5 @@ func _on_time_attack_mode_pressed():
 
 func start_game():
 	await LevelTransition.fade_to_black()
-	get_tree().change_scene_to_packed(preload("res://Levels/level1.tscn"))
+	get_tree().change_scene_to_packed(startScene)
 	LevelTransition.fade_from_black()

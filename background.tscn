@@ -1,10 +1,10 @@
 [gd_scene load_steps=14 format=3 uid="uid://qvxb24kyh4pu"]
 
 [ext_resource type="Script" path="res://background.gd" id="1_gwj4p"]
-[ext_resource type="Texture2D" uid="uid://dlgroumdkvx8t" path="res://Assets/Graphics/bg5.png" id="2_1ycxj"]
 [ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://deco_waterfall.tscn" id="2_30uck"]
+[ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/bg1.png" id="2_rc4at"]
 [ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/bg1b.png" id="3_qdcue"]
-[ext_resource type="Texture2D" uid="uid://b6ykdc8w7hpm2" path="res://Assets/Graphics/bg5a.png" id="5_62w3a"]
+[ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/bg1a.png" id="5_sn8j5"]
 
 [sub_resource type="Animation" id="Animation_03oew"]
 length = 0.001
@@ -77,17 +77,17 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_70ixk"]
-resource_name = "bg_hide"
-length = 4.0
+[sub_resource type="Animation" id="Animation_rihoq"]
+resource_name = "bg_b_hide"
+length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_main:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 4),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -109,17 +109,17 @@ tracks/0/keys = {
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
-[sub_resource type="Animation" id="Animation_rihoq"]
-resource_name = "bg_b_hide"
-length = 2.0
+[sub_resource type="Animation" id="Animation_70ixk"]
+resource_name = "bg_hide"
+length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg/bg_main:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
+"times": PackedFloat32Array(0, 4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
@@ -192,14 +192,14 @@ motion_mirroring = Vector2(1920, 0)
 offset_top = -1400.0
 offset_right = 1920.0
 offset_bottom = 940.0
-texture = ExtResource("2_1ycxj")
+texture = ExtResource("2_rc4at")
 stretch_mode = 4
 
 [node name="waterfall2" type="ParallaxLayer" parent="CanvasLayer/bg"]
 modulate = Color(1, 1, 1, 0.4)
 position = Vector2(880, -768)
 scale = Vector2(0.2, 0.2)
-motion_scale = Vector2(0.9, 0.9)
+motion_scale = Vector2(0.9, 0.5)
 
 [node name="deco_waterfall" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
 modulate = Color(1, 1, 1, 0.352941)
@@ -444,7 +444,7 @@ offset_bottom = 526.0
 texture = ExtResource("3_qdcue")
 
 [node name="waterfall" type="ParallaxLayer" parent="CanvasLayer/bg"]
-motion_scale = Vector2(0.85, 0.85)
+motion_scale = Vector2(0.85, 0.5)
 
 [node name="deco_waterfall" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
 modulate = Color(1, 1, 1, 0.352941)
@@ -564,7 +564,7 @@ texture_repeat = 3
 offset_top = 100.0
 offset_right = 1920.0
 offset_bottom = 960.0
-texture = ExtResource("5_62w3a")
+texture = ExtResource("5_sn8j5")
 
 [connection signal="animation_finished" from="bg_transition" to="." method="_on_bg_transition_animation_finished"]
 [connection signal="timeout" from="bg_transition/bg_transition_buffer_delay" to="." method="_on_bg_transition_buffer_delay_timeout"]

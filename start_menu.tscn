@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=5 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_6004i"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="1_vyphu"]
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Themes/UI_theme.tres" id="3_md20h"]
+[ext_resource type="FontFile" uid="uid://b2dw8ahwf0e75" path="res://IMPACT.TTF" id="4_sxjop"]
 
 [node name="StartMenu" type="CenterContainer"]
 anchors_preset = 15
@@ -33,6 +35,62 @@ layout_mode = 2
 size_flags_horizontal = 0
 text = "Quit
 "
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+offset_left = 192.0
+offset_top = 64.0
+offset_right = 512.0
+offset_bottom = 512.0
+color = Color(0.207843, 0.435294, 1, 1)
+
+[node name="Label" type="Label" parent="CanvasLayer/ColorRect"]
+layout_mode = 0
+offset_right = 320.0
+offset_bottom = 448.0
+theme = ExtResource("3_md20h")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("4_sxjop")
+text = "Controls:
+Movement:    AWSD / arrow keys
+Jump:    Space / Z
+Attack:    Left click / X
+Dash:    Shift / C
+Restart:    R
+Quicksave: 1     Quickload: 2
+
+Hope you enjoy!
+(try understanding the scoring mechanics)
+
+
+Debug:
+Show debug info:    `
+Zoom out:    -
+Zoom in:    +
+Zoom reset:    0
+Debug movement:    ESC    ( invalidates score )"
+horizontal_alignment = 1
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer"]
+offset_left = 1472.0
+offset_top = 864.0
+offset_right = 1664.0
+offset_bottom = 960.0
+color = Color(0.905882, 0, 0.298039, 0.337255)
+
+[node name="Label" type="Label" parent="CanvasLayer/ColorRect2"]
+layout_mode = 0
+offset_right = 192.0
+offset_bottom = 96.0
+theme = ExtResource("3_md20h")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_fonts/font = ExtResource("4_sxjop")
+text = "Exponaut
+( v.0.3 - alpha )
+
+By:    Pawlogates"
+horizontal_alignment = 1
 
 [connection signal="pressed" from="VBoxContainer/StartGame" to="." method="_on_start_game_pressed"]
 [connection signal="pressed" from="VBoxContainer/Time Attack Mode" to="." method="_on_time_attack_mode_pressed"]

@@ -14,6 +14,9 @@ extends Node2D
 var projectile_shot = false
 var charged = false
 
+var damageValue = 1
+
+
 var started = false
 
 const FOLLOW_SPEED = 0.4
@@ -58,6 +61,7 @@ func _physics_process(_delta):
 			
 			
 	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Input.is_action_pressed("move_DOWN"):
+		damageValue = 3
 		started = true
 		charged_shot.visible = false
 		audio_stream_player_2d.play()
@@ -67,6 +71,7 @@ func _physics_process(_delta):
 		charged_shot_buffer.stop()
 	
 	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Globals.direction == 1:
+		damageValue = 3
 		started = true
 		charged_shot.visible = false
 		audio_stream_player_2d.play()
@@ -76,6 +81,7 @@ func _physics_process(_delta):
 		charged_shot_buffer.stop()
 		
 	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Globals.direction == -1:
+		damageValue = 3
 		started = true
 		charged_shot.visible = false
 		audio_stream_player_2d.play()
@@ -106,3 +112,19 @@ func _on_timer_timeout():
 
 func _on_animation_player_animation_finished(_shot_anim):
 	queue_free()
+
+
+
+
+
+
+
+
+var direction = 0
+
+func _on_animation_player_animation_started(anim_name):
+	if anim_name == "shot_animL" or anim_name == "shot_anim_CHARGED_L":
+		direction = -1
+		
+	elif anim_name == "shot_animR" or anim_name == "shot_anim_CHARGED_R":
+		direction = 1

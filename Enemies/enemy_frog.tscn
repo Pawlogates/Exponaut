@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" path="res://Enemies/enemy_frog.gd" id="1_42n7g"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_p5pto"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_n51wt"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_73w21"]
+[ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="3_cr62m"]
+[ext_resource type="AudioStream" uid="uid://0255vwcuk1kd" path="res://Assets/Sounds/sfx/frog_death.wav" id="4_nvevm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r68x5"]
 atlas = ExtResource("2_p5pto")
@@ -137,11 +137,12 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 8)
@@ -160,10 +161,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_n51wt")
+stream = ExtResource("3_cr62m")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_73w21")
+stream = ExtResource("4_nvevm")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -177,5 +178,4 @@ rect = Rect2(-500, -500, 1000, 1000)
 [connection signal="timeout" from="Timer" to="." method="_on_jump_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

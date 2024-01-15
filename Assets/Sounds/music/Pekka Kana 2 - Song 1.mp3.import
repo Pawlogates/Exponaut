@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/Pekka Kana 2 - Song 1.mp3-36ed6f83551574e67ff
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
 bpm=0
 beat_count=0

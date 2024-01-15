@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Enemies/enemy_hedgehog_a.gd" id="1_8mj8n"]
 [ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_12mik"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_p25x6"]
-[ext_resource type="AudioStream" uid="uid://dhynky8rqqjl3" path="res://Assets/Sounds/sfx/btn_slash.wav" id="3_ak0aj"]
-[ext_resource type="AudioStream" uid="uid://rh0kg1bylcom" path="res://Assets/Sounds/sfx/ko1.wav" id="4_ywjnq"]
+[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_w12nb"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_sf2fb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kqegy"]
 shader = ExtResource("2_12mik")
@@ -81,7 +81,7 @@ size = Vector2(56, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(20, 32)
 
-[node name="enemyHedgehog" type="CharacterBody2D" groups=["Persist", "enemies"]]
+[node name="enemyHedgehog_a" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_8mj8n")
@@ -104,11 +104,12 @@ one_shot = true
 wait_time = 0.75
 one_shot = true
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
 light_mask = 2
 visibility_layer = 2
-collision_layer = 4
+collision_layer = 6
 collision_mask = 2
+input_pickable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 8)
@@ -127,10 +128,10 @@ wait_time = 0.2
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_ak0aj")
+stream = ExtResource("4_w12nb")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_ywjnq")
+stream = ExtResource("5_sf2fb")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -144,5 +145,4 @@ rect = Rect2(-500, -500, 1000, 1000)
 [connection signal="timeout" from="Timer" to="." method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

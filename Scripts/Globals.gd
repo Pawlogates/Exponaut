@@ -34,6 +34,10 @@ signal playerHit3
 signal shot_charged
 
 
+signal comboReset
+
+signal can_stand_up
+
 
 #Save state
 
@@ -78,7 +82,11 @@ var test2 = 0
 var test3 = 0
 var test4 = "none"
 
+var collected_collectibles = 0
 
 
 
 var mode_timeAttack = false
+
+signal cheated
+var cheated_state = false
