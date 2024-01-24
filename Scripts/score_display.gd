@@ -8,19 +8,19 @@ func _process(_delta):
 		displayScore += 1
 		
 	if displayScore != Globals.level_score and Globals.level_score - displayScore <= 100 and Globals.level_score - displayScore > 10:
-		displayScore += 5
+		displayScore += 3
 	
 	if displayScore != Globals.level_score and Globals.level_score - displayScore <= 1000 and Globals.level_score - displayScore > 100:
-		displayScore += 15
+		displayScore += 11
 		
 	if displayScore != Globals.level_score and Globals.level_score - displayScore > 1000:
-		displayScore += 45
+		displayScore += 41
 		
 	if displayScore != Globals.level_score and Globals.level_score - displayScore > 10000:
-		displayScore += 125
+		displayScore += 121
 		
 	if displayScore != Globals.level_score and Globals.level_score - displayScore > 25000:
-		displayScore += 250
+		displayScore += 251
 		
 	
 	self.text = str(displayScore)

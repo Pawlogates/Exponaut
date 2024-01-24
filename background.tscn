@@ -185,7 +185,7 @@ scroll_ignore_camera_zoom = true
 
 [node name="bg_main" type="ParallaxLayer" parent="CanvasLayer/bg"]
 texture_repeat = 3
-motion_scale = Vector2(0.75, 0.25)
+motion_scale = Vector2(0.75, 0.2)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_main"]
@@ -193,7 +193,6 @@ offset_top = -1400.0
 offset_right = 1920.0
 offset_bottom = 940.0
 texture = ExtResource("2_rc4at")
-stretch_mode = 4
 
 [node name="waterfall2" type="ParallaxLayer" parent="CanvasLayer/bg"]
 modulate = Color(1, 1, 1, 0.4)
@@ -433,14 +432,15 @@ scale = Vector2(3, 3)
 
 [node name="bg_b" type="ParallaxLayer" parent="CanvasLayer/bg"]
 texture_repeat = 3
-motion_scale = Vector2(0.85, 0.55)
+motion_scale = Vector2(0.85, 0.45)
 motion_mirroring = Vector2(2560, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_b"]
+modulate = Color(1, 1, 1, 0.235294)
 texture_repeat = 3
 offset_top = 100.0
 offset_right = 2560.0
-offset_bottom = 526.0
+offset_bottom = 960.0
 texture = ExtResource("3_qdcue")
 
 [node name="waterfall" type="ParallaxLayer" parent="CanvasLayer/bg"]
@@ -556,7 +556,7 @@ position = Vector2(96, 1040)
 
 [node name="bg_a" type="ParallaxLayer" parent="CanvasLayer/bg"]
 texture_repeat = 3
-motion_scale = Vector2(0.95, 0.65)
+motion_scale = Vector2(0.95, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_a"]

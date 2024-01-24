@@ -2,12 +2,15 @@ class_name enemy_basic
 extends CharacterBody2D
 
 
-var starParticle_fastScene = preload("res://particles_starFast.tscn")
+var starParticle_fastScene = preload("res://particles_special_multiple.tscn")
 var starParticle_fast = starParticle_fastScene.instantiate()
 var hit_effectScene = preload("res://hit_effect.tscn")
 var hit_effect = hit_effectScene.instantiate()
 var dead_effectScene = preload("res://dead_effect.tscn")
 var dead_effect = dead_effectScene.instantiate()
+var hitDeath_effectScene = preload("res://hitDeath_effect.tscn")
+var hitDeath_effect = hitDeath_effectScene.instantiate()
+
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -17,7 +20,11 @@ var attacking = false;
 var dead = false;
 
 var hp = 7
+
 var direction = -1
+var direction_v = 1
+
+var can_turn = true
 
 
 @onready var sprite = $AnimatedSprite2D
@@ -33,6 +40,8 @@ var direction = -1
 
 var loadingZone = "loadingZone0"
 
+@onready var start_pos_x = global_position.x
+@onready var start_pos_y = global_position.y
 
 
 func _on_attacking_timer_timeout():
@@ -92,13 +101,16 @@ func basic_offScreen_load():
 	
 	sprite.play()
 	sprite.visible = true
-	$Area2D.set_monitorable(true)
 	
 	$CollisionShape2D.disabled = false
 	$AnimatedSprite2D/AttackingTimer.set_paused(false)
 	$AnimatedSprite2D/AttackedTimer.set_paused(false)
 	$AnimatedSprite2D/DeadTimer.set_paused(false)
-
+	
+	
+	await get_tree().create_timer(0.5, false).timeout
+	$Area2D.set_monitorable(true)
+	$Area2D.set_monitoring(true)
 
 
 func _on_area_2d_area_entered(area):
@@ -122,7 +134,10 @@ func _on_area_2d_area_entered(area):
 					direction = 0
 					sprite.play("dead")
 					death.play()
+					
+					add_child(hitDeath_effect)
 					add_child(dead_effect)
+					
 	
 	
 	
@@ -139,7 +154,6 @@ func _on_area_2d_area_entered(area):
 		
 		loadingZone = area.loadingZone_ID
 		add_to_group(loadingZone)
-		Globals.save.emit()
 		
 		#print("this object is in: ", loadingZone)
 
@@ -167,3 +181,13 @@ func basic_onReady():
 	$AnimatedSprite2D/AttackingTimer.set_paused(true)
 	$AnimatedSprite2D/AttackedTimer.set_paused(true)
 	$AnimatedSprite2D/DeadTimer.set_paused(true)
+
+
+
+
+
+func basic_sprite_flipDirection():
+	if direction == 1:
+		sprite.flip_h = false
+	else:
+		sprite.flip_h = true

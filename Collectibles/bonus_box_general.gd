@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 0.0
+const SPEED = 250.0
 
 
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
@@ -28,11 +28,11 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _physics_process(delta):
-	
 	if not is_on_floor() and not floating:
 		velocity.y += gravity * delta
 	
-	
+	if velocity.x != 0:
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 	
 	if not destroyed and not floating:
 		move_and_slide()
@@ -51,6 +51,8 @@ func _on_area_2d_area_entered(area):
 			%Node2D.rotation_degrees = rng.randf_range(-60.0, 30.0)
 			%AnimationPlayer.play("destroyed")
 			break_bonusBox.play()
+			
+			Globals.boxBroken.emit()
 		
 		
 		
@@ -62,7 +64,8 @@ func _on_area_2d_area_entered(area):
 			%Node2D.rotation_degrees = rng.randf_range(-60.0, 30.0)
 			%AnimationPlayer.play("destroyed")
 			break_bonusBox.play()
-		
+			
+			Globals.boxBroken.emit()
 	
 	
 	#SAVE START
@@ -78,7 +81,6 @@ func _on_area_2d_area_entered(area):
 		
 		loadingZone = area.loadingZone_ID
 		add_to_group(loadingZone)
-		Globals.save.emit()
 		
 		#print("this object is in: ", loadingZone)
 
@@ -119,7 +121,11 @@ func offScreen_load():
 	sprite.play()
 	sprite.visible = true
 	animation_player.active = true
+	
+	
+	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.set_monitorable(true)
+	$Area2D.set_monitoring(true)
 	
 	
 
@@ -139,7 +145,6 @@ func _ready():
 	sprite.visible = false
 	animation_player.active = false
 	$Area2D.set_monitorable(false)
-	
 
 
 

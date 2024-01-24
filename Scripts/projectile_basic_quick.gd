@@ -30,6 +30,9 @@ func _ready():
 	set_name.call_deferred("projectile_basic_quick")
 
 
+
+var can_collect = false
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	
@@ -46,6 +49,8 @@ func _physics_process(_delta):
 			shot_anim.play("shot_animDOWN")
 			projectile_basic_quick.visible = true
 			projectile_shot = true
+			
+			can_collect = true
 
 		elif Globals.direction == -1 and projectile_shot == false:
 				shot_anim.play("shot_animL")
@@ -69,6 +74,9 @@ func _physics_process(_delta):
 		shot_anim.play("shot_anim_CHARGED_DOWN")
 		Events.shot.emit()
 		charged_shot_buffer.stop()
+		
+		can_collect = true
+		
 	
 	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Globals.direction == 1:
 		damageValue = 3

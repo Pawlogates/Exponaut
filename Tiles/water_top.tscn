@@ -1,19 +1,20 @@
-[gd_scene load_steps=7 format=3 uid="uid://nyr7qjtu4enc"]
+[gd_scene load_steps=8 format=3 uid="uid://nyr7qjtu4enc"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_ojdt3"]
+[ext_resource type="Script" path="res://Tiles/water_top.gd" id="1_uw3y1"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wup6b"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8whj6"]
 atlas = ExtResource("1_ojdt3")
-region = Rect2(0, 320, 64, 64)
+region = Rect2(0, 384, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_45hng"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wup6b")
+"texture": SubResource("AtlasTexture_8whj6")
 }],
-"loop": true,
-"name": &"default",
+"loop": false,
+"name": &"loop",
 "speed": 0.0
 }]
 
@@ -54,15 +55,23 @@ _data = {
 "loop": SubResource("Animation_nh02v")
 }
 
-[node name="Node2D" type="Sprite2D"]
-position = Vector2(64, 0)
+[node name="water_top" type="Sprite2D"]
+script = ExtResource("1_uw3y1")
 
 [node name="water_top" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_45hng")
-autoplay = "default"
+animation = &"loop"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="water_top"]
 libraries = {
 "": SubResource("AnimationLibrary_4jlhx")
 }
 autoplay = "loop"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-48, -48)
+rect = Rect2(0, 0, 96, 96)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -7,8 +7,6 @@ const JUMP_VELOCITY = -250.0
 
 
 
-
-
 func _physics_process(delta):
 	if is_on_wall():
 		if direction == 1:
@@ -30,7 +28,10 @@ func _physics_process(delta):
 	
 	
 	manage_animation()
-	move_and_slide()
+	
+	
+	if not attacked:
+		move_and_slide()
 	
 
 

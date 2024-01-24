@@ -88,7 +88,7 @@ func _ready():
 		level_finished.next_level_btn.text = "Results"
 		next_level = preload("res://VictoryScreen.tscn")
 	
-	RenderingServer.set_default_clear_color(Color.SKY_BLUE)
+	RenderingServer.set_default_clear_color(Color.BLACK)
 	
 
 	#get_tree().paused = true
@@ -213,6 +213,8 @@ func _physics_process(delta):
 	
 	
 	
+	
+	
 	#DEBUG
 	
 	if Input.is_action_just_pressed("show_debugInfo"):
@@ -234,8 +236,33 @@ func _physics_process(delta):
 			debugToggle = true
 			get_tree().set_debug_collisions_hint(true) 
 	
+	
+	
+	
+	
+	if Input.is_action_just_pressed("night_toggle"):
+		if night_toggle:
+			night_toggle = false
+			%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
+			%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = preload("res://Assets/Graphics/bg3.png")
+		else:
+			night_toggle = true
+			%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
+			%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bgFile_current
+	
+	
+	
 
 #MAIN END
+
+
+var night_toggle = true
+
+
+
+
+
+
 
 
 
@@ -315,10 +342,15 @@ func go_to_next_level():
 
 
 func retry():
+	get_tree().call_group("enemies", "queue_free")
+	get_tree().call_group("collectibles", "queue_free")
+	get_tree().call_group("bonusBox", "queue_free")
+	get_tree().call_group("Persist", "queue_free")
 	
 	get_tree().paused = true
 	await LevelTransition.fade_to_black()
-	get_tree().change_scene_to_file(scene_file_path)
+	get_tree().reload_current_scene()
+	#get_tree().change_scene_to_file(scene_file_path)
 	
 	Globals.level_score = 0
 	Globals.combo_score = 0
@@ -413,11 +445,6 @@ func save_game():
 			
 		Globals.saved_player_posX = %Player.position.x
 		Globals.saved_player_posY = %Player.position.y
-		
-		Globals.saved_level_score = Globals.level_score
-		Globals.combo_score = 0
-		Globals.combo_tier = 1
-		Globals.collected_in_cycle = 0
 		
 		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
 		

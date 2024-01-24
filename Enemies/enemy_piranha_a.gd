@@ -8,7 +8,6 @@ const JUMP_VELOCITY = -250.0
 
 var projectile = preload("res://Enemies/projectile_pig.tscn")
 
-
 var direction_force = false
 
 
@@ -17,14 +16,13 @@ var direction_force = false
 #MAIN PROCESS
 
 func _physics_process(delta):
-	if is_on_wall():
-		if direction == 1:
-			direction = -1
-		else:
-			direction = 1
 
-
-
+	#if is_on_wall():
+		#if direction == 1:
+			#direction = -1
+		#else:
+			#direction = 1
+	
 	if not dead and direction == 1:
 		sprite.flip_h = false
 		%scanForPlayer_CollisionShape2D.position.x = 320
@@ -73,14 +71,17 @@ func _physics_process(delta):
 	
 	velocity.x = move_toward(velocity.x, direction * SPEED, 500 * delta)
 	
-	if dead or not spottedPlayer and abs(start_pos_x) - abs(global_position.x) <= 5 and not spottedPlayer and start_pos_x - global_position.x <= 5:
+	if dead or not spottedPlayer and abs(global_position.x - start_pos_x) <= 5:
 		velocity.x = 0
 		direction_force = true
 	
 	
 	
 	manage_animation()
-	move_and_slide()
+	
+	
+	if not attacked:
+		move_and_slide()
 	
 
 
@@ -129,12 +130,10 @@ func manage_animation():
 
 
 
-@onready var start_pos_x = global_position.x
-
 
 func _ready():
 	hp = 3
-	direction = 0
+	direction = 1
 	basic_onReady()
 	$scanForPlayer.monitoring = false
 	$scanForPlayer.monitorable = false
@@ -156,11 +155,14 @@ func offScreen_unload():
 
 
 func offScreen_load():
-	$scanForPlayer.monitoring = true
-	$scanForPlayer.monitorable = true
+	basic_offScreen_load()
 	%scanForPlayer_CollisionShape2D.disabled = false
 	%patrolDirectionTimer.set_paused(false)
 	%followDelay.set_paused(false)
+	
+	await get_tree().create_timer(0.5, false).timeout
+	$scanForPlayer.monitoring = true
+	$scanForPlayer.monitorable = true
 
 
 

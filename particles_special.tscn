@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://bdp8sfkqlaxla"]
+
+[ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/sprites/star.png" id="1_vo6vc"]
+[ext_resource type="Script" path="res://particles_special.gd" id="2_jfcg5"]
+
+[sub_resource type="Curve" id="Curve_4cgjw"]
+min_value = -360.0
+max_value = 360.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_2bg6d"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 0, 0, 0)
+
+[sub_resource type="Curve" id="Curve_064i6"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="particles_special" type="CPUParticles2D"]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.5
+local_coords = true
+draw_order = 1
+texture = ExtResource("1_vo6vc")
+emission_shape = 1
+emission_sphere_radius = 25.0
+direction = Vector2(0, -90)
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+angle_min = -360.0
+angle_max = 360.0
+angle_curve = SubResource("Curve_4cgjw")
+scale_amount_min = 0.3
+scale_amount_max = 0.6
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_max = 0.2
+hue_variation_curve = SubResource("Curve_064i6")
+script = ExtResource("2_jfcg5")

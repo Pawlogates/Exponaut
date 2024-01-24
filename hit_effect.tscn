@@ -183,23 +183,23 @@ _data = {
 "appear": SubResource("Animation_kvyt3")
 }
 
-[node name="Node2D" type="Sprite2D"]
+[node name="hit_effect" type="Node2D"]
+script = ExtResource("2_ja07t")
 
 [node name="hit_effect" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_oayyd")
 scale = Vector2(1e-05, 1e-05)
 texture = ExtResource("1_ns7c1")
 region_enabled = true
-region_rect = Rect2(768, 640, 192, 160)
-script = ExtResource("2_ja07t")
+region_rect = Rect2(792, 678, 200, 150)
 
 [node name="Timer" type="Timer" parent="hit_effect"]
 autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="hit_effect"]
-autoplay = "appear"
 libraries = {
 "": SubResource("AnimationLibrary_s4tu2")
 }
+autoplay = "appear"
 
-[connection signal="timeout" from="hit_effect/Timer" to="hit_effect" method="_on_timer_timeout"]
+[connection signal="timeout" from="hit_effect/Timer" to="." method="_on_timer_timeout"]

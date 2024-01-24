@@ -7,13 +7,6 @@ const JUMP_VELOCITY = -250.0
 
 
 
-var direction_v = 1
-
-@onready var start_pos_x = global_position.x
-@onready var start_pos_y = global_position.y
-
-
-
 #MAIN PROCESS
 
 func _physics_process(delta):
@@ -75,10 +68,11 @@ func _physics_process(delta):
 	
 	
 	manage_animation()
-	move_and_slide()
 	
-
-
+	
+	if not attacked:
+		move_and_slide()
+	
 
 
 

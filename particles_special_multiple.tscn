@@ -1,0 +1,32 @@
+[gd_scene load_steps=2 format=3 uid="uid://by6y5dg0e6813"]
+
+[ext_resource type="PackedScene" uid="uid://bdp8sfkqlaxla" path="res://particles_special.tscn" id="1_ffggo"]
+
+[node name="particles_special_multiple" type="Node2D"]
+
+[node name="particles_special" parent="." instance=ExtResource("1_ffggo")]
+lifetime = 0.5
+emission_shape = 0
+direction = Vector2(1, -1)
+spread = 0.0
+gravity = Vector2(250, 500)
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+
+[node name="particles_special2" parent="." instance=ExtResource("1_ffggo")]
+lifetime = 0.5
+emission_shape = 0
+direction = Vector2(-1, -1)
+spread = 0.0
+gravity = Vector2(250, 500)
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0
+
+[node name="particles_special3" parent="." instance=ExtResource("1_ffggo")]
+lifetime = 0.5
+emission_shape = 0
+direction = Vector2(0, -1)
+spread = 0.0
+gravity = Vector2(0, 1000)
+initial_velocity_min = 300.0
+initial_velocity_max = 300.0

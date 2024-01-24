@@ -24,7 +24,10 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, 10)
 		
 	manage_animation()
-	move_and_slide()
+	
+	
+	if not attacked:
+		move_and_slide()
 		
 
 

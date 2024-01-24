@@ -25,6 +25,7 @@ var player_posY
 
 signal itemCollected
 signal enemyHit
+signal boxBroken
 
 
 signal playerHit1

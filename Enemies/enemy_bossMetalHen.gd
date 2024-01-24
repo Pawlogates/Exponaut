@@ -18,8 +18,6 @@ var flying = false
 
 
 
-
-
 func _physics_process(delta):
 	
 	if is_on_wall():
@@ -48,10 +46,18 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, 10)
 		
 	manage_animation()
-	move_and_slide()
+	
+	
+	if not attacked:
+		move_and_slide()
+		
+	
+	
 	#handle_turn()
 
-	
+
+
+
 func _on_jump_timer_timeout():
 	if not dead and not flying and is_on_floor():
 		velocity.y = JUMP_VELOCITY
@@ -60,50 +66,6 @@ func _on_jump_timer_timeout():
 	
 
 
-
-
-func _on_area_2d_area_entered(area):
-	if area.name == "Player_hitbox_main" and not dead:
-		Globals.playerHit1.emit()
-		attacking = true
-		attacking_timer.start()
-		
-	elif area.is_in_group("player_projectile"):
-		if not dead:
-			attacked = true
-			attacked_timer.start()
-			hit.play()
-			add_child(hit_effectScene.instantiate())
-			hp -= 1
-			Globals.enemyHit.emit()
-			if hp <= 0:
-				dead = true
-				if dead:
-					direction = 0
-					sprite.play("dead")
-					death.play()
-					add_child(dead_effectScene.instantiate())
-	
-	
-	#SAVE START
-	
-	elif area.is_in_group("loadingZone_area"):
-	
-		remove_from_group("loadingZone0")
-		remove_from_group("loadingZone1")
-		remove_from_group("loadingZone2")
-		remove_from_group("loadingZone3")
-		remove_from_group("loadingZone4")
-		remove_from_group("loadingZone5")
-		
-		loadingZone = area.loadingZone_ID
-		add_to_group(loadingZone)
-		Globals.save.emit()
-		
-		#print("this object is in: ", loadingZone)
-
-	#SAVE END
-	
 
 
 func manage_animation():

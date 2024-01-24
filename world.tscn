@@ -51,6 +51,7 @@ _data = {
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_8iwd0")
+playerStartHP = 250
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 unique_name_in_owner = true

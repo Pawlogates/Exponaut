@@ -18,11 +18,6 @@ var jumped = true
 
 
 
-
-
-
-
-
 func _physics_process(delta):
 	frog_x = enemy_frog.get_global_position()[0]
 	frog_y = enemy_frog.get_global_position()[1]
@@ -39,10 +34,14 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, 10)
 		
 	manage_animation()
-	move_and_slide()
+	
+	
+	if not attacked:
+		move_and_slide()
 	handle_turn()
 
-	
+
+
 func _on_jump_timer_timeout():
 	if not dead:
 		velocity.y = JUMP_VELOCITY

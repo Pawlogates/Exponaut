@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dctah68au68co"]
 
 [ext_resource type="Script" path="res://Scripts/level_exit.gd" id="1_rcdj4"]
-[ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="2_hw1y8"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_11kag"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8h05s"]
 size = Vector2(64, 64)
@@ -17,8 +17,8 @@ shape = SubResource("RectangleShape2D_8h05s")
 debug_color = Color(0, 0.6, 0.701961, 0.419608)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_hw1y8")
+texture = ExtResource("2_11kag")
 region_enabled = true
-region_rect = Rect2(64, 1728, 64, 64)
+region_rect = Rect2(0, 768, 64, 64)
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

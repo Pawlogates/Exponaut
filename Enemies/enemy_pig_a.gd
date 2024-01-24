@@ -29,7 +29,10 @@ func _physics_process(delta):
 	
 
 	manage_animation()
-	move_and_slide()
+	
+	
+	if not attacked:
+		move_and_slide()
 	
 
 

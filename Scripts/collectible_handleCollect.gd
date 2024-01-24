@@ -1,10 +1,13 @@
 extends Node2D
 
-var starParticleScene = preload("res://particles_star.tscn")
+var starParticleScene = preload("res://particles_special.tscn")
+var starParticle2Scene = preload("res://particles_star.tscn")
 var starParticle = starParticleScene.instantiate()
+var starParticle2 = starParticle2Scene.instantiate()
 
 var collected = false
 var removable = false
+
 
 @onready var collect_1 = %collect1
 @onready var timer = %Timer
@@ -89,7 +92,11 @@ func offScreen_load():
 	sprite.visible = true
 	animation_player.active = true
 	animation_player_2.active = true
+	
+	
+	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.set_monitorable(true)
+	$Area2D.set_monitoring(true)
 	
 	
 
@@ -136,7 +143,7 @@ func _on_collectible_entered(body):
 					add_child(starParticleScene.instantiate())
 					%collect1.pitch_scale = 1.3
 					if Globals.combo_tier > 4:
-						add_child(starParticleScene.instantiate())
+						add_child(starParticle2Scene.instantiate())
 						%collect1.pitch_scale = 1.4
 						bonus_material.set_shader_parameter("strength", 0.5)
 						
@@ -192,7 +199,6 @@ func _on_collectible_area_entered(area):
 		
 		loadingZone = area.loadingZone_ID
 		add_to_group(loadingZone)
-		Globals.save.emit()
 		
 		#print("this object is in: ", loadingZone)
 	

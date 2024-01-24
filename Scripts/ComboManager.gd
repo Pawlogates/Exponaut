@@ -5,7 +5,7 @@ func _ready():
 	
 	Globals.itemCollected.connect(itemCollected_reset_combo_cycle)
 	Globals.enemyHit.connect(enemyHit_reset_combo_cycle)
-	
+	Globals.boxBroken.connect(boxBroken_reset_combo_cycle)
 
 
 
@@ -67,6 +67,10 @@ func enemyHit_reset_combo_cycle():
 	check_combo_tier()
 	reset_combo_timer()
 
+
+func boxBroken_reset_combo_cycle():
+	check_combo_tier()
+	reset_combo_timer()
 
 
 

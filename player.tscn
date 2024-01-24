@@ -350,11 +350,11 @@ material = SubResource("ShaderMaterial_ami3x")
 position = Vector2(0, -6)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_c8f3n")
-animation = &"walk"
-frame_progress = 0.515506
+animation = &"shoot"
+frame_progress = 0.992583
 
 [node name="shootAnimDelay" type="Timer" parent="AnimatedSprite2D"]
-wait_time = 0.25
+wait_time = 0.75
 one_shot = true
 
 [node name="crouch_walkAnimDelay" type="Timer" parent="AnimatedSprite2D"]
@@ -437,6 +437,17 @@ one_shot = true
 wait_time = 3.0
 autostart = true
 
+[node name="dust_effect" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="attack_cooldown" type="Timer" parent="."]
+one_shot = true
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkCollisionSwitch" to="." method="_on_crouch_walk_collision_switch_timeout"]
@@ -450,3 +461,5 @@ autostart = true
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_active" to="." method="_on_dash_end_slowdown_active_timeout"]
 [connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
 [connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]
+[connection signal="timeout" from="dust_effect" to="." method="_on_dust_effect_timeout"]
+[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]

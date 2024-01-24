@@ -257,6 +257,8 @@ visibility_layer = 2
 collision_layer = 6
 collision_mask = 2
 input_pickable = false
+monitoring = false
+monitorable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 4)
@@ -276,7 +278,7 @@ one_shot = true
 shape = SubResource("RectangleShape2D_7kt5p")
 
 [node name="particle_limiter" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.5
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]

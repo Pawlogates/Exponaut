@@ -13,6 +13,9 @@ var was_wall_normal = Vector2.ZERO
 var starParticleScene = preload("res://particles_star.tscn")
 var starParticle = starParticleScene.instantiate()
 
+var effect_dustScene = preload("res://effect_dust.tscn")
+var effect_dust = effect_dustScene.instantiate()
+
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -68,7 +71,7 @@ var shooting = false
 
 var debugMovement = false
 
-
+var spawn_dust_effect = true
 
 
 
@@ -98,6 +101,10 @@ func _ready():
 
 
 
+
+var weaponType = "basic"
+
+
 #MAIN START
 
 func _process(delta):
@@ -109,17 +116,42 @@ func _process(delta):
 		
 		
 		if Input.is_action_just_pressed("attack_fast"):
-			var projectile_quick = scene_projectile_quick.instantiate()
-			add_child(projectile_quick)
+			if weaponType == "phaser":
+				var projectile_quick = scene_projectile_quick.instantiate()
+				add_child(projectile_quick)
+			
+			elif weaponType == "basic":
+				if not attack_cooldown:
+					attack_cooldown = true
+					$attack_cooldown.start()
+					
+					shooting = true
+					shoot_anim_delay.start()
+					animated_sprite_2d.play("shoot")
+					
+					var projectile_basic = scene_projectile_basic.instantiate()
+					projectile_basic.position = position + Vector2(Globals.direction * 32, 0)
+					get_parent().add_child(projectile_basic)
+					
+				if direction != 0:
+					animated_sprite_2d.flip_h = (direction < 0)
+					
+					
+				
+				
 			
 		
+		#PLAYER SHOOTING ANIMATION
 		
-		if not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
+		if weaponType == "phaser" and not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
 			shooting = true
 			shoot_anim_delay.start()
 			animated_sprite_2d.play("shoot")
 			if direction != 0:
 				animated_sprite_2d.flip_h = (direction < 0)
+		
+		
+		
 		
 		
 		if direction != 0:
@@ -228,6 +260,18 @@ func _process(delta):
 		if velocity.y == 0 and is_on_floor() and was_in_air and not shooting and not crouch_walking and not crouching:
 			animated_sprite_2d.play("idle")
 		
+		
+		if is_on_floor() and direction and spawn_dust_effect:
+			spawn_dust_effect = false
+			$dust_effect.start()
+			
+			effect_dust = effect_dustScene.instantiate()
+			effect_dust.position = Globals.player_pos - Vector2(0, -48)
+			get_parent().add_child(effect_dust)
+			
+		elif not is_on_floor():
+			spawn_dust_effect = true
+			$dust_effect.stop()
 	
 	
 	
@@ -314,13 +358,12 @@ func _process(delta):
 	#STUCK IN WALL
 	
 	if not can_stand_up and Input.is_action_just_pressed("jump"):
-		position.y += 3
-		position.x += -3
+		position.y += 6
+		position.x += 3
 	
-	if not can_stand_up and velocity.y > 2000:
-		position.y += 30
-		position.x += -15
-	
+	if velocity.y > 6000:
+		position.y += -120
+		position.x += 40
 	
 	
 
@@ -342,7 +385,12 @@ var speedBlockActive = false
 var dash_slowdown = false
 var wall_jump = false
 
+
+#WEAPON TYPES
 var scene_projectile_quick = preload("res://projectile_basic_quick.tscn")
+var scene_projectile_basic = preload("res://player_projectile_basic.tscn")
+
+var attack_cooldown = false
 
 
 func apply_gravity(delta):
@@ -411,7 +459,7 @@ func handle_wall_jump():
 	
 	if Input.is_action_just_pressed("jump") and wall_jump:
 		velocity.x = wall_normal.x * movement_data.SPEED / 2
-		velocity.y = movement_data.JUMP_VELOCITY
+		velocity.y = movement_data.JUMP_VELOCITY * 1.2
 		just_wall_jumped = true
 		wall_jump = false
 		
@@ -653,3 +701,15 @@ func saveState_loaded():
 
 func _on_debug_refresh_timeout():
 	debug_refresh()
+
+
+
+
+
+
+func _on_dust_effect_timeout():
+	spawn_dust_effect = true
+
+
+func _on_attack_cooldown_timeout():
+	attack_cooldown = false

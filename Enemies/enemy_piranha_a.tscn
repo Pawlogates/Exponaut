@@ -159,6 +159,8 @@ visibility_layer = 2
 collision_layer = 6
 collision_mask = 2
 input_pickable = false
+monitoring = false
+monitorable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_4klqh")
@@ -177,7 +179,7 @@ one_shot = true
 shape = SubResource("RectangleShape2D_7kt5p")
 
 [node name="particle_limiter" type="Timer" parent="."]
-wait_time = 0.2
+wait_time = 0.5
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
@@ -195,10 +197,12 @@ rect = Rect2(-500, -500, 1000, 1000)
 collision_layer = 0
 collision_mask = 2
 input_pickable = false
+monitoring = false
+monitorable = false
 
 [node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
-position = Vector2(-320, 0)
+position = Vector2(320, 0)
 shape = SubResource("RectangleShape2D_2h4lu")
 
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]

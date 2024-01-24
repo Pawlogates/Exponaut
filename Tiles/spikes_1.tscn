@@ -17,7 +17,7 @@ texture_filter = 1
 position = Vector2(32, -32)
 texture = ExtResource("1_xb871")
 region_enabled = true
-region_rect = Rect2(0, 512, 64, 64)
+region_rect = Rect2(0, 576, 64, 64)
 region_filter_clip_enabled = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

@@ -1,7 +1,19 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b6n3mjh3jswls"]
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://b6n3mjh3jswls"]
 
-[ext_resource type="Shader" path="res://Themes/gradientEffect.gdshader" id="1_xvhg2"]
+[ext_resource type="Shader" path="res://Themes/palette_changeShader.gdshader" id="1_5mctv"]
+
+[sub_resource type="Gradient" id="Gradient_pk7t1"]
+colors = PackedColorArray(0, 0, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
+gradient = SubResource("Gradient_pk7t1")
 
 [resource]
-shader = ExtResource("1_xvhg2")
-shader_parameter/opacity_scale = 1.0
+shader = ExtResource("1_5mctv")
+shader_parameter/disableProcessing = null
+shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/cycleMode = 2
+shader_parameter/cycleRate = 10.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true
+shader_parameter/palette = SubResource("GradientTexture2D_ie5v4")

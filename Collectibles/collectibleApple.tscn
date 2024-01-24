@@ -523,6 +523,8 @@ collectibleScoreValue = 10
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0
 collision_mask = 2
+monitoring = false
+monitorable = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
 unique_name_in_owner = true

@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://5jyravofvijn"]
+
+[node name="particles_1" type="CPUParticles2D"]
+z_index = 50
+amount = 25
+lifetime = 5.0
+local_coords = true
+draw_order = 1
+emission_shape = 1
+emission_sphere_radius = 25.0
+initial_velocity_min = 200.0
+initial_velocity_max = 300.0
+orbit_velocity_min = 1.0
+orbit_velocity_max = 1.0
+damping_max = 10.596
+angle_max = 180.0
+scale_amount_max = 5.0
+color = Color(0, 0, 0, 1)

@@ -1,10 +1,10 @@
 extends CharacterBody2D
 
 
-
-
-var starParticleScene = preload("res://particles_star.tscn")
+var starParticleScene = preload("res://particles_special.tscn")
+var starParticle2Scene = preload("res://particles_star.tscn")
 var starParticle = starParticleScene.instantiate()
+var starParticle2 = starParticle2Scene.instantiate()
 
 var collected = false
 var removable = false
@@ -17,13 +17,12 @@ var removable = false
 
 
 @export var collectibleScoreValue = 0
-
+@export var hard_to_collect = false
 
 
 #OFFSCREEN START
 
 func _ready():
-	print("off")
 	add_to_group("loadingZone0")
 	
 	set_process(false)
@@ -52,7 +51,7 @@ func _ready():
 	
 	
 	
-	await get_tree().create_timer(0.5, false).timeout
+	await get_tree().create_timer(1, false).timeout
 	$Area2D.monitoring = true
 	
 	
@@ -70,7 +69,6 @@ func saveState_loaded():
 #IS IN VISIBLE RANGE?
 
 func offScreen_unload():
-	print("off")
 	set_process(false)
 	set_physics_process(false)
 	
@@ -89,7 +87,6 @@ func offScreen_unload():
 	
 
 func offScreen_load():
-	print("off")
 	set_process(true)
 	set_physics_process(true)
 	
@@ -120,9 +117,8 @@ func _process(_delta):
 var bonus_material = preload("res://Collectibles/bonus_material.tres")
 
 func _on_collectible_entered(body):
-	if body.is_in_group("player") and not collected:
+	if body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and body.can_collect and not collected:
 		collected = true
-		
 		%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
 		
 		#timer.start()
@@ -152,7 +148,7 @@ func _on_collectible_entered(body):
 					add_child(starParticleScene.instantiate())
 					%collect1.pitch_scale = 1.3
 					if Globals.combo_tier > 4:
-						add_child(starParticleScene.instantiate())
+						add_child(starParticle2Scene.instantiate())
 						%collect1.pitch_scale = 1.4
 						bonus_material.set_shader_parameter("strength", 0.5)
 						
@@ -225,7 +221,7 @@ func _physics_process(delta):
 		
 		
 		
-	if player_inside:
+	if player_inside and hard_to_collect:
 		if collidable and abs(velocity.x) <= 250:
 			if Globals.direction != 0:
 				direction_last = Globals.direction
@@ -265,10 +261,11 @@ var player_projectile_inside = false
 
 var collidable = true
 
+
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("player"):
 		player_inside = true
-		if collidable:
+		if collidable and hard_to_collect:
 			direction = area.get_parent().direction
 		
 	if area.is_in_group("enemies"):
@@ -298,7 +295,6 @@ func _on_area_2d_area_entered(area):
 		
 		loadingZone = area.loadingZone_ID
 		add_to_group(loadingZone)
-		Globals.save.emit()
 		
 		print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
 
@@ -309,7 +305,7 @@ func _on_area_2d_area_entered(area):
 func _on_area_2d_area_exited(area):
 	if area.is_in_group("player") or area.is_in_group("player_projectile") or area.is_in_group("enemies"):
 		
-		if area.is_in_group("player"):
+		if area.is_in_group("player") and hard_to_collect:
 			player_inside = false
 			direction = area.get_parent().direction
 		
