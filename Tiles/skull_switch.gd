@@ -53,8 +53,14 @@ func _on_area_2d_area_entered(area):
 			
 			call_deferred("spawn_collectibles")
 			
-			%Node2D.rotation_degrees = rng.randf_range(-60.0, 30.0)
-			%AnimationPlayer.play("destroyed")
+			%AnimatedSprite2D.play("destroyed")
+			
+			get_tree().call_group("skull_block", "skull_block_toggle")
+			
+			
+			
+			#%Node2D.rotation_degrees = rng.randf_range(-60.0, 30.0)
+			#%AnimationPlayer.play("destroyed")
 			break_bonusBox.play()
 			
 			Globals.boxBroken.emit()
@@ -66,8 +72,12 @@ func _on_area_2d_area_entered(area):
 		if not destroyed:
 			call_deferred("spawn_collectibles")
 			
-			%Node2D.rotation_degrees = rng.randf_range(-60.0, 30.0)
-			%AnimationPlayer.play("destroyed")
+			%AnimatedSprite2D.play("destroyed")
+			
+			get_tree().call_group("skull_block", "deferred_skull_block_toggle")
+			
+			#%Node2D.rotation_degrees = rng.randf_range(-60.0, 30.0)
+			#%AnimationPlayer.play("destroyed")
 			break_bonusBox.play()
 			
 			Globals.boxBroken.emit()
@@ -150,6 +160,10 @@ func _ready():
 	sprite.visible = false
 	animation_player.active = false
 	$Area2D.set_monitorable(false)
+	
+	
+	if not destroyed:
+		%AnimatedSprite2D.play("idle")
 
 
 

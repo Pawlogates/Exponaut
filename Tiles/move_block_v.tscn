@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://va38cadkefjo"]
 
-[ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="1_jjmes"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_u55vs"]
 
 [sub_resource type="Animation" id="Animation_3507k"]
 length = 0.001
@@ -94,9 +94,9 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_jjmes")
+texture = ExtResource("1_u55vs")
 region_enabled = true
-region_rect = Rect2(704, 448, 64, 64)
+region_rect = Rect2(64, 896, 64, 64)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {

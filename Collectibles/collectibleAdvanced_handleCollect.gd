@@ -19,6 +19,10 @@ var removable = false
 @export var collectibleScoreValue = 0
 @export var hard_to_collect = false
 
+@export var is_gift = false
+@export var animation_always = false
+@export var floating = false
+
 
 #OFFSCREEN START
 
@@ -51,7 +55,7 @@ func _ready():
 	
 	
 	
-	await get_tree().create_timer(1, false).timeout
+	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.monitoring = true
 	
 	
@@ -109,14 +113,35 @@ func offScreen_load():
 func _process(_delta):
 	if removable or collected and not animation_player_2.current_animation == "score_value":
 		queue_free()
-		print("removed")
 		
 	
 
 
 var bonus_material = preload("res://Collectibles/bonus_material.tres")
 
+@export var inventory_item_scene = preload("res://inventoryItem.tscn")
+@export var inventory_itemToSpawn = preload("res://Collectibles/collectibleApple.tscn")
+@export var inventory_texture_region = Rect2(0, 0, 0, 0)
+
+
 func _on_collectible_entered(body):
+	if is_gift and get_tree().get_nodes_in_group("in_inventory").size() >= 6:
+		return
+	
+	if is_gift and body.is_in_group("player") and not collected or is_gift and body.is_in_group("player_projectile") and body.can_collect and not collected:
+		if get_tree().get_nodes_in_group("in_inventory").size() < 6:
+			var item = inventory_item_scene.instantiate()
+			get_parent().get_parent().get_node("HUD/Inventory/InventoryContainer").add_child(item)
+			item.item_toSpawn = inventory_itemToSpawn
+			item.display_region_rect = inventory_texture_region
+		
+		get_parent().get_parent().get_node("HUD/Inventory").call("check_inventory")
+		get_tree().call_group("in_inventory", "selected_check")
+		
+		#get_tree().call_group("in_inventory", "itemOrder_correct")
+	
+	
+	
 	if body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and body.can_collect and not collected:
 		collected = true
 		%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
@@ -157,6 +182,9 @@ func _on_collectible_entered(body):
 			bonus_material.set_shader_parameter("strength", 0.0)
 				
 		collect_1.play()
+	
+	
+
 
 
 
@@ -244,12 +272,13 @@ func _physics_process(delta):
 		velocity_x_last = velocity.x
 		
 	
-	if not collected:
+	if not collected and not floating:
 		move_and_slide()
 	
 	
 	
-	%AnimatedSprite2D.speed_scale = velocity.x / 100
+	if not animation_always:
+		%AnimatedSprite2D.speed_scale = velocity.x / 100
 
 
 
@@ -296,7 +325,7 @@ func _on_area_2d_area_entered(area):
 		loadingZone = area.loadingZone_ID
 		add_to_group(loadingZone)
 		
-		print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
+		#print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
 
 	#SAVE END
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=36 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_6ck4y"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_e1gk0"]
@@ -23,12 +23,16 @@
 [ext_resource type="PackedScene" uid="uid://dl5i4pgp0735j" path="res://godrays.tscn" id="14_qv5ys"]
 [ext_resource type="PackedScene" uid="uid://bua5yikrg26q0" path="res://Collectibles/collectibleGrape.tscn" id="15_rv8ws"]
 [ext_resource type="PackedScene" uid="uid://ckdwtubwnxp3h" path="res://Collectibles/bonus_box_grapes.tscn" id="16_havix"]
+[ext_resource type="PackedScene" uid="uid://bfkqjfxri5w5m" path="res://Collectibles/collectibleGift.tscn" id="17_3b1os"]
 [ext_resource type="PackedScene" uid="uid://dbp42d4xr6p01" path="res://Enemies/enemy_bee.tscn" id="17_87xgq"]
 [ext_resource type="PackedScene" uid="uid://b7kxul7llg5aj" path="res://Enemies/enemy_hedgehog_a.tscn" id="18_y27o0"]
 [ext_resource type="PackedScene" uid="uid://uvrt6omskgww" path="res://Enemies/enemy_pig_a.tscn" id="19_4wgx4"]
 [ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="20_alo45"]
 [ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_a.tscn" id="21_v745t"]
 [ext_resource type="PackedScene" uid="uid://do722l7wriwij" path="res://Enemies/enemy_tank.tscn" id="23_7bgxu"]
+[ext_resource type="PackedScene" uid="uid://dp8i058tyn1ej" path="res://Collectibles/Gift_grapeBox.tscn" id="25_sp6gt"]
+[ext_resource type="PackedScene" uid="uid://b2y5linmn0ira" path="res://Collectibles/Gift_orangeBox.tscn" id="26_w7hvj"]
+[ext_resource type="PackedScene" uid="uid://b8qh6d27x6rbj" path="res://Collectibles/Gift_enemyHedgehog.tscn" id="27_wodx5"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -55,12 +59,17 @@ scenes/20/scene = ExtResource("13_7671y")
 scenes/21/scene = ExtResource("14_3v5hw")
 scenes/22/scene = ExtResource("15_rv8ws")
 scenes/23/scene = ExtResource("16_havix")
+scenes/24/scene = ExtResource("17_3b1os")
 scenes/25/scene = ExtResource("17_87xgq")
 scenes/26/scene = ExtResource("18_y27o0")
 scenes/27/scene = ExtResource("19_4wgx4")
 scenes/28/scene = ExtResource("20_alo45")
 scenes/29/scene = ExtResource("21_v745t")
 scenes/30/scene = ExtResource("23_7bgxu")
+scenes/31/scene = ExtResource("25_sp6gt")
+scenes/32/scene = ExtResource("26_w7hvj")
+scenes/33/scene = ExtResource("17_3b1os")
+scenes/34/scene = ExtResource("27_wodx5")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(64, 64)

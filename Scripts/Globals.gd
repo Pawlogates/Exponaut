@@ -86,6 +86,10 @@ var test4 = "none"
 var collected_collectibles = 0
 
 
+var inventory_selectedItem = 1
+var inventory_onSpawn_scene = null
+
+
 
 var mode_timeAttack = false
 

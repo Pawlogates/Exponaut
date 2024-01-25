@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://ddmxj0bgdywed"]
+
+[ext_resource type="Script" path="res://inventoryItem.gd" id="1_wiatc"]
+[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_878qv"]
+
+[node name="inventoryItem" type="Control" groups=["in_inventory"]]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 64.0
+script = ExtResource("1_wiatc")
+
+[node name="item_icon" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(32, 32)
+texture = ExtResource("2_878qv")
+region_enabled = true
+region_rect = Rect2(0, 692, 64, 64)
