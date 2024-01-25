@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://dt0iqeflwnxvw" path="res://Assets/Sounds/sfx/projectile_doodleShoot.wav" id="3_b2uf6"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0xdgo"]
-radius = 17.8885
+radius = 27.46
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4me25"]
 radius = 17.8885

@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://b6sm67hlya8p"]
 
 [ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="1_jgnj6"]
-[ext_resource type="Texture2D" uid="uid://c2q6h4atg61ri" path="res://Assets/Graphics/tilesets/tileset_water.png" id="2_3rxyg"]
+[ext_resource type="Texture2D" uid="uid://h64dv8q08gkv" path="res://Assets/Graphics/tilesets/tileset_liquids.png" id="2_3rxyg"]
 [ext_resource type="Texture2D" uid="uid://bteqibfk4agqs" path="res://Assets/Graphics/tilesets/tileset2.png" id="3_7lq1b"]
 [ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decoration.png" id="4_nqwue"]
 
