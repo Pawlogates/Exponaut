@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://di3x57nniyukj"]
+
+[ext_resource type="Script" path="res://particles_special_multiple.gd" id="1_a6evj"]
+[ext_resource type="PackedScene" uid="uid://b4ub21kqvsg2a" path="res://particles_special2.tscn" id="2_erpuv"]
+
+[node name="particles_special2_multiple" type="Node2D"]
+script = ExtResource("1_a6evj")
+
+[node name="particles_special2_1" parent="." instance=ExtResource("2_erpuv")]
+
+[node name="particles_special2_2" parent="." instance=ExtResource("2_erpuv")]
+
+[node name="particles_special2_3" parent="." instance=ExtResource("2_erpuv")]
+
+[node name="particles_special2_4" parent="." instance=ExtResource("2_erpuv")]
+
+[node name="particles_special2_5" parent="." instance=ExtResource("2_erpuv")]
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

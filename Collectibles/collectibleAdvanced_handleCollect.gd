@@ -3,11 +3,17 @@ extends CharacterBody2D
 
 var starParticleScene = preload("res://particles_special.tscn")
 var starParticle2Scene = preload("res://particles_star.tscn")
+var orbParticleScene = preload("res://particles_special2_multiple.tscn")
 var starParticle = starParticleScene.instantiate()
 var starParticle2 = starParticle2Scene.instantiate()
+var orbParticle = orbParticleScene.instantiate()
+
 
 var collected = false
 var removable = false
+
+var button_pressed = false
+
 
 @onready var collect_1 = %collect1
 @onready var timer = %Timer
@@ -22,6 +28,10 @@ var removable = false
 @export var is_gift = false
 @export var animation_always = false
 @export var floating = false
+@export var is_key = false
+@export var collectable = true
+@export var upDown_loop = false
+
 
 
 #OFFSCREEN START
@@ -51,6 +61,10 @@ func _ready():
 	animation_player.advance(abs(xpos) / 100)
 	
 	Globals.saveState_loaded.connect(saveState_loaded)
+	
+	
+	if upDown_loop:
+		animation_player.play("loop")
 	
 	
 	
@@ -142,7 +156,7 @@ func _on_collectible_entered(body):
 	
 	
 	
-	if body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and body.can_collect and not collected:
+	if collectable and body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and body.can_collect and not collected:
 		collected = true
 		%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
 		
@@ -182,8 +196,15 @@ func _on_collectible_entered(body):
 			bonus_material.set_shader_parameter("strength", 0.0)
 				
 		collect_1.play()
+		
+		
+		if is_key:
+			add_child(orbParticleScene.instantiate())
+			
+			get_parent().get_parent().key_collected()
 	
-	
+
+
 
 
 
@@ -272,13 +293,29 @@ func _physics_process(delta):
 		velocity_x_last = velocity.x
 		
 	
-	if not collected and not floating:
+	if not collected and not floating or button_pressed:
 		move_and_slide()
 	
 	
 	
 	if not animation_always:
 		%AnimatedSprite2D.speed_scale = velocity.x / 100
+	
+	
+	
+	
+	
+	if button_pressed and %AnimatedSprite2D.position.y > 0:
+		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
+		%AnimatedSprite2D.position.y -= 1
+		print(%AnimatedSprite2D.position.y)
+		
+	elif button_pressed and %AnimatedSprite2D.position.y < 0:
+		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
+		%AnimatedSprite2D.position.y += 1
+		print(%AnimatedSprite2D.position.y)
+
+
 
 
 
@@ -363,4 +400,13 @@ func _on_collision_check_delay_timeout():
 
 
 
+func destroy_self():
+	queue_free()
 
+
+
+func on_button_press():
+	if not collected:
+		velocity.y = 0
+		button_pressed = true
+		animation_player.pause()

@@ -3,13 +3,13 @@ extends CharacterBody2D
 
 const SPEED = 250.0
 
+var starParticleScene = preload("res://particles_special_multiple.tscn")
+var starParticle = starParticleScene.instantiate()
 
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
 var item = item_scene.instantiate()
 
 
-var starParticleScene = preload("res://particles_star.tscn")
-var starParticle = starParticleScene.instantiate()
 var hit_effectScene = preload("res://hit_effect.tscn")
 var hit_effect = hit_effectScene.instantiate()
 
@@ -58,7 +58,9 @@ func _on_area_2d_area_entered(area):
 			break_bonusBox.play()
 			
 			Globals.boxBroken.emit()
-		
+			
+			
+			add_child(starParticle)
 		
 		
 	if area.is_in_group("player_projectile"):
@@ -71,6 +73,9 @@ func _on_area_2d_area_entered(area):
 			break_bonusBox.play()
 			
 			Globals.boxBroken.emit()
+			
+			
+			add_child(starParticle)
 	
 	
 	#SAVE START

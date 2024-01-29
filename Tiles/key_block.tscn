@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://dgl6svqvfsnc0"]
+
+[ext_resource type="Script" path="res://Tiles/key_block.gd" id="1_a8pwh"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_gig7o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yhn1w"]
+size = Vector2(64, 64)
+
+[node name="key_block" type="StaticBody2D" groups=["key_block"]]
+z_index = 1
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_a8pwh")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+z_index = -1
+texture = ExtResource("2_gig7o")
+region_enabled = true
+region_rect = Rect2(512, 896, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_xcl5b")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D_scan" type="CollisionShape2D" parent="Area2D"]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_yhn1w")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

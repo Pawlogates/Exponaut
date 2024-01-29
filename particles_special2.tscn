@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://b4ub21kqvsg2a"]
+
+[ext_resource type="Texture2D" uid="uid://dnb5ho3145cq6" path="res://Assets/Graphics/sprites/orb.png" id="1_xikd5"]
+[ext_resource type="Script" path="res://particles_special.gd" id="2_njm38"]
+
+[sub_resource type="Curve" id="Curve_gfv4y"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_2bg6d"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 0, 0, 0)
+
+[sub_resource type="Curve" id="Curve_064i6"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="particles_special2" type="CPUParticles2D"]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("1_xikd5")
+emission_shape = 1
+emission_sphere_radius = 25.0
+direction = Vector2(0, -90)
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.392157)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_max = 0.2
+hue_variation_curve = SubResource("Curve_064i6")
+script = ExtResource("2_njm38")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

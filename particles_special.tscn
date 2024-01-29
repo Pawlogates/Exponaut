@@ -42,3 +42,10 @@ color_ramp = SubResource("Gradient_2bg6d")
 hue_variation_max = 0.2
 hue_variation_curve = SubResource("Curve_064i6")
 script = ExtResource("2_jfcg5")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

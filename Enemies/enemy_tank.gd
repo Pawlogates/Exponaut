@@ -1,7 +1,7 @@
 extends enemy_basic
 
 
-const SPEED = 300.0
+const SPEED = 80.0
 const JUMP_VELOCITY = -250.0
 
 
@@ -117,7 +117,7 @@ func manage_animation():
 
 
 func _ready():
-	hp = 10
+	hp = 5
 	basic_onReady()
 	$scanForPlayer.monitoring = false
 	$scanForPlayer.monitorable = false

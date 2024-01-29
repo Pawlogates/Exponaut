@@ -1,0 +1,347 @@
+[gd_scene load_steps=7 format=3 uid="uid://dyfacu7kmv2uk"]
+
+[ext_resource type="Script" path="res://particles_special_multiple.gd" id="1_gq7qu"]
+[ext_resource type="Texture2D" uid="uid://c1jgv0bhxhvdi" path="res://Assets/Graphics/sprites/splash.png" id="2_v1462"]
+[ext_resource type="Script" path="res://particles_special.gd" id="3_t6r2l"]
+
+[sub_resource type="Curve" id="Curve_gfv4y"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_2bg6d"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="Curve" id="Curve_40qe5"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="particles_water_entered" type="Node2D"]
+script = ExtResource("1_gq7qu")
+
+[node name="water_entered" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered2" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered2"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered3" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered3"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered4" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered4"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered5" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered5"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered6" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered6"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered7" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered7"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered8" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered8"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered9" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered9"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="water_entered10" type="CPUParticles2D" parent="."]
+z_index = 50
+texture_filter = 1
+emitting = false
+amount = 1
+one_shot = true
+speed_scale = 0.2
+local_coords = true
+draw_order = 1
+texture = ExtResource("2_v1462")
+emission_shape = 1
+emission_sphere_radius = 5.0
+direction = Vector2(0, -1)
+spread = 90.0
+gravity = Vector2(0, 2000)
+initial_velocity_min = 400.0
+initial_velocity_max = 600.0
+scale_amount_min = 0.3
+scale_amount_curve = SubResource("Curve_gfv4y")
+color = Color(1, 1, 1, 0.215686)
+color_ramp = SubResource("Gradient_2bg6d")
+hue_variation_min = -0.1
+hue_variation_max = 0.05
+hue_variation_curve = SubResource("Curve_40qe5")
+script = ExtResource("3_t6r2l")
+
+[node name="Timer" type="Timer" parent="water_entered10"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="water_entered/Timer" to="water_entered" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered2/Timer" to="water_entered2" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered3/Timer" to="water_entered3" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered4/Timer" to="water_entered4" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered5/Timer" to="water_entered5" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered6/Timer" to="water_entered6" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered7/Timer" to="water_entered7" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered8/Timer" to="water_entered8" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered9/Timer" to="water_entered9" method="_on_timer_timeout"]
+[connection signal="timeout" from="water_entered10/Timer" to="water_entered10" method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

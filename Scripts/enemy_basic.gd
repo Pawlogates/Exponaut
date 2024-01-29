@@ -62,7 +62,7 @@ func _on_particle_limiter_timeout():
 	particle_buffer = false
 
 
-func _on_visible_on_screen_notifier_2d_screen_exited():
+func remove_if_corpse():
 	if dead:
 		queue_free()
 
@@ -87,6 +87,8 @@ func basic_offScreen_unload():
 	$AnimatedSprite2D/AttackingTimer.set_paused(true)
 	$AnimatedSprite2D/AttackedTimer.set_paused(true)
 	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	
+	remove_if_corpse()
 
 
 
@@ -113,13 +115,29 @@ func basic_offScreen_load():
 	$Area2D.set_monitoring(true)
 
 
+
+
+
+
+func enemy_stunned():
+	print("hit")
+	$Area2D.monitoring = false
+	$Area2D.monitorable = false
+	await get_tree().create_timer(0.75, false).timeout
+	$Area2D.monitoring = true
+	$Area2D.monitorable = true
+
+
 func _on_area_2d_area_entered(area):
 	if area.name == "Player_hitbox_main" and not dead:
 		Globals.playerHit1.emit()
 		attacking = true
 		attacking_timer.start()
 		
+		
 	elif area.is_in_group("player_projectile"):
+		call_deferred("enemy_stunned")
+		
 		if not dead:
 			attacked = true
 			attacked_timer.start()
@@ -137,8 +155,7 @@ func _on_area_2d_area_entered(area):
 					
 					add_child(hitDeath_effect)
 					add_child(dead_effect)
-					
-	
+			
 	
 	
 	#SAVE START
@@ -181,6 +198,8 @@ func basic_onReady():
 	$AnimatedSprite2D/AttackingTimer.set_paused(true)
 	$AnimatedSprite2D/AttackedTimer.set_paused(true)
 	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	
+	remove_if_corpse()
 
 
 

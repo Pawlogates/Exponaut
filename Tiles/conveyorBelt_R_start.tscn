@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://ce1g16bi5tcc8"]
+
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_wgx0h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vm1q5"]
+atlas = ExtResource("1_wgx0h")
+region = Rect2(128, 576, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ouhy6"]
+atlas = ExtResource("1_wgx0h")
+region = Rect2(128, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rh56g"]
+atlas = ExtResource("1_wgx0h")
+region = Rect2(128, 704, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_e23ad"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vm1q5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ouhy6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rh56g")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]
+size = Vector2(64, 64)
+
+[node name="conveyorBelt_R_start" type="StaticBody2D"]
+z_index = 1
+collision_layer = 3
+collision_mask = 3
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+z_index = -1
+texture_filter = 1
+sprite_frames = SubResource("SpriteFrames_e23ad")
+autoplay = "default"
+frame_progress = 0.48145
+flip_h = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_xcl5b")

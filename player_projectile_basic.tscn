@@ -4,11 +4,11 @@
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_wpdka"]
 [ext_resource type="AudioStream" uid="uid://dt0iqeflwnxvw" path="res://Assets/Sounds/sfx/projectile_doodleShoot.wav" id="3_b2uf6"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_0xdgo"]
-radius = 17.8885
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
+size = Vector2(48, 64)
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_4me25"]
-radius = 17.8885
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
+size = Vector2(48, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_awd6n"]
 atlas = ExtResource("2_wpdka")
@@ -28,7 +28,8 @@ animations = [{
 [node name="player_projectile_basic" type="CharacterBody2D"]
 z_index = 5
 collision_layer = 2
-safe_margin = 5.0
+floor_max_angle = 1.22173
+safe_margin = 1.0
 script = ExtResource("1_u33x2")
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
@@ -36,10 +37,10 @@ collision_layer = 2
 collision_mask = 4
 
 [node name="scan_collision" type="CollisionShape2D" parent="scan"]
-shape = SubResource("CircleShape2D_0xdgo")
+shape = SubResource("RectangleShape2D_jvbw3")
 
 [node name="main_collision" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_4me25")
+shape = SubResource("RectangleShape2D_ukwf1")
 
 [node name="animation" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

@@ -98,7 +98,7 @@ func handle_turn():
 
 func _ready():
 	basic_onReady()
-	hp = 3
+	hp = 2
 
 
 

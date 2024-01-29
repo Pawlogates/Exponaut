@@ -98,7 +98,7 @@ func manage_animation():
 
 func _ready():
 	basic_onReady()
-	hp = 4
+	hp = 3
 	%scanForLedge.enabled = false
 
 

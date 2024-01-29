@@ -143,6 +143,7 @@ one_shot = true
 
 [node name="idle" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_rxrky")
+volume_db = -10.0
 autoplay = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]

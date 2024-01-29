@@ -15,6 +15,10 @@ var projectile_shot = false
 var direction = 0
 var damageValue = 1
 
+var downwards_shot = false
+
+var direction_whenShot = 0
+
 
 func _process(delta):
 	if projectile_shot == false and Input.is_action_pressed("attack_fast"):
@@ -32,6 +36,12 @@ func _process(delta):
 		if Input.is_action_pressed("move_DOWN"):
 			velocity.x = 0
 			velocity.y = 400
+			downwards_shot = true
+			
+			if Globals.direction == 1:
+				rotation_degrees = 90
+			elif Globals.direction == -1:
+				rotation_degrees = -90
 			
 		
 		elif Globals.direction == 1:
@@ -44,12 +54,39 @@ func _process(delta):
 			velocity.x = -400
 			velocity.y = 0
 			direction = -1
-	
-	
-	
-	move_and_slide()	
+		
+		
+		direction_whenShot = Globals.direction
+		
+		
+		
+	if is_on_wall():
+		if direction == 1:
+			direction = -1
+		else:
+			direction = 1
 			
+		velocity.x = 100 * direction
+		
+		if direction != 0:
+			%animation.flip_h = (direction < 0)
 			
+	
+	if is_on_floor() and downwards_shot:
+		velocity.y = -100
+		
+		if direction_whenShot == 1:
+			rotation_degrees = -90
+		else:
+			rotation_degrees = 90
+		
+		
+	
+	
+	move_and_slide()
+
+
+
 	#elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Input.is_action_pressed("move_DOWN"):
 		#damageValue = 3
 		#started = true

@@ -6,24 +6,22 @@ extends Node2D
 
 
 @onready var level_finished = %"Level Finished"
-
-
-
 @onready var start_in_container = %StartInContainer
 @onready var start_in = %StartIn
 @onready var animation_player = %AnimationPlayer
 
-@onready var health_display = %health
 
-@export var playerStartHP = 15
+
+@onready var level_timeDisplay = %levelTime
+@onready var healthDisplay = %health
+@onready var keys_leftDisplay = %keysLeft
+
 
 
 var levelTime = 0
 var start_level_msec = 0.0
 var levelTime_visible = 0
 
-
-@onready var level_timeDisplay = %levelTime
 
 @onready var start_pos = global_position
 
@@ -37,11 +35,16 @@ var mode_timeAttack_manager = preload("res://mode_score_attack.tscn").instantiat
 
 
 
+@export var playerStartHP = 3
+var key_total = 50
+
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if Globals.mode_timeAttack:
 		add_child(mode_timeAttack_manager)
-		%music.stream = preload("res://Assets/Sounds/music/salad_ext.mp3")
+		%music.stream = preload("res://Assets/Sounds/music/mode_scoreAttack.mp3")
 		%music.volume_db = -3
 		%music.play()
 	
@@ -66,7 +69,7 @@ func _ready():
 	
 	
 	Globals.playerHP = playerStartHP
-	health_display.text = str(Globals.playerHP)
+	healthDisplay.text = str(Globals.playerHP)
 	start_level_msec = Time.get_ticks_msec()
 	
 	Globals.playerHit1.connect(reduceHp1)
@@ -105,6 +108,9 @@ func _ready():
 	
 	Globals.cheated_state = false
 	
+	await get_tree().create_timer(0.2, false).timeout
+	key_total = get_tree().get_nodes_in_group("key").size()
+	keys_leftDisplay.text = str(key_total)
 
 
 
@@ -241,17 +247,16 @@ func _physics_process(delta):
 	
 	
 	if Input.is_action_just_pressed("night_toggle"):
-		if night_toggle:
-			night_toggle = false
-			%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
-			%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = preload("res://Assets/Graphics/bg3.png")
-		else:
-			night_toggle = true
-			%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
-			%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bgFile_current
+		night_tileset_toggle()
 	
 	
 	
+	
+	player_dead()
+	
+
+
+
 
 #MAIN END
 
@@ -272,7 +277,7 @@ var night_toggle = true
 
 func reduceHp1():
 	Globals.playerHP -= 1
-	health_display.text = str("HP:", Globals.playerHP)
+	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		%Player/death.play()
 		retry_loadSave()
@@ -280,14 +285,14 @@ func reduceHp1():
 
 func reduceHp2():
 	Globals.playerHP -= 2
-	health_display.text = str("HP:", Globals.playerHP)
+	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		%Player/death.play()
 		retry_loadSave()
 
 func reduceHp3():
 	Globals.playerHP -= 3
-	health_display.text = str("HP:", Globals.playerHP)
+	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		%Player/death.play()
 		retry_loadSave()
@@ -322,7 +327,9 @@ func exitReached_show_screen():
 		get_tree().paused = true
 	
 	else:
-		%message.text = str("you need at least 750 collectibles bud :pinched_fingers: :pinching_hand: and so far you've only got ", Globals.collected_collectibles)
+		Globals.infoSign_current_text = "You need at least 750 collectibles to finish the level!"
+		Globals.infoSign_current_size = 2
+		Globals.info_sign_touched.emit()
 	
 
 
@@ -361,13 +368,51 @@ func retry():
 
 
 
+
+
+
+var starParticleScene = preload("res://particles_special_multiple.tscn")
+var starParticle = starParticleScene.instantiate()
+
 func retry_loadSave():
 	await get_tree().create_timer(0.1, false).timeout
 	Globals.playerHP = playerStartHP
-	health_display.text = str("HP:", Globals.playerHP)
+	healthDisplay.text = str("HP:", Globals.playerHP)
+	
+	
+	Globals.infoSign_current_text = "You died! Sorry for the loading time, I will need to make the loading zones smaller"
+	Globals.infoSign_current_size = 2
+	Globals.info_sign_touched.emit()
+	
+	dead = true
+	
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	
+	await get_tree().create_timer(2, false).timeout
+	
+	dead = false
+	
+	%Player.scale.x = 1
+	%Player.scale.y = 1
+	
 	load_game()
 
 
+
+var dead = false
+
+func player_dead():
+	if dead:
+		%Player.scale.x = move_toward(%Player.scale.x, 0, 0.05)
+		%Player.scale.y = move_toward(%Player.scale.y, 0, 0.05)
 
 
 
@@ -442,7 +487,10 @@ func save_game():
 			# Store the save dictionary as a new line in the save file.
 			save_gameFile.store_line(json_string)
 			
-			
+		
+		
+		Globals.saved_level_score = Globals.level_score
+		
 		Globals.saved_player_posX = %Player.position.x
 		Globals.saved_player_posY = %Player.position.y
 		
@@ -530,8 +578,6 @@ func saved_from_outside():
 
 
 
-
-
 func _on_debug_refresh_timeout():
 	fps.text = str("fps: ", Engine.get_frames_per_second())
 	test.text = str("total persistent objects present: ", Globals.test)
@@ -539,4 +585,41 @@ func _on_debug_refresh_timeout():
 	test3.text = str("total collectibles: ", Globals.test3)
 	test4.text = str("current active loading zone: ", Globals.test4)
 	
-	%message.text = str(Globals.collected_collectibles)
+	%TotalCollectibles_collected.text = str(Globals.collected_collectibles)
+	
+	Globals.inventory_selectedItem = 1
+
+
+
+
+func key_collected():
+	key_total -= 1
+	keys_leftDisplay.text = str(key_total)
+	
+	if key_total <= 0:
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key_block", "key_block_destroy")
+	
+	await get_tree().create_timer(8, false).timeout
+	
+	keys_leftDisplay.text = str(get_tree().get_nodes_in_group("key").size())
+
+
+
+func night_tileset_toggle():
+	if night_toggle:
+		night_toggle = false
+		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
+		%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = preload("res://Assets/Graphics/bg3.png")
+	else:
+		night_toggle = true
+		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
+		%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bgFile_current
+
+
+
+func set_night():
+	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
+
+
+func set_day():
+	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")

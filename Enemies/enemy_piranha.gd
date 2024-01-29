@@ -131,7 +131,7 @@ func manage_animation():
 
 func _ready():
 	basic_onReady()
-	hp = 3
+	hp = 2
 
 
 

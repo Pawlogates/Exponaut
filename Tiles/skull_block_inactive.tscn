@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://rbwrv3rfagoa"]
+
+[ext_resource type="Script" path="res://Tiles/skull_block.gd" id="1_8mjfh"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_c444b"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]
+size = Vector2(64, 64)
+
+[node name="skull_block" type="StaticBody2D" groups=["skull_block"]]
+z_index = 1
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_8mjfh")
+is_active = false
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+z_index = -1
+texture = ExtResource("1_c444b")
+region_enabled = true
+region_rect = Rect2(448, 896, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_xcl5b")

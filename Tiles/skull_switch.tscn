@@ -1,11 +1,11 @@
 [gd_scene load_steps=22 format=3 uid="uid://dunsjy0e6r37a"]
 
 [ext_resource type="Script" path="res://Tiles/skull_switch.gd" id="1_m4mvk"]
-[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="2_g6rym"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="2_hhjqm"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="3_halsg"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqmyr"]
-size = Vector2(64, 64)
+size = Vector2(48, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1u4re"]
 size = Vector2(48, 48)
@@ -323,6 +323,7 @@ animations = [{
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_m4mvk")
+collectibleAmount = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
@@ -346,16 +347,17 @@ libraries = {
 
 [node name="break_bonusBox" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("2_g6rym")
+stream = ExtResource("2_hhjqm")
 
 [node name="Node2D" type="Node2D" parent="."]
 unique_name_in_owner = true
+position = Vector2(0, -7)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Node2D"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_bd3tn")
 animation = &"idle"
-frame_progress = 0.228894
+frame_progress = 0.244073
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 modulate = Color(1, 1, 1, 0.0980392)

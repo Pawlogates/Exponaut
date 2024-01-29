@@ -77,6 +77,9 @@ var spawn_dust_effect = true
 
 var total_collectibles = 0
 
+var inside_wind = "none"
+
+
 
 func _ready():
 	Globals.player_pos = player.get_global_position()
@@ -102,7 +105,7 @@ func _ready():
 
 
 
-var weaponType = "basic"
+@export var weaponType = "basic"
 
 
 #MAIN START
@@ -272,8 +275,17 @@ func _process(delta):
 		elif not is_on_floor():
 			spawn_dust_effect = true
 			$dust_effect.stop()
-	
-	
+		
+		
+		if inside_wind != "none":
+			if inside_wind == "left":
+				position.x += -3
+			
+			elif inside_wind == "right":
+				position.x += 3
+		
+		
+		
 	
 	if Input.is_action_pressed("zoom_out"):
 		print(zoomValue)
@@ -326,12 +338,12 @@ func _process(delta):
 	
 	#DEBUG
 	
-	if not debugMovement and Input.is_action_just_pressed("ui_cancel"):
+	if not debugMovement and Input.is_action_just_pressed("cheat"):
 		#movement_data = preload("res://fasterMovementData.tres")
 		debugMovement = true
 		Globals.cheated.emit()
 		
-	elif debugMovement and Input.is_action_just_pressed("ui_cancel"):
+	elif debugMovement and Input.is_action_just_pressed("cheat"):
 		#movement_data = preload("res://fasterMovementData.tres")
 		debugMovement = false
 		
@@ -357,7 +369,7 @@ func _process(delta):
 	
 	#STUCK IN WALL
 	
-	if not can_stand_up and Input.is_action_just_pressed("jump"):
+	if velocity.y > 1000 and not can_stand_up and Input.is_action_just_pressed("jump"):
 		position.y += 6
 		position.x += 3
 	
@@ -366,7 +378,13 @@ func _process(delta):
 		position.x += 40
 	
 	
-
+	
+	
+	
+	if Globals.combo_tier >= 5:
+		weaponType = "phaser"
+	else:
+		weaponType = "basic"
 
 #MAIN END
 
@@ -393,9 +411,11 @@ var scene_projectile_basic = preload("res://player_projectile_basic.tscn")
 var attack_cooldown = false
 
 
+var insideWater_multiplier = 1
+
 func apply_gravity(delta):
 	if not is_on_floor() and not is_dashing or dash_slowdown:
-		velocity.y += gravity * 1.2 * delta # * movement_data.GRAVITY_SCALE
+		velocity.y += gravity * 1.2 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
 	
 	if is_dashing:
 		animated_sprite_2d.play("crouch")
@@ -405,7 +425,7 @@ func apply_gravity(delta):
 		if started_dash == false or dash_slowdown:
 			velocity.x = 0
 		else:
-			velocity.y += gravity * delta * 1.8 # * movement_data.GRAVITY_SCALE
+			velocity.y += gravity * delta * 1.8 * movement_data.GRAVITY_SCALE
 			
 			velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
 			
@@ -433,7 +453,7 @@ func handle_jump(delta):
 			jumpBuildVelocity_active = true
 	
 	if jumpBuildVelocity_active and Input.is_action_pressed("jump"):
-		velocity.y = move_toward(velocity.y, movement_data.JUMP_VELOCITY, 6000 * delta)
+		velocity.y = move_toward(velocity.y, movement_data.JUMP_VELOCITY, 6000 * insideWater_multiplier * delta)
 	
 	elif not is_on_floor():
 		
@@ -441,7 +461,7 @@ func handle_jump(delta):
 			velocity.y = movement_data.JUMP_VELOCITY / 2
 		
 		if Input.is_action_just_pressed("jump") and air_jump and not just_wall_jumped:
-			velocity.y = movement_data.JUMP_VELOCITY * 0.8
+			velocity.y = movement_data.JUMP_VELOCITY * 0.8 * insideWater_multiplier
 			air_jump = false
 			jump.play()
 		
@@ -459,7 +479,7 @@ func handle_wall_jump():
 	
 	if Input.is_action_just_pressed("jump") and wall_jump:
 		velocity.x = wall_normal.x * movement_data.SPEED / 2
-		velocity.y = movement_data.JUMP_VELOCITY * 1.2
+		velocity.y = movement_data.JUMP_VELOCITY * 1.2 * insideWater_multiplier
 		just_wall_jumped = true
 		wall_jump = false
 		
@@ -480,10 +500,11 @@ func handle_acceleration_direction(delta):
 	
 	if not is_on_floor(): return
 	
+	#HANDLE WALKING
 	if direction != 0:
-		velocity.x = move_toward(velocity.x, direction * movement_data.SPEED, movement_data.ACCELERATION * delta * crouchMultiplier)
+		velocity.x = move_toward(velocity.x, direction * movement_data.SPEED, movement_data.ACCELERATION * delta * crouchMultiplier * insideWater_multiplier)
 		
-		
+	
 	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
 		velocity.x = velocity.x * 0.5
 
@@ -713,3 +734,5 @@ func _on_dust_effect_timeout():
 
 func _on_attack_cooldown_timeout():
 	attack_cooldown = false
+	if Globals.direction != 0:
+		$AnimatedSprite2D.flip_h = (Globals.direction < 0)

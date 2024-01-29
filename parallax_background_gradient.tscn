@@ -24,6 +24,7 @@ motion_scale = Vector2(2, 1.25)
 motion_mirroring = Vector2(1920, 1080)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+modulate = Color(1, 1, 1, 0.392157)
 texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 1080.0

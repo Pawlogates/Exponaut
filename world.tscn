@@ -1,13 +1,14 @@
-[gd_scene load_steps=17 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=18 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
 [ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://parallax_background_gradient.tscn" id="3_mn32p"]
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Themes/Score_theme.tres" id="5_1aw6r"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="5_ay58j"]
-[ext_resource type="AudioStream" uid="uid://cdall1ibqqpha" path="res://Assets/Sounds/music/Rayman 3： Hoodlum Havoc Soundtrack - (Ambient) The Deadlands.mp3" id="5_hddan"]
+[ext_resource type="AudioStream" uid="uid://016x6ugxmvem" path="res://Assets/Sounds/music/ambience_loop14.mp3" id="5_hddan"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://level_finished_screen.tscn" id="6_mgn80"]
-[ext_resource type="AudioStream" uid="uid://c0uv4pl4astv0" path="res://Assets/Sounds/music/Pekka Kana 2 - Frogs.mp3" id="6_wsqx4"]
+[ext_resource type="AudioStream" uid="uid://pbyty077bryl" path="res://Assets/Sounds/music/ambience_loop19.mp3" id="6_wsqx4"]
+[ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://info_text_display.tscn" id="7_2y4xw"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://quicksaved_display.tscn" id="7_nexah"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://score_display.tscn" id="7_vhiat"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
@@ -52,7 +53,7 @@ _data = {
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_8iwd0")
-playerStartHP = 250
+playerStartHP = 15
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 unique_name_in_owner = true
@@ -67,6 +68,7 @@ autoplay = true
 [node name="music" type="AudioStreamPlayer" parent="Player"]
 unique_name_in_owner = true
 stream = ExtResource("6_wsqx4")
+volume_db = -5.0
 autoplay = true
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("3_mn32p")]
@@ -81,6 +83,16 @@ script = null
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 30
+
+[node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 832.0
+offset_bottom = 1056.0
+grow_horizontal = 2
+
+[node name="info_textDisplay" parent="HUD/CenterContainer_info" instance=ExtResource("7_2y4xw")]
+layout_mode = 2
 
 [node name="Level Finished" parent="HUD" instance=ExtResource("6_mgn80")]
 unique_name_in_owner = true
@@ -130,6 +142,7 @@ grow_horizontal = 2
 
 [node name="levelTime" type="Label" parent="HUD/CenterContainerTime"]
 unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
 text = "time"
@@ -142,9 +155,10 @@ visible_ratio = 0.0
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -128.0
-offset_top = 24.0
-offset_bottom = 72.0
+offset_left = -192.0
+offset_top = 64.0
+offset_right = -64.0
+offset_bottom = 112.0
 grow_horizontal = 0
 
 [node name="health" type="Label" parent="HUD/CenterContainerHealth"]
@@ -152,28 +166,92 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
-text = "hp"
+text = "HP"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CenterContainerMessage" type="CenterContainer" parent="HUD"]
-anchors_preset = 2
+[node name="CenterContainerKeysLeft" type="CenterContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
+anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 64.0
+offset_left = -256.0
 offset_top = -88.0
-offset_right = 192.0
-offset_bottom = -40.0
+offset_right = -128.0
+offset_bottom = -24.0
+grow_horizontal = 0
 grow_vertical = 0
 
-[node name="message" type="Label" parent="HUD/CenterContainerMessage"]
+[node name="keysLeft" type="Label" parent="HUD/CenterContainerKeysLeft"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 0)
+custom_minimum_size = Vector2(128, 64)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
-theme_override_font_sizes/font_size = 16
+text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="filler_TotalKeys_left" type="CenterContainer" parent="HUD"]
+offset_left = 1568.0
+offset_top = 928.0
+offset_right = 1888.0
+offset_bottom = 992.0
+
+[node name="filler_TotalKeys_left" type="Label" parent="HUD/filler_TotalKeys_left"]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+theme_override_font_sizes/font_size = 22
+text = "Keys left"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TotalCollectibles_collected" type="CenterContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1728.0
+offset_top = -248.0
+offset_right = -1600.0
+offset_bottom = -184.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TotalCollectibles_collected" type="Label" parent="HUD/TotalCollectibles_collected"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="filler_TotalCollectibles_collected" type="CenterContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1824.0
+offset_top = -312.0
+offset_right = -1504.0
+offset_bottom = -248.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="filler_TotalCollectibles_collected" type="Label" parent="HUD/filler_TotalCollectibles_collected"]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+theme = ExtResource("5_ay58j")
+theme_override_font_sizes/font_size = 22
+text = "Collectibles collected"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="CenterContainerFps" type="CenterContainer" parent="HUD"]
 anchors_preset = -1

@@ -130,7 +130,7 @@ func _on_fly_end_timeout():
 
 func _ready():
 	basic_onReady()
-	hp = 15
+	hp = 10
 
 
 

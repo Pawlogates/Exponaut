@@ -94,6 +94,7 @@ size = Vector2(144, 160)
 [node name="enemyBossMetalHen" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
+floor_max_angle = 0.523599
 script = ExtResource("1_uw6vv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

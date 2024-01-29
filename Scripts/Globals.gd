@@ -89,6 +89,18 @@ var collected_collectibles = 0
 var inventory_selectedItem = 1
 var inventory_onSpawn_scene = null
 
+var infoSign_current_text = "none"
+var infoSign_current_size = 0
+signal info_sign_touched
+
+
+
+
+
+
+
+
+
 
 
 var mode_timeAttack = false

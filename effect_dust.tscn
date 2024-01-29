@@ -217,7 +217,6 @@ animations = [{
 [node name="effect_dust" type="AnimatedSprite2D"]
 z_index = -1
 sprite_frames = SubResource("SpriteFrames_63o3b")
-autoplay = "default"
 frame = 28
 frame_progress = 1.0
 script = ExtResource("2_x01db")

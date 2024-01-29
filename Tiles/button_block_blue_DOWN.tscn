@@ -1,0 +1,180 @@
+[gd_scene load_steps=14 format=3 uid="uid://cry8t6ojcoabt"]
+
+[ext_resource type="Script" path="res://Tiles/button_block.gd" id="1_4vf1q"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_47s6l"]
+
+[sub_resource type="Animation" id="Animation_mgiq8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_26ocg"]
+resource_name = "blue_back_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 64), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_b601d"]
+resource_name = "blue_back_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -64), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_u5egp"]
+resource_name = "blue_move_down"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 64)]
+}
+
+[sub_resource type="Animation" id="Animation_ybs0j"]
+resource_name = "blue_move_up"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -64)]
+}
+
+[sub_resource type="Animation" id="Animation_10tkf"]
+resource_name = "green_back_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-64, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ho8nu"]
+resource_name = "green_back_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(64, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a8sda"]
+resource_name = "green_move_left"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-64, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_bb2x6"]
+resource_name = "green_move_right"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(64, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1356v"]
+_data = {
+"RESET": SubResource("Animation_mgiq8"),
+"blue_back_down": SubResource("Animation_26ocg"),
+"blue_back_up": SubResource("Animation_b601d"),
+"blue_move_down": SubResource("Animation_u5egp"),
+"blue_move_up": SubResource("Animation_ybs0j"),
+"green_back_left": SubResource("Animation_10tkf"),
+"green_back_right": SubResource("Animation_ho8nu"),
+"green_move_left": SubResource("Animation_a8sda"),
+"green_move_right": SubResource("Animation_bb2x6")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
+size = Vector2(64, 64)
+
+[node name="button_block_blue_DOWN_root" type="Node2D"]
+z_index = -1
+
+[node name="button_block_blue_DOWN" type="StaticBody2D" parent="." groups=["button_block"]]
+z_index = 1
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_4vf1q")
+blockType = "blue"
+blockDirection = 1
+
+[node name="Sprite2D" type="Sprite2D" parent="button_block_blue_DOWN"]
+texture = ExtResource("2_47s6l")
+region_enabled = true
+region_rect = Rect2(192, 896, 64, 64)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="button_block_blue_DOWN/Sprite2D"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_1356v")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="button_block_blue_DOWN"]
+shape = SubResource("RectangleShape2D_gk7p3")

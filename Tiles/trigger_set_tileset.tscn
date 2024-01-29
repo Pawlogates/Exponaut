@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://fn8h8xw3kjbv"]
+
+[ext_resource type="Script" path="res://Tiles/trigger_set_tileset.gd" id="1_xp434"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
+size = Vector2(64, 64)
+
+[node name="trigger_set_night" type="Area2D" groups=["bgChange_area"]]
+collision_layer = 4
+collision_mask = 2
+input_pickable = false
+script = ExtResource("1_xp434")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jb7dg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

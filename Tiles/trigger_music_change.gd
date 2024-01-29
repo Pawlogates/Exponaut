@@ -12,7 +12,7 @@ func _process(_delta):
 
 
 
-@export var music_file = preload("res://Assets/Sounds/music/tutorial_loop.mp3")
+@export var music_file = preload("res://Assets/Sounds/music/ambience_loop1.mp3")
 
 func _on_area_entered(area):
 	if not Globals.mode_timeAttack:
