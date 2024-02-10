@@ -1,0 +1,101 @@
+[gd_scene load_steps=12 format=3 uid="uid://clq84usohsuk8"]
+
+[ext_resource type="Script" path="res://weather.gd" id="1_rmu0k"]
+
+[sub_resource type="Curve" id="Curve_qk6pp"]
+min_value = -20.0
+max_value = 20.0
+_data = [Vector2(0, 25), 0.0, -20.0, 0, 0, Vector2(0.2, -5), -15.0, 0.0, 0, 0, Vector2(0.4, 20), 0.0, 0.0, 0, 0, Vector2(0.6, -10), 0.0, 0.0, 0, 0, Vector2(0.8, 10), 0.0, 0.0, 0, 0, Vector2(1, -25), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_wmtav"]
+curve_x = SubResource("Curve_qk6pp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gjg8p"]
+particle_flag_disable_z = true
+angular_velocity_min = -90.0
+angular_velocity_max = 90.0
+directional_velocity_min = -120.0
+directional_velocity_max = 120.0
+directional_velocity_curve = SubResource("CurveXYZTexture_wmtav")
+gravity = Vector3(0, 98, 0)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_am125"]
+load_path = "res://.godot/imported/sprites_other.png-b94f1904300734566d6e12af7c8ca356.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1q6u3"]
+atlas = SubResource("CompressedTexture2D_am125")
+region = Rect2(256, 1024, 32, 32)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_327yk"]
+load_path = "res://.godot/imported/sprites_other.png-b94f1904300734566d6e12af7c8ca356.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_th81k"]
+atlas = SubResource("CompressedTexture2D_327yk")
+region = Rect2(288, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_32ely"]
+atlas = SubResource("CompressedTexture2D_327yk")
+region = Rect2(320, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ykene"]
+atlas = SubResource("CompressedTexture2D_327yk")
+region = Rect2(384, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_luchd"]
+atlas = SubResource("CompressedTexture2D_327yk")
+region = Rect2(480, 1024, 32, 32)
+
+[node name="weather_leaves" type="Node2D"]
+position = Vector2(0, -1000)
+script = ExtResource("1_rmu0k")
+weather_type = "leaves"
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 5
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_gjg8p")
+texture = SubResource("AtlasTexture_1q6u3")
+lifetime = 10.0
+fixed_fps = 60
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+
+[node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_gjg8p")
+texture = SubResource("AtlasTexture_th81k")
+lifetime = 10.0
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+
+[node name="GPUParticles2D3" type="GPUParticles2D" parent="."]
+z_index = -5
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_gjg8p")
+texture = SubResource("AtlasTexture_32ely")
+lifetime = 10.0
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+
+[node name="GPUParticles2D4" type="GPUParticles2D" parent="."]
+z_index = -6
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_gjg8p")
+texture = SubResource("AtlasTexture_ykene")
+lifetime = 10.0
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+
+[node name="GPUParticles2D5" type="GPUParticles2D" parent="."]
+z_index = -7
+amount = 12
+process_material = SubResource("ParticleProcessMaterial_gjg8p")
+texture = SubResource("AtlasTexture_luchd")
+lifetime = 10.0
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 4.0
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 2.1
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]

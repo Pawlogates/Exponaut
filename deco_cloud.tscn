@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjvqua2q6ukcb"]
+
+[ext_resource type="Texture2D" uid="uid://chl7u53kjionw" path="res://Assets/Graphics/sprites/sprites_deco.png" id="1_o4wpy"]
+
+[node name="deco_cloud" type="ParallaxBackground"]
+follow_viewport_enabled = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="."]
+motion_scale = Vector2(-0.05, -0.15)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayer"]
+z_index = -10
+texture = ExtResource("1_o4wpy")
+region_enabled = true
+region_rect = Rect2(512, 0, 512, 320)

@@ -52,7 +52,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_jyprq")
 }],
 "loop": true,
-"name": &"rolling",
+"name": &"anim",
 "speed": 7.0
 }]
 
@@ -544,9 +544,8 @@ monitorable = false
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_tm4hn")
-animation = &"rolling"
-autoplay = "rolling"
-frame_progress = 0.261635
+animation = &"anim"
+autoplay = "anim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true
@@ -596,6 +595,8 @@ libraries = {
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 modulate = Color(1, 1, 1, 0.0980392)
+position = Vector2(-4.19617e-05, -4.19617e-05)
+scale = Vector2(0.512, 0.512)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

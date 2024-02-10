@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=19 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_428jj"]
@@ -8,12 +8,14 @@
 [ext_resource type="PackedScene" uid="uid://nyr7qjtu4enc" path="res://Tiles/water_top.tscn" id="6_2h0mi"]
 [ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://deco_waterfall.tscn" id="7_luh3n"]
 [ext_resource type="PackedScene" uid="uid://b3l8f8715wudj" path="res://Collectibles/collectibleCarrot.tscn" id="8_1vvqk"]
+[ext_resource type="PackedScene" uid="uid://b2y5linmn0ira" path="res://Collectibles/Gift_orangeBox.tscn" id="8_xaxdm"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="9_8yy25"]
 [ext_resource type="PackedScene" uid="uid://ceppiucikm3xr" path="res://Collectibles/collectibleGreenJewel.tscn" id="10_ktedw"]
 [ext_resource type="PackedScene" uid="uid://6vpm41lnycqx" path="res://Enemies/enemy_hedgehog.tscn" id="11_qfc43"]
 [ext_resource type="PackedScene" uid="uid://cjqinbb60vh6" path="res://Enemies/enemy_frog.tscn" id="12_oejvb"]
 [ext_resource type="PackedScene" uid="uid://c63l38ki43ymp" path="res://Enemies/enemy_bossMetalHen.tscn" id="13_y1rp3"]
 [ext_resource type="PackedScene" uid="uid://dctah68au68co" path="res://Tiles/level_exit.tscn" id="14_dj3u0"]
+[ext_resource type="PackedScene" uid="uid://dp8i058tyn1ej" path="res://Collectibles/Gift_grapeBox.tscn" id="15_bndgc"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -31,6 +33,8 @@ scenes/12/scene = ExtResource("4_njc2m")
 scenes/13/scene = ExtResource("5_7w6yf")
 scenes/14/scene = ExtResource("6_2h0mi")
 scenes/15/scene = ExtResource("7_luh3n")
+scenes/17/scene = ExtResource("15_bndgc")
+scenes/18/scene = ExtResource("8_xaxdm")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)
@@ -39,7 +43,7 @@ sources/0 = SubResource("TileSetScenesCollectionSource_kxjp3")
 
 [node name="tileset_objectsSmall" type="TileMap"]
 visibility_layer = 2
-z_index = 1
+z_index = -1
 position = Vector2(16, 16)
 tile_set = SubResource("TileSet_bxi0m")
 rendering_quadrant_size = 32

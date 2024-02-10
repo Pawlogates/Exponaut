@@ -1,0 +1,84 @@
+[gd_scene load_steps=6 format=3 uid="uid://bvkqgv3483gp7"]
+
+[ext_resource type="Script" path="res://weather.gd" id="1_7oq6u"]
+
+[sub_resource type="Curve" id="Curve_xxki0"]
+min_value = 0.5
+_data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Curve" id="Curve_pscns"]
+min_value = 4.0
+max_value = 5.0
+_data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_wq1ko"]
+colors = PackedColorArray(0.286275, 0, 1, 1, 0, 0.419608, 1, 1)
+
+[sub_resource type="Curve" id="Curve_qhknb"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="weather_rain" type="Node2D"]
+position = Vector2(0, -1000)
+script = ExtResource("1_7oq6u")
+weather_type = "rain"
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+z_index = 5
+amount = 36
+lifetime = 4.0
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 200)
+direction = Vector2(0, 0)
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 400.0
+scale_amount_max = 5.0
+split_scale = true
+scale_curve_x = SubResource("Curve_xxki0")
+scale_curve_y = SubResource("Curve_pscns")
+color = Color(0, 0.470588, 1, 1)
+color_ramp = SubResource("Gradient_wq1ko")
+hue_variation_min = -0.1
+hue_variation_curve = SubResource("Curve_qhknb")
+
+[node name="CPUParticles2D2" type="CPUParticles2D" parent="."]
+z_index = -5
+amount = 36
+lifetime = 4.0
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 200)
+direction = Vector2(0, 0)
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 400.0
+scale_amount_max = 5.0
+split_scale = true
+scale_curve_x = SubResource("Curve_xxki0")
+scale_curve_y = SubResource("Curve_pscns")
+color = Color(0, 0.470588, 1, 1)
+color_ramp = SubResource("Gradient_wq1ko")
+hue_variation_min = -0.1
+hue_variation_curve = SubResource("Curve_qhknb")
+
+[node name="CPUParticles2D3" type="CPUParticles2D" parent="."]
+z_index = -10
+amount = 36
+lifetime = 4.0
+emission_shape = 3
+emission_rect_extents = Vector2(1200, 200)
+direction = Vector2(0, 0)
+spread = 180.0
+initial_velocity_min = 100.0
+initial_velocity_max = 400.0
+scale_amount_max = 5.0
+split_scale = true
+scale_curve_x = SubResource("Curve_xxki0")
+scale_curve_y = SubResource("Curve_pscns")
+color = Color(0, 0.470588, 1, 1)
+color_ramp = SubResource("Gradient_wq1ko")
+hue_variation_min = -0.1
+hue_variation_curve = SubResource("Curve_qhknb")

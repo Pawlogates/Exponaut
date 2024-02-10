@@ -44,6 +44,12 @@ func _on_area_entered(area):
 			splashParticle = splashParticleScene.instantiate()
 			splashParticle.global_position = Globals.player_pos
 			get_parent().add_child(splashParticle)
+		
+		
+		elif area_type == "kill":
+			Globals.kill_player.emit()
+
+
 
 
 

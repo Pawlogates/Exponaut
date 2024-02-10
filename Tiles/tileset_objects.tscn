@@ -1,4 +1,4 @@
-[gd_scene load_steps=57 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=76 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_6ck4y"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_e1gk0"]
@@ -53,7 +53,26 @@
 [ext_resource type="PackedScene" uid="uid://cvrb8bm4glbln" path="res://Collectibles/collectibleKey.tscn" id="47_lkjvr"]
 [ext_resource type="PackedScene" uid="uid://itemg8vjnbw6" path="res://Collectibles/collectibleKey_floating.tscn" id="48_3mplc"]
 [ext_resource type="PackedScene" uid="uid://don6gojhtapa8" path="res://Collectibles/collectibleKey_opener.tscn" id="49_b3hor"]
+[ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="50_6cwcb"]
 [ext_resource type="PackedScene" uid="uid://bms6jdadro303" path="res://Tiles/special_block.tscn" id="50_q2vk4"]
+[ext_resource type="PackedScene" uid="uid://bh7i3yyfgbobi" path="res://Collectibles/collectibleBigApple.tscn" id="51_1mmma"]
+[ext_resource type="PackedScene" uid="uid://doe182qfejctt" path="res://Tiles/Teleporter_blue.tscn" id="51_y4y5m"]
+[ext_resource type="PackedScene" uid="uid://qygd1xyixtnc" path="res://Tiles/Teleporter_red.tscn" id="52_pmaic"]
+[ext_resource type="PackedScene" uid="uid://bx654itr3jjdo" path="res://Tiles/Teleporter_green.tscn" id="54_pwru3"]
+[ext_resource type="PackedScene" uid="uid://b1w4loat34xk7" path="res://Collectibles/collectibleWeapon_basic.tscn" id="55_32yir"]
+[ext_resource type="PackedScene" uid="uid://106ks5dpufn4" path="res://Collectibles/collectibleWeapon_short_shotDelay.tscn" id="56_0sw2r"]
+[ext_resource type="PackedScene" uid="uid://cxfc7xn7ysp63" path="res://Collectibles/bonus_box_rotApples.tscn" id="57_s5yqy"]
+[ext_resource type="PackedScene" uid="uid://bcjt0a5qlv4g8" path="res://Collectibles/collectibleWeapon_fire.tscn" id="57_vyn72"]
+[ext_resource type="PackedScene" uid="uid://besfygg5x7036" path="res://Collectibles/collectibleWeapon_ice.tscn" id="58_5unxw"]
+[ext_resource type="PackedScene" uid="uid://bdocdar1b5hn6" path="res://Collectibles/collectibleWeapon_destructive_fast_speed.tscn" id="59_6gv3b"]
+[ext_resource type="PackedScene" uid="uid://cig0exfa58bcq" path="res://Collectibles/collectibleWeapon_veryFast_speed.tscn" id="60_oxkbj"]
+[ext_resource type="PackedScene" uid="uid://cqmq1vkpi7cop" path="res://Collectibles/collectibleWeapon_phaser.tscn" id="61_72vnh"]
+[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://butterfly.tscn" id="62_rysth"]
+[ext_resource type="PackedScene" uid="uid://bopqi6gxm65nb" path="res://butterfly_key.tscn" id="64_oxloc"]
+[ext_resource type="PackedScene" uid="uid://rl2pxvlbj6gb" path="res://butterfly_score.tscn" id="65_w4x0u"]
+[ext_resource type="PackedScene" uid="uid://e2x7x0glinh" path="res://Enemies/friendly_hen.tscn" id="66_i75a4"]
+[ext_resource type="PackedScene" uid="uid://c6bowx3li0fvy" path="res://Enemies/friendly_chicken.tscn" id="67_xr1ou"]
+[ext_resource type="PackedScene" uid="uid://dofb2sjouxgdr" path="res://Collectibles/collectibleFeather.tscn" id="71_uhm68"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -111,7 +130,26 @@ scenes/51/scene = ExtResource("46_0r7f1")
 scenes/52/scene = ExtResource("47_lkjvr")
 scenes/53/scene = ExtResource("48_3mplc")
 scenes/54/scene = ExtResource("49_b3hor")
+scenes/55/scene = ExtResource("50_6cwcb")
+scenes/56/scene = ExtResource("51_1mmma")
 scenes/57/scene = ExtResource("50_q2vk4")
+scenes/58/scene = ExtResource("51_y4y5m")
+scenes/59/scene = ExtResource("52_pmaic")
+scenes/60/scene = ExtResource("54_pwru3")
+scenes/61/scene = ExtResource("57_s5yqy")
+scenes/62/scene = ExtResource("55_32yir")
+scenes/63/scene = ExtResource("56_0sw2r")
+scenes/64/scene = ExtResource("57_vyn72")
+scenes/65/scene = ExtResource("58_5unxw")
+scenes/66/scene = ExtResource("59_6gv3b")
+scenes/67/scene = ExtResource("60_oxkbj")
+scenes/68/scene = ExtResource("61_72vnh")
+scenes/69/scene = ExtResource("62_rysth")
+scenes/70/scene = ExtResource("64_oxloc")
+scenes/71/scene = ExtResource("65_w4x0u")
+scenes/72/scene = ExtResource("66_i75a4")
+scenes/73/scene = ExtResource("67_xr1ou")
+scenes/74/scene = ExtResource("71_uhm68")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(64, 64)
@@ -120,19 +158,16 @@ sources/0 = SubResource("TileSetScenesCollectionSource_kxjp3")
 
 [node name="tileset_objects" type="TileMap"]
 visibility_layer = 2
+z_index = -1
 tile_set = SubResource("TileSet_bxi0m")
 rendering_quadrant_size = 64
 format = 2
 layer_0/name = "main"
 layer_1/name = "main_a"
-layer_1/z_index = 1
 layer_1/tile_data = PackedInt32Array()
 layer_2/name = "main_b"
-layer_2/z_index = 2
 layer_2/tile_data = PackedInt32Array()
 layer_3/name = "main_c"
-layer_3/z_index = 3
 layer_3/tile_data = PackedInt32Array()
 layer_4/name = "main_d"
-layer_4/z_index = 4
 layer_4/tile_data = PackedInt32Array()

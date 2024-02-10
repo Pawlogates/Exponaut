@@ -65,6 +65,8 @@ var dash_end_slowdown = false
 var jumpBuildVelocity_active = false
 
 
+var dead = false
+
 var direction = 1
 var shooting = false
 
@@ -80,6 +82,11 @@ var total_collectibles = 0
 var inside_wind = "none"
 
 
+@export var cameraLimit_left = 0.0
+@export var cameraLimit_right = 0.0
+@export var cameraLimit_bottom = 0.0
+@export var cameraLimit_top = 0.0
+
 
 func _ready():
 	Globals.player_pos = player.get_global_position()
@@ -93,25 +100,48 @@ func _ready():
 	Globals.playerHit2.connect(reduceHp2)
 	Globals.playerHit3.connect(reduceHp3)
 			
-	Events.shot_charged.connect(charged_effect)
-	Events.shot.connect(cancel_effect)
+	Globals.shot_charged.connect(charged_effect)
+	Globals.shot.connect(cancel_effect)
 	
 	
+	if cameraLimit_left != 0.0:
+		%Camera2D.limit_left = cameraLimit_left
+		%Camera2D.limit_right = cameraLimit_right
+		%Camera2D.limit_bottom = cameraLimit_bottom
+		%Camera2D.limit_top = cameraLimit_top
 	
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
 	total_collectibles = get_tree().get_nodes_in_group("Collectibles").size()
+	
+	
+	if Globals.mode_scoreAttack:
+		weaponType = "basic"
 
 
 
 
-@export var weaponType = "basic"
+
+var attack_cooldown = false
+@export var weaponType = "none"
+
+#WEAPON TYPES
+var scene_projectile_phaser = preload("res://player_projectile_phaser.tscn")
+var scene_projectile_basic = preload("res://player_projectile_basic.tscn")
+var scene_projectile_short_shotDelay = preload("res://player_projectile_short_shotDelay.tscn")
+var scene_projectile_ice = preload("res://player_projectile_ice.tscn")
+var scene_projectile_fire = preload("res://player_projectile_fire.tscn")
+var scene_projectile_destructive_fast_speed = preload("res://player_projectile_destructive_fast_speed.tscn")
+var scene_projectile_veryFast_speed = preload("res://player_projectile_veryFast_speed.tscn")
+
+#WEAPON TYPES END
+
 
 
 #MAIN START
 
 func _process(delta):
-	if not debugMovement:
+	if not dead and not debugMovement:
 		direction = Input.get_axis("move_L", "move_R")
 		apply_gravity(delta)
 		handle_wall_jump()
@@ -120,10 +150,12 @@ func _process(delta):
 		
 		if Input.is_action_just_pressed("attack_fast"):
 			if weaponType == "phaser":
-				var projectile_quick = scene_projectile_quick.instantiate()
-				add_child(projectile_quick)
-			
-			elif weaponType == "basic":
+				var projectile_phaser = scene_projectile_phaser.instantiate()
+				add_child(projectile_phaser)
+	
+	
+		if Input.is_action_pressed("attack_fast"):
+			if weaponType == "basic":
 				if not attack_cooldown:
 					attack_cooldown = true
 					$attack_cooldown.start()
@@ -138,11 +170,94 @@ func _process(delta):
 					
 				if direction != 0:
 					animated_sprite_2d.flip_h = (direction < 0)
-					
-					
-				
-				
 			
+			
+			
+			elif weaponType == "short_shotDelay":
+				if not attack_cooldown:
+					attack_cooldown = true
+					$attack_cooldown.start()
+					
+					shooting = true
+					shoot_anim_delay.start()
+					animated_sprite_2d.play("shoot")
+					
+					var projectile_short_shotDelay = scene_projectile_short_shotDelay.instantiate()
+					projectile_short_shotDelay.position = position + Vector2(Globals.direction * 32, 0)
+					get_parent().add_child(projectile_short_shotDelay)
+					
+				if direction != 0:
+					animated_sprite_2d.flip_h = (direction < 0)
+					
+				
+				
+			elif weaponType == "ice":
+				if not attack_cooldown:
+					attack_cooldown = true
+					$attack_cooldown.start()
+					
+					shooting = true
+					shoot_anim_delay.start()
+					animated_sprite_2d.play("shoot")
+					
+					var projectile_ice = scene_projectile_ice.instantiate()
+					projectile_ice.position = position + Vector2(Globals.direction * 32, 0)
+					get_parent().add_child(projectile_ice)
+					
+				if direction != 0:
+					animated_sprite_2d.flip_h = (direction < 0)
+				
+				
+				
+			elif weaponType == "fire":
+				if not attack_cooldown:
+					attack_cooldown = true
+					$attack_cooldown.start()
+					
+					shooting = true
+					shoot_anim_delay.start()
+					animated_sprite_2d.play("shoot")
+					
+					var projectile_fire = scene_projectile_fire.instantiate()
+					projectile_fire.position = position + Vector2(Globals.direction * 32, 0)
+					get_parent().add_child(projectile_fire)
+					
+				if direction != 0:
+					animated_sprite_2d.flip_h = (direction < 0)
+				
+				
+			elif weaponType == "destructive_fast_speed":
+				if not attack_cooldown:
+					attack_cooldown = true
+					$attack_cooldown.start()
+					
+					shooting = true
+					shoot_anim_delay.start()
+					animated_sprite_2d.play("shoot")
+					
+					var projectile_destructive_fast_speed = scene_projectile_destructive_fast_speed.instantiate()
+					projectile_destructive_fast_speed.position = position + Vector2(Globals.direction * 32, 0)
+					get_parent().add_child(projectile_destructive_fast_speed)
+					
+				if direction != 0:
+					animated_sprite_2d.flip_h = (direction < 0)
+			
+			
+			elif weaponType == "veryFast_speed":
+				if not attack_cooldown:
+					attack_cooldown = true
+					$attack_cooldown.start()
+					
+					shooting = true
+					shoot_anim_delay.start()
+					animated_sprite_2d.play("shoot")
+					
+					var projectile_veryFast_speed = scene_projectile_veryFast_speed.instantiate()
+					projectile_veryFast_speed.position = position + Vector2(Globals.direction * 32, 0)
+					get_parent().add_child(projectile_veryFast_speed)
+					
+				if direction != 0:
+					animated_sprite_2d.flip_h = (direction < 0)
 		
 		#PLAYER SHOOTING ANIMATION
 		
@@ -180,10 +295,10 @@ func _process(delta):
 			is_dashing = true
 			$dash_timer.start()
 			player_collision.shape.extents = Vector2(20, 20)
-			player_collision.position += Vector2(0, 32)
+			player_collision.position += Vector2(0, 36)
 			
-			player_hitbox.position += Vector2(0, 32)
 			player_hitbox.shape.extents = Vector2(20, 20)
+			player_hitbox.position += Vector2(0, 36)
 		
 		#DASH LOGIC END
 		
@@ -380,11 +495,11 @@ func _process(delta):
 	
 	
 	
-	
-	if Globals.combo_tier >= 5:
-		weaponType = "phaser"
-	else:
-		weaponType = "basic"
+	if Globals.mode_scoreAttack:
+		if Globals.combo_tier >= 5:
+			weaponType = "phaser"
+		else:
+			weaponType = "basic"
 
 #MAIN END
 
@@ -403,12 +518,6 @@ var speedBlockActive = false
 var dash_slowdown = false
 var wall_jump = false
 
-
-#WEAPON TYPES
-var scene_projectile_quick = preload("res://projectile_basic_quick.tscn")
-var scene_projectile_basic = preload("res://player_projectile_basic.tscn")
-
-var attack_cooldown = false
 
 
 var insideWater_multiplier = 1
@@ -681,8 +790,9 @@ func debug_refresh():
 	Globals.test = get_tree().get_nodes_in_group("Persist").size() + get_tree().get_nodes_in_group("bonusBox").size()
 	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size() + get_tree().get_nodes_in_group("loadingZone4").size() + get_tree().get_nodes_in_group("loadingZone0").size()
 	Globals.test3 = get_tree().get_nodes_in_group("Collectibles").size()
-	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size()
 	Globals.test4 = Globals.loadingZone_current
+	
+	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size()
 
 #DEBUG END
 

@@ -1,0 +1,131 @@
+[gd_scene load_steps=13 format=3 uid="uid://ckwa2ip4a8lok"]
+
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_es3tu"]
+[ext_resource type="Script" path="res://leaf.gd" id="2_7u465"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b13dp"]
+atlas = ExtResource("1_es3tu")
+region = Rect2(320, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sxbbh"]
+atlas = ExtResource("1_es3tu")
+region = Rect2(384, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cckm2"]
+atlas = ExtResource("1_es3tu")
+region = Rect2(544, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1olr"]
+atlas = ExtResource("1_es3tu")
+region = Rect2(448, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bl18g"]
+atlas = ExtResource("1_es3tu")
+region = Rect2(480, 1024, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2lqp"]
+atlas = ExtResource("1_es3tu")
+region = Rect2(512, 1024, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_6i24x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b13dp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sxbbh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cckm2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1olr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bl18g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2lqp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_ihg6s"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_pp4ka"]
+resource_name = "falling"
+length = 8.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 2, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 1.4, -116, 177, -1, 22, 1.1, -68, -87, -0.7, 0, 0.6, 0, 86, -1, -43, 1.4, 19, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2.2, 4.3, 6.1, 8)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1296, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 8)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_40unu"]
+_data = {
+"RESET": SubResource("Animation_ihg6s"),
+"falling": SubResource("Animation_pp4ka")
+}
+
+[node name="leaf2_root" type="Node2D"]
+
+[node name="leaf2" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_6i24x")
+autoplay = "default"
+script = ExtResource("2_7u465")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="leaf2"]
+libraries = {
+"": SubResource("AnimationLibrary_40unu")
+}
+autoplay = "falling"
+
+[node name="Timer" type="Timer" parent="leaf2"]
+wait_time = 8.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="leaf2/Timer" to="leaf2" method="_on_timer_timeout"]

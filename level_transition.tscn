@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=10 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" path="res://Scripts/level_transition.gd" id="1_bav2q"]
+[ext_resource type="Script" path="res://saved_progress.gd" id="2_rjoyn"]
 
 [sub_resource type="Animation" id="Animation_g0n3s"]
 length = 0.001
@@ -32,6 +33,22 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_48rua"]
+resource_name = "fade_from_black_slow"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_wyr23"]
 resource_name = "fade_to_black"
 length = 0.5
@@ -48,11 +65,46 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_c5vkc"]
+resource_name = "fade_to_black_fast"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_3sgdl"]
+resource_name = "fade_to_black_slow"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_olarl"]
 _data = {
 "RESET": SubResource("Animation_g0n3s"),
 "fade_from_black": SubResource("Animation_4gc5e"),
-"fade_to_black": SubResource("Animation_wyr23")
+"fade_from_black_slow": SubResource("Animation_48rua"),
+"fade_to_black": SubResource("Animation_wyr23"),
+"fade_to_black_fast": SubResource("Animation_c5vkc"),
+"fade_to_black_slow": SubResource("Animation_3sgdl")
 }
 
 [node name="LevelTransition" type="CanvasLayer"]
@@ -72,3 +124,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
 color = Color(0, 0, 0, 0)
+
+[node name="saved_progress" type="Node2D" parent="."]
+unique_name_in_owner = true
+script = ExtResource("2_rjoyn")

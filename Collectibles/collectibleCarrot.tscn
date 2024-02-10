@@ -476,6 +476,7 @@ libraries = {
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 modulate = Color(1, 1, 1, 0.0980392)
+scale = Vector2(0.256, 0.256)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]

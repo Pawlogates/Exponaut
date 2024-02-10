@@ -381,6 +381,8 @@ wait_time = 0.15
 one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+process_mode = 3
 z_index = 1
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
@@ -453,6 +455,8 @@ wait_time = 2.0
 one_shot = true
 
 [node name="attack_cooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 1.5
 one_shot = true
 
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]

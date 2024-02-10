@@ -189,9 +189,9 @@ motion_scale = Vector2(0.75, 0.2)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_main"]
-offset_top = -1400.0
+offset_top = -1200.0
 offset_right = 1920.0
-offset_bottom = 940.0
+offset_bottom = 1140.0
 texture = ExtResource("2_rc4at")
 
 [node name="waterfall2" type="ParallaxLayer" parent="CanvasLayer/bg"]
@@ -438,9 +438,9 @@ motion_mirroring = Vector2(2560, 0)
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_b"]
 modulate = Color(1, 1, 1, 0.235294)
 texture_repeat = 3
-offset_top = 100.0
+offset_top = 200.0
 offset_right = 2560.0
-offset_bottom = 960.0
+offset_bottom = 1060.0
 texture = ExtResource("3_qdcue")
 
 [node name="waterfall" type="ParallaxLayer" parent="CanvasLayer/bg"]

@@ -29,7 +29,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_ol1yj")
 }],
 "loop": true,
-"name": &"default",
+"name": &"anim",
 "speed": 1.0
 }]
 
@@ -526,8 +526,8 @@ monitorable = false
 unique_name_in_owner = true
 material = SubResource("ShaderMaterial_qsbh1")
 sprite_frames = SubResource("SpriteFrames_tm4hn")
-autoplay = "default"
-frame_progress = 0.743025
+animation = &"anim"
+autoplay = "anim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true
@@ -577,6 +577,8 @@ libraries = {
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 modulate = Color(1, 1, 1, 0.0980392)
+position = Vector2(1.14441e-05, -7.62939e-06)
+scale = Vector2(0.512, 0.512)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

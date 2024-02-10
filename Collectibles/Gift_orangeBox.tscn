@@ -88,7 +88,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_1y414")
 }],
 "loop": true,
-"name": &"rolling",
+"name": &"anim",
 "speed": 15.0
 }]
 
@@ -574,7 +574,7 @@ is_gift = true
 animation_always = true
 floating = true
 inventory_itemToSpawn = ExtResource("2_b7dyb")
-inventory_texture_region = Rect2(248, 723, 64, 64)
+inventory_texture_region = Rect2(0, 704, 64, 64)
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0
@@ -585,9 +585,8 @@ monitorable = false
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_tm4hn")
-animation = &"rolling"
-autoplay = "rolling"
-frame_progress = 0.833563
+animation = &"anim"
+autoplay = "anim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true

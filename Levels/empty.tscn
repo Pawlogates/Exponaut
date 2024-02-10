@@ -1,0 +1,71 @@
+[gd_scene load_steps=10 format=3 uid="uid://dun5a8r7qx00f"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_vblad"]
+[ext_resource type="AudioStream" uid="uid://csasqsuygonsr" path="res://Assets/Sounds/music/music_plains.mp3" id="3_v3m35"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="4_x2u5u"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="5_vglj4"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="6_puow3"]
+[ext_resource type="PackedScene" uid="uid://dao01sb74ssw8" path="res://deco_bush.tscn" id="7_qf460"]
+[ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://deco_cloud.tscn" id="8_5uvky"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="8_tkrux"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="9_wxu0a"]
+
+[node name="World" instance=ExtResource("1_vblad")]
+playerStartHP = 3
+
+[node name="Player" parent="." index="0"]
+cameraLimit_left = -640.0
+cameraLimit_right = 1e+07
+cameraLimit_bottom = 896.0
+cameraLimit_top = -1e+07
+
+[node name="music" parent="Player" index="20"]
+stream = ExtResource("3_v3m35")
+
+[node name="tileset_main" parent="." index="1" instance=ExtResource("4_x2u5u")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(327675, 65536, 0, 327676, 65536, 0, 327677, 65536, 0, 327678, 65536, 0, 327679, 65536, 0, 262144, 65536, 0, 262145, 65536, 0, 262146, 65536, 0, 262147, 65536, 0, 262148, 65536, 0, 327674, 65536, 0, 262149, 65536, 0, 393210, 65536, 1, 393211, 65536, 1, 393212, 65536, 1, 393213, 65536, 1, 393214, 65536, 1, 393215, 65536, 1, 327680, 65536, 1, 327681, 65536, 1, 327682, 65536, 1, 327683, 65536, 1, 327684, 65536, 1, 327685, 65536, 1, 393221, 65536, 1, 458757, 65536, 1, 524293, 65536, 1, 524292, 65536, 1, 524291, 65536, 1, 524290, 65536, 1, 524289, 65536, 1, 524288, 65536, 1, 589823, 65536, 1, 589822, 65536, 1, 589821, 65536, 1, 589820, 65536, 1, 589819, 65536, 1, 589818, 65536, 1, 524282, 65536, 1, 458746, 65536, 1, 458747, 65536, 1, 458748, 65536, 1, 458749, 65536, 1, 458750, 65536, 1, 458751, 65536, 1, 393216, 65536, 1, 393217, 65536, 1, 393218, 65536, 1, 393219, 65536, 1, 393220, 65536, 1, 458753, 65536, 1, 458752, 65536, 1, 524287, 65536, 1, 524286, 65536, 1, 524285, 65536, 1, 524284, 65536, 1, 524283, 65536, 1, 458754, 65536, 1, 458755, 65536, 1, 458756, 65536, 1, 262150, 65536, 0, 262151, 65536, 0, 262152, 65536, 0, 262153, 65536, 0, 262154, 65536, 0, 262155, 65536, 0, 262156, 65536, 0, 262157, 65536, 0, 262158, 65536, 0, 262159, 65536, 0, 262160, 65536, 0, 262161, 65536, 0, 524294, 65536, 1, 458758, 65536, 1, 458759, 65536, 1, 393223, 65536, 1, 393222, 65536, 1, 327686, 65536, 1, 393224, 65536, 1, 393225, 65536, 1, 393226, 65536, 1, 393227, 65536, 1, 393228, 65536, 1, 393229, 65536, 1, 393230, 65536, 1, 393231, 65536, 1, 393232, 65536, 1, 393233, 65536, 1, 327697, 65536, 1, 458769, 65536, 1, 524305, 65536, 1, 524304, 65536, 1, 524303, 65536, 1, 524302, 65536, 1, 524301, 65536, 1, 524300, 65536, 1, 524299, 65536, 1, 524298, 65536, 1, 524297, 65536, 1, 524296, 65536, 1, 524295, 65536, 1, 458761, 65536, 1, 458762, 65536, 1, 458763, 65536, 1, 458764, 65536, 1, 458765, 65536, 1, 458766, 65536, 1, 458767, 65536, 1, 458768, 65536, 1, 327696, 65536, 1, 327695, 65536, 1, 327694, 65536, 1, 327693, 65536, 1, 327692, 65536, 1, 327691, 65536, 1, 327690, 65536, 1, 327689, 65536, 1, 327688, 65536, 1, 327687, 65536, 1, 458760, 65536, 1)
+
+[node name="tileset_objects" parent="." index="2" instance=ExtResource("5_vglj4")]
+unique_name_in_owner = true
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("6_puow3")]
+unique_name_in_owner = true
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("6_puow3")]
+z_index = -5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("6_puow3")]
+z_index = 5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="deco_bush" parent="." index="14" instance=ExtResource("7_qf460")]
+offset = Vector2(700, 200)
+transform = Transform2D(1, 0, 0, 1, 700, 200)
+
+[node name="deco_cloud" parent="." index="15" instance=ExtResource("8_5uvky")]
+offset = Vector2(400, -300)
+transform = Transform2D(1, 0, 0, 1, 400, -300)
+
+[node name="kill_area" parent="." index="16" instance=ExtResource("8_tkrux")]
+position = Vector2(3328, 1216)
+scale = Vector2(64, 1)
+
+[node name="trigger_bgChange" parent="." index="17" instance=ExtResource("9_wxu0a")]
+position = Vector2(-3.05176e-05, -1.52588e-05)
+scale = Vector2(8, 8)

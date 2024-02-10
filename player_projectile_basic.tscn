@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dbu3egheau2i3"]
 
-[ext_resource type="Script" path="res://player_projectile_basic.gd" id="1_u33x2"]
+[ext_resource type="Script" path="res://player_projectile_general.gd" id="1_8lmer"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_wpdka"]
 [ext_resource type="AudioStream" uid="uid://dt0iqeflwnxvw" path="res://Assets/Sounds/sfx/projectile_doodleShoot.wav" id="3_b2uf6"]
 
@@ -30,7 +30,7 @@ z_index = 5
 collision_layer = 2
 floor_max_angle = 1.22173
 safe_margin = 1.0
-script = ExtResource("1_u33x2")
+script = ExtResource("1_8lmer")
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 2

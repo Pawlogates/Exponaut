@@ -6,6 +6,8 @@ func _ready():
 	Globals.itemCollected.connect(itemCollected_reset_combo_cycle)
 	Globals.enemyHit.connect(enemyHit_reset_combo_cycle)
 	Globals.boxBroken.connect(boxBroken_reset_combo_cycle)
+	
+	Globals.specialAction.connect(reset_combo_cycle_long)
 
 
 
@@ -33,6 +35,7 @@ func check_combo_tier():
 func reset_combo_tier():
 	Globals.collected_in_cycle = 0
 	check_combo_tier()
+	combo_cycle_timer.wait_time = 2.5
 	
 	audio_stream_player.play()
 	
@@ -47,9 +50,12 @@ func reset_combo_tier():
 
 
 func reset_combo_timer():
+	combo_cycle_timer.wait_time = 2.5
 	combo_cycle_timer.start()
 
-
+func reset_combo_timer_long():
+	combo_cycle_timer.wait_time = 5.0
+	combo_cycle_timer.start()
 
 
 
@@ -71,6 +77,14 @@ func enemyHit_reset_combo_cycle():
 func boxBroken_reset_combo_cycle():
 	check_combo_tier()
 	reset_combo_timer()
+	
+
+
+
+
+func reset_combo_cycle_long():
+	check_combo_tier()
+	reset_combo_timer_long()
 
 
 
@@ -88,6 +102,6 @@ func _on_combo_cycle_timer_timeout():
 
 
 
-func _on_timer_timeout():
-	if Globals.collected_in_cycle == 0:
-		Globals.comboReset.emit()
+#func _on_timer_timeout():
+	#if Globals.collected_in_cycle == 0:
+		#Globals.comboReset.emit()

@@ -1,0 +1,1064 @@
+[gd_scene load_steps=12 format=3 uid="uid://c370w0v3janyp"]
+
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_6004i"]
+[ext_resource type="Script" path="res://Scripts/start_menu.gd" id="1_vyphu"]
+[ext_resource type="Texture2D" uid="uid://bf5k5i1xvrwql" path="res://Assets/Graphics/menu_launch.png" id="3_bndft"]
+[ext_resource type="Script" path="res://interactive_button.gd" id="4_j7iyn"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="5_7fogg"]
+[ext_resource type="Script" path="res://menu_deco_bg.gd" id="5_prg4e"]
+
+[sub_resource type="Animation" id="Animation_v8wcq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_f1f2o"]
+resource_name = "fade_from_black"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7qc2w"]
+resource_name = "fade_to_black"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j83ll"]
+_data = {
+"RESET": SubResource("Animation_v8wcq"),
+"fade_from_black": SubResource("Animation_f1f2o"),
+"fade_to_black": SubResource("Animation_7qc2w")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vxly"]
+atlas = ExtResource("5_7fogg")
+region = Rect2(896, 123, 360, 144)
+
+[node name="StartMenu" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6004i")
+script = ExtResource("1_vyphu")
+
+[node name="main_menu" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="main_menu"]
+z_index = 5
+layout_mode = 2
+offset_left = -480.0
+offset_top = -248.0
+offset_right = 480.0
+offset_bottom = 248.0
+theme = ExtResource("1_6004i")
+
+[node name="StartGame" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/StartGame"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Start new game[/wave]"
+autowrap_mode = 0
+
+[node name="Time Attack Mode" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Time Attack Mode"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Score Attack Mode[/wave]"
+autowrap_mode = 0
+
+[node name="Options" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Options"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Options[/wave]"
+autowrap_mode = 0
+
+[node name="Quit" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Quit"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Quit[/wave]"
+autowrap_mode = 0
+
+[node name="options_menu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="options_menu"]
+z_index = 5
+layout_mode = 2
+offset_left = -480.0
+offset_top = -248.0
+offset_right = 480.0
+offset_bottom = 248.0
+theme = ExtResource("1_6004i")
+
+[node name="Graphics" type="Button" parent="options_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Graphics"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Graphics[/wave]"
+autowrap_mode = 0
+
+[node name="Audio" type="Button" parent="options_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Audio"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Audio[/wave]"
+autowrap_mode = 0
+
+[node name="Gameplay" type="Button" parent="options_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Gameplay"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Gameplay[/wave]"
+autowrap_mode = 0
+
+[node name="Other" type="Button" parent="options_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Other"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Other[/wave]"
+autowrap_mode = 0
+
+[node name="ReturnOptions" type="Button" parent="options_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/ReturnOptions"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="graphics_menu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="graphics_menu"]
+z_index = 5
+layout_mode = 2
+offset_left = -480.0
+offset_top = -248.0
+offset_right = 480.0
+offset_bottom = 248.0
+theme = ExtResource("1_6004i")
+
+[node name="Resolution" type="Button" parent="graphics_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="graphics_menu/menu_container/Resolution"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Resolution[/wave]"
+autowrap_mode = 0
+
+[node name="Refreshrate" type="Button" parent="graphics_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="graphics_menu/menu_container/Refreshrate"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Refreshrate[/wave]"
+autowrap_mode = 0
+
+[node name="ReturnGraphics" type="Button" parent="graphics_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="graphics_menu/menu_container/ReturnGraphics"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="audio_menu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="audio_menu"]
+z_index = 5
+layout_mode = 2
+offset_left = -480.0
+offset_top = -248.0
+offset_right = 480.0
+offset_bottom = 248.0
+theme = ExtResource("1_6004i")
+
+[node name="Music" type="HBoxContainer" parent="audio_menu/menu_container"]
+layout_mode = 2
+
+[node name="Music +" type="Button" parent="audio_menu/menu_container/Music"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Music/Music +"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]+[/wave]"
+autowrap_mode = 0
+
+[node name="Music -" type="Button" parent="audio_menu/menu_container/Music"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Music/Music -"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]-[/wave]"
+autowrap_mode = 0
+
+[node name="Effects" type="HBoxContainer" parent="audio_menu/menu_container"]
+layout_mode = 2
+
+[node name="Effects +" type="Button" parent="audio_menu/menu_container/Effects"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Effects/Effects +"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]+[/wave]"
+autowrap_mode = 0
+
+[node name="Effects -" type="Button" parent="audio_menu/menu_container/Effects"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Effects/Effects -"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]-[/wave]"
+autowrap_mode = 0
+
+[node name="ReturnAudio" type="Button" parent="audio_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/ReturnAudio"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="other_menu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="other_menu"]
+z_index = 5
+layout_mode = 2
+offset_left = -480.0
+offset_top = -248.0
+offset_right = 480.0
+offset_bottom = 248.0
+theme = ExtResource("1_6004i")
+
+[node name="Option 1" type="Button" parent="other_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="other_menu/menu_container/Option 1"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Option 1[/wave]"
+autowrap_mode = 0
+
+[node name="ReturnOther" type="Button" parent="other_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="other_menu/menu_container/ReturnOther"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="gameplay_menu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="gameplay_menu"]
+z_index = 5
+layout_mode = 2
+offset_left = -480.0
+offset_top = -248.0
+offset_right = 480.0
+offset_bottom = 248.0
+theme = ExtResource("1_6004i")
+
+[node name="User Interface Type" type="Button" parent="gameplay_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="gameplay_menu/menu_container/User Interface Type"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]User Interface Type[/wave]"
+autowrap_mode = 0
+
+[node name="ReturnGameplay" type="Button" parent="gameplay_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="gameplay_menu/menu_container/ReturnGameplay"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="resolution_menu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="resolution_menu"]
+z_index = 5
+layout_mode = 2
+offset_left = -480.0
+offset_top = -248.0
+offset_right = 480.0
+offset_bottom = 248.0
+theme = ExtResource("1_6004i")
+
+[node name="AutoResolution" type="Button" parent="resolution_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/AutoResolution"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Auto[/wave]"
+autowrap_mode = 0
+
+[node name="1280 x 720" type="Button" parent="resolution_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/1280 x 720"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]1280 x 720[/wave]"
+autowrap_mode = 0
+
+[node name="1920 x 1080" type="Button" parent="resolution_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/1920 x 1080"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]1920 x 1080[/wave]"
+autowrap_mode = 0
+
+[node name="2560 x 1440" type="Button" parent="resolution_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/2560 x 1440"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]2560 x 1440[/wave]"
+autowrap_mode = 0
+
+[node name="3840 x 2160" type="Button" parent="resolution_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/3840 x 2160"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]3840 x 2160[/wave]"
+autowrap_mode = 0
+
+[node name="ReturnResolution" type="Button" parent="resolution_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/ReturnResolution"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="refreshrate_menu" type="Control" parent="."]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="menu_container" type="GridContainer" parent="refreshrate_menu"]
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -518.0
+offset_top = -98.0
+offset_right = 518.0
+offset_bottom = 98.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6004i")
+columns = 4
+
+[node name="AutoRefreshrate" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/AutoRefreshrate"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Auto[/wave]"
+autowrap_mode = 0
+
+[node name="30hz" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/30hz"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]30hz[/wave]"
+autowrap_mode = 0
+
+[node name="60hz" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/60hz"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]60hz[/wave]"
+autowrap_mode = 0
+
+[node name="75hz" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/75hz"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]75hz[/wave]"
+autowrap_mode = 0
+
+[node name="100hz" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/100hz"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]100hz[/wave]"
+autowrap_mode = 0
+
+[node name="120hz" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/120hz"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]120hz[/wave]"
+autowrap_mode = 0
+
+[node name="144hz" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/144hz"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]144hz[/wave]"
+autowrap_mode = 0
+
+[node name="ReturnRefreshrate" type="Button" parent="refreshrate_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/ReturnRefreshrate"]
+clip_contents = false
+custom_minimum_size = Vector2(256, 96)
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 280.0
+offset_bottom = 120.0
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="background" type="TextureRect" parent="."]
+unique_name_in_owner = true
+z_index = -5
+layout_mode = 2
+texture = ExtResource("3_bndft")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 25
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="fade_animation" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_j83ll")
+}
+speed_scale = 5.0
+
+[node name="menu_deco_bg_root" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+script = ExtResource("5_prg4e")
+
+[node name="menu_deco_bg" type="TextureRect" parent="menu_deco_bg_root"]
+unique_name_in_owner = true
+z_index = -4
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -416.0
+offset_top = -316.0
+offset_right = 584.0
+offset_bottom = 184.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(1000, 500)
+texture = SubResource("AtlasTexture_7vxly")
+expand_mode = 1
+
+[connection signal="focus_entered" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_focus_exited"]
+[connection signal="pressed" from="main_menu/menu_container/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="focus_entered" from="main_menu/menu_container/Time Attack Mode" to="main_menu/menu_container/Time Attack Mode" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Time Attack Mode" to="main_menu/menu_container/Time Attack Mode" method="_on_focus_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Time Attack Mode" to="." method="_on_time_attack_mode_pressed"]
+[connection signal="focus_entered" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Options" to="." method="_on_options_pressed"]
+[connection signal="focus_entered" from="main_menu/menu_container/Quit" to="main_menu/menu_container/Quit" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Quit" to="main_menu/menu_container/Quit" method="_on_focus_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Quit" to="." method="_on_quit_pressed"]
+[connection signal="focus_entered" from="options_menu/menu_container/Graphics" to="options_menu/menu_container/Graphics" method="_on_focus_entered"]
+[connection signal="focus_exited" from="options_menu/menu_container/Graphics" to="options_menu/menu_container/Graphics" method="_on_focus_exited"]
+[connection signal="pressed" from="options_menu/menu_container/Graphics" to="." method="_on_graphics_pressed"]
+[connection signal="focus_entered" from="options_menu/menu_container/Audio" to="options_menu/menu_container/Audio" method="_on_focus_entered"]
+[connection signal="focus_exited" from="options_menu/menu_container/Audio" to="options_menu/menu_container/Audio" method="_on_focus_exited"]
+[connection signal="pressed" from="options_menu/menu_container/Audio" to="." method="_on_audio_pressed"]
+[connection signal="focus_entered" from="options_menu/menu_container/Gameplay" to="options_menu/menu_container/Gameplay" method="_on_focus_entered"]
+[connection signal="focus_exited" from="options_menu/menu_container/Gameplay" to="options_menu/menu_container/Gameplay" method="_on_focus_exited"]
+[connection signal="pressed" from="options_menu/menu_container/Gameplay" to="." method="_on_gameplay_pressed"]
+[connection signal="focus_entered" from="options_menu/menu_container/Other" to="options_menu/menu_container/Other" method="_on_focus_entered"]
+[connection signal="focus_exited" from="options_menu/menu_container/Other" to="options_menu/menu_container/Other" method="_on_focus_exited"]
+[connection signal="pressed" from="options_menu/menu_container/Other" to="." method="_on_other_pressed"]
+[connection signal="focus_entered" from="options_menu/menu_container/ReturnOptions" to="options_menu/menu_container/ReturnOptions" method="_on_focus_entered"]
+[connection signal="focus_exited" from="options_menu/menu_container/ReturnOptions" to="options_menu/menu_container/ReturnOptions" method="_on_focus_exited"]
+[connection signal="pressed" from="options_menu/menu_container/ReturnOptions" to="." method="_on_returnOptions_pressed"]
+[connection signal="focus_entered" from="graphics_menu/menu_container/Resolution" to="graphics_menu/menu_container/Resolution" method="_on_focus_entered"]
+[connection signal="focus_exited" from="graphics_menu/menu_container/Resolution" to="graphics_menu/menu_container/Resolution" method="_on_focus_exited"]
+[connection signal="pressed" from="graphics_menu/menu_container/Resolution" to="." method="_on_resolution_pressed"]
+[connection signal="focus_entered" from="graphics_menu/menu_container/Refreshrate" to="graphics_menu/menu_container/Refreshrate" method="_on_focus_entered"]
+[connection signal="focus_exited" from="graphics_menu/menu_container/Refreshrate" to="graphics_menu/menu_container/Refreshrate" method="_on_focus_exited"]
+[connection signal="pressed" from="graphics_menu/menu_container/Refreshrate" to="." method="_on_refreshrate_pressed"]
+[connection signal="focus_entered" from="graphics_menu/menu_container/ReturnGraphics" to="graphics_menu/menu_container/ReturnGraphics" method="_on_focus_entered"]
+[connection signal="focus_exited" from="graphics_menu/menu_container/ReturnGraphics" to="graphics_menu/menu_container/ReturnGraphics" method="_on_focus_exited"]
+[connection signal="pressed" from="graphics_menu/menu_container/ReturnGraphics" to="." method="_on_returnGraphics_pressed"]
+[connection signal="focus_entered" from="audio_menu/menu_container/Music/Music +" to="audio_menu/menu_container/Music/Music +" method="_on_focus_entered"]
+[connection signal="focus_exited" from="audio_menu/menu_container/Music/Music +" to="audio_menu/menu_container/Music/Music +" method="_on_focus_exited"]
+[connection signal="focus_entered" from="audio_menu/menu_container/Music/Music -" to="audio_menu/menu_container/Music/Music -" method="_on_focus_entered"]
+[connection signal="focus_exited" from="audio_menu/menu_container/Music/Music -" to="audio_menu/menu_container/Music/Music -" method="_on_focus_exited"]
+[connection signal="focus_entered" from="audio_menu/menu_container/Effects/Effects +" to="audio_menu/menu_container/Effects/Effects +" method="_on_focus_entered"]
+[connection signal="focus_exited" from="audio_menu/menu_container/Effects/Effects +" to="audio_menu/menu_container/Effects/Effects +" method="_on_focus_exited"]
+[connection signal="focus_entered" from="audio_menu/menu_container/Effects/Effects -" to="audio_menu/menu_container/Effects/Effects -" method="_on_focus_entered"]
+[connection signal="focus_exited" from="audio_menu/menu_container/Effects/Effects -" to="audio_menu/menu_container/Effects/Effects -" method="_on_focus_exited"]
+[connection signal="focus_entered" from="audio_menu/menu_container/ReturnAudio" to="audio_menu/menu_container/ReturnAudio" method="_on_focus_entered"]
+[connection signal="focus_exited" from="audio_menu/menu_container/ReturnAudio" to="audio_menu/menu_container/ReturnAudio" method="_on_focus_exited"]
+[connection signal="pressed" from="audio_menu/menu_container/ReturnAudio" to="." method="_on_return_audio_pressed"]
+[connection signal="focus_entered" from="other_menu/menu_container/Option 1" to="other_menu/menu_container/Option 1" method="_on_focus_entered"]
+[connection signal="focus_exited" from="other_menu/menu_container/Option 1" to="other_menu/menu_container/Option 1" method="_on_focus_exited"]
+[connection signal="focus_entered" from="other_menu/menu_container/ReturnOther" to="other_menu/menu_container/ReturnOther" method="_on_focus_entered"]
+[connection signal="focus_exited" from="other_menu/menu_container/ReturnOther" to="other_menu/menu_container/ReturnOther" method="_on_focus_exited"]
+[connection signal="pressed" from="other_menu/menu_container/ReturnOther" to="." method="_on_return_other_pressed"]
+[connection signal="focus_entered" from="gameplay_menu/menu_container/User Interface Type" to="gameplay_menu/menu_container/User Interface Type" method="_on_focus_entered"]
+[connection signal="focus_exited" from="gameplay_menu/menu_container/User Interface Type" to="gameplay_menu/menu_container/User Interface Type" method="_on_focus_exited"]
+[connection signal="focus_entered" from="gameplay_menu/menu_container/ReturnGameplay" to="gameplay_menu/menu_container/ReturnGameplay" method="_on_focus_entered"]
+[connection signal="focus_exited" from="gameplay_menu/menu_container/ReturnGameplay" to="gameplay_menu/menu_container/ReturnGameplay" method="_on_focus_exited"]
+[connection signal="pressed" from="gameplay_menu/menu_container/ReturnGameplay" to="." method="_on_return_gameplay_pressed"]
+[connection signal="focus_entered" from="resolution_menu/menu_container/AutoResolution" to="resolution_menu/menu_container/AutoResolution" method="_on_focus_entered"]
+[connection signal="focus_exited" from="resolution_menu/menu_container/AutoResolution" to="resolution_menu/menu_container/AutoResolution" method="_on_focus_exited"]
+[connection signal="focus_entered" from="resolution_menu/menu_container/1280 x 720" to="resolution_menu/menu_container/1280 x 720" method="_on_focus_entered"]
+[connection signal="focus_exited" from="resolution_menu/menu_container/1280 x 720" to="resolution_menu/menu_container/1280 x 720" method="_on_focus_exited"]
+[connection signal="focus_entered" from="resolution_menu/menu_container/1920 x 1080" to="resolution_menu/menu_container/1920 x 1080" method="_on_focus_entered"]
+[connection signal="focus_exited" from="resolution_menu/menu_container/1920 x 1080" to="resolution_menu/menu_container/1920 x 1080" method="_on_focus_exited"]
+[connection signal="focus_entered" from="resolution_menu/menu_container/2560 x 1440" to="resolution_menu/menu_container/2560 x 1440" method="_on_focus_entered"]
+[connection signal="focus_exited" from="resolution_menu/menu_container/2560 x 1440" to="resolution_menu/menu_container/2560 x 1440" method="_on_focus_exited"]
+[connection signal="focus_entered" from="resolution_menu/menu_container/3840 x 2160" to="resolution_menu/menu_container/3840 x 2160" method="_on_focus_entered"]
+[connection signal="focus_exited" from="resolution_menu/menu_container/3840 x 2160" to="resolution_menu/menu_container/3840 x 2160" method="_on_focus_exited"]
+[connection signal="focus_entered" from="resolution_menu/menu_container/ReturnResolution" to="resolution_menu/menu_container/ReturnResolution" method="_on_focus_entered"]
+[connection signal="focus_exited" from="resolution_menu/menu_container/ReturnResolution" to="resolution_menu/menu_container/ReturnResolution" method="_on_focus_exited"]
+[connection signal="pressed" from="resolution_menu/menu_container/ReturnResolution" to="." method="_on_return_resolution_pressed"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/AutoRefreshrate" to="refreshrate_menu/menu_container/AutoRefreshrate" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/AutoRefreshrate" to="refreshrate_menu/menu_container/AutoRefreshrate" method="_on_focus_exited"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/30hz" to="refreshrate_menu/menu_container/30hz" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/30hz" to="refreshrate_menu/menu_container/30hz" method="_on_focus_exited"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/60hz" to="refreshrate_menu/menu_container/60hz" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/60hz" to="refreshrate_menu/menu_container/60hz" method="_on_focus_exited"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/75hz" to="refreshrate_menu/menu_container/75hz" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/75hz" to="refreshrate_menu/menu_container/75hz" method="_on_focus_exited"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/100hz" to="refreshrate_menu/menu_container/100hz" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/100hz" to="refreshrate_menu/menu_container/100hz" method="_on_focus_exited"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/120hz" to="refreshrate_menu/menu_container/120hz" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/120hz" to="refreshrate_menu/menu_container/120hz" method="_on_focus_exited"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/144hz" to="refreshrate_menu/menu_container/144hz" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/144hz" to="refreshrate_menu/menu_container/144hz" method="_on_focus_exited"]
+[connection signal="focus_entered" from="refreshrate_menu/menu_container/ReturnRefreshrate" to="refreshrate_menu/menu_container/ReturnRefreshrate" method="_on_focus_entered"]
+[connection signal="focus_exited" from="refreshrate_menu/menu_container/ReturnRefreshrate" to="refreshrate_menu/menu_container/ReturnRefreshrate" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/ReturnRefreshrate" to="." method="_on_return_refreshrate_pressed"]
+[connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]

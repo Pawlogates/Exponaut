@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/ambience_loop19.mp3-8ba33491b5ba98b25a8e1a79a
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

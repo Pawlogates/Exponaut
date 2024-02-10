@@ -1,0 +1,205 @@
+[gd_scene load_steps=17 format=3 uid="uid://c6bowx3li0fvy"]
+
+[ext_resource type="Script" path="res://Enemies/friendly.gd" id="1_1ccql"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_epvql"]
+[ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="3_1w3hq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1obgf"]
+atlas = ExtResource("2_epvql")
+region = Rect2(384, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g0wxk"]
+atlas = ExtResource("2_epvql")
+region = Rect2(384, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4etx3"]
+atlas = ExtResource("2_epvql")
+region = Rect2(64, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e7f07"]
+atlas = ExtResource("2_epvql")
+region = Rect2(128, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n58u6"]
+atlas = ExtResource("2_epvql")
+region = Rect2(192, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_md4xp"]
+atlas = ExtResource("2_epvql")
+region = Rect2(256, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nwxjp"]
+atlas = ExtResource("2_epvql")
+region = Rect2(320, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v20ra"]
+atlas = ExtResource("2_epvql")
+region = Rect2(128, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s5xvn"]
+atlas = ExtResource("2_epvql")
+region = Rect2(64, 331, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yrh7k"]
+atlas = ExtResource("2_epvql")
+region = Rect2(128, 331, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1obgf")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g0wxk")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4etx3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e7f07")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n58u6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_md4xp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nwxjp")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v20ra")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s5xvn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yrh7k")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
+size = Vector2(20, 32)
+
+[node name="friendlyChicken" type="CharacterBody2D" groups=["Persist", "friendly"]]
+z_index = 1
+collision_layer = 0
+floor_max_angle = 1.0472
+floor_snap_length = 15.0
+script = ExtResource("1_1ccql")
+followPlayer = true
+hostile = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_5cx1g")
+animation = &"walk"
+frame = 1
+frame_progress = 0.0721569
+
+[node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="AttackedTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="DeadTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
+light_mask = 2
+visibility_layer = 2
+collision_layer = 6
+collision_mask = 2
+input_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="main_collision" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_4klqh")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_7kt5p")
+
+[node name="particle_limiter" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_1w3hq")
+pitch_scale = 0.85
+
+[node name="death" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_1w3hq")
+volume_db = 3.0
+
+[node name="idle" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_1w3hq")
+volume_db = -5.0
+pitch_scale = 1.25
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+modulate = Color(1, 1, 1, 0.0980392)
+rect = Rect2(-500, -500, 1000, 1000)
+
+[node name="scanForLedge" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-32, -8)
+target_position = Vector2(0, 88)
+
+[node name="idleSound_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="directionChange_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="jump_timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
+[connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
+[connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_direction_timer_timeout"]
+[connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
+[connection signal="timeout" from="idleSound_timer" to="." method="_on_idle_sound_timer_timeout"]
+[connection signal="timeout" from="directionChange_timer" to="." method="_on_direction_change_timer_timeout"]
+[connection signal="timeout" from="jump_timer" to="." method="_on_jump_timer_timeout"]

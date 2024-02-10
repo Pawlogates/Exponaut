@@ -1,0 +1,211 @@
+[gd_scene load_steps=20 format=3 uid="uid://e2x7x0glinh"]
+
+[ext_resource type="Script" path="res://Enemies/friendly.gd" id="1_07kcp"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_khcyv"]
+[ext_resource type="AudioStream" uid="uid://c4abnorpa10f6" path="res://Assets/Sounds/sfx/rooster_damage.wav" id="3_hlxe7"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_w4023"]
+[ext_resource type="AudioStream" uid="uid://cjghgw4ffqec3" path="res://Assets/Sounds/sfx/hen_idle.wav" id="5_kpfp1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hquls"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(504, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fdu7q"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(576, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do8ph"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(504, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ye146"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(576, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukt5p"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(504, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmk35"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(576, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hk6m2"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(648, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nf54h"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(288, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lsvf7"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(360, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehcam"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(144, 258, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m07ou"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(216, 258, 72, 72)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hquls")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fdu7q")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_do8ph")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ye146")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukt5p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmk35")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hk6m2")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nf54h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lsvf7")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehcam")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m07ou")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
+size = Vector2(20, 32)
+
+[node name="friendlyHen" type="CharacterBody2D" groups=["Persist", "friendly"]]
+z_index = 1
+collision_layer = 0
+floor_max_angle = 1.0472
+floor_snap_length = 15.0
+script = ExtResource("1_07kcp")
+hostile = false
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -12)
+sprite_frames = SubResource("SpriteFrames_5cx1g")
+animation = &"dead"
+frame = 2
+frame_progress = 1.0
+
+[node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="AttackedTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="DeadTimer" type="Timer" parent="AnimatedSprite2D"]
+wait_time = 0.75
+one_shot = true
+
+[node name="Area2D" type="Area2D" parent="." groups=["enemies"]]
+light_mask = 2
+visibility_layer = 2
+collision_layer = 6
+collision_mask = 2
+input_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="main_collision" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_4klqh")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_7kt5p")
+
+[node name="particle_limiter" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="hit" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_hlxe7")
+
+[node name="death" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_w4023")
+volume_db = 5.0
+
+[node name="idle" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_kpfp1")
+volume_db = 5.0
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+modulate = Color(1, 1, 1, 0.0980392)
+rect = Rect2(-500, -500, 1000, 1000)
+
+[node name="scanForLedge" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(-32, -8)
+target_position = Vector2(0, 88)
+
+[node name="idleSound_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="directionChange_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="jump_timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
+[connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
+[connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_direction_timer_timeout"]
+[connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
+[connection signal="timeout" from="idleSound_timer" to="." method="_on_idle_sound_timer_timeout"]
+[connection signal="timeout" from="directionChange_timer" to="." method="_on_direction_change_timer_timeout"]
+[connection signal="timeout" from="jump_timer" to="." method="_on_jump_timer_timeout"]

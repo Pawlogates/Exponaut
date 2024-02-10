@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=19 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://info_text_display.tscn" id="7_2y4xw"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://quicksaved_display.tscn" id="7_nexah"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://score_display.tscn" id="7_vhiat"]
+[ext_resource type="Script" path="res://interactive_button.gd" id="8_5hfsd"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://background.tscn" id="10_ian1u"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://inventory.tscn" id="12_nf7r3"]
@@ -57,7 +58,6 @@ playerStartHP = 15
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 unique_name_in_owner = true
-position = Vector2(0, 48)
 
 [node name="ambience" type="AudioStreamPlayer" parent="Player"]
 unique_name_in_owner = true
@@ -68,7 +68,6 @@ autoplay = true
 [node name="music" type="AudioStreamPlayer" parent="Player"]
 unique_name_in_owner = true
 stream = ExtResource("6_wsqx4")
-volume_db = -5.0
 autoplay = true
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("3_mn32p")]
@@ -83,6 +82,7 @@ script = null
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 30
+visible = false
 
 [node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
 anchors_preset = 10
@@ -93,6 +93,35 @@ grow_horizontal = 2
 
 [node name="info_textDisplay" parent="HUD/CenterContainer_info" instance=ExtResource("7_2y4xw")]
 layout_mode = 2
+
+[node name="Player Died Root" type="Control" parent="HUD/CenterContainer_info"]
+layout_mode = 2
+
+[node name="Player Died" type="Button" parent="HUD/CenterContainer_info/Player Died Root"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+offset_left = -320.0
+offset_top = -432.0
+offset_right = 320.0
+offset_bottom = -368.0
+size_flags_horizontal = 4
+theme = ExtResource("5_ay58j")
+script = ExtResource("8_5hfsd")
+
+[node name="Player Died Text" type="RichTextLabel" parent="HUD/CenterContainer_info/Player Died Root/Player Died"]
+clip_contents = false
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]You died! Try again.[/wave]"
+autowrap_mode = 0
 
 [node name="Level Finished" parent="HUD" instance=ExtResource("6_mgn80")]
 unique_name_in_owner = true
@@ -361,6 +390,7 @@ vertical_alignment = 1
 position = Vector2(64, 64)
 
 [node name="quicksavedDisplay" parent="HUD" instance=ExtResource("7_nexah")]
+unique_name_in_owner = true
 position = Vector2(1024, 896)
 
 [node name="Inventory" parent="HUD" instance=ExtResource("12_nf7r3")]
@@ -378,9 +408,11 @@ libraries = {
 one_shot = true
 
 [node name="DEBUG refresh" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 2.0
 autostart = true
 
+[connection signal="focus_entered" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_entered"]
+[connection signal="focus_exited" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_exited"]
 [connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
 [connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
 [connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]

@@ -31,19 +31,27 @@ var levelTime_visible = 0
 @onready var tileset_objects_small = $tileset_objectsSmall
 
 
-var mode_timeAttack_manager = preload("res://mode_score_attack.tscn").instantiate()
+var mode_scoreAttack_manager = preload("res://mode_score_attack.tscn").instantiate()
 
+var rain_scene = preload("res://weather_rain.tscn")
+var leaves_scene = preload("res://weather_leaves.tscn")
 
 
 @export var playerStartHP = 3
 var key_total = 50
 
+@export var scoreAttack_collectibles = -1
+
+@export var night = false
+@export var rain = false
+@export var leaves = false
+
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Globals.mode_timeAttack:
-		add_child(mode_timeAttack_manager)
+	if Globals.mode_scoreAttack:
+		add_child(mode_scoreAttack_manager)
 		%music.stream = preload("res://Assets/Sounds/music/mode_scoreAttack.mp3")
 		%music.volume_db = -3
 		%music.play()
@@ -56,7 +64,7 @@ func _ready():
 	
 	Globals.save.connect(saved_from_outside)
 	
-	
+	Globals.level_score = 0
 	
 	%HUD.visible = true
 	
@@ -69,14 +77,23 @@ func _ready():
 	
 	
 	Globals.playerHP = playerStartHP
-	healthDisplay.text = str(Globals.playerHP)
+	healthDisplay.text = str("HP:", Globals.playerHP)
+	
+	if not %Player.scale.x == 1 or not %Player.scale.y == 1:
+		%Player.scale.x = 1
+		%Player.scale.y = 1
+	
+	
 	start_level_msec = Time.get_ticks_msec()
 	
 	Globals.playerHit1.connect(reduceHp1)
 	Globals.playerHit2.connect(reduceHp2)
 	Globals.playerHit3.connect(reduceHp3)
+	Globals.kill_player.connect(kill_player)
+	Globals.increaseHp1.connect(increaseHp1)
+	Globals.increaseHp2.connect(increaseHp2)
 	
-	Events.exitReached.connect(exitReached_show_screen)
+	Globals.exitReached.connect(exitReached_show_screen)
 	
 	
 	Globals.bgFile_previous = preload("res://Assets/Graphics/bg1.png")
@@ -87,22 +104,41 @@ func _ready():
 	
 	
 	
-	if not next_level is PackedScene:
-		level_finished.next_level_btn.text = "Results"
-		next_level = preload("res://VictoryScreen.tscn")
+	#if not next_level is PackedScene:
+		#level_finished.next_level_btn.text = "Results"
+		#next_level = preload("res://VictoryScreen.tscn")
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
-
+	
+	if Globals.quicksaves_enabled:
+		quickLoad_blocked = true
+		save_game()
+		$QuickloadLimiter.start()
+		Globals.is_saving = true
+	
+	
+	
 	#get_tree().paused = true
 	
 	#start_in_container.visible = true
 	start_in_container.visible = false
 	
-	await LevelTransition.fade_from_black()
-	animation_player.play("StartInAnim")
-	await animation_player.animation_finished
+	await LevelTransition.fade_from_black_slow()
+	
+	
+	#animation_player.play("StartInAnim")
+	#await animation_player.animation_finished
 	#get_tree().paused = false
+	
+	
+	if night == true:
+		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
+	if rain == true:
+		%Player/Camera2D.add_child(rain_scene.instantiate())
+	if leaves == true:
+		%Player/Camera2D.add_child(leaves_scene.instantiate())
+	
 	
 	
 	
@@ -111,7 +147,10 @@ func _ready():
 	await get_tree().create_timer(0.2, false).timeout
 	key_total = get_tree().get_nodes_in_group("key").size()
 	keys_leftDisplay.text = str(key_total)
-
+	
+	
+	await get_tree().create_timer(0.2, false).timeout
+	teleporter_assign_ID()
 
 
 
@@ -149,7 +188,7 @@ func _physics_process(delta):
 		level_timeDisplay.visible_characters = 3
 		
 	
-	if Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
+	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
 		quickLoad_blocked = true
 		save_game()
 		$QuickloadLimiter.start()
@@ -160,7 +199,7 @@ func _physics_process(delta):
 		Globals.is_saving = false
 		
 	
-	if Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
+	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
 		quickLoad_blocked = true
 		load_game()
 		$QuickloadLimiter.start()
@@ -250,10 +289,6 @@ func _physics_process(delta):
 		night_tileset_toggle()
 	
 	
-	
-	
-	player_dead()
-	
 
 
 
@@ -280,7 +315,10 @@ func reduceHp1():
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		%Player/death.play()
-		retry_loadSave()
+		if Globals.quicksaves_enabled:
+			retry_loadSave()
+		else:
+			retry_backToMap()
 	
 
 func reduceHp2():
@@ -288,14 +326,41 @@ func reduceHp2():
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		%Player/death.play()
-		retry_loadSave()
+		if Globals.quicksaves_enabled:
+			retry_loadSave()
+		else:
+			retry_backToMap()
 
 func reduceHp3():
 	Globals.playerHP -= 3
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0:
 		%Player/death.play()
-		retry_loadSave()
+		if Globals.quicksaves_enabled:
+			retry_loadSave()
+		else:
+			retry_backToMap()
+
+func kill_player():
+	Globals.playerHP -= 100
+	healthDisplay.text = str("HP:", Globals.playerHP)
+	if Globals.playerHP <= 0:
+		%Player/death.play()
+		if Globals.quicksaves_enabled:
+			retry_loadSave()
+		else:
+			retry_backToMap()
+
+
+func increaseHp1():
+	Globals.playerHP += 1
+	healthDisplay.text = str("HP:", Globals.playerHP)
+
+func increaseHp2():
+	Globals.playerHP += 2
+	healthDisplay.text = str("HP:", Globals.playerHP)
+
+
 
 
 
@@ -320,17 +385,42 @@ func _on_exitReached_retry():
 
 
 func exitReached_show_screen():
-	if Globals.collected_collectibles >= 750:
+	
+	if not Globals.mode_scoreAttack:
 		level_finished.show()
 		level_finished.retry_btn.grab_focus()
+		%"Level Finished".exit_reached()
 		
 		get_tree().paused = true
 	
-	else:
-		Globals.infoSign_current_text = "You need at least 750 collectibles to finish the level!"
-		Globals.infoSign_current_size = 2
-		Globals.info_sign_touched.emit()
 	
+	
+	elif Globals.mode_scoreAttack:
+		if scoreAttack_collectibles != -1:
+			if Globals.collected_collectibles >= scoreAttack_collectibles:
+				level_finished.show()
+				level_finished.retry_btn.grab_focus()
+				
+				get_tree().paused = true
+		
+			else:
+				Globals.infoSign_current_text = "You need at least 750 collectibles to finish the level!"
+				Globals.infoSign_current_size = 2
+				Globals.info_sign_touched.emit()
+		
+		
+		elif scoreAttack_collectibles == -1:
+			level_finished.show()
+			level_finished.retry_btn.grab_focus()
+			%"Level Finished".exit_reached()
+			
+			get_tree().paused = true
+	
+
+
+
+
+
 
 
 func go_to_next_level():
@@ -384,7 +474,7 @@ func retry_loadSave():
 	Globals.infoSign_current_size = 2
 	Globals.info_sign_touched.emit()
 	
-	dead = true
+	%Player.dead = true
 	
 	starParticle = starParticleScene.instantiate()
 	starParticle.position = Globals.player_pos
@@ -398,7 +488,7 @@ func retry_loadSave():
 	
 	await get_tree().create_timer(2, false).timeout
 	
-	dead = false
+	%Player.dead = false
 	
 	%Player.scale.x = 1
 	%Player.scale.y = 1
@@ -406,13 +496,6 @@ func retry_loadSave():
 	load_game()
 
 
-
-var dead = false
-
-func player_dead():
-	if dead:
-		%Player.scale.x = move_toward(%Player.scale.x, 0, 0.05)
-		%Player.scale.y = move_toward(%Player.scale.y, 0, 0.05)
 
 
 
@@ -462,6 +545,10 @@ func bg_move():
 #Save state
 
 func save_game():
+	if not Globals.quicksaves_enabled:
+		return
+	
+	
 	if not Globals.is_saving:
 		Globals.is_saving = true
 		
@@ -508,6 +595,10 @@ func save_game():
 
 
 func load_game():
+	if not Globals.quicksaves_enabled:
+		return
+	
+	
 	if not FileAccess.file_exists("user://savegame.save"):
 		return # Error! We don't have a save to load.
 
@@ -585,9 +676,14 @@ func _on_debug_refresh_timeout():
 	test3.text = str("total collectibles: ", Globals.test3)
 	test4.text = str("current active loading zone: ", Globals.test4)
 	
-	%TotalCollectibles_collected.text = str(Globals.collected_collectibles)
+	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.test3)
 	
 	Globals.inventory_selectedItem = 1
+	
+	
+	#for teleporter in get_tree().get_nodes_in_group("teleporter"):
+		#print(teleporter.get_groups())
+		
 
 
 
@@ -623,3 +719,61 @@ func set_night():
 
 func set_day():
 	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
+
+
+
+
+func teleporter_assign_ID():
+	
+	var teleporter_type = "blue"
+	var teleporter_ID = 1
+	
+	for teleporter in get_tree().get_nodes_in_group(str(teleporter_type)):
+		
+		teleporter.add_to_group(str(str(teleporter_type), str(teleporter_ID)))
+		teleporter_ID += 1
+	
+	
+	
+	teleporter_type = "red"
+	teleporter_ID = 1
+	
+	for teleporter in get_tree().get_nodes_in_group(str(teleporter_type)):
+		
+		teleporter.add_to_group(str(str(teleporter_type), str(teleporter_ID)))
+		teleporter_ID += 1
+	
+	
+	
+	teleporter_type = "green"
+	teleporter_ID = 1
+	
+	for teleporter in get_tree().get_nodes_in_group(str(teleporter_type)):
+		
+		teleporter.add_to_group(str(str(teleporter_type), str(teleporter_ID)))
+		teleporter_ID += 1
+
+
+
+
+
+var mapScreen = load("res://map_screen.tscn")
+
+func retry_backToMap():
+	%Player.dead = true
+	%"Player Died".visible = true
+	
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	
+	await get_tree().create_timer(4, false).timeout
+	await LevelTransition.fade_to_black()
+	get_tree().change_scene_to_packed(mapScreen)
+	await LevelTransition.fade_from_black_slow()

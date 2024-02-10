@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/factory3.mp3-54e0387d1e41cfe22d677ec44e2f19d8
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

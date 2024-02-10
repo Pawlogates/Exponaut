@@ -1,0 +1,194 @@
+[gd_scene load_steps=11 format=3 uid="uid://crpkpw12lktoc"]
+
+[ext_resource type="Script" path="res://level_button.gd" id="1_gn7yy"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_7sswb"]
+[ext_resource type="AudioStream" uid="uid://bj7k1b4g32e6q" path="res://Assets/Sounds/sfx/effect_moo.wav" id="3_6faij"]
+[ext_resource type="AudioStream" uid="uid://cxrgbraey7ntm" path="res://Assets/Sounds/sfx/rooster_cockcrow.wav" id="3_b50wd"]
+
+[sub_resource type="Animation" id="Animation_w47hc"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("glow_root/glow:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("glow_root/glow:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("glow_root/glow:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("glow_root/glow:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ipmr1"]
+resource_name = "idle_glow"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("glow_root/glow:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1.5, 3)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("glow_root/glow:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1.5, 3)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("glow_root/glow:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1.5, 3)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("glow_root/glow:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.607843, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1.5, 3)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_qgowu"]
+_data = {
+"RESET": SubResource("Animation_w47hc"),
+"idle_glow": SubResource("Animation_ipmr1")
+}
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7s71"]
+atlas = ExtResource("2_7sswb")
+region = Rect2(64, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhxeg"]
+atlas = ExtResource("2_7sswb")
+region = Rect2(128, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8xhdh"]
+atlas = ExtResource("2_7sswb")
+region = Rect2(192, 512, 64, 64)
+
+[node name="level_button_root" type="Node2D" groups=["level_icon"]]
+script = ExtResource("1_gn7yy")
+
+[node name="level_button" type="Button" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 5
+offset_left = -128.0
+offset_top = -128.0
+offset_right = -64.0
+offset_bottom = -64.0
+mouse_filter = 2
+
+[node name="level_icon" type="Sprite2D" parent="level_button"]
+unique_name_in_owner = true
+position = Vector2(32, 32)
+texture = ExtResource("2_7sswb")
+region_enabled = true
+region_rect = Rect2(0, 448, 64, 64)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="level_button"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_qgowu")
+}
+autoplay = "idle_glow"
+
+[node name="glow_root" type="Node2D" parent="level_button"]
+unique_name_in_owner = true
+
+[node name="glow" type="Sprite2D" parent="level_button/glow_root"]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+texture_filter = 1
+position = Vector2(32, 32)
+texture = ExtResource("2_7sswb")
+region_enabled = true
+region_rect = Rect2(0, 512, 64, 64)
+
+[node name="icon_levelFinished" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 10
+position = Vector2(-96, -96)
+texture = SubResource("AtlasTexture_r7s71")
+
+[node name="icon_levelAllBigApplesCollected" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 10
+position = Vector2(-96, -96)
+texture = SubResource("AtlasTexture_qhxeg")
+
+[node name="icon_levelAllCollectiblesCollected" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 10
+position = Vector2(-96, -96)
+texture = SubResource("AtlasTexture_8xhdh")
+
+[node name="level_start" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_b50wd")
+
+[node name="level_locked" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_6faij")
+
+[connection signal="focus_entered" from="level_button" to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="level_button" to="." method="_on_focus_exited"]
+[connection signal="mouse_entered" from="level_button" to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="level_button" to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="level_button" to="." method="_on_pressed"]

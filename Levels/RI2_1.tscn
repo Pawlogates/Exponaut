@@ -1,0 +1,20 @@
+[gd_scene load_steps=6 format=3 uid="uid://camqic284bbcd"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_b2imp"]
+[ext_resource type="PackedScene" uid="uid://drc7tspuhss7i" path="res://Levels/RI1_2.tscn" id="2_5se7k"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_1kxd4"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="4_73fmj"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="5_m8g0x"]
+
+[node name="World" instance=ExtResource("1_b2imp")]
+next_level = ExtResource("2_5se7k")
+
+[node name="Player" parent="." index="0"]
+position = Vector2(608, 384)
+
+[node name="tileset_main" parent="." index="1" instance=ExtResource("3_1kxd4")]
+layer_0/tile_data = PackedInt32Array(458758, 65536, 8, 458759, 65536, 8, 458760, 65536, 8, 458761, 65536, 8, 458762, 65536, 8, 458763, 65536, 8, 458764, 65536, 8, 458765, 65536, 8, 458766, 65536, 8, 458767, 65536, 8, 458768, 65536, 8, 458769, 65536, 8, 327697, 65536, 8, 393233, 65536, 8, 327698, 65536, 8, 327699, 65536, 8, 327700, 65536, 8, 327701, 65536, 8, 327702, 65536, 8)
+
+[node name="tileset_objects" parent="." index="2" instance=ExtResource("4_73fmj")]
+
+[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_m8g0x")]

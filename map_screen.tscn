@@ -1,0 +1,285 @@
+[gd_scene load_steps=16 format=3 uid="uid://1yrqwkydp78d"]
+
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_bev27"]
+[ext_resource type="Script" path="res://map_screen.gd" id="2_sfscu"]
+[ext_resource type="Script" path="res://interactive_button.gd" id="3_1q3hc"]
+[ext_resource type="AudioStream" uid="uid://bvra1tg3kt4at" path="res://Assets/Sounds/music/music_map.mp3" id="3_nerhi"]
+[ext_resource type="Texture2D" uid="uid://dhg8oq40bol7r" path="res://Assets/Graphics/menu_map.png" id="4_jnnes"]
+[ext_resource type="Script" path="res://menu_deco_bg.gd" id="5_wdajl"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="6_ab56j"]
+[ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="6_m5dpc"]
+
+[sub_resource type="Animation" id="Animation_v8wcq"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_f1f2o"]
+resource_name = "fade_from_black"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7qc2w"]
+resource_name = "fade_to_black"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_j83ll"]
+_data = {
+"RESET": SubResource("Animation_v8wcq"),
+"fade_from_black": SubResource("Animation_f1f2o"),
+"fade_to_black": SubResource("Animation_7qc2w")
+}
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_m05sk"]
+shader = ExtResource("6_m5dpc")
+shader_parameter/Shift_Hue = 0.3
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7vxly"]
+atlas = ExtResource("6_ab56j")
+region = Rect2(896, 123, 360, 144)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ot7iw"]
+atlas = ExtResource("6_ab56j")
+region = Rect2(0, 96, 288, 256)
+
+[node name="Map Screen" type="CenterContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_bev27")
+script = ExtResource("2_sfscu")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_nerhi")
+autoplay = true
+
+[node name="menu_main" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="menu_container" type="VBoxContainer" parent="menu_main"]
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -832.0
+offset_top = 276.0
+offset_right = -192.0
+offset_bottom = 476.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_bev27")
+
+[node name="Enable Score Attack Mode" type="Button" parent="menu_main/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_1q3hc")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Enable Score Attack Mode"]
+clip_contents = false
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
+autowrap_mode = 0
+
+[node name="Options" type="Button" parent="menu_main/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_1q3hc")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Options"]
+clip_contents = false
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Options[/wave]"
+autowrap_mode = 0
+
+[node name="Quit" type="Button" parent="menu_main/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_1q3hc")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Quit"]
+clip_contents = false
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Quit[/wave]"
+autowrap_mode = 0
+
+[node name="background" type="TextureRect" parent="."]
+unique_name_in_owner = true
+z_index = -5
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("4_jnnes")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+unique_name_in_owner = true
+visible = false
+z_index = 25
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="fade_animation" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_j83ll")
+}
+speed_scale = 5.0
+
+[node name="menu_deco_bg_root" type="Control" parent="."]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(-848, -12)
+layout_mode = 2
+mouse_filter = 2
+script = ExtResource("5_wdajl")
+multiplier_W = 0.8
+skew_low = 0.75
+skew_high = 0.8
+scale_low_X = 0.6
+scale_low_Y = 0.65
+scale_high_Y = 0.75
+position_target = Vector2(-848, 212)
+speed_W = 2.0
+speed_H = 1.0
+
+[node name="menu_deco_bg" type="TextureRect" parent="menu_deco_bg_root"]
+unique_name_in_owner = true
+z_index = -4
+material = SubResource("ShaderMaterial_m05sk")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -752.0
+offset_top = 52.0
+offset_right = -702.0
+offset_bottom = 77.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_7vxly")
+expand_mode = 1
+
+[node name="level_icon_container" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="level_info_container" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="level_info_container"]
+layout_mode = 0
+offset_left = 528.0
+offset_top = 228.0
+offset_right = 816.0
+offset_bottom = 484.0
+texture = SubResource("AtlasTexture_ot7iw")
+
+[node name="Container" type="Container" parent="level_info_container/TextureRect"]
+layout_mode = 2
+offset_left = 144.0
+offset_top = 128.0
+offset_right = 144.0
+offset_bottom = 128.0
+
+[node name="level_info" type="VBoxContainer" parent="level_info_container/TextureRect/Container"]
+layout_mode = 2
+
+[node name="Control" type="Control" parent="level_info_container/TextureRect/Container/level_info"]
+layout_mode = 2
+
+[node name="score" type="Label" parent="level_info_container/TextureRect/Container/level_info/Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -80.0
+offset_top = -16.0
+offset_right = 80.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "score"
+horizontal_alignment = 1
+
+[connection signal="focus_entered" from="menu_main/menu_container/Enable Score Attack Mode" to="menu_main/menu_container/Enable Score Attack Mode" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Enable Score Attack Mode" to="menu_main/menu_container/Enable Score Attack Mode" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Enable Score Attack Mode" to="." method="_on_enable_score_attack_mode_pressed"]
+[connection signal="focus_entered" from="menu_main/menu_container/Options" to="menu_main/menu_container/Options" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Options" to="menu_main/menu_container/Options" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Options" to="." method="_on_options_pressed"]
+[connection signal="focus_entered" from="menu_main/menu_container/Quit" to="menu_main/menu_container/Quit" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Quit" to="menu_main/menu_container/Quit" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Quit" to="." method="_on_quit_pressed"]
+[connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]

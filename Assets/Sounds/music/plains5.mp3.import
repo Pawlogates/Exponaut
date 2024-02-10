@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/plains5.mp3-24aa41e42f5cf3293698b4de00ea8f43.
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

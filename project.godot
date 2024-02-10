@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Combonaut (combo-based 2d platformer)"
+config/name="Exponaut v0.4 - BETA"
 run/main_scene="res://start_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/use_filter=false
@@ -18,7 +18,6 @@ config/icon="res://Assets/Graphics/icon.svg"
 
 [autoload]
 
-Events="*res://Scripts/Events.gd"
 LevelTransition="*res://level_transition.tscn"
 Globals="*res://Scripts/Globals.gd"
 
@@ -26,8 +25,7 @@ Globals="*res://Scripts/Globals.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=4
-window/stretch/mode="viewport"
+window/size/mode=3
 
 [importer_defaults]
 
@@ -200,3 +198,7 @@ cheat={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":true,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":67,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
+
+[rendering]
+
+renderer/rendering_method="gl_compatibility"

@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/music_ascent.mp3-1c34adecaa0c56a1f4734dd2fcaa
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

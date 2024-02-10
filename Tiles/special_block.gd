@@ -16,6 +16,17 @@ var dead_effectScene = preload("res://dead_effect.tscn")
 var dead_effect = dead_effectScene.instantiate()
 
 
+var starParticle2Scene = preload("res://particles_star.tscn")
+var orbParticleScene = preload("res://particles_special2_multiple.tscn")
+
+var starParticle2 = starParticle2Scene.instantiate()
+var orbParticle = orbParticleScene.instantiate()
+
+var splashParticleScene = preload("res://particles_water_entered.tscn")
+var splashParticle = splashParticleScene.instantiate()
+
+var effect_dustScene = preload("res://effect_dust.tscn")
+var effect_dust = effect_dustScene.instantiate()
 
 
 #SPECIAL PROPERTIES
@@ -28,7 +39,12 @@ var dead_effect = dead_effectScene.instantiate()
 @export var spawns_items = false
 @export var toggles_skull_blocks = false
 
+@export var remove_after_delay = false
+@export var remove_delay = 1.0
 
+@export var collectibleAmount = 3
+
+@export var movement_type = "normal"
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -43,7 +59,21 @@ func _physics_process(delta):
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 	
 	if not floating:
-		move_and_slide()
+		if movement_type == "normal":
+			var collision = move_and_collide(velocity * delta)
+			if collision:
+				pass
+			
+		if movement_type == "iceCube":
+			var collision = move_and_slide()
+			velocity.x = move_toward(velocity.x, 0, SPEED / 2 * delta)
+			if collision:
+				pass
+		
+		if movement_type == "bouncy":
+			var collision = move_and_slide()
+			if collision:
+				velocity = Vector2(200, -300)
 
 
 
@@ -184,12 +214,16 @@ func _ready():
 	
 	#if not destroyed:
 		#%AnimatedSprite2D.play("idle")
+	
+	
+	
+	
+	if remove_after_delay:
+		%Timer.wait_time = remove_delay
+		%Timer.start()
 
 
 
-
-
-@export var collectibleAmount = 3
 
 var destroyed = false
 
@@ -234,3 +268,13 @@ func save():
 	return save_dict
 
 #SAVE END
+
+
+
+
+func _on_timer_timeout():
+	effect_dust = effect_dustScene.instantiate()
+	effect_dust.global_position = global_position
+	get_parent().add_child(effect_dust)
+	
+	queue_free()

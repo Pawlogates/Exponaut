@@ -1,0 +1,72 @@
+[gd_scene load_steps=10 format=3 uid="uid://3d3psnuuyfny"]
+
+[ext_resource type="Script" path="res://player_projectile_general.gd" id="1_t35fx"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_0ec8w"]
+[ext_resource type="PackedScene" uid="uid://cxfthwios5msq" path="res://Enemies/enemy_fireImp.tscn" id="2_6fxjl"]
+[ext_resource type="AudioStream" uid="uid://dt0iqeflwnxvw" path="res://Assets/Sounds/sfx/projectile_doodleShoot.wav" id="3_jewkn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
+size = Vector2(48, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
+size = Vector2(48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o0mev"]
+atlas = ExtResource("2_0ec8w")
+region = Rect2(896, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2s0rs"]
+atlas = ExtResource("2_0ec8w")
+region = Rect2(960, 256, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jfau3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o0mev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2s0rs")
+}],
+"loop": true,
+"name": &"shoot",
+"speed": 5.0
+}]
+
+[node name="player_projectile_fire" type="CharacterBody2D"]
+z_index = 5
+collision_layer = 2
+floor_max_angle = 1.22173
+safe_margin = 1.0
+script = ExtResource("1_t35fx")
+spawn_on_death = true
+item_scene = ExtResource("2_6fxjl")
+give_momentum = true
+momentum_y = 150.0
+
+[node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
+collision_layer = 2
+collision_mask = 4
+
+[node name="scan_collision" type="CollisionShape2D" parent="scan"]
+shape = SubResource("RectangleShape2D_jvbw3")
+
+[node name="main_collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ukwf1")
+
+[node name="animation" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+sprite_frames = SubResource("SpriteFrames_jfau3")
+animation = &"shoot"
+autoplay = "shoot"
+
+[node name="remove_delay" type="Timer" parent="."]
+wait_time = 0.75
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_jewkn")
+pitch_scale = 1.5
+autoplay = true
+
+[connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

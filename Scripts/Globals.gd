@@ -26,17 +26,21 @@ var player_posY
 signal itemCollected
 signal enemyHit
 signal boxBroken
+signal specialAction
 
 
 signal playerHit1
 signal playerHit2
 signal playerHit3
+signal kill_player
+signal increaseHp1
+signal increaseHp2
 
+
+signal shot
 signal shot_charged
-
-
+signal exitReached
 signal comboReset
-
 signal can_stand_up
 
 
@@ -95,15 +99,28 @@ signal info_sign_touched
 
 
 
+var selected_episode = "none"
+var next_level = -1
+var current_level = "none"
+var current_level_ID = -1
+
+signal save_progress
+
+
+signal progress_loadingFinished
 
 
 
 
 
+var quicksaves_enabled = false
+
+var mode_scoreAttack = false
 
 
 
-var mode_timeAttack = false
+
+
 
 signal cheated
 var cheated_state = false

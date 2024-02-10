@@ -88,7 +88,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_1y414")
 }],
 "loop": true,
-"name": &"rolling",
+"name": &"anim",
 "speed": 15.0
 }]
 
@@ -585,9 +585,8 @@ monitorable = false
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_tm4hn")
-animation = &"rolling"
-autoplay = "rolling"
-frame_progress = 0.833563
+animation = &"anim"
+autoplay = "anim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true
@@ -648,8 +647,8 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]

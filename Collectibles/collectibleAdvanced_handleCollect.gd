@@ -8,6 +8,11 @@ var starParticle = starParticleScene.instantiate()
 var starParticle2 = starParticle2Scene.instantiate()
 var orbParticle = orbParticleScene.instantiate()
 
+var splashParticleScene = preload("res://particles_water_entered.tscn")
+var splashParticle = splashParticleScene.instantiate()
+
+var effect_dustScene = preload("res://effect_dust.tscn")
+var effect_dust = effect_dustScene.instantiate()
 
 var collected = false
 var removable = false
@@ -24,15 +29,16 @@ var button_pressed = false
 
 @export var collectibleScoreValue = 0
 @export var hard_to_collect = false
-
 @export var is_gift = false
 @export var animation_always = false
 @export var floating = false
 @export var is_key = false
 @export var collectable = true
 @export var upDown_loop = false
-
-
+@export var is_weapon = false
+@export var weapon_type = "none"
+@export var attack_delay = 1.0
+@export var is_healthItem = false
 
 #OFFSCREEN START
 
@@ -125,7 +131,7 @@ func offScreen_load():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if removable or collected and not animation_player_2.current_animation == "score_value":
+	if removable or collected and not animation_player_2.current_animation == "score_value" and not animation_player.current_animation == "remove":
 		queue_free()
 		
 	
@@ -139,6 +145,24 @@ var bonus_material = preload("res://Collectibles/bonus_material.tres")
 
 
 func _on_collectible_entered(body):
+	if is_healthItem:
+		if body.is_in_group("player") and not collected:
+			collected = true
+			Globals.itemCollected.emit()
+			Globals.increaseHp1.emit()
+			
+			animation_player.play("remove")
+			collect_1.play()
+			body.add_child(starParticleScene.instantiate())
+			body.add_child(starParticleScene.instantiate())
+			body.add_child(starParticleScene.instantiate())
+			body.add_child(starParticleScene.instantiate())
+			body.add_child(orbParticleScene.instantiate())
+			
+			return
+			
+		
+	
 	if is_gift and get_tree().get_nodes_in_group("in_inventory").size() >= 6:
 		return
 	
@@ -198,11 +222,21 @@ func _on_collectible_entered(body):
 		collect_1.play()
 		
 		
+		
+		
 		if is_key:
+			get_parent().get_parent().key_collected()
+			
 			add_child(orbParticleScene.instantiate())
 			
-			get_parent().get_parent().key_collected()
-	
+		
+		if is_weapon:
+			get_parent().get_node("%Player").weaponType = weapon_type
+			get_parent().get_node("%Player").get_node("%attack_cooldown").wait_time = attack_delay
+			
+			add_child(orbParticleScene.instantiate())
+			add_child(splashParticleScene.instantiate())
+			add_child(effect_dustScene.instantiate())
 
 
 

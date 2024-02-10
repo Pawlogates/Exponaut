@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/music_victory.mp3-28a1512ecc81446011b7ca26553
 
 [params]
 
-loop=false
+loop=true
 loop_offset=0
 bpm=0
 beat_count=0

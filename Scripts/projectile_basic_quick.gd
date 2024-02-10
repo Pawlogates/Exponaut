@@ -37,7 +37,7 @@ var can_collect = false
 func _physics_process(_delta):
 	
 	if Input.is_action_just_released("attack_fast") and not charged and not started:
-		Events.shot.emit()
+		Globals.shot.emit()
 		charged_shot_buffer.stop()
 		x = rng.randf_range(0, 2)
 		audio_stream_player_2d.set_pitch_scale(x)
@@ -72,7 +72,7 @@ func _physics_process(_delta):
 		audio_stream_player_2d.play()
 		projectile_basic_quick.visible = true
 		shot_anim.play("shot_anim_CHARGED_DOWN")
-		Events.shot.emit()
+		Globals.shot.emit()
 		charged_shot_buffer.stop()
 		
 		can_collect = true
@@ -85,7 +85,7 @@ func _physics_process(_delta):
 		audio_stream_player_2d.play()
 		projectile_basic_quick.visible = true
 		shot_anim.play("shot_anim_CHARGED_R")
-		Events.shot.emit()
+		Globals.shot.emit()
 		charged_shot_buffer.stop()
 		
 	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Globals.direction == -1:
@@ -95,7 +95,7 @@ func _physics_process(_delta):
 		audio_stream_player_2d.play()
 		projectile_basic_quick.visible = true
 		shot_anim.play("shot_anim_CHARGED_L")
-		Events.shot.emit()
+		Globals.shot.emit()
 		charged_shot_buffer.stop()
 		
 		
@@ -114,7 +114,7 @@ func _physics_process(_delta):
 	
 func _on_timer_timeout():
 	charged = true
-	Events.shot_charged.emit()
+	Globals.shot_charged.emit()
 	
 
 

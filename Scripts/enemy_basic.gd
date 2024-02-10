@@ -11,6 +11,8 @@ var dead_effect = dead_effectScene.instantiate()
 var hitDeath_effectScene = preload("res://hitDeath_effect.tscn")
 var hitDeath_effect = hitDeath_effectScene.instantiate()
 
+@export var hostile = true
+
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -20,6 +22,9 @@ var attacking = false;
 var dead = false;
 
 var hp = 7
+
+
+@export var damageValue = 1
 
 var direction = -1
 var direction_v = 1
@@ -129,13 +134,22 @@ func enemy_stunned():
 
 
 func _on_area_2d_area_entered(area):
+	
 	if area.name == "Player_hitbox_main" and not dead:
-		Globals.playerHit1.emit()
 		attacking = true
 		attacking_timer.start()
 		
+		if not hostile:
+			return
 		
-	elif area.is_in_group("player_projectile"):
+		Globals.playerHit1.emit()
+	
+	elif area.get_parent().is_in_group("friendly") and not dead:
+		attacking = true
+		attacking_timer.start()
+	
+	
+	elif hostile and area.is_in_group("player_projectile") or not hostile and area.get_parent().is_in_group("enemies"):
 		call_deferred("enemy_stunned")
 		
 		if not dead:
@@ -149,6 +163,7 @@ func _on_area_2d_area_entered(area):
 			if hp <= 0:
 				dead = true
 				if dead:
+					Globals.specialAction.emit()
 					direction = 0
 					sprite.play("dead")
 					death.play()
@@ -156,6 +171,8 @@ func _on_area_2d_area_entered(area):
 					add_child(hitDeath_effect)
 					add_child(dead_effect)
 			
+		
+	
 	
 	
 	#SAVE START

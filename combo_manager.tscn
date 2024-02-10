@@ -7,9 +7,8 @@
 script = ExtResource("1_bhqmy")
 
 [node name="combo_cycle_timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 2.5
 one_shot = true
-autostart = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_h4ctp")
