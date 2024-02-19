@@ -7,7 +7,6 @@ var air_jump = false
 var just_wall_jumped = false
 var was_wall_normal = Vector2.ZERO
 
-@export var node: AnimatedSprite2D
 
 
 var starParticleScene = preload("res://particles_star.tscn")
@@ -809,7 +808,8 @@ func _on_player_hitbox_main_area_entered(area):
 	
 	
 	elif area.is_in_group("bgMove_area"):
-		get_parent().bgMove_growthSpeed = 1
+		if not get_parent().regular_level:
+			get_parent().bgMove_growthSpeed = 1
 	
 
 

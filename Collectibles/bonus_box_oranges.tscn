@@ -241,7 +241,7 @@ animations = [{
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_722wu")
-collectibleAmount = 6
+collectibleAmount = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

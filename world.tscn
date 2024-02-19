@@ -53,8 +53,10 @@ _data = {
 }
 
 [node name="World" type="Node2D"]
+texture_filter = 1
 script = ExtResource("1_8iwd0")
 playerStartHP = 15
+regular_level = true
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 unique_name_in_owner = true
@@ -68,7 +70,6 @@ autoplay = true
 [node name="music" type="AudioStreamPlayer" parent="Player"]
 unique_name_in_owner = true
 stream = ExtResource("6_wsqx4")
-autoplay = true
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("3_mn32p")]
 

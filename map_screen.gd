@@ -1,6 +1,6 @@
 extends CenterContainer
 
-var level_icon_scene = preload("res://level_button.tscn")
+var level_icon_scene = load("res://level_button.tscn")
 var level_icon = level_icon_scene.instantiate()
 
 var main_menu = load("res://start_menu.tscn")
@@ -18,51 +18,51 @@ func _ready():
 	
 	#EPISODE START
 	if Globals.selected_episode == "rooster_island":
-		%background.texture = preload("res://Assets/Graphics/menu_map.png")
+		%background.texture = load("res://Assets/Graphics/menu_map.png")
 		level_ID = 0
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(-368, -140), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(5, Vector2(-368, -140), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(-416, 4), preload("res://Levels/RI1_2.tscn"))
+		place_level_icon(1, Vector2(-416, 4), load("res://Levels/RI1_2.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(2, Vector2(-320, 132), preload("res://Levels/RI1_3.tscn"))
+		place_level_icon(2, Vector2(-320, 132), load("res://Levels/RI1_3.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(4, Vector2(-240, 4), preload("res://Levels/RI1_4.tscn"))
+		place_level_icon(4, Vector2(-240, 4), load("res://Levels/RI1_4.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(8, Vector2(-160, -92), preload("res://Levels/RI1_5.tscn"))
+		place_level_icon(8, Vector2(-160, -92), load("res://Levels/RI1_5.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(7, Vector2(-16, -28), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(7, Vector2(-16, -28), load("res://Levels/RI1_6.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(2, Vector2(32, 100), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(2, Vector2(32, 100), load("res://Levels/RI1_7.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(176, 164), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(1, Vector2(176, 164), load("res://Levels/RI1_8.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(4, Vector2(240, 52), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(4, Vector2(240, 52), load("res://Levels/RI1_9.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(8, Vector2(352, -44), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(8, Vector2(352, -44), load("res://Levels/RI1_10.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(11, Vector2(496, -60), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(11, Vector2(496, -60), load("res://Levels/RI1_11.tscn"))
 		#LEVEL ICON END
 		
 	#EPISODE END
@@ -71,59 +71,59 @@ func _ready():
 	
 	#EPISODE START
 	if Globals.selected_episode == "rooster_island_2":
-		%background.texture = preload("res://Assets/Graphics/menu_map2.png")
+		%background.texture = load("res://Assets/Graphics/menu_map2.png")
 		level_ID = 0
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(-416, 4), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(1, Vector2(-416, 4), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(7, Vector2(-352, 36), preload("res://Levels/RI1_2.tscn"))
+		place_level_icon(7, Vector2(-352, 36), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(10, Vector2(-272, 36), preload("res://Levels/RI1_4.tscn"))
+		place_level_icon(10, Vector2(-272, 36), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(-192, -28), preload("res://Levels/RI1_3.tscn"))
+		place_level_icon(5, Vector2(-192, -28), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(4, Vector2(-96, -76), preload("res://Levels/RI1_5.tscn"))
+		place_level_icon(4, Vector2(-96, -76), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(8, Vector2(16, 148), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(8, Vector2(16, 148), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(96, 84), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(5, Vector2(96, 84), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(6, Vector2(176, 116), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(6, Vector2(176, 116), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(9, Vector2(272, -28), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(9, Vector2(272, -28), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(352, -180), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(1, Vector2(352, -180), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(12, Vector2(400, 84), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(12, Vector2(400, 84), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(12, Vector2(464, 84), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(12, Vector2(464, 84), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(11, Vector2(528, 84), preload("res://Levels/RI1_1.tscn"))
+		place_level_icon(11, Vector2(528, 84), load("res://Levels/RI1_1.tscn"))
 		#LEVEL ICON END
 		
 	#EPISODE END
@@ -167,7 +167,7 @@ func _ready():
 
 var Icon_ID = -1
 var Position = Vector2(0, 0)
-var Level_FilePath = preload("res://Levels/RI1_1.tscn")
+var Level_FilePath = load("res://Levels/RI1_1.tscn")
 
 func place_level_icon(Icon_ID, Position, Level_FilePath):
 	

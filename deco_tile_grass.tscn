@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://bjj0ay2o1sxpn"]
+
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_6osdh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kptrx"]
+atlas = ExtResource("1_6osdh")
+region = Rect2(0, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_py24g"]
+atlas = ExtResource("1_6osdh")
+region = Rect2(64, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_80jn5"]
+atlas = ExtResource("1_6osdh")
+region = Rect2(128, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t7mgt"]
+atlas = ExtResource("1_6osdh")
+region = Rect2(192, 64, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l87l0"]
+atlas = ExtResource("1_6osdh")
+region = Rect2(256, 64, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f5elv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kptrx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_py24g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_80jn5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7mgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l87l0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 12.0
+}]
+
+[node name="decoTile_grass" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_f5elv")
+autoplay = "default"
+frame_progress = 0.357522

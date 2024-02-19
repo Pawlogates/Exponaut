@@ -81,6 +81,7 @@ size = Vector2(64, 48)
 
 [node name="enemyBat" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
+texture_filter = 1
 collision_layer = 0
 script = ExtResource("1_wip1a")
 

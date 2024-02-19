@@ -73,6 +73,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6004i")
 script = ExtResource("1_vyphu")
+debug_mode = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_rk4cf")
@@ -107,26 +108,7 @@ offset_bottom = 96.0
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Start campaign[/wave]"
-autowrap_mode = 0
-
-[node name="Bonus" type="Button" parent="main_menu/menu_container"]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(960, 96)
-layout_mode = 2
-script = ExtResource("4_j7iyn")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Bonus"]
-clip_contents = false
-layout_mode = 0
-offset_right = 960.0
-offset_bottom = 96.0
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]play a huge open level[/wave]"
+text = "[wave amp=50.0 freq=10.0 connected=1]Start new game[/wave]"
 autowrap_mode = 0
 
 [node name="Options" type="Button" parent="main_menu/menu_container"]
@@ -165,6 +147,25 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Quit[/wave]"
+autowrap_mode = 0
+
+[node name="Bonus" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Bonus"]
+clip_contents = false
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 96.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Bonus[/wave]"
 autowrap_mode = 0
 
 [node name="options_menu" type="Control" parent="."]
@@ -1095,11 +1096,6 @@ expand_mode = 1
 [connection signal="mouse_entered" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_mouse_exited"]
 [connection signal="pressed" from="main_menu/menu_container/StartGame" to="." method="_on_start_game_pressed"]
-[connection signal="focus_entered" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_focus_entered"]
-[connection signal="focus_exited" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_focus_exited"]
-[connection signal="mouse_entered" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_mouse_exited"]
-[connection signal="pressed" from="main_menu/menu_container/Bonus" to="." method="_on_bonus_pressed"]
 [connection signal="focus_entered" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_exited"]
 [connection signal="mouse_entered" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_mouse_entered"]
@@ -1110,6 +1106,11 @@ expand_mode = 1
 [connection signal="mouse_entered" from="main_menu/menu_container/Quit" to="main_menu/menu_container/Quit" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="main_menu/menu_container/Quit" to="main_menu/menu_container/Quit" method="_on_mouse_exited"]
 [connection signal="pressed" from="main_menu/menu_container/Quit" to="." method="_on_quit_pressed"]
+[connection signal="focus_entered" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="main_menu/menu_container/Bonus" to="main_menu/menu_container/Bonus" method="_on_mouse_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Bonus" to="." method="_on_bonus_pressed"]
 [connection signal="focus_entered" from="options_menu/menu_container/Graphics" to="options_menu/menu_container/Graphics" method="_on_focus_entered"]
 [connection signal="focus_exited" from="options_menu/menu_container/Graphics" to="options_menu/menu_container/Graphics" method="_on_focus_exited"]
 [connection signal="pressed" from="options_menu/menu_container/Graphics" to="." method="_on_graphics_pressed"]

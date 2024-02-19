@@ -10,22 +10,22 @@ size = Vector2(48, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
 size = Vector2(48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m3wei"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_deyth"]
 atlas = ExtResource("3_fjmtd")
-region = Rect2(896, 512, 64, 64)
+region = Rect2(1792, 256, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_fe6om"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_dw3a7"]
 atlas = ExtResource("3_fjmtd")
-region = Rect2(960, 512, 64, 64)
+region = Rect2(1856, 256, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jfau3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_m3wei")
+"texture": SubResource("AtlasTexture_deyth")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_fe6om")
+"texture": SubResource("AtlasTexture_dw3a7")
 }],
 "loop": true,
 "name": &"shoot",

@@ -1,60 +1,55 @@
-[gd_scene load_steps=24 format=3 uid="uid://dc83q0ap75qf"]
+[gd_scene load_steps=22 format=3 uid="uid://dc83q0ap75qf"]
 
 [ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_imfn1"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_ihnqd"]
-[ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_l07a0"]
 [ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_slmtv"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_wa0ff"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_j7kor"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_nvjgc"]
-shader = ExtResource("2_l07a0")
-shader_parameter/Shift_Hue = 0.33
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1sxqd"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xlhkg"]
 atlas = ExtResource("2_ihnqd")
-region = Rect2(96, 539, 48, 48)
+region = Rect2(1632, 848, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ve7b4"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwotm"]
 atlas = ExtResource("2_ihnqd")
-region = Rect2(144, 539, 48, 48)
+region = Rect2(1680, 848, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_maoqj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_4v0sq"]
 atlas = ExtResource("2_ihnqd")
-region = Rect2(192, 539, 48, 48)
+region = Rect2(1728, 848, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pv7er"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_t78ge"]
 atlas = ExtResource("2_ihnqd")
-region = Rect2(240, 539, 48, 48)
+region = Rect2(1776, 848, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8di1b"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffvv4"]
 atlas = ExtResource("2_ihnqd")
-region = Rect2(288, 539, 48, 48)
+region = Rect2(1824, 848, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_jyprq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_gyxso"]
 atlas = ExtResource("2_ihnqd")
-region = Rect2(336, 539, 48, 48)
+region = Rect2(1872, 848, 48, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_tm4hn"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1sxqd")
+"texture": SubResource("AtlasTexture_xlhkg")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ve7b4")
+"texture": SubResource("AtlasTexture_kwotm")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_maoqj")
+"texture": SubResource("AtlasTexture_4v0sq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_pv7er")
+"texture": SubResource("AtlasTexture_t78ge")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8di1b")
+"texture": SubResource("AtlasTexture_ffvv4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_jyprq")
+"texture": SubResource("AtlasTexture_gyxso")
 }],
 "loop": true,
 "name": &"anim",
@@ -548,7 +543,6 @@ monitorable = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
 unique_name_in_owner = true
-material = SubResource("ShaderMaterial_nvjgc")
 sprite_frames = SubResource("SpriteFrames_tm4hn")
 animation = &"anim"
 autoplay = "anim"
@@ -585,6 +579,7 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
+texture_filter = 2
 material = ExtResource("4_wa0ff")
 layout_mode = 0
 offset_right = 440.0

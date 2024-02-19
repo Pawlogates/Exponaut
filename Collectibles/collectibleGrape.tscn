@@ -493,6 +493,7 @@ _data = {
 radius = 12.0
 
 [node name="grape" type="CharacterBody2D" groups=["Persist"]]
+texture_filter = 1
 collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 5.0
@@ -542,6 +543,7 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
+texture_filter = 2
 material = ExtResource("4_pdorp")
 layout_mode = 0
 offset_right = 440.0
@@ -571,8 +573,8 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,92 @@
+[gd_scene load_steps=8 format=3 uid="uid://b1vo4nnrb00mt"]
+
+[ext_resource type="Script" path="res://Tiles/water_top.gd" id="1_ms10d"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_3f6cf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8whj6"]
+atlas = ExtResource("2_3f6cf")
+region = Rect2(0, 384, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_45hng"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8whj6")
+}],
+"loop": false,
+"name": &"loop",
+"speed": 0.0
+}]
+
+[sub_resource type="Animation" id="Animation_de8fa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(32, 32)]
+}
+
+[sub_resource type="Animation" id="Animation_nh02v"]
+resource_name = "loop"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(96, 32), Vector2(32, 32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4jlhx"]
+_data = {
+"RESET": SubResource("Animation_de8fa"),
+"loop": SubResource("Animation_nh02v")
+}
+
+[node name="water_top" type="Container"]
+texture_filter = 1
+clip_contents = true
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+script = ExtResource("1_ms10d")
+
+[node name="water_top" type="AnimatedSprite2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.607843, 0.607843, 0.607843, 1)
+position = Vector2(32, 32)
+sprite_frames = SubResource("SpriteFrames_45hng")
+animation = &"loop"
+
+[node name="water_top2" type="AnimatedSprite2D" parent="water_top"]
+position = Vector2(-64, 0)
+sprite_frames = SubResource("SpriteFrames_45hng")
+animation = &"loop"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-96, -96)
+scale = Vector2(2.66667, 2.66667)
+rect = Rect2(0, 0, 96, 96)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../water_top")
+libraries = {
+"": SubResource("AnimationLibrary_4jlhx")
+}
+autoplay = "loop"
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

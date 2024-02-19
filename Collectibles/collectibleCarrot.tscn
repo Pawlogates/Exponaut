@@ -412,6 +412,7 @@ _data = {
 }
 
 [node name="carrot" type="Node2D" groups=["Persist"]]
+texture_filter = 1
 script = ExtResource("1_gmake")
 collectibleScoreValue = 30
 
@@ -459,6 +460,7 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
+texture_filter = 2
 material = ExtResource("4_fjkh1")
 layout_mode = 0
 offset_right = 440.0

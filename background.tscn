@@ -1,7 +1,6 @@
-[gd_scene load_steps=14 format=3 uid="uid://qvxb24kyh4pu"]
+[gd_scene load_steps=13 format=3 uid="uid://qvxb24kyh4pu"]
 
 [ext_resource type="Script" path="res://background.gd" id="1_gwj4p"]
-[ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://deco_waterfall.tscn" id="2_30uck"]
 [ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/bg1.png" id="2_rc4at"]
 [ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/bg1b.png" id="3_qdcue"]
 [ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/bg1a.png" id="5_sn8j5"]
@@ -185,374 +184,27 @@ scroll_ignore_camera_zoom = true
 
 [node name="bg_main" type="ParallaxLayer" parent="CanvasLayer/bg"]
 texture_repeat = 3
-motion_scale = Vector2(0.75, 0.2)
+motion_scale = Vector2(0.75, 0.1)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_main"]
-offset_top = -1200.0
+offset_top = -900.0
 offset_right = 1920.0
-offset_bottom = 1140.0
+offset_bottom = 1440.0
 texture = ExtResource("2_rc4at")
-
-[node name="waterfall2" type="ParallaxLayer" parent="CanvasLayer/bg"]
-modulate = Color(1, 1, 1, 0.4)
-position = Vector2(880, -768)
-scale = Vector2(0.2, 0.2)
-motion_scale = Vector2(0.9, 0.5)
-
-[node name="deco_waterfall" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -192)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall2" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 192)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall3" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 576)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall4" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 960)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall5" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 1344)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall6" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 1728)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall7" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 2112)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall8" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 2496)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall9" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 2880)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall10" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 3264)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall11" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 3648)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall12" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 4032)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall13" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 4416)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall14" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 4800)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall15" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 5184)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall16" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 5568)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall17" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 5952)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall18" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 6336)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall19" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 6720)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall20" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 7104)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall21" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 7488)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall22" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 7872)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall23" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 8256)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall24" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 8640)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall25" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 9024)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall26" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 9408)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall27" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 9792)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall28" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 10176)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall29" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 10560)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall30" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 10944)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall31" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 11328)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall32" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -5950)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall33" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -5566)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall34" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -5182)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall35" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -4798)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall36" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -4414)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall37" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -4030)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall38" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -3646)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall39" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -3262)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall40" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -2878)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall41" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -2494)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall42" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -2110)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall43" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -1726)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall44" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -1342)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall45" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -958.001)
-scale = Vector2(3, 3)
-
-[node name="deco_waterfall46" parent="CanvasLayer/bg/waterfall2" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(95, -574.001)
-scale = Vector2(3, 3)
 
 [node name="bg_b" type="ParallaxLayer" parent="CanvasLayer/bg"]
 texture_repeat = 3
-motion_scale = Vector2(0.85, 0.45)
+motion_scale = Vector2(0.85, 0.4)
 motion_mirroring = Vector2(2560, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_b"]
 modulate = Color(1, 1, 1, 0.235294)
 texture_repeat = 3
-offset_top = 200.0
+offset_top = 320.0
 offset_right = 2560.0
-offset_bottom = 1060.0
+offset_bottom = 1180.0
 texture = ExtResource("3_qdcue")
-
-[node name="waterfall" type="ParallaxLayer" parent="CanvasLayer/bg"]
-motion_scale = Vector2(0.85, 0.5)
-
-[node name="deco_waterfall" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -112)
-
-[node name="deco_waterfall2" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -240)
-
-[node name="deco_waterfall3" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -368)
-
-[node name="deco_waterfall4" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -496)
-
-[node name="deco_waterfall5" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 144)
-
-[node name="deco_waterfall6" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 16)
-
-[node name="deco_waterfall16" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -880)
-
-[node name="deco_waterfall17" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1008)
-
-[node name="deco_waterfall18" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1136)
-
-[node name="deco_waterfall19" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1264)
-
-[node name="deco_waterfall20" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -624)
-
-[node name="deco_waterfall21" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -752)
-
-[node name="deco_waterfall22" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1648)
-
-[node name="deco_waterfall23" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1776)
-
-[node name="deco_waterfall24" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1904)
-
-[node name="deco_waterfall25" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -2032)
-
-[node name="deco_waterfall26" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1392)
-
-[node name="deco_waterfall27" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, -1520)
-
-[node name="deco_waterfall7" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 656)
-
-[node name="deco_waterfall8" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 528)
-
-[node name="deco_waterfall9" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 400)
-
-[node name="deco_waterfall10" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 272)
-
-[node name="deco_waterfall11" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 912)
-
-[node name="deco_waterfall12" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 784)
-
-[node name="deco_waterfall13" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 1296)
-
-[node name="deco_waterfall14" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 1168)
-
-[node name="deco_waterfall15" parent="CanvasLayer/bg/waterfall" instance=ExtResource("2_30uck")]
-modulate = Color(1, 1, 1, 0.352941)
-position = Vector2(96, 1040)
 
 [node name="bg_a" type="ParallaxLayer" parent="CanvasLayer/bg"]
 texture_repeat = 3
@@ -561,9 +213,9 @@ motion_mirroring = Vector2(1920, 0)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_a"]
 texture_repeat = 3
-offset_top = 100.0
+offset_top = 320.0
 offset_right = 1920.0
-offset_bottom = 960.0
+offset_bottom = 1180.0
 texture = ExtResource("5_sn8j5")
 
 [connection signal="animation_finished" from="bg_transition" to="." method="_on_bg_transition_animation_finished"]

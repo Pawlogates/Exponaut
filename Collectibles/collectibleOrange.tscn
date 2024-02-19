@@ -528,6 +528,7 @@ _data = {
 radius = 16.0
 
 [node name="orange" type="CharacterBody2D" groups=["Persist"]]
+texture_filter = 1
 collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 5.0
@@ -578,6 +579,7 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
+texture_filter = 2
 material = ExtResource("4_8mef2")
 layout_mode = 0
 offset_right = 440.0

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://b8qh6d27x6rbj"]
+[gd_scene load_steps=28 format=3 uid="uid://b8qh6d27x6rbj"]
 
 [ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_tdmue"]
 [ext_resource type="PackedScene" uid="uid://ddmxj0bgdywed" path="res://inventoryItem_enemies.tscn" id="2_17jbk"]
@@ -48,10 +48,6 @@ region = Rect2(960, 640, 64, 64)
 atlas = ExtResource("3_rr3vm")
 region = Rect2(1024, 640, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1y414"]
-atlas = ExtResource("3_rr3vm")
-region = Rect2(1088, 640, 64, 64)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_tm4hn"]
 animations = [{
 "frames": [{
@@ -84,9 +80,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_43nff")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1y414")
 }],
 "loop": true,
 "name": &"anim",

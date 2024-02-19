@@ -4,6 +4,10 @@ var Overworld = preload("res://Levels/Overworld.tscn")
 var mapScreen = preload("res://map_screen.tscn")
 
 
+@export var debug_mode = false
+
+
+
 func _ready():
 	%main_menu.visible = false
 	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
@@ -27,6 +31,13 @@ func _ready():
 	
 	%menu_deco_bg.visible = false
 	%menu_deco_bg.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	
+	
+	if debug_mode:
+		%main_menu.visible = true
+		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+		%StartGame.grab_focus()
 	
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)

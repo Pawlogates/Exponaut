@@ -30,7 +30,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0, 0)]
+"values": [Vector2(32, 32)]
 }
 
 [sub_resource type="Animation" id="Animation_nh02v"]
@@ -46,7 +46,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 1),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(0, 0), Vector2(-64, 0)]
+"values": [Vector2(96, 32), Vector2(32, 32)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4jlhx"]
@@ -55,23 +55,37 @@ _data = {
 "loop": SubResource("Animation_nh02v")
 }
 
-[node name="water_top" type="Sprite2D"]
+[node name="water_top" type="Container"]
+texture_filter = 1
+clip_contents = true
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
 script = ExtResource("1_uw3y1")
 
 [node name="water_top" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+position = Vector2(32, 32)
 sprite_frames = SubResource("SpriteFrames_45hng")
 animation = &"loop"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="water_top"]
+[node name="water_top2" type="AnimatedSprite2D" parent="water_top"]
+position = Vector2(-64, 0)
+sprite_frames = SubResource("SpriteFrames_45hng")
+animation = &"loop"
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-96, -96)
+scale = Vector2(2.66667, 2.66667)
+rect = Rect2(0, 0, 96, 96)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../water_top")
 libraries = {
 "": SubResource("AnimationLibrary_4jlhx")
 }
 autoplay = "loop"
-
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-48, -48)
-rect = Rect2(0, 0, 96, 96)
 
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

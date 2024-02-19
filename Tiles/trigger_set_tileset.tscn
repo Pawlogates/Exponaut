@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
 size = Vector2(64, 64)
 
-[node name="trigger_set_night" type="Area2D" groups=["bgChange_area"]]
+[node name="trigger_set_tileset" type="Area2D" groups=["bgChange_area"]]
 collision_layer = 4
 collision_mask = 2
 input_pickable = false

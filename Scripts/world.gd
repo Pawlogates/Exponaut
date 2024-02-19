@@ -42,7 +42,14 @@ var key_total = 50
 
 @export var scoreAttack_collectibles = -1
 
+
+
+@export var regular_level = false
+
 @export var night = false
+@export var night2 = false
+@export var night3 = false
+
 @export var rain = false
 @export var leaves = false
 
@@ -60,6 +67,10 @@ func _ready():
 	#%bg_previous.queue_free()
 	#$tileset_objects.queue_free() #DEBUG
 	#$tileset_objectsSmall.queue_free() #DEBUG
+	
+	
+	
+	
 	get_tree().paused = false
 	
 	Globals.save.connect(saved_from_outside)
@@ -124,16 +135,28 @@ func _ready():
 	#start_in_container.visible = true
 	start_in_container.visible = false
 	
-	await LevelTransition.fade_from_black_slow()
 	
 	
-	#animation_player.play("StartInAnim")
-	#await animation_player.animation_finished
-	#get_tree().paused = false
 	
-	
-	if night == true:
+	if night3 == true:
+		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night3.png")
+		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night3.png")
+		
+	elif night2 == true:
+		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
+		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
+		
+	elif night == true:
 		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
+		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night.png")
+	
+	else:
+		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
+		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
+		
+	
+	
+	
 	if rain == true:
 		%Player/Camera2D.add_child(rain_scene.instantiate())
 	if leaves == true:
@@ -144,13 +167,72 @@ func _ready():
 	
 	Globals.cheated_state = false
 	
-	await get_tree().create_timer(0.2, false).timeout
+	
+	#animation_player.play("StartInAnim")
+	#await animation_player.animation_finished
+	#get_tree().paused = false
+	
+	if regular_level:
+		%bg_previous/bg_transition.speed_scale = 20
+		%bg_previous/bg_a_transition.speed_scale = 20
+		%bg_previous/bg_b_transition.speed_scale = 20
+	
+		%bg_current/bg_transition.speed_scale = 20
+		%bg_current/bg_a_transition.speed_scale = 20
+		%bg_current/bg_b_transition.speed_scale = 20
+		
+		bgMove_growthSpeed = 100
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	await LevelTransition.fade_from_black_slow()
+	
+	#await get_tree().create_timer(0.2, false).timeout
+	
 	key_total = get_tree().get_nodes_in_group("key").size()
 	keys_leftDisplay.text = str(key_total)
 	
-	
-	await get_tree().create_timer(0.2, false).timeout
 	teleporter_assign_ID()
+	
+	
+	if night3 or night2 or night:
+		for object in get_tree().get_nodes_in_group("Persist"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("player"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("button_block"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("button"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("bonusBox"):
+			object.modulate.r = 0.8
+		
+		
+	else:
+		for object in get_tree().get_nodes_in_group("Persist"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("player"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("button_block"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("button"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("bonusBox"):
+			object.modulate.r = 1.0
+
+
+
+
+
+
 
 
 
@@ -214,35 +296,36 @@ func _physics_process(delta):
 	#BACKGROUND MOVEMENT HANDLE
 	
 	if not bg_position_set:
-		%bg_previous/CanvasLayer/bg.offset.x = move_toward(%bg_previous/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x, 100 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg.offset.y = move_toward(%bg_previous/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg.offset.x = move_toward(%bg_previous/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x * 1, 100 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg.offset.y = move_toward(%bg_previous/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y * 1, 250 * bgMove_growthSpeed * delta)
 		
-		%bg_current/CanvasLayer/bg.offset.x = move_toward(%bg_current/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x, 100 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg.offset.y = move_toward(%bg_current/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg.offset.x = move_toward(%bg_current/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x * 1, 100 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg.offset.y = move_toward(%bg_current/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y * 1, 250 * bgMove_growthSpeed * delta)
 		
 		#bg_a
 		
-		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x * 3, 250 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y * 3, 450 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x * -0.1, 250 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y * -0.1, 450 * bgMove_growthSpeed * delta)
 		
-		%bg_current/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x * 3, 250 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y * 3, 450 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x * -0.1, 250 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y * -0.1, 450 * bgMove_growthSpeed * delta)
 		
 		#bg_b
 		
-		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x * 2.15, 200 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y * 2.15, 350 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x * -0.4, 200 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y * -0.4, 350 * bgMove_growthSpeed * delta)
 		
-		%bg_current/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x * 2.15, 200 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y * 2.15, 350 * bgMove_growthSpeed * delta)
-		
-
-		
-		bgMove_growthSpeed *= 0.995
-		bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.05, 1)
+		%bg_current/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x * -0.4, 200 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y * -0.4, 350 * bgMove_growthSpeed * delta)
 		
 		
-		if bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.y == Globals.bgOffset_target_y:
+		
+		if not regular_level:
+			bgMove_growthSpeed *= 0.995
+			bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.05, 1)
+		
+		
+		if not regular_level and bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.y == Globals.bgOffset_target_y:
 			bg_position_set = true
 			bgMove_growthSpeed = 1
 			bgMove_started = false
@@ -704,21 +787,103 @@ func key_collected():
 func night_tileset_toggle():
 	if night_toggle:
 		night_toggle = false
-		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
-		%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = preload("res://Assets/Graphics/bg3.png")
+		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
+		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
+		for object in get_tree().get_nodes_in_group("Persist"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("player"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("button_block"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("button"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("bonusBox"):
+			object.modulate.r = 0.8
+			
 	else:
 		night_toggle = true
 		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
-		%bg_previous/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bgFile_current
+		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
+		for object in get_tree().get_nodes_in_group("Persist"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("player"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("button_block"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("button"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("bonusBox"):
+			object.modulate.r = 1.0
+
 
 
 
 func set_night():
+	night_toggle = false
 	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
+	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night.png")
+	for object in get_tree().get_nodes_in_group("Persist"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("player"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("button_block"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("button"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("bonusBox"):
+		object.modulate.r = 0.8
+
+
+func set_night2():
+	night_toggle = false
+	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
+	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
+	for object in get_tree().get_nodes_in_group("Persist"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("player"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("button_block"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("button"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("bonusBox"):
+		object.modulate.r = 0.8
+
+
+func set_night3():
+	night_toggle = false
+	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night3.png")
+	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night3.png")
+	for object in get_tree().get_nodes_in_group("Persist"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("player"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("button_block"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("button"):
+		object.modulate.r = 0.8
+	for object in get_tree().get_nodes_in_group("bonusBox"):
+		object.modulate.r = 0.8
+
 
 
 func set_day():
+	night_toggle = true
 	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
+	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
+	for object in get_tree().get_nodes_in_group("Persist"):
+		object.modulate.r = 1.0
+	for object in get_tree().get_nodes_in_group("player"):
+		object.modulate.r = 1.0
+	for object in get_tree().get_nodes_in_group("button_block"):
+		object.modulate.r = 1.0
+	for object in get_tree().get_nodes_in_group("button"):
+		object.modulate.r = 1.0
+	for object in get_tree().get_nodes_in_group("bonusBox"):
+		object.modulate.r = 1.0
+
+
+
 
 
 

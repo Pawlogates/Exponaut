@@ -123,6 +123,7 @@ size = Vector2(64, 48)
 
 [node name="enemyPiranha" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
+texture_filter = 1
 collision_layer = 2
 floor_max_angle = 0.523599
 script = ExtResource("1_xrbvc")

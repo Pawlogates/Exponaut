@@ -1,0 +1,51 @@
+[gd_scene load_steps=8 format=3 uid="uid://cgto07gjwl6aq"]
+
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_bt6cs"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n74yu"]
+atlas = ExtResource("1_bt6cs")
+region = Rect2(0, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yh7x2"]
+atlas = ExtResource("1_bt6cs")
+region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hp35e"]
+atlas = ExtResource("1_bt6cs")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2csj"]
+atlas = ExtResource("1_bt6cs")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r5pft"]
+atlas = ExtResource("1_bt6cs")
+region = Rect2(256, 192, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f5elv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n74yu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yh7x2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hp35e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d2csj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r5pft")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[node name="decoTile_helicopter" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_f5elv")
+autoplay = "default"
+frame_progress = 0.905943

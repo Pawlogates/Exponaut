@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://dp8i058tyn1ej"]
+[gd_scene load_steps=27 format=3 uid="uid://dp8i058tyn1ej"]
 
 [ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_xucai"]
 [ext_resource type="PackedScene" uid="uid://ckdwtubwnxp3h" path="res://Collectibles/bonus_box_grapes.tscn" id="2_82tr7"]
@@ -47,10 +47,6 @@ region = Rect2(960, 640, 64, 64)
 atlas = ExtResource("3_kkvbs")
 region = Rect2(1024, 640, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1y414"]
-atlas = ExtResource("3_kkvbs")
-region = Rect2(1088, 640, 64, 64)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_tm4hn"]
 animations = [{
 "frames": [{
@@ -83,9 +79,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_43nff")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1y414")
 }],
 "loop": true,
 "name": &"anim",
@@ -647,8 +640,8 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]

@@ -1,4 +1,4 @@
-extends Node2D
+extends Container
 
 @onready var waterfall = $AnimatedSprite2D
 

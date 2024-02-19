@@ -16,6 +16,7 @@ var effect_dust = effect_dustScene.instantiate()
 
 var collected = false
 var removable = false
+var rotten = false
 
 var button_pressed = false
 
@@ -39,6 +40,10 @@ var button_pressed = false
 @export var weapon_type = "none"
 @export var attack_delay = 1.0
 @export var is_healthItem = false
+
+@export var rotting = false
+@export var fall_when_button_pressed = false
+
 
 #OFFSCREEN START
 
@@ -73,12 +78,16 @@ func _ready():
 		animation_player.play("loop")
 	
 	
+	if rotting:
+		%rotDelay.start()
+	
+	
 	
 	
 	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.monitoring = true
 	
-	
+
 
 
 
@@ -133,7 +142,7 @@ func offScreen_load():
 func _process(_delta):
 	if removable or collected and not animation_player_2.current_animation == "score_value" and not animation_player.current_animation == "remove":
 		queue_free()
-		
+	
 	
 
 
@@ -180,7 +189,7 @@ func _on_collectible_entered(body):
 	
 	
 	
-	if collectable and body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and body.can_collect and not collected:
+	if collectable and not rotten and body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and body.can_collect and not collected:
 		collected = true
 		%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
 		
@@ -300,16 +309,18 @@ func _physics_process(delta):
 	if collidable and direction:
 		velocity.x = direction * SPEED
 	elif collidable:
-		velocity.x = move_toward(velocity.x, 0, SPEED / 1.75 * delta)
+		if is_on_floor():
+			velocity.x = move_toward(velocity.x, 0, SPEED / 2.5 * delta)
 		
 		
 		
-	if player_inside and hard_to_collect:
-		if collidable and abs(velocity.x) <= 250:
-			if Globals.direction != 0:
-				direction_last = Globals.direction
-				
-			velocity.x = 250 * direction_last
+	if player_inside:
+		if hard_to_collect or rotten:
+			if collidable and abs(velocity.x) <= 250:
+				if Globals.direction != 0:
+					direction_last = Globals.direction
+					
+				velocity.x = 250 * direction_last
 	
 	
 	if enemy_inside:
@@ -339,15 +350,16 @@ func _physics_process(delta):
 	
 	
 	
-	if button_pressed and %AnimatedSprite2D.position.y > 0:
-		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
-		%AnimatedSprite2D.position.y -= 1
-		print(%AnimatedSprite2D.position.y)
-		
-	elif button_pressed and %AnimatedSprite2D.position.y < 0:
-		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
-		%AnimatedSprite2D.position.y += 1
-		print(%AnimatedSprite2D.position.y)
+	if fall_when_button_pressed:
+		if button_pressed and %AnimatedSprite2D.position.y > 0:
+			%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
+			%AnimatedSprite2D.position.y -= 1
+			print(%AnimatedSprite2D.position.y)
+			
+		elif button_pressed and %AnimatedSprite2D.position.y < 0:
+			%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
+			%AnimatedSprite2D.position.y += 1
+			print(%AnimatedSprite2D.position.y)
 
 
 
@@ -365,7 +377,7 @@ var collidable = true
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("player"):
 		player_inside = true
-		if collidable and hard_to_collect:
+		if collidable and hard_to_collect or collidable and rotten:
 			direction = area.get_parent().direction
 		
 	if area.is_in_group("enemies"):
@@ -397,7 +409,8 @@ func _on_area_2d_area_entered(area):
 		add_to_group(loadingZone)
 		
 		#print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
-
+	
+	
 	#SAVE END
 
 
@@ -405,9 +418,10 @@ func _on_area_2d_area_entered(area):
 func _on_area_2d_area_exited(area):
 	if area.is_in_group("player") or area.is_in_group("player_projectile") or area.is_in_group("enemies"):
 		
-		if area.is_in_group("player") and hard_to_collect:
-			player_inside = false
-			direction = area.get_parent().direction
+		if area.is_in_group("player"):
+			if hard_to_collect or rotten:
+				player_inside = false
+				direction = area.get_parent().direction
 		
 		if area.is_in_group("player_projectile"):
 			player_projectile_inside = false
@@ -444,3 +458,14 @@ func on_button_press():
 		velocity.y = 0
 		button_pressed = true
 		animation_player.pause()
+
+
+
+
+
+
+
+
+func _on_rot_delay_timeout():
+	rotten = true
+	%AnimatedSprite2D.material = preload("res://Collectibles/rotten_material.tres")

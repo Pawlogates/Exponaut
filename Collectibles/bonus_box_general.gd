@@ -50,6 +50,10 @@ func _on_area_2d_area_entered(area):
 			else:
 				area.get_parent().velocity.y = -300
 			
+			area.get_parent().air_jump = true
+			area.get_parent().wall_jump = true
+			
+			
 			
 			call_deferred("spawn_collectibles")
 			
@@ -185,7 +189,7 @@ var rng = RandomNumberGenerator.new()
 func spawn_item():
 	item = item_scene.instantiate()
 	add_child(item)
-	item.velocity.x = rng.randf_range(400.0, -400.0)
+	item.velocity.x = rng.randf_range(300.0, -300.0)
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
 	
 

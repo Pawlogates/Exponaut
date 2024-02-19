@@ -1,4 +1,4 @@
-[gd_scene load_steps=76 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=84 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_6ck4y"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_e1gk0"]
@@ -73,6 +73,14 @@
 [ext_resource type="PackedScene" uid="uid://e2x7x0glinh" path="res://Enemies/friendly_hen.tscn" id="66_i75a4"]
 [ext_resource type="PackedScene" uid="uid://c6bowx3li0fvy" path="res://Enemies/friendly_chicken.tscn" id="67_xr1ou"]
 [ext_resource type="PackedScene" uid="uid://dofb2sjouxgdr" path="res://Collectibles/collectibleFeather.tscn" id="71_uhm68"]
+[ext_resource type="PackedScene" uid="uid://b1vo4nnrb00mt" path="res://Tiles/water_top_dark.tscn" id="72_axsic"]
+[ext_resource type="PackedScene" uid="uid://dg0wrskruwis0" path="res://deco_waterfall_dark.tscn" id="73_gw7cv"]
+[ext_resource type="PackedScene" uid="uid://cgto07gjwl6aq" path="res://deco_tile_helicopter.tscn" id="74_sbn64"]
+[ext_resource type="PackedScene" uid="uid://dnc0pcllxobv" path="res://deco_tile_lantern.tscn" id="75_ulq1b"]
+[ext_resource type="PackedScene" uid="uid://bjj0ay2o1sxpn" path="res://deco_tile_grass.tscn" id="76_8g5rh"]
+[ext_resource type="PackedScene" uid="uid://bvoawdfbl5xyy" path="res://deco_tile_gear.tscn" id="78_hxccc"]
+[ext_resource type="PackedScene" uid="uid://3ggahom0go77" path="res://deco_smog.tscn" id="79_pl8pr"]
+[ext_resource type="PackedScene" uid="uid://b77cpe5x67bko" path="res://deco_waterBubbles.tscn" id="80_fsub2"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -150,6 +158,14 @@ scenes/71/scene = ExtResource("65_w4x0u")
 scenes/72/scene = ExtResource("66_i75a4")
 scenes/73/scene = ExtResource("67_xr1ou")
 scenes/74/scene = ExtResource("71_uhm68")
+scenes/75/scene = ExtResource("72_axsic")
+scenes/76/scene = ExtResource("73_gw7cv")
+scenes/77/scene = ExtResource("74_sbn64")
+scenes/78/scene = ExtResource("75_ulq1b")
+scenes/79/scene = ExtResource("76_8g5rh")
+scenes/80/scene = ExtResource("78_hxccc")
+scenes/81/scene = ExtResource("79_pl8pr")
+scenes/82/scene = ExtResource("80_fsub2")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(64, 64)
@@ -159,6 +175,7 @@ sources/0 = SubResource("TileSetScenesCollectionSource_kxjp3")
 [node name="tileset_objects" type="TileMap"]
 visibility_layer = 2
 z_index = -1
+texture_filter = 1
 tile_set = SubResource("TileSet_bxi0m")
 rendering_quadrant_size = 64
 format = 2

@@ -88,12 +88,12 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
-size = Vector2(192, 192)
+size = Vector2(188, 188)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3dwm"]
 size = Vector2(256, 256)
 
-[node name="special_block" type="CharacterBody2D"]
+[node name="special_block" type="CharacterBody2D" groups=["Persist"]]
 z_index = 1
 collision_layer = 3
 collision_mask = 3

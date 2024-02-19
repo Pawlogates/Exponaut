@@ -9,6 +9,8 @@ size = Vector2(216, 64)
 collision_layer = 0
 collision_mask = 7
 script = ExtResource("1_wdkmk")
+area_type = "wind"
+wind_direction = "left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_32ipw")

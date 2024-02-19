@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://b2y5linmn0ira"]
+[gd_scene load_steps=27 format=3 uid="uid://b2y5linmn0ira"]
 
 [ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_d8sol"]
 [ext_resource type="PackedScene" uid="uid://eh1her6bw7cj" path="res://Collectibles/bonus_box_oranges.tscn" id="2_b7dyb"]
@@ -47,10 +47,6 @@ region = Rect2(960, 640, 64, 64)
 atlas = ExtResource("2_fvt2n")
 region = Rect2(1024, 640, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1y414"]
-atlas = ExtResource("2_fvt2n")
-region = Rect2(1088, 640, 64, 64)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_tm4hn"]
 animations = [{
 "frames": [{
@@ -83,9 +79,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_43nff")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1y414")
 }],
 "loop": true,
 "name": &"anim",

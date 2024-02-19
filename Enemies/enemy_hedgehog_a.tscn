@@ -83,6 +83,7 @@ size = Vector2(20, 32)
 
 [node name="enemyHedgehog_a" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
+texture_filter = 1
 collision_layer = 0
 script = ExtResource("1_8mj8n")
 

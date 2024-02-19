@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_cbes5"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_5hsoa"]
-[ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_03qm4"]
+[ext_resource type="AudioStream" uid="uid://brdf61qp7ucnh" path="res://Assets/Sounds/sfx/effect_appleBite.wav" id="3_7c8bs"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_5mpx6"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_b6jxt"]
 
@@ -493,6 +493,7 @@ _data = {
 radius = 32.0
 
 [node name="bigApple" type="CharacterBody2D" groups=["Persist"]]
+texture_filter = 1
 collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 5.0
@@ -518,7 +519,7 @@ shape = SubResource("CircleShape2D_7n505")
 
 [node name="collect1" type="AudioStreamPlayer2D" parent="Area2D"]
 unique_name_in_owner = true
-stream = ExtResource("3_03qm4")
+stream = ExtResource("3_7c8bs")
 volume_db = 10.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D"]
@@ -543,6 +544,7 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
+texture_filter = 2
 material = ExtResource("4_5mpx6")
 layout_mode = 0
 offset_right = 440.0

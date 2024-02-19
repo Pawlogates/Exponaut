@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Exponaut v0.4 - BETA"
+config/name="Exponaut v0.5 - BETA"
 run/main_scene="res://start_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/use_filter=false
@@ -25,7 +25,6 @@ Globals="*res://Scripts/Globals.gd"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
 
 [importer_defaults]
 
