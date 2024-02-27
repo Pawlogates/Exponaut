@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=36 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_428jj"]
@@ -30,6 +30,9 @@
 [ext_resource type="PackedScene" uid="uid://cry8t6ojcoabt" path="res://Tiles/button_block_blue_DOWN.tscn" id="21_b0dwe"]
 [ext_resource type="PackedScene" uid="uid://dnc0pcllxobv" path="res://deco_tile_lantern.tscn" id="22_epmiq"]
 [ext_resource type="PackedScene" uid="uid://3ggahom0go77" path="res://deco_smog.tscn" id="24_ofrri"]
+[ext_resource type="PackedScene" uid="uid://cbflprsbwlyac" path="res://Tiles/fire.tscn" id="25_flmdt"]
+[ext_resource type="PackedScene" uid="uid://cs7hc4rry3lqm" path="res://Tiles/button_red.tscn" id="26_djeph"]
+[ext_resource type="PackedScene" uid="uid://tro6l8nm38dv" path="res://Tiles/special_block_destructibleCube.tscn" id="27_fo6u5"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -63,6 +66,9 @@ scenes/27/scene = ExtResource("20_wbtav")
 scenes/28/scene = ExtResource("21_8320i")
 scenes/29/scene = ExtResource("22_epmiq")
 scenes/30/scene = ExtResource("24_ofrri")
+scenes/31/scene = ExtResource("25_flmdt")
+scenes/32/scene = ExtResource("26_djeph")
+scenes/33/scene = ExtResource("27_fo6u5")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)

@@ -53,7 +53,11 @@ func exit_reached():
 			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 3:
 				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level), 3)
 				
-		elif get_tree().get_nodes_in_group("Collectibles").size() != 0:
+		elif get_tree().get_nodes_in_group("specialCollectible").size() <= 0:
+			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 2:
+				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level), 2)
+				
+		elif get_tree().get_nodes_in_group("Collectibles").size() >= 0:
 			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 1:
 				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level), 1)
 		
@@ -90,8 +94,10 @@ func exit_reached():
 	%"End Screen".visible = true
 	%"End Screen Values".visible = true
 	await LevelTransition.fade_from_black_slow()
+	%MapBtn.grab_focus()
 	
 	set_process(true)
+	
 	
 
 

@@ -4,6 +4,9 @@ extends CharacterBody2D
 @export var SPEED = 400.0
 @export var V_SPEED = 400.0
 
+var enemyProjectile = false
+var playerProjectile = true
+
 
 #const JUMP_VELOCITY = -400.0
 
@@ -18,8 +21,9 @@ var projectile_shot = false
 var direction = 0
 var damageValue = 1
 
-var downwards_shot = false
+var bouncy = false
 
+var downwards_shot = false
 var direction_whenShot = 0
 
 
@@ -31,39 +35,52 @@ var direction_whenShot = 0
 @export var momentum_y = 0.0
 
 func _process(delta):
-	if projectile_shot == false and Input.is_action_pressed("attack_fast"):
+	if projectile_shot == false and Input.is_action_pressed("attack_fast") or enemyProjectile:
 		projectile_shot = true
 		Globals.shot.emit()
-		x = rng.randf_range(0.8, 1.2)
-		$AudioStreamPlayer2D.set_pitch_scale(x)
-		$AudioStreamPlayer2D.play()
 		
-		if Globals.direction != 0:
+		if not enemyProjectile and Globals.direction != 0:
 			%animation.flip_h = (Globals.direction < 0)
+		elif enemyProjectile and direction != 0:
+			%animation.flip_h = (direction < 0)
 		
 		
-		
-		if Input.is_action_pressed("move_DOWN"):
-			velocity.x = 0
-			velocity.y = V_SPEED
-			downwards_shot = true
+		if not enemyProjectile:
+			if Input.is_action_pressed("move_DOWN"):
+				velocity.x = 0
+				velocity.y = V_SPEED
+				downwards_shot = true
+				
+				if Globals.direction == 1:
+					rotation_degrees = 90
+				elif Globals.direction == -1:
+					rotation_degrees = -90
+				
 			
-			if Globals.direction == 1:
-				rotation_degrees = 90
+			elif Globals.direction == 1:
+				velocity.x = SPEED
+				velocity.y = 0
+				direction = 1
+				
+			
 			elif Globals.direction == -1:
-				rotation_degrees = -90
-			
+				velocity.x = -SPEED
+				velocity.y = 0
+				direction = -1
 		
-		elif Globals.direction == 1:
-			velocity.x = SPEED
-			velocity.y = 0
-			direction = 1
-			
 		
-		elif Globals.direction == -1:
-			velocity.x = -SPEED
-			velocity.y = 0
-			direction = -1
+		
+		else:
+			if direction == 1:
+				velocity.x = SPEED
+				velocity.y = 0
+				direction = 1
+				
+			
+			elif direction == -1:
+				velocity.x = -SPEED
+				velocity.y = 0
+				direction = -1
 		
 		
 		direction_whenShot = Globals.direction

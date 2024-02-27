@@ -235,9 +235,8 @@ collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_6jqsp")
-movementType = "normal"
-turnOnLedge = true
-turnOnWall = true
+movementType = "wave_H"
+floating = true
 onDeath_spawnObject = true
 onDeath_spawnObject_objectPath = ExtResource("2_81sh3")
 onDeath_spawnObject_objectAmount = 20
@@ -330,15 +329,14 @@ wait_time = 0.5
 [node name="scanForLedge" type="RayCast2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(32, 0)
-target_position = Vector2(0, 128)
+target_position = Vector2(0, 112)
 
 [node name="ColorRect" type="ColorRect" parent="scanForLedge"]
 modulate = Color(1, 0, 0, 0.345098)
 offset_right = 4.0
-offset_bottom = 128.0
+offset_bottom = 112.0
 
 [node name="Label" type="Label" parent="."]
-unique_name_in_owner = true
 offset_right = 40.0
 offset_bottom = 23.0
 text = "test"

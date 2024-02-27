@@ -1,7 +1,6 @@
-[gd_scene load_steps=33 format=3 uid="uid://d0ev5ctdik86d"]
+[gd_scene load_steps=32 format=3 uid="uid://d0ev5ctdik86d"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_6dpir"]
-[ext_resource type="AudioStream" uid="uid://dgl0huovn44aa" path="res://Assets/Sounds/music/plains1.mp3" id="2_o0v7t"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_h5i2g"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="4_lyqyh"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="5_nr70w"]
@@ -40,11 +39,7 @@ z_index = -5
 regular_level = false
 
 [node name="Player" parent="." index="0"]
-z_index = 2
 position = Vector2(-448, 64)
-
-[node name="music" parent="Player" index="20"]
-stream = ExtResource("2_o0v7t")
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("3_h5i2g")]
 unique_name_in_owner = true
@@ -78,7 +73,7 @@ layer_2/enabled = false
 layer_2/tile_data = PackedInt32Array(-13565440, 0, 65536, -13434368, 0, 65536, -13303296, 0, 65536, -13172224, 0, 65536, -13630975, 0, 65536, -13499903, 0, 65536, -13368831, 0, 65536, -13237759, 0, 65536, -15007225, 0, 65536, -15007224, 0, 65536, -15007223, 0, 65536, -15007222, 0, 65536, -15007221, 0, 65536, -14482933, 0, 65536, -14351861, 0, 65536, -15007220, 0, 65536, -15007219, 0, 65536, -14482931, 0, 65536, -14351859, 0, 65536, -13565405, 0, 196608, -13499868, 0, 196608, -13565403, 0, 196608, -13499866, 0, 196608)
 layer_4/enabled = false
 
-[node name="bg_previous" parent="." index="6"]
+[node name="bg_previous" parent="." index="8"]
 z_index = -9
 
 [node name="Triggers" type="Node2D" parent="." index="12"]

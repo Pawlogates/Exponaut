@@ -25,6 +25,9 @@ var mouse_pos
 var rng = RandomNumberGenerator.new()
 var x
 
+var enemyProjectile = false
+var playerProjectile = true
+
 
 func _ready():
 	set_name.call_deferred("player_projectile_phaser")

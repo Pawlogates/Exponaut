@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dg0wrskruwis0"]
+[gd_scene load_steps=12 format=3 uid="uid://dg0wrskruwis0"]
 
 [ext_resource type="Script" path="res://deco_waterfall.gd" id="1_4admy"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_80ipb"]
@@ -23,10 +23,6 @@ region = Rect2(192, 448, 64, 64)
 atlas = ExtResource("2_80ipb")
 region = Rect2(256, 448, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_e8l0f"]
-atlas = ExtResource("2_80ipb")
-region = Rect2(320, 448, 64, 64)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
 animations = [{
 "frames": [{
@@ -44,9 +40,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_84nk2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e8l0f")
 }],
 "loop": true,
 "name": &"default",
@@ -152,7 +145,7 @@ modulate = Color(0.607843, 0.607843, 0.607843, 1)
 position = Vector2(32, 32)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
-frame_progress = 0.276017
+frame_progress = 0.32547
 
 [node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
 position = Vector2(0, 64)

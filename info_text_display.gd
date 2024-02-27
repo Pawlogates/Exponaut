@@ -14,28 +14,28 @@ func _process(delta):
 
 
 
-var displaying = false
+#var displaying = false
 var current_text = str(Globals.infoSign_current_text)
 var current_size = Globals.infoSign_current_size
 
 func show_info():
-	if not displaying:
-		displaying = true
-		
-		current_text = str(Globals.infoSign_current_text)
-		current_size = Globals.infoSign_current_size
-		%info_text.text = str(current_text)
-		
-		if current_size == 0:
-			$"../AnimationPlayer".play("show_0")
-		elif current_size == 1:
-			$"../AnimationPlayer".play("show_1")
-		elif current_size == 2:
-			$"../AnimationPlayer".play("show_2")
-		
-		
-		$"../Timer".start()
-		
+	#if not displaying:
+	#displaying = true
+	
+	current_text = str(Globals.infoSign_current_text)
+	current_size = Globals.infoSign_current_size
+	%info_text.text = str(current_text)
+	
+	if current_size == 0:
+		$"../AnimationPlayer".play("show_0")
+	elif current_size == 1:
+		$"../AnimationPlayer".play("show_1")
+	elif current_size == 2:
+		$"../AnimationPlayer".play("show_2")
+	
+	
+	$"../Timer".start()
+	
 
 
 
@@ -50,6 +50,6 @@ func _on_timer_timeout():
 	
 
 
-func _on_animation_player_animation_finished(anim_name):
-	if anim_name == "hide_0" or anim_name == "hide_1" or anim_name == "hide_2":
-		displaying = false
+#func _on_animation_player_animation_finished(anim_name):
+	#if anim_name == "hide_0" or anim_name == "hide_1" or anim_name == "hide_2":
+		#displaying = false

@@ -8,13 +8,13 @@
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_dvk3g"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_nwwd6"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bkex6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pmgu5"]
 atlas = ExtResource("2_r3m6c")
-region = Rect2(0, 1120, 32, 32)
+region = Rect2(1776, 192, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v3ohq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_22cn5"]
 atlas = ExtResource("2_r3m6c")
-region = Rect2(32, 1120, 32, 32)
+region = Rect2(1800, 192, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
 animations = [{
@@ -40,10 +40,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bkex6")
+"texture": SubResource("AtlasTexture_pmgu5")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_v3ohq")
+"texture": SubResource("AtlasTexture_22cn5")
 }],
 "loop": true,
 "name": &"flying",
@@ -253,11 +253,9 @@ spread_position = false
 hostile = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-modulate = Color(0.294118, 0.847059, 1, 1)
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
 animation = &"flying"
-frame_progress = 0.933994
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -281,11 +279,9 @@ monitoring = false
 monitorable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
-visible = false
 shape = SubResource("RectangleShape2D_4klqh")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_7kt5p")
 
 [node name="particle_limiter" type="Timer" parent="."]

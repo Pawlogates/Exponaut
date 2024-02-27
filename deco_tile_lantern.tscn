@@ -42,10 +42,9 @@ animations = [{
 }],
 "loop": true,
 "name": &"default",
-"speed": 1.0
+"speed": 3.0
 }]
 
 [node name="decoTile_lantern" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_f5elv")
 autoplay = "default"
-frame_progress = 0.809748

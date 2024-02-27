@@ -11,11 +11,13 @@ collision_layer = 0
 collision_mask = 7
 script = ExtResource("1_m62lw")
 area_type = "water"
+water_strength = 0.8
+water_slowdown = 0.6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_32ipw")
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_ipkd7")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

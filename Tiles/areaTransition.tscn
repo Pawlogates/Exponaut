@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://c2kcgkyekwmah"]
+
+[ext_resource type="Script" path="res://areaTransition.gd" id="1_t8w7d"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_emt24"]
+size = Vector2(96, 96)
+
+[node name="areaTransition" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_t8w7d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_emt24")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

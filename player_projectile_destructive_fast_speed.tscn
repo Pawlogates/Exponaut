@@ -1,8 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://d35j8ynbfhiaw"]
+[gd_scene load_steps=8 format=3 uid="uid://d35j8ynbfhiaw"]
 
 [ext_resource type="Script" path="res://player_projectile_general.gd" id="1_edgvt"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="3_fjmtd"]
-[ext_resource type="AudioStream" uid="uid://dt0iqeflwnxvw" path="res://Assets/Sounds/sfx/projectile_doodleShoot.wav" id="4_a0iia"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
 size = Vector2(48, 64)
@@ -34,13 +33,14 @@ animations = [{
 
 [node name="player_projectile_destructive_fast_speed" type="CharacterBody2D"]
 z_index = 5
-collision_layer = 2
+collision_layer = 0
+collision_mask = 0
 floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_edgvt")
 SPEED = 600.0
 
-[node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
+[node name="scan" type="Area2D" parent="." groups=["destructive", "player_projectile"]]
 collision_layer = 2
 collision_mask = 4
 
@@ -59,10 +59,5 @@ autoplay = "shoot"
 [node name="remove_delay" type="Timer" parent="."]
 wait_time = 0.75
 autostart = true
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_a0iia")
-pitch_scale = 1.5
-autoplay = true
 
 [connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

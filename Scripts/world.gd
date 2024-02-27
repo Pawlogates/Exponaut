@@ -5,6 +5,9 @@ extends Node2D
 @onready var canvas_layer = %HUD
 
 
+@onready var player = %Player
+
+
 @onready var level_finished = %"Level Finished"
 @onready var start_in_container = %StartInContainer
 @onready var start_in = %StartIn
@@ -90,9 +93,9 @@ func _ready():
 	Globals.playerHP = playerStartHP
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	
-	if not %Player.scale.x == 1 or not %Player.scale.y == 1:
-		%Player.scale.x = 1
-		%Player.scale.y = 1
+	if not player.scale.x == 1 or not player.scale.y == 1:
+		player.scale.x = 1
+		player.scale.y = 1
 	
 	
 	start_level_msec = Time.get_ticks_msec()
@@ -158,9 +161,9 @@ func _ready():
 	
 	
 	if rain == true:
-		%Player/Camera2D.add_child(rain_scene.instantiate())
+		player.camera.add_child(rain_scene.instantiate())
 	if leaves == true:
-		%Player/Camera2D.add_child(leaves_scene.instantiate())
+		player.camera.add_child(leaves_scene.instantiate())
 	
 	
 	
@@ -189,45 +192,21 @@ func _ready():
 	
 	
 	
+	await get_tree().create_timer(0.1, false).timeout
+	
+	if area_ID != "area0":
+		load_game_area()
 	
 	
-	
-	
+	night_modifications()
 	await LevelTransition.fade_from_black_slow()
 	
-	#await get_tree().create_timer(0.2, false).timeout
+	
 	
 	key_total = get_tree().get_nodes_in_group("key").size()
 	keys_leftDisplay.text = str(key_total)
 	
 	teleporter_assign_ID()
-	
-	
-	if night3 or night2 or night:
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 0.8
-		
-		
-	else:
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 1.0
-
 
 
 
@@ -254,6 +233,7 @@ var quickLoad_blocked = true
 
 func _physics_process(delta):
 	
+	#LEVEL TIME
 	levelTime = Time.get_ticks_msec() - start_level_msec
 	levelTime_visible = levelTime / 1000.0
 	level_timeDisplay.text = str(levelTime_visible)
@@ -396,8 +376,8 @@ var night_toggle = true
 func reduceHp1():
 	Globals.playerHP -= 1
 	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0:
-		%Player/death.play()
+	if Globals.playerHP <= 0 and not player.dead:
+		player.death.play()
 		if Globals.quicksaves_enabled:
 			retry_loadSave()
 		else:
@@ -407,8 +387,8 @@ func reduceHp1():
 func reduceHp2():
 	Globals.playerHP -= 2
 	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0:
-		%Player/death.play()
+	if Globals.playerHP <= 0 and not player.dead:
+		player.death.play()
 		if Globals.quicksaves_enabled:
 			retry_loadSave()
 		else:
@@ -417,8 +397,8 @@ func reduceHp2():
 func reduceHp3():
 	Globals.playerHP -= 3
 	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0:
-		%Player/death.play()
+	if Globals.playerHP <= 0 and not player.dead:
+		player.death.play()
 		if Globals.quicksaves_enabled:
 			retry_loadSave()
 		else:
@@ -427,8 +407,8 @@ func reduceHp3():
 func kill_player():
 	Globals.playerHP -= 100
 	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0:
-		%Player/death.play()
+	if Globals.playerHP <= 0 and not player.dead:
+		player.death.play()
 		if Globals.quicksaves_enabled:
 			retry_loadSave()
 		else:
@@ -553,11 +533,8 @@ func retry_loadSave():
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	
 	
-	Globals.infoSign_current_text = "You died! Sorry for the loading time, I will need to make the loading zones smaller"
-	Globals.infoSign_current_size = 2
-	Globals.info_sign_touched.emit()
 	
-	%Player.dead = true
+	player.dead = true
 	
 	starParticle = starParticleScene.instantiate()
 	starParticle.position = Globals.player_pos
@@ -571,10 +548,10 @@ func retry_loadSave():
 	
 	await get_tree().create_timer(2, false).timeout
 	
-	%Player.dead = false
+	player.dead = false
 	
-	%Player.scale.x = 1
-	%Player.scale.y = 1
+	player.scale.x = 1
+	player.scale.y = 1
 	
 	load_game()
 
@@ -625,6 +602,8 @@ func bg_move():
 	
 
 
+
+
 #Save state
 
 func save_game():
@@ -661,8 +640,8 @@ func save_game():
 		
 		Globals.saved_level_score = Globals.level_score
 		
-		Globals.saved_player_posX = %Player.position.x
-		Globals.saved_player_posY = %Player.position.y
+		Globals.saved_player_posX = player.position.x
+		Globals.saved_player_posY = player.position.y
 		
 		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
 		
@@ -719,8 +698,8 @@ func load_game():
 			continue
 			
 		
-	%Player.position.x = Globals.saved_player_posX
-	%Player.position.y = Globals.saved_player_posY
+	player.position.x = Globals.saved_player_posX
+	player.position.y = Globals.saved_player_posY
 		
 	Globals.level_score = Globals.saved_level_score
 	Globals.combo_score = 0
@@ -783,6 +762,11 @@ func key_collected():
 	keys_leftDisplay.text = str(get_tree().get_nodes_in_group("key").size())
 
 
+
+
+
+
+#NIGHT/DAY TIME
 
 func night_tileset_toggle():
 	if night_toggle:
@@ -885,6 +869,46 @@ func set_day():
 
 
 
+func night_modifications():
+	await get_tree().create_timer(0.1, false).timeout
+	
+	if night3 or night2 or night:
+		for object in get_tree().get_nodes_in_group("Persist"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("player"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("button_block"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("button"):
+			object.modulate.r = 0.8
+		for object in get_tree().get_nodes_in_group("bonusBox"):
+			object.modulate.r = 0.8
+		
+		
+		$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.r = 0.1
+		$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.a = 0.2
+		
+		
+	else:
+		for object in get_tree().get_nodes_in_group("Persist"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("player"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("button_block"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("button"):
+			object.modulate.r = 1.0
+		for object in get_tree().get_nodes_in_group("bonusBox"):
+			object.modulate.r = 1.0
+
+
+
+
+
+
+
+
+
 
 
 
@@ -925,7 +949,7 @@ func teleporter_assign_ID():
 var mapScreen = load("res://map_screen.tscn")
 
 func retry_backToMap():
-	%Player.dead = true
+	player.dead = true
 	%"Player Died".visible = true
 	
 	starParticle = starParticleScene.instantiate()
@@ -942,3 +966,106 @@ func retry_backToMap():
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(mapScreen)
 	await LevelTransition.fade_from_black_slow()
+
+
+
+
+
+
+
+#Save area state
+@export var area_ID = "area0"
+
+func save_game_area():
+		var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.WRITE)
+		var save_nodes = get_tree().get_nodes_in_group("Persist")
+		for node in save_nodes:
+			# Check the node is an instanced scene so it can be instanced again during load.
+			if node.scene_file_path.is_empty():
+				print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+				continue
+			# Check the node has a save function.
+			if !node.has_method("save"):
+				print("persistent node '%s' is missing a save() function, skipped" % node.name)
+				continue
+			# Call the node's save function.
+			var node_data = node.call("save")
+
+			# JSON provides a static method to serialized JSON string.
+			var json_string = JSON.stringify(node_data)
+
+			# Store the save dictionary as a new line in the save file.
+			save_gameFile.store_line(json_string)
+			
+		
+		
+		Globals.saved_level_score = Globals.level_score
+		
+		Globals.saved_player_posX = player.position.x
+		Globals.saved_player_posY = player.position.y
+		
+		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
+		
+		Globals.saveState_saved.emit()
+		
+		
+		await get_tree().create_timer(0.1, false).timeout
+		Globals.is_saving = false
+	
+	
+
+
+
+
+func load_game_area():
+	if not FileAccess.file_exists("user://savegame_" + area_ID + ".save"):
+		return # Error! We don't have a save to load.
+
+	var save_nodes = get_tree().get_nodes_in_group("Persist")
+	for i in save_nodes:
+		if i.is_in_group(Globals.loadingZone_current) or i.is_in_group("loadingZone0"):
+			i.queue_free()
+
+	var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.READ)
+	while save_gameFile.get_position() < save_gameFile.get_length():
+		var json_string = save_gameFile.get_line()
+
+		var json = JSON.new()
+
+		var parse_result = json.parse(json_string)
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			continue
+
+		var node_data = json.get_data()
+
+
+		
+		if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "loadingZone0":
+			var new_object = load(node_data["filename"]).instantiate()
+			get_node(node_data["parent"]).add_child(new_object)
+			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+
+			for i in node_data.keys():
+				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
+					continue
+				new_object.set(i, node_data[i])
+			
+		else:
+			continue
+	
+	
+	
+	Globals.level_score = Globals.saved_level_score
+	Globals.combo_score = 0
+	Globals.combo_tier = 1
+	Globals.collected_in_cycle = 0
+	
+	Globals.saveState_loaded.emit()
+
+
+
+
+
+func reassign_player():
+	player = get_tree().get_first_node_in_group("player")

@@ -7,13 +7,13 @@
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="5_pwnso"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="6_nct61"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_bkex6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_g078y"]
 atlas = ExtResource("2_7og7f")
-region = Rect2(0, 1120, 32, 32)
+region = Rect2(0, 1128, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v3ohq"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_5q0ck"]
 atlas = ExtResource("2_7og7f")
-region = Rect2(32, 1120, 32, 32)
+region = Rect2(24, 1128, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
 animations = [{
@@ -39,10 +39,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_bkex6")
+"texture": SubResource("AtlasTexture_g078y")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_v3ohq")
+"texture": SubResource("AtlasTexture_5q0ck")
 }],
 "loop": true,
 "name": &"flying",

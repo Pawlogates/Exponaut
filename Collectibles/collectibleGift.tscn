@@ -566,7 +566,7 @@ collectibleScoreValue = 75
 is_gift = true
 animation_always = true
 floating = true
-inventory_texture_region = Rect2(94, 491, 48, 48)
+inventory_texture_region = Rect2(96, 491, 48, 48)
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0

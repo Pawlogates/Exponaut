@@ -30,7 +30,7 @@ func _ready():
 		
 	
 	
-	
+	print(level_state)
 	if level_state == 0:
 		pass
 	elif level_state == 1:

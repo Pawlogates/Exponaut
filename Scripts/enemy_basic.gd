@@ -125,7 +125,6 @@ func basic_offScreen_load():
 
 
 func enemy_stunned():
-	print("hit")
 	$Area2D.monitoring = false
 	$Area2D.monitorable = false
 	await get_tree().create_timer(0.75, false).timeout
@@ -134,7 +133,6 @@ func enemy_stunned():
 
 
 func _on_area_2d_area_entered(area):
-	
 	if area.name == "Player_hitbox_main" and not dead:
 		attacking = true
 		attacking_timer.start()
@@ -223,7 +221,8 @@ func basic_onReady():
 
 
 func basic_sprite_flipDirection():
-	if direction == 1:
-		sprite.flip_h = false
-	else:
-		sprite.flip_h = true
+	if not dead:
+		if direction == 1:
+			sprite.flip_h = false
+		else:
+			sprite.flip_h = true

@@ -1,7 +1,7 @@
 extends enemy_basic
 
 
-const SPEED = 150.0
+const SPEED = 75.0
 const JUMP_VELOCITY = -250.0
 
 
@@ -98,7 +98,7 @@ func manage_animation():
 
 func _ready():
 	basic_onReady()
-	hp = 3
+	hp = 1
 	%scanForLedge.enabled = false
 
 

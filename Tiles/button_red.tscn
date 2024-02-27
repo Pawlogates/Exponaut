@@ -1,0 +1,107 @@
+[gd_scene load_steps=10 format=3 uid="uid://cs7hc4rry3lqm"]
+
+[ext_resource type="Script" path="res://Tiles/button_general.gd" id="1_mgsvc"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_fcsny"]
+[ext_resource type="AudioStream" uid="uid://dnjdf4yd60wnx" path="res://Assets/Sounds/sfx/button_pressed.wav" id="3_bscmb"]
+
+[sub_resource type="Animation" id="Animation_47lem"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0ql62"]
+resource_name = "button_back_DOWN"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 32), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_2cik6"]
+resource_name = "button_pressed_DOWN"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 32)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l3fps"]
+_data = {
+"RESET": SubResource("Animation_47lem"),
+"button_back_DOWN": SubResource("Animation_0ql62"),
+"button_pressed_DOWN": SubResource("Animation_2cik6")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
+size = Vector2(64, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iushe"]
+size = Vector2(60, 20)
+
+[node name="button_red_root" type="Node2D"]
+z_index = -1
+
+[node name="button_red" type="StaticBody2D" parent="." groups=["button"]]
+z_index = 1
+collision_layer = 3
+collision_mask = 3
+script = ExtResource("1_mgsvc")
+button_type = "red"
+
+[node name="Sprite2D" type="Sprite2D" parent="button_red"]
+texture = ExtResource("2_fcsny")
+region_enabled = true
+region_rect = Rect2(128, 832, 64, 64)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="button_red/Sprite2D"]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_l3fps")
+}
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="button_red"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_gk7p3")
+
+[node name="Area2D" type="Area2D" parent="button_red"]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="button_red/Area2D"]
+shape = SubResource("RectangleShape2D_iushe")
+
+[node name="Timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 30.0
+one_shot = true
+
+[node name="sound_buttonPressed" type="AudioStreamPlayer2D" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_bscmb")
+
+[connection signal="area_entered" from="button_red/Area2D" to="button_red" method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="button_red" method="_on_timer_timeout"]

@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://dxw2223tsauud"]
+[gd_scene load_steps=7 format=3 uid="uid://dxw2223tsauud"]
 
 [ext_resource type="Script" path="res://player_projectile_general.gd" id="1_07q4f"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_f3vdr"]
-[ext_resource type="AudioStream" uid="uid://dt0iqeflwnxvw" path="res://Assets/Sounds/sfx/projectile_doodleShoot.wav" id="3_sxhfc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
 size = Vector2(48, 64)
@@ -54,10 +53,5 @@ autoplay = "shoot"
 [node name="remove_delay" type="Timer" parent="."]
 wait_time = 0.75
 autostart = true
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_sxhfc")
-pitch_scale = 1.5
-autoplay = true
 
 [connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

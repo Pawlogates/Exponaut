@@ -96,7 +96,6 @@ size = Vector2(256, 256)
 [node name="special_block" type="CharacterBody2D" groups=["Persist"]]
 z_index = 1
 collision_layer = 3
-collision_mask = 3
 script = ExtResource("1_2dvfq")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -121,6 +120,8 @@ shape = SubResource("RectangleShape2D_y3dwm")
 stream = ExtResource("3_svbgs")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(1.90735e-05, -3.05175e-06)
+scale = Vector2(76.8, 76.8)
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]

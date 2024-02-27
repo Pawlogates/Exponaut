@@ -99,7 +99,7 @@ signal info_sign_touched
 
 
 
-var selected_episode = "none"
+var selected_episode = "rooster_island"
 var next_level = -1
 var current_level = "none"
 var current_level_ID = -1
@@ -119,8 +119,15 @@ var mode_scoreAttack = false
 
 
 
+var next_transition = 0
 
 
+
+
+
+
+
+var debug_mode = false
 
 signal cheated
 var cheated_state = false

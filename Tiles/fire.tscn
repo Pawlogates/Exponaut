@@ -1,0 +1,125 @@
+[gd_scene load_steps=13 format=3 uid="uid://cbflprsbwlyac"]
+
+[ext_resource type="Script" path="res://Tiles/fire.gd" id="1_50j31"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_xy20f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m3kwk"]
+atlas = ExtResource("2_xy20f")
+region = Rect2(0, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuwra"]
+atlas = ExtResource("2_xy20f")
+region = Rect2(64, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3kwmd"]
+atlas = ExtResource("2_xy20f")
+region = Rect2(128, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qhbi1"]
+atlas = ExtResource("2_xy20f")
+region = Rect2(192, 512, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bux3u"]
+atlas = ExtResource("2_xy20f")
+region = Rect2(256, 512, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_8kufv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m3kwk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yuwra")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3kwmd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qhbi1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bux3u")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_7rk4i"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_8hpi8"]
+resource_name = "red_disable"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_umirm"]
+resource_name = "red_enable"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lsx03"]
+_data = {
+"RESET": SubResource("Animation_7rk4i"),
+"red_disable": SubResource("Animation_8hpi8"),
+"red_enable": SubResource("Animation_umirm")
+}
+
+[node name="fire" type="Area2D" groups=["button_block", "fire"]]
+position = Vector2(-32, 32)
+collision_layer = 3
+collision_mask = 2
+script = ExtResource("1_50j31")
+blockType = "red"
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+position = Vector2(4, -4)
+polygon = PackedVector2Array(-4, 0, 4, -16, 12, 0, 20, -16, 28, 0, 36, -16, 44, 0, 52, -16, 60, 0, 60, 4, -4, 4)
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(32, -32)
+sprite_frames = SubResource("SpriteFrames_8kufv")
+autoplay = "default"
+frame_progress = 0.307471
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_lsx03")
+}
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

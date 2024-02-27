@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 250.0
+@export var SPEED = 250.0
 
 
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
@@ -45,6 +45,11 @@ var effect_dust = effect_dustScene.instantiate()
 @export var collectibleAmount = 3
 
 @export var movement_type = "normal"
+@export var is_spikeBlock = false
+@export var damage = 1
+
+@export var destructible_weapon = false
+
 
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
@@ -52,15 +57,25 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _physics_process(delta):
-	if not is_on_floor() and not floating:
-		velocity.y += gravity * delta
+	if not is_on_floor() and not floating and blockType == "none":
+		velocity.y += gravity / 2 * delta
+	elif floating:
+		velocity.y = 0
 	
-	if velocity.x != 0:
+	
+	if direction and blockType != "none":
+		velocity.x = move_toward(velocity.x, SPEED * direction, SPEED * delta)
+	elif velocity.x != 0:
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+	
+	if direction_V and blockType != "none":
+		velocity.y = move_toward(velocity.y, SPEED * direction_V, SPEED * delta)
+	
+	
 	
 	if not floating:
 		if movement_type == "normal":
-			var collision = move_and_collide(velocity * delta)
+			var collision = move_and_slide()
 			if collision:
 				pass
 			
@@ -74,7 +89,7 @@ func _physics_process(delta):
 			var collision = move_and_slide()
 			if collision:
 				velocity = Vector2(200, -300)
-
+	
 
 
 
@@ -88,15 +103,23 @@ func _on_area_2d_area_entered(area):
 			else:
 				area.get_parent().velocity.y = -300
 			
-			if spawns_items:
-				call_deferred("spawn_collectibles")
-			
 			if toggles_skull_blocks:
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "skull_block", "skull_block_toggle")
 			
 			
 			if breakable:
+				effect_dust = effect_dustScene.instantiate()
+				effect_dust.global_position = global_position
+				get_parent().add_child(effect_dust)
+				
 				$AudioStreamPlayer2D.play()
+				%AnimationPlayer2.play("destroyed")
+				
+				if spawns_items:
+					call_deferred("spawn_collectibles")
+				
+				await get_tree().create_timer(1, false).timeout
+				queue_free()
 			
 			
 			
@@ -107,25 +130,52 @@ func _on_area_2d_area_entered(area):
 			Globals.boxBroken.emit()
 		
 		
+		if is_spikeBlock:
+			if damage == 1:
+				Globals.playerHit1.emit()
+			elif damage == 2:
+				Globals.playerHit2.emit()
+			elif damage == 3:
+				Globals.playerHit3.emit()
+			elif damage == 100:
+				Globals.kill_player.emit()
+		
 		
 	if area.is_in_group("player_projectile"):
-		
 		if not destroyed:
 			if not immortal:
 				destroyed = true
 			
-			if spawns_items:
-				call_deferred("spawn_collectibles")
+			if destructible_weapon:
+				if area.is_in_group("destructive"):
+					effect_dust = effect_dustScene.instantiate()
+					effect_dust.global_position = global_position
+					get_parent().add_child(effect_dust)
+					
+					queue_free()
+					
+				
 			
 			if toggles_skull_blocks:
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "skull_block", "skull_block_toggle")
 			
 			
 			if breakable:
+				effect_dust = effect_dustScene.instantiate()
+				effect_dust.global_position = global_position
+				get_parent().add_child(effect_dust)
+				
 				$AudioStreamPlayer2D.play()
-
-
-			if not immortal:
+				%AnimationPlayer2.play("destroyed")
+				
+				if spawns_items:
+					call_deferred("spawn_collectibles")
+				
+				await get_tree().create_timer(1, false).timeout
+				queue_free()
+			
+			
+			if not immortal and breakable:
 				add_child(dead_effect)
 				%AnimatedSprite2D.play("destroyed")
 			
@@ -243,9 +293,11 @@ var rng = RandomNumberGenerator.new()
 
 func spawn_item():
 	item = item_scene.instantiate()
-	add_child(item)
-	item.velocity.x = rng.randf_range(400.0, -400.0)
+	item.position = position
+	item.velocity.x = rng.randf_range(300.0, -300.0)
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
+	
+	get_parent().get_parent().add_child(item)
 	
 
 
@@ -278,3 +330,74 @@ func _on_timer_timeout():
 	get_parent().add_child(effect_dust)
 	
 	queue_free()
+
+
+
+
+
+
+
+
+#ON BUTTON PRESSED
+
+@export var blockType = "none"
+@export var blockDirection = -1
+var direction = 0
+var direction_V = 0
+
+
+func greenButton_pressed():
+	print(blockType)
+	if blockType == "green":
+		if blockDirection == 0:
+			direction = -1
+		
+		elif blockDirection == 1:
+			direction = 1
+	
+
+func blueButton_pressed():
+	print(blockType)
+	if blockType == "blue":
+		if blockDirection == 0:
+			direction_V = -1
+		
+		elif blockDirection == 1:
+			direction_V = 1
+	
+
+func redButton_pressed():
+	print(blockType)
+	if blockType == "red":
+		%AnimationPlayer.play("red_disable")
+
+
+
+
+
+#BUTTON BACK
+
+func greenButton_back():
+	if blockType == "green":
+		if blockDirection == 0:
+			direction = -1
+		
+		elif blockDirection == 1:
+			direction = 1
+
+
+func blueButton_back():
+	if blockType == "blue":
+		if blockDirection == 0:
+			direction_V = -1
+		
+		elif blockDirection == 1:
+			direction_V = 1
+
+
+func redButton_back():
+	if blockType == "red":
+		%AnimationPlayer.play("red_enable")
+
+
+

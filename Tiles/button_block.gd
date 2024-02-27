@@ -26,6 +26,11 @@ func blueButton_pressed():
 			%AnimationPlayer.play("blue_move_down")
 	
 
+func redButton_pressed():
+	print(blockType)
+	if blockType == "red":
+		%AnimationPlayer.play("red_disable")
+
 
 
 
@@ -46,6 +51,9 @@ func greenButton_back():
 		elif blockDirection == 1:
 			%AnimationPlayer.play("green_back_right")
 
+func redButton_back():
+	if blockType == "red":
+		%AnimationPlayer.play("red_enable")
 
 
 

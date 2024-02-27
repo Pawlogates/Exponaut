@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="2_1l7n1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqmyr"]
-size = Vector2(64, 64)
+size = Vector2(62, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_1u4re"]
 size = Vector2(48, 48)

@@ -3,11 +3,11 @@
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
 [ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://parallax_background_gradient.tscn" id="3_mn32p"]
+[ext_resource type="AudioStream" uid="uid://csasqsuygonsr" path="res://Assets/Sounds/music/music_plains.mp3" id="4_852sw"]
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Themes/Score_theme.tres" id="5_1aw6r"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="5_ay58j"]
 [ext_resource type="AudioStream" uid="uid://016x6ugxmvem" path="res://Assets/Sounds/music/ambience_loop14.mp3" id="5_hddan"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://level_finished_screen.tscn" id="6_mgn80"]
-[ext_resource type="AudioStream" uid="uid://pbyty077bryl" path="res://Assets/Sounds/music/ambience_loop19.mp3" id="6_wsqx4"]
 [ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://info_text_display.tscn" id="7_2y4xw"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://quicksaved_display.tscn" id="7_nexah"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://score_display.tscn" id="7_vhiat"]
@@ -61,15 +61,16 @@ regular_level = true
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 unique_name_in_owner = true
 
-[node name="ambience" type="AudioStreamPlayer" parent="Player"]
+[node name="ambience" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_hddan")
-volume_db = -5.0
+volume_db = -10.0
 autoplay = true
 
-[node name="music" type="AudioStreamPlayer" parent="Player"]
+[node name="music" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("6_wsqx4")
+stream = ExtResource("4_852sw")
+autoplay = true
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("3_mn32p")]
 
@@ -88,8 +89,8 @@ visible = false
 [node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = 832.0
-offset_bottom = 1056.0
+offset_top = 824.0
+offset_bottom = 1048.0
 grow_horizontal = 2
 
 [node name="info_textDisplay" parent="HUD/CenterContainer_info" instance=ExtResource("7_2y4xw")]
@@ -233,7 +234,7 @@ custom_minimum_size = Vector2(320, 64)
 layout_mode = 2
 theme = ExtResource("5_ay58j")
 theme_override_font_sizes/font_size = 22
-text = "Keys left"
+text = "Keys left:"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -244,7 +245,7 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1728.0
+offset_left = -1856.0
 offset_top = -248.0
 offset_right = -1600.0
 offset_bottom = -184.0
@@ -266,9 +267,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -1824.0
-offset_top = -312.0
-offset_right = -1504.0
+offset_left = -1888.0
+offset_top = -344.0
+offset_right = -1568.0
 offset_bottom = -248.0
 grow_horizontal = 0
 grow_vertical = 0

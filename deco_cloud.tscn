@@ -4,6 +4,7 @@
 
 [node name="deco_cloud" type="ParallaxBackground"]
 follow_viewport_enabled = true
+scroll_ignore_camera_zoom = true
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="."]
 motion_scale = Vector2(-0.05, -0.15)

@@ -111,9 +111,10 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
-size = Vector2(56, 32)
+size = Vector2(24, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
+size = Vector2(48, 28)
 
 [node name="enemyFrog" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
@@ -148,7 +149,7 @@ monitoring = false
 monitorable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 8)
+position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_4klqh")
 
 [node name="Timer" type="Timer" parent="."]
@@ -156,7 +157,7 @@ wait_time = 2.0
 autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 12)
+position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_7kt5p")
 
 [node name="particle_limiter" type="Timer" parent="."]

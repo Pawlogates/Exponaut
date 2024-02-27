@@ -14,6 +14,10 @@ var splashParticle = splashParticleScene.instantiate()
 var effect_dustScene = preload("res://effect_dust.tscn")
 var effect_dust = effect_dustScene.instantiate()
 
+var feathersParticleScene = preload("res://particles_feathers.tscn")
+var feathersParticle = feathersParticleScene.instantiate()
+
+
 var collected = false
 var removable = false
 var rotten = false
@@ -36,13 +40,24 @@ var button_pressed = false
 @export var is_key = false
 @export var collectable = true
 @export var upDown_loop = false
+
+#WEAPON PICKUP
 @export var is_weapon = false
+@export var is_SecondaryWeapon = false
+
 @export var weapon_type = "none"
 @export var attack_delay = 1.0
-@export var is_healthItem = false
+@export var secondaryWeapon_type = "none"
+@export var secondaryAttack_delay = 1.0
+#WEAPON PICKUP
 
+@export var is_healthItem = false
 @export var rotting = false
 @export var fall_when_button_pressed = false
+
+@export var is_potion = false
+@export var transform_into = "none"
+
 
 
 #OFFSCREEN START
@@ -166,7 +181,14 @@ func _on_collectible_entered(body):
 			body.add_child(starParticleScene.instantiate())
 			body.add_child(starParticleScene.instantiate())
 			body.add_child(starParticleScene.instantiate())
-			body.add_child(orbParticleScene.instantiate())
+			
+			var feathersParticle = feathersParticleScene.instantiate()
+			feathersParticle.position = position
+			body.get_parent().get_parent().add_child(feathersParticle)
+			
+			feathersParticle = feathersParticleScene.instantiate()
+			feathersParticle.position = position
+			body.get_parent().get_parent().add_child(feathersParticle)
 			
 			return
 			
@@ -230,7 +252,22 @@ func _on_collectible_entered(body):
 				
 		collect_1.play()
 		
-		
+		if is_potion:
+			if transform_into == "rooster":
+				get_parent().get_parent().reassign_player()
+				get_parent().get_parent().player.transformInto_rooster()
+			elif transform_into == "bird":
+				get_parent().get_parent().reassign_player()
+				get_parent().get_parent().player.transformInto_bird()
+			elif transform_into == "chicken":
+				get_parent().get_parent().reassign_player()
+				get_parent().get_parent().player.transformInto_chicken()
+			elif transform_into == "frog":
+				get_parent().get_parent().reassign_player()
+				get_parent().get_parent().player.transformInto_frog()
+			elif transform_into == "pig":
+				get_parent().get_parent().reassign_player()
+				get_parent().get_parent().player.transformInto_pig()
 		
 		
 		if is_key:
@@ -240,13 +277,22 @@ func _on_collectible_entered(body):
 			
 		
 		if is_weapon:
-			get_parent().get_node("%Player").weaponType = weapon_type
-			get_parent().get_node("%Player").get_node("%attack_cooldown").wait_time = attack_delay
+			get_parent().get_parent().reassign_player()
+			get_parent().get_parent().player.weaponType = weapon_type
+			get_parent().get_parent().player.get_node("%attack_cooldown").wait_time = attack_delay
 			
 			add_child(orbParticleScene.instantiate())
 			add_child(splashParticleScene.instantiate())
 			add_child(effect_dustScene.instantiate())
-
+		
+		if is_SecondaryWeapon:
+			get_parent().get_parent().reassign_player()
+			get_parent().get_parent().player.secondaryWeaponType = secondaryWeapon_type
+			get_parent().get_parent().player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
+			
+			add_child(orbParticleScene.instantiate())
+			add_child(splashParticleScene.instantiate())
+			add_child(effect_dustScene.instantiate())
 
 
 

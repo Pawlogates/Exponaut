@@ -16,4 +16,4 @@ unique_name_in_owner = true
 position = Vector2(32, 32)
 texture = ExtResource("1_y53qb")
 region_enabled = true
-region_rect = Rect2(0, 704, 64, 64)
+region_rect = Rect2(192, 589, 48, 48)

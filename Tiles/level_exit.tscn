@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_11kag"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8h05s"]
-size = Vector2(64, 64)
+size = Vector2(32, 32)
 
 [node name="LevelExit" type="Area2D"]
 z_index = 1

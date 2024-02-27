@@ -96,17 +96,15 @@ size = Vector2(40, 40)
 [node name="special_block_iceCube" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 3
-collision_mask = 3
 script = ExtResource("1_yass0")
 remove_after_delay = true
 remove_delay = 2.0
 movement_type = "iceCube"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.625, 0.625)
 texture = ExtResource("2_yraw8")
 region_enabled = true
-region_rect = Rect2(320, 192, 64, 64)
+region_rect = Rect2(321, 193, 38, 38)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {

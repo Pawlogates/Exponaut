@@ -1,10 +1,11 @@
-[gd_scene load_steps=44 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=46 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b1wgp"]
 [ext_resource type="Resource" uid="uid://7ohqgqkvih67" path="res://defaultMovementData.tres" id="2_22q7a"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="3_ia0aj"]
 [ext_resource type="AudioStream" uid="uid://c4abnorpa10f6" path="res://Assets/Sounds/sfx/rooster_damage.wav" id="4_aj6ys"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_jwqoa"]
+[ext_resource type="AudioStream" uid="uid://dt0iqeflwnxvw" path="res://Assets/Sounds/sfx/projectile_doodleShoot.wav" id="5_l6fxi"]
 [ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="6_hh6re"]
 [ext_resource type="AudioStream" uid="uid://cdct8pvtgedke" path="res://Assets/Sounds/sfx/rooster_death.wav" id="7_fxiqb"]
 
@@ -93,6 +94,10 @@ region = Rect2(1024, 0, 128, 256)
 [sub_resource type="AtlasTexture" id="AtlasTexture_4s10j"]
 atlas = ExtResource("3_ia0aj")
 region = Rect2(1152, 0, 128, 256)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_huy1i"]
+atlas = ExtResource("3_ia0aj")
+region = Rect2(1152, 256, 128, 256)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ufqvs"]
 atlas = ExtResource("3_ia0aj")
@@ -212,6 +217,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_huy1i")
+}],
+"loop": true,
+"name": &"secondaryShoot",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_ufqvs")
 }, {
 "duration": 1.0,
@@ -240,7 +253,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q480c"]
-size = Vector2(48, 112)
+size = Vector2(40, 112)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ct51a"]
 size = Vector2(32, 80)
@@ -338,6 +351,8 @@ _data = {
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 1
 collision_layer = 2
+collision_mask = 5
+floor_constant_speed = true
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 safe_margin = 0.1
@@ -353,8 +368,8 @@ material = SubResource("ShaderMaterial_ami3x")
 position = Vector2(0, -6)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_c8f3n")
-animation = &"shoot"
-frame_progress = 0.992583
+animation = &"secondaryShoot"
+frame_progress = 0.660557
 
 [node name="shootAnimDelay" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -427,6 +442,18 @@ one_shot = true
 [node name="damage" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("4_aj6ys")
 
+[node name="shoot" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_l6fxi")
+
+[node name="shoot2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_l6fxi")
+
+[node name="shoot3" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_l6fxi")
+
+[node name="shoot4" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_l6fxi")
+
 [node name="jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_jwqoa")
 
@@ -441,14 +468,14 @@ libraries = {
 "": SubResource("AnimationLibrary_wupbq")
 }
 
+[node name="DEBUG refresh" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
 [node name="jumpBuildVelocity" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
-
-[node name="DEBUG refresh" type="Timer" parent="."]
-wait_time = 3.0
-autostart = true
 
 [node name="dust_effect" type="Timer" parent="."]
 wait_time = 2.0
@@ -458,6 +485,28 @@ one_shot = true
 unique_name_in_owner = true
 wait_time = 1.5
 one_shot = true
+
+[node name="secondaryAttack_cooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 1.5
+one_shot = true
+
+[node name="justLanded_delay" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="awaitJump_timer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.66
+one_shot = true
+
+[node name="attackedTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="dashCheck" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
 
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
@@ -470,7 +519,12 @@ one_shot = true
 [connection signal="timeout" from="dash_timer/dash_speedBlock" to="." method="_on_dash_speed_block_timeout"]
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_delay" to="." method="_on_dash_end_slowdown_timeout"]
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_active" to="." method="_on_dash_end_slowdown_active_timeout"]
-[connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
 [connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]
+[connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
 [connection signal="timeout" from="dust_effect" to="." method="_on_dust_effect_timeout"]
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
+[connection signal="timeout" from="secondaryAttack_cooldown" to="." method="_on_secondary_attack_cooldown_timeout"]
+[connection signal="timeout" from="justLanded_delay" to="." method="_on_just_landed_delay_timeout"]
+[connection signal="timeout" from="awaitJump_timer" to="." method="_on_await_jump_timer_timeout"]
+[connection signal="timeout" from="attackedTimer" to="." method="_on_attacked_timer_timeout"]
+[connection signal="timeout" from="dashCheck" to="." method="_on_dash_check_timeout"]

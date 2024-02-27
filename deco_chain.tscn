@@ -1,52 +1,17 @@
-[gd_scene load_steps=13 format=3 uid="uid://bf5rrrk0r30u5"]
+[gd_scene load_steps=8 format=3 uid="uid://bn7os2imtdij8"]
 
-[ext_resource type="Script" path="res://deco_waterfall.gd" id="1_tvodg"]
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_d4m1k"]
+[ext_resource type="Script" path="res://deco_waterfall.gd" id="1_713tv"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_8ltml"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_77bbj"]
-atlas = ExtResource("2_d4m1k")
-region = Rect2(0, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_aqgws"]
-atlas = ExtResource("2_d4m1k")
-region = Rect2(64, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fbtyf"]
-atlas = ExtResource("2_d4m1k")
-region = Rect2(128, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_os1nu"]
-atlas = ExtResource("2_d4m1k")
-region = Rect2(192, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_84nk2"]
-atlas = ExtResource("2_d4m1k")
-region = Rect2(256, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e8l0f"]
-atlas = ExtResource("2_d4m1k")
+[sub_resource type="AtlasTexture" id="AtlasTexture_wtmr7"]
+atlas = ExtResource("2_8ltml")
 region = Rect2(320, 448, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_77bbj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_aqgws")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fbtyf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_os1nu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_84nk2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e8l0f")
+"texture": SubResource("AtlasTexture_wtmr7")
 }],
 "loop": true,
 "name": &"default",
@@ -95,6 +60,42 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D/AnimatedSprite2D_filler:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D/AnimatedSprite2D2:self_modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimatedSprite2D/AnimatedSprite2D2/AnimatedSprite2D_filler:self_modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tpxjg"]
 _data = {
@@ -102,15 +103,41 @@ _data = {
 "loop": SubResource("Animation_d8vw1")
 }
 
-[node name="deco_chain" type="Node2D"]
+[node name="deco_chain" type="Container"]
 texture_filter = 1
-script = ExtResource("1_tvodg")
+clip_contents = true
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+script = ExtResource("1_713tv")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0.408588)
 position = Vector2(32, 32)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.276017
+
+[node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+self_modulate = Color(1, 1, 1, 0.408588)
+position = Vector2(0, 64)
+sprite_frames = SubResource("SpriteFrames_a8t04")
+autoplay = "default"
+frame_progress = 0.747781
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+self_modulate = Color(1, 1, 1, 0.591412)
+sprite_frames = SubResource("SpriteFrames_a8t04")
+autoplay = "default"
+frame_progress = 0.807471
+
+[node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D/AnimatedSprite2D2"]
+self_modulate = Color(1, 1, 1, 0.591412)
+position = Vector2(0, 64)
+sprite_frames = SubResource("SpriteFrames_a8t04")
+autoplay = "default"
+frame_progress = 0.525694
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(-96, -192)

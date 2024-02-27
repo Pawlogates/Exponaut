@@ -30,6 +30,9 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 func _physics_process(delta):
 	if not is_on_floor() and not floating:
 		velocity.y += gravity * delta
+	else:
+		velocity.y = 0
+	
 	
 	if velocity.x != 0:
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
@@ -42,13 +45,13 @@ func _physics_process(delta):
 
 
 func _on_area_2d_area_entered(area):
-	if area.is_in_group("player"):
+	if area.is_in_group("player") and not area.get_parent().is_in_group("weightless"):
 		
-		if not destroyed and area.get_parent().velocity.y > 50:
+		if not destroyed and area.get_parent().velocity.y > 100:
 			if Input.is_action_pressed("jump"):
 				area.get_parent().velocity.y = -600
 			else:
-				area.get_parent().velocity.y = -300
+				area.get_parent().velocity.y = -400
 			
 			area.get_parent().air_jump = true
 			area.get_parent().wall_jump = true
@@ -188,9 +191,11 @@ var rng = RandomNumberGenerator.new()
 
 func spawn_item():
 	item = item_scene.instantiate()
-	add_child(item)
+	item.position = position
 	item.velocity.x = rng.randf_range(300.0, -300.0)
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
+	
+	get_parent().get_parent().add_child(item)
 	
 
 

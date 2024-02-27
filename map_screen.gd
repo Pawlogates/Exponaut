@@ -38,7 +38,7 @@ func _ready():
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(8, Vector2(-160, -92), load("res://Levels/RI1_5.tscn"))
+		place_level_icon(9, Vector2(-160, -92), load("res://Levels/RI1_5.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
@@ -58,11 +58,11 @@ func _ready():
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(8, Vector2(352, -44), load("res://Levels/RI1_10.tscn"))
+		place_level_icon(9, Vector2(352, -44), load("res://Levels/RI1_10.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(11, Vector2(496, -60), load("res://Levels/RI1_11.tscn"))
+		place_level_icon(12, Vector2(496, -60), load("res://Levels/RI1_11.tscn"))
 		#LEVEL ICON END
 		
 	#EPISODE END

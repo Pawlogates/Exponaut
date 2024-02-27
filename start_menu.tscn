@@ -73,7 +73,6 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_6004i")
 script = ExtResource("1_vyphu")
-debug_mode = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_rk4cf")
@@ -165,7 +164,7 @@ offset_bottom = 96.0
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Bonus[/wave]"
+text = "[wave amp=50.0 freq=10.0 connected=1]???[/wave]"
 autowrap_mode = 0
 
 [node name="options_menu" type="Control" parent="."]
@@ -595,6 +594,7 @@ autowrap_mode = 0
 
 [node name="Rooster Island 2" type="Button" parent="episodeSelect_menu/menu_container"]
 unique_name_in_owner = true
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 custom_minimum_size = Vector2(960, 96)

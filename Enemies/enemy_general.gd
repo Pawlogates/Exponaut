@@ -1,13 +1,13 @@
 extends enemy_basic
 
+var on_floor = is_on_floor()
 
-var debugValue = 0
 
 @export var SPEED = 400
 @export var JUMP_VELOCITY = -400.0
-@export var ACCELERATION_MULTIPLIER = 5
+@export var ACCELERATION_MULTIPLIER = 1.0
 
-@export_enum("normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer", "chasePlayerXY_lookAtPlayer_whenSpotted", "stationary") var movementType: String
+@export_enum("normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer", "chasePlayerXY_lookAtPlayer_whenSpotted", "stationary", "wave_H", "wave_V", "bouncing") var movementType: String
 
 @export_group("otherBehaviour")
 @export var turnOnLedge = false
@@ -20,11 +20,19 @@ var debugValue = 0
 @export var afterDelay_jump = false
 
 @export var onDeath_spawnObject = false
-#@export var floating = false
-#@export var floating = false
-#@export var floating = false
-#@export var floating = false
-#@export var floating = false
+@export var immortal = false
+
+@export var patrolRectStatic = false
+
+@export var shootProjectile_whenSpotted = false
+@export var dropProjectile_whenSpotted = false
+
+@export var toggle_skull_blocks_onDeath = false
+
+@export var force_static_H = false
+@export var force_static_V = false
+
+#@export var varName = false
 
 
 @export_group("") #END OF BEHAVIOUR LIST
@@ -39,6 +47,21 @@ var debugValue = 0
 @export var directionTimer_time = 4.0
 @export var jumpTimer_time = 4.0
 
+@export var stationary_disable_jump_anim = false
+
+
+#GENERAL TIMERS
+@export var enable_generalTimers = true
+@export var generalTimer1_cooldown = 3.0
+@export var generalTimer2_cooldown = 3.0
+@export var generalTimer3_cooldown = 3.0
+
+@export var afterDelay_jumpAndMove = false
+@export var afterDelay_jumpAndMove_timerID = 0
+@export var afterDelay_jump2 = false
+@export var afterDelay_jump2_timerID = 0
+@export var afterDelay_changeDirection2 = false
+@export var afterDelay_changeDirection2_timerID = 0
 
 @export_group("") #END OF BEHAVIOUR LIST
 
@@ -47,31 +70,65 @@ var rng = RandomNumberGenerator.new()
 
 func _on_area_2d_area_entered(area):
 	if area.name == "Player_hitbox_main" and not dead:
-		Globals.playerHit1.emit()
 		attacking = true
 		attacking_timer.start()
 		
-	elif area.is_in_group("player_projectile"):
+		if not hostile:
+			return
+		
+		Globals.playerHit1.emit()
+		
+	#HANDLE IMMORTAL
+	elif immortal and area.is_in_group("player_projectile") and not area.get_parent().enemyProjectile:
+		attacking = true
+		attacking_timer.start()
+		return
+	
+	#HANDLE FRIENDLY
+	elif area.get_parent().is_in_group("friendly") and not dead:
+		attacking = true
+		attacking_timer.start()
+	
+	#HANDLE DAMAGE
+	elif area.is_in_group("player_projectile") and not area.get_parent().enemyProjectile and hostile or not hostile and area.get_parent().is_in_group("enemies") or area.is_in_group("fire"):
+		if not area.is_in_group("fire") and not area.get_parent().enemyProjectile:
+			call_deferred("enemy_stunned")
+			
+		
+		
 		if not dead:
 			attacked = true
 			attacked_timer.start()
 			hit.play()
 			hit_effect = hit_effectScene.instantiate()
 			add_child(hit_effect)
-			hp -= area.get_parent().damageValue
+			if not area.is_in_group("fire"):
+				hp -= area.get_parent().damageValue
+			else:
+				hp -= area.damageValue
 			Globals.enemyHit.emit()
 			if hp <= 0:
 				dead = true
-				direction = 0
-				sprite.play("dead")
-				death.play()
-				add_child(dead_effect)
+				if dead:
+					Globals.specialAction.emit()
+					direction = 0
+					sprite.play("dead")
+					if direction == 1:
+						sprite.flip_h = false
+					else:
+						sprite.flip_h = true
+						
+					death.play()
+					
+					add_child(hitDeath_effect)
+					add_child(dead_effect)
 				
 				if onDeath_spawnObject:
 					call_deferred("spawnObjects")
-					
-					
-	
+				if toggle_skull_blocks_onDeath:
+					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "skull_block", "skull_block_toggle")
+		
+		
 	
 	
 	#SAVE START
@@ -97,13 +154,22 @@ func _on_area_2d_area_entered(area):
 
 func manage_animation():
 	if not dead:
-		if not attacked and not attacking:
-			sprite.play("walk")
+		if not attacked and not attacking and velocity.x != 0:
+			if not floating:
+				sprite.play("walk")
+			else:
+				sprite.play("flying")
+			
+			
 			if direction == 1:
 				sprite.flip_h = false
 			else:
 				sprite.flip_h = true
-				
+		
+		elif on_floor and movementType == "stacionary":
+			sprite.play("idle")
+		
+		
 		if attacking:
 			sprite.play("attack")
 			if direction == 1:
@@ -124,6 +190,8 @@ func manage_animation():
 			
 				particle_limiter.start()
 				particle_buffer = true
+		
+	
 
 
 
@@ -132,7 +200,7 @@ func spawnObjects():
 	while onDeath_spawnObject_objectAmount > 0:
 		onDeath_spawnObject_objectAmount -= 1
 		var onDeath_spawnObject_object = onDeath_spawnObject_objectPath.instantiate()
-		get_tree().get_root().add_child(onDeath_spawnObject_object)
+		get_parent().get_parent().add_child(onDeath_spawnObject_object)
 		onDeath_spawnObject_object.position = position + Vector2(rng.randf_range(40.0, -40.0), rng.randf_range(40.0, -40.0))
 		
 		if onDeath_spawnObject_object.get_class() == "CharacterBody2D" and onDeath_spawnObject_throwAround:
@@ -146,25 +214,9 @@ func spawnObjects():
 #MAIN PROCESS
 
 func _physics_process(delta):
-	
-	#OTHER BEHAVIOUR
-	
-	if turnOnLedge:
-		handle_turnOnLedge()
-	
-	if turnOnWall:
-		handle_turnOnWall()
-	
-	if patroling:
-		handle_patroling()
-	
-	
-	
-	
-	
+	on_floor = is_on_floor()
 	
 	#MOVEMENT TYPE
-	
 	if movementType == "normal":
 		movement_normal(delta)
 		
@@ -186,24 +238,49 @@ func _physics_process(delta):
 		movement_chasePlayerXY_lookAtPlayer(delta)
 	elif movementType == "chasePlayerXY_lookAtPlayer_whenSpotted":
 		movement_chasePlayerXY_lookAtPlayer_whenSpotted(delta)
-
+		
 	
-		
-		
-		
-		
-		
-		
 	elif movementType == "stationary":
 		movement_stationary(delta)
 	
+	elif movementType == "wave_H":
+		movement_wave_H(delta)
+	
+	
+	
+	elif movementType == "bouncing":
+		movement_bouncing(delta)
 	
 	
 	
 	
 	
 	
-	if not floating:
+	
+	#OTHER BEHAVIOUR
+	if turnOnLedge:
+		handle_turnOnLedge()
+	
+	if turnOnWall:
+		handle_turnOnWall()
+	
+	if patroling:
+		handle_patroling()
+	
+	if dropProjectile_whenSpotted:
+		handle_dropProjectile_whenSpotted()
+		
+	if shootProjectile_whenSpotted:
+		handle_shootProjectile_whenSpotted()
+	
+	
+	
+	
+	
+	
+	
+	
+	if not floating or dead:
 		
 		#USE BASIC GRAVITY?
 		if movementType != "followPlayerY" and movementType != "followPlayerXY" and movementType != "chasePlayerXY_lookAtPlayer" and movementType != "chasePlayerXY_lookAtPlayer_whenSpotted":
@@ -212,21 +289,30 @@ func _physics_process(delta):
 				
 				
 	
+	if force_static_H:
+		velocity.x = 0
+	if force_static_V:
+		velocity.y = 0
+	
+	
 	
 	basic_sprite_flipDirection()
+	stuck_inside_wall_check()
+	
 	manage_animation()
 	
-	
-	
-	move_and_slide()
+	if not stuck:
+		move_and_slide()
 
 
 
 
+@export var enemyHp = 3
+@export var enemyDirection = 1
 
 func _ready():
-	hp = 3
-	direction = 1
+	hp = enemyHp
+	direction = enemyDirection
 	basic_onReady()
 	$scanForPlayer.monitoring = false
 	$scanForPlayer.monitorable = false
@@ -239,6 +325,17 @@ func _ready():
 	
 	%patrolDirectionTimer.wait_time = directionTimer_time
 	%jumpTimer.wait_time = jumpTimer_time
+	
+	if enable_generalTimers:
+		$timerGeneral1.start()
+		$timerGeneral2.start()
+		$timerGeneral3.start()
+		
+		$timerGeneral1.wait_time = generalTimer1_cooldown
+		$timerGeneral2.wait_time = generalTimer2_cooldown
+		$timerGeneral3.wait_time = generalTimer3_cooldown
+
+
 
 
 
@@ -299,8 +396,12 @@ func handle_turnOnWall():
 		else:
 			direction = 1
 			$scanForLedge.position.x = 32
-	if not dead:
-		velocity.x = SPEED * direction
+			
+		
+		if not dead and not movementType == "stationary":
+			velocity.x = SPEED * direction
+		elif not dead and movementType == "stationary":
+			velocity.x = SPEED / 2 * direction
 
 
 
@@ -332,15 +433,16 @@ func movement_normal(delta):
 
 
 func movement_followPlayerX(delta):
-	if global_position.x > Globals.player_posX:
-		direction = -1
-		
-	elif global_position.x < Globals.player_posX:
-		direction = 1
-	
-	
 	if not dead:
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 3 * delta)
+		if can_turn:
+			if global_position.x > Globals.player_posX:
+				direction = -1
+				
+			elif global_position.x < Globals.player_posX:
+				direction = 1
+		
+		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 3 * delta * ACCELERATION_MULTIPLIER)
+		
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * 3 * delta)
 	
@@ -386,7 +488,7 @@ func movement_followPlayerX_whenSpotted(delta):
 		movement_followPlayerX(delta)
 	
 	if spottedPlayer:
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * delta)
+		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * delta * ACCELERATION_MULTIPLIER)
 	else:
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 	
@@ -410,11 +512,83 @@ func movement_chasePlayerXY_lookAtPlayer_whenSpotted(delta):
 		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
 
 
-
 func movement_stationary(delta):
-	velocity.x = 0
+	if not dead:
+		if not afterDelay_jumpAndMove:
+			if Globals.player_posX > position.x:
+				direction = 1
+			else:
+				direction = -1
+		
+		if direction:
+			velocity.x = move_toward(velocity.x, 0, 150 * delta)
+		
+		
+		if is_on_floor() and not attacking and not attacked:
+			sprite.play("idle")
+		elif not is_on_floor() and not attacking and not attacked:
+			if not stationary_disable_jump_anim:
+				sprite.play("walk")
 
 
+
+var velocity_V_target = -100
+var toggle = false
+
+func movement_wave_H(delta):
+	if dead:
+		return
+	
+	#if is_on_wall():
+		#if direction == 1:
+			#direction = -1
+		#else:
+			#direction = 1
+		
+	
+	if direction:
+		velocity.x = direction * SPEED
+	else:
+		velocity.x = move_toward(velocity.x, 0, 500 * delta * ACCELERATION_MULTIPLIER)
+	
+	
+	if dead:
+		velocity.y = move_toward(velocity.y, 800, 400 * delta * ACCELERATION_MULTIPLIER)
+	
+	if not dead:
+		if velocity.y == velocity_V_target:
+			if toggle:
+				toggle = false
+				velocity_V_target = 100
+			else:
+				toggle = true
+				velocity_V_target = -100
+			
+		
+	velocity.y = move_toward(velocity.y, velocity_V_target, 100 * delta)
+
+
+
+
+func movement_bouncing(delta):
+	if not dead:
+		if not afterDelay_jumpAndMove:
+			if Globals.player_posX > position.x:
+				direction = 1
+			else:
+				direction = -1
+		
+		if direction:
+			velocity.x = move_toward(velocity.x, 0, 150 * delta)
+		
+		
+		if on_floor and not attacking and not attacked:
+			sprite.play("idle")
+		elif not on_floor and not attacking and not attacked:
+			sprite.play("jump")
+		
+		if on_floor:
+			velocity.y = JUMP_VELOCITY
 
 #MOVEMENT TYPES END
 
@@ -441,11 +615,12 @@ func _on_jump_timer_timeout():
 
 
 func handle_patrolDirection():
-	if not dead:
+	if not dead and not patrolRectStatic:
 		if direction == 1:
 			%scanForPlayer_CollisionShape2D.position.x = 320
 		else:
 			%scanForPlayer_CollisionShape2D.position.x = -320
+
 
 
 #spot player logic
@@ -479,6 +654,144 @@ func _on_follow_delay_timeout():
 
 
 
+@export var scene_dropProjectile = load("res://player_projectileSecondary_basic.tscn")
+@export var scene_shootProjectile = load("res://player_projectileSecondary_basic.tscn")
+@export var altDropMethod = false
+@export var projectile_isBouncingBall = false
 
+func handle_dropProjectile_whenSpotted():
+	if not shoot_delay and spottedPlayer:
+		shoot_delay = true
+		%shoot_delay.start()
+		
+		if not dead:
+			var dropProjectile = scene_dropProjectile.instantiate()
+			dropProjectile.position = position + Vector2(Globals.direction * 0, 32)
+			dropProjectile.direction = direction
+			if altDropMethod and velocity.y <= -100 or altDropMethod and velocity.y == 0:
+				dropProjectile.velocity = Vector2(velocity.x * 1.2, -100)
+			else:
+				dropProjectile.velocity = Vector2(velocity.x * 1.2, 100)
+				
+			dropProjectile.enemyProjectile = true
+			dropProjectile.playerProjectile = false
+			dropProjectile.bouncy = true
+			get_parent().get_parent().add_child(dropProjectile)
+			
+			$dropProjectile.play()
+			
+			attacking = true
+			attacking_timer.start()
+
+
+
+func handle_shootProjectile_whenSpotted():
+	if not shoot_delay and spottedPlayer:
+		shoot_delay = true
+		%shoot_delay.start()
+		
+		if not dead:
+			var shootProjectile = scene_shootProjectile.instantiate()
+			shootProjectile.position = position + Vector2(Globals.direction * 0, 32)
+			shootProjectile.direction = direction
+			
+			if projectile_isBouncingBall:
+				shootProjectile.velocity = Vector2(SPEED * direction, rng.randf_range(200.0, -1000.0))
+			else:
+				
+				if altDropMethod and velocity.y <= -100 or altDropMethod and velocity.y == 0:
+					shootProjectile.velocity = Vector2(velocity.x * 1.2, -100)
+				else:
+					shootProjectile.velocity = Vector2(velocity.x * 1.2, 100)
+				
+			
+			shootProjectile.enemyProjectile = true
+			shootProjectile.playerProjectile = false
+			shootProjectile.bouncy = true
+			
+			shootProjectile.direction = direction
+			get_parent().get_parent().add_child(shootProjectile)
+			
+			$shootProjectile.play()
+			
+			attacking = true
+			attacking_timer.start()
+
+
+
+
+var shoot_delay = false
+
+func _on_shoot_delay_timeout():
+	shoot_delay = false
+
+
+
+var stuck = false
+
+func stuck_inside_wall_check():
+	if velocity.y > 2000:
+		stuck = true
+		
+	if stuck:
+		if $scanForLedge.get_collider():
+			velocity.y = 0
+			position -= Vector2(1, 8)
+		else:
+			stuck = false
+	
+
+
+
+
+
+
+
+
+#GENERAL TIMERS
+
+func handle_generalTimerTimeout(generalTimer):
+	if afterDelay_jumpAndMove:
+		if afterDelay_jumpAndMove_timerID == generalTimer:
+			jumpAndMove()
+	
+	if afterDelay_jump2:
+		if afterDelay_jump2_timerID == generalTimer:
+			jump2()
+	
+	if afterDelay_changeDirection2:
+		if afterDelay_changeDirection2_timerID == generalTimer:
+			changeDirection2()
+
+
+
+
+func _on_timer_general_1_timeout():
+	handle_generalTimerTimeout(1)
+
+func _on_timer_general_2_timeout():
+	handle_generalTimerTimeout(2)
+
+func _on_timer_general_3_timeout():
+	handle_generalTimerTimeout(3)
+
+
+
+
+func jumpAndMove():
+	velocity = Vector2(SPEED * direction, JUMP_VELOCITY)
+
+func jump2():
+	if not dead:
+		velocity.y = JUMP_VELOCITY
+
+func changeDirection2():
+	if not dead:
+		if direction == -1:
+			direction = 1
+			%scanForPlayer_CollisionShape2D.position.x = 320
+		else:
+			direction = -1
+			%scanForPlayer_CollisionShape2D.position.x = -320
 
 

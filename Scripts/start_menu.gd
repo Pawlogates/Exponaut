@@ -4,9 +4,6 @@ var Overworld = preload("res://Levels/Overworld.tscn")
 var mapScreen = preload("res://map_screen.tscn")
 
 
-@export var debug_mode = false
-
-
 
 func _ready():
 	%main_menu.visible = false
@@ -34,7 +31,7 @@ func _ready():
 	
 	
 	
-	if debug_mode:
+	if Globals.debug_mode:
 		%main_menu.visible = true
 		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 		%StartGame.grab_focus()

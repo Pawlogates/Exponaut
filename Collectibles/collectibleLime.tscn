@@ -549,7 +549,6 @@ autoplay = "anim"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 unique_name_in_owner = true
-visible = false
 shape = SubResource("CircleShape2D_7n505")
 
 [node name="collect1" type="AudioStreamPlayer2D" parent="Area2D"]
@@ -602,7 +601,6 @@ scale = Vector2(0.512, 0.512)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("CircleShape2D_mx8bp")
 
 [node name="collisionCheck_delay" type="Timer" parent="."]

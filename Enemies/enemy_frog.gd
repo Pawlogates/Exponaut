@@ -2,7 +2,7 @@ extends enemy_basic
 
 
 
-const JUMP_VELOCITY = -600.0
+const JUMP_VELOCITY = -550.0
 
 
 
@@ -99,6 +99,8 @@ func handle_turn():
 func _ready():
 	basic_onReady()
 	hp = 2
+	
+	$Timer.paused = true
 
 
 
@@ -108,10 +110,12 @@ func _ready():
 
 func offScreen_unload():
 	basic_offScreen_unload()
+	$Timer.paused = true
 
 
 func offScreen_load():
 	basic_offScreen_load()
+	$Timer.paused = false
 
 
 

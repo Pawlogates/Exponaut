@@ -22,7 +22,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7n505"]
-radius = 32.0
+radius = 28.0
 
 [sub_resource type="Animation" id="Animation_snhod"]
 length = 0.001
@@ -490,9 +490,9 @@ _data = {
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx8bp"]
-radius = 32.0
+radius = 28.0
 
-[node name="bigApple" type="CharacterBody2D" groups=["Persist"]]
+[node name="bigApple" type="CharacterBody2D" groups=["Persist", "specialCollectible"]]
 texture_filter = 1
 collision_layer = 0
 floor_max_angle = 1.0472

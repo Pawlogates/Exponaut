@@ -516,6 +516,7 @@ animation_always = true
 floating = true
 is_key = true
 upDown_loop = true
+fall_when_button_pressed = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0
