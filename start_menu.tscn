@@ -167,6 +167,24 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]???[/wave]"
 autowrap_mode = 0
 
+[node name="Control" type="Control" parent="main_menu"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/Control"]
+clip_contents = false
+layout_mode = 2
+offset_left = 352.0
+offset_top = 452.0
+offset_right = 1312.0
+offset_bottom = 548.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]By: Pawlogates[/wave]"
+autowrap_mode = 0
+
 [node name="options_menu" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false

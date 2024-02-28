@@ -329,11 +329,11 @@ func _on_bonus_pressed():
 func _on_disable_quicksaves_pressed():
 	if Globals.quicksaves_enabled == true:
 		Globals.quicksaves_enabled = false
-		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
+		$"gameplay_menu/menu_container/Enable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
 	
 	elif Globals.quicksaves_enabled == false:
 		Globals.quicksaves_enabled = true
-		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
+		$"gameplay_menu/menu_container/Enable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
 
 
 
