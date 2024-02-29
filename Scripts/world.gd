@@ -194,7 +194,7 @@ func _ready():
 	
 	await get_tree().create_timer(0.1, false).timeout
 	
-	if area_ID != "area0":
+	if area_ID != "area0" and Globals.next_transition != 0:
 		load_game_area()
 	
 	
@@ -607,14 +607,18 @@ func bg_move():
 #Save state
 
 func save_game():
-	if not Globals.quicksaves_enabled:
+	print(%Player.is_on_floor())
+	if not Globals.quicksaves_enabled or not %Player.is_on_floor():
+		print("no")
 		return
 	
 	
-	if not Globals.is_saving:
+	if %Player.is_on_floor():
 		Globals.is_saving = true
 		
-		await Globals.comboReset
+		print(%Player.is_on_floor())
+		
+		%Player.velocity = Vector2(0, 0)
 		
 		var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 		var save_nodes = get_tree().get_nodes_in_group("Persist")

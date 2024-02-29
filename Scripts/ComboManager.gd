@@ -85,6 +85,7 @@ func boxBroken_reset_combo_cycle():
 func reset_combo_cycle_long():
 	check_combo_tier()
 	reset_combo_timer_long()
+	Globals.save.emit()
 
 
 

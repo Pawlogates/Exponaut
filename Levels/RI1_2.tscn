@@ -208,5 +208,3 @@ position = Vector2(3136, 672)
 scale = Vector2(1, 3)
 target_area = "res://Levels/RI1_10.tscn"
 next_transition = 2
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

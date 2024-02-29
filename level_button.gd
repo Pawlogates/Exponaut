@@ -108,6 +108,7 @@ func _on_pressed():
 		await LevelTransition.fade_to_black_slow()
 		get_tree().change_scene_to_packed(icon_level_filePath)
 		LevelTransition.fade_from_black_slow()
+		Globals.next_transition = 0
 		
 		if Globals.selected_episode == "rooster_island":
 			Globals.current_level = str("RI1_", level_ID)

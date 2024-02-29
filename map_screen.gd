@@ -210,3 +210,7 @@ func _on_enable_score_attack_mode_pressed():
 		$"menu_main/menu_container/Enable Score Attack Mode/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
 		
 		
+
+
+func _on_options_pressed():
+	get_tree().change_scene_to_packed(main_menu)
