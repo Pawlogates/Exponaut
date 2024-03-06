@@ -139,4 +139,9 @@ transform = Transform2D(1, 0, 0, 1, 9000, -400)
 scale = Vector2(3, 3)
 bgMove_y = -325
 
+[node name="info_sign8" parent="." index="35" instance=ExtResource("6_cmrxq")]
+position = Vector2(2144, 224)
+displayedText = "Press shift to dash. Press jump right after landing during a dash, to perform a forward boost!"
+displayedText_size = 2
+
 [connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

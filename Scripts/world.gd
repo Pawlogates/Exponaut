@@ -116,6 +116,8 @@ func _ready():
 	Globals.bgChange_entered.connect(bg_change)
 	Globals.bgMove_entered.connect(bg_move)
 	
+	if not regular_level:
+		Globals.quicksaves_enabled = true
 	
 	
 	#if not next_level is PackedScene:
