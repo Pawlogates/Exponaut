@@ -32,6 +32,8 @@ func show_info():
 		$"../AnimationPlayer".play("show_1")
 	elif current_size == 2:
 		$"../AnimationPlayer".play("show_2")
+	elif current_size == 3:
+		$"../AnimationPlayer".play("show_3")
 	
 	
 	$"../Timer".start()
@@ -47,6 +49,8 @@ func _on_timer_timeout():
 		$"../AnimationPlayer".play("hide_1")
 	elif current_size == 2:
 		$"../AnimationPlayer".play("hide_2")
+	elif current_size == 3:
+		$"../AnimationPlayer".play("hide_3")
 	
 
 

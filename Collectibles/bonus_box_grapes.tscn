@@ -223,15 +223,15 @@ _data = {
 "destroyed": SubResource("Animation_6nr0q")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_o8npv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_hpb6i"]
 atlas = ExtResource("4_vtoh2")
-region = Rect2(0, 490, 64, 96)
+region = Rect2(4, 494, 56, 84)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bd3tn"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_o8npv")
+"texture": SubResource("AtlasTexture_hpb6i")
 }],
 "loop": false,
 "name": &"normal",

@@ -1,0 +1,62 @@
+[gd_scene load_steps=8 format=3 uid="uid://b2ar3hirbpll4"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_3wj77"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_oox7e"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="4_p4xhk"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="5_x23hc"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="7_vq07u"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="8_xcstq"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="9_sdpnf"]
+
+[node name="World" instance=ExtResource("1_3wj77")]
+playerStartHP = 3
+
+[node name="Player" parent="." index="0"]
+cameraLimit_left = -640.0
+cameraLimit_right = 1e+07
+cameraLimit_bottom = 896.0
+cameraLimit_top = -1e+07
+
+[node name="tileset_main" parent="." index="1" instance=ExtResource("3_oox7e")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(196602, 393216, 9, 196603, 393216, 9, 196604, 458752, 9, 196605, 458752, 9, 196606, 393216, 9, 196607, 458752, 9, 131072, 458752, 9, 131073, 393216, 9, 131074, 524288, 9, 131075, 524288, 9, 131076, 458752, 9, 131077, 393216, 9, 131078, 524288, 9, 131079, 524288, 9, 131080, 524288, 9, 131081, 458752, 9, 131082, 393216, 9, 131083, 524288, 9, 131084, 524288, 9, 131085, 393216, 9, 131086, 393216, 9, 131087, 393216, 9, 131088, 393216, 9, 131089, 458752, 9, 131090, 393216, 9, 131091, 458752, 9, 131092, 393216, 9, 131093, 458752, 9, 131094, 458752, 9, 131095, 393216, 9, 131096, 458752, 9, 131097, 524288, 9, 131098, 393216, 9, 131099, 458752, 9, 131100, 524288, 9, 131101, 458752, 9, 131102, 524288, 9, 131103, 393216, 9, 131104, 458752, 9, 131105, 458752, 9, 131106, 524288, 9, 131107, 458752, 9, 131108, 524288, 9)
+
+[node name="tileset_objects" parent="." index="2" instance=ExtResource("4_p4xhk")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(-131063, 0, 65536, -131064, 0, 65536, -131062, 0, 65536, -196599, 0, 65536, -65527, 0, 65536)
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_x23hc")]
+unique_name_in_owner = true
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("5_x23hc")]
+z_index = -5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("5_x23hc")]
+z_index = 5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="kill_area" parent="." index="14" instance=ExtResource("8_xcstq")]
+position = Vector2(3328, 1216)
+scale = Vector2(64, 1)
+
+[node name="trigger_bgChange" parent="." index="15" instance=ExtResource("9_sdpnf")]
+position = Vector2(-3.05176e-05, -1.52588e-05)
+scale = Vector2(8, 8)
+
+[node name="info_sign" parent="." index="18" instance=ExtResource("7_vq07u")]
+position = Vector2(1952, 96)

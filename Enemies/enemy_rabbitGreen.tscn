@@ -5,10 +5,10 @@
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_projectileSecondary_bouncingBall.tscn" id="3_74vld"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_kf1fx"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="5_phth7"]
-[ext_resource type="AudioStream" uid="uid://d2w8jwk47ik8x" path="res://Assets/Sounds/sfx/projectile_eggHit.wav" id="6_i0e88"]
+[ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="6_j6vb5"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="7_5rmll"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="8_m2yci"]
-[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="9_a67cv"]
+[ext_resource type="AudioStream" uid="uid://d0q7oj4n6rdh1" path="res://Assets/Sounds/sfx/rabbit_death.wav" id="9_i714u"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bifyd"]
 atlas = ExtResource("4_kf1fx")
@@ -329,7 +329,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_i0e88")
+stream = ExtResource("6_j6vb5")
 
 [node name="dropProjectile" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_5rmll")
@@ -338,7 +338,7 @@ stream = ExtResource("7_5rmll")
 stream = ExtResource("8_m2yci")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("9_a67cv")
+stream = ExtResource("9_i714u")
 volume_db = 10.0
 pitch_scale = 0.8
 

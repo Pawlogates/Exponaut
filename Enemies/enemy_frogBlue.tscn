@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://bpnv0fs1eehsp"]
+[gd_scene load_steps=32 format=3 uid="uid://bpnv0fs1eehsp"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_ocdql"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_76pom"]
@@ -6,7 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_jaq6s"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="5_76g8l"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="6_shhi8"]
-[ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/bg_empty_a.png" id="6_toexw"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="7_vuw04"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="8_otsdg"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="9_us0cl"]
@@ -38,10 +37,6 @@ region = Rect2(320, 1088, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_0fnpm"]
 atlas = ExtResource("4_jaq6s")
 region = Rect2(384, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5n55j"]
-atlas = ExtResource("6_toexw")
-region = Rect2(480, 215, 480, 215)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bwno5"]
 atlas = ExtResource("5_76g8l")
@@ -125,10 +120,7 @@ animations = [{
 "name": &"damage",
 "speed": 5.0
 }, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5n55j")
-}],
+"frames": [],
 "loop": true,
 "name": &"dead",
 "speed": 5.0
@@ -216,6 +208,7 @@ SPEED = 100
 JUMP_VELOCITY = -500.0
 movementType = "normal"
 turnOnWall = true
+onDeath_disappear_instantly = true
 onDeath_spawnObject_objectPath = ExtResource("2_76pom")
 onDeath_spawnObject_objectAmount = 5
 afterDelay_jumpAndMove = true

@@ -56,7 +56,6 @@ _data = {
 texture_filter = 1
 script = ExtResource("1_8iwd0")
 playerStartHP = 15
-regular_level = true
 
 [node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 unique_name_in_owner = true
@@ -389,6 +388,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="ScoreDisplay" parent="HUD" instance=ExtResource("7_vhiat")]
+unique_name_in_owner = true
 position = Vector2(64, 64)
 
 [node name="quicksavedDisplay" parent="HUD" instance=ExtResource("7_nexah")]
@@ -405,6 +405,7 @@ libraries = {
 }
 
 [node name="ComboManager" parent="." instance=ExtResource("9_yw32x")]
+unique_name_in_owner = true
 
 [node name="QuickloadLimiter" type="Timer" parent="."]
 one_shot = true

@@ -40,6 +40,8 @@ var rain_scene = preload("res://weather_rain.tscn")
 var leaves_scene = preload("res://weather_leaves.tscn")
 
 
+@export var regular_level = true
+
 @export var playerStartHP = 3
 var key_total = 50
 
@@ -47,7 +49,7 @@ var key_total = 50
 
 
 
-@export var regular_level = false
+var instant_background_transitions = true
 
 @export var night = false
 @export var night2 = false
@@ -80,6 +82,10 @@ func _ready():
 	
 	Globals.level_score = 0
 	
+	
+	if not regular_level:
+		%quicksavedDisplay/Label.text = "Saving..."
+	
 	%HUD.visible = true
 	
 	tileset_objects.set_layer_enabled(0, true)
@@ -87,7 +93,12 @@ func _ready():
 	tileset_objects.set_layer_enabled(2, true)
 	tileset_objects.set_layer_enabled(3, true)
 	tileset_objects.set_layer_enabled(4, true)
+	
 	tileset_objects_small.set_layer_enabled(0, true)
+	tileset_objects_small.set_layer_enabled(1, true)
+	tileset_objects_small.set_layer_enabled(2, true)
+	tileset_objects_small.set_layer_enabled(3, true)
+	tileset_objects_small.set_layer_enabled(4, true)
 	
 	
 	Globals.playerHP = playerStartHP
@@ -116,8 +127,6 @@ func _ready():
 	Globals.bgChange_entered.connect(bg_change)
 	Globals.bgMove_entered.connect(bg_move)
 	
-	if not regular_level:
-		Globals.quicksaves_enabled = true
 	
 	
 	#if not next_level is PackedScene:
@@ -126,12 +135,6 @@ func _ready():
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
-	
-	if Globals.quicksaves_enabled:
-		quickLoad_blocked = true
-		save_game()
-		$QuickloadLimiter.start()
-		Globals.is_saving = true
 	
 	
 	
@@ -177,7 +180,7 @@ func _ready():
 	#await animation_player.animation_finished
 	#get_tree().paused = false
 	
-	if regular_level:
+	if instant_background_transitions:
 		%bg_previous/bg_transition.speed_scale = 20
 		%bg_previous/bg_a_transition.speed_scale = 20
 		%bg_previous/bg_b_transition.speed_scale = 20
@@ -192,11 +195,14 @@ func _ready():
 	
 	
 	
-	
+	player.camera.position_smoothing_enabled = false
 	
 	await get_tree().create_timer(0.1, false).timeout
 	
-	if area_ID != "area0" and Globals.next_transition != 0:
+	player.camera.position_smoothing_enabled = true
+	
+	
+	if area_ID != "area0":
 		load_game_area()
 	
 	
@@ -209,6 +215,23 @@ func _ready():
 	keys_leftDisplay.text = str(key_total)
 	
 	teleporter_assign_ID()
+	
+	
+	instant_background_transitions = false
+	
+	%bg_previous/bg_transition.speed_scale = 1
+	%bg_previous/bg_a_transition.speed_scale = 1
+	%bg_previous/bg_b_transition.speed_scale = 1
+
+	%bg_current/bg_transition.speed_scale = 1
+	%bg_current/bg_a_transition.speed_scale = 1
+	%bg_current/bg_b_transition.speed_scale = 1
+	
+	
+	quickLoad_blocked = true
+	save_game()
+	$QuickloadLimiter.start()
+	Globals.is_saving = true
 
 
 
@@ -302,12 +325,12 @@ func _physics_process(delta):
 		
 		
 		
-		if not regular_level:
+		if not instant_background_transitions:
 			bgMove_growthSpeed *= 0.995
 			bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.05, 1)
 		
 		
-		if not regular_level and bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.y == Globals.bgOffset_target_y:
+		if not instant_background_transitions and bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.y == Globals.bgOffset_target_y:
 			bg_position_set = true
 			bgMove_growthSpeed = 1
 			bgMove_started = false
@@ -379,43 +402,58 @@ func reduceHp1():
 	Globals.playerHP -= 1
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
+		player.dead = true
 		player.death.play()
-		if Globals.quicksaves_enabled:
-			retry_loadSave()
+		if regular_level:
+			if Globals.quicksaves_enabled:
+				retry_loadSave(true)
+			else:
+				retry_backToMap()
 		else:
-			retry_backToMap()
+			retry_checkpoint()
 	
 
 func reduceHp2():
 	Globals.playerHP -= 2
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
+		player.dead = true
 		player.death.play()
-		if Globals.quicksaves_enabled:
-			retry_loadSave()
+		if regular_level:
+			if Globals.quicksaves_enabled:
+				retry_loadSave(true)
+			else:
+				retry_backToMap()
 		else:
-			retry_backToMap()
+			retry_checkpoint()
 
 func reduceHp3():
 	Globals.playerHP -= 3
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
+		player.dead = true
 		player.death.play()
-		if Globals.quicksaves_enabled:
-			retry_loadSave()
+		if regular_level:
+			if Globals.quicksaves_enabled:
+				retry_loadSave(true)
+			else:
+				retry_backToMap()
 		else:
-			retry_backToMap()
+			retry_checkpoint()
 
 func kill_player():
 	Globals.playerHP -= 100
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
+		player.dead = true
 		player.death.play()
-		if Globals.quicksaves_enabled:
-			retry_loadSave()
+		if regular_level:
+			if Globals.quicksaves_enabled:
+				retry_loadSave(true)
+			else:
+				retry_backToMap()
 		else:
-			retry_backToMap()
-
+			retry_checkpoint()
 
 func increaseHp1():
 	Globals.playerHP += 1
@@ -529,26 +567,27 @@ func retry():
 var starParticleScene = preload("res://particles_special_multiple.tscn")
 var starParticle = starParticleScene.instantiate()
 
-func retry_loadSave():
+func retry_loadSave(afterDelay):
 	await get_tree().create_timer(0.1, false).timeout
 	Globals.playerHP = playerStartHP
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	
 	
+	if afterDelay:
+		player.dead = true
+		
+		starParticle = starParticleScene.instantiate()
+		starParticle.position = Globals.player_pos
+		add_child(starParticle)
+		starParticle = starParticleScene.instantiate()
+		starParticle.position = Globals.player_pos
+		add_child(starParticle)
+		starParticle = starParticleScene.instantiate()
+		starParticle.position = Globals.player_pos
+		add_child(starParticle)
+		
+		await get_tree().create_timer(2, false).timeout
 	
-	player.dead = true
-	
-	starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	
-	await get_tree().create_timer(2, false).timeout
 	
 	player.dead = false
 	
@@ -556,6 +595,8 @@ func retry_loadSave():
 	player.scale.y = 1
 	
 	load_game()
+
+
 
 
 
@@ -609,18 +650,11 @@ func bg_move():
 #Save state
 
 func save_game():
-	print(%Player.is_on_floor())
-	if not Globals.quicksaves_enabled or not %Player.is_on_floor():
-		print("no")
-		return
-	
-	
-	if %Player.is_on_floor():
+	if not Globals.is_saving:
 		Globals.is_saving = true
 		
-		print(%Player.is_on_floor())
-		
-		%Player.velocity = Vector2(0, 0)
+		#if Globals.combo_score != 0:
+			#await Globals.comboReset
 		
 		var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
 		var save_nodes = get_tree().get_nodes_in_group("Persist")
@@ -646,8 +680,8 @@ func save_game():
 		
 		Globals.saved_level_score = Globals.level_score
 		
-		Globals.saved_player_posX = player.position.x
-		Globals.saved_player_posY = player.position.y
+		Globals.saved_player_posX = Globals.player_posX
+		Globals.saved_player_posY = Globals.player_posY
 		
 		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
 		
@@ -663,10 +697,6 @@ func save_game():
 
 
 func load_game():
-	if not Globals.quicksaves_enabled:
-		return
-	
-	
 	if not FileAccess.file_exists("user://savegame.save"):
 		return # Error! We don't have a save to load.
 
@@ -713,8 +743,6 @@ func load_game():
 	Globals.collected_in_cycle = 0
 	
 	Globals.saveState_loaded.emit()
-	
-
 
 
 
@@ -975,6 +1003,33 @@ func retry_backToMap():
 
 
 
+func retry_checkpoint():
+	starParticle = starParticleScene.instantiate()
+	
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	starParticle = starParticleScene.instantiate()
+	starParticle.position = Globals.player_pos
+	add_child(starParticle)
+	
+	await get_tree().create_timer(2, false).timeout
+	await LevelTransition.fade_to_black_slow()
+	retry_loadSave(false)
+	player.dead = false
+	Globals.playerHP = playerStartHP
+	healthDisplay.text = str("HP:", Globals.playerHP)
+
+
+func retry_scoreGate():
+	await LevelTransition.fade_to_black_slow()
+	retry_loadSave(false)
+	player.dead = false
+	Globals.playerHP = playerStartHP
+	healthDisplay.text = str("HP:", Globals.playerHP)
+
 
 
 
@@ -983,40 +1038,43 @@ func retry_backToMap():
 @export var area_ID = "area0"
 
 func save_game_area():
-		var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.WRITE)
-		var save_nodes = get_tree().get_nodes_in_group("Persist")
-		for node in save_nodes:
-			# Check the node is an instanced scene so it can be instanced again during load.
-			if node.scene_file_path.is_empty():
-				print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-				continue
-			# Check the node has a save function.
-			if !node.has_method("save"):
-				print("persistent node '%s' is missing a save() function, skipped" % node.name)
-				continue
-			# Call the node's save function.
-			var node_data = node.call("save")
+	if area_ID == "area0":
+		return
+		
+	var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.WRITE)
+	var save_nodes = get_tree().get_nodes_in_group("Persist")
+	for node in save_nodes:
+		# Check the node is an instanced scene so it can be instanced again during load.
+		if node.scene_file_path.is_empty():
+			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			continue
+		# Check the node has a save function.
+		if !node.has_method("save"):
+			print("persistent node '%s' is missing a save() function, skipped" % node.name)
+			continue
+		# Call the node's save function.
+		var node_data = node.call("save")
 
-			# JSON provides a static method to serialized JSON string.
-			var json_string = JSON.stringify(node_data)
+		# JSON provides a static method to serialized JSON string.
+		var json_string = JSON.stringify(node_data)
 
-			# Store the save dictionary as a new line in the save file.
-			save_gameFile.store_line(json_string)
+		# Store the save dictionary as a new line in the save file.
+		save_gameFile.store_line(json_string)
 			
 		
 		
-		Globals.saved_level_score = Globals.level_score
-		
-		Globals.saved_player_posX = player.position.x
-		Globals.saved_player_posY = player.position.y
-		
-		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
-		
-		Globals.saveState_saved.emit()
-		
-		
-		await get_tree().create_timer(0.1, false).timeout
-		Globals.is_saving = false
+	Globals.saved_level_score = Globals.level_score
+	
+	Globals.saved_player_posX = player.position.x
+	Globals.saved_player_posY = player.position.y
+	
+	%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
+	
+	Globals.saveState_saved.emit()
+	
+	
+	await get_tree().create_timer(0.1, false).timeout
+	Globals.is_saving = false
 	
 	
 
@@ -1029,8 +1087,7 @@ func load_game_area():
 
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for i in save_nodes:
-		if i.is_in_group(Globals.loadingZone_current) or i.is_in_group("loadingZone0"):
-			i.queue_free()
+		i.queue_free()
 
 	var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.READ)
 	while save_gameFile.get_position() < save_gameFile.get_length():
@@ -1047,18 +1104,14 @@ func load_game_area():
 
 
 		
-		if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "loadingZone0":
-			var new_object = load(node_data["filename"]).instantiate()
-			get_node(node_data["parent"]).add_child(new_object)
-			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+		var new_object = load(node_data["filename"]).instantiate()
+		get_node(node_data["parent"]).add_child(new_object)
+		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 
-			for i in node_data.keys():
-				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
-					continue
-				new_object.set(i, node_data[i])
-			
-		else:
-			continue
+		for i in node_data.keys():
+			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
+				continue
+			new_object.set(i, node_data[i])
 	
 	
 	
@@ -1075,3 +1128,5 @@ func load_game_area():
 
 func reassign_player():
 	player = get_tree().get_first_node_in_group("player")
+	
+

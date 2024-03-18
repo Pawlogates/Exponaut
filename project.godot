@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Pekka Kana Zero"
-run/main_scene="res://start_menu.tscn"
+config/name="Exponaut v0.6 - BETA"
+run/main_scene="res://Levels/theBeginning.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/use_filter=false
 config/icon="res://Assets/Graphics/icon.svg"

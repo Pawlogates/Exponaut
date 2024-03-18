@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://areaTransition.gd" id="1_t8w7d"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_emt24"]
-size = Vector2(96, 96)
+size = Vector2(64, 64)
 
 [node name="areaTransition" type="Area2D"]
 collision_layer = 0

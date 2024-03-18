@@ -448,7 +448,7 @@ shape = SubResource("CircleShape2D_7n505")
 [node name="collect1" type="AudioStreamPlayer2D" parent="Area2D"]
 unique_name_in_owner = true
 stream = ExtResource("3_srqqa")
-volume_db = 10.0
+volume_db = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D"]
 unique_name_in_owner = true

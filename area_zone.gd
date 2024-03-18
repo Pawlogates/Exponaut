@@ -11,7 +11,7 @@ var splashParticle = splashParticleScene.instantiate()
 @export var area_type = "none"
 
 #possible wind directions: "left", "right"
-@export var wind_direction = "none"
+@export var wind_direction = 0
 
 @export var water_strength = 1.0
 @export var water_slowdown = 1.0
@@ -19,17 +19,20 @@ var splashParticle = splashParticleScene.instantiate()
 func _on_area_entered(area):
 	if area.is_in_group("player"):
 		if area_type == "wind":
-			area.get_parent().inside_wind = wind_direction
+			area.get_parent().inside_wind += 1
+			area.get_parent().insideWind_direction = wind_direction
 		
 		elif area_type == "water":
-			area.get_parent().insideWater_multiplier = water_strength
-			area.get_parent().movement_data.SPEED *= water_slowdown
-			area.get_parent().velocity.y /= 3
-			#area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.2
+			area.get_parent().inside_water += 1
+			if area.get_parent().inside_water:
+				area.get_parent().insideWater_multiplier = water_strength
+				area.get_parent().movement_data.SPEED *= water_slowdown
+				area.get_parent().velocity.y /= 3
+				area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.2
 			
 			$AudioStreamPlayer2D.play()
 			splashParticle = splashParticleScene.instantiate()
-			splashParticle.global_position = Globals.player_pos
+			splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
 			get_parent().add_child(splashParticle)
 			
 			
@@ -57,16 +60,17 @@ func _on_area_exited(area):
 	if area.is_in_group("player"):
 		
 		if area_type == "wind":
-			area.get_parent().inside_wind = "none"
+			area.get_parent().inside_wind -= 1
 		
 		elif area_type == "water":
-			area.get_parent().insideWater_multiplier = 1.0
-			area.get_parent().movement_data.SPEED = 400.0
-			#area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.1
+			area.get_parent().inside_water -= 1
+			if not area.get_parent().inside_water:
+				area.get_parent().movement_data.SPEED = area.get_parent().base_player_speed
+				area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.1
 			
 			$AudioStreamPlayer2D.play()
 			splashParticle = splashParticleScene.instantiate()
-			splashParticle.global_position = Globals.player_pos
+			splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
 			get_parent().add_child(splashParticle)
 			
 		

@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-const SPEED = 50.0
+const SPEED = 250.0
 
 var hit_ground = false
 @export var damageValue = 1
@@ -85,7 +85,10 @@ func _physics_process(delta):
 		
 	
 	if not bouncy_onGround and velocity.x != 0:
-		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+		if not hit_ground:
+			velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+		else:
+			velocity.x = move_toward(velocity.x, 0, SPEED * 2 * delta)
 	
 	if not floating:
 		if movement_type == "normal":
@@ -95,7 +98,7 @@ func _physics_process(delta):
 			
 		if movement_type == "iceCube":
 			var collision = move_and_slide()
-			velocity.x = move_toward(velocity.x, 0, SPEED / 2 * delta)
+			velocity.x = move_toward(velocity.x, 0, SPEED / 10 * delta)
 			if collision:
 				pass
 		

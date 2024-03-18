@@ -20,6 +20,8 @@ var player_posX
 var player_posY
 
 
+var weaponType = "none"
+
 
 #signals
 
@@ -131,3 +133,6 @@ var debug_mode = false
 
 signal cheated
 var cheated_state = false
+
+
+signal scoreReset

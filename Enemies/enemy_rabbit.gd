@@ -89,7 +89,7 @@ func manage_animation():
 
 
 func _ready():
-	hp = 2
+	hp = 3
 	basic_onReady()
 	$scanForPlayer.monitoring = false
 	$scanForPlayer.monitorable = false

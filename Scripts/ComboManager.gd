@@ -41,6 +41,9 @@ func reset_combo_tier():
 	
 	Globals.comboReset.emit()
 	
+	Globals.level_score += Globals.combo_score
+	Globals.combo_score = 0
+	
 	
 
 
@@ -85,7 +88,6 @@ func boxBroken_reset_combo_cycle():
 func reset_combo_cycle_long():
 	check_combo_tier()
 	reset_combo_timer_long()
-	Globals.save.emit()
 
 
 
@@ -95,8 +97,6 @@ func reset_combo_cycle_long():
 func _on_combo_cycle_timer_timeout():
 	#print("combo reset")
 	reset_combo_tier()
-	Globals.level_score += Globals.combo_score
-	Globals.combo_score = 0
 
 
 

@@ -32,6 +32,8 @@ var on_floor = is_on_floor()
 @export var force_static_H = false
 @export var force_static_V = false
 
+@export var onDeath_disappear_instantly = false
+
 #@export var varName = false
 
 
@@ -127,7 +129,9 @@ func _on_area_2d_area_entered(area):
 					call_deferred("spawnObjects")
 				if toggle_skull_blocks_onDeath:
 					get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "skull_block", "skull_block_toggle")
-		
+				if onDeath_disappear_instantly:
+					await get_tree().create_timer(1, false).timeout
+					queue_free()
 		
 	
 	
@@ -146,9 +150,29 @@ func _on_area_2d_area_entered(area):
 		add_to_group(loadingZone)
 		
 		#print("this object is in: ", loadingZone)
-
+		
 	#SAVE END
 
+
+
+
+
+#SAVE START
+
+func save():
+	var save_dict = {
+		"loadingZone" : loadingZone,
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"direction" : direction,
+		"health" : hp,
+		
+	}
+	return save_dict
+
+#SAVE END
 
 
 
@@ -342,13 +366,12 @@ func _ready():
 #UNLOADING LOGIC
 
 func offScreen_unload():
-	pass
-	#basic_offScreen_unload()
-	#$scanForPlayer.monitoring = false
-	#$scanForPlayer.monitorable = false
-	#%scanForPlayer_CollisionShape2D.disabled = true
-	#%patrolDirectionTimer.set_paused(true)
-	#%followDelay.set_paused(true)
+	basic_offScreen_unload()
+	$scanForPlayer.monitoring = false
+	$scanForPlayer.monitorable = false
+	%scanForPlayer_CollisionShape2D.disabled = true
+	%patrolDirectionTimer.set_paused(true)
+	%followDelay.set_paused(true)
 
 
 func offScreen_load():
@@ -666,7 +689,7 @@ func handle_dropProjectile_whenSpotted():
 		
 		if not dead:
 			var dropProjectile = scene_dropProjectile.instantiate()
-			dropProjectile.position = position + Vector2(Globals.direction * 0, 32)
+			dropProjectile.position = global_position + Vector2(Globals.direction * 0, 32)
 			dropProjectile.direction = direction
 			if altDropMethod and velocity.y <= -100 or altDropMethod and velocity.y == 0:
 				dropProjectile.velocity = Vector2(velocity.x * 1.2, -100)

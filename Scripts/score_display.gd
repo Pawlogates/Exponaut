@@ -27,7 +27,7 @@ func _process(_delta):
 	
 	
 	
-	if Globals.cheated_state == true:
+	if Globals.cheated_state == true and not Globals.debug_mode:
 		self.text = str("cringe")
 		
 
@@ -37,9 +37,8 @@ func _process(_delta):
 
 func _ready():
 	Globals.saveState_loaded.connect(score_correct)
-	
 	Globals.cheated.connect(cheated_replaceScore)
-	
+	Globals.scoreReset.connect(reset_displayScore)
 
 
 func score_correct():
@@ -51,3 +50,7 @@ func score_correct():
 
 func cheated_replaceScore():
 	Globals.cheated_state = true
+
+
+func reset_displayScore():
+	displayScore = 0

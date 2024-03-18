@@ -113,6 +113,7 @@ var bonus_material = preload("res://Collectibles/bonus_material.tres")
 func _on_collectible_entered(body):
 	if body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and not collected:
 		collected = true
+		Globals.itemCollected.emit()
 		
 		%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
 		
@@ -120,15 +121,15 @@ func _on_collectible_entered(body):
 		animation_player.play("remove")
 		animation_player_2.play("score_value")
 		
+		print(Globals.collected_in_cycle)
 		
-		if Globals.collected_in_cycle == 0:
+		if Globals.collected_in_cycle == 1:
 			Globals.level_score += collectibleScoreValue
 		
 		else:
 			Globals.level_score += collectibleScoreValue
 			Globals.combo_score += collectibleScoreValue * Globals.combo_tier
 		
-		Globals.itemCollected.emit()
 		
 		
 		

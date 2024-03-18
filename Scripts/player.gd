@@ -50,7 +50,9 @@ var crouchTimer = false
 var crouchMultiplier = 1
 @onready var crouch_walk_collision_switch = $AnimatedSprite2D/crouch_walkCollisionSwitch
 @onready var player_hitbox_tile_detection = $Player_hitbox_tileDetection
-var can_stand_up = true
+
+#if can_stand_up is equal to 0, there is nothing blocking the player
+var can_stand_up = 0
 
 @onready var dash_speed_block = $dash_timer/dash_speedBlock
 @onready var dash_end_slowdown_delay = $dash_timer/dash_endSlowdown_delay
@@ -79,7 +81,14 @@ var spawn_dust_effect = true
 
 var total_collectibles = 0
 
-var inside_wind = "none"
+#AREAS (water, wind, etc.
+var base_player_speed = 400
+
+var inside_wind = 0
+var insideWind_direction = 0
+
+var inside_water = 0
+var insideWater_multiplier = 1
 
 
 @export var cameraLimit_left = 0.0
@@ -108,9 +117,13 @@ func _ready():
 		print(("%areaTransition" + str(Globals.next_transition)))
 		position = get_parent().get_node("%areaTransition" + str(Globals.next_transition)).position
 	
+	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
 	
 	
-	if cameraLimit_left != 0.0:
+	
+	weaponType = Globals.weaponType
+	
+	if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
 		%Camera2D.limit_left = cameraLimit_left
 		%Camera2D.limit_right = cameraLimit_right
 		%Camera2D.limit_bottom = cameraLimit_bottom
@@ -119,7 +132,7 @@ func _ready():
 	
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
-	total_collectibles = get_tree().get_nodes_in_group("Collectibles").size()
+	total_collectibles = get_tree().get_nodes_in_group("Collectibles").size() + (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	
 	
 	if Globals.mode_scoreAttack:
@@ -344,7 +357,7 @@ func _process(delta):
 		
 		#PLAYER SHOOTING ANIMATION
 		
-		if weaponType == "phaser" and not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
+		if not dead and weaponType == "phaser" and not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
 			shooting = true
 			shoot_anim_delay.start()
 			animated_sprite_2d.play("shoot")
@@ -415,7 +428,7 @@ func _process(delta):
 				
 		
 		
-		if not Input.is_action_pressed("move_DOWN") and can_stand_up and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up and crouch_walking or not is_on_floor() and can_stand_up and crouch_walking:
+		if not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_walking or not is_on_floor() and can_stand_up == 0 and crouch_walking:
 			player_collision.shape.extents = Vector2(20, 56)
 			player_collision.position = Vector2(0, 0)
 			
@@ -476,13 +489,12 @@ func _process(delta):
 			$dust_effect.stop()
 		
 		
-		if inside_wind != "none":
-			if inside_wind == "left":
+		if inside_wind:
+			if insideWind_direction == -1:
 				position.x += -3
 			
-			elif inside_wind == "right":
+			elif insideWind_direction == 1:
 				position.x += 3
-		
 		
 		
 	
@@ -568,7 +580,7 @@ func _process(delta):
 	
 	#STUCK IN WALL
 	
-	if velocity.y > 1000 and not can_stand_up and Input.is_action_just_pressed("jump"):
+	if velocity.y > 1000 and not can_stand_up == 0 and Input.is_action_just_pressed("jump"):
 		position.y += 6
 		position.x += 3
 	
@@ -604,16 +616,21 @@ var wall_jump = false
 
 
 
-var insideWater_multiplier = 1
 
 func apply_gravity(delta):
 	if not is_on_floor() and not is_dashing or dash_slowdown:
 		if Input.is_action_pressed("jump"):
-			velocity.y += gravity * 1.2 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
+			if inside_water:
+				velocity.y += gravity * 1.2 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
+			else:
+				velocity.y += gravity * 1.2 * delta * movement_data.GRAVITY_SCALE
 		else:
-			velocity.y += gravity * 1.8 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
-	
-	if is_dashing:
+			if inside_water:
+				velocity.y += gravity * 1.8 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
+			else:
+				velocity.y += gravity * 1.8 * delta * movement_data.GRAVITY_SCALE
+				
+	if not dead and is_dashing:
 		animated_sprite_2d.play("crouch")
 		if not speedBlockActive or dash_slowdown:
 			dash_speed_block.start()
@@ -677,7 +694,10 @@ func handle_jump(delta):
 			jumpBuildVelocity_active = true
 	
 	if jumpBuildVelocity_active and Input.is_action_pressed("jump"):
-		velocity.y = move_toward(velocity.y, movement_data.JUMP_VELOCITY, 8000 * insideWater_multiplier * delta)
+		if inside_water:
+			velocity.y = move_toward(velocity.y, movement_data.JUMP_VELOCITY, 8500 * insideWater_multiplier * delta)
+		else:
+			velocity.y = move_toward(velocity.y, movement_data.JUMP_VELOCITY, 8500 * delta)
 		
 	elif not is_on_floor():
 		
@@ -685,7 +705,11 @@ func handle_jump(delta):
 			velocity.y = movement_data.JUMP_VELOCITY / 2
 		
 		if Input.is_action_just_pressed("jump") and air_jump and not just_wall_jumped:
-			velocity.y = movement_data.JUMP_VELOCITY * 0.8 * insideWater_multiplier
+			if inside_water:
+				velocity.y = movement_data.JUMP_VELOCITY * 0.8 * insideWater_multiplier
+			else:
+				velocity.y = movement_data.JUMP_VELOCITY * 0.8
+			
 			air_jump = false
 			jump.play()
 			dash_end_slowdown_canceled = true
@@ -704,7 +728,11 @@ func handle_wall_jump():
 	
 	if Input.is_action_just_pressed("jump") and wall_jump:
 		velocity.x = wall_normal.x * movement_data.SPEED / 2
-		velocity.y = movement_data.JUMP_VELOCITY * 1 * insideWater_multiplier
+		if inside_water:
+			velocity.y = movement_data.JUMP_VELOCITY * 1 * insideWater_multiplier
+		else:
+			velocity.y = movement_data.JUMP_VELOCITY * 1
+			
 		just_wall_jumped = true
 		wall_jump = false
 		
@@ -818,7 +846,7 @@ signal dash_safe
 func _on_dash_timer_timeout():
 	is_dashing = false
 	
-	if can_stand_up:
+	if can_stand_up == 0:
 		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
 		
@@ -828,8 +856,9 @@ func _on_dash_timer_timeout():
 		dashReady = true
 	
 	else:
+		print("yeeeeee")
 		await dash_safe
-		
+		print("yesssss")
 		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
 		
@@ -905,10 +934,10 @@ func _on_jump_build_velocity_timeout():
 
 #CHECK IF INSIDE TILES
 func _on_player_hitbox_tile_detection_body_entered(_body):
-	can_stand_up = false
+	can_stand_up += 1
 
 func _on_player_hitbox_tile_detection_body_exited(_body):
-	can_stand_up = true
+	can_stand_up -= 1
 
 
 
@@ -957,10 +986,14 @@ func debug_refresh():
 	Globals.test3 = get_tree().get_nodes_in_group("Collectibles").size()
 	Globals.test4 = Globals.loadingZone_current
 	
-	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size()
+	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
+	
+	if Globals.collected_collectibles >= 1000:
+		Globals.infoSign_current_text = "You collected 1000 score items! Thanks for playing :v Your score is " + str(Globals.level_score) + "!"
+		Globals.infoSign_current_size = 2
+		Globals.info_sign_touched.emit()
 
 #DEBUG END
-
 
 
 
@@ -990,6 +1023,12 @@ func saveState_loaded():
 	
 	player_hitbox.shape.extents = Vector2(20, 56)
 	player_hitbox.position = Vector2(0, 0)
+	
+	deathAnim_playing = false
+	
+	
+	LevelTransition.fade_from_black_slow()
+
 
 
 
@@ -1109,5 +1148,5 @@ func _on_attacked_timer_timeout():
 
 
 func _on_dash_check_timeout():
-	if can_stand_up:
+	if can_stand_up == 0:
 		dash_safe.emit()

@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsesa2c0faeh6"]
+
+[ext_resource type="Script" path="res://Tiles/trigger_reset_score.gd" id="1_mrjbe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
+size = Vector2(64, 64)
+
+[node name="trigger_resetScore" type="Area2D" groups=["bgChange_area"]]
+input_pickable = false
+script = ExtResource("1_mrjbe")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jb7dg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

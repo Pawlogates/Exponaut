@@ -71,7 +71,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_7n505"]
-radius = 32.0
+radius = 16.0
 
 [sub_resource type="Animation" id="Animation_snhod"]
 length = 0.001
@@ -541,7 +541,7 @@ shape = SubResource("CircleShape2D_7n505")
 [node name="collect1" type="AudioStreamPlayer2D" parent="Area2D"]
 unique_name_in_owner = true
 stream = ExtResource("3_c1cc3")
-volume_db = 10.0
+volume_db = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D"]
 unique_name_in_owner = true

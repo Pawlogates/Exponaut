@@ -3,14 +3,13 @@
 [ext_resource type="Script" path="res://area_zone.gd" id="1_wdkmk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
-size = Vector2(216, 64)
+size = Vector2(64, 64)
 
 [node name="wind_area" type="Area2D"]
 collision_layer = 0
 collision_mask = 7
 script = ExtResource("1_wdkmk")
 area_type = "wind"
-wind_direction = "left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_32ipw")

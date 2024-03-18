@@ -104,6 +104,7 @@ _data = {
 }
 
 [node name="deco_smog" type="Container"]
+z_index = -1
 texture_filter = 1
 clip_contents = true
 offset_left = -32.0

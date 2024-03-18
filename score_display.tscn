@@ -16,6 +16,7 @@ offset_bottom = 195.0
 color = Color(0, 0, 0, 1)
 
 [node name="Score" type="Label" parent="."]
+unique_name_in_owner = true
 offset_right = 384.0
 offset_bottom = 120.0
 theme = ExtResource("1_i4dtr")

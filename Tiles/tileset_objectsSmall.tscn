@@ -1,4 +1,4 @@
-[gd_scene load_steps=36 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=42 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_428jj"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://lgxgdhmqe0mu" path="res://Tiles/button_block_blue_UP.tscn" id="8_p0x41"]
 [ext_resource type="PackedScene" uid="uid://b2y5linmn0ira" path="res://Collectibles/Gift_orangeBox.tscn" id="8_xaxdm"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="9_8yy25"]
-[ext_resource type="PackedScene" uid="uid://ceppiucikm3xr" path="res://Collectibles/collectibleGreenJewel.tscn" id="10_ktedw"]
 [ext_resource type="PackedScene" uid="uid://6vpm41lnycqx" path="res://Enemies/enemy_hedgehog.tscn" id="11_qfc43"]
 [ext_resource type="PackedScene" uid="uid://bedqky14s4a01" path="res://Tiles/button_block_green_LEFT.tscn" id="11_yx7co"]
 [ext_resource type="PackedScene" uid="uid://cjqinbb60vh6" path="res://Enemies/enemy_frog.tscn" id="12_oejvb"]
@@ -33,13 +32,20 @@
 [ext_resource type="PackedScene" uid="uid://cbflprsbwlyac" path="res://Tiles/fire.tscn" id="25_flmdt"]
 [ext_resource type="PackedScene" uid="uid://cs7hc4rry3lqm" path="res://Tiles/button_red.tscn" id="26_djeph"]
 [ext_resource type="PackedScene" uid="uid://tro6l8nm38dv" path="res://Tiles/special_block_destructibleCube.tscn" id="27_fo6u5"]
+[ext_resource type="PackedScene" uid="uid://bygyl36foeriy" path="res://Collectibles/collectibleJewel_yellow.tscn" id="28_01e8q"]
+[ext_resource type="PackedScene" uid="uid://1vv072mxshuv" path="res://Tiles/skull_block.tscn" id="28_m0ket"]
+[ext_resource type="PackedScene" uid="uid://rbwrv3rfagoa" path="res://Tiles/skull_block_inactive.tscn" id="29_c2744"]
+[ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="30_s33b4"]
+[ext_resource type="PackedScene" uid="uid://bc4lqr8ajy0k8" path="res://deco_waterfall_bg.tscn" id="31_dfkvb"]
+[ext_resource type="PackedScene" uid="uid://do31hya7lw3u3" path="res://Collectibles/collectiblePeach.tscn" id="32_7y4h4"]
+[ext_resource type="PackedScene" uid="uid://capn1k1755ueq" path="res://Collectibles/collectibleGrapefruit.tscn" id="33_xgfdy"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
 scenes/1/scene = ExtResource("1_t05vy")
 scenes/2/scene = ExtResource("8_1vvqk")
 scenes/3/scene = ExtResource("9_8yy25")
-scenes/4/scene = ExtResource("10_ktedw")
+scenes/4/scene = ExtResource("28_01e8q")
 scenes/5/scene = ExtResource("11_qfc43")
 scenes/6/scene = ExtResource("12_oejvb")
 scenes/7/scene = ExtResource("13_y1rp3")
@@ -69,6 +75,12 @@ scenes/30/scene = ExtResource("24_ofrri")
 scenes/31/scene = ExtResource("25_flmdt")
 scenes/32/scene = ExtResource("26_djeph")
 scenes/33/scene = ExtResource("27_fo6u5")
+scenes/34/scene = ExtResource("28_m0ket")
+scenes/35/scene = ExtResource("29_c2744")
+scenes/36/scene = ExtResource("30_s33b4")
+scenes/37/scene = ExtResource("31_dfkvb")
+scenes/38/scene = ExtResource("32_7y4h4")
+scenes/39/scene = ExtResource("33_xgfdy")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)

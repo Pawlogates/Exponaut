@@ -4,7 +4,7 @@
 [ext_resource type="AudioStream" uid="uid://bau2k4c3drkqf" path="res://Assets/Sounds/sfx/water_entered.wav" id="2_ipkd7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
-size = Vector2(128, 128)
+size = Vector2(64, 64)
 
 [node name="water_area" type="Area2D"]
 collision_layer = 0

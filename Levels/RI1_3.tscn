@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://bohj07xbv2063"]
+[gd_scene load_steps=18 format=3 uid="uid://bohj07xbv2063"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_kwt74"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_gyxe5"]
@@ -17,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://neisqlmfj6fx" path="res://deco_treeBig2.tscn" id="14_ym1rh"]
 [ext_resource type="PackedScene" uid="uid://dao01sb74ssw8" path="res://deco_bush.tscn" id="15_og0xu"]
 [ext_resource type="PackedScene" uid="uid://broblmgk5v875" path="res://deco_treeShort.tscn" id="16_8ev70"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="18_d6n1u"]
 
 [node name="World" instance=ExtResource("1_kwt74")]
 playerStartHP = 3
@@ -152,12 +151,3 @@ transform = Transform2D(1, 0, 0, 1, 9400, -50)
 offset = Vector2(8400, 100)
 scale = Vector2(1.25, 1.25)
 transform = Transform2D(1.25, 0, 0, 1.25, 8400, 100)
-
-[node name="info_sign" parent="." index="34" instance=ExtResource("18_d6n1u")]
-position = Vector2(-368, 224)
-displayedText = "Press ctrl to attack with your egg!"
-displayedText_size = 1
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@40968" to="tileset_objects/@Area2D@40968" method="_on_area_entered"]

@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://d4gmvberj3p4w"]
+
+[ext_resource type="Script" path="res://checkpoint.gd" id="1_142kj"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_y12ks"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2jjck"]
+atlas = ExtResource("1_y12ks")
+region = Rect2(576, 896, 64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_isqap"]
+size = Vector2(64, 64)
+
+[node name="checkpoint" type="StaticBody2D"]
+script = ExtResource("1_142kj")
+
+[node name="checkpoint" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_2jjck")
+
+[node name="Area2D" type="Area2D" parent="checkpoint"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="checkpoint/Area2D"]
+shape = SubResource("RectangleShape2D_isqap")
+
+[connection signal="area_entered" from="checkpoint/Area2D" to="." method="_on_area_2d_area_entered"]

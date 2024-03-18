@@ -191,7 +191,7 @@ var rng = RandomNumberGenerator.new()
 
 func spawn_item():
 	item = item_scene.instantiate()
-	item.position = position
+	item.position = global_position
 	item.velocity.x = rng.randf_range(300.0, -300.0)
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
 	

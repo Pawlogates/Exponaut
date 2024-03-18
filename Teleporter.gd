@@ -30,7 +30,7 @@ func _on_area_2d_area_entered(area):
 				#print(str(str(teleporter_type), str(teleport_to_ID)))
 				
 				await LevelTransition.fade_to_black_fast()
-				area.get_parent().position = teleporter.position
+				area.get_parent().position = teleporter.global_position
 				LevelTransition.fade_from_black()
 				
 			

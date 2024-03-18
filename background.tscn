@@ -192,6 +192,7 @@ offset_top = -900.0
 offset_right = 1920.0
 offset_bottom = 1440.0
 texture = ExtResource("2_rc4at")
+stretch_mode = 4
 
 [node name="bg_b" type="ParallaxLayer" parent="CanvasLayer/bg"]
 texture_repeat = 3

@@ -229,7 +229,7 @@ movementType = "followPlayerX"
 turnOnWall = true
 onDeath_spawnObject_objectPath = ExtResource("2_3ppxe")
 enable_generalTimers = false
-enemyHp = 7
+enemyHp = 1
 scene_shootProjectile = ExtResource("3_wbw2q")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -327,7 +327,7 @@ one_shot = true
 
 [node name="Limit_turn" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 0.3
+wait_time = 0.1
 one_shot = true
 
 [node name="scanForLedge" type="RayCast2D" parent="."]
