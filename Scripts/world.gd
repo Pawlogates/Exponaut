@@ -75,6 +75,16 @@ func _ready():
 	
 	
 	
+	if Globals.game_just_started:
+		var dir = DirAccess.open("user://")
+		if dir.file_exists("user://savegame_theBeginning.save"):
+			dir.remove("user://savegame_theBeginning.save")
+		else:
+			print("no file")
+
+	
+	Globals.game_just_started = false
+	
 	
 	get_tree().paused = false
 	

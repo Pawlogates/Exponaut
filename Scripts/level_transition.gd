@@ -58,7 +58,8 @@ func _process(delta):
 		#%saved_progress.load_game()
 		#print("loaded")
 	
-	if Input.is_action_just_pressed("quickselect"):
-		await LevelTransition.fade_to_black()
-		get_tree().change_scene_to_packed(mapScreen)
-		await LevelTransition.fade_from_black_slow()
+	#if Input.is_action_just_pressed("quickselect"):
+		#await LevelTransition.fade_to_black()
+		#get_tree().change_scene_to_packed(mapScreen)
+		#await LevelTransition.fade_from_black_slow()
+	pass
