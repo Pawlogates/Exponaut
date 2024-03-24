@@ -1,6 +1,7 @@
 extends CanvasLayer
 
 @onready var animation_player = $AnimationPlayer
+@onready var blackScreen = $ColorRect
 
 
 func fade_from_black():
@@ -35,6 +36,8 @@ func fade_to_black_slow():
 
 
 func _ready():
+	blackScreen.color.a = 0.0
+	
 	Globals.save_progress.connect(save_progress)
 	%saved_progress.load_game()
 
@@ -48,7 +51,7 @@ func save_progress():
 
 var mapScreen = load("res://map_screen.tscn")
 
-func _process(delta):
+func _process(_delta):
 	#if Input.is_action_just_pressed("quicksave"):
 		#%saved_progress.save_game()
 		#print("saved")
@@ -58,8 +61,7 @@ func _process(delta):
 		#%saved_progress.load_game()
 		#print("loaded")
 	
-	#if Input.is_action_just_pressed("quickselect"):
-		#await LevelTransition.fade_to_black()
-		#get_tree().change_scene_to_packed(mapScreen)
-		#await LevelTransition.fade_from_black_slow()
-	pass
+	if Input.is_action_just_pressed("quickselect"):
+		await LevelTransition.fade_to_black()
+		get_tree().change_scene_to_packed(mapScreen)
+		await LevelTransition.fade_from_black_slow()

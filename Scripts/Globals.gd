@@ -126,7 +126,7 @@ var next_transition = 0
 
 
 
-var game_just_started = true
+
 
 
 var debug_mode = false

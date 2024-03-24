@@ -2,11 +2,12 @@
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_6004i"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="1_vyphu"]
-[ext_resource type="Texture2D" uid="uid://bf5k5i1xvrwql" path="res://Assets/Graphics/menu_launch.png" id="3_bndft"]
-[ext_resource type="AudioStream" uid="uid://cft54vorfj2lv" path="res://Assets/Sounds/music/music_menu.mp3" id="3_rk4cf"]
+[ext_resource type="AudioStream" uid="uid://6g145ja3wwy0" path="res://Assets/Sounds/music/factory2.mp3" id="3_cqbjs"]
 [ext_resource type="Script" path="res://interactive_button.gd" id="4_j7iyn"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="5_7fogg"]
 [ext_resource type="Script" path="res://menu_deco_bg.gd" id="5_prg4e"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hne7b"]
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
 length = 0.001
@@ -75,7 +76,7 @@ theme = ExtResource("1_6004i")
 script = ExtResource("1_vyphu")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_rk4cf")
+stream = ExtResource("3_cqbjs")
 
 [node name="main_menu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -89,6 +90,26 @@ offset_top = -248.0
 offset_right = 480.0
 offset_bottom = 248.0
 theme = ExtResource("1_6004i")
+
+[node name="Continue" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Continue"]
+clip_contents = false
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 96.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Continue[/wave]"
+autowrap_mode = 0
 
 [node name="StartGame" type="Button" parent="main_menu/menu_container"]
 unique_name_in_owner = true
@@ -108,6 +129,26 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Start new game[/wave]"
+autowrap_mode = 0
+
+[node name="Levels" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Levels"]
+clip_contents = false
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 96.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Levels[/wave]"
 autowrap_mode = 0
 
 [node name="Options" type="Button" parent="main_menu/menu_container"]
@@ -1047,7 +1088,7 @@ unique_name_in_owner = true
 z_index = -5
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("3_bndft")
+texture = SubResource("PlaceholderTexture2D_hne7b")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -1091,11 +1132,21 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_7vxly")
 expand_mode = 1
 
+[connection signal="focus_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_mouse_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Continue" to="." method="_on_continue_pressed"]
 [connection signal="focus_entered" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_focus_exited"]
 [connection signal="mouse_entered" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_mouse_exited"]
 [connection signal="pressed" from="main_menu/menu_container/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="focus_entered" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_mouse_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Levels" to="." method="_on_levels_pressed"]
 [connection signal="focus_entered" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_exited"]
 [connection signal="mouse_entered" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_mouse_entered"]

@@ -1099,17 +1099,17 @@ func transformInto_chicken():
 
 func deferred_spawnRooster():
 	var player_rooster = player_rooster_scene.instantiate()
-	player_rooster.global_position = Globals.player_pos
+	player_rooster.position = position
 	get_parent().add_child(player_rooster)
 
 func deferred_spawnBird():
 	var player_bird = player_bird_scene.instantiate()
-	player_bird.global_position = Globals.player_pos
+	player_bird.position = position
 	get_parent().add_child(player_bird)
 
 func deferred_spawnChicken():
 	var player_chicken = player_chicken_scene.instantiate()
-	player_chicken.global_position = Globals.player_pos
+	player_chicken.position = position
 	get_parent().add_child(player_chicken)
 
 

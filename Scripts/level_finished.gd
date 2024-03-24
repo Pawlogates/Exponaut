@@ -20,7 +20,7 @@ func _ready():
 	set_process(false)
 	
 
-func _process(delta):
+func _process(_delta):
 	if displayScore != Globals.level_score and level_score - displayScore <= 10:
 		displayScore += 1
 		

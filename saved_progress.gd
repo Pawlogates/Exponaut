@@ -84,8 +84,6 @@ var next_level_RI2 = 1
 
 func save_game():
 	var saved_progress_file = FileAccess.open("user://saved_progress.save", FileAccess.WRITE)
-	var save_nodes = get_tree().get_nodes_in_group("Persist")
-	
 	var saved_progress_data = call("save")
 
 	# JSON provides a static method to serialized JSON string.

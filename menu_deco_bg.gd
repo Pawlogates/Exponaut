@@ -40,7 +40,7 @@ var skew_target = 1
 @export var speed_H = 2.0
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if %menu_deco_bg.position != position_target:
 		%menu_deco_bg.position = %menu_deco_bg.position.move_toward(position_target, 1)
 	

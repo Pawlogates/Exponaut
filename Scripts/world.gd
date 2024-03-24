@@ -1,11 +1,10 @@
 extends Node2D
 
+
 @export var next_level: PackedScene
 
-@onready var canvas_layer = %HUD
-
-
 @onready var player = %Player
+@onready var hud = %HUD
 
 
 @onready var level_finished = %"Level Finished"
@@ -13,12 +12,13 @@ extends Node2D
 @onready var start_in = %StartIn
 @onready var animation_player = %AnimationPlayer
 
-
-
 @onready var level_timeDisplay = %levelTime
 @onready var healthDisplay = %health
 @onready var keys_leftDisplay = %keysLeft
 
+
+@export_file("*.tscn") var savedProgress_level_filePath: String
+var savedProgress_nextTransition = Globals.next_transition
 
 
 var levelTime = 0
@@ -62,6 +62,10 @@ var instant_background_transitions = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	LevelTransition.blackScreen.color.a = 1.0
+	
+	savedProgress_save()
+	
 	if Globals.mode_scoreAttack:
 		add_child(mode_scoreAttack_manager)
 		%music.stream = preload("res://Assets/Sounds/music/mode_scoreAttack.mp3")
@@ -74,16 +78,6 @@ func _ready():
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	
 	
-	
-	if Globals.game_just_started:
-		var dir = DirAccess.open("user://")
-		if dir.file_exists("user://savegame_theBeginning.save"):
-			dir.remove("user://savegame_theBeginning.save")
-		else:
-			print("no file")
-
-	
-	Globals.game_just_started = false
 	
 	
 	get_tree().paused = false
@@ -207,7 +201,7 @@ func _ready():
 	
 	player.camera.position_smoothing_enabled = false
 	
-	await get_tree().create_timer(0.1, false).timeout
+	await get_tree().create_timer(1, false).timeout
 	
 	player.camera.position_smoothing_enabled = true
 	
@@ -688,6 +682,8 @@ func save_game():
 			
 		
 		
+		await get_tree().create_timer(0.1, false).timeout
+		
 		Globals.saved_level_score = Globals.level_score
 		
 		Globals.saved_player_posX = Globals.player_posX
@@ -696,9 +692,6 @@ func save_game():
 		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
 		
 		Globals.saveState_saved.emit()
-		
-		
-		await get_tree().create_timer(0.1, false).timeout
 		Globals.is_saving = false
 	
 	
@@ -1134,6 +1127,41 @@ func load_game_area():
 
 
 
+
+
+#Save progress loaded from the main menu screen.
+
+func savedProgress_save():
+	savedProgress_nextTransition = Globals.next_transition
+	
+	var savedProgress_file = FileAccess.open("user://savedProgress.save", FileAccess.WRITE)
+	var savedProgress_data = call("savedProgress_dictionary")
+
+	# JSON provides a static method to serialized JSON string.
+	var json_string = JSON.stringify(savedProgress_data)
+
+	# Store the save dictionary as a new line in the save file.
+	savedProgress_file.store_line(json_string)
+	
+
+
+
+
+
+
+#SAVE START
+
+func savedProgress_dictionary():
+	var save_dict = {
+		#last level filePath and which area transition it was entered from.
+		"level_filePath" : savedProgress_level_filePath,
+		"level_next_transition" : savedProgress_nextTransition,
+	
+	
+	}
+	return save_dict
+
+#SAVE END
 
 
 func reassign_player():

@@ -22,6 +22,7 @@
 [ext_resource type="AudioStream" uid="uid://bwq5lwqb8yio" path="res://Assets/Sounds/music/plains2.mp3" id="19_ycjor"]
 
 [node name="World" instance=ExtResource("1_85e6c")]
+savedProgress_level_filePath = "res://Levels/caves.tscn"
 regular_level = false
 playerStartHP = 3
 night3 = true

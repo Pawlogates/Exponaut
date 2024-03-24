@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Exponaut v0.7 - BETA"
-run/main_scene="res://Levels/theBeginning.tscn"
+run/main_scene="res://start_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/use_filter=false
 config/icon="res://Assets/Graphics/icon.svg"

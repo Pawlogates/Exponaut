@@ -12,7 +12,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if %item_icon.region_rect != Rect2(0, 0, 0, 0):
 		%item_icon.region_rect = display_region_rect
 	

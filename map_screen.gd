@@ -18,7 +18,7 @@ func _ready():
 	
 	#EPISODE START
 	if Globals.selected_episode == "rooster_island":
-		%background.texture = load("res://Assets/Graphics/menu_map.png")
+		#%background.texture = load("res://Assets/Graphics/menu_map.png")
 		level_ID = 0
 		
 		#LEVEL ICON START
@@ -71,7 +71,7 @@ func _ready():
 	
 	#EPISODE START
 	if Globals.selected_episode == "rooster_island_2":
-		%background.texture = load("res://Assets/Graphics/menu_map2.png")
+		#%background.texture = load("res://Assets/Graphics/menu_map2.png")
 		level_ID = 0
 		
 		#LEVEL ICON START
@@ -134,7 +134,7 @@ func _ready():
 	
 	#RI1
 	if Globals.selected_episode == "rooster_island":
-		for level_icon in get_tree().get_nodes_in_group("level_icon"):
+		for icon in get_tree().get_nodes_in_group("level_icon"):
 			level_icon.level_state = LevelTransition.get_node("%saved_progress").get("state_RI1_" + str(level_icon.level_ID))
 			level_icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI1_" + str(level_icon.level_ID))
 			print("saved level state:", level_icon.level_state)
@@ -144,7 +144,7 @@ func _ready():
 		
 	
 	elif Globals.selected_episode == "rooster_island_2":
-		for level_icon in get_tree().get_nodes_in_group("level_icon"):
+		for icon in get_tree().get_nodes_in_group("level_icon"):
 			level_icon.level_state = LevelTransition.get_node("%saved_progress").get("state_RI2_" + str(level_icon.level_ID))
 			level_icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI2_" + str(level_icon.level_ID))
 			print("saved level state:", level_icon.level_state)
@@ -165,9 +165,9 @@ func _ready():
 
 
 
-var Icon_ID = -1
-var Position = Vector2(0, 0)
-var Level_FilePath = load("res://Levels/RI1_1.tscn")
+#var Icon_ID = -1
+#var Position = Vector2(0, 0)
+#var Level_FilePath = load("res://Levels/RI1_1.tscn")
 
 func place_level_icon(Icon_ID, Position, Level_FilePath):
 	
@@ -184,13 +184,6 @@ func place_level_icon(Icon_ID, Position, Level_FilePath):
 	%level_icon_container.add_child(level_icon)
 
 
-
-
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
 
 
 

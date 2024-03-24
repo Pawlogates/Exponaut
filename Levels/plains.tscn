@@ -28,6 +28,7 @@
 [ext_resource type="PackedScene" uid="uid://fn8h8xw3kjbv" path="res://Tiles/trigger_set_tileset.tscn" id="26_7hjn6"]
 
 [node name="World" instance=ExtResource("1_pjqb0")]
+savedProgress_level_filePath = "res://Levels/plains.tscn"
 regular_level = false
 playerStartHP = 3
 area_ID = "plains"
