@@ -37,11 +37,6 @@ func fade_to_black_slow():
 
 func _ready():
 	blackScreen.color.a = 0.0
-<<<<<<< HEAD
-=======
-	
-	Globals.save_progress.connect(save_progress)
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 	%saved_progress.load_game()
 
 
@@ -62,11 +57,7 @@ func _process(_delta):
 		#%saved_progress.load_game()
 		#print("loaded")
 	
-<<<<<<< HEAD
 	if Globals.left_start_area and Input.is_action_just_pressed("menu") or Input.is_action_just_pressed("menu") and Input.is_action_pressed("move_UP"):
-=======
-	if Input.is_action_just_pressed("quickselect"):
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 		await LevelTransition.fade_to_black()
 		get_tree().change_scene_to_packed(mapScreen)
 		await LevelTransition.fade_from_black_slow()

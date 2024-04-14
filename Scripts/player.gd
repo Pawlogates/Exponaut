@@ -1098,29 +1098,17 @@ func transformInto_chicken():
 func deferred_spawnRooster():
 	var player_rooster = player_rooster_scene.instantiate()
 	player_rooster.position = position
-<<<<<<< HEAD
 	$/root/World.add_child(player_rooster)
-=======
-	get_parent().add_child(player_rooster)
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 
 func deferred_spawnBird():
 	var player_bird = player_bird_scene.instantiate()
 	player_bird.position = position
-<<<<<<< HEAD
 	$/root/World.add_child(player_bird)
-=======
-	get_parent().add_child(player_bird)
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 
 func deferred_spawnChicken():
 	var player_chicken = player_chicken_scene.instantiate()
 	player_chicken.position = position
-<<<<<<< HEAD
 	$/root/World.add_child(player_chicken)
-=======
-	get_parent().add_child(player_chicken)
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 
 
 func delete():

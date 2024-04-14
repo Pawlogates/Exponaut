@@ -8,8 +8,6 @@
 [ext_resource type="Texture2D" uid="uid://c4lir88jf7e0r" path="res://Assets/Graphics/backgrounds/bg_cosmos_red.png" id="5_iqg2r"]
 [ext_resource type="Script" path="res://menu_deco_bg.gd" id="5_prg4e"]
 
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_hne7b"]
-
 [sub_resource type="Animation" id="Animation_v8wcq"]
 length = 0.001
 tracks/0/type = "value"
@@ -1089,12 +1087,8 @@ z_index = -5
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 mouse_filter = 2
-<<<<<<< HEAD
 texture = ExtResource("5_iqg2r")
 expand_mode = 1
-=======
-texture = SubResource("PlaceholderTexture2D_hne7b")
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 
 [node name="ColorRect" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -1138,7 +1132,6 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_7vxly")
 expand_mode = 1
 
-<<<<<<< HEAD
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
 
@@ -1153,8 +1146,6 @@ text = "By: Pawlogates
 Thanks for playing!
 BETA-v0.7"
 
-=======
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 [connection signal="focus_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_exited"]
 [connection signal="mouse_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_mouse_entered"]

@@ -127,10 +127,6 @@ var next_transition = 0
 
 
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 
 
 

@@ -4,11 +4,10 @@
 [ext_resource type="Script" path="res://map_screen.gd" id="2_sfscu"]
 [ext_resource type="Script" path="res://interactive_button.gd" id="3_1q3hc"]
 [ext_resource type="AudioStream" uid="uid://bvra1tg3kt4at" path="res://Assets/Sounds/music/music_map.mp3" id="3_nerhi"]
+[ext_resource type="Texture2D" uid="uid://dhg8oq40bol7r" path="res://Assets/Graphics/menu_map.png" id="4_jnnes"]
 [ext_resource type="Script" path="res://menu_deco_bg.gd" id="5_wdajl"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="6_ab56j"]
 [ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="6_m5dpc"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_qx1sw"]
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
 length = 0.001
@@ -174,7 +173,7 @@ unique_name_in_owner = true
 z_index = -5
 layout_mode = 2
 mouse_filter = 2
-texture = SubResource("PlaceholderTexture2D_qx1sw")
+texture = ExtResource("4_jnnes")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 unique_name_in_owner = true

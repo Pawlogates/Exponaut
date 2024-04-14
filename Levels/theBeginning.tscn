@@ -222,7 +222,6 @@ position = Vector2(9312, -3552)
 displayedText = "Press SHIFT or C to perform a dash."
 displayedText_size = 1
 
-<<<<<<< HEAD
 [node name="Shrine Gem" parent="." index="47" instance=ExtResource("19_l5ket")]
 position = Vector2(672, -96)
 shrineGem_openPortal = false
@@ -242,9 +241,3 @@ shrineGem_level_filePath = "res://Levels/MAIN_1.tscn"
 position = Vector2(-352, 96)
 displayedText = "heyyyyy there... press LEFT MOUSE BUTTON or X to shoot. this is just so you can play with the siiiiiiiiick blue gems ok bye"
 displayedText_size = 3
-=======
-[node name="info_sign12" parent="." index="44" instance=ExtResource("14_wqegv")]
-position = Vector2(4192, -416)
-displayedText = "Remember to hold the jump button for a higher jump."
-displayedText_size = 1
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054

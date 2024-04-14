@@ -28,14 +28,6 @@
 
 [node name="World" instance=ExtResource("1_prcqu")]
 savedProgress_level_filePath = "res://Levels/plains2.tscn"
-<<<<<<< HEAD
-=======
-regular_level = false
-playerStartHP = 3
-area_ID = "plains2"
-
-[node name="Player" parent="." index="0"]
->>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 cameraLimit_left = -3840.0
 cameraLimit_right = 21376.0
 cameraLimit_bottom = 5312.0
