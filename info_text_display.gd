@@ -6,10 +6,6 @@ func _ready():
 	Globals.info_sign_touched.connect(show_info)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
-	pass
-
 
 
 

@@ -22,16 +22,15 @@
 [ext_resource type="AudioStream" uid="uid://bwq5lwqb8yio" path="res://Assets/Sounds/music/plains2.mp3" id="19_ycjor"]
 
 [node name="World" instance=ExtResource("1_85e6c")]
-regular_level = false
-playerStartHP = 3
-night3 = true
-area_ID = "caves"
-
-[node name="Player" parent="." index="0"]
+savedProgress_level_filePath = "res://Levels/caves.tscn"
 cameraLimit_left = -1152.0
 cameraLimit_right = 1e+07
 cameraLimit_bottom = 1e+07
 cameraLimit_top = -4480.0
+regular_level = false
+playerStartHP = 3
+night3 = true
+area_ID = "caves"
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_t2wib")]
 unique_name_in_owner = true

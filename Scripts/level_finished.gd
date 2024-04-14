@@ -9,43 +9,57 @@ signal next_level()
 
 
 var level_score = 0
-var displayScore = 0
+var displayed_totalScore = 0
+var displayed_score = 0
 
 func _on_retry_btn_pressed():
 	retry.emit()
 
 
 
+var score_counted_emitted = false
+signal score_counted()
+
 func _ready():
 	set_process(false)
+	score_counted.connect(after_score_counted)
 	
 
-func _process(delta):
-	if displayScore != Globals.level_score and level_score - displayScore <= 10:
-		displayScore += 1
+func _process(_delta):
+	if displayed_score != level_score and level_score - displayed_score <= 10:
+		displayed_score += 1
 		
-	if displayScore != level_score and level_score - displayScore <= 100 and Globals.level_score - displayScore > 10:
-		displayScore += 3
+	if displayed_score != level_score and level_score - displayed_score <= 100 and level_score - displayed_score > 10:
+		displayed_score += 3
 	
-	if displayScore != level_score and level_score - displayScore <= 1000 and Globals.level_score - displayScore > 100:
-		displayScore += 11
+	if displayed_score != level_score and level_score - displayed_score <= 1000 and level_score - displayed_score > 100:
+		displayed_score += 11
 		
-	if displayScore != level_score and level_score - displayScore > 1000:
-		displayScore += 41
+	if displayed_score != level_score and level_score - displayed_score > 1000:
+		displayed_score += 41
 		
-	if displayScore != level_score and level_score - displayScore > 10000:
-		displayScore += 121
+	if displayed_score != level_score and level_score - displayed_score > 10000:
+		displayed_score += 121
 		
-	if displayScore != level_score and level_score - displayScore > 25000:
-		displayScore += 251
+	if displayed_score != level_score and level_score - displayed_score > 25000:
+		displayed_score += 251
 		
 	
-	%"Level Score Label".text = str(displayScore)
-	%"Total Score Label".text = str(displayScore)
-
+	%"Level Score Label".text = str(displayed_score)
+	%"Total Score Label".text = str(displayed_totalScore)
+	
+	
+	
+	if not score_counted_emitted and displayed_score == level_score:
+		score_counted.emit()
+		score_counted_emitted = true
+		
+	
+	
 
 
 func exit_reached():
+	print(LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)))
 	level_score = Globals.level_score
 	
 	if not Globals.mode_scoreAttack:
@@ -112,3 +126,42 @@ func _on_map_btn_pressed():
 	get_tree().paused = false
 	get_tree().change_scene_to_packed(mapScreen)
 	await LevelTransition.fade_from_black_slow()
+
+
+
+
+
+
+func after_score_counted():
+	if Globals.current_levelSet_ID == "MAIN":
+		LevelTransition.get_node("%saved_progress").count_total_score(Globals.current_levelSet_ID, 13)
+	
+	await get_tree().create_timer(1, true).timeout
+	displayed_totalScore = LevelTransition.get_node("%saved_progress").get("total_score_" + Globals.current_levelSet_ID)
+	#print(LevelTransition.get_node("%saved_progress").get("total_score_" + Globals.current_levelSet_ID))
+	#print(("total_score_" + Globals.current_levelSet_ID))
+	
+	#if mode is something: then count various stuff and give points for them
+		#await get_tree().create_timer(0.5, true).timeout
+		#count_hp()
+		#await get_tree().create_timer(0.5, true).timeout
+		#count_inventoryItems()
+
+
+
+var displayedBonus_hp = 0
+var displayedBonus_time = 0
+var displayedBonus_items = 0
+
+func count_hp():
+	while Globals.playerHP > 0:
+		print(Globals.playerHP)
+		Globals.playerHP -= 1
+		displayedBonus_hp += 1000
+		await get_tree().create_timer(0.5, true).timeout
+
+
+func count_inventoryItems():
+	if Globals.inventory_currentItemCount > 0:
+		displayedBonus_items + 1000
+		

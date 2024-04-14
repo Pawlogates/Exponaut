@@ -9,7 +9,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("inventory_right"):
 		if Globals.inventory_selectedItem == get_tree().get_nodes_in_group("in_inventory").size():
 			Globals.inventory_selectedItem = 1

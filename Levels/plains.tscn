@@ -28,15 +28,14 @@
 [ext_resource type="PackedScene" uid="uid://fn8h8xw3kjbv" path="res://Tiles/trigger_set_tileset.tscn" id="26_7hjn6"]
 
 [node name="World" instance=ExtResource("1_pjqb0")]
-regular_level = false
-playerStartHP = 3
-area_ID = "plains"
-
-[node name="Player" parent="." index="0"]
+savedProgress_level_filePath = "res://Levels/plains.tscn"
 cameraLimit_left = -14080.0
 cameraLimit_right = 26496.0
 cameraLimit_bottom = 1280.0
 cameraLimit_top = -1e+07
+regular_level = false
+playerStartHP = 3
+area_ID = "plains"
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_jb74a")]
 unique_name_in_owner = true

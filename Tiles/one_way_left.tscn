@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cq5setetvq764"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_sqcpk"]
+b = Vector2(-64, 0)
+
+[node name="one_wayLEFT" type="StaticBody2D"]
+position = Vector2(-32, -32)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = -1.5708
+shape = SubResource("SegmentShape2D_sqcpk")
+one_way_collision = true
+one_way_collision_margin = 3.0

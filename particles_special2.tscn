@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b4ub21kqvsg2a"]
+[gd_scene load_steps=7 format=3 uid="uid://b4ub21kqvsg2a"]
 
-[ext_resource type="Texture2D" uid="uid://dnb5ho3145cq6" path="res://Assets/Graphics/sprites/orb.png" id="1_xikd5"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_alh5p"]
 [ext_resource type="Script" path="res://particles_special.gd" id="2_njm38"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yd6l3"]
+atlas = ExtResource("1_alh5p")
+region = Rect2(960, 1024, 32, 32)
 
 [sub_resource type="Curve" id="Curve_gfv4y"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -24,7 +28,7 @@ one_shot = true
 speed_scale = 0.2
 local_coords = true
 draw_order = 1
-texture = ExtResource("1_xikd5")
+texture = SubResource("AtlasTexture_yd6l3")
 emission_shape = 1
 emission_sphere_radius = 25.0
 direction = Vector2(0, -90)

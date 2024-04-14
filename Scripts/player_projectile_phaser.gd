@@ -28,6 +28,9 @@ var x
 var enemyProjectile = false
 var playerProjectile = true
 
+var upward_attack = false
+var downward_attack = false
+
 
 func _ready():
 	set_name.call_deferred("player_projectile_phaser")
@@ -54,6 +57,8 @@ func _physics_process(_delta):
 			projectile_shot = true
 			
 			can_collect = true
+			await get_tree().create_timer(0.5, false).timeout
+			upward_attack = true
 
 		elif Globals.direction == -1 and projectile_shot == false:
 				shot_anim.play("shot_animL")
@@ -79,6 +84,8 @@ func _physics_process(_delta):
 		charged_shot_buffer.stop()
 		
 		can_collect = true
+		await get_tree().create_timer(0.5, false).timeout
+		upward_attack = true
 		
 	
 	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Globals.direction == 1:
@@ -136,6 +143,10 @@ var direction = 0
 func _on_animation_player_animation_started(anim_name):
 	if anim_name == "shot_animL" or anim_name == "shot_anim_CHARGED_L":
 		direction = -1
-		
+		await get_tree().create_timer(0.5, false).timeout
+		direction = 1
+	
 	elif anim_name == "shot_animR" or anim_name == "shot_anim_CHARGED_R":
 		direction = 1
+		await get_tree().create_timer(0.5, false).timeout
+		direction = -1

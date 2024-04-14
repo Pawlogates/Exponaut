@@ -11,6 +11,7 @@ var level_score = 0
 var topRankScore = 0
 
 var unlocked = false
+var is_main_level = false
 
 func _ready():
 	%level_icon.region_rect = Rect2(64 * icon_ID, 448, 64, 64)
@@ -25,12 +26,15 @@ func _ready():
 	
 	#set level button state
 	await Globals.progress_loadingFinished
-	if level_ID <= Globals.next_level:
+	if not is_main_level and level_ID <= Globals.next_level:
+		unlocked = true
+		
+	elif level_state != 0:
 		unlocked = true
 		
 	
-	
 	print(level_state)
+	
 	if level_state == 0:
 		pass
 	elif level_state == 1:
@@ -65,7 +69,7 @@ func _ready():
 		elif level_ID == 11:
 			topRankScore = 50000
 	
-	elif Globals.selected_episode == "rooster_island_2":
+	elif Globals.selected_episode == "Main Levels":
 		if level_ID == 1:
 			topRankScore = 50000
 		elif level_ID == 2:
@@ -104,6 +108,7 @@ func _ready():
 
 func _on_pressed():
 	if unlocked:
+		Globals.next_transition = 0
 		%level_start.play()
 		await LevelTransition.fade_to_black_slow()
 		get_tree().change_scene_to_packed(icon_level_filePath)
@@ -113,8 +118,8 @@ func _on_pressed():
 			Globals.current_level = str("RI1_", level_ID)
 			Globals.current_level_ID = level_ID
 			
-		elif Globals.selected_episode == "rooster_island_2":
-			Globals.current_level = str("RI2_", level_ID)
+		elif Globals.selected_episode == "Main Levels":
+			Globals.current_level = str("MAIN_", level_ID)
 			Globals.current_level_ID = level_ID
 		
 	else:

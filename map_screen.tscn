@@ -128,7 +128,7 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
 autowrap_mode = 0
 
-[node name="Options" type="Button" parent="menu_main/menu_container"]
+[node name="Back to overworld" type="Button" parent="menu_main/menu_container"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
@@ -137,7 +137,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("3_1q3hc")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Options"]
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Back to overworld"]
 clip_contents = false
 layout_mode = 0
 offset_right = 640.0
@@ -145,10 +145,10 @@ offset_bottom = 64.0
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Options[/wave]"
+text = "[wave amp=50.0 freq=10.0 connected=1]Back to overworld[/wave]"
 autowrap_mode = 0
 
-[node name="Quit" type="Button" parent="menu_main/menu_container"]
+[node name="Main menu" type="Button" parent="menu_main/menu_container"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
@@ -157,7 +157,7 @@ layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("3_1q3hc")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Quit"]
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Main menu"]
 clip_contents = false
 layout_mode = 0
 offset_right = 640.0
@@ -165,7 +165,7 @@ offset_bottom = 64.0
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Quit[/wave]"
+text = "[wave amp=50.0 freq=10.0 connected=1]Main menu[/wave]"
 autowrap_mode = 0
 
 [node name="background" type="TextureRect" parent="."]
@@ -276,10 +276,10 @@ horizontal_alignment = 1
 [connection signal="focus_entered" from="menu_main/menu_container/Enable Score Attack Mode" to="menu_main/menu_container/Enable Score Attack Mode" method="_on_focus_entered"]
 [connection signal="focus_exited" from="menu_main/menu_container/Enable Score Attack Mode" to="menu_main/menu_container/Enable Score Attack Mode" method="_on_focus_exited"]
 [connection signal="pressed" from="menu_main/menu_container/Enable Score Attack Mode" to="." method="_on_enable_score_attack_mode_pressed"]
-[connection signal="focus_entered" from="menu_main/menu_container/Options" to="menu_main/menu_container/Options" method="_on_focus_entered"]
-[connection signal="focus_exited" from="menu_main/menu_container/Options" to="menu_main/menu_container/Options" method="_on_focus_exited"]
-[connection signal="pressed" from="menu_main/menu_container/Options" to="." method="_on_options_pressed"]
-[connection signal="focus_entered" from="menu_main/menu_container/Quit" to="menu_main/menu_container/Quit" method="_on_focus_entered"]
-[connection signal="focus_exited" from="menu_main/menu_container/Quit" to="menu_main/menu_container/Quit" method="_on_focus_exited"]
-[connection signal="pressed" from="menu_main/menu_container/Quit" to="." method="_on_quit_pressed"]
+[connection signal="focus_entered" from="menu_main/menu_container/Back to overworld" to="menu_main/menu_container/Back to overworld" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Back to overworld" to="menu_main/menu_container/Back to overworld" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Back to overworld" to="." method="_on_back_to_overworld_pressed"]
+[connection signal="focus_entered" from="menu_main/menu_container/Main menu" to="menu_main/menu_container/Main menu" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Main menu" to="menu_main/menu_container/Main menu" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Main menu" to="." method="_on_main_menu_pressed"]
 [connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]

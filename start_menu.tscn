@@ -2,10 +2,10 @@
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_6004i"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="1_vyphu"]
-[ext_resource type="Texture2D" uid="uid://bf5k5i1xvrwql" path="res://Assets/Graphics/menu_launch.png" id="3_bndft"]
-[ext_resource type="AudioStream" uid="uid://cft54vorfj2lv" path="res://Assets/Sounds/music/music_menu.mp3" id="3_rk4cf"]
+[ext_resource type="AudioStream" uid="uid://6g145ja3wwy0" path="res://Assets/Sounds/music/factory2.mp3" id="3_cqbjs"]
 [ext_resource type="Script" path="res://interactive_button.gd" id="4_j7iyn"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="5_7fogg"]
+[ext_resource type="Texture2D" uid="uid://c4lir88jf7e0r" path="res://Assets/Graphics/backgrounds/bg_cosmos_red.png" id="5_iqg2r"]
 [ext_resource type="Script" path="res://menu_deco_bg.gd" id="5_prg4e"]
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
@@ -75,7 +75,7 @@ theme = ExtResource("1_6004i")
 script = ExtResource("1_vyphu")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_rk4cf")
+stream = ExtResource("3_cqbjs")
 
 [node name="main_menu" type="Control" parent="."]
 unique_name_in_owner = true
@@ -89,6 +89,26 @@ offset_top = -248.0
 offset_right = 480.0
 offset_bottom = 248.0
 theme = ExtResource("1_6004i")
+
+[node name="Continue" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Continue"]
+clip_contents = false
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 96.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Continue[/wave]"
+autowrap_mode = 0
 
 [node name="StartGame" type="Button" parent="main_menu/menu_container"]
 unique_name_in_owner = true
@@ -108,6 +128,26 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Start new game[/wave]"
+autowrap_mode = 0
+
+[node name="Levels" type="Button" parent="main_menu/menu_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Levels"]
+clip_contents = false
+layout_mode = 0
+offset_right = 960.0
+offset_bottom = 96.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Levels[/wave]"
 autowrap_mode = 0
 
 [node name="Options" type="Button" parent="main_menu/menu_container"]
@@ -592,18 +632,17 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Rooster Island[/wave]"
 autowrap_mode = 0
 
-[node name="Rooster Island 2" type="Button" parent="episodeSelect_menu/menu_container"]
+[node name="Main Levels" type="Button" parent="episodeSelect_menu/menu_container"]
 unique_name_in_owner = true
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 custom_minimum_size = Vector2(960, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("4_j7iyn")
-episode_select = "rooster_island_2"
+episode_select = "Main Levels"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Rooster Island 2"]
+[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Main Levels"]
 clip_contents = false
 layout_mode = 0
 offset_left = 24.0
@@ -613,7 +652,7 @@ offset_bottom = 88.0
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Rooster Island 2[/wave]"
+text = "[wave amp=50.0 freq=10.0 connected=1]Main Levels[/wave]"
 autowrap_mode = 0
 
 [node name="gameplay_menu" type="Control" parent="."]
@@ -1045,9 +1084,11 @@ autowrap_mode = 0
 [node name="background" type="TextureRect" parent="."]
 unique_name_in_owner = true
 z_index = -5
+custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("3_bndft")
+texture = ExtResource("5_iqg2r")
+expand_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -1091,11 +1132,35 @@ mouse_filter = 2
 texture = SubResource("AtlasTexture_7vxly")
 expand_mode = 1
 
+[node name="Control" type="Control" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control"]
+layout_mode = 2
+offset_left = 128.0
+offset_top = 380.0
+offset_right = 736.0
+offset_bottom = 447.0
+theme_override_constants/line_spacing = 8
+text = "By: Pawlogates
+Thanks for playing!
+BETA-v0.7"
+
+[connection signal="focus_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_mouse_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Continue" to="." method="_on_continue_pressed"]
 [connection signal="focus_entered" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_focus_exited"]
 [connection signal="mouse_entered" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="main_menu/menu_container/StartGame" to="main_menu/menu_container/StartGame" method="_on_mouse_exited"]
 [connection signal="pressed" from="main_menu/menu_container/StartGame" to="." method="_on_start_game_pressed"]
+[connection signal="focus_entered" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_focus_entered"]
+[connection signal="focus_exited" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="main_menu/menu_container/Levels" to="main_menu/menu_container/Levels" method="_on_mouse_exited"]
+[connection signal="pressed" from="main_menu/menu_container/Levels" to="." method="_on_levels_pressed"]
 [connection signal="focus_entered" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_focus_exited"]
 [connection signal="mouse_entered" from="main_menu/menu_container/Options" to="main_menu/menu_container/Options" method="_on_mouse_entered"]
@@ -1155,10 +1220,10 @@ expand_mode = 1
 [connection signal="focus_exited" from="episodeSelect_menu/menu_container/Rooster Island" to="episodeSelect_menu/menu_container/Rooster Island" method="_on_focus_exited"]
 [connection signal="pressed" from="episodeSelect_menu/menu_container/Rooster Island" to="." method="_on_episode_button_pressed"]
 [connection signal="pressed" from="episodeSelect_menu/menu_container/Rooster Island" to="episodeSelect_menu/menu_container/Rooster Island" method="_on_self_pressed"]
-[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Rooster Island 2" to="episodeSelect_menu/menu_container/Rooster Island 2" method="_on_focus_entered"]
-[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Rooster Island 2" to="episodeSelect_menu/menu_container/Rooster Island 2" method="_on_focus_exited"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Rooster Island 2" to="." method="_on_episode_button_pressed"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Rooster Island 2" to="episodeSelect_menu/menu_container/Rooster Island 2" method="_on_self_pressed"]
+[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Main Levels" to="episodeSelect_menu/menu_container/Main Levels" method="_on_focus_entered"]
+[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Main Levels" to="episodeSelect_menu/menu_container/Main Levels" method="_on_focus_exited"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Main Levels" to="." method="_on_episode_button_pressed"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Main Levels" to="episodeSelect_menu/menu_container/Main Levels" method="_on_self_pressed"]
 [connection signal="focus_entered" from="gameplay_menu/menu_container/User Interface Type" to="gameplay_menu/menu_container/User Interface Type" method="_on_focus_entered"]
 [connection signal="focus_exited" from="gameplay_menu/menu_container/User Interface Type" to="gameplay_menu/menu_container/User Interface Type" method="_on_focus_exited"]
 [connection signal="focus_entered" from="gameplay_menu/menu_container/Enable Quicksaves" to="gameplay_menu/menu_container/Enable Quicksaves" method="_on_focus_entered"]

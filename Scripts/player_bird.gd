@@ -1,4 +1,4 @@
-extends CharacterBody2D
+extends player_general
 
 @export var SPEED = 400
 @export var GRAVITY_SCALE = 1.0
@@ -9,95 +9,10 @@ extends CharacterBody2D
 @export var AIR_SLOWDOWN = 200
 
 
-var air_jump = false
-var just_wall_jumped = false
-var was_wall_normal = Vector2.ZERO
-
-
-var starParticleScene = preload("res://particles_star.tscn")
-var starParticle = starParticleScene.instantiate()
-
-var effect_dustScene = preload("res://effect_dust.tscn")
-var effect_dust = effect_dustScene.instantiate()
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-@onready var animated_sprite_2d = $AnimatedSprite2D
-@onready var jump_leniency = $jump_leniency
-@onready var wall_jump_leniency = $wallJump_leniency
-
-@onready var start_pos = global_position
-
-@onready var player_collision = $CollisionShape2D
-@onready var player_hitbox = $Player_hitbox_main/CollisionShape2D
-
-
-
-@onready var dash_timer = $dash_timer
-
-@onready var damage = $damage
-@onready var jump = $jump
-@onready var death = $death
-@onready var hit = $wall_jump
-
-@onready var animation_player = $AnimationPlayer
-
-@onready var player = $"."
-
-
-@onready var shoot_anim_delay = $AnimatedSprite2D/shootAnimDelay
-
-
-@onready var crouch_walk_anim_delay = $AnimatedSprite2D/crouch_walkAnimDelay
-var crouch_walking = false
-var crouching = false
-var crouchTimer = false
-var crouchMultiplier = 1
-@onready var crouch_walk_collision_switch = $AnimatedSprite2D/crouch_walkCollisionSwitch
-@onready var player_hitbox_tile_detection = $Player_hitbox_tileDetection
-var can_stand_up = true
-
-@onready var dash_speed_block = $dash_timer/dash_speedBlock
-@onready var dash_end_slowdown_delay = $dash_timer/dash_endSlowdown_delay
-@onready var dash_end_slowdown_active = $dash_timer/dash_endSlowdown_active
-var dash_end_slowdown = false
-
-var rng = RandomNumberGenerator.new()
-var pitch_scale = 1.0
-
-
-@onready var jump_build_velocity = $jumpBuildVelocity
-var jumpBuildVelocity_active = false
-
-
-var dead = false
-
-var direction = 1
-var shooting = false
-
-
-var debugMovement = false
-
-var spawn_dust_effect = true
-
-
-
-var total_collectibles = 0
-
-var inside_wind = "none"
-
-
-@export var cameraLimit_left = 0.0
-@export var cameraLimit_right = 0.0
-@export var cameraLimit_bottom = 0.0
-@export var cameraLimit_top = 0.0
-
-
 func _ready():
-	Globals.player_pos = player.get_global_position()
-	Globals.player_posX = player.get_global_position()[0]
-	Globals.player_posY = player.get_global_position()[1]
+	Globals.player_pos = get_global_position()
+	Globals.player_posX = get_global_position()[0]
+	Globals.player_posY = get_global_position()[1]
 	
 	
 	Globals.saveState_loaded.connect(saveState_loaded)
@@ -110,18 +25,17 @@ func _ready():
 	Globals.shot.connect(cancel_effect)
 	
 	
-	if Globals.next_transition != 0:
-		print(("%areaTransition" + str(Globals.next_transition)))
-		position = get_parent().get_node("%areaTransition" + str(Globals.next_transition)).position
-	
-	
-	
-	if cameraLimit_left != 0.0:
-		%Camera2D.limit_left = cameraLimit_left
-		%Camera2D.limit_right = cameraLimit_right
-		%Camera2D.limit_bottom = cameraLimit_bottom
-		%Camera2D.limit_top = cameraLimit_top
-	
+	#if Globals.next_transition != 0:
+		#print(("%areaTransition" + str(Globals.next_transition)))
+		#position = get_parent().get_node("%areaTransition" + str(Globals.next_transition)).position
+		
+		
+	if $/root/World.cameraLimit_left != 0.0 or $/root/World.cameraLimit_right != 0.0 or $/root/World.cameraLimit_top != 0.0 or $/root/World.cameraLimit_bottom != 0.0:
+		%Camera2D.limit_left = $/root/World.cameraLimit_left
+		%Camera2D.limit_right = $/root/World.cameraLimit_right
+		%Camera2D.limit_bottom = $/root/World.cameraLimit_bottom
+		%Camera2D.limit_top = $/root/World.cameraLimit_top
+		
 	
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
@@ -142,20 +56,6 @@ func _ready():
 
 
 
-
-var attack_cooldown = false
-@export var weaponType = "none"
-
-#WEAPON TYPES
-var scene_projectile_phaser = preload("res://player_projectile_phaser.tscn")
-var scene_projectile_basic = preload("res://player_projectile_basic.tscn")
-var scene_projectile_short_shotDelay = preload("res://player_projectile_short_shotDelay.tscn")
-var scene_projectile_ice = preload("res://player_projectile_ice.tscn")
-var scene_projectile_fire = preload("res://player_projectile_fire.tscn")
-var scene_projectile_destructive_fast_speed = preload("res://player_projectile_destructive_fast_speed.tscn")
-var scene_projectile_veryFast_speed = preload("res://player_projectile_veryFast_speed.tscn")
-
-#WEAPON TYPES END
 
 
 
@@ -411,9 +311,9 @@ func _process(delta):
 		
 		update_anim()
 		
-		Globals.player_pos = player.get_global_position()
-		Globals.player_posX = player.get_global_position()[0]
-		Globals.player_posY = player.get_global_position()[1]
+		Globals.player_pos = get_global_position()
+		Globals.player_posX = get_global_position()[0]
+		Globals.player_posY = get_global_position()[1]
 		
 		just_wall_jumped = false
 		
@@ -434,13 +334,12 @@ func _process(delta):
 			$dust_effect.stop()
 		
 		
-		if inside_wind != "none":
-			if inside_wind == "left":
+		if inside_wind:
+			if insideWind_direction == -1:
 				position.x += -3
 			
-			elif inside_wind == "right":
+			elif insideWind_direction == 1:
 				position.x += 3
-		
 		
 		
 	
@@ -551,19 +450,6 @@ func _process(delta):
 
 
 
-var zoomValue = 1
-
-
-var is_dashing = false
-var started_dash = false
-var speedBlockActive = false
-var dash_slowdown = false
-var wall_jump = false
-
-
-
-var insideWater_multiplier = 1
-
 func apply_gravity(delta):
 	if not is_on_floor() and not is_dashing or dash_slowdown:
 		velocity.y += gravity * 1.2 * delta * GRAVITY_SCALE * insideWater_multiplier
@@ -588,11 +474,6 @@ func apply_gravity(delta):
 		velocity.x = move_toward(velocity.x, 0, 7000 * delta)
 	
 
-var count = 0
-var just_landed = false
-var just_landed_queued = false
-var dash_end_slowdown_await_jump = false
-var justLanded_delay_started = false
 
 func handle_jump(delta):
 	if is_on_floor(): #or is_on_wall():
@@ -827,8 +708,6 @@ func _on_player_hitbox_tile_detection_body_exited(_body):
 
 
 
-var dash_end_slowdown_canceled = false
-
 func _on_dash_speed_block_timeout():
 	started_dash = true
 	speedBlockActive = false
@@ -859,9 +738,6 @@ func _on_dash_end_slowdown_active_timeout():
 
 
 
-
-
-var collected_collectibles = 0
 
 
 #DEBUG
@@ -938,48 +814,6 @@ func _on_await_jump_timer_timeout():
 	dash_end_slowdown_await_jump = false
 
 
-
-
-
-#TRANSFORMATIONS
-
-var player_bird_scene = load("res://player_bird.tscn")
-var player_chicken_scene = load("res://player_chicken.tscn")
-var player_rooster_scene = load("res://player.tscn")
-
-
-func transformInto_rooster():
-	call_deferred("deferred_spawnRooster")
-	call_deferred("delete")
-
-func transformInto_bird():
-	call_deferred("deferred_spawnBird")
-	call_deferred("delete")
-
-func transformInto_chicken():
-	call_deferred("deferred_spawnChicken")
-	call_deferred("delete")
-
-
-
-func deferred_spawnRooster():
-	var player_rooster = player_rooster_scene.instantiate()
-	player_rooster.position = position
-	get_parent().add_child(player_rooster)
-
-func deferred_spawnBird():
-	var player_bird = player_bird_scene.instantiate()
-	player_bird.position = position
-	get_parent().add_child(player_bird)
-
-func deferred_spawnChicken():
-	var player_chicken = player_chicken_scene.instantiate()
-	player_chicken.position = position
-	get_parent().add_child(player_chicken)
-
-
-func delete():
-	queue_free()
 
 
 

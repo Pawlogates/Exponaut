@@ -26,7 +26,7 @@ func _on_area_entered(area):
 		Globals.next_transition = next_transition
 
 
-func _on_area_exited(area):
+func _on_area_exited(_area):
 	active = true
 
 

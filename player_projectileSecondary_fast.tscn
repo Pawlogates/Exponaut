@@ -147,7 +147,7 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3dwm"]
 size = Vector2(24, 24)
 
-[node name="projectileSecondary_fast" type="CharacterBody2D"]
+[node name="projectileSecondary_fast" type="CharacterBody2D" groups=["player_projectile"]]
 z_index = 1
 collision_layer = 0
 safe_margin = 1.0

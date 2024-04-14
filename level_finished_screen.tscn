@@ -110,66 +110,6 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Level Score[/wave]"
 autowrap_mode = 0
 
-[node name="Unused Item Bonus" type="Button" parent="CenterContainer/End Screen/end_screen_container"]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(640, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_v287l")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/End Screen/end_screen_container/Unused Item Bonus"]
-clip_contents = false
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 64.0
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 36
-bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Unused Item Bonus[/wave]"
-autowrap_mode = 0
-
-[node name="Health Bonus" type="Button" parent="CenterContainer/End Screen/end_screen_container"]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(640, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_v287l")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/End Screen/end_screen_container/Health Bonus"]
-clip_contents = false
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 64.0
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 36
-bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Health Bonus[/wave]"
-autowrap_mode = 0
-
-[node name="Time Bonus" type="Button" parent="CenterContainer/End Screen/end_screen_container"]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(640, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_v287l")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/End Screen/end_screen_container/Time Bonus"]
-clip_contents = false
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 64.0
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 36
-bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Time Bonus[/wave]"
-autowrap_mode = 0
-
 [node name="Total Score" type="Button" parent="CenterContainer/End Screen/end_screen_container"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
@@ -220,51 +160,6 @@ size_flags_horizontal = 4
 script = ExtResource("3_v287l")
 
 [node name="Level Score Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Level Score"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 64.0
-text = "0"
-
-[node name="Unused Item Bonus" type="Button" parent="CenterContainer/End Screen Values/end_screen_container"]
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(640, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_v287l")
-
-[node name="Unused Item Bonus Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Unused Item Bonus"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 64.0
-text = "0"
-
-[node name="Health Bonus" type="Button" parent="CenterContainer/End Screen Values/end_screen_container"]
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(640, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_v287l")
-
-[node name="Health Bonus Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Health Bonus"]
-unique_name_in_owner = true
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 64.0
-text = "0"
-
-[node name="Time Bonus" type="Button" parent="CenterContainer/End Screen Values/end_screen_container"]
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(640, 64)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("3_v287l")
-
-[node name="Time Bonus Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Time Bonus"]
 unique_name_in_owner = true
 layout_mode = 0
 offset_right = 640.0
@@ -336,21 +231,9 @@ stream = ExtResource("4_in6rq")
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/MapBtn" to="." method="_on_map_btn_pressed"]
 [connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Level Score" to="CenterContainer/End Screen/end_screen_container/Level Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Level Score" to="CenterContainer/End Screen/end_screen_container/Level Score" method="_on_focus_exited"]
-[connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Unused Item Bonus" to="CenterContainer/End Screen/end_screen_container/Unused Item Bonus" method="_on_focus_entered"]
-[connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Unused Item Bonus" to="CenterContainer/End Screen/end_screen_container/Unused Item Bonus" method="_on_focus_exited"]
-[connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Health Bonus" to="CenterContainer/End Screen/end_screen_container/Health Bonus" method="_on_focus_entered"]
-[connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Health Bonus" to="CenterContainer/End Screen/end_screen_container/Health Bonus" method="_on_focus_exited"]
-[connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Time Bonus" to="CenterContainer/End Screen/end_screen_container/Time Bonus" method="_on_focus_entered"]
-[connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Time Bonus" to="CenterContainer/End Screen/end_screen_container/Time Bonus" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Total Score" to="CenterContainer/End Screen/end_screen_container/Total Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Total Score" to="CenterContainer/End Screen/end_screen_container/Total Score" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_exited"]
-[connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Unused Item Bonus" to="CenterContainer/End Screen Values/end_screen_container/Unused Item Bonus" method="_on_focus_entered"]
-[connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Unused Item Bonus" to="CenterContainer/End Screen Values/end_screen_container/Unused Item Bonus" method="_on_focus_exited"]
-[connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Health Bonus" to="CenterContainer/End Screen Values/end_screen_container/Health Bonus" method="_on_focus_entered"]
-[connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Health Bonus" to="CenterContainer/End Screen Values/end_screen_container/Health Bonus" method="_on_focus_exited"]
-[connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Time Bonus" to="CenterContainer/End Screen Values/end_screen_container/Time Bonus" method="_on_focus_entered"]
-[connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Time Bonus" to="CenterContainer/End Screen Values/end_screen_container/Time Bonus" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_exited"]

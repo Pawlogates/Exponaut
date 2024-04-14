@@ -31,9 +31,9 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="player_projectile_destructive_fast_speed" type="CharacterBody2D"]
+[node name="player_projectile_destructive_fast_speed" type="CharacterBody2D" groups=["player_projectile"]]
 z_index = 5
-collision_layer = 0
+collision_layer = 2
 collision_mask = 0
 floor_max_angle = 1.22173
 safe_margin = 1.0

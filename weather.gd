@@ -13,7 +13,7 @@ func _ready():
 @export var weather_type = "none"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if get_parent().zoom.y <= 0.5:
 		position.y = move_toward(position.y, -2250 + get_parent().zoom.y * 2000, 50)
 	else:

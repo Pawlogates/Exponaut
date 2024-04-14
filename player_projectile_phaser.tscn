@@ -1,14 +1,10 @@
-[gd_scene load_steps=18 format=3 uid="uid://cxggeqhxdo0c"]
+[gd_scene load_steps=17 format=3 uid="uid://cxggeqhxdo0c"]
 
 [ext_resource type="Script" path="res://Scripts/player_projectile_phaser.gd" id="1_yevc8"]
-[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_2s8xd"]
+[ext_resource type="Texture2D" uid="uid://bhcgyl112uc1i" path="res://Assets/Graphics/sprites/basic_projectile.png" id="2_p5qjb"]
 [ext_resource type="Material" uid="uid://b7voscs0a3njp" path="res://Themes/screenTextureEffect.tres" id="3_7of5e"]
 [ext_resource type="Texture2D" uid="uid://cqilw70a4xuvb" path="res://Assets/Graphics/testShader.png" id="4_kfnoo"]
 [ext_resource type="AudioStream" uid="uid://bt4tv7pmik1co" path="res://Assets/Sounds/sfx/short_bonus1.wav" id="5_vgmex"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e57ie"]
-atlas = ExtResource("2_2s8xd")
-region = Rect2(1792, 0, 64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8hc3l"]
 size = Vector2(85.3333, 80)
@@ -977,7 +973,7 @@ collision_mask = 4
 [node name="Sprite2D" type="Sprite2D" parent="player_projectile_phaser/Area2D"]
 modulate = Color(1, 1, 1, 0)
 scale = Vector2(-1, -1)
-texture = SubResource("AtlasTexture_e57ie")
+texture = ExtResource("2_p5qjb")
 
 [node name="projectile_hitbox" type="CollisionShape2D" parent="player_projectile_phaser/Area2D"]
 position = Vector2(1.90735e-06, 1.90735e-06)

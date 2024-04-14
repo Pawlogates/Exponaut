@@ -101,7 +101,8 @@ signal info_sign_touched
 
 
 
-var selected_episode = "rooster_island"
+var selected_episode = "Main Levels"
+var current_levelSet_ID = "MAIN"
 var next_level = -1
 var current_level = "none"
 var current_level_ID = -1
@@ -126,13 +127,16 @@ var next_transition = 0
 
 
 
-var game_just_started = true
 
 
-var debug_mode = false
+
+var debug_mode = true
+var delete_saves = false
 
 signal cheated
 var cheated_state = false
 
 
 signal scoreReset
+
+var left_start_area = false

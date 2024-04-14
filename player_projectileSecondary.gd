@@ -13,6 +13,9 @@ var velocity_X_last = 0
 var enemyProjectile = false
 var playerProjectile = true
 
+var upward_attack = false
+var downward_attack = false
+
 
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
 var item = item_scene.instantiate()

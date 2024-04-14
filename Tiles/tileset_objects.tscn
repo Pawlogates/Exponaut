@@ -1,4 +1,4 @@
-[gd_scene load_steps=122 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=125 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_6ck4y"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_e1gk0"]
@@ -27,7 +27,6 @@
 [ext_resource type="PackedScene" uid="uid://c63l38ki43ymp" path="res://Enemies/enemy_bossMetalHen.tscn" id="11_uq7dw"]
 [ext_resource type="PackedScene" uid="uid://dctah68au68co" path="res://Tiles/level_exit.tscn" id="12_dw20f"]
 [ext_resource type="PackedScene" uid="uid://de5vp0v3tx1xt" path="res://Enemies/enemy_hedgehogPink.tscn" id="12_gxq1r"]
-[ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="13_7671y"]
 [ext_resource type="PackedScene" uid="uid://eh1her6bw7cj" path="res://Collectibles/bonus_box_oranges.tscn" id="14_3v5hw"]
 [ext_resource type="PackedScene" uid="uid://dl5i4pgp0735j" path="res://godrays.tscn" id="14_qv5ys"]
 [ext_resource type="PackedScene" uid="uid://bdg815jatvl4" path="res://Collectibles/Gift_feather.tscn" id="15_arbg1"]
@@ -51,8 +50,11 @@
 [ext_resource type="PackedScene" uid="uid://bygyl36foeriy" path="res://Collectibles/collectibleJewel_yellow.tscn" id="25_tctv2"]
 [ext_resource type="PackedScene" uid="uid://dwsils121eero" path="res://Tiles/toxicWater_top.tscn" id="26_th8h4"]
 [ext_resource type="PackedScene" uid="uid://b2y5linmn0ira" path="res://Collectibles/Gift_orangeBox.tscn" id="26_w7hvj"]
+[ext_resource type="PackedScene" uid="uid://dsn2i83vgnnpy" path="res://Collectibles/collectibleShrineGem.tscn" id="27_3yhr7"]
 [ext_resource type="PackedScene" uid="uid://b8qh6d27x6rbj" path="res://Collectibles/Gift_enemyHedgehog.tscn" id="27_wodx5"]
 [ext_resource type="PackedScene" uid="uid://1vv072mxshuv" path="res://Tiles/skull_block.tscn" id="28_2n2nl"]
+[ext_resource type="PackedScene" uid="uid://d0l8ftjh4vi4l" path="res://Tiles/one_way_right.tscn" id="28_fr7sp"]
+[ext_resource type="PackedScene" uid="uid://do8d15pixb6ma" path="res://Tiles/one_way_down.tscn" id="29_1r1yk"]
 [ext_resource type="PackedScene" uid="uid://rbwrv3rfagoa" path="res://Tiles/skull_block_inactive.tscn" id="29_2m4ge"]
 [ext_resource type="PackedScene" uid="uid://dunsjy0e6r37a" path="res://Tiles/skull_switch.tscn" id="30_gyhna"]
 [ext_resource type="PackedScene" uid="uid://cfybjdad00fro" path="res://Tiles/skull_switch_immortal.tscn" id="31_aufdc"]
@@ -60,6 +62,7 @@
 [ext_resource type="PackedScene" uid="uid://dy5qma6ff8yd" path="res://Tiles/conveyorBelt_L_middle.tscn" id="34_vgv3u"]
 [ext_resource type="PackedScene" uid="uid://p6n1l7q1hpaw" path="res://Tiles/conveyorBelt_L_end.tscn" id="35_14m60"]
 [ext_resource type="PackedScene" uid="uid://ce1g16bi5tcc8" path="res://Tiles/conveyorBelt_R_start.tscn" id="36_h1d55"]
+[ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="36_iixtx"]
 [ext_resource type="PackedScene" uid="uid://bvtkevwm7c30c" path="res://Tiles/conveyorBelt_R_middle.tscn" id="37_0gpwm"]
 [ext_resource type="PackedScene" uid="uid://c1b5fg4bxpvwo" path="res://Tiles/conveyorBelt_R_end.tscn" id="38_846ta"]
 [ext_resource type="PackedScene" uid="uid://bfgw2irxn04m4" path="res://Tiles/button_blue.tscn" id="39_b10yv"]
@@ -72,7 +75,6 @@
 [ext_resource type="PackedScene" uid="uid://cvrb8bm4glbln" path="res://Collectibles/collectibleKey.tscn" id="47_lkjvr"]
 [ext_resource type="PackedScene" uid="uid://itemg8vjnbw6" path="res://Collectibles/collectibleKey_floating.tscn" id="48_3mplc"]
 [ext_resource type="PackedScene" uid="uid://don6gojhtapa8" path="res://Collectibles/collectibleKey_opener.tscn" id="49_b3hor"]
-[ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="50_6cwcb"]
 [ext_resource type="PackedScene" uid="uid://bms6jdadro303" path="res://Tiles/special_block.tscn" id="50_q2vk4"]
 [ext_resource type="PackedScene" uid="uid://bh7i3yyfgbobi" path="res://Collectibles/collectibleBigApple.tscn" id="51_1mmma"]
 [ext_resource type="PackedScene" uid="uid://doe182qfejctt" path="res://Tiles/Teleporter_blue.tscn" id="51_y4y5m"]
@@ -96,6 +98,7 @@
 [ext_resource type="PackedScene" uid="uid://b1vo4nnrb00mt" path="res://Tiles/water_top_dark.tscn" id="72_axsic"]
 [ext_resource type="PackedScene" uid="uid://dg0wrskruwis0" path="res://deco_waterfall_dark.tscn" id="73_gw7cv"]
 [ext_resource type="PackedScene" uid="uid://cgto07gjwl6aq" path="res://deco_tile_helicopter.tscn" id="74_sbn64"]
+[ext_resource type="PackedScene" uid="uid://cq5setetvq764" path="res://Tiles/one_way_left.tscn" id="75_tp8ur"]
 [ext_resource type="PackedScene" uid="uid://dnc0pcllxobv" path="res://deco_tile_lantern.tscn" id="75_ulq1b"]
 [ext_resource type="PackedScene" uid="uid://bjj0ay2o1sxpn" path="res://deco_tile_grass.tscn" id="76_8g5rh"]
 [ext_resource type="PackedScene" uid="uid://bvoawdfbl5xyy" path="res://deco_tile_gear.tscn" id="78_hxccc"]
@@ -141,7 +144,7 @@ scenes/16/scene = ExtResource("8_nlqwt")
 scenes/17/scene = ExtResource("9_lceiu")
 scenes/18/scene = ExtResource("10_qeclp")
 scenes/19/scene = ExtResource("11_ly8lr")
-scenes/20/scene = ExtResource("13_7671y")
+scenes/20/scene = ExtResource("36_iixtx")
 scenes/21/scene = ExtResource("14_3v5hw")
 scenes/22/scene = ExtResource("15_rv8ws")
 scenes/23/scene = ExtResource("16_havix")
@@ -176,7 +179,6 @@ scenes/51/scene = ExtResource("46_0r7f1")
 scenes/52/scene = ExtResource("47_lkjvr")
 scenes/53/scene = ExtResource("48_3mplc")
 scenes/54/scene = ExtResource("49_b3hor")
-scenes/55/scene = ExtResource("50_6cwcb")
 scenes/56/scene = ExtResource("51_1mmma")
 scenes/57/scene = ExtResource("50_q2vk4")
 scenes/58/scene = ExtResource("51_y4y5m")
@@ -243,6 +245,10 @@ scenes/118/scene = ExtResource("22_tuxph")
 scenes/119/scene = ExtResource("23_kjvt7")
 scenes/120/scene = ExtResource("25_tctv2")
 scenes/121/scene = ExtResource("26_th8h4")
+scenes/122/scene = ExtResource("27_3yhr7")
+scenes/301/scene = ExtResource("75_tp8ur")
+scenes/302/scene = ExtResource("28_fr7sp")
+scenes/303/scene = ExtResource("29_1r1yk")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(64, 64)

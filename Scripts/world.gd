@@ -1,11 +1,10 @@
 extends Node2D
 
+
 @export var next_level: PackedScene
 
-@onready var canvas_layer = %HUD
-
-
 @onready var player = %Player
+@onready var hud = %HUD
 
 
 @onready var level_finished = %"Level Finished"
@@ -13,12 +12,13 @@ extends Node2D
 @onready var start_in = %StartIn
 @onready var animation_player = %AnimationPlayer
 
-
-
 @onready var level_timeDisplay = %levelTime
 @onready var healthDisplay = %health
 @onready var keys_leftDisplay = %keysLeft
 
+
+@export_file("*.tscn") var savedProgress_level_filePath: String
+var savedProgress_nextTransition = Globals.next_transition
 
 
 var levelTime = 0
@@ -26,12 +26,16 @@ var start_level_msec = 0.0
 var levelTime_visible = 0
 
 
-@onready var start_pos = global_position
-
 
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = $tileset_objects
 @onready var tileset_objects_small = $tileset_objectsSmall
+
+
+@export var cameraLimit_left = 0.0
+@export var cameraLimit_right = 0.0
+@export var cameraLimit_bottom = 0.0
+@export var cameraLimit_top = 0.0
 
 
 var mode_scoreAttack_manager = preload("res://mode_score_attack.tscn").instantiate()
@@ -41,6 +45,7 @@ var leaves_scene = preload("res://weather_leaves.tscn")
 
 
 @export var regular_level = true
+@export var shrine_level = false
 
 @export var playerStartHP = 3
 var key_total = 50
@@ -59,9 +64,26 @@ var instant_background_transitions = true
 @export var leaves = false
 
 
+@export var shrine_selected_episode = "none"
+@export var shrine_level_name = "none"
+@export var shrine_level_ID = -1
+
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	LevelTransition.blackScreen.color.a = 1.0
+	
+	if area_ID != "theBeginning":
+		Globals.left_start_area = true
+	
+	if shrine_level:
+		Globals.selected_episode = shrine_selected_episode
+		Globals.current_level = shrine_level_name
+		Globals.current_level_ID = shrine_level_ID
+	
+	savedProgress_save()
+	
 	if Globals.mode_scoreAttack:
 		add_child(mode_scoreAttack_manager)
 		%music.stream = preload("res://Assets/Sounds/music/mode_scoreAttack.mp3")
@@ -74,16 +96,11 @@ func _ready():
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	
 	
-	
-	if Globals.game_just_started:
-		var dir = DirAccess.open("user://")
-		if dir.file_exists("user://savegame_theBeginning.save"):
-			dir.remove("user://savegame_theBeginning.save")
-		else:
-			print("no file")
-
-	
-	Globals.game_just_started = false
+	#if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
+		#%Player/%Camera2D.limit_left = cameraLimit_left
+		#%Player/%Camera2D.limit_right = cameraLimit_right
+		#%Player/%Camera2D.limit_bottom = cameraLimit_bottom
+		#%Player/%Camera2D.limit_top = cameraLimit_top
 	
 	
 	get_tree().paused = false
@@ -203,11 +220,25 @@ func _ready():
 	
 	
 	
+	if Globals.next_transition != 0:
+		player.position = get_node("%areaTransition" + str(Globals.next_transition)).position
+	
+	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
+	
+	
+	if Globals.delete_saves:
+		DirAccess.remove_absolute("user://savedProgress.save")
+		DirAccess.remove_absolute("user://savegame.save")
+		DirAccess.remove_absolute("user://savegame_theBeginning.save")
+		DirAccess.remove_absolute("user://savegame_Overworld.save")
+		
+	
+	
 	
 	
 	player.camera.position_smoothing_enabled = false
 	
-	await get_tree().create_timer(0.1, false).timeout
+	await get_tree().create_timer(1, false).timeout
 	
 	player.camera.position_smoothing_enabled = true
 	
@@ -688,6 +719,8 @@ func save_game():
 			
 		
 		
+		await get_tree().create_timer(0.1, false).timeout
+		
 		Globals.saved_level_score = Globals.level_score
 		
 		Globals.saved_player_posX = Globals.player_posX
@@ -696,9 +729,6 @@ func save_game():
 		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
 		
 		Globals.saveState_saved.emit()
-		
-		
-		await get_tree().create_timer(0.1, false).timeout
 		Globals.is_saving = false
 	
 	
@@ -1072,9 +1102,11 @@ func save_game_area():
 		save_gameFile.store_line(json_string)
 			
 		
-		
+	
+	
 	Globals.saved_level_score = Globals.level_score
 	
+	reassign_player()
 	Globals.saved_player_posX = player.position.x
 	Globals.saved_player_posY = player.position.y
 	
@@ -1136,7 +1168,46 @@ func load_game_area():
 
 
 
+#Save progress loaded from the main menu screen.
+
+func savedProgress_save():
+	if shrine_level:
+		return
+	
+	savedProgress_nextTransition = Globals.next_transition
+	
+	var savedProgress_file = FileAccess.open("user://savedProgress.save", FileAccess.WRITE)
+	var savedProgress_data = call("savedProgress_dictionary")
+
+	# JSON provides a static method to serialized JSON string.
+	var json_string = JSON.stringify(savedProgress_data)
+
+	# Store the save dictionary as a new line in the save file.
+	savedProgress_file.store_line(json_string)
+	
+
+
+
+
+
+
+#SAVE START
+
+func savedProgress_dictionary():
+	var save_dict = {
+		#last level filePath and which area transition it was entered from.
+		"level_filePath" : savedProgress_level_filePath,
+		"level_next_transition" : savedProgress_nextTransition,
+	
+	
+	}
+	return save_dict
+
+#SAVE END
+
+
 func reassign_player():
 	player = get_tree().get_first_node_in_group("player")
 	
+
 

@@ -4,25 +4,30 @@ extends CharacterBody2D
 var starParticleScene = preload("res://particles_special.tscn")
 var starParticle2Scene = preload("res://particles_star.tscn")
 var orbParticleScene = preload("res://particles_special2_multiple.tscn")
-var starParticle = starParticleScene.instantiate()
-var starParticle2 = starParticle2Scene.instantiate()
-var orbParticle = orbParticleScene.instantiate()
+#var starParticle = starParticleScene.instantiate()
+#var starParticle2 = starParticle2Scene.instantiate()
+#var orbParticle = orbParticleScene.instantiate()
+
+var hit_effectScene = preload("res://hit_effect.tscn")
 
 var splashParticleScene = preload("res://particles_water_entered.tscn")
-var splashParticle = splashParticleScene.instantiate()
+#var splashParticle = splashParticleScene.instantiate()
 
 var effect_dustScene = preload("res://effect_dust.tscn")
-var effect_dust = effect_dustScene.instantiate()
+#var effect_dust = effect_dustScene.instantiate()
 
 var feathersParticleScene = preload("res://particles_feathers.tscn")
-var feathersParticle = feathersParticleScene.instantiate()
+#var feathersParticle = feathersParticleScene.instantiate()
 
+var start_pos = global_position
 
 var collected = false
 var removable = false
 var rotten = false
+@export var hp = 5
 
 var button_pressed = false
+var stop_upDownLoopAnim = false
 
 
 @onready var collect_1 = %collect1
@@ -40,6 +45,19 @@ var button_pressed = false
 @export var is_key = false
 @export var collectable = true
 @export var upDown_loop = false
+@export var is_shrineGem = false
+@export var shrineGem_destructible = false
+@export var shrineGem_giveScore = false
+@export var shrineGem_spawnItems = false
+@export var shrineGem_openPortal = false
+@export var shrineGem_particleAmount = 25
+@export var shrineGem_portal_level_ID = "none"
+@export_file("*.tscn") var shrineGem_level_filePath: String
+
+@export var item_scene = preload("res://Collectibles/collectibleApple.tscn")
+@export var spawnedAmount = 3
+@export var item_posSpread = 100
+@export var item_velSpread = 300
 
 #WEAPON PICKUP
 @export var is_weapon = false
@@ -83,8 +101,8 @@ func _ready():
 	
 	
 	
-	var xpos = self.global_position.x
-	animation_player.advance(abs(xpos) / 100)
+	
+	animation_player.advance(abs(start_pos[0]) / 100)
 	
 	Globals.saveState_loaded.connect(saveState_loaded)
 	
@@ -102,13 +120,15 @@ func _ready():
 	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.monitoring = true
 	
+	if global_position != Vector2(0, 0):
+		start_pos = global_position
+	
 
 
 
 
 func saveState_loaded():
-	var xpos = self.global_position.x
-	animation_player.advance(abs(xpos) / 100)
+	animation_player.advance(abs(start_pos[0]) / 100)
 	
 
 
@@ -169,6 +189,8 @@ var bonus_material = preload("res://Collectibles/bonus_material.tres")
 
 
 func _on_collectible_entered(body):
+	inside_check_enter(body)
+	
 	if is_healthItem:
 		if body.is_in_group("player") and not collected:
 			collected = true
@@ -184,11 +206,11 @@ func _on_collectible_entered(body):
 			
 			var feathersParticle = feathersParticleScene.instantiate()
 			feathersParticle.position = position
-			body.get_parent().get_parent().add_child(feathersParticle)
+			$/root/World.add_child(feathersParticle)
 			
 			feathersParticle = feathersParticleScene.instantiate()
 			feathersParticle.position = position
-			body.get_parent().get_parent().add_child(feathersParticle)
+			$/root/World.add_child(feathersParticle)
 			
 			return
 			
@@ -200,18 +222,86 @@ func _on_collectible_entered(body):
 	if is_gift and body.is_in_group("player") and not collected or is_gift and body.is_in_group("player_projectile") and body.can_collect and not collected:
 		if get_tree().get_nodes_in_group("in_inventory").size() < 6:
 			var item = inventory_item_scene.instantiate()
-			get_parent().get_parent().get_node("HUD/Inventory/InventoryContainer").add_child(item)
+			$/root/World.get_node("HUD/Inventory/InventoryContainer").add_child(item)
 			item.item_toSpawn = inventory_itemToSpawn
 			item.display_region_rect = inventory_texture_region
 		
-		get_parent().get_parent().get_node("HUD/Inventory").call("check_inventory")
+		$/root/World.get_node("HUD/Inventory").call("check_inventory")
 		get_tree().call_group("in_inventory", "selected_check")
 		
 		#get_tree().call_group("in_inventory", "itemOrder_correct")
 	
 	
+	if is_shrineGem:
+		if body.is_in_group("player"):
+			%AnimatedSprite2D.modulate.r = 0.3
+			%AnimatedSprite2D.modulate.a = 0.5
+			
+		elif body.is_in_group("player_projectile") and not collected:
+			if not body.upward_attack:
+				velocity.y = -200
+				velocity.x = 400 * body.direction
+			else:
+				velocity.y = -600
+				
+			stop_upDownLoopAnim = true
+			floating = false
+			%hit1.play()
+			%AnimationPlayer2.stop()
+			%AnimationPlayer2.play("hit")
+			
+			var starParticle = starParticleScene.instantiate()
+			starParticle.position = position
+			$/root/World.add_child(starParticle)
+			
+			add_child(splashParticleScene.instantiate())
+		
+			if shrineGem_destructible:
+				hp -= 1
+				if hp <= 0 and not collected:
+					collected = true
+					stop_upDownLoopAnim = false
+					
+					add_child(hit_effectScene.instantiate())
+					add_child(orbParticleScene.instantiate())
+					add_child(splashParticleScene.instantiate())
+					add_child(effect_dustScene.instantiate())
+					
+					#await get_tree().create_timer(0.5, false).timeout
+					
+					%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
+					
+					#timer.start()
+					animation_player.play("remove")
+					animation_player_2.play("score_value")
+					
+					
+					if Globals.collected_in_cycle == 0:
+						Globals.level_score += collectibleScoreValue
+					
+					else:
+						Globals.level_score += collectibleScoreValue
+						Globals.combo_score += collectibleScoreValue * Globals.combo_tier
+					
+					Globals.itemCollected.emit()
+					
+					if shrineGem_giveScore:
+						give_score()
+						
+					if shrineGem_spawnItems:
+						call_deferred("spawn_collectibles")
+						Globals.boxBroken.emit()
+					
+					if shrineGem_openPortal:
+						call_deferred("spawn_portal")
+					
+					if shrineGem_portal_level_ID != "none" and LevelTransition.get_node("%saved_progress").get("state_" + str(shrineGem_portal_level_ID)) == 0:
+						LevelTransition.get_node("%saved_progress").set(("state_" + str(shrineGem_portal_level_ID)), -1)
+						Globals.save_progress.emit()
+						
 	
-	if collectable and not rotten and body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and body.can_collect and not collected:
+	
+	if collectable and not rotten and body.is_in_group("player") and not collected or collectable and not rotten and body.is_in_group("player_projectile") and body.can_collect and not collected:
 		collected = true
 		%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
 		
@@ -229,72 +319,62 @@ func _on_collectible_entered(body):
 		
 		Globals.itemCollected.emit()
 		
-		
-		
-		add_child(starParticleScene.instantiate())
-		if Globals.combo_tier > 1:
-			add_child(starParticleScene.instantiate())
-			%collect1.pitch_scale = 1.1
-			if Globals.combo_tier > 2:
-				add_child(starParticleScene.instantiate())
-				%collect1.pitch_scale = 1.2
-				if Globals.combo_tier > 3:
-					add_child(starParticleScene.instantiate())
-					%collect1.pitch_scale = 1.3
-					if Globals.combo_tier > 4:
-						add_child(starParticle2Scene.instantiate())
-						%collect1.pitch_scale = 1.4
-						bonus_material.set_shader_parameter("strength", 0.5)
-						
-		else:
-			%collect1.pitch_scale = 1
-			bonus_material.set_shader_parameter("strength", 0.0)
-				
-		collect_1.play()
+		give_score()
 		
 		if is_potion:
+			$/root/World.reassign_player()
+			
 			if transform_into == "rooster":
-				get_parent().get_parent().reassign_player()
-				get_parent().get_parent().player.transformInto_rooster()
+				$/root/World.player.transformInto_rooster()
 			elif transform_into == "bird":
-				get_parent().get_parent().reassign_player()
-				get_parent().get_parent().player.transformInto_bird()
+				$/root/World.player.transformInto_bird()
 			elif transform_into == "chicken":
-				get_parent().get_parent().reassign_player()
-				get_parent().get_parent().player.transformInto_chicken()
+				$/root/World.player.transformInto_chicken()
 			elif transform_into == "frog":
-				get_parent().get_parent().reassign_player()
-				get_parent().get_parent().player.transformInto_frog()
+				$/root/World.player.transformInto_frog()
 			elif transform_into == "pig":
-				get_parent().get_parent().reassign_player()
-				get_parent().get_parent().player.transformInto_pig()
+				$/root/World.player.transformInto_pig()
+			
+			$/root/World.reassign_player()
 		
 		
 		if is_key:
-			get_parent().get_parent().key_collected()
+			$/root/World.key_collected()
 			
 			add_child(orbParticleScene.instantiate())
 			
 		
 		if is_weapon:
-			get_parent().get_parent().reassign_player()
-			get_parent().get_parent().player.weaponType = weapon_type
-			get_parent().get_parent().player.get_node("%attack_cooldown").wait_time = attack_delay
+			$/root/World.reassign_player()
+			$/root/World.player.weaponType = weapon_type
+			$/root/World.player.get_node("%attack_cooldown").wait_time = attack_delay
 			
 			add_child(orbParticleScene.instantiate())
 			add_child(splashParticleScene.instantiate())
 			add_child(effect_dustScene.instantiate())
 		
 		if is_SecondaryWeapon:
-			get_parent().get_parent().reassign_player()
-			get_parent().get_parent().player.secondaryWeaponType = secondaryWeapon_type
-			get_parent().get_parent().player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
+			$/root/World.reassign_player()
+			$/root/World.player.secondaryWeaponType = secondaryWeapon_type
+			$/root/World.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
 			
 			add_child(orbParticleScene.instantiate())
 			add_child(splashParticleScene.instantiate())
 			add_child(effect_dustScene.instantiate())
 
 
+
+
+func _on_collectible_exited(body):
+	inside_check_exit(body)
+	
+	if is_shrineGem:
+		if body.is_in_group("player"):
+			%AnimatedSprite2D.modulate.r = 1.0
+			%AnimatedSprite2D.modulate.a = 1.0
+			
+		elif body.is_in_group("player_projectile"):
+			pass
 
 
 
@@ -310,6 +390,8 @@ func save():
 		"pos_x" : position.x, # Vector2 is not supported by JSON
 		"pos_y" : position.y,
 		"collected" : collected,
+		"shrineGem_portal_level_ID" : shrineGem_portal_level_ID,
+		"shrineGem_level_filePath" : shrineGem_level_filePath,
 		
 	}
 	return save_dict
@@ -322,8 +404,9 @@ func _on_timer_timeout():
 	queue_free()
 
 
-func _on_animation_player_2_animation_finished(_anim_name):
-	removable = true
+func _on_animation_player_2_animation_finished(anim_name):
+	if anim_name != "hit":
+		removable = true
 
 
 
@@ -338,48 +421,59 @@ func _on_animation_player_2_animation_finished(_anim_name):
 var velocity_x_last = 0
 var direction_last = 0
 
-var direction = 0
-const SPEED = 600.0
+@export var direction = 0
+@export var SPEED = 600.0
+@export var SLOWDOWN = 1.5
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
 func _physics_process(delta):
+	if stop_upDownLoopAnim:
+		stop_upDownLoop()
+		
 	# Add the gravity.
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
 	
 	
-	if collidable and direction:
+	if direction:
 		velocity.x = direction * SPEED
-	elif collidable:
+	elif collidable or is_shrineGem:
 		if is_on_floor():
-			velocity.x = move_toward(velocity.x, 0, SPEED / 2.5 * delta)
+			velocity.x = move_toward(velocity.x, 0, SPEED / SLOWDOWN * delta)
 		
 		
 		
 	if player_inside:
 		if hard_to_collect or rotten:
-			if collidable and abs(velocity.x) <= 250:
-				if Globals.direction != 0:
-					direction_last = Globals.direction
-					
-				velocity.x = 250 * direction_last
+			collidable = false
+			$collisionCheck_delay.start()
+			
+			if Globals.direction != 0:
+				direction_last = Globals.direction
+				
+			velocity.x = SPEED * direction_last
 	
 	
 	if enemy_inside:
 		if collidable:
+			collidable = false
+			$collisionCheck_delay.start()
+			
 			if direction != 0:
 				direction_last = direction
 			velocity.x = 250 * direction_last
 		
 		
 	
-	
 	if is_on_wall():
 		velocity.x = -velocity_x_last / 2
+		collidable = false
+		$collisionCheck_delay.start()
+		
 	elif velocity.x != 0:
 		velocity_x_last = velocity.x
 		
@@ -400,12 +494,11 @@ func _physics_process(delta):
 		if button_pressed and %AnimatedSprite2D.position.y > 0:
 			%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
 			%AnimatedSprite2D.position.y -= 1
-			print(%AnimatedSprite2D.position.y)
+
 			
 		elif button_pressed and %AnimatedSprite2D.position.y < 0:
 			%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
 			%AnimatedSprite2D.position.y += 1
-			print(%AnimatedSprite2D.position.y)
 
 
 
@@ -413,79 +506,11 @@ func _physics_process(delta):
 
 
 
-var player_inside = false
-var enemy_inside = false
-var player_projectile_inside = false
-
-var collidable = true
-
-
-func _on_area_2d_area_entered(area):
-	if area.is_in_group("player"):
-		player_inside = true
-		if collidable and hard_to_collect or collidable and rotten:
-			direction = area.get_parent().direction
-		
-	if area.is_in_group("enemies"):
-		enemy_inside = true
-		if collidable:
-			direction = area.get_parent().direction
-		
-	if area.is_in_group("player_projectile"):
-		player_projectile_inside = true
-		if collidable:
-			direction = area.get_parent().direction
-			
-		
-	
-	
-	
-	#SAVE START
-	
-	elif area.is_in_group("loadingZone_area"):
-	
-		remove_from_group("loadingZone0")
-		remove_from_group("loadingZone1")
-		remove_from_group("loadingZone2")
-		remove_from_group("loadingZone3")
-		remove_from_group("loadingZone4")
-		remove_from_group("loadingZone5")
-		
-		loadingZone = area.loadingZone_ID
-		add_to_group(loadingZone)
-		
-		#print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
-	
-	
-	#SAVE END
 
 
 
-func _on_area_2d_area_exited(area):
-	if area.is_in_group("player") or area.is_in_group("player_projectile") or area.is_in_group("enemies"):
-		
-		if area.is_in_group("player"):
-			if hard_to_collect or rotten:
-				player_inside = false
-				direction = area.get_parent().direction
-		
-		if area.is_in_group("player_projectile"):
-			player_projectile_inside = false
-			direction = area.get_parent().direction
-		
-		if area.is_in_group("enemies"):
-			enemy_inside = false
-			direction = area.get_parent().direction
-		
-		
-		
-		
-		if not player_inside and not player_projectile_inside and not enemy_inside:
-			direction = 0
-		
-		if collidable:
-			collidable = false
-			$collisionCheck_delay.start()
+
+
 
 
 
@@ -507,11 +532,176 @@ func on_button_press():
 
 
 
-
-
-
-
-
 func _on_rot_delay_timeout():
 	rotten = true
 	%AnimatedSprite2D.material = preload("res://Collectibles/rotten_material.tres")
+
+
+
+
+var player_inside = false
+var enemy_inside = false
+var player_projectile_inside = false
+
+var collidable = true
+
+
+
+func inside_check_enter(body):
+	if body.is_in_group("player"):
+		player_inside = true
+		if collidable and hard_to_collect or collidable and rotten:
+			collidable = false
+			$collisionCheck_delay.start()
+			
+			direction = body.direction
+		
+	if body.is_in_group("enemies"):
+		enemy_inside = true
+		if collidable:
+			collidable = false
+			$collisionCheck_delay.start()
+			
+			direction = body.direction
+		
+	if body.is_in_group("player_projectile"):
+		player_projectile_inside = true
+		if collidable:
+			collidable = false
+			$collisionCheck_delay.start()
+			
+			direction = body.direction
+			
+
+
+
+func inside_check_exit(body):
+	if body.is_in_group("player") or body.is_in_group("player_projectile") or body.is_in_group("enemies"):
+		
+		if body.is_in_group("player"):
+			if hard_to_collect or rotten:
+				player_inside = false
+				direction = body.direction
+		
+		if body.is_in_group("player_projectile"):
+			player_projectile_inside = false
+			direction = body.direction
+		
+		if body.is_in_group("enemies"):
+			enemy_inside = false
+			direction = body.direction
+		
+		
+		
+		
+		if not player_inside and not player_projectile_inside and not enemy_inside:
+			direction = 0
+		
+
+
+
+
+
+
+
+func _on_area_2d_area_entered(area):
+	#SAVE START
+	
+	if area.is_in_group("loadingZone_area"):
+	
+		remove_from_group("loadingZone0")
+		remove_from_group("loadingZone1")
+		remove_from_group("loadingZone2")
+		remove_from_group("loadingZone3")
+		remove_from_group("loadingZone4")
+		remove_from_group("loadingZone5")
+		
+		loadingZone = area.loadingZone_ID
+		add_to_group(loadingZone)
+		
+		#print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
+	
+	
+	#SAVE END
+
+
+
+func stop_upDownLoop():
+	animation_player.pause()
+	if %AnimatedSprite2D.position.y > 0:
+		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
+		%AnimatedSprite2D.position.y -= 1
+		
+	elif %AnimatedSprite2D.position.y < 0:
+		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
+		%AnimatedSprite2D.position.y += 1
+
+
+func give_score():
+	add_child(starParticleScene.instantiate())
+	if Globals.combo_tier > 1:
+		add_child(starParticleScene.instantiate())
+		%collect1.pitch_scale = 1.1
+		if Globals.combo_tier > 2:
+			add_child(starParticleScene.instantiate())
+			%collect1.pitch_scale = 1.2
+			if Globals.combo_tier > 3:
+				add_child(starParticleScene.instantiate())
+				%collect1.pitch_scale = 1.3
+				if Globals.combo_tier > 4:
+					add_child(starParticle2Scene.instantiate())
+					%collect1.pitch_scale = 1.4
+					bonus_material.set_shader_parameter("strength", 0.5)
+					
+	else:
+		%collect1.pitch_scale = 1
+		bonus_material.set_shader_parameter("strength", 0.0)
+			
+	collect_1.play()
+
+
+
+
+
+func spawn_collectibles():
+	while spawnedAmount > 0:
+		spawnedAmount -= 1
+		spawn_item()
+		
+	
+	var hit_effect = hit_effectScene.instantiate()
+	add_child(hit_effect)
+
+
+
+
+var rng = RandomNumberGenerator.new()
+
+func spawn_item():
+	var item = item_scene.instantiate()
+	if "velocity" in item:
+		item.position = global_position
+		item.velocity.x = rng.randf_range(item_velSpread, -item_velSpread)
+		item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
+		
+		$/root/World.add_child(item)
+	else:
+		spawn_item_static()
+
+
+func spawn_item_static():
+	var item = item_scene.instantiate()
+	item.position.x = global_position.x + rng.randf_range(item_posSpread, -item_posSpread)
+	item.position.y = global_position.y + rng.randf_range(item_posSpread, -item_posSpread)
+	
+	$/root/World.add_child(item)
+
+
+
+func spawn_portal():
+	var portal = preload("res://shrine_portal.tscn").instantiate()
+	portal.level_ID = shrineGem_portal_level_ID
+	portal.target_area = shrineGem_level_filePath
+	portal.particle_amount = shrineGem_particleAmount
+	portal.position = start_pos
+	$/root/World.add_child(portal)

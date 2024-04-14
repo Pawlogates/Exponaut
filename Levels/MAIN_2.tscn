@@ -1,0 +1,53 @@
+[gd_scene load_steps=7 format=3 uid="uid://bb0qdxiqve2bt"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_gp17o"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_mr8oa"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="3_hxvd0"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="4_6e1a6"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="5_nb66m"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="6_ire8l"]
+
+[node name="World" instance=ExtResource("1_gp17o")]
+shrine_level = true
+playerStartHP = 3
+
+[node name="tileset_main" parent="." index="1" instance=ExtResource("2_mr8oa")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(131070, 0, 8, 131071, 327680, 8, 65536, 327680, 8, 65537, 0, 8, 65538, 0, 8, 65539, 327680, 8, 65540, 0, 8, 65541, 0, 8, 65542, 327680, 8, 65543, 0, 8, 131069, 327680, 8, 131068, 0, 8, 131067, 0, 8, 131066, 0, 8, 65530, 0, 8, -6, 0, 8, -65542, 327680, 8, -131078, 327680, 8, -196614, 327680, 8, -262150, 0, 8, -327686, 0, 8, -393222, 0, 8, -458758, 0, 8, -524294, 0, 8, -589830, 327680, 8, -655366, 0, 8, -720902, 0, 8, 12, 0, 8, 13, 327680, 8, 14, 327680, 8, 15, 327680, 8, 16, 0, 8, -786438, 0, 8, -851974, 327680, 8, -917510, 0, 8, -983046, 0, 8, -1048582, 327680, 8, -196603, 0, 7)
+
+[node name="tileset_objects" parent="." index="2" instance=ExtResource("3_hxvd0")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(-589814, 0, 131072, -524278, 0, 131072, -458742, 0, 131072, -393206, 0, 131072, -327670, 0, 131072, -262134, 0, 131072, -393205, 0, 131072, -393204, 0, 131072, -393203, 0, 131072, -327667, 0, 131072, -262131, 0, 131072, -65520, 0, 589824, 4, 0, 327680, -262139, 0, 327680, 65533, 0, 393216)
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("4_6e1a6")]
+unique_name_in_owner = true
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("4_6e1a6")]
+z_index = -5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("4_6e1a6")]
+z_index = 5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="kill_area" parent="." index="14" instance=ExtResource("5_nb66m")]
+position = Vector2(7168, 5184)
+scale = Vector2(320, 1)
+
+[node name="trigger_bgChange" parent="." index="15" instance=ExtResource("6_ire8l")]
+position = Vector2(-3.05176e-05, -1.52588e-05)
+scale = Vector2(8, 8)

@@ -1,11 +1,14 @@
 extends CenterContainer
 
-var Overworld = preload("res://Levels/Overworld.tscn")
+var startingArea = preload("res://Levels/theBeginning.tscn")
 var mapScreen = preload("res://map_screen.tscn")
 
 
 
 func _ready():
+	savedProgress_load()
+	LevelTransition.get_node("%saved_progress").load_game()
+	
 	%main_menu.visible = false
 	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	%options_menu.visible = false
@@ -31,7 +34,8 @@ func _ready():
 	
 	
 	
-	if Globals.debug_mode:
+	var debug_mode = true
+	if debug_mode:
 		%main_menu.visible = true
 		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 		%StartGame.grab_focus()
@@ -48,8 +52,26 @@ func _ready():
 
 
 
+var saved_level_filePath = "empty"
+var saved_level:PackedScene = load("res://Levels/empty.tscn")
 
 func start_game():
+	delete_saves()
+	Globals.next_transition = 0
+	await LevelTransition.fade_to_black()
+	get_tree().change_scene_to_packed(startingArea)
+
+
+
+func _on_continue_pressed():
+	print(saved_level)
+	saved_level = load(saved_level_filePath)
+	await LevelTransition.fade_to_black()
+	get_tree().change_scene_to_packed(saved_level)
+
+
+
+func _on_levels_pressed():
 	%main_menu.visible = false
 	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
@@ -75,15 +97,16 @@ func _on_episode_button_pressed():
 
 
 
+
 var change_bg_to_main = true
 
 func _on_fade_animation_animation_finished(anim_name):
 	if change_bg_to_main and anim_name == "fade_to_black":
-		%background.texture = preload("res://Assets/Graphics/menu_main.png")
+		%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
 		%fade_animation.play("fade_from_black")
 		
-		%main_menu.visible = true
-		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+		#%main_menu.visible = true
+		#%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 		
 		%menu_deco_bg.visible = true
 		%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -318,9 +341,7 @@ func _on_return_gameplay_pressed():
 
 
 func _on_bonus_pressed():
-	await LevelTransition.fade_to_black()
-	get_tree().change_scene_to_packed(Overworld)
-	LevelTransition.fade_from_black()
+	pass
 
 
 
@@ -329,11 +350,11 @@ func _on_bonus_pressed():
 func _on_disable_quicksaves_pressed():
 	if Globals.quicksaves_enabled == true:
 		Globals.quicksaves_enabled = false
-		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
+		$"gameplay_menu/menu_container/Enable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
 	
 	elif Globals.quicksaves_enabled == false:
 		Globals.quicksaves_enabled = true
-		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
+		$"gameplay_menu/menu_container/Enable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
 
 
 
@@ -344,3 +365,48 @@ func display_stretch_viewport_on():
 
 func display_stretch_viewport_off():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+
+
+
+
+
+
+func savedProgress_load():
+	if not FileAccess.file_exists("user://savedProgress.save"):
+		print("no save")
+		%Continue.process_mode = Node.PROCESS_MODE_DISABLED
+		%Continue.modulate.b = 0.3
+		%Continue.modulate.g = 0.3
+		%Continue.modulate.a = 0.3
+		
+		return
+		
+		
+	var savedProgress_file = FileAccess.open("user://savedProgress.save", FileAccess.READ)
+	while savedProgress_file.get_position() < savedProgress_file.get_length():
+		var json_string = savedProgress_file.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			continue
+			
+		var data = json.get_data()
+		
+		
+		#LOAD PROGRESS
+		
+		saved_level_filePath = data["level_filePath"]
+		Globals.next_transition = data["level_next_transition"]
+		
+		#LOAD PROGRESS END
+
+
+
+func delete_saves():
+	var dir = DirAccess.open("user://")
+	if dir.file_exists("user://savegame_theBeginning.save"):
+		dir.remove("user://savegame_theBeginning.save")
+	else:
+		pass

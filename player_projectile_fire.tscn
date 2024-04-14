@@ -32,7 +32,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="player_projectile_fire" type="CharacterBody2D"]
+[node name="player_projectile_fire" type="CharacterBody2D" groups=["player_projectile"]]
 z_index = 5
 collision_layer = 2
 floor_max_angle = 1.22173

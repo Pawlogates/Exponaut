@@ -1,3 +1,4 @@
+class_name player_general
 extends CharacterBody2D
 
 
@@ -91,11 +92,6 @@ var inside_water = 0
 var insideWater_multiplier = 1
 
 
-@export var cameraLimit_left = 0.0
-@export var cameraLimit_right = 0.0
-@export var cameraLimit_bottom = 0.0
-@export var cameraLimit_top = 0.0
-
 
 func _ready():
 	Globals.player_pos = get_global_position()
@@ -113,21 +109,17 @@ func _ready():
 	Globals.shot.connect(cancel_effect)
 	
 	
-	if Globals.next_transition != 0:
-		print(("%areaTransition" + str(Globals.next_transition)))
-		position = get_parent().get_node("%areaTransition" + str(Globals.next_transition)).position
-	
-	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
+	Globals.saved_player_posX = position.x
+	Globals.saved_player_posY = position.y
 	
 	
+	if $/root/World.cameraLimit_left != 0.0 or $/root/World.cameraLimit_right != 0.0 or $/root/World.cameraLimit_top != 0.0 or $/root/World.cameraLimit_bottom != 0.0:
+		%Camera2D.limit_left = $/root/World.cameraLimit_left
+		%Camera2D.limit_right = $/root/World.cameraLimit_right
+		%Camera2D.limit_bottom = $/root/World.cameraLimit_bottom
+		%Camera2D.limit_top = $/root/World.cameraLimit_top
 	
 	weaponType = Globals.weaponType
-	
-	if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
-		%Camera2D.limit_left = cameraLimit_left
-		%Camera2D.limit_right = cameraLimit_right
-		%Camera2D.limit_bottom = cameraLimit_bottom
-		%Camera2D.limit_top = cameraLimit_top
 	
 	
 	#total collectibles
@@ -141,10 +133,13 @@ func _ready():
 	
 	
 	if Globals.debug_mode:
-		$Player_hitbox_main.monitoring = false
-		$Player_hitbox_exact.monitoring = false
-		$Player_hitbox_main.monitorable = false
-		$Player_hitbox_exact.monitorable = false
+		#$Player_hitbox_main.monitoring = false
+		#$Player_hitbox_exact.monitoring = false
+		#$Player_hitbox_main.monitorable = false
+		#$Player_hitbox_exact.monitorable = false
+		
+		await get_tree().create_timer(5, false).timeout
+		Globals.playerHP = 100
 
 
 
@@ -184,6 +179,11 @@ func _process(delta):
 		apply_gravity(delta)
 		handle_wall_jump()
 		handle_jump(delta)
+		
+		if Input.is_action_just_pressed("back"):
+			Globals.playerHP = 100
+			$/root/World.kill_player()
+		
 		
 		
 		if not dead and Input.is_action_just_pressed("attack_fast"):
@@ -856,9 +856,7 @@ func _on_dash_timer_timeout():
 		dashReady = true
 	
 	else:
-		print("yeeeeee")
 		await dash_safe
-		print("yesssss")
 		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
 		
@@ -1099,18 +1097,18 @@ func transformInto_chicken():
 
 func deferred_spawnRooster():
 	var player_rooster = player_rooster_scene.instantiate()
-	player_rooster.global_position = Globals.player_pos
-	get_parent().add_child(player_rooster)
+	player_rooster.position = position
+	$/root/World.add_child(player_rooster)
 
 func deferred_spawnBird():
 	var player_bird = player_bird_scene.instantiate()
-	player_bird.global_position = Globals.player_pos
-	get_parent().add_child(player_bird)
+	player_bird.position = position
+	$/root/World.add_child(player_bird)
 
 func deferred_spawnChicken():
 	var player_chicken = player_chicken_scene.instantiate()
-	player_chicken.global_position = Globals.player_pos
-	get_parent().add_child(player_chicken)
+	player_chicken.position = position
+	$/root/World.add_child(player_chicken)
 
 
 func delete():

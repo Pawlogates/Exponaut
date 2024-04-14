@@ -7,6 +7,11 @@ extends CharacterBody2D
 var enemyProjectile = false
 var playerProjectile = true
 
+var upward_attack = false
+var downward_attack = false
+
+@export var can_collect = false
+
 
 #const JUMP_VELOCITY = -400.0
 
@@ -34,7 +39,7 @@ var direction_whenShot = 0
 @export var momentum_x = 0.0
 @export var momentum_y = 0.0
 
-func _process(delta):
+func _process(_delta):
 	if projectile_shot == false and Input.is_action_pressed("attack_fast") or enemyProjectile:
 		projectile_shot = true
 		Globals.shot.emit()

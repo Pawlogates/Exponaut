@@ -1,17 +1,12 @@
 extends Node2D
 
-@export var episode = "Rooster Island"
+#states 1: 0 - unfinished, 1 - finished, 2 - all big apples collected, 3 - all collectibles collected, -1 - unlocked (main game exclusive)
+#states 2 (unused): 0 - none, 1 - finished with no damage taken
+#states 3 (unused): 0 - none, 1 - finished under target time
+#states 4 (unused): 0 - none, 1 - score attack mode finished, 2 - score rank D, 3 - score rank C, 4 - score rank B, 5 - score rank A, 6 - score rank S, 7 - score rank S+
 
 
-
-
-#states 1: 0 - unfinished, 1 - finished, 2 - all big apples collected, 3 - all collectibles collected
-#states 2: 0 - none, 1 - finished with no damage taken
-#states 3: 0 - none, 1 - finished under target time
-#states 4: 0 - none, 1 - score attack mode finished, 2 - score rank D, 3 - score rank C, 4 - score rank B, 5 - score rank A, 6 - score rank S, 7 - score rank S+
-
-
-#ROOSTER ISLAND 1
+# ROOSTER ISLAND
 var state_RI1_1 = 0
 var state_RI1_2 = 0
 var state_RI1_3 = 0
@@ -36,45 +31,67 @@ var score_RI1_9 = 0
 var score_RI1_10 = 0
 var score_RI1_11 = 0
 
+var total_score_RI1 = 0
 var next_level_RI1 = 1
 
 
-#ROOSTER ISLAND 2
-var state_RI2_1 = 0
-var state_RI2_2 = 0
-var state_RI2_3 = 0
-var state_RI2_4 = 0
-var state_RI2_5 = 0
-var state_RI2_6 = 0
-var state_RI2_7 = 0
-var state_RI2_8 = 0
-var state_RI2_9 = 0
-var state_RI2_10 = 0
-var state_RI2_11 = 0
-var state_RI2_12 = 0
-var state_RI2_13 = 0
+# Main Levels
+var state_MAIN_1 = 0
+var state_MAIN_2 = 0
+var state_MAIN_3 = 0
+var state_MAIN_4 = 0
+var state_MAIN_5 = 0
+var state_MAIN_6 = 0
+var state_MAIN_7 = 0
+var state_MAIN_8 = 0
+var state_MAIN_9 = 0
+var state_MAIN_10 = 0
+var state_MAIN_11 = 0
+var state_MAIN_12 = 0
+var state_MAIN_13 = 0
 
-var score_RI2_1 = 0
-var score_RI2_2 = 0
-var score_RI2_3 = 0
-var score_RI2_4 = 0
-var score_RI2_5 = 0
-var score_RI2_6 = 0
-var score_RI2_7 = 0
-var score_RI2_8 = 0
-var score_RI2_9 = 0
-var score_RI2_10 = 0
-var score_RI2_11 = 0
-var score_RI2_12 = 0
-var score_RI2_13 = 0
+var score_MAIN_1 = 330
+var score_MAIN_2 = 40
+var score_MAIN_3 = 0
+var score_MAIN_4 = 0
+var score_MAIN_5 = 0
+var score_MAIN_6 = 0
+var score_MAIN_7 = 0
+var score_MAIN_8 = 0
+var score_MAIN_9 = 0
+var score_MAIN_10 = 0
+var score_MAIN_11 = 0
+var score_MAIN_12 = 0
+var score_MAIN_13 = 0
 
-var next_level_RI2 = 1
-
-
-
+var total_score_MAIN = 0
+var next_level_MAIN = -1
 
 
 
+
+
+
+func _ready():
+	Globals.save_progress.connect(save_progress)
+
+func save_progress():
+	save_game()
+
+
+
+var current_level = 0
+
+func count_total_score(current_levelSet, level_count):
+	print(current_levelSet)
+	var total_score = 0
+	current_level = 0
+	
+	while current_level < level_count:
+		current_level += 1
+		total_score += get("score_" + current_levelSet + "_" + str(current_level))
+	
+	set("total_score_" + current_levelSet, total_score)
 
 
 
@@ -84,8 +101,6 @@ var next_level_RI2 = 1
 
 func save_game():
 	var saved_progress_file = FileAccess.open("user://saved_progress.save", FileAccess.WRITE)
-	var save_nodes = get_tree().get_nodes_in_group("Persist")
-	
 	var saved_progress_data = call("save")
 
 	# JSON provides a static method to serialized JSON string.
@@ -116,6 +131,8 @@ func load_game():
 		var data = json.get_data()
 		
 		#LOAD PROGRESS
+		
+		#RI1
 		state_RI1_1 = data["state_RI1_1"]
 		state_RI1_2 = data["state_RI1_2"]
 		state_RI1_3 = data["state_RI1_3"]
@@ -143,35 +160,37 @@ func load_game():
 		next_level_RI1 = data["next_level_RI1"]
 		
 		
-		state_RI2_1 = data["state_RI2_1"]
-		state_RI2_2 = data["state_RI2_2"]
-		state_RI2_3 = data["state_RI2_3"]
-		state_RI2_4 = data["state_RI2_4"]
-		state_RI2_5 = data["state_RI2_5"]
-		state_RI2_6 = data["state_RI2_6"]
-		state_RI2_7 = data["state_RI2_7"]
-		state_RI2_8 = data["state_RI2_8"]
-		state_RI2_9 = data["state_RI2_9"]
-		state_RI2_10 = data["state_RI2_10"]
-		state_RI2_11 = data["state_RI2_11"]
-		state_RI2_12 = data["state_RI2_12"]
-		state_RI2_13 = data["state_RI2_13"]
+		#MAIN
+		state_MAIN_1 = data["state_MAIN_1"]
+		state_MAIN_2 = data["state_MAIN_2"]
+		state_MAIN_3 = data["state_MAIN_3"]
+		state_MAIN_4 = data["state_MAIN_4"]
+		state_MAIN_5 = data["state_MAIN_5"]
+		state_MAIN_6 = data["state_MAIN_6"]
+		state_MAIN_7 = data["state_MAIN_7"]
+		state_MAIN_8 = data["state_MAIN_8"]
+		state_MAIN_9 = data["state_MAIN_9"]
+		state_MAIN_10 = data["state_MAIN_10"]
+		state_MAIN_11 = data["state_MAIN_11"]
+		state_MAIN_12 = data["state_MAIN_12"]
+		state_MAIN_13 = data["state_MAIN_13"]
 		
-		score_RI2_1 = data["score_RI2_1"]
-		score_RI2_2 = data["score_RI2_2"]
-		score_RI2_3 = data["score_RI2_3"]
-		score_RI2_4 = data["score_RI2_4"]
-		score_RI2_5 = data["score_RI2_5"]
-		score_RI2_6 = data["score_RI2_6"]
-		score_RI2_7 = data["score_RI2_7"]
-		score_RI2_8 = data["score_RI2_8"]
-		score_RI2_9 = data["score_RI2_9"]
-		score_RI2_10 = data["score_RI2_10"]
-		score_RI2_11 = data["score_RI2_11"]
-		score_RI2_12 = data["score_RI2_12"]
-		score_RI2_13 = data["score_RI2_13"]
+		score_MAIN_1 = data["score_MAIN_1"]
+		score_MAIN_2 = data["score_MAIN_2"]
+		score_MAIN_3 = data["score_MAIN_3"]
+		score_MAIN_4 = data["score_MAIN_4"]
+		score_MAIN_5 = data["score_MAIN_5"]
+		score_MAIN_6 = data["score_MAIN_6"]
+		score_MAIN_7 = data["score_MAIN_7"]
+		score_MAIN_8 = data["score_MAIN_8"]
+		score_MAIN_9 = data["score_MAIN_9"]
+		score_MAIN_10 = data["score_MAIN_10"]
+		score_MAIN_11 = data["score_MAIN_11"]
+		score_MAIN_12 = data["score_MAIN_12"]
+		score_MAIN_13 = data["score_MAIN_13"]
 		
-		next_level_RI2 = data["next_level_RI2"]
+		#next_level_MAIN = data["next_level_MAIN"]
+		
 		#LOAD PROGRESS END
 
 
@@ -215,36 +234,36 @@ func save():
 		"next_level_RI1" : next_level_RI1,
 		
 		
-		#RI2
-		"state_RI2_1" : state_RI2_1,
-		"state_RI2_2" : state_RI2_2,
-		"state_RI2_3" : state_RI2_3,
-		"state_RI2_4" : state_RI2_4,
-		"state_RI2_5" : state_RI2_5,
-		"state_RI2_6" : state_RI2_6,
-		"state_RI2_7" : state_RI2_7,
-		"state_RI2_8" : state_RI2_8,
-		"state_RI2_9" : state_RI2_9,
-		"state_RI2_10" : state_RI2_10,
-		"state_RI2_11" : state_RI2_11,
-		"state_RI2_12" : state_RI2_12,
-		"state_RI2_13" : state_RI2_13,
+		#MAIN
+		"state_MAIN_1" : state_MAIN_1,
+		"state_MAIN_2" : state_MAIN_2,
+		"state_MAIN_3" : state_MAIN_3,
+		"state_MAIN_4" : state_MAIN_4,
+		"state_MAIN_5" : state_MAIN_5,
+		"state_MAIN_6" : state_MAIN_6,
+		"state_MAIN_7" : state_MAIN_7,
+		"state_MAIN_8" : state_MAIN_8,
+		"state_MAIN_9" : state_MAIN_9,
+		"state_MAIN_10" : state_MAIN_10,
+		"state_MAIN_11" : state_MAIN_11,
+		"state_MAIN_12" : state_MAIN_12,
+		"state_MAIN_13" : state_MAIN_13,
 		
-		"score_RI2_1" : score_RI2_1,
-		"score_RI2_2" : score_RI2_2,
-		"score_RI2_3" : score_RI2_3,
-		"score_RI2_4" : score_RI2_4,
-		"score_RI2_5" : score_RI2_5,
-		"score_RI2_6" : score_RI2_6,
-		"score_RI2_7" : score_RI2_7,
-		"score_RI2_8" : score_RI2_8,
-		"score_RI2_9" : score_RI2_9,
-		"score_RI2_10" : score_RI2_10,
-		"score_RI2_11" : score_RI2_11,
-		"score_RI2_12" : score_RI2_12,
-		"score_RI2_13" : score_RI2_13,
+		"score_MAIN_1" : score_MAIN_1,
+		"score_MAIN_2" : score_MAIN_2,
+		"score_MAIN_3" : score_MAIN_3,
+		"score_MAIN_4" : score_MAIN_4,
+		"score_MAIN_5" : score_MAIN_5,
+		"score_MAIN_6" : score_MAIN_6,
+		"score_MAIN_7" : score_MAIN_7,
+		"score_MAIN_8" : score_MAIN_8,
+		"score_MAIN_9" : score_MAIN_9,
+		"score_MAIN_10" : score_MAIN_10,
+		"score_MAIN_11" : score_MAIN_11,
+		"score_MAIN_12" : score_MAIN_12,
+		"score_MAIN_13" : score_MAIN_13,
 		
-		"next_level_RI2" : next_level_RI2,
+		#"next_level_MAIN" : next_level_MAIN,
 		
 	}
 	return save_dict
