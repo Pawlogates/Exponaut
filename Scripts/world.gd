@@ -74,6 +74,7 @@ var instant_background_transitions = true
 func _ready():
 	LevelTransition.blackScreen.color.a = 1.0
 	
+<<<<<<< HEAD
 	if area_ID != "theBeginning":
 		Globals.left_start_area = true
 	
@@ -82,6 +83,8 @@ func _ready():
 		Globals.current_level = shrine_level_name
 		Globals.current_level_ID = shrine_level_ID
 	
+=======
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 	savedProgress_save()
 	
 	if Globals.mode_scoreAttack:
@@ -96,11 +99,14 @@ func _ready():
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	
 	
+<<<<<<< HEAD
 	#if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
 		#%Player/%Camera2D.limit_left = cameraLimit_left
 		#%Player/%Camera2D.limit_right = cameraLimit_right
 		#%Player/%Camera2D.limit_bottom = cameraLimit_bottom
 		#%Player/%Camera2D.limit_top = cameraLimit_top
+=======
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 	
 	
 	get_tree().paused = false
@@ -1171,9 +1177,12 @@ func load_game_area():
 #Save progress loaded from the main menu screen.
 
 func savedProgress_save():
+<<<<<<< HEAD
 	if shrine_level:
 		return
 	
+=======
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 	savedProgress_nextTransition = Globals.next_transition
 	
 	var savedProgress_file = FileAccess.open("user://savedProgress.save", FileAccess.WRITE)

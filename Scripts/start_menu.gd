@@ -7,7 +7,10 @@ var mapScreen = preload("res://map_screen.tscn")
 
 func _ready():
 	savedProgress_load()
+<<<<<<< HEAD
 	LevelTransition.get_node("%saved_progress").load_game()
+=======
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 	
 	%main_menu.visible = false
 	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
@@ -56,7 +59,15 @@ var saved_level_filePath = "empty"
 var saved_level:PackedScene = load("res://Levels/empty.tscn")
 
 func start_game():
+<<<<<<< HEAD
 	delete_saves()
+=======
+	var dir = DirAccess.open("user://")
+	if dir.file_exists("user://savegame_theBeginning.save"):
+		dir.remove("user://savegame_theBeginning.save")
+	else:
+		print("no file")
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 	Globals.next_transition = 0
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(startingArea)
@@ -102,7 +113,11 @@ var change_bg_to_main = true
 
 func _on_fade_animation_animation_finished(anim_name):
 	if change_bg_to_main and anim_name == "fade_to_black":
+<<<<<<< HEAD
 		%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
+=======
+		#%background.texture = preload("res://Assets/Graphics/menu_main.png	")
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 		%fade_animation.play("fade_from_black")
 		
 		#%main_menu.visible = true
@@ -402,6 +417,7 @@ func savedProgress_load():
 		
 		#LOAD PROGRESS END
 
+<<<<<<< HEAD
 
 
 func delete_saves():
@@ -410,3 +426,5 @@ func delete_saves():
 		dir.remove("user://savegame_theBeginning.save")
 	else:
 		pass
+=======
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054

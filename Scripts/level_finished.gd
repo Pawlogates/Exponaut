@@ -26,8 +26,13 @@ func _ready():
 	
 
 func _process(_delta):
+<<<<<<< HEAD
 	if displayed_score != level_score and level_score - displayed_score <= 10:
 		displayed_score += 1
+=======
+	if displayScore != Globals.level_score and level_score - displayScore <= 10:
+		displayScore += 1
+>>>>>>> 862e4b88e92be7211188ca335e5cdca69a93c054
 		
 	if displayed_score != level_score and level_score - displayed_score <= 100 and level_score - displayed_score > 10:
 		displayed_score += 3
