@@ -24,6 +24,13 @@ func _ready():
 	set_process(false)
 	score_counted.connect(after_score_counted)
 	
+	%"Golden Apple Reward 1".modulate.a = 0.2
+	%"Golden Apple Reward 2".modulate.a = 0.2
+	%"Golden Apple Reward 3".modulate.a = 0.2
+	%"Golden Apple Reward 4".modulate.a = 0.2
+	%"Golden Apple Reward 5".modulate.a = 0.2
+	
+
 
 func _process(_delta):
 	if displayed_score != level_score and level_score - displayed_score <= 10:
@@ -54,11 +61,14 @@ func _process(_delta):
 		score_counted.emit()
 		score_counted_emitted = true
 		
-	
-	
 
+
+
+var topRankScore = 0
 
 func exit_reached():
+	topRankScore = Globals.current_topRankScore
+	%top_rank_label.text = "Top Rank: " + str(topRankScore)
 	print(LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)))
 	level_score = Globals.level_score
 	
@@ -111,6 +121,7 @@ func exit_reached():
 	%MapBtn.grab_focus()
 	
 	set_process(true)
+	calculate_rating()
 	
 	
 
@@ -129,6 +140,53 @@ func _on_map_btn_pressed():
 
 
 
+var rank = "D" #possible ranks: D, C, B, A, S (no reward), S+ (no reward)
+var rank_value = -1
+
+func calculate_rating():
+	var rating_top = Globals.current_topRankScore
+	var rating_5 = rating_top * 0.8
+	var rating_4 = rating_top * 0.6
+	var rating_3 = rating_top * 0.4
+	var rating_2 = rating_top * 0.2
+	var rating_1 = 0
+	
+	if level_score >= rating_top:
+		rank = "S+"
+		rank_value = 6
+	elif level_score >= rating_5:
+		rank = "S"
+		rank_value = 5
+	elif level_score >= rating_4:
+		rank = "A"
+		rank_value = 4
+	elif level_score >= rating_3:
+		rank = "B"
+		rank_value = 3
+	elif level_score >= rating_2:
+		rank = "C"
+		rank_value = 2
+	elif level_score >= rating_1:
+		rank = "D"
+		rank_value = 1
+	
+	%achieved_rank_label.text = rank
+	
+	if rank_value >= 1:
+		await get_tree().create_timer(0.5, true).timeout
+		%"Golden Apple Reward 1".modulate.a = 1.0
+	if rank_value >= 2:
+		await get_tree().create_timer(0.5, true).timeout
+		%"Golden Apple Reward 2".modulate.a = 1.0
+	if rank_value >= 3:
+		await get_tree().create_timer(0.5, true).timeout
+		%"Golden Apple Reward 3".modulate.a = 1.0
+	if rank_value >= 4:
+		await get_tree().create_timer(0.5, true).timeout
+		%"Golden Apple Reward 4".modulate.a = 1.0
+	if rank_value >= 5:
+		await get_tree().create_timer(0.5, true).timeout
+		%"Golden Apple Reward 5".modulate.a = 1.0
 
 
 
@@ -146,6 +204,11 @@ func after_score_counted():
 		#count_hp()
 		#await get_tree().create_timer(0.5, true).timeout
 		#count_inventoryItems()
+
+
+
+
+
 
 
 

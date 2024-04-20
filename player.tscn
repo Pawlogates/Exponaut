@@ -421,8 +421,9 @@ one_shot = true
 unique_name_in_owner = true
 process_mode = 3
 z_index = 1
+limit_smoothed = true
 position_smoothing_enabled = true
-position_smoothing_speed = 4.0
+position_smoothing_speed = 2.0
 
 [node name="Player_hitbox_tileDetection" type="Area2D" parent="."]
 input_pickable = false

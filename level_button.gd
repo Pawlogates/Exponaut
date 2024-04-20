@@ -122,6 +122,9 @@ func _on_pressed():
 			Globals.current_level = str("MAIN_", level_ID)
 			Globals.current_level_ID = level_ID
 		
+		Globals.current_topRankScore = topRankScore
+		
+		
 	else:
 		%level_locked.play()
 		

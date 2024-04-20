@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://dijgiqym3g0vv"]
+[gd_scene load_steps=9 format=3 uid="uid://dijgiqym3g0vv"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_6vvdi"]
 [ext_resource type="Script" path="res://Scripts/level_finished.gd" id="2_xm0gm"]
 [ext_resource type="Texture2D" uid="uid://v8nsq1imrckq" path="res://Assets/Graphics/menu_main.png" id="3_4cp1r"]
 [ext_resource type="Script" path="res://interactive_button.gd" id="3_v287l"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="4_7l3u8"]
 [ext_resource type="AudioStream" uid="uid://bj6mx4e78pqc6" path="res://Assets/Sounds/music/music_victory.mp3" id="4_in6rq"]
 
 [sub_resource type="Animation" id="Animation_iwr8u"]
@@ -37,41 +38,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Control" type="Control" parent="CenterContainer/VBoxContainer"]
-layout_mode = 2
-mouse_filter = 2
-
-[node name="Button Container" type="HBoxContainer" parent="CenterContainer/VBoxContainer/Control"]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-offset_left = -832.0
-offset_top = 388.0
-offset_right = -92.0
-offset_bottom = 468.0
-mouse_filter = 2
-
-[node name="RetryBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 16)
-layout_mode = 2
-mouse_filter = 1
-text = "Retry"
-
-[node name="MapBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 16)
-layout_mode = 2
-mouse_filter = 1
-text = "Continue"
-
 [node name="End Screen" type="Control" parent="CenterContainer"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 
 [node name="end_screen_container" type="VBoxContainer" parent="CenterContainer/End Screen"]
@@ -130,6 +98,117 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Total Score[/wave]"
 autowrap_mode = 0
 
+[node name="Rank Reward" type="HBoxContainer" parent="CenterContainer/End Screen"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -960.0
+offset_top = 4.0
+offset_right = 960.0
+offset_bottom = 196.0
+alignment = 1
+
+[node name="Golden Apple Reward 1" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 1"]
+modulate = Color(0.138773, 1, 0.753959, 1)
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(0, 768, 64, 64)
+
+[node name="Golden Apple Reward 2" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 2"]
+modulate = Color(0.138773, 1, 0.753959, 1)
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(0, 768, 64, 64)
+
+[node name="Golden Apple Reward 3" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 3"]
+modulate = Color(0.138773, 1, 0.753959, 1)
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(0, 768, 64, 64)
+
+[node name="Golden Apple Reward 4" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 4"]
+modulate = Color(0.138773, 1, 0.753959, 1)
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(0, 768, 64, 64)
+
+[node name="Golden Apple Reward 5" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 5"]
+modulate = Color(0.138773, 1, 0.753959, 1)
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(0, 768, 64, 64)
+
+[node name="Top Rank" type="Button" parent="CenterContainer/End Screen"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+offset_left = -960.0
+offset_top = 228.0
+offset_right = 960.0
+offset_bottom = 324.0
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="top_rank_label" type="Label" parent="CenterContainer/End Screen/Top Rank"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 96.0
+text = "Top Rank: 0"
+horizontal_alignment = 1
+
+[node name="Achieved Rank" type="Button" parent="CenterContainer/End Screen"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+offset_left = -960.0
+offset_top = 292.0
+offset_right = 960.0
+offset_bottom = 388.0
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="achieved_rank_label" type="Label" parent="CenterContainer/End Screen/Achieved Rank"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 96.0
+text = "Achieved Rank: 0"
+horizontal_alignment = 1
+
 [node name="End Screen Values" type="Control" parent="CenterContainer"]
 unique_name_in_owner = true
 visible = false
@@ -181,6 +260,38 @@ offset_right = 640.0
 offset_bottom = 64.0
 text = "0"
 
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Button Container" type="HBoxContainer" parent="CenterContainer/VBoxContainer/Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+offset_left = -832.0
+offset_top = 388.0
+offset_right = -92.0
+offset_bottom = 468.0
+mouse_filter = 2
+
+[node name="RetryBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+mouse_filter = 1
+text = "Retry"
+
+[node name="MapBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+mouse_filter = 1
+text = "Continue"
+
 [node name="Control" type="Control" parent="CenterContainer"]
 layout_mode = 2
 mouse_filter = 2
@@ -227,13 +338,17 @@ libraries = {
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_in6rq")
 
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/RetryBtn" to="." method="_on_retry_btn_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/MapBtn" to="." method="_on_map_btn_pressed"]
 [connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Level Score" to="CenterContainer/End Screen/end_screen_container/Level Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Level Score" to="CenterContainer/End Screen/end_screen_container/Level Score" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Total Score" to="CenterContainer/End Screen/end_screen_container/Total Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Total Score" to="CenterContainer/End Screen/end_screen_container/Total Score" method="_on_focus_exited"]
+[connection signal="focus_entered" from="CenterContainer/End Screen/Top Rank" to="CenterContainer/End Screen/Top Rank" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen/Top Rank" to="CenterContainer/End Screen/Top Rank" method="_on_focus_exited"]
+[connection signal="focus_entered" from="CenterContainer/End Screen/Achieved Rank" to="CenterContainer/End Screen/Achieved Rank" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen/Achieved Rank" to="CenterContainer/End Screen/Achieved Rank" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_exited"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/RetryBtn" to="." method="_on_retry_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/MapBtn" to="." method="_on_map_btn_pressed"]

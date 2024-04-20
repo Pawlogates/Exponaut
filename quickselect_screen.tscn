@@ -1,0 +1,36 @@
+[gd_scene load_steps=3 format=3 uid="uid://tolmaonlxbva"]
+
+[ext_resource type="Script" path="res://quickselect_screen.gd" id="1_0qfah"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_fn2lc"]
+
+[node name="quickselect_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -390.0
+offset_top = -195.0
+offset_right = 390.0
+offset_bottom = 195.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(390, 0)
+script = ExtResource("1_0qfah")
+
+[node name="quickselect_deco" type="Sprite2D" parent="."]
+position = Vector2(408, 160)
+scale = Vector2(2.5, 2.5)
+texture = ExtResource("2_fn2lc")
+region_enabled = true
+region_rect = Rect2(896, 128, 336, 144)
+
+[node name="quickselect_items" type="FlowContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2

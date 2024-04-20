@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq355i6wf2cc8"]
+
+[ext_resource type="Script" path="res://quickselect_itemDisplay.gd" id="1_77q47"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="1_tp32n"]
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Themes/UI_theme.tres" id="2_5ukt5"]
+[ext_resource type="Script" path="res://quicksave_button_basic.gd" id="3_vy71e"]
+
+[node name="Item Display" type="Control" groups=["quickselect_itemDisplay"]]
+custom_minimum_size = Vector2(192, 112)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 192.0
+offset_bottom = 112.0
+script = ExtResource("1_77q47")
+
+[node name="Icon" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(96, 32)
+texture = ExtResource("1_tp32n")
+region_enabled = true
+region_rect = Rect2(432, 768, 48, 48)
+
+[node name="Unlock Price Display" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 64.0
+offset_right = 192.0
+offset_bottom = 88.0
+theme = ExtResource("2_5ukt5")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "100000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Unlock Label" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_top = 88.0
+offset_right = 192.0
+offset_bottom = 112.0
+theme = ExtResource("2_5ukt5")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "Unlock?"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("3_vy71e")
+
+[connection signal="focus_entered" from="Button" to="Button" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Button" to="Button" method="_on_focus_exited"]
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

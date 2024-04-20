@@ -45,6 +45,11 @@ signal exitReached
 signal comboReset
 signal can_stand_up
 
+signal weapon_collected
+signal secondaryWeapon_collected
+
+signal score_reduced
+
 
 #Save state
 
@@ -107,12 +112,11 @@ var next_level = -1
 var current_level = "none"
 var current_level_ID = -1
 
+var current_topRankScore = 100000
+
+
 signal save_progress
-
-
 signal progress_loadingFinished
-
-
 
 
 

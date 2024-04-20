@@ -352,6 +352,8 @@ func _on_collectible_entered(body):
 			add_child(orbParticleScene.instantiate())
 			add_child(splashParticleScene.instantiate())
 			add_child(effect_dustScene.instantiate())
+			
+			Globals.weapon_collected.emit()
 		
 		if is_SecondaryWeapon:
 			$/root/World.reassign_player()
@@ -361,6 +363,8 @@ func _on_collectible_entered(body):
 			add_child(orbParticleScene.instantiate())
 			add_child(splashParticleScene.instantiate())
 			add_child(effect_dustScene.instantiate())
+			
+			Globals.secondaryWeapon_collected.emit()
 
 
 
@@ -384,7 +388,7 @@ var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
-		"loadingZone" : loadingZone,
+		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON

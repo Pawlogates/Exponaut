@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://cvwfwuqqw6vpo"]
+
+[ext_resource type="Script" path="res://trigger_positional.gd" id="1_2kcyo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7bp8d"]
+size = Vector2(64, 64)
+
+[node name="trigger_cameraAnchor_H" type="Area2D"]
+script = ExtResource("1_2kcyo")
+moveCamera = false
+zoomCamera = false
+
+[node name="shape" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_7bp8d")
+
+[node name="Label" type="Label" parent="."]
+offset_top = -72.0
+offset_right = 104.0
+offset_bottom = -40.0
+
+[node name="Label2" type="Label" parent="."]
+offset_top = 8.0
+offset_right = 104.0
+offset_bottom = 40.0
+
+[node name="Label3" type="Label" parent="."]
+offset_top = 72.0
+offset_right = 104.0
+offset_bottom = 104.0

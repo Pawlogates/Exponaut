@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://d0ev5ctdik86d"]
+[gd_scene load_steps=25 format=3 uid="uid://d0ev5ctdik86d"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_6dpir"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_h5i2g"]
@@ -15,6 +15,8 @@
 [ext_resource type="AudioStream" uid="uid://bpbimsl5mkjps" path="res://Assets/Sounds/music/music_ascent.mp3" id="20_3qasd"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="22_but68"]
 [ext_resource type="AudioStream" uid="uid://jrrdb7mdfafc" path="res://Assets/Sounds/music/plains3.mp3" id="23_2se7g"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://trigger_camera_anchor_h.tscn" id="23_3vyv8"]
+[ext_resource type="PackedScene" uid="uid://c33fvowlemj28" path="res://hanging_deco.tscn" id="24_n3q5k"]
 [ext_resource type="AudioStream" uid="uid://7xoh66av8tjx" path="res://Assets/Sounds/music/ascent2.mp3" id="26_kvpra"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Tiles/water_area.tscn" id="29_nalwp"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Tiles/areaTransition.tscn" id="29_nyjvy"]
@@ -35,9 +37,6 @@ cameraLimit_top = -10752.0
 regular_level = false
 playerStartHP = 10
 area_ID = "overworld"
-
-[node name="Player" parent="." index="0"]
-position = Vector2(-6392, -2080)
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("3_h5i2g")]
 unique_name_in_owner = true
@@ -323,3 +322,24 @@ position = Vector2(-6752, -1952)
 hp = 3
 shrineGem_portal_level_ID = "MAIN_1"
 shrineGem_level_filePath = "res://Levels/MAIN_1.tscn"
+
+[node name="trigger_cameraAnchor_H" parent="." index="41" instance=ExtResource("23_3vyv8")]
+visible = false
+position = Vector2(-8, -336)
+scale = Vector2(46, -23)
+moveCamera = true
+camera_baseOffset = 800
+
+[node name="trigger_cameraAnchor_H2" parent="." index="42" instance=ExtResource("23_3vyv8")]
+visible = false
+position = Vector2(-328, -272)
+scale = Vector2(25.5, 34)
+zoomCamera = true
+camera_baseZoom = 7
+maxZoom = 6.0
+
+[node name="Node2D" parent="." index="43" instance=ExtResource("24_n3q5k")]
+position = Vector2(-248, -264)
+
+[node name="Node2D2" parent="." index="44" instance=ExtResource("24_n3q5k")]
+position = Vector2(-824, -352)

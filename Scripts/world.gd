@@ -1,5 +1,6 @@
 extends Node2D
 
+@onready var camera = %Player.camera
 
 @export var next_level: PackedScene
 
@@ -25,7 +26,7 @@ var levelTime = 0
 var start_level_msec = 0.0
 var levelTime_visible = 0
 
-
+@onready var music = %music
 
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = $tileset_objects

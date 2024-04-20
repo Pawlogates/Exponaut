@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=20 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://background.tscn" id="10_ian1u"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://inventory.tscn" id="12_nf7r3"]
+[ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://quickselect_screen.tscn" id="15_p6xrp"]
 
 [sub_resource type="Animation" id="Animation_ru8b6"]
 length = 0.001
@@ -396,6 +397,8 @@ unique_name_in_owner = true
 position = Vector2(1024, 896)
 
 [node name="Inventory" parent="HUD" instance=ExtResource("12_nf7r3")]
+
+[node name="quickselect_screen" parent="HUD" instance=ExtResource("15_p6xrp")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true

@@ -36,16 +36,18 @@ func _process(_delta):
 
 
 func _ready():
-	Globals.saveState_loaded.connect(score_correct)
+	Globals.saveState_loaded.connect(score_correct_saved)
+	Globals.score_reduced.connect(score_correct)
 	Globals.cheated.connect(cheated_replaceScore)
 	Globals.scoreReset.connect(reset_displayScore)
 
 
-func score_correct():
+func score_correct_saved():
 	displayScore = Globals.saved_level_score
+
+func score_correct():
+	displayScore = Globals.level_score
 	
-
-
 
 
 func cheated_replaceScore():
