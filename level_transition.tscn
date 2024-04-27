@@ -109,7 +109,7 @@ _data = {
 
 [node name="LevelTransition" type="CanvasLayer"]
 process_mode = 3
-layer = 100
+layer = 128
 script = ExtResource("1_bav2q")
 metadata/_edit_horizontal_guides_ = []
 

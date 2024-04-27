@@ -185,14 +185,13 @@ func _on_main_menu_pressed():
 
 
 func _on_back_to_overworld_pressed():
-	if not Globals.left_start_area:
-		return
-		
-	if not Globals.selected_episode == "rooster_island":
-		print(saved_level)
-		saved_level = load(saved_level_filePath)
-		await LevelTransition.fade_to_black()
-		get_tree().change_scene_to_packed(saved_level)
+	if Globals.delete_saves:
+		saved_level_filePath = "res://Levels/Overworld.tscn"
+	
+	print(saved_level)
+	saved_level = load(saved_level_filePath)
+	await LevelTransition.fade_to_black()
+	get_tree().change_scene_to_packed(saved_level)
 
 
 

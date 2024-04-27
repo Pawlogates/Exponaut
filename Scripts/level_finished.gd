@@ -60,7 +60,7 @@ func _process(_delta):
 	if not score_counted_emitted and displayed_score == level_score:
 		score_counted.emit()
 		score_counted_emitted = true
-		
+	
 
 
 
@@ -226,5 +226,5 @@ func count_hp():
 
 func count_inventoryItems():
 	if Globals.inventory_currentItemCount > 0:
-		displayedBonus_items + 1000
+		displayedBonus_items += 1000
 		

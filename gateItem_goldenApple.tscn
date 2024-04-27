@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://brkktpa06yw3b"]
+
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="1_qrdef"]
+
+[node name="gateItem_goldenApple" type="Control" groups=["gateItem"]]
+modulate = Color(1, 1, 1, 0.2)
+custom_minimum_size = Vector2(32, 32)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1888.0
+offset_bottom = -1048.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(16, 16)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("1_qrdef")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)

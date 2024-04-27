@@ -30,9 +30,10 @@ func _process(delta):
 			width = %shape.shape.size[0]
 			trigger_value = distance_X / width / scale[0] * 2
 	
-			$Label.text = str(area.get_parent().position[0] - position.x)
-			$Label2.text = str(trigger_value)
-			$Label3.text = str(area.get_parent().position[0])
+			#$Label.text = str(area.get_parent().position[0] - position.x)
+			#$Label2.text = str(trigger_value)
+			#$Label3.text = str(area.get_parent().position[0])
+			
 			#$/root/World.music.volume_db = trigger value
 
 	if moveCamera:

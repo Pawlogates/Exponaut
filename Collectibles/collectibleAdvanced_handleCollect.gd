@@ -29,6 +29,8 @@ var rotten = false
 var button_pressed = false
 var stop_upDownLoopAnim = false
 
+var collected_special = false
+
 
 @onready var collect_1 = %collect1
 @onready var timer = %Timer
@@ -53,6 +55,8 @@ var stop_upDownLoopAnim = false
 @export var shrineGem_particleAmount = 25
 @export var shrineGem_portal_level_ID = "none"
 @export_file("*.tscn") var shrineGem_level_filePath: String
+@export var shrineGem_displayedName = "none"
+@export var is_specialApple = "none" #options: "red", "blue", "golden"
 
 @export var item_scene = preload("res://Collectibles/collectibleApple.tscn")
 @export var spawnedAmount = 3
@@ -78,6 +82,13 @@ var stop_upDownLoopAnim = false
 
 
 
+var topRankScore = 100000
+
+var level_completionState = 0
+var level_score = 0
+var level_rank = "D"
+var level_rank_value = 1
+
 #OFFSCREEN START
 
 func _ready():
@@ -101,15 +112,95 @@ func _ready():
 	
 	
 	
+	if shrineGem_openPortal:
+		level_completionState = LevelTransition.get_node("%saved_progress").get("state_" + shrineGem_portal_level_ID)
+		level_score = LevelTransition.get_node("%saved_progress").get("score_" + shrineGem_portal_level_ID)
+	
+		if Globals.selected_episode == "rooster_island":
+			if Globals.current_level_ID == 1:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 2:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 3:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 4:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 5:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 6:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 7:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 8:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 9:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 10:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 11:
+				topRankScore = 50000
+		
+		elif Globals.selected_episode == "Main Levels":
+			if Globals.current_level_ID == 1:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 2:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 3:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 4:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 5:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 6:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 7:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 8:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 9:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 10:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 11:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 12:
+				topRankScore = 50000
+			elif Globals.current_level_ID == 13:
+				topRankScore = 50000
+		
+		var rating_top = topRankScore
+		var rating_5 = rating_top * 0.8
+		var rating_4 = rating_top * 0.6
+		var rating_3 = rating_top * 0.4
+		var rating_2 = rating_top * 0.2
+		var rating_1 = 0
+		
+		if level_score >= rating_top:
+			level_rank = "S+"
+			level_rank_value = 6
+		elif level_score >= rating_5:
+			level_rank = "S"
+			level_rank_value = 5
+		elif level_score >= rating_4:
+			level_rank = "A"
+			level_rank_value = 4
+		elif level_score >= rating_3:
+			level_rank = "B"
+			level_rank_value = 3
+		elif level_score >= rating_2:
+			level_rank = "C"
+			level_rank_value = 2
+		elif level_score >= rating_1:
+			level_rank = "D"
+			level_rank_value = 1
+		
+		
 	
 	animation_player.advance(abs(start_pos[0]) / 100)
-	
 	Globals.saveState_loaded.connect(saveState_loaded)
-	
 	
 	if upDown_loop:
 		animation_player.play("loop")
-	
 	
 	if rotting:
 		%rotDelay.start()
@@ -190,6 +281,30 @@ var bonus_material = preload("res://Collectibles/bonus_material.tres")
 
 func _on_collectible_entered(body):
 	inside_check_enter(body)
+	
+	if is_specialApple != "none":
+		if is_specialApple == "golden":
+			Globals.collected_goldenApples += 1
+			%collectedDisplay.text = str(Globals.collected_goldenApples)
+		
+		elif is_specialApple == "blue":
+			Globals.collected_blueApples += 1
+			%collectedDisplay.text = str(Globals.collected_blueApples)
+		
+		elif is_specialApple == "red":
+			Globals.collected_redApples += 1
+			%collectedDisplay.text = str(Globals.collected_redApples)
+			
+		
+		
+		$Area2D.set_deferred("monitoring", false)
+		%AnimationPlayer.play("collect_special")
+		animation_player_2.play("score_value")
+		random_pitch_collect()
+		collected_special = true
+		
+		return
+	
 	
 	if is_healthItem:
 		if body.is_in_group("player") and not collected:
@@ -396,6 +511,7 @@ func save():
 		"collected" : collected,
 		"shrineGem_portal_level_ID" : shrineGem_portal_level_ID,
 		"shrineGem_level_filePath" : shrineGem_level_filePath,
+		"collected_special" : collected_special,
 		
 	}
 	return save_dict
@@ -409,7 +525,7 @@ func _on_timer_timeout():
 
 
 func _on_animation_player_2_animation_finished(anim_name):
-	if anim_name != "hit":
+	if anim_name != "hit" and not collected_special:
 		removable = true
 
 
@@ -433,11 +549,17 @@ var direction_last = 0
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 
+var random_position_offset = Vector2(randf_range(0, 250), randf_range(0, 250)) 
+
 func _physics_process(delta):
+	if collected_special:
+		position = lerp(position, $/root/World.player.position + random_position_offset, delta)
+	
+	
 	if stop_upDownLoopAnim:
 		stop_upDownLoop()
-		
-	# Add the gravity.
+	
+	
 	if not is_on_floor():
 		velocity.y += gravity * delta
 		
@@ -482,7 +604,7 @@ func _physics_process(delta):
 		velocity_x_last = velocity.x
 		
 	
-	if not collected and not floating or button_pressed:
+	if not collected and not floating and not collected_special or button_pressed:
 		move_and_slide()
 	
 	
@@ -708,4 +830,24 @@ func spawn_portal():
 	portal.target_area = shrineGem_level_filePath
 	portal.particle_amount = shrineGem_particleAmount
 	portal.position = start_pos
+	
+	portal.level_completionState = level_completionState
+	portal.level_score = level_score
+	portal.level_rank = level_rank
+	portal.level_rank_value = level_rank_value
+	portal.level_displayedName = shrineGem_displayedName
+	
 	$/root/World.add_child(portal)
+
+
+
+
+
+func _on_animation_player_animation_finished(anim_name):
+	if anim_name == "collect_special":
+		queue_free()
+
+
+func random_pitch_collect():
+	collect_1.pitch_scale = (randf_range(0.8, 1.2))
+	collect_1.play()

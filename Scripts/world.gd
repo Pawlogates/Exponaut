@@ -66,8 +66,8 @@ var instant_background_transitions = true
 
 
 @export var shrine_selected_episode = "none"
-@export var shrine_level_name = "none"
-@export var shrine_level_ID = -1
+@export var shrine_level_ID = "none"
+@export var shrine_level_number = -1
 
 
 
@@ -80,8 +80,8 @@ func _ready():
 	
 	if shrine_level:
 		Globals.selected_episode = shrine_selected_episode
-		Globals.current_level = shrine_level_name
-		Globals.current_level_ID = shrine_level_ID
+		Globals.current_level = shrine_level_ID
+		Globals.current_level_ID = shrine_level_number
 	
 	savedProgress_save()
 	

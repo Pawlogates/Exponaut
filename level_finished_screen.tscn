@@ -40,6 +40,7 @@ mouse_filter = 2
 
 [node name="End Screen" type="Control" parent="CenterContainer"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="end_screen_container" type="VBoxContainer" parent="CenterContainer/End Screen"]
@@ -113,11 +114,10 @@ custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 1"]
-modulate = Color(0.138773, 1, 0.753959, 1)
 position = Vector2(48, 96)
 texture = ExtResource("4_7l3u8")
 region_enabled = true
-region_rect = Rect2(0, 768, 64, 64)
+region_rect = Rect2(1600, 896, 64, 64)
 
 [node name="Golden Apple Reward 2" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
 unique_name_in_owner = true
@@ -125,11 +125,10 @@ custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 2"]
-modulate = Color(0.138773, 1, 0.753959, 1)
 position = Vector2(48, 96)
 texture = ExtResource("4_7l3u8")
 region_enabled = true
-region_rect = Rect2(0, 768, 64, 64)
+region_rect = Rect2(1600, 896, 64, 64)
 
 [node name="Golden Apple Reward 3" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
 unique_name_in_owner = true
@@ -137,11 +136,10 @@ custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 3"]
-modulate = Color(0.138773, 1, 0.753959, 1)
 position = Vector2(48, 96)
 texture = ExtResource("4_7l3u8")
 region_enabled = true
-region_rect = Rect2(0, 768, 64, 64)
+region_rect = Rect2(1600, 896, 64, 64)
 
 [node name="Golden Apple Reward 4" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
 unique_name_in_owner = true
@@ -149,11 +147,10 @@ custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 4"]
-modulate = Color(0.138773, 1, 0.753959, 1)
 position = Vector2(48, 96)
 texture = ExtResource("4_7l3u8")
 region_enabled = true
-region_rect = Rect2(0, 768, 64, 64)
+region_rect = Rect2(1600, 896, 64, 64)
 
 [node name="Golden Apple Reward 5" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
 unique_name_in_owner = true
@@ -161,11 +158,10 @@ custom_minimum_size = Vector2(96, 64)
 layout_mode = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 5"]
-modulate = Color(0.138773, 1, 0.753959, 1)
 position = Vector2(48, 96)
 texture = ExtResource("4_7l3u8")
 region_enabled = true
-region_rect = Rect2(0, 768, 64, 64)
+region_rect = Rect2(1600, 896, 64, 64)
 
 [node name="Top Rank" type="Button" parent="CenterContainer/End Screen"]
 unique_name_in_owner = true
@@ -298,6 +294,7 @@ mouse_filter = 2
 
 [node name="Level Finished Label" type="RichTextLabel" parent="CenterContainer/Control"]
 unique_name_in_owner = true
+visible = false
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8

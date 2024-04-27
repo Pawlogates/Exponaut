@@ -1,4 +1,4 @@
-[gd_scene load_steps=42 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=44 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_428jj"]
@@ -39,6 +39,8 @@
 [ext_resource type="PackedScene" uid="uid://bc4lqr8ajy0k8" path="res://deco_waterfall_bg.tscn" id="31_dfkvb"]
 [ext_resource type="PackedScene" uid="uid://do31hya7lw3u3" path="res://Collectibles/collectiblePeach.tscn" id="32_7y4h4"]
 [ext_resource type="PackedScene" uid="uid://capn1k1755ueq" path="res://Collectibles/collectibleGrapefruit.tscn" id="33_xgfdy"]
+[ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://wavingDeco_grass.tscn" id="35_m57du"]
+[ext_resource type="PackedScene" uid="uid://cmncqo0vv0lwj" path="res://hanging_deco_vines.tscn" id="36_g8h85"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -81,6 +83,8 @@ scenes/36/scene = ExtResource("30_s33b4")
 scenes/37/scene = ExtResource("31_dfkvb")
 scenes/38/scene = ExtResource("32_7y4h4")
 scenes/39/scene = ExtResource("33_xgfdy")
+scenes/40/scene = ExtResource("35_m57du")
+scenes/41/scene = ExtResource("36_g8h85")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)

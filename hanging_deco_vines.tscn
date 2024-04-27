@@ -1,0 +1,104 @@
+[gd_scene load_steps=5 format=3 uid="uid://cmncqo0vv0lwj"]
+
+[ext_resource type="Script" path="res://hanging_deco_general.gd" id="1_qqe41"]
+[ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="1_qs3lu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rdmqd"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6cflk"]
+size = Vector2(16, 64)
+
+[node name="hangingDeco_vines" type="Node2D"]
+script = ExtResource("1_qqe41")
+
+[node name="Root" type="RigidBody2D" parent="."]
+collision_layer = 0
+collision_mask = 0
+freeze = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Root"]
+shape = SubResource("RectangleShape2D_rdmqd")
+
+[node name="Segment1" type="RigidBody2D" parent="."]
+position = Vector2(0, 32)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Segment1"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("1_qs3lu")
+region_enabled = true
+region_rect = Rect2(512, 256, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Segment1"]
+shape = SubResource("RectangleShape2D_6cflk")
+
+[node name="Segment2" type="RigidBody2D" parent="."]
+position = Vector2(0, 88)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Segment2"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("1_qs3lu")
+region_enabled = true
+region_rect = Rect2(512, 256, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Segment2"]
+shape = SubResource("RectangleShape2D_6cflk")
+
+[node name="Segment3" type="RigidBody2D" parent="."]
+position = Vector2(0, 144)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Segment3"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("1_qs3lu")
+region_enabled = true
+region_rect = Rect2(512, 256, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Segment3"]
+shape = SubResource("RectangleShape2D_6cflk")
+
+[node name="Segment4" type="RigidBody2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 200)
+collision_layer = 0
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="Segment4"]
+modulate = Color(0, 0, 0, 1)
+texture = ExtResource("1_qs3lu")
+region_enabled = true
+region_rect = Rect2(512, 256, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Segment4"]
+shape = SubResource("RectangleShape2D_6cflk")
+
+[node name="PinJoint2D" type="PinJoint2D" parent="."]
+position = Vector2(0, 4)
+node_a = NodePath("../Root")
+node_b = NodePath("../Segment1")
+
+[node name="PinJoint2D2" type="PinJoint2D" parent="."]
+position = Vector2(0, 60)
+node_a = NodePath("../Segment1")
+node_b = NodePath("../Segment2")
+
+[node name="PinJoint2D3" type="PinJoint2D" parent="."]
+position = Vector2(0, 116)
+node_a = NodePath("../Segment2")
+node_b = NodePath("../Segment3")
+
+[node name="PinJoint2D4" type="PinJoint2D" parent="."]
+position = Vector2(0, 172)
+node_a = NodePath("../Segment3")
+node_b = NodePath("../Segment4")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

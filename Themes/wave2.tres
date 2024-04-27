@@ -1,0 +1,15 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://5l7pqcgu3k1j"]
+
+[ext_resource type="Shader" path="res://Themes/wind_effect.gdshader" id="1_q0ta0"]
+
+[resource]
+shader = ExtResource("1_q0ta0")
+shader_parameter/speed = 0.1
+shader_parameter/minStrength = 0.1
+shader_parameter/maxStrength = 0.3
+shader_parameter/strengthScale = 500.0
+shader_parameter/interval = 8.0
+shader_parameter/detail = 1.0
+shader_parameter/distortion = 0.25
+shader_parameter/heightOffset = 0.5
+shader_parameter/offset = 0.0

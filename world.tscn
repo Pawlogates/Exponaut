@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=21 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
@@ -15,7 +15,8 @@
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://background.tscn" id="10_ian1u"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://inventory.tscn" id="12_nf7r3"]
-[ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://quickselect_screen.tscn" id="15_p6xrp"]
+[ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://quickselect_screen.tscn" id="15_ia3vl"]
+[ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://collectedApplesDisplay_golden.tscn" id="16_1nult"]
 
 [sub_resource type="Animation" id="Animation_ru8b6"]
 length = 0.001
@@ -83,8 +84,7 @@ script = null
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-layer = 30
-visible = false
+layer = 128
 
 [node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
 anchors_preset = 10
@@ -398,7 +398,27 @@ position = Vector2(1024, 896)
 
 [node name="Inventory" parent="HUD" instance=ExtResource("12_nf7r3")]
 
-[node name="quickselect_screen" parent="HUD" instance=ExtResource("15_p6xrp")]
+[node name="quickselect_screen" parent="HUD" instance=ExtResource("15_ia3vl")]
+
+[node name="collectedApples_display" type="Control" parent="HUD"]
+custom_minimum_size = Vector2(160, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1728.0
+offset_top = 320.0
+offset_right = 1888.0
+offset_bottom = 640.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/collectedApples_display"]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 320.0
+alignment = 1
+
+[node name="collectedApplesDisplay_golden" parent="HUD/collectedApples_display/VBoxContainer" instance=ExtResource("16_1nult")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true

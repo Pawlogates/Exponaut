@@ -105,8 +105,8 @@ func _on_fade_animation_animation_finished(anim_name):
 		%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
 		%fade_animation.play("fade_from_black")
 		
-		#%main_menu.visible = true
-		#%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+		%main_menu.visible = true
+		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 		
 		%menu_deco_bg.visible = true
 		%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -350,11 +350,11 @@ func _on_bonus_pressed():
 func _on_disable_quicksaves_pressed():
 	if Globals.quicksaves_enabled == true:
 		Globals.quicksaves_enabled = false
-		$"gameplay_menu/menu_container/Enable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
+		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
 	
 	elif Globals.quicksaves_enabled == false:
 		Globals.quicksaves_enabled = true
-		$"gameplay_menu/menu_container/Enable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
+		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
 
 
 

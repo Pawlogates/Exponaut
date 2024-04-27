@@ -13,6 +13,11 @@ var collected_in_cycle = 0
 var total_score = 0
 
 
+var collected_goldenApples = 0
+var collected_blueApples = 0
+var collected_redApples = 0
+
+
 var playerHP
 
 var player_pos
@@ -135,7 +140,7 @@ var next_transition = 0
 
 
 var debug_mode = true
-var delete_saves = false
+var delete_saves = true
 
 signal cheated
 var cheated_state = false
