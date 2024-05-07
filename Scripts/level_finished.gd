@@ -63,7 +63,7 @@ func _process(_delta):
 	
 
 
-
+var first_time_clear = false
 var topRankScore = 0
 
 func exit_reached():
@@ -72,7 +72,11 @@ func exit_reached():
 	print(LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)))
 	level_score = Globals.level_score
 	
+	
 	if not Globals.mode_scoreAttack:
+		if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 1:
+			first_time_clear = true
+		
 		if get_tree().get_nodes_in_group("Collectibles").size() == 0:
 			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 3:
 				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level), 3)
@@ -100,12 +104,19 @@ func exit_reached():
 				LevelTransition.get_node("%saved_progress").next_level_RI2 += 1
 	
 	
-	
 		Globals.save_progress.emit()
 	
 	
 	
-	
+	if $/root/World.final_level:
+		if first_time_clear:
+			await LevelTransition.fade_to_black_verySlow()
+			await get_tree().create_timer(2, true).timeout
+			var credits = load("res://credits.tscn")
+			get_tree().change_scene_to_packed(credits)
+			
+			return
+		
 	
 	
 	$AudioStreamPlayer.play()

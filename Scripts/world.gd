@@ -47,6 +47,7 @@ var leaves_scene = preload("res://weather_leaves.tscn")
 
 @export var regular_level = true
 @export var shrine_level = false
+@export var final_level = false
 
 @export var playerStartHP = 3
 var key_total = 50
@@ -1212,3 +1213,7 @@ func reassign_player():
 	
 
 
+
+
+func _on_area_2d_body_entered(body):
+	pass # Replace with function body.

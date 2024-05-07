@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=11 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" path="res://Scripts/level_transition.gd" id="1_bav2q"]
 [ext_resource type="Script" path="res://saved_progress.gd" id="2_rjoyn"]
@@ -97,6 +97,22 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
 }
 
+[sub_resource type="Animation" id="Animation_iggu8"]
+resource_name = "fade_to_black_verySlow"
+length = 6.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_olarl"]
 _data = {
 "RESET": SubResource("Animation_g0n3s"),
@@ -104,7 +120,8 @@ _data = {
 "fade_from_black_slow": SubResource("Animation_48rua"),
 "fade_to_black": SubResource("Animation_wyr23"),
 "fade_to_black_fast": SubResource("Animation_c5vkc"),
-"fade_to_black_slow": SubResource("Animation_3sgdl")
+"fade_to_black_slow": SubResource("Animation_3sgdl"),
+"fade_to_black_verySlow": SubResource("Animation_iggu8")
 }
 
 [node name="LevelTransition" type="CanvasLayer"]

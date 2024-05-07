@@ -36,9 +36,9 @@ func _process(delta):
 			
 			#$/root/World.music.volume_db = trigger value
 
-	if moveCamera:
-		$/root/World.camera.position[0] = camera_baseOffset * trigger_value
-	
-	if zoomCamera:
-		zoomValue = clamp(camera_baseZoom * trigger_value, minZoom, maxZoom)
-		$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
+			if moveCamera:
+				$/root/World.camera.position[0] = camera_baseOffset * trigger_value
+			
+			if zoomCamera:
+				zoomValue = clamp(camera_baseZoom * trigger_value, minZoom, maxZoom)
+				$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)

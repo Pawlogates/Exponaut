@@ -1,0 +1,177 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxvh7pwtrj6jh"]
+
+[ext_resource type="Script" path="res://credits.gd" id="1_rq2mc"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="2_4k71v"]
+
+[sub_resource type="Animation" id="Animation_dqrdo"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("credits_container:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4i16o"]
+resource_name = "scroll"
+length = 60.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("credits_container:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 60),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, -9376)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_7x8kw"]
+_data = {
+"RESET": SubResource("Animation_dqrdo"),
+"scroll": SubResource("Animation_4i16o")
+}
+
+[node name="Credits" type="Node2D"]
+script = ExtResource("1_rq2mc")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0, 0, 0, 1)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 540)
+
+[node name="credits_container" type="Node2D" parent="."]
+
+[node name="Label" type="Label" parent="credits_container"]
+offset_top = 2112.0
+offset_right = 1920.0
+offset_bottom = 9376.0
+theme = ExtResource("2_4k71v")
+theme_override_constants/line_spacing = 24
+text = "some text and even more text now holy shit thats a lotta text my guy are you sure texttextt exttext texttexttextte xttexttextte xttexttextte xttexttext texttextte xttexttextte 
+
+
+
+xttexttexttexttexttexttexttexttexttextt exttexttexttextte xttexttexttexttexttexttexttext
+
+
+
+
+
+
+
+
+
+
+even more text to waster your precious time <3333
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+okay thats it now
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+...unless?"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Label2" type="Label" parent="credits_container"]
+offset_top = 1152.0
+offset_right = 1920.0
+offset_bottom = 1668.0
+theme = ExtResource("2_4k71v")
+theme_override_constants/line_spacing = 24
+theme_override_font_sizes/font_size = 111
+text = "hold space to speed up credits my guy man bud fella friendo"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_7x8kw")
+}
+autoplay = "scroll"
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
