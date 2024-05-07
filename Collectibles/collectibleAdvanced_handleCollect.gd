@@ -54,7 +54,7 @@ var collected_special = false
 @export var shrineGem_openPortal = false
 @export var shrineGem_particleAmount = 25
 @export var shrineGem_portal_level_ID = "none"
-@export_file("*.tscn") var shrineGem_level_filePath: String
+@export_file("*.tscn") var shrineGem_level_filePath = "none"
 @export var shrineGem_displayedName = "none"
 @export var is_specialApple = "none" #options: "red", "blue", "golden"
 
@@ -503,7 +503,7 @@ var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
-		#"loadingZone" : loadingZone,
+		"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
