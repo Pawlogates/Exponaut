@@ -69,28 +69,28 @@ var topRankScore = 0
 func exit_reached():
 	topRankScore = Globals.current_topRankScore
 	%top_rank_label.text = "Top Rank: " + str(topRankScore)
-	print(LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)))
+	print(LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)))
 	level_score = Globals.level_score
 	
 	
 	if not Globals.mode_scoreAttack:
-		if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 1:
+		if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 1:
 			first_time_clear = true
 		
 		if get_tree().get_nodes_in_group("Collectibles").size() == 0:
-			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 3:
-				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level), 3)
+			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 3:
+				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level_ID), 3)
 				
 		elif get_tree().get_nodes_in_group("specialCollectible").size() <= 0:
-			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 2:
-				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level), 2)
+			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 2:
+				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level_ID), 2)
 				
 		elif get_tree().get_nodes_in_group("Collectibles").size() >= 0:
-			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level)) < 1:
-				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level), 1)
+			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 1:
+				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level_ID), 1)
 		
-		if LevelTransition.get_node("%saved_progress").get("score_" + str(Globals.current_level)) < level_score:
-			LevelTransition.get_node("%saved_progress").set("score_" + str(Globals.current_level), level_score)
+		if LevelTransition.get_node("%saved_progress").get("score_" + str(Globals.current_level_ID)) < level_score:
+			LevelTransition.get_node("%saved_progress").set("score_" + str(Globals.current_level_ID), level_score)
 	
 	
 	

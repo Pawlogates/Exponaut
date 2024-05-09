@@ -323,7 +323,9 @@ next_transition = 4
 position = Vector2(-6752, -1952)
 hp = 3
 shrineGem_portal_level_ID = "MAIN_1"
+shrineGem_portal_level_number = 1
 shrineGem_level_filePath = "res://Levels/MAIN_1.tscn"
+shrineGem_displayedName = "some level"
 
 [node name="darkDecoParallax_grass" parent="." index="41" instance=ExtResource("24_6jyq5")]
 position = Vector2(-1712, 552)
@@ -398,5 +400,22 @@ position = Vector2(-576, 8)
 [node name="Shrine Gem" parent="." index="63" instance=ExtResource("32_2ey06")]
 position = Vector2(-880, 176)
 shrineGem_portal_level_ID = "MAIN_2"
+shrineGem_portal_level_number = 2
 shrineGem_level_filePath = "res://Levels/MAIN_2.tscn"
 shrineGem_displayedName = "level name"
+
+[node name="Shrine Gem3" parent="." index="64" instance=ExtResource("32_2ey06")]
+position = Vector2(-600, 312)
+hp = 3
+shrineGem_portal_level_ID = "MAIN_3"
+shrineGem_portal_level_number = 3
+shrineGem_level_filePath = "res://Levels/MAIN_3.tscn"
+shrineGem_displayedName = "level 7236782"
+
+[node name="Shrine Gem4" parent="." index="65" instance=ExtResource("32_2ey06")]
+position = Vector2(-2176, 112)
+hp = 3
+shrineGem_portal_level_ID = "MAIN_4"
+shrineGem_portal_level_number = 4
+shrineGem_level_filePath = "res://Levels/MAIN_4.tscn"
+shrineGem_displayedName = "another level"

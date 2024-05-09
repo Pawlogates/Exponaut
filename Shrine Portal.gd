@@ -5,7 +5,8 @@ var entered = false
 
 @export_file("*.tscn") var target_area: String
 @export var particle_amount = 25
-@export var level_ID = 0
+@export var level_ID = "none"
+@export var level_number = 0
 
 @export var level_score = 0
 @export var level_completionState = 0
@@ -23,10 +24,13 @@ func _ready():
 		pass
 	elif level_completionState == 1:
 		%icon_levelFinished.visible = true
+		%unbeaten_label.visible = false
 	elif level_completionState == 2:
 		%icon_levelAllBigApplesCollected.visible = true
+		%unbeaten_label.visible = false
 	elif level_completionState == 3:
 		%icon_levelAllCollectiblesCollected.visible = true
+		%unbeaten_label.visible = false
 	
 	
 	for particles in particle_amount:

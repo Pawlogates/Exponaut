@@ -114,8 +114,8 @@ signal info_sign_touched
 var selected_episode = "Main Levels"
 var current_levelSet_ID = "MAIN"
 var next_level = -1
-var current_level = "none"
-var current_level_ID = -1
+var current_level_ID = "none"
+var current_level_number = -1
 
 var current_topRankScore = 100000
 
@@ -139,8 +139,8 @@ var next_transition = 0
 
 
 
-var debug_mode = false
-var delete_saves = false
+var debug_mode = true
+var delete_saves = true
 
 signal cheated
 var cheated_state = false

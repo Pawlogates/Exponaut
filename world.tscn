@@ -84,7 +84,7 @@ script = null
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
-layer = 100
+layer = 75
 
 [node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
 anchors_preset = 10

@@ -1,5 +1,0 @@
-[gd_scene format=3 uid="uid://c5pdsk6ye2hl8"]
-
-[node name="hangingDeco_grass" type="Node2D"]
-
-[node name="RigidBody2D" type="RigidBody2D" parent="."]

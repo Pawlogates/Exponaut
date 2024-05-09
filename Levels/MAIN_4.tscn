@@ -20,6 +20,7 @@ layer_0/tile_data = PackedInt32Array(131070, 0, 8, 131071, 327680, 8, 65536, 327
 
 [node name="tileset_objects" parent="." index="2" instance=ExtResource("3_648po")]
 unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(-196596, 0, 196608, -196597, 0, 196608, -196598, 0, 196608, -196599, 0, 196608, -131063, 0, 196608, -131064, 0, 196608, -131065, 0, 196608, -131066, 0, 196608, -65530, 0, 196608, -65531, 0, 196608, -131049, 0, 589824)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false

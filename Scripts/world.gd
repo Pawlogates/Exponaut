@@ -81,8 +81,8 @@ func _ready():
 	
 	if shrine_level:
 		Globals.selected_episode = shrine_selected_episode
-		Globals.current_level = shrine_level_ID
-		Globals.current_level_ID = shrine_level_number
+		Globals.current_level_ID = shrine_level_ID
+		Globals.current_level_number = shrine_level_number
 	
 	savedProgress_save()
 	
@@ -1213,7 +1213,3 @@ func reassign_player():
 	
 
 
-
-
-func _on_area_2d_body_entered(body):
-	pass # Replace with function body.

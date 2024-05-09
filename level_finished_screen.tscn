@@ -294,7 +294,6 @@ mouse_filter = 2
 
 [node name="Level Finished Label" type="RichTextLabel" parent="CenterContainer/Control"]
 unique_name_in_owner = true
-visible = false
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8

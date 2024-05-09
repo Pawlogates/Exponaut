@@ -4,7 +4,7 @@ extends Node2D
 @export var icon_position = Vector2(0, 0)
 @export var icon_level_filePath = preload("res://Levels/RI1_1.tscn")
 
-var level_ID = 0
+var level_number = 0
 
 var level_state = 0
 var level_score = 0
@@ -26,7 +26,7 @@ func _ready():
 	
 	#set level button state
 	await Globals.progress_loadingFinished
-	if not is_main_level and level_ID <= Globals.next_level:
+	if not is_main_level and level_number <= Globals.next_level:
 		unlocked = true
 		
 	elif level_state != 0:
@@ -46,55 +46,55 @@ func _ready():
 	
 	
 	if Globals.selected_episode == "rooster_island":
-		if level_ID == 1:
+		if level_number == 1:
 			topRankScore = 50000
-		elif level_ID == 2:
+		elif level_number == 2:
 			topRankScore = 50000
-		elif level_ID == 3:
+		elif level_number == 3:
 			topRankScore = 50000
-		elif level_ID == 4:
+		elif level_number == 4:
 			topRankScore = 50000
-		elif level_ID == 5:
+		elif level_number == 5:
 			topRankScore = 50000
-		elif level_ID == 6:
+		elif level_number == 6:
 			topRankScore = 50000
-		elif level_ID == 7:
+		elif level_number == 7:
 			topRankScore = 50000
-		elif level_ID == 8:
+		elif level_number == 8:
 			topRankScore = 50000
-		elif level_ID == 9:
+		elif level_number == 9:
 			topRankScore = 50000
-		elif level_ID == 10:
+		elif level_number == 10:
 			topRankScore = 50000
-		elif level_ID == 11:
+		elif level_number == 11:
 			topRankScore = 50000
 	
 	elif Globals.selected_episode == "Main Levels":
-		if level_ID == 1:
+		if level_number == 1:
 			topRankScore = 50000
-		elif level_ID == 2:
+		elif level_number == 2:
 			topRankScore = 50000
-		elif level_ID == 3:
+		elif level_number == 3:
 			topRankScore = 50000
-		elif level_ID == 4:
+		elif level_number == 4:
 			topRankScore = 50000
-		elif level_ID == 5:
+		elif level_number == 5:
 			topRankScore = 50000
-		elif level_ID == 6:
+		elif level_number == 6:
 			topRankScore = 50000
-		elif level_ID == 7:
+		elif level_number == 7:
 			topRankScore = 50000
-		elif level_ID == 8:
+		elif level_number == 8:
 			topRankScore = 50000
-		elif level_ID == 9:
+		elif level_number == 9:
 			topRankScore = 50000
-		elif level_ID == 10:
+		elif level_number == 10:
 			topRankScore = 50000
-		elif level_ID == 11:
+		elif level_number == 11:
 			topRankScore = 50000
-		elif level_ID == 12:
+		elif level_number == 12:
 			topRankScore = 50000
-		elif level_ID == 13:
+		elif level_number == 13:
 			topRankScore = 50000
 	
 	
@@ -115,12 +115,12 @@ func _on_pressed():
 		LevelTransition.fade_from_black_slow()
 		
 		if Globals.selected_episode == "rooster_island":
-			Globals.current_level = str("RI1_", level_ID)
-			Globals.current_level_ID = level_ID
+			Globals.current_level_ID = str("RI1_", level_number)
+			Globals.current_level_number = level_number
 			
 		elif Globals.selected_episode == "Main Levels":
-			Globals.current_level = str("MAIN_", level_ID)
-			Globals.current_level_ID = level_ID
+			Globals.current_level_ID = str("MAIN_", level_number)
+			Globals.current_level_number = level_number
 		
 	else:
 		%level_locked.play()

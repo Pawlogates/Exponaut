@@ -6,7 +6,7 @@ var level_icon_scene = load("res://level_button.tscn")
 var main_menu = load("res://start_menu.tscn")
 
 
-var level_ID = 0
+var level_number = 0
 
 var total_score = 0
 
@@ -22,7 +22,7 @@ func _ready():
 	#EPISODE START
 	if Globals.selected_episode == "rooster_island":
 		%background.texture = load("res://Assets/Graphics/menu_map.png")
-		level_ID = 0
+		level_number = 0
 		
 		#LEVEL ICON START
 		place_level_icon(5, Vector2(-368, -140), load("res://Levels/RI1_1.tscn"))
@@ -75,7 +75,7 @@ func _ready():
 	#EPISODE START
 	if Globals.selected_episode == "Main Levels":
 		%background.texture = load("res://Assets/Graphics/menu_map2.png")
-		level_ID = 0
+		level_number = 0
 		
 		#LEVEL ICON START
 		place_level_icon(1, Vector2(-416, 4), load("res://Levels/MAIN_1.tscn"))
@@ -107,8 +107,8 @@ func _ready():
 	#RI1
 	if Globals.selected_episode == "rooster_island":
 		for icon in get_tree().get_nodes_in_group("level_icon"):
-			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_RI1_" + str(icon.level_ID))
-			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI1_" + str(icon.level_ID))
+			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_RI1_" + str(icon.level_number))
+			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI1_" + str(icon.level_number))
 			print("saved level state:", icon.level_state)
 		
 		
@@ -120,8 +120,8 @@ func _ready():
 		Globals.current_levelSet_ID = "MAIN"
 		
 		for icon in get_tree().get_nodes_in_group("level_icon"):
-			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_MAIN_" + str(icon.level_ID))
-			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_MAIN_" + str(icon.level_ID))
+			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_MAIN_" + str(icon.level_number))
+			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_MAIN_" + str(icon.level_number))
 			icon.is_main_level = true
 			print("saved level state:", icon.level_state)
 		
@@ -149,7 +149,7 @@ func _ready():
 
 func place_level_icon(Icon_ID, Position, Level_FilePath):
 	
-	level_ID += 1
+	level_number += 1
 	
 	var level_icon = level_icon_scene.instantiate()
 	
@@ -157,7 +157,7 @@ func place_level_icon(Icon_ID, Position, Level_FilePath):
 	level_icon.icon_position = Position
 	level_icon.icon_level_filePath = Level_FilePath
 	
-	level_icon.level_ID = level_ID
+	level_icon.level_number = level_number
 	
 	%level_icon_container.add_child(level_icon)
 

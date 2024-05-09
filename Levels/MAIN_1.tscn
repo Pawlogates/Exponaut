@@ -11,9 +11,14 @@
 shrine_level = true
 final_level = true
 playerStartHP = 3
+rain = true
+leaves = true
 shrine_selected_episode = "Main Levels"
 shrine_level_ID = "MAIN_1"
 shrine_level_number = 1
+
+[node name="Player" parent="." index="0"]
+position = Vector2(824, -88)
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_l1ibc")]
 unique_name_in_owner = true
@@ -55,3 +60,5 @@ scale = Vector2(320, 1)
 [node name="trigger_bgChange" parent="." index="15" instance=ExtResource("6_3nff8")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

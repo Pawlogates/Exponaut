@@ -285,7 +285,7 @@ tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(48, -0.25, 0, 0.25, 0, 272, -1.9, 0.5, 0.25, 0),
+"points": PackedFloat32Array(48, -0.25, 0, 0.25, 0, 256, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 2)
 }
 tracks/5/type = "bezier"
@@ -296,7 +296,7 @@ tracks/5/interp = 1
 tracks/5/loop_wrap = true
 tracks/5/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(160, -0.25, 0, 0.25, 0, 160, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(160, -0.25, 0, 0.25, 0, 184, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 2)
 }
 tracks/6/type = "bezier"
@@ -307,7 +307,7 @@ tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(352, -0.25, 0, 0.25, 0, 128, -1.6, -0.5, 0.25, 0),
+"points": PackedFloat32Array(352, -0.25, 0, 0.25, 0, 128, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 2)
 }
 tracks/7/type = "bezier"
@@ -318,7 +318,7 @@ tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(136, -0.25, 0, 0.25, 0, 136, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(136, -0.25, 0, 0.25, 0, 152, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 2)
 }
 tracks/8/type = "bezier"
@@ -340,7 +340,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(-112, -0.25, 0, 0.25, 0, 16, -1.8, -0.5, 0.25, 0),
+"points": PackedFloat32Array(-112, -0.25, 0, 0.25, 0, 24, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 2)
 }
 tracks/10/type = "bezier"
@@ -574,9 +574,9 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 0
 offset_left = -320.0
-offset_top = -160.0
+offset_top = -416.0
 offset_right = 320.0
-offset_bottom = 96.0
+offset_bottom = -160.0
 
 [node name="rank" type="Label" parent="level_info"]
 unique_name_in_owner = true
@@ -617,6 +617,27 @@ text = "name"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="unbeaten_label" type="Label" parent="level_info"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 192.0
+offset_top = 72.0
+offset_right = 448.0
+offset_bottom = 136.0
+theme = ExtResource("3_di4y8")
+theme_override_font_sizes/font_size = 32
+text = "Unbeaten"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ColorRect" type="ColorRect" parent="level_info"]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 16.0
+offset_right = 544.0
+offset_bottom = 240.0
+color = Color(0.137255, 1, 1, 0.156863)
+
 [node name="Node2D" type="Node2D" parent="."]
 modulate = Color(1, 1, 1, 0)
 
@@ -624,21 +645,21 @@ modulate = Color(1, 1, 1, 0)
 unique_name_in_owner = true
 visible = false
 z_index = 10
-position = Vector2(0, -64)
+position = Vector2(0, -312)
 texture = SubResource("AtlasTexture_7ix7s")
 
 [node name="icon_levelAllBigApplesCollected" type="Sprite2D" parent="Node2D"]
 unique_name_in_owner = true
 visible = false
 z_index = 10
-position = Vector2(0, -64)
+position = Vector2(0, -312)
 texture = SubResource("AtlasTexture_6rvmk")
 
 [node name="icon_levelAllCollectiblesCollected" type="Sprite2D" parent="Node2D"]
 unique_name_in_owner = true
 visible = false
 z_index = 10
-position = Vector2(0, -64)
+position = Vector2(0, -312)
 texture = SubResource("AtlasTexture_cdfff")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

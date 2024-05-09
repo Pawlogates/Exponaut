@@ -54,7 +54,8 @@ var collected_special = false
 @export var shrineGem_openPortal = false
 @export var shrineGem_particleAmount = 25
 @export var shrineGem_portal_level_ID = "none"
-@export_file("*.tscn") var shrineGem_level_filePath = "none"
+@export var shrineGem_portal_level_number = 0
+@export_file("*.tscn") var shrineGem_level_filePath: String
 @export var shrineGem_displayedName = "none"
 @export var is_specialApple = "none" #options: "red", "blue", "golden"
 
@@ -117,81 +118,85 @@ func _ready():
 		level_score = LevelTransition.get_node("%saved_progress").get("score_" + shrineGem_portal_level_ID)
 	
 		if Globals.selected_episode == "rooster_island":
-			if Globals.current_level_ID == 1:
+			if shrineGem_portal_level_number == 1:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 2:
+			elif shrineGem_portal_level_number == 2:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 3:
+			elif shrineGem_portal_level_number == 3:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 4:
+			elif shrineGem_portal_level_number == 4:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 5:
+			elif shrineGem_portal_level_number == 5:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 6:
+			elif shrineGem_portal_level_number == 6:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 7:
+			elif shrineGem_portal_level_number == 7:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 8:
+			elif shrineGem_portal_level_number == 8:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 9:
+			elif shrineGem_portal_level_number == 9:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 10:
+			elif shrineGem_portal_level_number == 10:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 11:
+			elif shrineGem_portal_level_number == 11:
 				topRankScore = 50000
 		
 		elif Globals.selected_episode == "Main Levels":
-			if Globals.current_level_ID == 1:
+			if shrineGem_portal_level_number == 1:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 2:
+			elif shrineGem_portal_level_number == 2:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 3:
+			elif shrineGem_portal_level_number == 3:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 4:
+			elif shrineGem_portal_level_number == 4:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 5:
+			elif shrineGem_portal_level_number == 5:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 6:
+			elif shrineGem_portal_level_number == 6:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 7:
+			elif shrineGem_portal_level_number == 7:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 8:
+			elif shrineGem_portal_level_number == 8:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 9:
+			elif shrineGem_portal_level_number == 9:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 10:
+			elif shrineGem_portal_level_number == 10:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 11:
+			elif shrineGem_portal_level_number == 11:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 12:
+			elif shrineGem_portal_level_number == 12:
 				topRankScore = 50000
-			elif Globals.current_level_ID == 13:
+			elif shrineGem_portal_level_number == 13:
 				topRankScore = 50000
 		
 		var rating_top = topRankScore
-		var rating_5 = rating_top * 0.8
-		var rating_4 = rating_top * 0.6
-		var rating_3 = rating_top * 0.4
-		var rating_2 = rating_top * 0.2
+		var rating_6 = rating_top * 0.8
+		var rating_5 = rating_top * 0.6
+		var rating_4 = rating_top * 0.4
+		var rating_3 = rating_top * 0.2
+		var rating_2 = rating_top * 0.1
 		var rating_1 = 0
 		
 		if level_score >= rating_top:
 			level_rank = "S+"
-			level_rank_value = 6
+			level_rank_value = 7
 		elif level_score >= rating_5:
 			level_rank = "S"
+			level_rank_value = 6
+		elif level_score >= rating_5:
+			level_rank = "A"
 			level_rank_value = 5
 		elif level_score >= rating_4:
-			level_rank = "A"
+			level_rank = "B"
 			level_rank_value = 4
 		elif level_score >= rating_3:
-			level_rank = "B"
+			level_rank = "C"
 			level_rank_value = 3
 		elif level_score >= rating_2:
-			level_rank = "C"
+			level_rank = "D"
 			level_rank_value = 2
 		elif level_score >= rating_1:
-			level_rank = "D"
+			level_rank = "none"
 			level_rank_value = 1
 		
 		
@@ -503,7 +508,7 @@ var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
-		"loadingZone" : loadingZone,
+		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
@@ -742,7 +747,7 @@ func _on_area_2d_area_entered(area):
 		remove_from_group("loadingZone4")
 		remove_from_group("loadingZone5")
 		
-		loadingZone = area.loadingZone_ID
+		loadingZone = area.loadingZone_number
 		add_to_group(loadingZone)
 		
 		#print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
@@ -827,6 +832,7 @@ func spawn_item_static():
 func spawn_portal():
 	var portal = preload("res://shrine_portal.tscn").instantiate()
 	portal.level_ID = shrineGem_portal_level_ID
+	portal.level_number = shrineGem_portal_level_number
 	portal.target_area = shrineGem_level_filePath
 	portal.particle_amount = shrineGem_particleAmount
 	portal.position = start_pos
