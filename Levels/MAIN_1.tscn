@@ -60,5 +60,3 @@ scale = Vector2(320, 1)
 [node name="trigger_bgChange" parent="." index="15" instance=ExtResource("6_3nff8")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

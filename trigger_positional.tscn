@@ -6,6 +6,7 @@
 size = Vector2(64, 64)
 
 [node name="trigger_positional" type="Area2D"]
+collision_mask = 3
 script = ExtResource("1_2kcyo")
 moveCamera = false
 zoomCamera = false
@@ -13,3 +14,11 @@ zoomCamera = false
 [node name="shape" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_7bp8d")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
