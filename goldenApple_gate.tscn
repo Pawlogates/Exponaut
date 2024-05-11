@@ -140,6 +140,7 @@ _data = {
 size = Vector2(256, 512)
 
 [node name="goldenApple_gate" type="StaticBody2D"]
+z_index = -1
 script = ExtResource("1_j001n")
 item_type = "golden apple"
 required_item_amount = 10
