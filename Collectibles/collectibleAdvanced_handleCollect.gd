@@ -508,7 +508,7 @@ var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
-		#"loadingZone" : loadingZone,
+		"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON

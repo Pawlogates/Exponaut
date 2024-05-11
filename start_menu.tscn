@@ -1144,7 +1144,7 @@ offset_bottom = 447.0
 theme_override_constants/line_spacing = 8
 text = "By: Pawlogates
 Thanks for playing!
-BETA-v0.7"
+BETA-v0.8"
 
 [connection signal="focus_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_exited"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://d0ev5ctdik86d"]
+[gd_scene load_steps=27 format=3 uid="uid://d0ev5ctdik86d"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_6dpir"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_h5i2g"]
@@ -16,11 +16,9 @@
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="22_but68"]
 [ext_resource type="AudioStream" uid="uid://jrrdb7mdfafc" path="res://Assets/Sounds/music/plains3.mp3" id="23_2se7g"]
 [ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://darkDecoParallax_grass.tscn" id="24_6jyq5"]
-[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://trigger_positional.tscn" id="24_ikwuh"]
 [ext_resource type="PackedScene" uid="uid://c6v8vv70k0pe3" path="res://goldenApple_gate.tscn" id="25_xy2dy"]
 [ext_resource type="PackedScene" uid="uid://d2mod4i4kclua" path="res://Collectibles/collectibleSpecialApple_golden.tscn" id="26_akj54"]
 [ext_resource type="PackedScene" uid="uid://5h7bdd7d5xnh" path="res://Enemies/enemy_frogRed.tscn" id="26_fs6be"]
-[ext_resource type="AudioStream" uid="uid://7xoh66av8tjx" path="res://Assets/Sounds/music/ascent2.mp3" id="26_kvpra"]
 [ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="27_ttbev"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Tiles/water_area.tscn" id="29_nalwp"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Tiles/areaTransition.tscn" id="29_nyjvy"]
@@ -172,12 +170,7 @@ scale = Vector2(11, 1)
 position = Vector2(4640, -1024)
 scale = Vector2(1, 18)
 
-[node name="trigger_musicChange11" parent="Triggers" index="18" instance=ExtResource("15_4hhtf")]
-position = Vector2(5792, -2112)
-scale = Vector2(1, 16)
-music_file = ExtResource("26_kvpra")
-
-[node name="trigger_bgMove9" parent="Triggers" index="19" instance=ExtResource("22_but68")]
+[node name="trigger_bgMove9" parent="Triggers" index="18" instance=ExtResource("22_but68")]
 position = Vector2(2080, 2272)
 scale = Vector2(7, 1)
 bgMove_y = 1400
@@ -338,67 +331,76 @@ position = Vector2(-1712, 552)
 [node name="darkDecoParallax_grass2" parent="." index="42" instance=ExtResource("24_6jyq5")]
 position = Vector2(608, 712)
 
-[node name="trigger_positional" parent="." index="43" instance=ExtResource("24_ikwuh")]
-position = Vector2(176, 56)
-scale = Vector2(-51.5, 24)
-moveCamera = true
-zoomCamera = true
+[node name="darkDecoParallax_grass3" parent="." index="43" instance=ExtResource("24_6jyq5")]
+position = Vector2(-3960, 1104)
 
-[node name="specialApple_golden" parent="." index="44" instance=ExtResource("26_akj54")]
+[node name="darkDecoParallax_grass4" parent="." index="44" instance=ExtResource("24_6jyq5")]
+position = Vector2(-5296, 760)
+
+[node name="darkDecoParallax_grass5" parent="." index="45" instance=ExtResource("24_6jyq5")]
+position = Vector2(-8864, 96)
+
+[node name="darkDecoParallax_grass6" parent="." index="46" instance=ExtResource("24_6jyq5")]
+position = Vector2(-8360, -2784)
+
+[node name="darkDecoParallax_grass7" parent="." index="47" instance=ExtResource("24_6jyq5")]
+position = Vector2(-4176, -3416)
+
+[node name="specialApple_golden" parent="." index="48" instance=ExtResource("26_akj54")]
 position = Vector2(-152, -152)
 
-[node name="specialApple_golden2" parent="." index="45" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden2" parent="." index="49" instance=ExtResource("26_akj54")]
 position = Vector2(-312, -128)
 
-[node name="specialApple_golden3" parent="." index="46" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden3" parent="." index="50" instance=ExtResource("26_akj54")]
 position = Vector2(-216, -272)
 
-[node name="specialApple_golden4" parent="." index="47" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden4" parent="." index="51" instance=ExtResource("26_akj54")]
 position = Vector2(-400, -176)
 
-[node name="specialApple_golden5" parent="." index="48" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden5" parent="." index="52" instance=ExtResource("26_akj54")]
 position = Vector2(-384, -104)
 
-[node name="specialApple_golden6" parent="." index="49" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden6" parent="." index="53" instance=ExtResource("26_akj54")]
 position = Vector2(-296, -112)
 
-[node name="specialApple_golden7" parent="." index="50" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden7" parent="." index="54" instance=ExtResource("26_akj54")]
 position = Vector2(-296, -96)
 
-[node name="specialApple_golden8" parent="." index="51" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden8" parent="." index="55" instance=ExtResource("26_akj54")]
 position = Vector2(-456, -72)
 
-[node name="specialApple_golden9" parent="." index="52" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden9" parent="." index="56" instance=ExtResource("26_akj54")]
 position = Vector2(-360, -216)
 
-[node name="specialApple_golden10" parent="." index="53" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden10" parent="." index="57" instance=ExtResource("26_akj54")]
 position = Vector2(-544, -120)
 
-[node name="specialApple_golden11" parent="." index="54" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden11" parent="." index="58" instance=ExtResource("26_akj54")]
 position = Vector2(-528, -48)
 
-[node name="specialApple_golden12" parent="." index="55" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden12" parent="." index="59" instance=ExtResource("26_akj54")]
 position = Vector2(-440, -56)
 
-[node name="specialApple_golden13" parent="." index="56" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden13" parent="." index="60" instance=ExtResource("26_akj54")]
 position = Vector2(-432, -32)
 
-[node name="specialApple_golden14" parent="." index="57" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden14" parent="." index="61" instance=ExtResource("26_akj54")]
 position = Vector2(-592, -8)
 
-[node name="specialApple_golden15" parent="." index="58" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden15" parent="." index="62" instance=ExtResource("26_akj54")]
 position = Vector2(-496, -152)
 
-[node name="specialApple_golden16" parent="." index="59" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden16" parent="." index="63" instance=ExtResource("26_akj54")]
 position = Vector2(-680, -56)
 
-[node name="specialApple_golden17" parent="." index="60" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden17" parent="." index="64" instance=ExtResource("26_akj54")]
 position = Vector2(-664, 16)
 
-[node name="specialApple_golden18" parent="." index="61" instance=ExtResource("26_akj54")]
+[node name="specialApple_golden18" parent="." index="65" instance=ExtResource("26_akj54")]
 position = Vector2(-576, 8)
 
-[node name="Shrine Gem2" parent="." index="62" instance=ExtResource("32_2ey06")]
+[node name="Shrine Gem2" parent="." index="66" instance=ExtResource("32_2ey06")]
 position = Vector2(-2400, 128)
 shrineGem_portal_level_ID = "MAIN_2"
 shrineGem_portal_level_number = 2
@@ -406,7 +408,7 @@ shrineGem_level_filePath = "res://Levels/MAIN_2.tscn"
 shrineGem_displayedName = "level name"
 item_scene = ExtResource("26_fs6be")
 
-[node name="Shrine Gem3" parent="." index="63" instance=ExtResource("32_2ey06")]
+[node name="Shrine Gem3" parent="." index="67" instance=ExtResource("32_2ey06")]
 position = Vector2(1824, -2624)
 hp = 1
 shrineGem_portal_level_ID = "MAIN_3"
@@ -415,7 +417,7 @@ shrineGem_level_filePath = "res://Levels/MAIN_3.tscn"
 shrineGem_displayedName = "level 7236782"
 item_scene = ExtResource("27_ttbev")
 
-[node name="Shrine Gem4" parent="." index="64" instance=ExtResource("32_2ey06")]
+[node name="Shrine Gem4" parent="." index="68" instance=ExtResource("32_2ey06")]
 position = Vector2(-2304, -2112)
 hp = 10
 shrineGem_portal_level_ID = "MAIN_4"
@@ -423,24 +425,24 @@ shrineGem_portal_level_number = 4
 shrineGem_level_filePath = "res://Levels/MAIN_4.tscn"
 shrineGem_displayedName = "another level"
 
-[node name="goldenApple_gate" parent="." index="65" instance=ExtResource("25_xy2dy")]
+[node name="goldenApple_gate" parent="." index="69" instance=ExtResource("25_xy2dy")]
 position = Vector2(576, -256)
 required_item_amount = 15
 
-[node name="goldenApple_gate2" parent="." index="66" instance=ExtResource("25_xy2dy")]
+[node name="goldenApple_gate2" parent="." index="70" instance=ExtResource("25_xy2dy")]
 position = Vector2(-3584, -1728)
 required_item_amount = 2
 
 [connection signal="area_entered" from="tileset_objects/spikes_1" to="tileset_objects/spikes_1" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@58578" to="tileset_objects/@Area2D@58578" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@58586" to="tileset_objects/@Area2D@58586" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@58621" to="tileset_objects/@Area2D@58621" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@58622" to="tileset_objects/@Area2D@58622" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@58905" to="tileset_objects/@Area2D@58905" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@58906" to="tileset_objects/@Area2D@58906" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@36676" to="tileset_objects/@Area2D@36676" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@36684" to="tileset_objects/@Area2D@36684" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@36719" to="tileset_objects/@Area2D@36719" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@36720" to="tileset_objects/@Area2D@36720" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37003" to="tileset_objects/@Area2D@37003" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37004" to="tileset_objects/@Area2D@37004" method="_on_area_entered"]
 [connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@59141" to="tileset_objects/@Area2D@59141" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@59142" to="tileset_objects/@Area2D@59142" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@59143" to="tileset_objects/@Area2D@59143" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@59144" to="tileset_objects/@Area2D@59144" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@59145" to="tileset_objects/@Area2D@59145" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37239" to="tileset_objects/@Area2D@37239" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37240" to="tileset_objects/@Area2D@37240" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37241" to="tileset_objects/@Area2D@37241" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37242" to="tileset_objects/@Area2D@37242" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37243" to="tileset_objects/@Area2D@37243" method="_on_area_entered"]

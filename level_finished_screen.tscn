@@ -5,7 +5,7 @@
 [ext_resource type="Script" path="res://interactive_button.gd" id="3_v287l"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="4_7l3u8"]
 [ext_resource type="AudioStream" uid="uid://bj6mx4e78pqc6" path="res://Assets/Sounds/music/music_victory.mp3" id="4_in6rq"]
-[ext_resource type="Texture2D" uid="uid://xm6s7fb8jaig" path="res://Assets/Graphics/backgrounds/bg_snow_mountains.png" id="5_qn8t1"]
+[ext_resource type="Texture2D" uid="uid://dfphbqyrmgmmu" path="res://Assets/Graphics/backgrounds/bg_jungle.png" id="5_vlruk"]
 
 [sub_resource type="Animation" id="Animation_iwr8u"]
 resource_name = "level_finished_fade_in"
@@ -315,12 +315,13 @@ autowrap_mode = 0
 
 [node name="Background" type="TextureRect" parent="CenterContainer"]
 unique_name_in_owner = true
-visible = false
 modulate = Color(0.360784, 0.32549, 1, 1)
 z_index = -5
+custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_qn8t1")
+texture = ExtResource("5_vlruk")
+expand_mode = 1
 
 [node name="level_finished_text_hide" type="Timer" parent="."]
 one_shot = true
