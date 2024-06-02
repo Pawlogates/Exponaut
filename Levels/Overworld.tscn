@@ -432,17 +432,3 @@ required_item_amount = 15
 [node name="goldenApple_gate2" parent="." index="70" instance=ExtResource("25_xy2dy")]
 position = Vector2(-3584, -1728)
 required_item_amount = 2
-
-[connection signal="area_entered" from="tileset_objects/spikes_1" to="tileset_objects/spikes_1" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@36676" to="tileset_objects/@Area2D@36676" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@36684" to="tileset_objects/@Area2D@36684" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@36719" to="tileset_objects/@Area2D@36719" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@36720" to="tileset_objects/@Area2D@36720" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37003" to="tileset_objects/@Area2D@37003" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37004" to="tileset_objects/@Area2D@37004" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37239" to="tileset_objects/@Area2D@37239" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37240" to="tileset_objects/@Area2D@37240" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37241" to="tileset_objects/@Area2D@37241" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37242" to="tileset_objects/@Area2D@37242" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37243" to="tileset_objects/@Area2D@37243" method="_on_area_entered"]

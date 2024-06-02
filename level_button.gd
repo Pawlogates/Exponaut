@@ -45,7 +45,7 @@ func _ready():
 		%icon_levelAllCollectiblesCollected.visible = true
 	
 	
-	if Globals.selected_episode == "rooster_island":
+	if Globals.selected_episode == "Additional Levels":
 		if level_number == 1:
 			topRankScore = 50000
 		elif level_number == 2:
@@ -114,7 +114,7 @@ func _on_pressed():
 		get_tree().change_scene_to_packed(icon_level_filePath)
 		LevelTransition.fade_from_black_slow()
 		
-		if Globals.selected_episode == "rooster_island":
+		if Globals.selected_episode == "Additional Levels":
 			Globals.current_level_ID = str("RI1_", level_number)
 			Globals.current_level_number = level_number
 			

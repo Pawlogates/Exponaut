@@ -1,4 +1,4 @@
-[gd_scene load_steps=34 format=3 uid="uid://1ahj48o4tkw0"]
+[gd_scene load_steps=35 format=3 uid="uid://1ahj48o4tkw0"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_ql571"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_at0o6"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Tiles/water_area.tscn" id="18_abjr5"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Tiles/wind_area.tscn" id="18_g0lhn"]
 [ext_resource type="PackedScene" uid="uid://dssex4c1v434v" path="res://video_display.tscn" id="19_da0fd"]
+[ext_resource type="VideoStream" path="res://Assets/Videos/tutorial2.ogv" id="20_jx13o"]
 [ext_resource type="PackedScene" uid="uid://cskb3d0dg2faj" path="res://object_remover.tscn" id="20_kf36o"]
 [ext_resource type="Script" path="res://checkpoint.gd" id="21_v5o6a"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="22_5b0nw"]
@@ -256,7 +257,7 @@ displayedText_size = 1
 
 [node name="Video Display" parent="." index="46" instance=ExtResource("19_da0fd")]
 position = Vector2(2368, -1840)
-delay = 5
+delay = 60
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Video Display" index="2"]
 position = Vector2(672, -176)
@@ -264,7 +265,7 @@ shape = SubResource("RectangleShape2D_cl0fn")
 
 [node name="Video Display2" parent="." index="47" instance=ExtResource("19_da0fd")]
 position = Vector2(800, -1888)
-delay = 5
+delay = 30
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Video Display2" index="2"]
 position = Vector2(1024, -320)
@@ -272,7 +273,8 @@ shape = SubResource("RectangleShape2D_g4cmy")
 
 [node name="Video Display3" parent="." index="48" instance=ExtResource("19_da0fd")]
 position = Vector2(-1184, -1856)
-delay = 5
+delay = 45
+video_file = ExtResource("20_jx13o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Video Display3" index="2"]
 position = Vector2(1216, -160)

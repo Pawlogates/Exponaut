@@ -609,7 +609,7 @@ offset_right = 480.0
 offset_bottom = 248.0
 theme = ExtResource("1_6004i")
 
-[node name="Rooster Island" type="Button" parent="episodeSelect_menu/menu_container"]
+[node name="Additional Levels" type="Button" parent="episodeSelect_menu/menu_container"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
@@ -617,9 +617,9 @@ custom_minimum_size = Vector2(960, 96)
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("4_j7iyn")
-episode_select = "rooster_island"
+episode_select = "Additional Levels"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Rooster Island"]
+[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Additional Levels"]
 clip_contents = false
 layout_mode = 0
 offset_left = 24.0
@@ -629,7 +629,7 @@ offset_bottom = 88.0
 mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Rooster Island[/wave]"
+text = "[wave amp=50.0 freq=10.0 connected=1]Additional Levels[/wave]"
 autowrap_mode = 0
 
 [node name="Main Levels" type="Button" parent="episodeSelect_menu/menu_container"]
@@ -1216,10 +1216,10 @@ BETA-v0.8"
 [connection signal="focus_entered" from="other_menu/menu_container/ReturnOther" to="other_menu/menu_container/ReturnOther" method="_on_focus_entered"]
 [connection signal="focus_exited" from="other_menu/menu_container/ReturnOther" to="other_menu/menu_container/ReturnOther" method="_on_focus_exited"]
 [connection signal="pressed" from="other_menu/menu_container/ReturnOther" to="." method="_on_return_other_pressed"]
-[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Rooster Island" to="episodeSelect_menu/menu_container/Rooster Island" method="_on_focus_entered"]
-[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Rooster Island" to="episodeSelect_menu/menu_container/Rooster Island" method="_on_focus_exited"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Rooster Island" to="." method="_on_episode_button_pressed"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Rooster Island" to="episodeSelect_menu/menu_container/Rooster Island" method="_on_self_pressed"]
+[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Additional Levels" to="episodeSelect_menu/menu_container/Additional Levels" method="_on_focus_entered"]
+[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Additional Levels" to="episodeSelect_menu/menu_container/Additional Levels" method="_on_focus_exited"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Additional Levels" to="." method="_on_episode_button_pressed"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Additional Levels" to="episodeSelect_menu/menu_container/Additional Levels" method="_on_self_pressed"]
 [connection signal="focus_entered" from="episodeSelect_menu/menu_container/Main Levels" to="episodeSelect_menu/menu_container/Main Levels" method="_on_focus_entered"]
 [connection signal="focus_exited" from="episodeSelect_menu/menu_container/Main Levels" to="episodeSelect_menu/menu_container/Main Levels" method="_on_focus_exited"]
 [connection signal="pressed" from="episodeSelect_menu/menu_container/Main Levels" to="." method="_on_episode_button_pressed"]
