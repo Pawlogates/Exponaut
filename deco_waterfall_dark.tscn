@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dg0wrskruwis0"]
+[gd_scene load_steps=8 format=3 uid="uid://dg0wrskruwis0"]
 
 [ext_resource type="Script" path="res://deco_waterfall.gd" id="1_4admy"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_80ipb"]
@@ -7,39 +7,11 @@
 atlas = ExtResource("2_80ipb")
 region = Rect2(0, 448, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_aqgws"]
-atlas = ExtResource("2_80ipb")
-region = Rect2(64, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fbtyf"]
-atlas = ExtResource("2_80ipb")
-region = Rect2(128, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_os1nu"]
-atlas = ExtResource("2_80ipb")
-region = Rect2(192, 448, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_84nk2"]
-atlas = ExtResource("2_80ipb")
-region = Rect2(256, 448, 64, 64)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_77bbj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_aqgws")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fbtyf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_os1nu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_84nk2")
 }],
 "loop": true,
 "name": &"default",
@@ -144,8 +116,7 @@ script = ExtResource("1_4admy")
 modulate = Color(0.607843, 0.607843, 0.607843, 1)
 position = Vector2(32, 32)
 sprite_frames = SubResource("SpriteFrames_a8t04")
-autoplay = "default"
-frame_progress = 0.32547
+frame_progress = 0.956935
 
 [node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
 position = Vector2(0, 64)
