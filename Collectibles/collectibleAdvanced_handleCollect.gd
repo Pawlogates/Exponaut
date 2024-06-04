@@ -83,12 +83,12 @@ var collected_special = false
 
 
 
-var topRankScore = 100000
+@onready var topRankScore = 100000
 
-var level_completionState = 0
-var level_score = 0
-var level_rank = "D"
-var level_rank_value = 1
+@onready var level_completionState = 0
+@onready var level_score = 0
+@onready var level_rank = "D"
+@onready var level_rank_value = 1
 
 #OFFSCREEN START
 
@@ -111,7 +111,23 @@ func _ready():
 	
 	#OFFSCREEN END
 	
+	animation_player.advance(abs(start_pos[0]) / 100)
+	Globals.saveState_loaded.connect(saveState_loaded)
 	
+	if upDown_loop:
+		animation_player.play("loop")
+	
+	if rotting:
+		%rotDelay.start()
+	
+	
+	
+	
+	await get_tree().create_timer(0.5, false).timeout
+	$Area2D.monitoring = true
+	
+	if global_position != Vector2(0, 0):
+		start_pos = global_position
 	
 	if shrineGem_openPortal:
 		level_completionState = LevelTransition.get_node("%saved_progress").get("state_" + shrineGem_portal_level_ID)
@@ -198,26 +214,6 @@ func _ready():
 		elif level_score >= rating_1:
 			level_rank = "none"
 			level_rank_value = 1
-		
-		
-	
-	animation_player.advance(abs(start_pos[0]) / 100)
-	Globals.saveState_loaded.connect(saveState_loaded)
-	
-	if upDown_loop:
-		animation_player.play("loop")
-	
-	if rotting:
-		%rotDelay.start()
-	
-	
-	
-	
-	await get_tree().create_timer(0.5, false).timeout
-	$Area2D.monitoring = true
-	
-	if global_position != Vector2(0, 0):
-		start_pos = global_position
 	
 
 

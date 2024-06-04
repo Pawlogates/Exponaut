@@ -3720,6 +3720,24 @@ texture_region_size = Vector2i(64, 64)
 10:11/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 10:11/0/physics_layer_0/angular_velocity = 0.0
 10:11/0/physics_layer_0/polygon_0/points = PackedVector2Array(-32, 8, -8, 32, -32, 32)
+9:27/0 = 0
+9:27/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+9:27/0/physics_layer_0/angular_velocity = 0.0
+10:27/0 = 0
+10:27/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+10:27/0/physics_layer_0/angular_velocity = 0.0
+11:27/0 = 0
+11:27/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+11:27/0/physics_layer_0/angular_velocity = 0.0
+12:27/0 = 0
+12:27/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+12:27/0/physics_layer_0/angular_velocity = 0.0
+13:27/0 = 0
+13:27/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+13:27/0/physics_layer_0/angular_velocity = 0.0
+14:27/0 = 0
+14:27/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+14:27/0/physics_layer_0/angular_velocity = 0.0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x7pqt"]
 resource_name = "decorations"
