@@ -7,3 +7,5 @@ func _on_area_2d_area_entered(area):
 			active = false
 			$/root/World.save_game()
 			$/root/World.save_game_area()
+			SavedData.saved_position = $/root/World.player.position
+			

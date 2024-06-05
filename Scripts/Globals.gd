@@ -140,7 +140,7 @@ var next_transition = 0
 
 
 var debug_mode = true
-var delete_saves = true
+var delete_saves = false
 
 signal cheated
 var cheated_state = false
@@ -149,3 +149,4 @@ var cheated_state = false
 signal scoreReset
 
 var left_start_area = false
+var transitioned = true

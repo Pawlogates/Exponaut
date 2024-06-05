@@ -1,4 +1,4 @@
-[gd_scene load_steps=125 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=126 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_6ck4y"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_e1gk0"]
@@ -101,6 +101,7 @@
 [ext_resource type="PackedScene" uid="uid://cq5setetvq764" path="res://Tiles/one_way_left.tscn" id="75_tp8ur"]
 [ext_resource type="PackedScene" uid="uid://dnc0pcllxobv" path="res://deco_tile_lantern.tscn" id="75_ulq1b"]
 [ext_resource type="PackedScene" uid="uid://bjj0ay2o1sxpn" path="res://deco_tile_grass.tscn" id="76_8g5rh"]
+[ext_resource type="PackedScene" uid="uid://d2mod4i4kclua" path="res://Collectibles/collectibleSpecialApple_golden.tscn" id="76_jtx2l"]
 [ext_resource type="PackedScene" uid="uid://bvoawdfbl5xyy" path="res://deco_tile_gear.tscn" id="78_hxccc"]
 [ext_resource type="PackedScene" uid="uid://3ggahom0go77" path="res://deco_smog.tscn" id="79_pl8pr"]
 [ext_resource type="PackedScene" uid="uid://b77cpe5x67bko" path="res://deco_waterBubbles.tscn" id="80_fsub2"]
@@ -179,6 +180,7 @@ scenes/51/scene = ExtResource("46_0r7f1")
 scenes/52/scene = ExtResource("47_lkjvr")
 scenes/53/scene = ExtResource("48_3mplc")
 scenes/54/scene = ExtResource("49_b3hor")
+scenes/55/scene = ExtResource("76_jtx2l")
 scenes/56/scene = ExtResource("51_1mmma")
 scenes/57/scene = ExtResource("50_q2vk4")
 scenes/58/scene = ExtResource("51_y4y5m")

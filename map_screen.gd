@@ -191,6 +191,7 @@ func _on_back_to_overworld_pressed():
 	print(saved_level)
 	saved_level = load(saved_level_filePath)
 	await LevelTransition.fade_to_black()
+	Globals.transitioned = false
 	get_tree().change_scene_to_packed(saved_level)
 
 

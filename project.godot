@@ -20,6 +20,7 @@ config/icon="res://Assets/Graphics/icon.svg"
 
 LevelTransition="*res://level_transition.tscn"
 Globals="*res://Scripts/Globals.gd"
+SavedData="*res://saved_data.tscn"
 
 [display]
 

@@ -72,6 +72,7 @@ var instant_background_transitions = true
 
 
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	LevelTransition.blackScreen.color.a = 1.0
@@ -222,11 +223,14 @@ func _ready():
 	
 	
 	
-	if Globals.next_transition != 0:
+	if Globals.transitioned and Globals.next_transition != 0:
 		player.position = get_node("%areaTransition" + str(Globals.next_transition)).position
 	
 	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
 	
+	elif not Globals.transitioned:
+		player.position = SavedData.saved_position
+		Globals.level_score = SavedData.saved_score
 	
 	if Globals.delete_saves:
 		DirAccess.remove_absolute("user://savedProgress.save")
