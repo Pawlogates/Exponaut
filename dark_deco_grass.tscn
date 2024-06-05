@@ -1,12 +1,14 @@
-[gd_scene load_steps=8 format=3 uid="uid://hatulh20a5hg"]
+[gd_scene load_steps=9 format=3 uid="uid://hatulh20a5hg"]
 
-[ext_resource type="Texture2D" uid="uid://l8pbv440x08w" path="res://Assets/Graphics/backgrounds/bg_cosmos_red2.png" id="1_2vo3f"]
 [ext_resource type="Texture2D" uid="uid://o3vr6p2op5d1" path="res://Assets/Graphics/sprites/darkDeco_middle.png" id="1_gr4i3"]
 [ext_resource type="Texture2D" uid="uid://c74u06u80mm1t" path="res://Assets/Graphics/sprites/darkDeco_endL.png" id="2_u25ve"]
 [ext_resource type="Texture2D" uid="uid://uxayondykapb" path="res://Assets/Graphics/sprites/darkDeco_endR.png" id="3_vfggw"]
 [ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://glow_shadow_orb_heavy.tscn" id="5_m08to"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://wavingDeco_grass.tscn" id="6_mpb3w"]
+[ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://glow_shadow_orb_soft.tscn" id="7_u40ux"]
 [ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/sprites/glow_shadowOrb_heavy.png" id="7_uybsh"]
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_i0gb7"]
 
 [node name="darkDeco_grass" type="Node2D"]
 z_index = 200
@@ -17,7 +19,7 @@ offset_left = -624.0
 offset_top = -616.0
 offset_right = 656.0
 offset_bottom = 944.0
-texture = ExtResource("1_2vo3f")
+texture = SubResource("PlaceholderTexture2D_i0gb7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_gr4i3")
@@ -46,9 +48,6 @@ texture_scale = 2.0
 
 [node name="wavingDeco_grass" parent="." instance=ExtResource("6_mpb3w")]
 position = Vector2(-440, 64)
-
-[node name="wavingDeco_grass2" parent="." instance=ExtResource("6_mpb3w")]
-position = Vector2(-472, 184)
 
 [node name="wavingDeco_grass3" parent="." instance=ExtResource("6_mpb3w")]
 position = Vector2(-400, 72)
@@ -135,14 +134,14 @@ texture = ExtResource("7_uybsh")
 [node name="Sprite2D8" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 1)
 z_index = 50
-position = Vector2(576, 232)
+position = Vector2(544, 208)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_uybsh")
 
 [node name="Sprite2D9" type="Sprite2D" parent="."]
 modulate = Color(0, 0, 0, 1)
 z_index = 50
-position = Vector2(544, 296)
+position = Vector2(488, 328)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_uybsh")
 
@@ -223,141 +222,6 @@ position = Vector2(-48, 272)
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_uybsh")
 
-[node name="Sprite2D26" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(-128, 344)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D27" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(-96, 424)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D28" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(-64, 504)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D29" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(-264, 312)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D30" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(-208, 392)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D31" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(-120, 416)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D32" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(-40, 592)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D33" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(192, 368)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D34" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(160, 456)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D35" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(88, 488)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D36" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(0, 496)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D37" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(16, 656)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D38" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(136, 624)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D39" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(152, 536)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D40" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 1)
-z_index = 50
-position = Vector2(104, 688)
-scale = Vector2(0.5, 0.5)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D20" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.392157)
-z_index = 50
-position = Vector2(-360, 264)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D21" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.392157)
-z_index = 50
-position = Vector2(-144, 232)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D22" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.392157)
-z_index = 50
-position = Vector2(80, 272)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D23" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.392157)
-z_index = 50
-position = Vector2(304, 288)
-texture = ExtResource("7_uybsh")
-
-[node name="Sprite2D24" type="Sprite2D" parent="."]
-modulate = Color(0, 0, 0, 0.392157)
-z_index = 50
-position = Vector2(480, 344)
-texture = ExtResource("7_uybsh")
-
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -496.0
 offset_top = 200.0
@@ -378,3 +242,18 @@ offset_top = 192.0
 offset_right = 272.0
 offset_bottom = 240.0
 color = Color(0, 0, 0, 1)
+
+[node name="glow_shadowOrbSoft" parent="." instance=ExtResource("7_u40ux")]
+position = Vector2(-144, 176)
+color = Color(1, 1, 1, 0.607843)
+texture_scale = 1.5
+
+[node name="glow_shadowOrbSoft2" parent="." instance=ExtResource("7_u40ux")]
+position = Vector2(120, 264)
+color = Color(1, 1, 1, 0.607843)
+texture_scale = 1.5
+
+[node name="glow_shadowOrbSoft3" parent="." instance=ExtResource("7_u40ux")]
+position = Vector2(408, 352)
+color = Color(1, 1, 1, 0.607843)
+texture_scale = 1.5

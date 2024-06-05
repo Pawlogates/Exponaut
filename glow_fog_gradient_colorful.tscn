@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://b80jiixq381qg"]
+
+[ext_resource type="Texture2D" uid="uid://dtt3w3lxyw05x" path="res://Assets/Graphics/fog_gradient_colorful.png" id="1_mixwh"]
+
+[node name="glow_fogGradientColorful" type="PointLight2D"]
+texture = ExtResource("1_mixwh")

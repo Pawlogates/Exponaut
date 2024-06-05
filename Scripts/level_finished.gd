@@ -95,14 +95,10 @@ func exit_reached():
 	
 	
 	
-		if Globals.selected_episode == "rooster_island":
-			if Globals.current_level_ID == LevelTransition.get_node("%saved_progress").next_level_RI1:
+		if Globals.selected_episode == "Additional Levels":
+			if Globals.current_level_number == LevelTransition.get_node("%saved_progress").next_level_RI1:
 				LevelTransition.get_node("%saved_progress").next_level_RI1 += 1
 				
-		elif Globals.selected_episode == "rooster_island_2":
-			if Globals.current_level_ID == LevelTransition.get_node("%saved_progress").next_level_RI2:
-				LevelTransition.get_node("%saved_progress").next_level_RI2 += 1
-	
 	
 		Globals.save_progress.emit()
 	

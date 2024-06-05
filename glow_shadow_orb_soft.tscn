@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3qso4fad7rgu"]
+
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/sprites/glow_shadowOrb_soft.png" id="1_5ijeb"]
+
+[node name="glow_shadowOrbSoft" type="PointLight2D"]
+blend_mode = 1
+texture = ExtResource("1_5ijeb")

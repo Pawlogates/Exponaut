@@ -2,20 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-<<<<<<< HEAD
-uid="uid://j4wt4bqyaqj2"
-=======
-uid="uid://bujvyo22wwe5o"
->>>>>>> 0a773e05ef9527051c169328523b12315865057f
-path="res://.godot/imported/tileset_decorations2.png-6f46f56a0df16dc7c2523a0a4a5cfc52.ctex"
+uid="uid://cjxacvdqqpxk5"
+path="res://.godot/imported/fog_shadow.png-51761a2895b56d88a1fbd232083bf3c0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/tilesets/tileset_decorations2.png"
-dest_files=["res://.godot/imported/tileset_decorations2.png-6f46f56a0df16dc7c2523a0a4a5cfc52.ctex"]
+source_file="res://Assets/Graphics/fog_shadow.png"
+dest_files=["res://.godot/imported/fog_shadow.png-51761a2895b56d88a1fbd232083bf3c0.ctex"]
 
 [params]
 

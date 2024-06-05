@@ -20,8 +20,8 @@ func _ready():
 	
 	
 	#EPISODE START
-	if Globals.selected_episode == "rooster_island":
-		%background.texture = load("res://Assets/Graphics/menu_map.png")
+	if Globals.selected_episode == "Additional Levels":
+		%background.texture = load("res://Assets/Graphics/backgrounds/bg_jungle_cavern.png")
 		level_number = 0
 		
 		#LEVEL ICON START
@@ -105,7 +105,7 @@ func _ready():
 	#load saved level state
 	
 	#RI1
-	if Globals.selected_episode == "rooster_island":
+	if Globals.selected_episode == "Additional Levels":
 		for icon in get_tree().get_nodes_in_group("level_icon"):
 			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_RI1_" + str(icon.level_number))
 			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI1_" + str(icon.level_number))

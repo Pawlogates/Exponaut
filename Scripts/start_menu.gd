@@ -78,7 +78,7 @@ func _on_levels_pressed():
 	%episodeSelect_menu.visible = true
 	%episodeSelect_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%"Rooster Island".grab_focus()
+	%"Additional Levels".grab_focus()
 
 
 
