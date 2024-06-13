@@ -223,12 +223,12 @@ func _ready():
 	
 	
 	
-	if Globals.transitioned and Globals.next_transition != 0:
+	if not regular_level and Globals.transitioned and Globals.next_transition != 0:
 		player.position = get_node("%areaTransition" + str(Globals.next_transition)).position
 	
 	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
 	
-	elif not Globals.transitioned:
+	elif not regular_level and not Globals.transitioned:
 		player.position = SavedData.saved_position
 		Globals.level_score = SavedData.saved_score
 	

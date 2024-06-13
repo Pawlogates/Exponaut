@@ -1,7 +1,7 @@
 [gd_scene load_steps=44 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
-[ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_1.tscn" id="2_428jj"]
+[ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes.tscn" id="2_oe0v7"]
 [ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Tiles/move_block_h.tscn" id="3_a4am5"]
 [ext_resource type="PackedScene" uid="uid://va38cadkefjo" path="res://Tiles/move_block_v.tscn" id="4_njc2m"]
 [ext_resource type="PackedScene" uid="uid://cwylhbfoqohrq" path="res://Tiles/one_way_up.tscn" id="5_7w6yf"]
@@ -53,7 +53,7 @@ scenes/6/scene = ExtResource("12_oejvb")
 scenes/7/scene = ExtResource("13_y1rp3")
 scenes/8/scene = ExtResource("21_b0dwe")
 scenes/9/scene = ExtResource("14_dj3u0")
-scenes/10/scene = ExtResource("2_428jj")
+scenes/10/scene = ExtResource("2_oe0v7")
 scenes/11/scene = ExtResource("3_a4am5")
 scenes/12/scene = ExtResource("4_njc2m")
 scenes/13/scene = ExtResource("5_7w6yf")
