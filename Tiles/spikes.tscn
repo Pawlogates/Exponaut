@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://gfyn23vnn7dt"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_xb871"]
-[ext_resource type="Script" path="res://Tiles/spikes_1.gd" id="2_qseyn"]
+[ext_resource type="Script" path="res://Tiles/spikes.gd" id="2_qseyn"]
 
 [node name="spikes_1" type="Area2D"]
 position = Vector2(-32, 32)
