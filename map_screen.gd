@@ -16,7 +16,7 @@ func _ready():
 	savedProgress_load()
 	
 	LevelTransition.get_node("%saved_progress").load_game()
-	print(Globals.selected_episode)
+	print(str(Globals.selected_episode) + " is the currently selected episode (level set).")
 	
 	
 	#EPISODE START
@@ -109,7 +109,7 @@ func _ready():
 		for icon in get_tree().get_nodes_in_group("level_icon"):
 			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_RI1_" + str(icon.level_number))
 			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI1_" + str(icon.level_number))
-			print("saved level state:", icon.level_state)
+			print("Saved level completion state: ", icon.level_state)
 		
 		
 		Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_RI1")
@@ -123,7 +123,7 @@ func _ready():
 			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_MAIN_" + str(icon.level_number))
 			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_MAIN_" + str(icon.level_number))
 			icon.is_main_level = true
-			print("saved level state:", icon.level_state)
+			print("Saved level completion state: ", icon.level_state)
 		
 		
 		LevelTransition.get_node("%saved_progress").count_total_score("MAIN", 13)
@@ -188,7 +188,6 @@ func _on_back_to_overworld_pressed():
 	if Globals.delete_saves:
 		saved_level_filePath = "res://Levels/Overworld.tscn"
 	
-	print(saved_level)
 	saved_level = load(saved_level_filePath)
 	await LevelTransition.fade_to_black()
 	Globals.transitioned = false
@@ -202,7 +201,7 @@ var saved_level:PackedScene = load("res://Levels/empty.tscn")
 
 func savedProgress_load():
 	if not FileAccess.file_exists("user://savedProgress.save"):
-		print("no save")
+		print("Level set level completion state file doesn't exist.")
 		#%Continue.process_mode = Node.PROCESS_MODE_DISABLED
 		#%Continue.modulate.b = 0.3
 		#%Continue.modulate.g = 0.3

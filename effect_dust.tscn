@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://cnt86kihikjm6"]
+[gd_scene load_steps=31 format=3 uid="uid://cnt86kihikjm6"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_ort5k"]
 [ext_resource type="Script" path="res://effect_dust.gd" id="2_x01db"]
@@ -111,14 +111,6 @@ region = Rect2(1600, 960, 64, 64)
 atlas = ExtResource("1_ort5k")
 region = Rect2(1664, 960, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1uk7b"]
-atlas = ExtResource("1_ort5k")
-region = Rect2(1728, 960, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rvxj1"]
-atlas = ExtResource("1_ort5k")
-region = Rect2(1792, 960, 64, 64)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_63o3b"]
 animations = [{
 "frames": [{
@@ -202,12 +194,6 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ywrqn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1uk7b")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rvxj1")
 }],
 "loop": false,
 "name": &"default",
@@ -218,13 +204,14 @@ animations = [{
 z_index = -1
 z_as_relative = false
 sprite_frames = SubResource("SpriteFrames_63o3b")
-frame = 28
+frame = 26
 frame_progress = 1.0
 script = ExtResource("2_x01db")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 5.0
 one_shot = true
 autostart = true
 
+[connection signal="animation_finished" from="." to="." method="_on_animation_finished"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

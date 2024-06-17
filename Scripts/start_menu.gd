@@ -64,7 +64,7 @@ func start_game():
 
 
 func _on_continue_pressed():
-	print(saved_level)
+	print(str(saved_level) + " is the file path of the saved level that you are loading into.")
 	saved_level = load(saved_level_filePath)
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(saved_level)
@@ -373,7 +373,7 @@ func display_stretch_viewport_off():
 
 func savedProgress_load():
 	if not FileAccess.file_exists("user://savedProgress.save"):
-		print("no save")
+		print("The save file doesn't exist.")
 		%Continue.process_mode = Node.PROCESS_MODE_DISABLED
 		%Continue.modulate.b = 0.3
 		%Continue.modulate.g = 0.3

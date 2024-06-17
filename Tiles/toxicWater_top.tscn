@@ -3,15 +3,15 @@
 [ext_resource type="Script" path="res://Tiles/water_top.gd" id="1_088tu"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_hb6gw"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8whj6"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_0423n"]
 atlas = ExtResource("2_hb6gw")
-region = Rect2(0, 384, 64, 64)
+region = Rect2(64, 384, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_45hng"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_8whj6")
+"texture": SubResource("AtlasTexture_0423n")
 }],
 "loop": false,
 "name": &"loop",
@@ -56,7 +56,6 @@ _data = {
 }
 
 [node name="toxicWater_top" type="Container"]
-modulate = Color(0.4, 1, 0.368627, 1)
 texture_filter = 1
 clip_contents = true
 offset_left = -32.0

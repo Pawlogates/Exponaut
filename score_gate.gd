@@ -3,6 +3,7 @@ extends StaticBody2D
 
 var activated = false
 @export var target_score = 1000
+@export var respawn_player_on_fail = true
 
 
 
@@ -30,4 +31,5 @@ func _on_area_2d_area_entered(area):
 		
 		else:
 			$AnimationPlayer.play("locked")
-			get_parent().retry_scoreGate()
+			if respawn_player_on_fail:
+				get_parent().retry_scoreGate()

@@ -161,6 +161,7 @@ libraries = {
 }
 
 [node name="Label" type="Label" parent="."]
+visible = false
 offset_left = -96.0
 offset_top = -32.0
 offset_right = 96.0
@@ -177,9 +178,9 @@ shape = SubResource("RectangleShape2D_xuirp")
 [node name="gateItem_container" type="GridContainer" parent="."]
 unique_name_in_owner = true
 offset_left = -88.0
-offset_top = -216.0
+offset_top = -96.0
 offset_right = 88.0
-offset_bottom = 216.0
+offset_bottom = 96.0
 columns = 5
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

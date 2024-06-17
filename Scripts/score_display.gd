@@ -27,8 +27,8 @@ func _process(_delta):
 	
 	
 	
-	if Globals.cheated_state == true and not Globals.debug_mode:
-		self.text = str("cringe")
+	#if Globals.cheated_state == true and not Globals.debug_mode:
+		#self.text = str("cringe")
 		
 
 

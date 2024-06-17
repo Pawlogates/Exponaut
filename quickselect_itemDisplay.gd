@@ -70,6 +70,10 @@ func _ready():
 	
 	
 	display_unlockPrice.text = str(unlock_price)
+	
+	if unlocked:
+		display_unlockPrice.queue_free()
+		%"Unlock Label".queue_free()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -97,6 +101,10 @@ func _on_button_pressed():
 				display_unlockPrice.queue_free()
 				%"Unlock Label".queue_free()
 				unlocked = true
+				
+				var previous_state = $/root/World/HUD/quickselect_screen.get("unlock_state_" + item)
+				if previous_state < 1:
+					$/root/World/HUD/quickselect_screen.set("unlock_state_" + item, 1)
 		
 		#$/root/World.player.weaponType = weapon_type
 		#$/root/World.player.secondaryWeaponType = secondaryWeapon_type

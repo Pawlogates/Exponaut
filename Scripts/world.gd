@@ -228,16 +228,11 @@ func _ready():
 	
 	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
 	
-	elif not regular_level and not Globals.transitioned:
-		player.position = SavedData.saved_position
-		Globals.level_score = SavedData.saved_score
+	if not regular_level:
+		load_saved_progress_overworld()
 	
-	if Globals.delete_saves:
-		DirAccess.remove_absolute("user://savedProgress.save")
-		DirAccess.remove_absolute("user://savegame.save")
-		DirAccess.remove_absolute("user://savegame_theBeginning.save")
-		DirAccess.remove_absolute("user://savegame_Overworld.save")
-		
+	Globals.transitioned = false
+	
 	
 	
 	
@@ -274,7 +269,7 @@ func _ready():
 	%bg_current/bg_a_transition.speed_scale = 1
 	%bg_current/bg_b_transition.speed_scale = 1
 	
-	
+	await get_tree().create_timer(2, false).timeout
 	quickLoad_blocked = true
 	save_game()
 	$QuickloadLimiter.start()
@@ -282,8 +277,12 @@ func _ready():
 
 
 
-
-
+func load_saved_progress_overworld():
+		Globals.level_score = SavedData.saved_score
+		if not Globals.transitioned:
+			player.position = SavedData.saved_position
+		else:
+			print("The 'transitioned' (Globals) property is false, so player position is skipped on this game load. " + str(Globals.transitioned))
 
 
 
@@ -294,7 +293,6 @@ func _ready():
 @onready var test4 = %test4
 
 var debugToggle = false
-
 
 
 
@@ -405,7 +403,8 @@ func _physics_process(delta):
 			%test3.visible = false
 			%test4.visible = false
 			debugToggle = false
-			get_tree().set_debug_collisions_hint(false) 
+			get_tree().set_debug_collisions_hint(false)
+			$/root/World.player.weaponType = "basic"
 		
 		else:
 			%fps.visible = true
@@ -415,6 +414,7 @@ func _physics_process(delta):
 			%test4.visible = true
 			debugToggle = true
 			get_tree().set_debug_collisions_hint(true) 
+			$/root/World.player.weaponType = "basic"
 	
 	
 	
@@ -514,11 +514,10 @@ func increaseHp2():
 
 
 
-#HANDLE LEVEL EXIT REACHED
+#HANDLE LEVEL EXIT REACHED (unused?)
 
 func _on_exitReached_next_level():
-	Globals.total_score = Globals.total_score + Globals.level_score
-	
+	#Globals.total_score = Globals.total_score + Globals.level_score
 	Globals.level_score = 0
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
@@ -573,7 +572,7 @@ func exitReached_show_screen():
 
 
 
-func go_to_next_level():
+func go_to_next_level(): #unused?
 	
 	if not next_level is PackedScene: return
 	
@@ -583,7 +582,7 @@ func go_to_next_level():
 	
 	Globals.level_score = 0
 	Globals.combo_score = 0
-	Globals.combo_tier = 0
+	Globals.combo_tier = 1
 	Globals.collected_in_cycle = 0
 
 
@@ -659,7 +658,7 @@ func bg_change():
 	
 	if bg_free_to_change:
 		bg_free_to_change = false
-		#print("BG CHANGE STARTED")
+		print("Background (main) texture began fading")
 		%bg_previous/bg_transition.play("bg_hide")
 		%bg_previous/bg_a_transition.play("bg_a_hide")
 		%bg_previous/bg_b_transition.play("bg_b_hide")
@@ -766,24 +765,32 @@ func load_game():
 
 
 		
-		if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "loadingZone0":
-			var new_object = load(node_data["filename"]).instantiate()
-			get_node(node_data["parent"]).add_child(new_object)
-			new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+		#if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "loadingZone0":
+		var new_object = load(node_data["filename"]).instantiate()
+		get_node(node_data["parent"]).add_child(new_object)
+		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 
-			for i in node_data.keys():
-				if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
-					continue
-				new_object.set(i, node_data[i])
+		for i in node_data.keys():
+			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
+				continue
+			new_object.set(i, node_data[i])
 			
-		else:
-			continue
+		#else:
+			#continue
 			
 		
-	player.position.x = Globals.saved_player_posX
-	player.position.y = Globals.saved_player_posY
+	#player.position.x = Globals.saved_player_posX
+	#player.position.y = Globals.saved_player_posY
+	#Globals.level_score = Globals.saved_level_score
+	
+	if not regular_level:
+		load_saved_progress_overworld()
+	else:
+		Globals.level_score = Globals.saved_level_score
 		
-	Globals.level_score = Globals.saved_level_score
+		Globals.player_posX = Globals.saved_player_posX
+		Globals.player_posY = Globals.saved_player_posY
+	
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
 	Globals.collected_in_cycle = 0
@@ -821,6 +828,9 @@ func _on_debug_refresh_timeout():
 	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.test3)
 	
 	Globals.inventory_selectedItem = 1
+	
+	if Globals.debug_mode:
+		player.weaponType = "basic"
 	
 	
 	#for teleporter in get_tree().get_nodes_in_group("teleporter"):
@@ -986,12 +996,6 @@ func night_modifications():
 
 
 
-
-
-
-
-
-
 func teleporter_assign_ID():
 	
 	var teleporter_type = "blue"
@@ -1086,7 +1090,7 @@ func retry_scoreGate():
 func save_game_area():
 	if area_ID == "area0":
 		return
-		
+	
 	var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.WRITE)
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for node in save_nodes:
@@ -1163,7 +1167,7 @@ func load_game_area():
 	
 	
 	
-	Globals.level_score = Globals.saved_level_score
+	#Globals.level_score = Globals.saved_level_score
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
 	Globals.collected_in_cycle = 0

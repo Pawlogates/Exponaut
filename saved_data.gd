@@ -17,13 +17,36 @@ var saved_position = Vector2(0, 0) # [saved overworld player position, to be app
 var saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
 
 #unlocked weapons
-var saved_weapon_basic = [false, false] # [true if the weapon type was found in the world, making it available for purchase.], [true if purchased, making it permanently selectable using quickselect.]
-var saved_weapon_veryFast_speed = [false, false] # [], []
-var saved_weapon_short_shotDelay = [false, false] # [], []
+var saved_weapon_basic = -1 # [0 if the weapon type was found in the world, making it available for purchase, 1 if purchased, making it permanently selectable using quickselect.]
+var saved_weapon_veryFast_speed = -1
+var saved_weapon_ice = -1
+var saved_weapon_fire = -1
+var saved_weapon_destructive_fast_speed = -1
+var saved_weapon_short_shotDelay = -1
+var saved_weapon_phaser = -1
+var saved_secondaryWeapon_basic = -1
+var saved_secondaryWeapon_fast = -1
 
+func save_game(save_player_position):
+	if save_player_position:
+		saved_position = $/root/World.player.position
+	saved_score = Globals.level_score
+	#save item unlock states
+	save_item_unlock_state("weapon_basic")
+	save_item_unlock_state("weapon_veryFast_speed")
+	save_item_unlock_state("weapon_ice")
+	save_item_unlock_state("weapon_fire")
+	save_item_unlock_state("weapon_destructive_fast_speed")
+	save_item_unlock_state("weapon_short_shotDelay")
+	save_item_unlock_state("weapon_phaser")
+	save_item_unlock_state("secondaryWeapon_basic")
+	save_item_unlock_state("secondaryWeapon_fast")
+	
 
-
-
+var item_unlock_state
+func save_item_unlock_state(item):
+	item_unlock_state = $/root/World/HUD/quickselect_screen.get("unlock_state_" + item)
+	set("saved_" + item, item_unlock_state)
 
 func save_data():
 	var saved_progress_file = FileAccess.open("user://saved_data.save", FileAccess.WRITE)

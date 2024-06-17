@@ -48,16 +48,18 @@ func _ready():
 
 
 func _on_area_entered(area):
-	print("entered")
 	if not active:
+		print("Entered a shrine portal but it was inactive.")
 		return
+	
+	print("Entered an ACTIVE shrine portal")
 	
 	if not entered:
 		if area.is_in_group("player"):
 			Globals.weaponType = "none"
 			Globals.next_transition = 0
 			entered = true
-			print(target_area)
+			print(str(target_area) + " is the file path of the level this portal is taking you to.")
 			var next_area:PackedScene = load(target_area)
 			
 			get_parent().save_game_area()

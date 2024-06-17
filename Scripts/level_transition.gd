@@ -14,7 +14,6 @@ func fade_from_black_slow():
 
 
 
-
 func fade_to_black_verySlow():
 	animation_player.play("fade_to_black_verySlow")
 	await animation_player.animation_finished
@@ -33,20 +32,9 @@ func fade_to_black_slow():
 	await animation_player.animation_finished
 
 
-
-
-
-
-
-
-
 func _ready():
 	blackScreen.color.a = 0.0
 	%saved_progress.load_game()
-
-
-
-
 
 
 
@@ -66,3 +54,11 @@ func _process(_delta):
 		await LevelTransition.fade_to_black()
 		get_tree().change_scene_to_packed(mapScreen)
 		await LevelTransition.fade_from_black_slow()
+	
+	if Input.is_action_just_pressed("show_debugInfo"):
+		if Globals.delete_saves:
+			DirAccess.remove_absolute("user://savegame_theBeginning.save")
+			DirAccess.remove_absolute("user://savegame_Overworld.save")
+			DirAccess.remove_absolute("user://savedProgress.save")
+			await get_tree().create_timer(5, false).timeout
+			DirAccess.remove_absolute("user://savegame.save")

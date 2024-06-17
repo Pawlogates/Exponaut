@@ -183,6 +183,7 @@ func _process(delta):
 		if Input.is_action_just_pressed("back"):
 			Globals.playerHP = 100
 			$/root/World.kill_player()
+			
 		
 		
 		
@@ -499,7 +500,7 @@ func _process(delta):
 		
 	
 	if Input.is_action_pressed("zoom_out"):
-		print(zoomValue)
+		print(str(zoomValue) + " is the current zoom value (speed multiplier)")
 		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 0.1, 0.01 * delta * 50 * zoomValue)
 		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 0.1, 0.01 * delta * 50 * zoomValue)
 		
@@ -520,7 +521,7 @@ func _process(delta):
 		
 	
 	if Input.is_action_pressed("zoom_in"):
-		print(zoomValue)
+		print(str(zoomValue) + " is the current zoom value (speed multiplier)")
 		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 2, 0.01 * delta * 50 * zoomValue)
 		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 2, 0.01 * delta * 50 * zoomValue)
 		

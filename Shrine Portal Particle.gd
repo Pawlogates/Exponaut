@@ -61,6 +61,6 @@ func _physics_process(delta):
 	
 	if scale.x <= 0.005:
 		queue_free()
-		print("removed")
+		print("Removed this shrine portal particle.")
 	
 

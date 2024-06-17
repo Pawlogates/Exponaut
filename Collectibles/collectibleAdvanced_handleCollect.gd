@@ -31,6 +31,7 @@ var stop_upDownLoopAnim = false
 
 var collected_special = false
 
+var checkpoint_active = false
 
 @onready var collect_1 = %collect1
 @onready var timer = %Timer
@@ -55,11 +56,11 @@ var collected_special = false
 @export var shrineGem_particleAmount = 25
 @export var shrineGem_portal_level_ID = "none"
 @export var shrineGem_portal_level_number = 0
-@export_file("*.tscn") var shrineGem_level_filePath: String
+@export_file("*.tscn") var shrineGem_level_filePath : String
 @export var shrineGem_displayedName = "none"
 @export var is_specialApple = "none" #options: "red", "blue", "golden"
 
-@export var item_scene = preload("res://Collectibles/collectibleApple.tscn")
+@export var item_scene : PackedScene = load("res://Collectibles/Gift_orangeBox.tscn") #preload("res://Collectibles/collectibleApple.tscn")
 @export var spawnedAmount = 3
 @export var item_posSpread = 100
 @export var item_velSpread = 300
@@ -215,6 +216,8 @@ func _ready():
 			level_rank = "none"
 			level_rank_value = 1
 	
+	await get_tree().create_timer(5, false).timeout
+	checkpoint_active = true
 
 
 
@@ -268,6 +271,7 @@ func offScreen_load():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if removable or collected and not animation_player_2.current_animation == "score_value" and not animation_player.current_animation == "remove":
+		print("Removed already collected entity.")
 		queue_free()
 	
 	
@@ -498,30 +502,11 @@ func _on_collectible_exited(body):
 
 
 
-#SAVE START
-
-var loadingZone = "loadingZone0"
-
-func save():
-	var save_dict = {
-		"loadingZone" : loadingZone,
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
-		"pos_x" : position.x, # Vector2 is not supported by JSON
-		"pos_y" : position.y,
-		"collected" : collected,
-		"shrineGem_portal_level_ID" : shrineGem_portal_level_ID,
-		"shrineGem_level_filePath" : shrineGem_level_filePath,
-		"collected_special" : collected_special,
-		
-	}
-	return save_dict
-
-#SAVE END
 
 
 
 func _on_timer_timeout():
+	print("Collectible removed on timeout. (?)")
 	queue_free()
 
 
@@ -626,10 +611,11 @@ func _physics_process(delta):
 		elif button_pressed and %AnimatedSprite2D.position.y < 0:
 			%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
 			%AnimatedSprite2D.position.y += 1
+	
+	if debug:
+		print(collected)
 
-
-
-
+@export var debug = false
 
 
 
@@ -647,6 +633,7 @@ func _on_collision_check_delay_timeout():
 
 
 func destroy_self():
+	print("This entity (type: collectible) has self destroyed.")
 	queue_free()
 
 
@@ -731,25 +718,25 @@ func inside_check_exit(body):
 
 
 
-func _on_area_2d_area_entered(area):
-	#SAVE START
-	
-	if area.is_in_group("loadingZone_area"):
-	
-		remove_from_group("loadingZone0")
-		remove_from_group("loadingZone1")
-		remove_from_group("loadingZone2")
-		remove_from_group("loadingZone3")
-		remove_from_group("loadingZone4")
-		remove_from_group("loadingZone5")
-		
-		loadingZone = area.loadingZone_number
-		add_to_group(loadingZone)
-		
-		#print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
-	
-	
-	#SAVE END
+#func _on_area_2d_area_entered(area):
+	##SAVE START
+	#
+	#if area.is_in_group("loadingZone_area"):
+	#
+		#remove_from_group("loadingZone0")
+		#remove_from_group("loadingZone1")
+		#remove_from_group("loadingZone2")
+		#remove_from_group("loadingZone3")
+		#remove_from_group("loadingZone4")
+		#remove_from_group("loadingZone5")
+		#
+		#loadingZone = area.loadingZone_number
+		#add_to_group(loadingZone)
+		#
+		##print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
+	#
+	#
+	##SAVE END
 
 
 
@@ -847,9 +834,65 @@ func spawn_portal():
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "collect_special":
+		print("Special collectible has been deleted after the collect animation finished.")
 		queue_free()
 
 
 func random_pitch_collect():
 	collect_1.pitch_scale = (randf_range(0.8, 1.2))
 	collect_1.play()
+
+
+func _on_shrine_gem_checkpoint_trigger_body_entered(body):
+	if checkpoint_active:
+		if body.is_in_group("player"):
+			await get_tree().create_timer(1, false).timeout
+			#await get_tree().create_timer(1, false).timeout
+			print("Shrine Gem checkpoint activated.")
+			checkpoint_active = false
+			$/root/World.save_game()
+			$/root/World.save_game_area()
+			SavedData.save_game(true)
+
+
+
+
+
+
+
+
+
+#SAVE START
+
+var loadingZone = "loadingZone0"
+
+func save():
+	var save_dict = {
+		"loadingZone" : loadingZone,
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"collected" : collected,
+		"shrineGem_portal_level_ID" : shrineGem_portal_level_ID,
+		"shrineGem_level_filePath" : shrineGem_level_filePath,
+		"collected_special" : collected_special,
+		"is_shrineGem" : is_shrineGem,
+		"shrineGem_destructible" : shrineGem_destructible,
+		"shrineGem_giveScore" : shrineGem_giveScore,
+		"shrineGem_spawnItems" : shrineGem_spawnItems,
+		"shrineGem_openPortal" : shrineGem_openPortal,
+		"shrineGem_particleAmount" : shrineGem_particleAmount,
+		"shrineGem_portal_level_number" : shrineGem_portal_level_number,
+		"shrineGem_displayedName" : shrineGem_displayedName,
+		"is_specialApple" : is_specialApple,
+		"item_scene" : item_scene,
+		"spawnedAmount" : spawnedAmount,
+		"item_posSpread" : item_posSpread,
+		"item_velSpread" : item_velSpread,
+		"floating" : floating,
+		
+	}
+	return save_dict
+
+#SAVE END

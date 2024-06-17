@@ -121,7 +121,7 @@ func _on_collectible_entered(body):
 		animation_player.play("remove")
 		animation_player_2.play("score_value")
 		
-		print(Globals.collected_in_cycle)
+		print(str(Globals.collected_in_cycle) + " is the current collectible streak.")
 		
 		if Globals.collected_in_cycle == 1:
 			Globals.level_score += collectibleScoreValue
