@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://d0ev5ctdik86d"]
+[gd_scene load_steps=36 format=3 uid="uid://d0ev5ctdik86d"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_6dpir"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_h5i2g"]
@@ -16,10 +16,8 @@
 [ext_resource type="AudioStream" uid="uid://bpbimsl5mkjps" path="res://Assets/Sounds/music/music_ascent.mp3" id="20_3qasd"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="22_but68"]
 [ext_resource type="AudioStream" uid="uid://jrrdb7mdfafc" path="res://Assets/Sounds/music/plains3.mp3" id="23_2se7g"]
-[ext_resource type="PackedScene" uid="uid://capn1k1755ueq" path="res://Collectibles/collectibleGrapefruit.tscn" id="23_26eke"]
 [ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://darkDecoParallax_grass.tscn" id="24_6jyq5"]
 [ext_resource type="PackedScene" uid="uid://c6v8vv70k0pe3" path="res://goldenApple_gate.tscn" id="25_xy2dy"]
-[ext_resource type="PackedScene" uid="uid://cxfc7xn7ysp63" path="res://Collectibles/bonus_box_rotApples.tscn" id="25_yinut"]
 [ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://glow_fog_gradient_colorful.tscn" id="28_fv08m"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Tiles/water_area.tscn" id="29_nalwp"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Tiles/areaTransition.tscn" id="29_nyjvy"]
@@ -371,10 +369,9 @@ shrineGem_portal_level_ID = "MAIN_1"
 shrineGem_portal_level_number = 1
 shrineGem_level_filePath = "res://Levels/MAIN_1.tscn"
 shrineGem_displayedName = "not Training Zone"
-item_scene = ExtResource("23_26eke")
+item_scene = "res://Collectibles/collectibleBlackBerry.tscn"
 spawnedAmount = 10
 item_posSpread = 50
-debug = true
 
 [node name="darkDecoParallax_grass" parent="." index="46" instance=ExtResource("24_6jyq5")]
 position = Vector2(-1712, 552)
@@ -401,7 +398,7 @@ shrineGem_portal_level_ID = "MAIN_2"
 shrineGem_portal_level_number = 2
 shrineGem_level_filePath = "res://Levels/MAIN_2.tscn"
 shrineGem_displayedName = "level name"
-item_scene = ExtResource("25_yinut")
+item_scene = "res://Collectibles/collectibleRotApple.tscn"
 
 [node name="Shrine Gem3" parent="." index="53" instance=ExtResource("32_2ey06")]
 position = Vector2(1824, -2624)
@@ -410,6 +407,7 @@ shrineGem_portal_level_ID = "MAIN_3"
 shrineGem_portal_level_number = 3
 shrineGem_level_filePath = "res://Levels/MAIN_3.tscn"
 shrineGem_displayedName = "level 7236782"
+item_scene = "res://Enemies/enemy_fireImp.tscn"
 
 [node name="Shrine Gem4" parent="." index="54" instance=ExtResource("32_2ey06")]
 position = Vector2(-2304, -2112)
@@ -767,17 +765,3 @@ maxOffset_Y = 0
 zoomCamera = true
 minZoom = 1.0
 maxZoom = 2.0
-
-[connection signal="area_entered" from="tileset_objects/spikes_1" to="tileset_objects/spikes_1" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@252960" to="tileset_objects/@Area2D@252960" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@252968" to="tileset_objects/@Area2D@252968" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253002" to="tileset_objects/@Area2D@253002" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253003" to="tileset_objects/@Area2D@253003" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253281" to="tileset_objects/@Area2D@253281" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253282" to="tileset_objects/@Area2D@253282" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253512" to="tileset_objects/@Area2D@253512" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253513" to="tileset_objects/@Area2D@253513" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253514" to="tileset_objects/@Area2D@253514" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253515" to="tileset_objects/@Area2D@253515" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@253516" to="tileset_objects/@Area2D@253516" method="_on_area_entered"]

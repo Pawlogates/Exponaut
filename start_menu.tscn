@@ -691,28 +691,6 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]User Interface Type[/wave]"
 autowrap_mode = 0
 
-[node name="Enable Quicksaves" type="Button" parent="gameplay_menu/menu_container"]
-unique_name_in_owner = true
-self_modulate = Color(1, 1, 1, 0)
-z_index = 1
-custom_minimum_size = Vector2(960, 96)
-layout_mode = 2
-size_flags_horizontal = 4
-script = ExtResource("4_j7iyn")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="gameplay_menu/menu_container/Enable Quicksaves"]
-clip_contents = false
-layout_mode = 0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 984.0
-offset_bottom = 88.0
-mouse_filter = 2
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
-autowrap_mode = 0
-
 [node name="ReturnGameplay" type="Button" parent="gameplay_menu/menu_container"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
@@ -733,6 +711,29 @@ mouse_filter = 2
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Return[/wave]"
+autowrap_mode = 0
+
+[node name="Enable Quicksaves" type="Button" parent="gameplay_menu/menu_container"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(960, 96)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("4_j7iyn")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="gameplay_menu/menu_container/Enable Quicksaves"]
+clip_contents = false
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 984.0
+offset_bottom = 88.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
 autowrap_mode = 0
 
 [node name="resolution_menu" type="Control" parent="."]
@@ -1226,12 +1227,12 @@ BETA-v0.8"
 [connection signal="pressed" from="episodeSelect_menu/menu_container/Main Levels" to="episodeSelect_menu/menu_container/Main Levels" method="_on_self_pressed"]
 [connection signal="focus_entered" from="gameplay_menu/menu_container/User Interface Type" to="gameplay_menu/menu_container/User Interface Type" method="_on_focus_entered"]
 [connection signal="focus_exited" from="gameplay_menu/menu_container/User Interface Type" to="gameplay_menu/menu_container/User Interface Type" method="_on_focus_exited"]
-[connection signal="focus_entered" from="gameplay_menu/menu_container/Enable Quicksaves" to="gameplay_menu/menu_container/Enable Quicksaves" method="_on_focus_entered"]
-[connection signal="focus_exited" from="gameplay_menu/menu_container/Enable Quicksaves" to="gameplay_menu/menu_container/Enable Quicksaves" method="_on_focus_exited"]
-[connection signal="pressed" from="gameplay_menu/menu_container/Enable Quicksaves" to="." method="_on_disable_quicksaves_pressed"]
 [connection signal="focus_entered" from="gameplay_menu/menu_container/ReturnGameplay" to="gameplay_menu/menu_container/ReturnGameplay" method="_on_focus_entered"]
 [connection signal="focus_exited" from="gameplay_menu/menu_container/ReturnGameplay" to="gameplay_menu/menu_container/ReturnGameplay" method="_on_focus_exited"]
 [connection signal="pressed" from="gameplay_menu/menu_container/ReturnGameplay" to="." method="_on_return_gameplay_pressed"]
+[connection signal="focus_entered" from="gameplay_menu/menu_container/Enable Quicksaves" to="gameplay_menu/menu_container/Enable Quicksaves" method="_on_focus_entered"]
+[connection signal="focus_exited" from="gameplay_menu/menu_container/Enable Quicksaves" to="gameplay_menu/menu_container/Enable Quicksaves" method="_on_focus_exited"]
+[connection signal="pressed" from="gameplay_menu/menu_container/Enable Quicksaves" to="." method="_on_disable_quicksaves_pressed"]
 [connection signal="focus_entered" from="resolution_menu/menu_container/AutoResolution" to="resolution_menu/menu_container/AutoResolution" method="_on_focus_entered"]
 [connection signal="focus_exited" from="resolution_menu/menu_container/AutoResolution" to="resolution_menu/menu_container/AutoResolution" method="_on_focus_exited"]
 [connection signal="pressed" from="resolution_menu/menu_container/AutoResolution" to="." method="display_stretch_viewport_on"]

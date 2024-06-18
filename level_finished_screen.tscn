@@ -266,13 +266,19 @@ mouse_filter = 2
 
 [node name="Button Container" type="HBoxContainer" parent="CenterContainer/VBoxContainer/Control"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 offset_left = -832.0
 offset_top = 388.0
 offset_right = -92.0
 offset_bottom = 468.0
 mouse_filter = 2
+
+[node name="LevelSelectBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+mouse_filter = 1
+text = "Level Select"
 
 [node name="RetryBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
 unique_name_in_owner = true
@@ -281,7 +287,7 @@ layout_mode = 2
 mouse_filter = 1
 text = "Retry"
 
-[node name="MapBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+[node name="ContinueBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(64, 16)
 layout_mode = 2
@@ -348,5 +354,6 @@ stream = ExtResource("4_in6rq")
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_exited"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/LevelSelectBtn" to="." method="_on_level_select_btn_pressed"]
 [connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/RetryBtn" to="." method="_on_retry_btn_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/MapBtn" to="." method="_on_map_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/ContinueBtn" to="." method="_on_continue_btn_pressed"]

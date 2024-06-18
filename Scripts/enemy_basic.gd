@@ -21,13 +21,11 @@ var attacked = false;
 var attacking = false;
 var dead = false;
 
-var hp = 7
-
-
+@export var hp = 3
 @export var damageValue = 1
 
-var direction = -1
-var direction_v = 1
+@export var direction = -1
+@export var direction_v = 1
 
 var can_turn = true
 
@@ -43,7 +41,7 @@ var can_turn = true
 @onready var hit = $hit
 @onready var death = $death
 
-var loadingZone = "loadingZone0"
+var loadingZone = "loadingZone0" #delete this when all enemies are under enemy_general
 
 @onready var start_pos_x = global_position.x
 @onready var start_pos_y = global_position.y
@@ -68,9 +66,9 @@ func _on_particle_limiter_timeout():
 
 
 func remove_if_corpse():
+	await get_tree().create_timer(0.2, false).timeout
 	if dead:
 		queue_free()
-
 
 
 #IS IN VISIBLE RANGE?
@@ -173,30 +171,30 @@ func _on_area_2d_area_entered(area):
 	
 	
 	
-	#SAVE START
-	
-	elif area.is_in_group("loadingZone_area"):
-	
-		remove_from_group("loadingZone0")
-		remove_from_group("loadingZone1")
-		remove_from_group("loadingZone2")
-		remove_from_group("loadingZone3")
-		remove_from_group("loadingZone4")
-		remove_from_group("loadingZone5")
-		
-		loadingZone = area.loadingZone_ID
-		add_to_group(loadingZone)
-		
-		#print("this object is in: ", loadingZone)
-
-	#SAVE END
+	##SAVE START
+	#
+	#elif area.is_in_group("loadingZone_area"):
+	#
+		#remove_from_group("loadingZone0")
+		#remove_from_group("loadingZone1")
+		#remove_from_group("loadingZone2")
+		#remove_from_group("loadingZone3")
+		#remove_from_group("loadingZone4")
+		#remove_from_group("loadingZone5")
+		#
+		#loadingZone = area.loadingZone_ID
+		#add_to_group(loadingZone)
+		#
+		##print("this object is in: ", loadingZone)
+#
+	##SAVE END
 
 
 
 
 func basic_onReady():
-	add_to_group("loadingZone0")
-		
+	#add_to_group("loadingZone0")
+	
 	set_process(false)
 	set_physics_process(false)
 	

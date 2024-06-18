@@ -85,7 +85,7 @@ func _ready():
 		Globals.current_level_ID = shrine_level_ID
 		Globals.current_level_number = shrine_level_number
 	
-	savedProgress_save()
+	last_area_filePath_save()
 	
 	if Globals.mode_scoreAttack:
 		add_child(mode_scoreAttack_manager)
@@ -234,9 +234,6 @@ func _ready():
 	Globals.transitioned = false
 	
 	
-	
-	
-	
 	player.camera.position_smoothing_enabled = false
 	
 	await get_tree().create_timer(1, false).timeout
@@ -281,9 +278,9 @@ func load_saved_progress_overworld():
 		Globals.level_score = SavedData.saved_score
 		if not Globals.transitioned:
 			player.position = SavedData.saved_position
+			print("The 'transitioned' (Globals) property is false, so player position is NOT skipped on this game load." + str(Globals.transitioned))
 		else:
-			print("The 'transitioned' (Globals) property is false, so player position is skipped on this game load. " + str(Globals.transitioned))
-
+			print("The 'transitioned' (Globals) property is true, so player position is skipped on this game load (and the player is teleported to the (hopefully) correct area transition object). " + str(Globals.transitioned))
 
 
 @onready var fps = %fps
@@ -320,26 +317,26 @@ func _physics_process(delta):
 		level_timeDisplay.visible_characters = 3
 		
 	
-	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
-		quickLoad_blocked = true
-		save_game()
-		$QuickloadLimiter.start()
-		Globals.is_saving = true
-		
-		
-		await get_tree().create_timer(1.0, false).timeout
-		Globals.is_saving = false
+	#if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
+		#quickLoad_blocked = true
+		#save_game()
+		#$QuickloadLimiter.start()
+		#Globals.is_saving = true
+		#
+		#
+		#await get_tree().create_timer(1.0, false).timeout
+		#Globals.is_saving = false
 		
 	
-	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
-		quickLoad_blocked = true
-		load_game()
-		$QuickloadLimiter.start()
-		Globals.is_saving = true
-		
-		
-		await get_tree().create_timer(1.0, false).timeout
-		Globals.is_saving = false
+	#if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
+		#quickLoad_blocked = true
+		#load_game()
+		#$QuickloadLimiter.start()
+		#Globals.is_saving = true
+		#
+		#
+		#await get_tree().create_timer(1.0, false).timeout
+		#Globals.is_saving = false
 	
 	
 	
@@ -423,13 +420,8 @@ func _physics_process(delta):
 	if Input.is_action_just_pressed("night_toggle"):
 		night_tileset_toggle()
 	
-	
-
-
-
 
 #MAIN END
-
 
 var night_toggle = true
 
@@ -437,70 +429,46 @@ var night_toggle = true
 
 
 
-
-
-
-
-
-
 #HANDLE REDUCE PLAYER HP
+
+func handle_player_death():
+	player.dead = true
+	player.death.play()
+	if regular_level:
+		#if Globals.quicksaves_enabled:
+			#retry_loadSave(true)
+		if Globals.mode_scoreAttack:
+			retry_backToMap()
+		else:
+			retry_checkpoint()
+	else:
+		retry_checkpoint()
 
 func reduceHp1():
 	Globals.playerHP -= 1
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
-		player.dead = true
-		player.death.play()
-		if regular_level:
-			if Globals.quicksaves_enabled:
-				retry_loadSave(true)
-			else:
-				retry_backToMap()
-		else:
-			retry_checkpoint()
+		handle_player_death()
+		
 	
 
 func reduceHp2():
 	Globals.playerHP -= 2
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
-		player.dead = true
-		player.death.play()
-		if regular_level:
-			if Globals.quicksaves_enabled:
-				retry_loadSave(true)
-			else:
-				retry_backToMap()
-		else:
-			retry_checkpoint()
+		handle_player_death()
 
 func reduceHp3():
 	Globals.playerHP -= 3
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
-		player.dead = true
-		player.death.play()
-		if regular_level:
-			if Globals.quicksaves_enabled:
-				retry_loadSave(true)
-			else:
-				retry_backToMap()
-		else:
-			retry_checkpoint()
+		handle_player_death()
 
 func kill_player():
 	Globals.playerHP -= 100
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
-		player.dead = true
-		player.death.play()
-		if regular_level:
-			if Globals.quicksaves_enabled:
-				retry_loadSave(true)
-			else:
-				retry_backToMap()
-		else:
-			retry_checkpoint()
+		handle_player_death()
 
 func increaseHp1():
 	Globals.playerHP += 1
@@ -508,6 +476,10 @@ func increaseHp1():
 
 func increaseHp2():
 	Globals.playerHP += 2
+	healthDisplay.text = str("HP:", Globals.playerHP)
+
+func increaseHp3():
+	Globals.playerHP += 3
 	healthDisplay.text = str("HP:", Globals.playerHP)
 
 
@@ -747,8 +719,8 @@ func load_game():
 
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for i in save_nodes:
-		if i.is_in_group(Globals.loadingZone_current) or i.is_in_group("loadingZone0"):
-			i.queue_free()
+		#if i.is_in_group(Globals.loadingZone_current) or i.is_in_group("loadingZone0"):
+		i.queue_free()
 
 	var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.READ)
 	while save_gameFile.get_position() < save_gameFile.get_length():
@@ -787,9 +759,7 @@ func load_game():
 		load_saved_progress_overworld()
 	else:
 		Globals.level_score = Globals.saved_level_score
-		
-		Globals.player_posX = Globals.saved_player_posX
-		Globals.player_posY = Globals.saved_player_posY
+		player.position = Vector2(Globals.saved_player_posX, Globals.saved_player_posY)
 	
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
@@ -1134,8 +1104,10 @@ func save_game_area():
 
 
 func load_game_area():
+	print("Loading area state for: " + str(area_ID))
 	if not FileAccess.file_exists("user://savegame_" + area_ID + ".save"):
 		return # Error! We don't have a save to load.
+		print("Area state file not found for: " + str(area_ID))
 
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for i in save_nodes:
@@ -1180,40 +1152,14 @@ func load_game_area():
 
 #Save progress loaded from the main menu screen.
 
-func savedProgress_save():
-	if shrine_level:
+func last_area_filePath_save():
+	if shrine_level or regular_level:
 		return
 	
-	savedProgress_nextTransition = Globals.next_transition
-	
-	var savedProgress_file = FileAccess.open("user://savedProgress.save", FileAccess.WRITE)
-	var savedProgress_data = call("savedProgress_dictionary")
-
-	# JSON provides a static method to serialized JSON string.
-	var json_string = JSON.stringify(savedProgress_data)
-
-	# Store the save dictionary as a new line in the save file.
-	savedProgress_file.store_line(json_string)
-	
-
-
-
-
-
-
-#SAVE START
-
-func savedProgress_dictionary():
-	var save_dict = {
-		#last level filePath and which area transition it was entered from.
-		"level_filePath" : savedProgress_level_filePath,
-		"level_next_transition" : savedProgress_nextTransition,
+	SavedData.saved_last_area_filePath = savedProgress_level_filePath
 	
 	
-	}
-	return save_dict
 
-#SAVE END
 
 
 func reassign_player():

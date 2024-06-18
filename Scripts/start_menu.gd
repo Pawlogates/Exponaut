@@ -6,7 +6,7 @@ var mapScreen = preload("res://map_screen.tscn")
 
 
 func _ready():
-	savedProgress_load()
+	last_area_filePath_load()
 	LevelTransition.get_node("%saved_progress").load_game()
 	
 	%main_menu.visible = false
@@ -34,8 +34,7 @@ func _ready():
 	
 	
 	
-	var debug_mode = true
-	if debug_mode:
+	if Globals.debug_mode:
 		%main_menu.visible = true
 		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 		%StartGame.grab_focus()
@@ -52,8 +51,8 @@ func _ready():
 
 
 
-var saved_level_filePath = "empty"
-var saved_level:PackedScene = load("res://Levels/empty.tscn")
+var saved_level_filePath = "res://Levels/empty.tscn"
+var saved_level = load("res://Levels/empty.tscn")
 
 func start_game():
 	delete_saves()
@@ -64,7 +63,7 @@ func start_game():
 
 
 func _on_continue_pressed():
-	print(str(saved_level) + " is the file path of the saved level that you are loading into.")
+	print(str(saved_level) + " is the file path of the saved last area level that you are loading into.")
 	saved_level = load(saved_level_filePath)
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(saved_level)
@@ -98,20 +97,22 @@ func _on_episode_button_pressed():
 
 
 
-var change_bg_to_main = true
 
 func _on_fade_animation_animation_finished(anim_name):
-	if change_bg_to_main and anim_name == "fade_to_black":
+	if anim_name == "fade_to_black":
+		SavedData.savedData_load()
+		
 		%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
 		%fade_animation.play("fade_from_black")
 		
-		%main_menu.visible = true
-		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-		
-		%menu_deco_bg.visible = true
-		%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
-		
-		%StartGame.grab_focus()
+		if not Globals.debug_mode:
+			%main_menu.visible = true
+			%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+			
+			%menu_deco_bg.visible = true
+			%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
+			
+			%StartGame.grab_focus()
 		
 		$AudioStreamPlayer2D.play()
 
@@ -371,36 +372,18 @@ func display_stretch_viewport_off():
 
 
 
-func savedProgress_load():
-	if not FileAccess.file_exists("user://savedProgress.save"):
-		print("The save file doesn't exist.")
+func last_area_filePath_load():
+	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+		print("The saved_last_area_filePath property is default (res://Levels/empty.tscn), so the Continue option is blocked.")
 		%Continue.process_mode = Node.PROCESS_MODE_DISABLED
 		%Continue.modulate.b = 0.3
 		%Continue.modulate.g = 0.3
 		%Continue.modulate.a = 0.3
 		
 		return
-		
-		
-	var savedProgress_file = FileAccess.open("user://savedProgress.save", FileAccess.READ)
-	while savedProgress_file.get_position() < savedProgress_file.get_length():
-		var json_string = savedProgress_file.get_line()
-		var json = JSON.new()
-		var parse_result = json.parse(json_string)
-		
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-			
-		var data = json.get_data()
-		
-		
-		#LOAD PROGRESS
-		
-		saved_level_filePath = data["level_filePath"]
-		Globals.next_transition = data["level_next_transition"]
-		
-		#LOAD PROGRESS END
+	
+	saved_level_filePath = SavedData.saved_last_area_filePath
+
 
 
 

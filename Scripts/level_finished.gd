@@ -5,15 +5,33 @@ signal retry()
 signal next_level()
 
 @onready var retry_btn = %RetryBtn
-@onready var map_btn = %MapBtn
+@onready var level_select_btn = %LevelSelectBtn
 
 
 var level_score = 0
 var displayed_totalScore = 0
 var displayed_score = 0
 
+
 func _on_retry_btn_pressed():
 	retry.emit()
+
+func _on_continue_btn_pressed():
+	#next_level.emit()
+	if Globals.delete_saves:
+		SavedData.saved_last_area_filePath = "res://Levels/Overworld.tscn"
+	
+	var saved_level = load(SavedData.saved_last_area_filePath)
+	await LevelTransition.fade_to_black()
+	Globals.transitioned = false
+	get_tree().change_scene_to_packed(saved_level)
+
+var mapScreen = load("res://map_screen.tscn")
+func _on_level_select_btn_pressed():
+	await LevelTransition.fade_to_black()
+	get_tree().paused = false
+	get_tree().change_scene_to_packed(mapScreen)
+	await LevelTransition.fade_from_black_slow()
 
 
 
@@ -125,25 +143,12 @@ func exit_reached():
 	%"End Screen".visible = true
 	%"End Screen Values".visible = true
 	await LevelTransition.fade_from_black_slow()
-	%MapBtn.grab_focus()
+	%LevelSelectBtn.grab_focus()
 	
 	set_process(true)
 	calculate_rating()
 	
 	
-
-
-
-
-var mapScreen = load("res://map_screen.tscn")
-
-func _on_map_btn_pressed():
-	#next_level.emit()
-	
-	await LevelTransition.fade_to_black()
-	get_tree().paused = false
-	get_tree().change_scene_to_packed(mapScreen)
-	await LevelTransition.fade_from_black_slow()
 
 
 
@@ -235,3 +240,5 @@ func count_inventoryItems():
 	if Globals.inventory_currentItemCount > 0:
 		displayedBonus_items += 1000
 		
+
+

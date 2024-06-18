@@ -13,8 +13,6 @@ var total_score = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	savedProgress_load()
-	
 	LevelTransition.get_node("%saved_progress").load_game()
 	print(str(Globals.selected_episode) + " is the currently selected episode (level set).")
 	
@@ -186,45 +184,12 @@ func _on_main_menu_pressed():
 
 func _on_back_to_overworld_pressed():
 	if Globals.delete_saves:
-		saved_level_filePath = "res://Levels/Overworld.tscn"
+		SavedData.saved_last_area_filePath = "res://Levels/Overworld.tscn"
 	
-	saved_level = load(saved_level_filePath)
+	var saved_level = load(SavedData.saved_last_area_filePath)
 	await LevelTransition.fade_to_black()
 	Globals.transitioned = false
 	get_tree().change_scene_to_packed(saved_level)
 
 
 
-var saved_level_filePath = "empty"
-var saved_level:PackedScene = load("res://Levels/empty.tscn")
-
-
-func savedProgress_load():
-	if not FileAccess.file_exists("user://savedProgress.save"):
-		print("Level set level completion state file doesn't exist.")
-		#%Continue.process_mode = Node.PROCESS_MODE_DISABLED
-		#%Continue.modulate.b = 0.3
-		#%Continue.modulate.g = 0.3
-		#%Continue.modulate.a = 0.3
-		return
-		
-		
-	var savedProgress_file = FileAccess.open("user://savedProgress.save", FileAccess.READ)
-	while savedProgress_file.get_position() < savedProgress_file.get_length():
-		var json_string = savedProgress_file.get_line()
-		var json = JSON.new()
-		var parse_result = json.parse(json_string)
-		
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-			
-		var data = json.get_data()
-		
-		
-		#LOAD PROGRESS
-		
-		saved_level_filePath = data["level_filePath"]
-		Globals.next_transition = data["level_next_transition"]
-		
-		#LOAD PROGRESS END

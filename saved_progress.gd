@@ -2,7 +2,7 @@ extends Node2D
 
 #states 1: 0 - unfinished, 1 - finished, 2 - all big apples collected, 3 - all collectibles collected, -1 - unlocked (main game exclusive)
 
-# ROOSTER ISLAND
+# Additional levels
 var state_RI1_1 = 0
 var state_RI1_2 = 0
 var state_RI1_3 = 0
@@ -111,7 +111,7 @@ func save_game():
 
 func load_game():
 	if not FileAccess.file_exists("user://saved_progress.save"):
-		print("no save")
+		print("Couldn't find the save file (saved_progress - All of the LEVEL SET level completion states and scores).")
 		return # Error! We don't have a save to load.
 		
 	var saved_progress_file = FileAccess.open("user://saved_progress.save", FileAccess.READ)

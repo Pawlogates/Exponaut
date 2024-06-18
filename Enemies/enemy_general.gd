@@ -135,23 +135,23 @@ func _on_area_2d_area_entered(area):
 		
 	
 	
-	#SAVE START
-	
-	elif area.is_in_group("loadingZone_area"):
-	
-		remove_from_group("loadingZone0")
-		remove_from_group("loadingZone1")
-		remove_from_group("loadingZone2")
-		remove_from_group("loadingZone3")
-		remove_from_group("loadingZone4")
-		remove_from_group("loadingZone5")
-		
-		loadingZone = area.loadingZone_ID
-		add_to_group(loadingZone)
-		
-		#print("this object is in: ", loadingZone)
-		
-	#SAVE END
+	##SAVE START
+	#
+	#elif area.is_in_group("loadingZone_area"):
+	#
+		#remove_from_group("loadingZone0")
+		#remove_from_group("loadingZone1")
+		#remove_from_group("loadingZone2")
+		#remove_from_group("loadingZone3")
+		#remove_from_group("loadingZone4")
+		#remove_from_group("loadingZone5")
+		#
+		#loadingZone = area.loadingZone_ID
+		#add_to_group(loadingZone)
+		#
+		##print("this object is in: ", loadingZone)
+		#
+	##SAVE END
 
 
 
@@ -161,13 +161,14 @@ func _on_area_2d_area_entered(area):
 
 func save():
 	var save_dict = {
-		"loadingZone" : loadingZone,
+		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
 		"pos_y" : position.y,
+		"hp" : hp,
 		"direction" : direction,
-		"health" : hp,
+		"dead" : dead,
 		
 	}
 	return save_dict
@@ -331,12 +332,8 @@ func _physics_process(delta):
 
 
 
-@export var enemyHp = 3
-@export var enemyDirection = 1
 
 func _ready():
-	hp = enemyHp
-	direction = enemyDirection
 	basic_onReady()
 	$scanForPlayer.monitoring = false
 	$scanForPlayer.monitorable = false

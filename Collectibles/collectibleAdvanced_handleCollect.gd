@@ -60,7 +60,7 @@ var checkpoint_active = false
 @export var shrineGem_displayedName = "none"
 @export var is_specialApple = "none" #options: "red", "blue", "golden"
 
-@export var item_scene : PackedScene = load("res://Collectibles/Gift_orangeBox.tscn") #preload("res://Collectibles/collectibleApple.tscn")
+@export_file("*.tscn") var item_scene = "res://Collectibles/Gift_orangeBox.tscn" #preload("res://Collectibles/collectibleApple.tscn")
 @export var spawnedAmount = 3
 @export var item_posSpread = 100
 @export var item_velSpread = 300
@@ -613,7 +613,7 @@ func _physics_process(delta):
 			%AnimatedSprite2D.position.y += 1
 	
 	if debug:
-		print(collected)
+		print(item_scene)
 
 @export var debug = false
 
@@ -792,7 +792,7 @@ func spawn_collectibles():
 var rng = RandomNumberGenerator.new()
 
 func spawn_item():
-	var item = item_scene.instantiate()
+	var item = load(item_scene).instantiate()
 	if "velocity" in item:
 		item.position = global_position
 		item.velocity.x = rng.randf_range(item_velSpread, -item_velSpread)
@@ -804,7 +804,7 @@ func spawn_item():
 
 
 func spawn_item_static():
-	var item = item_scene.instantiate()
+	var item = load(item_scene).instantiate()
 	item.position.x = global_position.x + rng.randf_range(item_posSpread, -item_posSpread)
 	item.position.y = global_position.y + rng.randf_range(item_posSpread, -item_posSpread)
 	
@@ -846,13 +846,12 @@ func random_pitch_collect():
 func _on_shrine_gem_checkpoint_trigger_body_entered(body):
 	if checkpoint_active:
 		if body.is_in_group("player"):
-			await get_tree().create_timer(1, false).timeout
 			#await get_tree().create_timer(1, false).timeout
 			print("Shrine Gem checkpoint activated.")
 			checkpoint_active = false
 			$/root/World.save_game()
 			$/root/World.save_game_area()
-			SavedData.save_game(true)
+			SavedData.savedData_save(true)
 
 
 
@@ -864,16 +863,17 @@ func _on_shrine_gem_checkpoint_trigger_body_entered(body):
 
 #SAVE START
 
-var loadingZone = "loadingZone0"
+#var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
-		"loadingZone" : loadingZone,
+		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
 		"pos_y" : position.y,
 		"collected" : collected,
+		"hp" : hp,
 		"shrineGem_portal_level_ID" : shrineGem_portal_level_ID,
 		"shrineGem_level_filePath" : shrineGem_level_filePath,
 		"collected_special" : collected_special,
@@ -891,6 +891,8 @@ func save():
 		"item_posSpread" : item_posSpread,
 		"item_velSpread" : item_velSpread,
 		"floating" : floating,
+		"debug" : debug,
+		"stop_upDownLoopAnim" : stop_upDownLoopAnim,
 		
 	}
 	return save_dict

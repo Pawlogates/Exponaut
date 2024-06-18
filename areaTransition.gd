@@ -18,7 +18,7 @@ func _on_area_entered(area):
 			entered = true
 			var next_area:PackedScene = load(target_area)
 			
-			SavedData.save_game(false)
+			SavedData.savedData_save(false)
 			
 			get_parent().save_game_area()
 			await LevelTransition.fade_to_black()

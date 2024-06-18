@@ -59,6 +59,7 @@ size = Vector2(64, 512)
 size = Vector2(64, 192)
 
 [node name="World" instance=ExtResource("1_ql571")]
+savedProgress_level_filePath = "res://Levels/theBeginning.tscn"
 cameraLimit_left = -1e+07
 cameraLimit_right = 10432.0
 cameraLimit_bottom = 640.0
