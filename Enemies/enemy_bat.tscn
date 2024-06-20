@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://cljye56wi53e8"]
+[gd_scene load_steps=14 format=3 uid="uid://cljye56wi53e8"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_bat.gd" id="1_wip1a"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_7ijuc"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_l26j3"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_db574"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_sq5xc"]
@@ -79,11 +79,20 @@ size = Vector2(48, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(64, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l0a7m"]
+size = Vector2(640, 56)
+
 [node name="enemyBat" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
 collision_layer = 0
-script = ExtResource("1_wip1a")
+script = ExtResource("1_7ijuc")
+SPEED = 150
+movementType = "normal"
+turnOnWall = true
+floating = true
+enable_generalTimers = false
+hp = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)
@@ -132,6 +141,44 @@ volume_db = 5.0
 modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
+[node name="patrolDirectionTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="followDelay" type="Timer" parent="patrolDirectionTimer"]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="jumpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="scanForPlayer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+unique_name_in_owner = true
+position = Vector2(320, 16)
+shape = SubResource("RectangleShape2D_l0a7m")
+
+[node name="ColorRect" type="ColorRect" parent="scanForPlayer/scanForPlayer_CollisionShape2D"]
+visible = false
+modulate = Color(1, 0, 0, 0.345098)
+offset_left = -320.0
+offset_top = -4.0
+offset_right = 320.0
+offset_bottom = 4.0
+
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
@@ -139,3 +186,7 @@ rect = Rect2(-500, -500, 1000, 1000)
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
+[connection signal="timeout" from="patrolDirectionTimer" to="." method="_on_patrol_direction_timer_timeout"]
+[connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
+[connection signal="timeout" from="jumpTimer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]

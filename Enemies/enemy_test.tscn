@@ -1,10 +1,12 @@
-[gd_scene load_steps=35 format=3 uid="uid://bryuyj06lbaxi"]
+[gd_scene load_steps=37 format=3 uid="uid://bryuyj06lbaxi"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_6jqsp"]
 [ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="2_81sh3"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_clbgl"]
 [ext_resource type="AudioStream" uid="uid://1ghx8flvsx4o" path="res://Assets/Sounds/sfx/pig_damage.wav" id="3_xhyew"]
 [ext_resource type="AudioStream" uid="uid://dlxotk6tqrgv4" path="res://Assets/Sounds/sfx/pig_death.wav" id="4_cf3m1"]
+[ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="6_bhm1v"]
+[ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="7_ah2gu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_a2rf2"]
 atlas = ExtResource("2_clbgl")
@@ -326,6 +328,12 @@ offset_bottom = 4.0
 unique_name_in_owner = true
 wait_time = 0.5
 
+[node name="shootProjectile" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_bhm1v")
+
+[node name="dropProjectile" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_ah2gu")
+
 [node name="scanForLedge" type="RayCast2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(32, 0)
@@ -346,6 +354,29 @@ unique_name_in_owner = true
 wait_time = 0.3
 one_shot = true
 
+[node name="flyCooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 12.0
+one_shot = true
+autostart = true
+
+[node name="flyEnd" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 8.0
+one_shot = true
+
+[node name="timerGeneral1" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral2" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral3" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
@@ -360,3 +391,8 @@ one_shot = true
 [connection signal="area_exited" from="scanForPlayer" to="." method="_on_scan_for_player_area_exited"]
 [connection signal="timeout" from="shoot_delay" to="." method="_on_shoot_delay_timeout"]
 [connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]
+[connection signal="timeout" from="flyCooldown" to="." method="_on_fly_cooldown_timeout"]
+[connection signal="timeout" from="flyEnd" to="." method="_on_fly_end_timeout"]
+[connection signal="timeout" from="timerGeneral1" to="." method="_on_timer_general_1_timeout"]
+[connection signal="timeout" from="timerGeneral2" to="." method="_on_timer_general_2_timeout"]
+[connection signal="timeout" from="timerGeneral3" to="." method="_on_timer_general_3_timeout"]

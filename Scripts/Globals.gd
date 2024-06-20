@@ -140,7 +140,7 @@ var next_transition = 0
 
 
 var debug_mode = true
-var delete_saves = false
+var delete_saves = true
 
 signal cheated
 var cheated_state = false

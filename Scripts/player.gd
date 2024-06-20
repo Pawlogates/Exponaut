@@ -92,6 +92,7 @@ var inside_water = 0
 var insideWater_multiplier = 1
 
 
+var damageValue = 1
 
 func _ready():
 	Globals.player_pos = get_global_position()
@@ -170,6 +171,10 @@ var scene_projectileSecondary_fast = preload("res://player_projectileSecondary_f
 #MAIN START
 
 func _process(delta):
+	Globals.player_pos = get_global_position()
+	Globals.player_posX = get_global_position()[0]
+	Globals.player_posY = get_global_position()[1]
+		
 	if not debugMovement:
 		if not dead:
 			direction = Input.get_axis("move_L", "move_R")
@@ -467,9 +472,6 @@ func _process(delta):
 		
 		update_anim()
 		
-		Globals.player_pos = get_global_position()
-		Globals.player_posX = get_global_position()[0]
-		Globals.player_posY = get_global_position()[1]
 		
 		just_wall_jumped = false
 		
@@ -981,16 +983,16 @@ var collected_collectibles = 0
 
 func debug_refresh():
 	Globals.test = get_tree().get_nodes_in_group("Persist").size() + get_tree().get_nodes_in_group("bonusBox").size()
-	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size() + get_tree().get_nodes_in_group("loadingZone4").size() + get_tree().get_nodes_in_group("loadingZone0").size()
-	Globals.test3 = get_tree().get_nodes_in_group("Collectibles").size()
-	Globals.test4 = Globals.loadingZone_current
+	Globals.test2 =  get_tree().get_nodes_in_group("Collectibles").size()
+	Globals.test3 = get_parent().area_ID
+	Globals.test4 = "unused debug value"
 	
 	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	
-	if Globals.collected_collectibles >= 1000:
-		Globals.infoSign_current_text = "You collected 1000 score items! Thanks for playing :v Your score is " + str(Globals.level_score) + "!"
-		Globals.infoSign_current_size = 2
-		Globals.info_sign_touched.emit()
+	#if Globals.collected_collectibles >= 1000:
+		#Globals.infoSign_current_text = "You collected 1000 score items! Thanks for playing :v Your score is " + str(Globals.level_score) + "!"
+		#Globals.infoSign_current_size = 2
+		#Globals.info_sign_touched.emit()
 
 #DEBUG END
 

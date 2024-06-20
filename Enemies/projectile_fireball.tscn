@@ -1,8 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://cgygc2y12hn6l"]
+[gd_scene load_steps=11 format=3 uid="uid://cgygc2y12hn6l"]
 
-[ext_resource type="Script" path="res://Enemies/projectile_pig.gd" id="1_ntnh4"]
-[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_xjjuo"]
-[ext_resource type="AudioStream" uid="uid://m4x8f78vmnba" path="res://Assets/Sounds/sfx/pig_attack.wav" id="3_bm1ah"]
+[ext_resource type="Script" path="res://projectile_general.gd" id="1_dtja5"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_44cuo"]
+[ext_resource type="AudioStream" uid="uid://m4x8f78vmnba" path="res://Assets/Sounds/sfx/pig_attack.wav" id="3_ds6nq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0xdgo"]
 radius = 17.8885
@@ -10,32 +10,46 @@ radius = 17.8885
 [sub_resource type="CircleShape2D" id="CircleShape2D_4me25"]
 radius = 17.8885
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ute71"]
-atlas = ExtResource("2_xjjuo")
-region = Rect2(900, 252, 60, 60)
+[sub_resource type="AtlasTexture" id="AtlasTexture_8eg58"]
+atlas = ExtResource("2_44cuo")
+region = Rect2(1584, 96, 48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_82umk"]
-atlas = ExtResource("2_xjjuo")
-region = Rect2(960, 252, 60, 60)
+[sub_resource type="AtlasTexture" id="AtlasTexture_x83wi"]
+atlas = ExtResource("2_44cuo")
+region = Rect2(1632, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3pw3w"]
+atlas = ExtResource("2_44cuo")
+region = Rect2(1680, 96, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mu0jc"]
+atlas = ExtResource("2_44cuo")
+region = Rect2(1728, 96, 48, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jfau3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_ute71")
+"texture": SubResource("AtlasTexture_8eg58")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_82umk")
+"texture": SubResource("AtlasTexture_x83wi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3pw3w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mu0jc")
 }],
 "loop": true,
 "name": &"shoot",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [node name="projectile_pig" type="CharacterBody2D"]
 collision_layer = 2
 safe_margin = 5.0
-script = ExtResource("1_ntnh4")
+script = ExtResource("1_dtja5")
 
 [node name="scan" type="Area2D" parent="."]
 collision_layer = 0
@@ -51,12 +65,13 @@ unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_jfau3")
 animation = &"shoot"
 autoplay = "shoot"
+frame_progress = 0.56065
 
 [node name="remove_delay" type="Timer" parent="."]
 autostart = true
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_bm1ah")
+stream = ExtResource("3_ds6nq")
 autoplay = true
 
 [connection signal="area_entered" from="scan" to="." method="_on_scan_area_entered"]

@@ -4,16 +4,18 @@ extends CharacterBody2D
 @export var SPEED = 400.0
 @export var V_SPEED = 400.0
 
+@export var can_collect = false
+@export var remove_delay = 1
+@export var bouncy = false
+@export var familyID = 0
+@export var damageValue = 1
+
 var enemyProjectile = false
 var playerProjectile = true
 
 var upward_attack = false
 var downward_attack = false
 
-@export var can_collect = false
-
-
-#const JUMP_VELOCITY = -400.0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -24,9 +26,6 @@ var rng = RandomNumberGenerator.new()
 var projectile_shot = false
 
 var direction = 0
-var damageValue = 1
-
-var bouncy = false
 
 var downwards_shot = false
 var direction_whenShot = 0
@@ -38,6 +37,13 @@ var direction_whenShot = 0
 @export var give_momentum = false
 @export var momentum_x = 0.0
 @export var momentum_y = 0.0
+
+
+func _ready():
+	if remove_delay != 1:
+		$remove_delay.wait_time = remove_delay
+
+
 
 func _process(_delta):
 	if projectile_shot == false and Input.is_action_pressed("attack_fast") or enemyProjectile:

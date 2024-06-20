@@ -1,6 +1,6 @@
-[gd_scene load_steps=15 format=3 uid="uid://c63l38ki43ymp"]
+[gd_scene load_steps=16 format=3 uid="uid://c63l38ki43ymp"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_bossMetalHen.gd" id="1_uw6vv"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_rhg5n"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_i4wkj"]
 [ext_resource type="AudioStream" uid="uid://dktvinfcsfjdf" path="res://Assets/Sounds/sfx/robot_damage.wav" id="3_tkw8o"]
 [ext_resource type="AudioStream" uid="uid://bh4ltljsggx0d" path="res://Assets/Sounds/sfx/effect_explosion2.wav" id="4_fmm6y"]
@@ -81,6 +81,17 @@ animations = [{
 "texture": SubResource("AtlasTexture_o558e")
 }],
 "loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_avk3w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o558e")
+}],
+"loop": true,
 "name": &"walk",
 "speed": 5.0
 }]
@@ -91,16 +102,28 @@ size = Vector2(112, 128)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(144, 160)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fkelg"]
+size = Vector2(640, 48)
+
 [node name="enemyBossMetalHen" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
 collision_layer = 0
 floor_max_angle = 0.523599
-script = ExtResource("1_uw6vv")
+script = ExtResource("1_rhg5n")
+JUMP_VELOCITY = -600.0
+movementType = "normal"
+turnOnWall = true
+afterDelay_jump = true
+ascending = true
+jumpTimer_time = 3.15
+enable_generalTimers = false
+hp = 15
+damageValue = 2
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"walk"
+animation = &"flying"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -128,6 +151,7 @@ position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_4klqh")
 
 [node name="jumpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
 wait_time = 2.5
 autostart = true
 
@@ -160,6 +184,33 @@ unique_name_in_owner = true
 wait_time = 8.0
 one_shot = true
 
+[node name="patrolDirectionTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="followDelay" type="Timer" parent="patrolDirectionTimer"]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="scanForPlayer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+monitoring = false
+monitorable = false
+
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+unique_name_in_owner = true
+position = Vector2(320, 0)
+shape = SubResource("RectangleShape2D_fkelg")
+
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
@@ -169,3 +220,4 @@ one_shot = true
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="timeout" from="flyCooldown" to="." method="_on_fly_cooldown_timeout"]
 [connection signal="timeout" from="flyEnd" to="." method="_on_fly_end_timeout"]
+[connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]

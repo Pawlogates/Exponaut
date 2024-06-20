@@ -87,7 +87,7 @@ func manage_animation():
 				sprite.flip_h = true
 			
 			if not particle_buffer:
-				starParticle_fast = starParticle_fastScene.instantiate()
+				var starParticle_fast = starParticle_fastScene.instantiate()
 				add_child(starParticle_fast)
 			
 				particle_limiter.start()
@@ -140,7 +140,6 @@ func offScreen_load():
 
 func save():
 	var save_dict = {
-		"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON

@@ -1,6 +1,6 @@
-[gd_scene load_steps=19 format=3 uid="uid://hkd5d5y1xtnl"]
+[gd_scene load_steps=22 format=3 uid="uid://hkd5d5y1xtnl"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_piranha.gd" id="1_xrbvc"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_a7dum"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_ewunb"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_xxmel"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_1bsf1"]
@@ -32,6 +32,14 @@ region = Rect2(390, 826, 78, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_smdyn"]
 atlas = ExtResource("2_ewunb")
 region = Rect2(468, 826, 78, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kttfo"]
+atlas = ExtResource("2_ewunb")
+region = Rect2(0, 824, 78, 60)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2q8g8"]
+atlas = ExtResource("2_ewunb")
+region = Rect2(78, 824, 78, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hya1b"]
 atlas = ExtResource("2_ewunb")
@@ -87,9 +95,15 @@ animations = [{
 "name": &"dead",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kttfo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2q8g8")
+}],
 "loop": true,
-"name": &"falling",
+"name": &"flying",
 "speed": 5.0
 }, {
 "frames": [{
@@ -102,6 +116,11 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 3.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -121,17 +140,25 @@ size = Vector2(32, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(64, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5s3eb"]
+size = Vector2(640, 24)
+
 [node name="enemyPiranha" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
 collision_layer = 2
 floor_max_angle = 0.523599
-script = ExtResource("1_xrbvc")
+script = ExtResource("1_a7dum")
+SPEED = 150
+movementType = "normal"
+turnOnWall = true
+floating = true
+enable_generalTimers = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"attack"
+animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -185,6 +212,26 @@ volume_db = 5.0
 modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
+[node name="scanForPlayer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+unique_name_in_owner = true
+position = Vector2(320, 36)
+shape = SubResource("RectangleShape2D_5s3eb")
+
+[node name="jumpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
@@ -194,3 +241,5 @@ rect = Rect2(-500, -500, 1000, 1000)
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
+[connection signal="timeout" from="jumpTimer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]

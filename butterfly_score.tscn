@@ -1,7 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://rl2pxvlbj6gb"]
 
-[ext_resource type="Script" path="res://butterfly.gd" id="1_tokuq"]
-[ext_resource type="PackedScene" uid="uid://don6gojhtapa8" path="res://Collectibles/collectibleKey_opener.tscn" id="2_xs1uq"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_4ji4u"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="3_ab8i0"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_q7a7g"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_0iobu"]
@@ -241,18 +240,22 @@ _data = {
 "score_value": SubResource("Animation_gitew")
 }
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_upxjq"]
+size = Vector2(640, 24)
+
 [node name="butterfly_score" type="CharacterBody2D" groups=["Collectibles", "Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
-script = ExtResource("1_tokuq")
-butterfly_hp = 7
+script = ExtResource("1_4ji4u")
+SPEED = 50
+movementType = "wave_V"
 give_score_onDeath = true
 scoreValue = 10000
-spawn_item_onDeath = false
-item_scene = ExtResource("2_xs1uq")
-throw_item_around = true
-spread_position = false
-hostile = false
+turnOnWall = true
+floating = true
+is_bonusBox = true
+bonusBox_spawn_item_onDeath = false
+enable_generalTimers = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)
@@ -302,8 +305,6 @@ volume_db = 5.0
 modulate = Color(1, 1, 1, 0.0980392)
 rect = Rect2(-500, -500, 1000, 1000)
 
-[node name="Timer" type="Timer" parent="."]
-
 [node name="collectedDisplayAnimAnchor" type="ColorRect" parent="."]
 modulate = Color(1, 1, 1, 0)
 offset_left = -220.0
@@ -330,12 +331,37 @@ libraries = {
 "": SubResource("AnimationLibrary_ihjei")
 }
 
+[node name="patrolDirectionTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="followDelay" type="Timer" parent="patrolDirectionTimer"]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="scanForPlayer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+unique_name_in_owner = true
+position = Vector2(-320, 36)
+shape = SubResource("RectangleShape2D_upxjq")
+
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_player_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=14 format=3 uid="uid://6vpm41lnycqx"]
+[gd_scene load_steps=16 format=3 uid="uid://6vpm41lnycqx"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_hedgehog.gd" id="1_cdb05"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_l5vdx"]
+[ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="2_shoiq"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_ue3lu"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_mc1wu"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_fex8l"]
@@ -60,6 +61,17 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_lkttj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_swrfg")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_rf625")
 }, {
 "duration": 1.0,
@@ -76,6 +88,9 @@ size = Vector2(16, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(32, 32)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3e0e1"]
+size = Vector2(640, 56)
+
 [node name="enemyHedgehog" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
@@ -83,12 +98,19 @@ collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 safe_margin = 0.15
-script = ExtResource("1_cdb05")
+script = ExtResource("1_l5vdx")
+SPEED = 100
+movementType = "normal"
+turnOnLedge = true
+turnOnWall = true
+onDeath_spawnObject = true
+onDeath_spawnObject_objectPath = ExtResource("2_shoiq")
+enable_generalTimers = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"attack"
+animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -143,6 +165,44 @@ unique_name_in_owner = true
 position = Vector2(-24, -8)
 target_position = Vector2(0, 96)
 
+[node name="jumpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="patrolDirectionTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="followDelay" type="Timer" parent="patrolDirectionTimer"]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="scanForPlayer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+unique_name_in_owner = true
+position = Vector2(320, 16)
+shape = SubResource("RectangleShape2D_3e0e1")
+
+[node name="ColorRect" type="ColorRect" parent="scanForPlayer/scanForPlayer_CollisionShape2D"]
+visible = false
+modulate = Color(1, 0, 0, 0.345098)
+offset_left = -320.0
+offset_top = -4.0
+offset_right = 320.0
+offset_bottom = 4.0
+
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
@@ -151,3 +211,7 @@ target_position = Vector2(0, 96)
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
+[connection signal="timeout" from="jumpTimer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="patrolDirectionTimer" to="." method="_on_patrol_direction_timer_timeout"]
+[connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
+[connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]

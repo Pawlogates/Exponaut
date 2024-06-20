@@ -3,15 +3,10 @@ extends CharacterBody2D
 
 
 var starParticle_fastScene = preload("res://particles_special_multiple.tscn")
-var starParticle_fast = starParticle_fastScene.instantiate()
 var hit_effectScene = preload("res://hit_effect.tscn")
-var hit_effect = hit_effectScene.instantiate()
 var dead_effectScene = preload("res://dead_effect.tscn")
-var dead_effect = dead_effectScene.instantiate()
 var hitDeath_effectScene = preload("res://hitDeath_effect.tscn")
-var hitDeath_effect = hitDeath_effectScene.instantiate()
 
-@export var hostile = true
 
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -27,6 +22,8 @@ var dead = false;
 @export var direction = -1
 @export var direction_v = 1
 
+@export var hostile = true
+
 var can_turn = true
 
 
@@ -40,8 +37,6 @@ var can_turn = true
 
 @onready var hit = $hit
 @onready var death = $death
-
-var loadingZone = "loadingZone0" #delete this when all enemies are under enemy_general
 
 @onready var start_pos_x = global_position.x
 @onready var start_pos_y = global_position.y
@@ -74,6 +69,7 @@ func remove_if_corpse():
 #IS IN VISIBLE RANGE?
 
 func basic_offScreen_unload():
+	print("yes")
 	set_process(false)
 	set_physics_process(false)
 	
@@ -113,88 +109,14 @@ func basic_offScreen_load():
 	$AnimatedSprite2D/DeadTimer.set_paused(false)
 	
 	
-	await get_tree().create_timer(0.5, false).timeout
+	await get_tree().create_timer(0.25, false).timeout
 	$Area2D.set_monitorable(true)
 	$Area2D.set_monitoring(true)
 
 
 
 
-
-
-func enemy_stunned():
-	$Area2D.monitoring = false
-	$Area2D.monitorable = false
-	await get_tree().create_timer(0.75, false).timeout
-	$Area2D.monitoring = true
-	$Area2D.monitorable = true
-
-
-func _on_area_2d_area_entered(area):
-	if area.name == "Player_hitbox_main" and not dead:
-		attacking = true
-		attacking_timer.start()
-		
-		if not hostile:
-			return
-		
-		Globals.playerHit1.emit()
-	
-	elif area.get_parent().is_in_group("friendly") and not dead:
-		attacking = true
-		attacking_timer.start()
-	
-	
-	elif hostile and area.is_in_group("player_projectile") or not hostile and area.get_parent().is_in_group("enemies"):
-		call_deferred("enemy_stunned")
-		
-		if not dead:
-			attacked = true
-			attacked_timer.start()
-			hit.play()
-			hit_effect = hit_effectScene.instantiate()
-			add_child(hit_effect)
-			hp -= area.get_parent().damageValue
-			Globals.enemyHit.emit()
-			if hp <= 0:
-				dead = true
-				if dead:
-					Globals.specialAction.emit()
-					direction = 0
-					sprite.play("dead")
-					death.play()
-					
-					add_child(hitDeath_effect)
-					add_child(dead_effect)
-			
-		
-	
-	
-	
-	##SAVE START
-	#
-	#elif area.is_in_group("loadingZone_area"):
-	#
-		#remove_from_group("loadingZone0")
-		#remove_from_group("loadingZone1")
-		#remove_from_group("loadingZone2")
-		#remove_from_group("loadingZone3")
-		#remove_from_group("loadingZone4")
-		#remove_from_group("loadingZone5")
-		#
-		#loadingZone = area.loadingZone_ID
-		#add_to_group(loadingZone)
-		#
-		##print("this object is in: ", loadingZone)
-#
-	##SAVE END
-
-
-
-
 func basic_onReady():
-	#add_to_group("loadingZone0")
-	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -216,7 +138,12 @@ func basic_onReady():
 
 
 
-
+func enemy_stunned():
+	$Area2D.monitoring = false
+	$Area2D.monitorable = false
+	await get_tree().create_timer(0.75, false).timeout
+	$Area2D.monitoring = true
+	$Area2D.monitorable = true
 
 func basic_sprite_flipDirection():
 	if not dead:

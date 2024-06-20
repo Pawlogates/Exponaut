@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://cxfthwios5msq"]
+[gd_scene load_steps=12 format=3 uid="uid://cxfthwios5msq"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_fireImp.gd" id="1_6fj64"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_n04an"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_nwgv4"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_dlsxb"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_q7y20"]
@@ -34,16 +34,6 @@ animations = [{
 "name": &"dead",
 "speed": 7.0
 }, {
-"frames": [],
-"loop": true,
-"name": &"falling",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"flying",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wmdn4")
@@ -57,6 +47,20 @@ animations = [{
 "loop": true,
 "name": &"idle",
 "speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmdn4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_peoa4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wmdn4")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
@@ -65,17 +69,25 @@ size = Vector2(40, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(64, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dek8"]
+size = Vector2(640, 384)
+
 [node name="enemyFireImp" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
 collision_layer = 0
-script = ExtResource("1_6fj64")
+script = ExtResource("1_n04an")
+movementType = "stationary"
+damageTo_enemies = true
+bouncy_Y = true
+t_afterDelay_selfDestruct = true
+t_afterDelay_selfDestruct_timerID = 1
+familyID = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"idle"
-frame_progress = 0.667477
+animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -124,6 +136,57 @@ rect = Rect2(-500, -500, 1000, 1000)
 wait_time = 2.0
 one_shot = true
 
+[node name="scanForPlayer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+unique_name_in_owner = true
+position = Vector2(320, 0)
+shape = SubResource("RectangleShape2D_2dek8")
+
+[node name="ColorRect" type="ColorRect" parent="scanForPlayer/scanForPlayer_CollisionShape2D"]
+visible = false
+modulate = Color(1, 0, 0, 0.345098)
+offset_left = -320.0
+offset_top = -4.0
+offset_right = 320.0
+offset_bottom = 4.0
+
+[node name="patrolDirectionTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="followDelay" type="Timer" parent="patrolDirectionTimer"]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="scanForLedge" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(32, 0)
+target_position = Vector2(0, 112)
+
+[node name="ColorRect" type="ColorRect" parent="scanForLedge"]
+visible = false
+modulate = Color(1, 0, 0, 0.345098)
+offset_right = 4.0
+offset_bottom = 112.0
+
+[node name="timerGeneral1" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="timerGeneral2" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="timerGeneral3" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
@@ -132,3 +195,6 @@ one_shot = true
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="timerGeneral1" to="." method="_on_timer_general_1_timeout"]
+[connection signal="timeout" from="timerGeneral2" to="." method="_on_timer_general_2_timeout"]
+[connection signal="timeout" from="timerGeneral3" to="." method="_on_timer_general_3_timeout"]

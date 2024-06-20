@@ -266,6 +266,7 @@ mouse_filter = 2
 
 [node name="Button Container" type="HBoxContainer" parent="CenterContainer/VBoxContainer/Control"]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 offset_left = -832.0
 offset_top = 388.0

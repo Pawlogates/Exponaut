@@ -790,17 +790,22 @@ func saved_from_outside():
 
 func _on_debug_refresh_timeout():
 	fps.text = str("fps: ", Engine.get_frames_per_second())
-	test.text = str("total persistent objects present: ", Globals.test)
-	test2.text = str("total objects queued for next reload: ", Globals.test2)
-	test3.text = str("total collectibles: ", Globals.test3)
-	test4.text = str("current active loading zone: ", Globals.test4)
+	test.text = str("Total persistent objects present: ", Globals.test)
+	test2.text = str("Total collectibles: ", Globals.test2)
+	test3.text = str("Current level's area_ID: ", Globals.test3)
+	test4.text = str("Debug value message: ", Globals.test4)
 	
-	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.test3)
+	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.test2)
 	
 	Globals.inventory_selectedItem = 1
 	
 	if Globals.debug_mode:
-		player.weaponType = "basic"
+		if player.weaponType == "none":
+			player.weaponType = "basic"
+		if player.secondaryWeaponType == "none":
+			player.secondaryWeaponType = "basic"
+		player.get_node("%attack_cooldown").wait_time = 0.2
+		player.get_node("%secondaryAttack_cooldown").wait_time = 0.2
 	
 	
 	#for teleporter in get_tree().get_nodes_in_group("teleporter"):

@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dbu3egheau2i3"]
 
-[ext_resource type="Script" path="res://player_projectile_general.gd" id="1_8lmer"]
+[ext_resource type="Script" path="res://projectile_general.gd" id="1_8lmer"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_wpdka"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]

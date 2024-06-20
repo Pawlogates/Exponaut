@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://tg5egmu1bte0"]
 
-[ext_resource type="Script" path="res://player_projectileSecondary.gd" id="1_dub7r"]
+[ext_resource type="Script" path="res://projectileSecondary.gd" id="1_dub7r"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_r8j20"]
 [ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="3_len3v"]
 

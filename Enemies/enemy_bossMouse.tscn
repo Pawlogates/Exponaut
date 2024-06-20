@@ -225,7 +225,6 @@ onDeath_spawnObject_objectPath = ExtResource("2_jxafg")
 onDeath_spawnObject_objectAmount = 5
 stationary_disable_jump_anim = true
 enable_generalTimers = false
-enemyHp = 15
 scene_shootProjectile = ExtResource("3_iwfuw")
 projectile_isBouncingBall = true
 

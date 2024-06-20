@@ -276,7 +276,6 @@ dropProjectile_whenSpotted = true
 onDeath_spawnObject_objectPath = ExtResource("2_ucraf")
 onDeath_spawnObject_throwAround = true
 enable_generalTimers = false
-enemyHp = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 10)
