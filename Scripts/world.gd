@@ -118,17 +118,17 @@ func _ready():
 	
 	%HUD.visible = true
 	
-	tileset_objects.set_layer_enabled(0, true)
-	tileset_objects.set_layer_enabled(1, true)
-	tileset_objects.set_layer_enabled(2, true)
-	tileset_objects.set_layer_enabled(3, true)
-	tileset_objects.set_layer_enabled(4, true)
-	
-	tileset_objects_small.set_layer_enabled(0, true)
-	tileset_objects_small.set_layer_enabled(1, true)
-	tileset_objects_small.set_layer_enabled(2, true)
-	tileset_objects_small.set_layer_enabled(3, true)
-	tileset_objects_small.set_layer_enabled(4, true)
+	#tileset_objects.set_layer_enabled(0, true)
+	#tileset_objects.set_layer_enabled(1, true)
+	#tileset_objects.set_layer_enabled(2, true)
+	#tileset_objects.set_layer_enabled(3, true)
+	#tileset_objects.set_layer_enabled(4, true)
+	#
+	#tileset_objects_small.set_layer_enabled(0, true)
+	#tileset_objects_small.set_layer_enabled(1, true)
+	#tileset_objects_small.set_layer_enabled(2, true)
+	#tileset_objects_small.set_layer_enabled(3, true)
+	#tileset_objects_small.set_layer_enabled(4, true)
 	
 	
 	Globals.playerHP = playerStartHP

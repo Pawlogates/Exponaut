@@ -5,6 +5,7 @@ const SPEED = 250.0
 
 var hit_ground = false
 @export var damageValue = 1
+@export var familyID = 0
 var direction = 0
 
 var velocity_Y_last = 0

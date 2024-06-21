@@ -140,7 +140,7 @@ func _ready():
 		#$Player_hitbox_exact.monitorable = false
 		
 		await get_tree().create_timer(5, false).timeout
-		Globals.playerHP = 100
+		Globals.playerHP = 99999
 
 
 

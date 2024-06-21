@@ -1,16 +1,14 @@
 class_name enemy_basic
 extends CharacterBody2D
 
+var object_name = name
 
 var starParticle_fastScene = preload("res://particles_special_multiple.tscn")
 var hit_effectScene = preload("res://hit_effect.tscn")
 var dead_effectScene = preload("res://dead_effect.tscn")
 var hitDeath_effectScene = preload("res://hitDeath_effect.tscn")
 
-
-
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 
 var attacked = false;
 var attacking = false;
@@ -23,6 +21,9 @@ var dead = false;
 @export var direction_v = 1
 
 @export var hostile = true
+@export var familyID = 0
+
+@export var debug = false
 
 var can_turn = true
 

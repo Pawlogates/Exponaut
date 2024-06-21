@@ -375,15 +375,15 @@ turnOnLedge = true
 turnOnWall = true
 patroling = true
 onDeath_spawnObject = true
-shootProjectile_whenSpotted = true
-shootProjectile_cooldown = 2.0
 onDeath_spawnObject_objectPath = ExtResource("2_wy87j")
 onDeath_spawnObject_objectAmount = 7
-is_bonusBox = true
-enable_generalTimers = false
+shootProjectile_whenSpotted = true
+shootProjectile_cooldown = 2.0
 scene_shootProjectile = ExtResource("3_gb8nl")
 shootProjectile_offset_X = 32
 shootProjectile_offset_Y = 12
+is_bonusBox = true
+enable_generalTimers = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 10)
@@ -476,6 +476,7 @@ one_shot = true
 stream = ExtResource("7_pjngr")
 
 [node name="collectedDisplayAnimAnchor" type="ColorRect" parent="."]
+unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 offset_left = -220.0
 offset_top = -80.0
