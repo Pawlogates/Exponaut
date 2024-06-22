@@ -1,6 +1,6 @@
 [gd_scene load_steps=37 format=3 uid="uid://5h7bdd7d5xnh"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_0ivkn"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_0ivkn"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_xfljp"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_projectileSecondary_bouncingBall.tscn" id="3_1tk4q"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_54pa4"]
@@ -394,6 +394,7 @@ onDeath_spawnObject_objectPath = ExtResource("2_xfljp")
 onDeath_spawnObject_objectAmount = 5
 scene_shootProjectile = ExtResource("3_1tk4q")
 onDeath_disappear_instantly = true
+enable_generalTimers = false
 generalTimer1_cooldown = 2.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

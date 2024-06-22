@@ -30,8 +30,8 @@ func applyRandom_falseTrue(false_probability, true_probability):
 		var randomized_bool = true
 		return randomized_bool
 
-@onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer", "chasePlayerXY_lookAtPlayer_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
-@onready var list_itemToSpawn = [load("res://Collectibles/collectibleOrange.tscn"), load("res://Collectibles/collectibleGrape.tscn"), load("res://Collectibles/bonus_box_oranges.tscn"), load("res://Collectibles/bonus_box_grapes.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frog.tscn"), load("res://Collectibles/collectibleRotApple.tscn"), load("res://Collectibles/bonus_box_rotApples.tscn"), load("res://Collectibles/collectibleWeapon_fire.tscn"), load("res://Collectibles/collectibleCarrot.tscn"), load("res://Collectibles/collectibleCheese.tscn"), load("res://Collectibles/collectiblePeach.tscn"), load("res://Collectibles/collectibleJewel_yellow.tscn"), load("res://gateItem_goldenApple.tscn"), load("res://Enemies/enemy_test.tscn")]
+@onready var list_movementType = ["normal", "followPlayerX", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted", "followPlayerY", "followPlayerXY", "chasePlayerXY_lookAtPlayer", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer_whenSpotted"]
+@onready var list_itemToSpawn = [load("res://Collectibles/collectibleOrange.tscn"), load("res://Collectibles/collectibleGrape.tscn"), load("res://Collectibles/bonus_box_oranges.tscn"), load("res://Collectibles/bonus_box_grapes.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frog.tscn"), load("res://Collectibles/collectibleRotApple.tscn"), load("res://Collectibles/bonus_box_rotApples.tscn"), load("res://Collectibles/collectibleWeapon_fire.tscn"), load("res://Collectibles/collectibleCarrot.tscn"), load("res://Collectibles/collectibleCheese.tscn"), load("res://Collectibles/collectiblePeach.tscn"), load("res://Collectibles/collectibleJewel_yellow.tscn"), load("res://gateItem_goldenApple.tscn"), load("res://Enemies/enemy_chaos.tscn")]
 @onready var list_projectileToSpawn = [load("res://player_projectile_basic.tscn"), load("res://player_projectile_destructive_fast_speed.tscn"), load("res://player_projectile_fire.tscn"), load("res://player_projectile_ice.tscn"), load("res://player_projectile_short_shotDelay.tscn"), load("res://player_projectile_veryFast_speed.tscn"), load("res://Enemies/projectile_bullet.tscn"), load("res://Enemies/projectile_fireball.tscn")]
 @onready var list_secondaryProjectileToSpawn = [load("res://player_projectileSecondary_basic.tscn"), load("res://player_projectileSecondary_fast.tscn"), load("res://player_projectileSecondary_bouncingBall.tscn")]
 
@@ -39,7 +39,7 @@ func randomize_everything():
 	SPEED = randi_range(0, 1200)
 	JUMP_VELOCITY = randi_range(0, -1200)
 	ACCELERATION_MULTIPLIER = randi_range(0, 12)
-	movementType = applyRandom_fromList("list_movementType", 5) #14 for every type
+	movementType = applyRandom_fromList("list_movementType", 10) #14 for every type
 	give_score_onDeath = applyRandom_falseTrue(1, 9)
 	scoreValue = randi_range(0, 100000)
 	turnOnLedge = applyRandom_falseTrue(1, 4)
@@ -103,7 +103,7 @@ func randomize_everything():
 	generalTimer3_randomize_cooldown = applyRandom_falseTrue(1, 2)
 	generalTimer_min_cooldown = randf_range(0.5, 4)
 	generalTimer_max_cooldown = randf_range(4, 12)
-	t_item_scene = applyRandom_fromList("list_itemToSpawn", 15)
+	t_item_scene = applyRandom_fromList("list_itemToSpawn", 14)
 	t_item_amount = randi_range(1, 8)
 	t_throw_around = applyRandom_falseTrue(1, 1)
 	t_spread_position = applyRandom_falseTrue(1, 1)
@@ -219,9 +219,15 @@ func randomize_everything():
 @export var generalTimer1_cooldown = 3.0
 @export var generalTimer2_cooldown = 3.0
 @export var generalTimer3_cooldown = 3.0
+@export var generalTimer4_cooldown = 3.0 #not included in randomizer
+@export var generalTimer5_cooldown = 3.0 #not included in randomizer
+@export var generalTimer6_cooldown = 3.0 #not included in randomizer
 @export var generalTimer1_randomize_cooldown = false
 @export var generalTimer2_randomize_cooldown = false
 @export var generalTimer3_randomize_cooldown = false
+@export var generalTimer4_randomize_cooldown = false #not included in randomizer
+@export var generalTimer5_randomize_cooldown = false #not included in randomizer
+@export var generalTimer6_randomize_cooldown = false #not included in randomizer
 @export var generalTimer_min_cooldown = 0.5
 @export var generalTimer_max_cooldown = 12
 @export var t_item_scene = preload("res://Collectibles/collectibleLime.tscn")
@@ -248,7 +254,7 @@ func randomize_everything():
 @export var t_afterDelay_spawn_collectibles = false
 @export var t_afterDelay_spawn_collectibles_timerID = 0
 
-@export var randomize_everything_onSpawn = false
+@export var randomize_everything_onSpawn = false #not included in randomizer (and shouldn't be)
 
 @export_group("") #END OF SPECIFIC INFO
 
@@ -256,7 +262,6 @@ func randomize_everything():
 var rng = RandomNumberGenerator.new()
 
 func _on_area_2d_area_entered(area):
-	print(object_name)
 	#HANDLE ATTACK PLAYER
 	if area.name == "Player_hitbox_main" and not dead:
 		if damageTo_player:
@@ -625,10 +630,16 @@ func _ready():
 		$timerGeneral1.start()
 		$timerGeneral2.start()
 		$timerGeneral3.start()
+		$timerGeneral4.start()
+		$timerGeneral5.start()
+		$timerGeneral6.start()
 		
 		$timerGeneral1.wait_time = generalTimer1_cooldown
 		$timerGeneral2.wait_time = generalTimer2_cooldown
 		$timerGeneral3.wait_time = generalTimer3_cooldown
+		$timerGeneral4.wait_time = generalTimer4_cooldown
+		$timerGeneral5.wait_time = generalTimer5_cooldown
+		$timerGeneral6.wait_time = generalTimer6_cooldown
 	
 	if patroling:
 		patrolRect_width = $scanForPlayer/scanForPlayer_CollisionShape2D.shape.size[0]
@@ -1318,6 +1329,18 @@ func handle_generalTimerTimeout(generalTimer):
 		if generalTimer3_randomize_cooldown:
 			$timerGeneral3.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
 	
+	elif generalTimer == 4:
+		if generalTimer4_randomize_cooldown:
+			$timerGeneral4.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+
+	elif generalTimer == 5:
+		if generalTimer5_randomize_cooldown:
+			$timerGeneral5.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+	
+	elif generalTimer == 6:
+		if generalTimer6_randomize_cooldown:
+			$timerGeneral6.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+	
 	
 	#Restart timers
 	if generalTimer == 1:
@@ -1326,6 +1349,12 @@ func handle_generalTimerTimeout(generalTimer):
 		$timerGeneral2.start()
 	elif generalTimer == 3:
 		$timerGeneral3.start()
+	elif generalTimer == 4:
+		$timerGeneral4.start()
+	elif generalTimer == 5:
+		$timerGeneral5.start()
+	elif generalTimer == 6:
+		$timerGeneral6.start()
 
 
 func _on_timer_general_1_timeout():
@@ -1336,6 +1365,16 @@ func _on_timer_general_2_timeout():
 
 func _on_timer_general_3_timeout():
 	handle_generalTimerTimeout(3)
+
+func _on_timer_general_4_timeout():
+	handle_generalTimerTimeout(4)
+
+func _on_timer_general_5_timeout():
+	handle_generalTimerTimeout(5)
+
+func _on_timer_general_6_timeout():
+	handle_generalTimerTimeout(6)
+
 
 
 func t_jump():

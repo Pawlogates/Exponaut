@@ -624,14 +624,14 @@ func apply_gravity(delta):
 	if not is_on_floor() and not is_dashing or dash_slowdown:
 		if Input.is_action_pressed("jump"):
 			if inside_water:
-				velocity.y += gravity * 1.2 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
+				velocity.y += gravity * 1.0 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
 			else:
-				velocity.y += gravity * 1.2 * delta * movement_data.GRAVITY_SCALE
+				velocity.y += gravity * 1.0 * delta * movement_data.GRAVITY_SCALE
 		else:
 			if inside_water:
-				velocity.y += gravity * 1.8 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
+				velocity.y += gravity * 1.5 * delta * movement_data.GRAVITY_SCALE * insideWater_multiplier
 			else:
-				velocity.y += gravity * 1.8 * delta * movement_data.GRAVITY_SCALE
+				velocity.y += gravity * 1.5 * delta * movement_data.GRAVITY_SCALE
 				
 	if not dead and is_dashing:
 		animated_sprite_2d.play("crouch")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://dbp42d4xr6p01"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_jypmj"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_jypmj"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_c27yv"]
 [ext_resource type="AudioStream" uid="uid://1mv5m4gj4aco" path="res://Assets/Sounds/sfx/bee_idle.wav" id="3_rxrky"]
 [ext_resource type="AudioStream" uid="uid://dnxlofo4yg4ji" path="res://Assets/Sounds/sfx/bee_death.wav" id="4_6nlkh"]

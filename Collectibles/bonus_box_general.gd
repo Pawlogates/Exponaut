@@ -85,23 +85,23 @@ func _on_area_2d_area_entered(area):
 			add_child(starParticle)
 	
 	
-	#SAVE START
-	
-	elif area.is_in_group("loadingZone_area"):
-	
-		remove_from_group("loadingZone0")
-		remove_from_group("loadingZone1")
-		remove_from_group("loadingZone2")
-		remove_from_group("loadingZone3")
-		remove_from_group("loadingZone4")
-		remove_from_group("loadingZone5")
-		
-		loadingZone = area.loadingZone_ID
-		add_to_group(loadingZone)
-		
-		#print("this object is in: ", loadingZone)
-
-	#SAVE END
+	##SAVE START
+	#
+	#elif area.is_in_group("loadingZone_area"):
+	#
+		#remove_from_group("loadingZone0")
+		#remove_from_group("loadingZone1")
+		#remove_from_group("loadingZone2")
+		#remove_from_group("loadingZone3")
+		#remove_from_group("loadingZone4")
+		#remove_from_group("loadingZone5")
+		#
+		#loadingZone = area.loadingZone_ID
+		#add_to_group(loadingZone)
+		#
+		##print("this object is in: ", loadingZone)
+#
+	##SAVE END
 
 
 
@@ -147,9 +147,7 @@ func offScreen_load():
 	
 
 func _ready():
-
-	add_to_group("loadingZone0")
-	
+	#add_to_group("loadingZone0")
 	set_process(false)
 	set_physics_process(false)
 	
@@ -203,11 +201,11 @@ func spawn_item():
 
 #SAVE START
 
-var loadingZone = "loadingZone0"
+#var loadingZone = "loadingZone0"
 
 func save():
 	var save_dict = {
-		"loadingZone" : loadingZone,
+		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON

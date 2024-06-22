@@ -1,6 +1,6 @@
 [gd_scene load_steps=40 format=3 uid="uid://de5vp0v3tx1xt"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_vkq5d"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_vkq5d"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_3ppxe"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_projectileSecondary_bouncingBall.tscn" id="3_wbw2q"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_nj3mw"]

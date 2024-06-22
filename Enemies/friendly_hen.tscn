@@ -1,7 +1,8 @@
-[gd_scene load_steps=20 format=3 uid="uid://e2x7x0glinh"]
+[gd_scene load_steps=22 format=3 uid="uid://e2x7x0glinh"]
 
-[ext_resource type="Script" path="res://Enemies/friendly.gd" id="1_07kcp"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_blyq3"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_khcyv"]
+[ext_resource type="PackedScene" uid="uid://dofb2sjouxgdr" path="res://Collectibles/collectibleFeather.tscn" id="2_v75f7"]
 [ext_resource type="AudioStream" uid="uid://c4abnorpa10f6" path="res://Assets/Sounds/sfx/rooster_damage.wav" id="3_hlxe7"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_w4023"]
 [ext_resource type="AudioStream" uid="uid://cjghgw4ffqec3" path="res://Assets/Sounds/sfx/hen_idle.wav" id="5_kpfp1"]
@@ -34,6 +35,10 @@ region = Rect2(576, 258, 72, 72)
 atlas = ExtResource("2_khcyv")
 region = Rect2(648, 258, 72, 72)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_m07ou"]
+atlas = ExtResource("2_khcyv")
+region = Rect2(216, 258, 72, 72)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_nf54h"]
 atlas = ExtResource("2_khcyv")
 region = Rect2(288, 258, 72, 72)
@@ -45,10 +50,6 @@ region = Rect2(360, 258, 72, 72)
 [sub_resource type="AtlasTexture" id="AtlasTexture_ehcam"]
 atlas = ExtResource("2_khcyv")
 region = Rect2(144, 258, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m07ou"]
-atlas = ExtResource("2_khcyv")
-region = Rect2(216, 258, 72, 72)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
 animations = [{
@@ -90,6 +91,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_m07ou")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_nf54h")
 }, {
 "duration": 1.0,
@@ -117,20 +126,40 @@ size = Vector2(64, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(20, 32)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kw0qx"]
+size = Vector2(640, 56)
+
 [node name="friendlyHen" type="CharacterBody2D" groups=["Persist", "friendly"]]
 z_index = 1
 collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
-script = ExtResource("1_07kcp")
-hostile = false
+script = ExtResource("1_blyq3")
+SPEED = 150
+movementType = "normal"
+turnOnWall = true
+onDeath_spawnObject_objectPath = ExtResource("2_v75f7")
+damageTo_player = false
+generalTimer1_cooldown = 4.0
+generalTimer3_cooldown = 2.0
+generalTimer4_cooldown = 1.0
+generalTimer1_randomize_cooldown = true
+generalTimer2_randomize_cooldown = true
+generalTimer3_randomize_cooldown = true
+generalTimer4_randomize_cooldown = true
+t_afterDelay_jump = true
+t_afterDelay_jump_timerID = 1
+t_afterDelay_changeDirection = true
+t_afterDelay_changeDirection_timerID = 2
+t_afterDelay_idleSound = true
+t_afterDelay_idleSound_timerID = 3
+t_afterDelay_randomize_speedAndJumpVelocity = true
+t_afterDelay_randomize_speedAndJumpVelocity_timerID = 4
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"dead"
-frame = 2
-frame_progress = 1.0
+animation = &"idle"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -156,10 +185,6 @@ monitorable = false
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_4klqh")
-
-[node name="Timer" type="Timer" parent="."]
-wait_time = 8.0
-autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
@@ -198,14 +223,77 @@ one_shot = true
 [node name="jump_timer" type="Timer" parent="."]
 one_shot = true
 
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
+
+[node name="patrolDirectionTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
+[node name="followDelay" type="Timer" parent="patrolDirectionTimer"]
+unique_name_in_owner = true
+wait_time = 0.2
+one_shot = true
+
+[node name="timerGeneral1" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral2" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral3" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral4" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral5" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral6" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="scanForPlayer" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+input_pickable = false
+
+[node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
+unique_name_in_owner = true
+position = Vector2(320, 16)
+shape = SubResource("RectangleShape2D_kw0qx")
+
+[node name="ColorRect" type="ColorRect" parent="scanForPlayer/scanForPlayer_CollisionShape2D"]
+visible = false
+modulate = Color(1, 0, 0, 0.345098)
+offset_left = -320.0
+offset_top = -4.0
+offset_right = 320.0
+offset_bottom = 4.0
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_direction_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="timeout" from="idleSound_timer" to="." method="_on_idle_sound_timer_timeout"]
 [connection signal="timeout" from="directionChange_timer" to="." method="_on_direction_change_timer_timeout"]
 [connection signal="timeout" from="jump_timer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]
+[connection signal="timeout" from="timerGeneral1" to="." method="_on_timer_general_1_timeout"]
+[connection signal="timeout" from="timerGeneral2" to="." method="_on_timer_general_2_timeout"]
+[connection signal="timeout" from="timerGeneral3" to="." method="_on_timer_general_3_timeout"]
+[connection signal="timeout" from="timerGeneral4" to="." method="_on_timer_general_4_timeout"]
+[connection signal="timeout" from="timerGeneral5" to="." method="_on_timer_general_5_timeout"]
+[connection signal="timeout" from="timerGeneral6" to="." method="_on_timer_general_6_timeout"]

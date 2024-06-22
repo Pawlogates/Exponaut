@@ -1,6 +1,6 @@
 [gd_scene load_steps=42 format=3 uid="uid://c34n5unc83pa1"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_l215a"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_l215a"]
 [ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="2_ucraf"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="3_py0j1"]
 [ext_resource type="AudioStream" uid="uid://06mnrt474pfx" path="res://Assets/Sounds/sfx/bird_idle.wav" id="4_822xa"]

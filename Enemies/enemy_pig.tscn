@@ -1,6 +1,6 @@
 [gd_scene load_steps=41 format=3 uid="uid://ca4g5sy70xmju"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_iou5s"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_iou5s"]
 [ext_resource type="PackedScene" uid="uid://cgygc2y12hn6l" path="res://Enemies/projectile_fireball.tscn" id="2_1ojr8"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_ky0hj"]
 [ext_resource type="AudioStream" uid="uid://1ghx8flvsx4o" path="res://Assets/Sounds/sfx/pig_damage.wav" id="3_jla2o"]

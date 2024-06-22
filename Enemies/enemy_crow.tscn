@@ -1,6 +1,6 @@
 [gd_scene load_steps=31 format=3 uid="uid://dceid0jpdo7tn"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_83lh7"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_83lh7"]
 [ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="2_ygq7h"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_projectileSecondary_bouncingBall.tscn" id="3_k41ym"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="4_e5euc"]

@@ -88,10 +88,10 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
-size = Vector2(62, 48)
+size = Vector2(60, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3dwm"]
-size = Vector2(62, 16)
+size = Vector2(60, 16)
 
 [node name="special_block_spikes_UP" type="CharacterBody2D"]
 z_index = 1
