@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/player_bird.gd" id="1_0sk4w"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="3_0qg8u"]
-[ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="3_w85wr"]
+[ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/Sprites_player.png" id="3_w85wr"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="4_0minv"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_3qll5"]
 [ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="6_iveu3"]

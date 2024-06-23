@@ -131,7 +131,8 @@ func randomize_everything():
 	modulate.b = randf_range(0, 1)
 	modulate.a = randf_range(0.5, 1)
 
-
+@export var hp = 3
+@export var damageValue = 1
 @export var SPEED = 400
 @export var JUMP_VELOCITY = -400.0
 @export var ACCELERATION_MULTIPLIER = 1.0
@@ -139,7 +140,7 @@ func randomize_everything():
 @export_enum("normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer", "chasePlayerXY_lookAtPlayer_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted") var movementType: String
 
 @export_group("otherBehaviour")
-@export var give_score_onDeath = false
+@export var give_score_onDeath = true
 @export var scoreValue = 1000
 
 @export var turnOnLedge = false
@@ -194,6 +195,9 @@ func randomize_everything():
 @export_group("specificInfo")
 @export var damageTo_player = true
 @export var damageTo_enemies = false
+@export var familyID = 0 #will not be damaged by entities with the same familyID
+@export var can_affect_player = true
+
 @export var stationary_disable_jump_anim = false
 @export var patrolRectStatic = false
 @export var force_static_H = false
@@ -201,8 +205,8 @@ func randomize_everything():
 @export var onDeath_disappear_instantly = false
 
 #BONUS BOX (The player can bounce off of it, and gains greater height if the jump button is pressed during the bounce.)
-@export var is_bonusBox = false
-@export var bonusBox_spawn_item_onDeath = true
+@export var is_bonusBox = true
+@export var bonusBox_spawn_item_onDeath = false
 @export var bonusBox_item_scene = preload("res://Collectibles/collectibleApple.tscn")
 @export var bonusBox_collectibleAmount = 10
 @export var bonusBox_throw_around = false
@@ -230,6 +234,8 @@ func randomize_everything():
 @export var generalTimer6_randomize_cooldown = false #not included in randomizer
 @export var generalTimer_min_cooldown = 0.5
 @export var generalTimer_max_cooldown = 12
+@export var generalTimer_randomize_cooldown_onSpawn = false
+
 @export var t_item_scene = preload("res://Collectibles/collectibleLime.tscn")
 @export var t_item_amount = 1
 @export var t_throw_around = true
@@ -268,7 +274,7 @@ func _on_area_2d_area_entered(area):
 			attacking = true
 			attacking_timer.start()
 			
-			if hostile:
+			if can_affect_player:
 				Globals.playerHit1.emit()
 			
 		
@@ -294,33 +300,33 @@ func _on_area_2d_area_entered(area):
 		attacking_timer.start()
 		return
 	
-	#HANDLE FRIENDLY
+	#HANDLE DAMAGE
+	elif area.is_in_group("player_projectile") and area.get_parent().playerProjectile or area.is_in_group("fire"):
+		if not dead:
+			handle_damage(area)
+			call_deferred("enemy_stunned")
+			
+	
+	#HANDLE ENEMY ENTERED
+	elif area.get_parent().is_in_group("enemies"):
+		if familyID != 0 and area.get_parent().familyID == familyID:
+			return
+		
+		if not dead and area.get_parent().damageTo_enemies:
+			handle_damage(area)
+			call_deferred("enemy_stunned")
+	
+	#HANDLE FRIENDLY ENTERED
 	elif area.get_parent().is_in_group("friendly") and not dead:
 		attacking = true
 		attacking_timer.start()
 	
-	#HANDLE DAMAGE
-	elif area.is_in_group("player_projectile") and area.get_parent().playerProjectile and hostile or not hostile and area.get_parent().is_in_group("enemies") or area.is_in_group("fire"):
-		if not dead and not area.is_in_group("fire") and area.get_parent().playerProjectile:
-			handle_damage(area)
-			call_deferred("enemy_stunned")
-			
-	
-	
-	elif area.get_parent().is_in_group("enemies"):
-		if not dead and area.get_parent().damageTo_enemies:
-			handle_damage(area)
-			call_deferred("enemy_stunned")
-			
 	
 
 
 
 
 func handle_damage(area):
-	if familyID != 0 and area.get_parent().familyID == familyID:
-		return
-		
 	attacked = true
 	attacked_timer.start()
 	hit.play()
@@ -390,7 +396,6 @@ func handle_damage(area):
 
 func save():
 	var save_dict = {
-		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
@@ -398,6 +403,8 @@ func save():
 		"hp" : hp,
 		"direction" : direction,
 		"dead" : dead,
+		"start_pos_x" : start_pos_x,
+		"start_pos_y" : start_pos_y,
 		
 	}
 	return save_dict
@@ -455,8 +462,10 @@ func manage_animation():
 
 
 func spawnObjects():
-	while onDeath_spawnObject_objectAmount > 0:
-		onDeath_spawnObject_objectAmount -= 1
+	var x = onDeath_spawnObject_objectAmount
+	while x > 0:
+		x -= 1
+		
 		var onDeath_spawnObject_object = onDeath_spawnObject_objectPath.instantiate()
 		onDeath_spawnObject_object.position = position + Vector2(rng.randf_range(40.0, -40.0), rng.randf_range(40.0, -40.0))
 		$/root/World.add_child(onDeath_spawnObject_object)
@@ -596,7 +605,13 @@ func _physics_process(delta):
 		#print("CAN TURN: " + str(can_turn) + " ON WALL: " + str(is_on_wall()) + " DIRECTION: " + str(direction))
 		#if get_node_or_null("$debug_label"):
 			#get_node_or_null("$debug_label").text = str("debug message")
+		
 		pass
+	
+	#if enemy_type == "piranha_a":
+		#print(start_pos_x)
+	#elif enemy_type == "type":
+		#print(info)
 
 
 
@@ -627,6 +642,14 @@ func _ready():
 		%jumpTimer.wait_time = jumpTimer_time
 	
 	if enable_generalTimers:
+		if generalTimer_randomize_cooldown_onSpawn:
+			$timerGeneral1.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+			$timerGeneral2.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+			$timerGeneral3.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+			$timerGeneral4.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+			$timerGeneral5.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+			$timerGeneral6.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
+	
 		$timerGeneral1.start()
 		$timerGeneral2.start()
 		$timerGeneral3.start()
@@ -640,6 +663,8 @@ func _ready():
 		$timerGeneral4.wait_time = generalTimer4_cooldown
 		$timerGeneral5.wait_time = generalTimer5_cooldown
 		$timerGeneral6.wait_time = generalTimer6_cooldown
+	
+	
 	
 	if patroling:
 		patrolRect_width = $scanForPlayer/scanForPlayer_CollisionShape2D.shape.size[0]
@@ -1341,6 +1366,7 @@ func handle_generalTimerTimeout(generalTimer):
 		if generalTimer6_randomize_cooldown:
 			$timerGeneral6.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
 	
+	generalTimers_correct_cooldowns()
 	
 	#Restart timers
 	if generalTimer == 1:
@@ -1413,8 +1439,10 @@ func t_randomize_speedAndJumpVelocity():
 	JUMP_VELOCITY = rng.randf_range(-150, -600)
 
 func t_spawn_collectibles():
-	while t_item_amount > 0:
-		t_item_amount -= 1
+	var x = t_item_amount
+	while x > 0:
+		x -= 1
+		
 		t_spawn_item()
 	
 	#var hit_effect = hit_effectScene.instantiate()
@@ -1450,8 +1478,10 @@ func spawn_particles():
 
 
 func bonusBox_spawn_collectibles():
-	while bonusBox_collectibleAmount > 0:
-		bonusBox_collectibleAmount -= 1
+	var x = bonusBox_collectibleAmount
+	while x > 0:
+		x -= 1
+		
 		bonusBox_spawn_item()
 		
 	#var hit_effect = hit_effectScene.instantiate()
@@ -1475,3 +1505,17 @@ func bonusBox_spawn_item():
 	
 	$/root/World.add_child(item)
 
+
+func generalTimers_correct_cooldowns():
+	if not generalTimer1_randomize_cooldown:
+		$timerGeneral1.wait_time = generalTimer1_cooldown
+	if not generalTimer2_randomize_cooldown:
+		$timerGeneral2.wait_time = generalTimer1_cooldown
+	if not generalTimer3_randomize_cooldown:
+		$timerGeneral3.wait_time = generalTimer1_cooldown
+	if not generalTimer4_randomize_cooldown:
+		$timerGeneral4.wait_time = generalTimer1_cooldown
+	if not generalTimer5_randomize_cooldown:
+		$timerGeneral5.wait_time = generalTimer1_cooldown
+	if not generalTimer6_randomize_cooldown:
+		$timerGeneral6.wait_time = generalTimer1_cooldown

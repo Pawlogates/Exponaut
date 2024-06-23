@@ -35,6 +35,12 @@ func fade_to_black_slow():
 func _ready():
 	blackScreen.color.a = 0.0
 	%saved_progress.load_game()
+	
+	if Globals.delete_saves:
+			DirAccess.remove_absolute("user://savegame_theBeginning.save")
+			DirAccess.remove_absolute("user://savegame_Overworld.save")
+			DirAccess.remove_absolute("user://savedProgress.save")
+			DirAccess.remove_absolute("user://savegame.save")
 
 
 
@@ -60,5 +66,4 @@ func _process(_delta):
 			DirAccess.remove_absolute("user://savegame_theBeginning.save")
 			DirAccess.remove_absolute("user://savegame_Overworld.save")
 			DirAccess.remove_absolute("user://savedProgress.save")
-			await get_tree().create_timer(5, false).timeout
 			DirAccess.remove_absolute("user://savegame.save")

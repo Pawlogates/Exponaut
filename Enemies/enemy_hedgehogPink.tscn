@@ -287,7 +287,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%collectedDisplay:material:shader_parameter/strength")
+tracks/6/path = NodePath("collectedDisplay:material:shader_parameter/strength")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -299,7 +299,7 @@ tracks/6/keys = {
 tracks/7/type = "bezier"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
+tracks/7/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -381,7 +381,7 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
+tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -396,7 +396,7 @@ _data = {
 "score_value": SubResource("Animation_gitew")
 }
 
-[node name="enemyHedgehogPink" type="CharacterBody2D" groups=["Persist", "enemies"]]
+[node name="enemyHedgehog_pink" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
 position = Vector2(0, -32)
@@ -404,14 +404,16 @@ collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_vkq5d")
+hp = 2
 SPEED = 200
-JUMP_VELOCITY = -550.0
 ACCELERATION_MULTIPLIER = 0.75
 movementType = "followPlayerX"
+scoreValue = 75
 turnOnWall = true
 onDeath_spawnObject_objectPath = ExtResource("2_3ppxe")
 scene_shootProjectile = ExtResource("3_wbw2q")
 enable_generalTimers = false
+enemy_type = "hedgehog_pink"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5cx1g")

@@ -24,7 +24,9 @@ var start_pos = global_position
 var collected = false
 var removable = false
 var rotten = false
-@export var hp = 5
+
+var playerProjectile = true
+var enemyProjectile = true
 
 var button_pressed = false
 var stop_upDownLoopAnim = false
@@ -48,6 +50,7 @@ var checkpoint_active = false
 @export var is_key = false
 @export var collectable = true
 @export var upDown_loop = false
+@export var hp = 5
 @export var is_shrineGem = false
 @export var shrineGem_destructible = false
 @export var shrineGem_giveScore = false

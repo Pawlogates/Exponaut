@@ -1,4 +1,4 @@
-[gd_scene load_steps=44 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=48 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes.tscn" id="2_oe0v7"]
@@ -41,6 +41,10 @@
 [ext_resource type="PackedScene" uid="uid://capn1k1755ueq" path="res://Collectibles/collectibleGrapefruit.tscn" id="33_xgfdy"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://wavingDeco_grass.tscn" id="35_m57du"]
 [ext_resource type="PackedScene" uid="uid://cmncqo0vv0lwj" path="res://hanging_deco_vines.tscn" id="36_g8h85"]
+[ext_resource type="PackedScene" uid="uid://b2r3wvp75fxdf" path="res://deco_chainLong_H.tscn" id="37_uytyu"]
+[ext_resource type="PackedScene" uid="uid://drhvrsgn5k85d" path="res://deco_chainLong_V.tscn" id="38_o3vcv"]
+[ext_resource type="PackedScene" uid="uid://cicdmjrqn10qb" path="res://deco_chainLong_V_bg.tscn" id="39_q7u4g"]
+[ext_resource type="PackedScene" uid="uid://djxwn6oxqjm8o" path="res://deco_chainLong_H_bg.tscn" id="40_o3vkn"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -85,6 +89,10 @@ scenes/38/scene = ExtResource("32_7y4h4")
 scenes/39/scene = ExtResource("33_xgfdy")
 scenes/40/scene = ExtResource("35_m57du")
 scenes/41/scene = ExtResource("36_g8h85")
+scenes/42/scene = ExtResource("37_uytyu")
+scenes/43/scene = ExtResource("38_o3vcv")
+scenes/44/scene = ExtResource("40_o3vkn")
+scenes/45/scene = ExtResource("39_q7u4g")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)

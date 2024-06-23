@@ -4,3 +4,4 @@
 
 [node name="enemyChaos" instance=ExtResource("1_re81w")]
 randomize_everything_onSpawn = true
+enemy_type = "chaos"

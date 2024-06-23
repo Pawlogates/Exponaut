@@ -228,7 +228,7 @@ func _ready():
 	
 	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
 	
-	if not regular_level:
+	if not regular_level and Globals.left_start_area:
 		load_saved_progress_overworld()
 	
 	Globals.transitioned = false

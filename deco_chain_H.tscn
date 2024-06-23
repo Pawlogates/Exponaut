@@ -1,16 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2r3wvp75fxdf"]
+[gd_scene load_steps=7 format=3 uid="uid://n0ybyxp34qxe"]
 
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_q3gbn"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_uttot"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_0kowc"]
-atlas = ExtResource("1_q3gbn")
+[sub_resource type="AtlasTexture" id="AtlasTexture_g04tc"]
+atlas = ExtResource("1_uttot")
 region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_0kowc")
+"texture": SubResource("AtlasTexture_g04tc")
 }],
 "loop": true,
 "name": &"default",
@@ -27,7 +27,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(32, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/1/type = "bezier"
@@ -54,7 +54,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(-64, -0.25, 0, 1, -0.5, 64, -1, -0.5, 0.25, 0),
+"points": PackedFloat32Array(-64, 0, 0, 1, 0, 0, -1, 0, 0, 0),
 "times": PackedFloat32Array(0, 2)
 }
 tracks/1/type = "bezier"
@@ -65,7 +65,7 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(32, -0.25, 0, 0.25, 0, 32, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 2)
 }
 
@@ -75,28 +75,20 @@ _data = {
 "loop": SubResource("Animation_d8vw1")
 }
 
-[node name="deco_chain_V" type="Node2D"]
-z_index = -1
+[node name="deco_chain_H" type="Node2D"]
+z_index = -3
 texture_filter = 1
+position = Vector2(-32, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(32, 0)
 rotation = 1.5708
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
-position = Vector2(0.000231679, 64)
-sprite_frames = SubResource("SpriteFrames_a8t04")
-autoplay = "default"
-
-[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="AnimatedSprite2D/AnimatedSprite2D2"]
-position = Vector2(-0.000463359, -128)
-sprite_frames = SubResource("SpriteFrames_a8t04")
-autoplay = "default"
-
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-384, -384)
-scale = Vector2(3, 1.5)
+position = Vector2(-352, -512)
+scale = Vector2(3, 1.75)
 rect = Rect2(0, 0, 256, 512)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

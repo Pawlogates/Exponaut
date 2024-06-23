@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d4e7lpst4u6hm"]
 
-[ext_resource type="Texture2D" uid="uid://chl7u53kjionw" path="res://Assets/Graphics/sprites/sprites_deco.png" id="1_f8h8v"]
+[ext_resource type="Texture2D" uid="uid://chl7u53kjionw" path="res://Assets/Graphics/sprites/sprites_bg.png" id="1_f8h8v"]
 
 [node name="deco_bushWater" type="ParallaxBackground"]
 follow_viewport_enabled = true

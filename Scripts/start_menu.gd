@@ -389,7 +389,22 @@ func last_area_filePath_load():
 
 func delete_saves():
 	var dir = DirAccess.open("user://")
+	if dir.file_exists("user://savegame.save"):
+		dir.remove("user://savegame.save")
+	if dir.file_exists("user://savedData.save"):
+		dir.remove("user://savedData.save")
+	if dir.file_exists("user://saved_progress.save"):
+		dir.remove("user://saved_progress.save")
 	if dir.file_exists("user://savegame_theBeginning.save"):
 		dir.remove("user://savegame_theBeginning.save")
-	else:
-		pass
+	if dir.file_exists("user://savegame_overworld.save"):
+		dir.remove("user://savegame_overworld.save")
+	if dir.file_exists("user://savegame_overworld.save"):
+		dir.remove("user://savegame_overworld2.save")
+		
+	if dir.file_exists("user://filename.save"):
+		dir.remove("user://filename.save")
+	if dir.file_exists("user://filename.save"):
+		dir.remove("user://filename.save")
+	if dir.file_exists("user://filename.save"):
+		dir.remove("user://filename.save")

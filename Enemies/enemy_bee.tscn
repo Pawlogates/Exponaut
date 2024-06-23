@@ -278,14 +278,17 @@ texture_filter = 1
 collision_layer = 0
 safe_margin = 5.0
 script = ExtResource("1_jypmj")
+hp = 1
 SPEED = 250
 ACCELERATION_MULTIPLIER = 0.8
 movementType = "moveAround_startPosition_XY_when_notSpotted"
+scoreValue = 1
+turnOnWall = true
 floating = true
 patroling = true
 onSpawn_offset_position = Vector2(25, 25)
 enable_generalTimers = false
-hp = 1
+enemy_type = "bee"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)

@@ -1,7 +1,6 @@
 class_name enemy_basic
 extends CharacterBody2D
 
-var object_name = name
 
 var starParticle_fastScene = preload("res://particles_special_multiple.tscn")
 var hit_effectScene = preload("res://hit_effect.tscn")
@@ -14,15 +13,10 @@ var attacked = false;
 var attacking = false;
 var dead = false;
 
-@export var hp = 3
-@export var damageValue = 1
+var direction = -1
+var direction_v = 1
 
-@export var direction = -1
-@export var direction_v = 1
-
-@export var hostile = true
-@export var familyID = 0
-
+@export var enemy_type = "none"
 @export var debug = false
 
 var can_turn = true
@@ -70,7 +64,6 @@ func remove_if_corpse():
 #IS IN VISIBLE RANGE?
 
 func basic_offScreen_unload():
-	print("yes")
 	set_process(false)
 	set_physics_process(false)
 	

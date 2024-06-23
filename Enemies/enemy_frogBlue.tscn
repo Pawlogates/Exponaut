@@ -164,12 +164,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_qguhu")
 }, {
-"duration": 1.0,
+"duration": 20.0,
 "texture": SubResource("AtlasTexture_78ic6")
 }],
 "loop": false,
 "name": &"jump",
-"speed": 7.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -383,24 +383,29 @@ z_index = 1
 texture_filter = 1
 position = Vector2(0, -32)
 collision_layer = 0
-floor_max_angle = 0.523599
+slide_on_ceiling = false
+floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_ocdql")
-SPEED = 100
-JUMP_VELOCITY = -500.0
+hp = 2
+SPEED = 300
+JUMP_VELOCITY = -600.0
 movementType = "stationary"
+scoreValue = 125
 turnOnWall = true
 onDeath_spawnObject_objectPath = ExtResource("2_76pom")
 onDeath_spawnObject_objectAmount = 5
 scene_shootProjectile = ExtResource("3_3teks")
-onDeath_disappear_instantly = true
-generalTimer1_cooldown = 2.0
+generalTimer_min_cooldown = 0.1
+generalTimer_max_cooldown = 2
+generalTimer_randomize_cooldown_onSpawn = true
 t_afterDelay_jumpAndMove = true
 t_afterDelay_jumpAndMove_timerID = 1
+enemy_type = "frog_blue"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_7kfft")
-animation = &"damage"
+animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75

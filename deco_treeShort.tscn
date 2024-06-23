@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://broblmgk5v875"]
 
-[ext_resource type="Texture2D" uid="uid://chl7u53kjionw" path="res://Assets/Graphics/sprites/sprites_deco.png" id="1_wcilw"]
+[ext_resource type="Texture2D" uid="uid://chl7u53kjionw" path="res://Assets/Graphics/sprites/sprites_bg.png" id="1_wcilw"]
 
 [node name="deco_treeShort" type="ParallaxBackground"]
 follow_viewport_enabled = true

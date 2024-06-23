@@ -430,6 +430,7 @@ shootProjectile_whenSpotted = true
 scene_shootProjectile = ExtResource("2_1ojr8")
 shootProjectile_offset_Y = 12
 enable_generalTimers = false
+enemy_type = "pig"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 10)

@@ -293,15 +293,17 @@ texture_filter = 1
 collision_layer = 0
 floor_max_angle = 0.523599
 script = ExtResource("1_rhg5n")
+hp = 25
+damageValue = 2
 JUMP_VELOCITY = -600.0
 movementType = "normal"
+scoreValue = 15000
 turnOnWall = true
 afterDelay_jump = true
 jumpTimer_time = 3.15
 ascending = true
 enable_generalTimers = false
-hp = 15
-damageValue = 2
+enemy_type = "bossMetalHen"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_5cx1g")

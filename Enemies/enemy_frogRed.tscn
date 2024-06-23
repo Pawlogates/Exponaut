@@ -1,8 +1,7 @@
-[gd_scene load_steps=37 format=3 uid="uid://5h7bdd7d5xnh"]
+[gd_scene load_steps=36 format=3 uid="uid://5h7bdd7d5xnh"]
 
 [ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_0ivkn"]
-[ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_xfljp"]
-[ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_projectileSecondary_bouncingBall.tscn" id="3_1tk4q"]
+[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://butterfly.tscn" id="2_1bxei"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_54pa4"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="4_n6wk2"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="6_r5tes"]
@@ -164,12 +163,12 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_6oqyf")
 }, {
-"duration": 1.0,
+"duration": 20.0,
 "texture": SubResource("AtlasTexture_ka380")
 }],
-"loop": false,
+"loop": true,
 "name": &"jump",
-"speed": 7.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -383,23 +382,28 @@ z_index = 1
 texture_filter = 1
 position = Vector2(0, -32)
 collision_layer = 0
-floor_max_angle = 0.523599
+slide_on_ceiling = false
+floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_0ivkn")
-SPEED = 300
-JUMP_VELOCITY = -450.0
-movementType = "stationary"
+hp = 2
+SPEED = 200
+JUMP_VELOCITY = -600.0
+movementType = "normal"
+scoreValue = 150
 turnOnWall = true
-onDeath_spawnObject_objectPath = ExtResource("2_xfljp")
-onDeath_spawnObject_objectAmount = 5
-scene_shootProjectile = ExtResource("3_1tk4q")
-onDeath_disappear_instantly = true
-enable_generalTimers = false
-generalTimer1_cooldown = 2.0
+onDeath_spawnObject = true
+onDeath_spawnObject_objectPath = ExtResource("2_1bxei")
+onDeath_spawnObject_throwAround = true
+generalTimer_max_cooldown = 2
+generalTimer_randomize_cooldown_onSpawn = true
+t_afterDelay_jump = true
+t_afterDelay_jump_timerID = 1
+enemy_type = "frog_red"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tjlin")
-animation = &"idle"
+animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -521,6 +525,15 @@ wait_time = 3.0
 [node name="timerGeneral3" type="Timer" parent="."]
 wait_time = 3.0
 
+[node name="timerGeneral4" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="timerGeneral5" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="timerGeneral6" type="Timer" parent="."]
+wait_time = 3.0
+
 [node name="collectedDisplayAnimAnchor" type="ColorRect" parent="."]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
@@ -565,3 +578,6 @@ libraries = {
 [connection signal="timeout" from="timerGeneral1" to="." method="_on_timer_general_1_timeout"]
 [connection signal="timeout" from="timerGeneral2" to="." method="_on_timer_general_2_timeout"]
 [connection signal="timeout" from="timerGeneral3" to="." method="_on_timer_general_3_timeout"]
+[connection signal="timeout" from="timerGeneral4" to="." method="_on_timer_general_3_timeout"]
+[connection signal="timeout" from="timerGeneral5" to="." method="_on_timer_general_3_timeout"]
+[connection signal="timeout" from="timerGeneral6" to="." method="_on_timer_general_3_timeout"]

@@ -125,9 +125,11 @@ collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_07ea1")
+hp = 1
 SPEED = 200
 ACCELERATION_MULTIPLIER = 0.5
 movementType = "followPlayerX"
+give_score_onDeath = false
 turnOnWall = true
 damageTo_player = false
 generalTimer1_cooldown = 1.0
@@ -145,7 +147,7 @@ t_afterDelay_idleSound = true
 t_afterDelay_idleSound_timerID = 3
 t_afterDelay_randomize_speedAndJumpVelocity = true
 t_afterDelay_randomize_speedAndJumpVelocity_timerID = 4
-hp = 2
+enemy_type = "chicken"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)

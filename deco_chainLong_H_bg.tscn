@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://b2r3wvp75fxdf"]
+[gd_scene load_steps=7 format=3 uid="uid://djxwn6oxqjm8o"]
 
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_q3gbn"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_55vxk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0kowc"]
-atlas = ExtResource("1_q3gbn")
+atlas = ExtResource("1_55vxk")
 region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
@@ -76,7 +76,7 @@ _data = {
 }
 
 [node name="deco_chain_V" type="Node2D"]
-z_index = -1
+z_index = -5
 texture_filter = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

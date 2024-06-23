@@ -1,67 +1,67 @@
 [gd_scene load_steps=29 format=3 uid="uid://b1554wlmeg7tk"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_d5qaf"]
-[ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_h3b7h"]
-[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_m54wh"]
-[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_d83oo"]
-[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_yuska"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_rypvp"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_2vcjo"]
+[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_0ji0i"]
+[ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_ibk1e"]
+[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="3_46204"]
+[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_ppspt"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_ji75g"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_ffs5r"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_71ugb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lkwqr"]
-shader = ExtResource("2_h3b7h")
+shader = ExtResource("2_ibk1e")
 shader_parameter/Shift_Hue = 0.345
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_o04c6"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(156, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_d5rsi"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(234, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fyvs2"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(312, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_00h2j"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(390, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nav5n"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(312, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ordq1"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(390, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_smdyn"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(468, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vkjyk"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(0, 824, 78, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2wm8u"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(78, 824, 78, 60)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hya1b"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(0, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0yfte"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(78, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wvqix"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(0, 826, 78, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cigob"]
-atlas = ExtResource("2_m54wh")
+atlas = ExtResource("3_46204")
 region = Rect2(78, 826, 78, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
@@ -221,7 +221,7 @@ tracks/5/keys = {
 tracks/6/type = "value"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%collectedDisplay:material:shader_parameter/strength")
+tracks/6/path = NodePath("collectedDisplay:material:shader_parameter/strength")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -233,7 +233,7 @@ tracks/6/keys = {
 tracks/7/type = "bezier"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
+tracks/7/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -315,7 +315,7 @@ tracks/5/keys = {
 tracks/6/type = "bezier"
 tracks/6/imported = false
 tracks/6/enabled = true
-tracks/6/path = NodePath("%collectedDisplay:theme_override_font_sizes/font_size")
+tracks/6/path = NodePath("collectedDisplay:theme_override_font_sizes/font_size")
 tracks/6/interp = 1
 tracks/6/loop_wrap = true
 tracks/6/keys = {
@@ -330,20 +330,24 @@ _data = {
 "score_value": SubResource("Animation_gitew")
 }
 
-[node name="enemyPiranha_a" type="CharacterBody2D" groups=["Persist", "enemies"]]
+[node name="enemyPiranha_yellow" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
 collision_layer = 0
 floor_max_angle = 0.523599
-script = ExtResource("1_d5qaf")
+script = ExtResource("1_0ji0i")
+hp = 1
+SPEED = 150
 JUMP_VELOCITY = 200.0
 ACCELERATION_MULTIPLIER = 5.0
 movementType = "moveAround_startPosition_X_when_notSpotted"
+scoreValue = 180
 floating = true
 patroling = true
 afterDelay_changeDirection = true
 whenAt_startPosition_X_stop = true
 enable_generalTimers = false
+enemy_type = "piranha_yellow"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 material = SubResource("ShaderMaterial_lkwqr")
@@ -393,10 +397,10 @@ wait_time = 0.5
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_d83oo")
+stream = ExtResource("4_ppspt")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_yuska")
+stream = ExtResource("5_ji75g")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -437,11 +441,11 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
-material = ExtResource("6_rypvp")
+material = ExtResource("6_ffs5r")
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 160.0
-theme = ExtResource("7_2vcjo")
+theme = ExtResource("7_71ugb")
 theme_override_font_sizes/font_size = 0
 text = "test"
 horizontal_alignment = 1

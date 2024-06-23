@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ca4g5sy70xmju" path="res://Enemies/enemy_pig.tscn" id="7_6h6jd"]
 [ext_resource type="PackedScene" uid="uid://cljye56wi53e8" path="res://Enemies/enemy_bat.tscn" id="9_5yiuq"]
 [ext_resource type="PackedScene" uid="uid://dbp42d4xr6p01" path="res://Enemies/enemy_bee.tscn" id="10_ltm1q"]
-[ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_a.tscn" id="11_loitu"]
+[ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_yellow.tscn" id="11_loitu"]
 [ext_resource type="PackedScene" uid="uid://bvl2rlm1ym6vc" path="res://Enemies/enemy_rabbit.tscn" id="12_5li73"]
 [ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="12_umybr"]
 [ext_resource type="PackedScene" uid="uid://bcjt0a5qlv4g8" path="res://Collectibles/collectibleWeapon_fire.tscn" id="14_67pfm"]

@@ -1,17 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://bn7os2imtdij8"]
+[gd_scene load_steps=8 format=3 uid="uid://c5otdvm7o5jdy"]
 
-[ext_resource type="Script" path="res://deco_waterfall.gd" id="1_713tv"]
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_8ltml"]
+[ext_resource type="Script" path="res://deco_waterfall.gd" id="1_3m7m6"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_a1jay"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wtmr7"]
-atlas = ExtResource("2_8ltml")
-region = Rect2(320, 448, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpbbi"]
+atlas = ExtResource("2_a1jay")
+region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wtmr7")
+"texture": SubResource("AtlasTexture_kpbbi")
 }],
 "loop": true,
 "name": &"default",
@@ -110,30 +110,29 @@ offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
-script = ExtResource("1_713tv")
+rotation = 1.5708
+script = ExtResource("1_3m7m6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-self_modulate = Color(1, 1, 1, 0.408588)
 position = Vector2(32, 32)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.276017
 
 [node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
-self_modulate = Color(1, 1, 1, 0.408588)
 position = Vector2(0, 64)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.747781
 
 [node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
-self_modulate = Color(1, 1, 1, 0.591412)
+self_modulate = Color(1, 1, 1, 0)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.807471
 
 [node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D/AnimatedSprite2D2"]
-self_modulate = Color(1, 1, 1, 0.591412)
+self_modulate = Color(1, 1, 1, 0)
 position = Vector2(0, 64)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"

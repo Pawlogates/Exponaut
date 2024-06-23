@@ -269,12 +269,14 @@ z_index = 1
 texture_filter = 1
 collision_layer = 0
 script = ExtResource("1_7ijuc")
+hp = 2
 SPEED = 150
 movementType = "normal"
+scoreValue = 75
 turnOnWall = true
 floating = true
 enable_generalTimers = false
-hp = 2
+enemy_type = "bat"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)

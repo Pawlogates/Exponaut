@@ -2,15 +2,15 @@
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_0013y"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_axr2p"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_nrn62"]
 atlas = ExtResource("1_0013y")
-region = Rect2(704, 0, 64, 192)
+region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_axr2p")
+"texture": SubResource("AtlasTexture_nrn62")
 }],
 "loop": true,
 "name": &"default",
@@ -82,6 +82,16 @@ position = Vector2(-32, 0)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(32, 0)
+sprite_frames = SubResource("SpriteFrames_a8t04")
+autoplay = "default"
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+position = Vector2(0, 64)
+sprite_frames = SubResource("SpriteFrames_a8t04")
+autoplay = "default"
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="AnimatedSprite2D/AnimatedSprite2D2"]
+position = Vector2(0, -128)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 

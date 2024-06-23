@@ -281,13 +281,16 @@ floor_max_angle = 1.0472
 floor_snap_length = 15.0
 safe_margin = 0.15
 script = ExtResource("1_l5vdx")
+hp = 1
 SPEED = 100
 movementType = "normal"
+scoreValue = 25
 turnOnLedge = true
 turnOnWall = true
 onDeath_spawnObject = true
 onDeath_spawnObject_objectPath = ExtResource("2_shoiq")
 enable_generalTimers = false
+enemy_type = "hedgehog"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
