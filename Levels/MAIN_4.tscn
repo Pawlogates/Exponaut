@@ -1,11 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://cjbjfwjx0ocbq"]
+[gd_scene load_steps=9 format=3 uid="uid://cjbjfwjx0ocbq"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_631pt"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_2wc6y"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="3_648po"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="4_dnyqy"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="5_6yky3"]
+[ext_resource type="AudioStream" uid="uid://csuycpfh1qweq" path="res://Assets/Sounds/music/general7.mp3" id="5_lmvhm"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="6_y4yhd"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="7_838mp"]
 
 [node name="World" instance=ExtResource("1_631pt")]
 shrine_level = true
@@ -16,11 +18,12 @@ shrine_level_number = 4
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_2wc6y")]
 unique_name_in_owner = true
-layer_0/tile_data = PackedInt32Array(131070, 0, 8, 131071, 327680, 8, 65536, 327680, 8, 65537, 0, 8, 65538, 0, 8, 65539, 327680, 8, 65540, 0, 8, 65541, 0, 8, 65542, 327680, 8, 65543, 0, 8, 131069, 327680, 8, 131068, 0, 8, 131067, 0, 8, 131066, 0, 8, 65530, 0, 8, -6, 0, 8, -65542, 327680, 8, -131078, 327680, 8, -196614, 327680, 8, -262150, 0, 8, -327686, 0, 8, -393222, 0, 8, -458758, 0, 8, -524294, 0, 8, -589830, 327680, 8, -655366, 0, 8, -720902, 0, 8, 12, 0, 8, 13, 327680, 8, 14, 327680, 8, 15, 327680, 8, 16, 0, 8, -786438, 0, 8, -851974, 327680, 8, -917510, 0, 8, -983046, 0, 8, -1048582, 327680, 8, -196603, 0, 7, -262138, 0, 7, -327675, 0, 7)
+position = Vector2(0, -1)
+layer_0/tile_data = PackedInt32Array(131070, 0, 8, 131071, 327680, 8, 65536, 327680, 8, 65537, 0, 8, 65538, 0, 8, 65539, 327680, 8, 65540, 0, 8, 65541, 0, 8, 65542, 327680, 8, 65543, 0, 8, 131069, 327680, 8, 131068, 0, 8, 131067, 0, 8, 131066, 0, 8, 65530, 0, 8, -6, 0, 8, -65542, 327680, 8, -131078, 327680, 8, -196614, 327680, 8, -262150, 0, 8, -327686, 0, 8, -393222, 0, 8, -458758, 0, 8, -524294, 0, 8, -589830, 327680, 8, -655366, 0, 8, -720902, 0, 8, 12, 0, 8, 13, 327680, 8, 14, 327680, 8, 15, 327680, 8, 16, 0, 8, -786438, 0, 8, -851974, 327680, 8, -917510, 0, 8, -983046, 0, 8, -1048582, 327680, 8, -131038, 0, 8, -131037, 0, 8, -131036, 0, 8, -655323, 0, 8, -589787, 0, 8, -524251, 0, 8, -458715, 0, 8, -393179, 0, 8, -327643, 0, 8, -262107, 0, 8, -196571, 0, 8, -131035, 0, 8, -131039, 65536, 7, -131040, 720896, 7)
 
 [node name="tileset_objects" parent="." index="2" instance=ExtResource("3_648po")]
 unique_name_in_owner = true
-layer_0/tile_data = PackedInt32Array(-196596, 0, 196608, -196597, 0, 196608, -196598, 0, 196608, -196599, 0, 196608, -131063, 0, 196608, -131064, 0, 196608, -131065, 0, 196608, -131066, 0, 196608, -65530, 0, 196608, -65531, 0, 196608, -131049, 0, 589824)
+layer_0/tile_data = PackedInt32Array(-131069, 0, 65536, -131068, 0, 196608, -131067, 0, 65536, -131066, 0, 196608, -65530, 0, 65536, -65531, 0, 196608, -65532, 0, 65536, -65533, 0, 196608, -196595, 0, 196608, -131059, 0, 131072, -196594, 0, 131072, -131058, 0, 196608, -196593, 0, 196608, -131057, 0, 131072, -262131, 0, 131072, -262130, 0, 196608, -262129, 0, 131072, -262109, 0, 589824)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
@@ -47,6 +50,9 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
+[node name="music" parent="." index="7"]
+stream = ExtResource("5_lmvhm")
+
 [node name="kill_area" parent="." index="14" instance=ExtResource("5_6yky3")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
@@ -54,3 +60,13 @@ scale = Vector2(320, 1)
 [node name="trigger_bgChange" parent="." index="15" instance=ExtResource("6_y4yhd")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
+
+[node name="info_sign" parent="." index="18" instance=ExtResource("7_838mp")]
+position = Vector2(-232, 32)
+displayedText = "Press the jump button right after landing on the ground after a dash, to perform a long jump."
+displayedText_size = 2
+
+[node name="info_sign2" parent="." index="19" instance=ExtResource("7_838mp")]
+position = Vector2(2336, -160)
+displayedText = "You can also cancel the dash endlag, by air jumping right before the endlag starts."
+displayedText_size = 2

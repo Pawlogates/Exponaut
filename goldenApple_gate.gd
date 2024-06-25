@@ -34,8 +34,11 @@ func _on_area_2d_body_entered(body):
 		
 		if item_type == "golden apple":
 			collectedItems = Globals.collected_goldenApples
-			print(Globals.collected_goldenApples)
 			
+		
+		if collectedItems <= 0:
+			return
+		
 		for item in %gateItem_container.get_children():
 			collectedItems -= 1
 			requiredItems -= 1
@@ -43,7 +46,6 @@ func _on_area_2d_body_entered(body):
 			item.modulate.a = 1
 			await get_tree().create_timer(0.2, false).timeout
 			
-			print(str(requiredItems) + " " + str(collectedItems))
 			if requiredItems <= 0:
 				gate_unlocked.emit()
 			
@@ -62,4 +64,4 @@ func unlock():
 	$Area2D.monitoring = false
 	$AudioStreamPlayer2D.play()
 	
-	print("unlocked")
+	print("Apple gate unlocked.")

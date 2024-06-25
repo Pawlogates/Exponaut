@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bhcgyl112uc1i" path="res://Assets/Graphics/sprites/basic_projectile.png" id="2_p5qjb"]
 [ext_resource type="Material" uid="uid://b7voscs0a3njp" path="res://Themes/screenTextureEffect.tres" id="3_7of5e"]
 [ext_resource type="Texture2D" uid="uid://cqilw70a4xuvb" path="res://Assets/Graphics/testShader.png" id="4_kfnoo"]
-[ext_resource type="AudioStream" uid="uid://bt4tv7pmik1co" path="res://Assets/Sounds/sfx/short_bonus1.wav" id="5_vgmex"]
+[ext_resource type="AudioStream" uid="uid://ccuhliqs4yoc3" path="res://Assets/Sounds/sfx/medium_effect2.wav" id="5_7viss"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8hc3l"]
 size = Vector2(85.3333, 80)
@@ -994,7 +994,8 @@ autoplay = "charge_grow"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="player_projectile_phaser"]
 rotation = 0.00793694
-stream = ExtResource("5_vgmex")
+stream = ExtResource("5_7viss")
+area_mask = 65537
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="player_projectile_phaser"]
 scale = Vector2(1e-05, 1e-05)

@@ -50,6 +50,7 @@ func _on_area_entered(area):
 		
 		
 		elif area_type == "kill":
+			print("Kill area entered.")
 			Globals.kill_player.emit()
 
 

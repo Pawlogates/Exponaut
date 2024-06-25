@@ -92,7 +92,7 @@ func _ready():
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(-192, -28), load("res://Levels/MAIN_5.tscn"))
+		place_level_icon(5, Vector2(-124, -36), load("res://Levels/MAIN_5.tscn"))
 		#LEVEL ICON END
 		
 		

@@ -592,6 +592,18 @@ one_shot = true
 wait_time = 2.0
 one_shot = true
 
+[node name="timerGeneral4" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral5" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="timerGeneral6" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
 [node name="collectedDisplayAnimAnchor" type="ColorRect" parent="."]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
@@ -639,3 +651,6 @@ libraries = {
 [connection signal="timeout" from="timerGeneral1" to="." method="_on_timer_general_1_timeout"]
 [connection signal="timeout" from="timerGeneral2" to="." method="_on_timer_general_2_timeout"]
 [connection signal="timeout" from="timerGeneral3" to="." method="_on_timer_general_3_timeout"]
+[connection signal="timeout" from="timerGeneral4" to="." method="_on_timer_general_4_timeout"]
+[connection signal="timeout" from="timerGeneral5" to="." method="_on_timer_general_5_timeout"]
+[connection signal="timeout" from="timerGeneral6" to="." method="_on_timer_general_6_timeout"]

@@ -41,8 +41,8 @@ var checkpoint_active = false
 @onready var animation_player_2 = %AnimationPlayer2
 @onready var sprite = %AnimatedSprite2D
 
-
-@export var collectibleScoreValue = 0
+#PROPERTIES
+@export var collectibleScoreValue = 50
 @export var hard_to_collect = false
 @export var is_gift = false
 @export var animation_always = false
@@ -61,6 +61,8 @@ var checkpoint_active = false
 @export var shrineGem_portal_level_number = 0
 @export_file("*.tscn") var shrineGem_level_filePath : String
 @export var shrineGem_displayedName = "none"
+@export var shrineGem_is_finalLevel = false
+
 @export var is_specialApple = "none" #options: "red", "blue", "golden"
 
 @export_file("*.tscn") var item_scene = "res://Collectibles/Gift_orangeBox.tscn" #preload("res://Collectibles/collectibleApple.tscn")
@@ -97,8 +99,6 @@ var checkpoint_active = false
 #OFFSCREEN START
 
 func _ready():
-	add_to_group("loadingZone0")
-	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -124,6 +124,10 @@ func _ready():
 	if rotting:
 		%rotDelay.start()
 	
+	if shrineGem_is_finalLevel:
+		modulate.g = 0.0
+		modulate.b = 0.0
+	
 	
 	
 	
@@ -137,7 +141,7 @@ func _ready():
 		level_completionState = LevelTransition.get_node("%saved_progress").get("state_" + shrineGem_portal_level_ID)
 		level_score = LevelTransition.get_node("%saved_progress").get("score_" + shrineGem_portal_level_ID)
 	
-		if Globals.selected_episode == "rooster_island":
+		if Globals.selected_episode == "Additional Levels":
 			if shrineGem_portal_level_number == 1:
 				topRankScore = 50000
 			elif shrineGem_portal_level_number == 2:
@@ -200,7 +204,7 @@ func _ready():
 		if level_score >= rating_top:
 			level_rank = "S+"
 			level_rank_value = 7
-		elif level_score >= rating_5:
+		elif level_score >= rating_6:
 			level_rank = "S"
 			level_rank_value = 6
 		elif level_score >= rating_5:
@@ -371,7 +375,10 @@ func _on_collectible_entered(body):
 			floating = false
 			%hit1.play()
 			%AnimationPlayer2.stop()
-			%AnimationPlayer2.play("hit")
+			if not shrineGem_is_finalLevel:
+				%AnimationPlayer2.play("hit")
+			else:
+				%AnimationPlayer2.play("hit_finalLevel")
 			
 			var starParticle = starParticleScene.instantiate()
 			starParticle.position = position
@@ -563,14 +570,14 @@ func _physics_process(delta):
 		
 		
 	if player_inside:
-		if hard_to_collect or rotten:
-			collidable = false
-			$collisionCheck_delay.start()
+		#if hard_to_collect or rotten:
+		collidable = false
+		$collisionCheck_delay.start()
+		
+		if Globals.direction != 0:
+			direction_last = Globals.direction
 			
-			if Globals.direction != 0:
-				direction_last = Globals.direction
-				
-			velocity.x = SPEED * direction_last
+		velocity.x = SPEED * direction_last
 	
 	
 	if enemy_inside:
@@ -667,6 +674,7 @@ var collidable = true
 func inside_check_enter(body):
 	if body.is_in_group("player"):
 		player_inside = true
+		print("entered player")
 		if collidable and hard_to_collect or collidable and rotten:
 			collidable = false
 			$collisionCheck_delay.start()
@@ -696,9 +704,10 @@ func inside_check_exit(body):
 	if body.is_in_group("player") or body.is_in_group("player_projectile") or body.is_in_group("enemies"):
 		
 		if body.is_in_group("player"):
-			if hard_to_collect or rotten:
-				player_inside = false
-				direction = body.direction
+			#if hard_to_collect or rotten:
+			player_inside = false
+			direction = body.direction
+			print("exitted player")
 		
 		if body.is_in_group("player_projectile"):
 			player_projectile_inside = false
@@ -888,6 +897,7 @@ func save():
 		"shrineGem_particleAmount" : shrineGem_particleAmount,
 		"shrineGem_portal_level_number" : shrineGem_portal_level_number,
 		"shrineGem_displayedName" : shrineGem_displayedName,
+		"shrineGem_is_finalLevel" : shrineGem_is_finalLevel,
 		"is_specialApple" : is_specialApple,
 		"item_scene" : item_scene,
 		"spawnedAmount" : spawnedAmount,

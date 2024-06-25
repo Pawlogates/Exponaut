@@ -253,10 +253,11 @@ movementType = "wave_V"
 turnOnWall = true
 floating = true
 damageTo_player = false
-is_bonusBox = true
+bonusBox_spawn_item_onDeath = true
 bonusBox_item_scene = ExtResource("2_2i8nx")
 bonusBox_collectibleAmount = 1
 bonusBox_throw_around = true
+bonusBox_spread_position = false
 particles_golden = false
 enable_generalTimers = false
 
@@ -361,8 +362,8 @@ one_shot = true
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_player_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_player_entered"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

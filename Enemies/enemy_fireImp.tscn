@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://cxfthwios5msq"]
+[gd_scene load_steps=24 format=3 uid="uid://cxfthwios5msq"]
 
 [ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_n04an"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_nwgv4"]
@@ -6,6 +6,22 @@
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_q7y20"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="5_g2iyf"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="6_hekxd"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q5iqu"]
+atlas = ExtResource("2_nwgv4")
+region = Rect2(832, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tg6c0"]
+atlas = ExtResource("2_nwgv4")
+region = Rect2(896, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_byk1k"]
+atlas = ExtResource("2_nwgv4")
+region = Rect2(960, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cpl04"]
+atlas = ExtResource("2_nwgv4")
+region = Rect2(960, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wmdn4"]
 atlas = ExtResource("2_nwgv4")
@@ -19,14 +35,44 @@ region = Rect2(896, 768, 64, 64)
 atlas = ExtResource("2_nwgv4")
 region = Rect2(960, 768, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ut3ns"]
+atlas = ExtResource("2_nwgv4")
+region = Rect2(832, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kw65q"]
+atlas = ExtResource("2_nwgv4")
+region = Rect2(960, 768, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7713a"]
+atlas = ExtResource("2_nwgv4")
+region = Rect2(896, 768, 64, 64)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
 animations = [{
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5iqu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tg6c0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byk1k")
+}],
 "loop": true,
 "name": &"attack",
-"speed": 5.0
+"speed": 10.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q5iqu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tg6c0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cpl04")
+}],
 "loop": true,
 "name": &"damage",
 "speed": 5.0
@@ -56,12 +102,23 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_peoa4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wmdn4")
 }],
 "loop": true,
 "name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ut3ns")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kw65q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7713a")
+}],
+"loop": true,
+"name": &"walk",
 "speed": 5.0
 }]
 
@@ -271,7 +328,7 @@ enemy_type = "fireImp"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"jump"
+animation = &"attack"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75

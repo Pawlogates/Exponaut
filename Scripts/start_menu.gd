@@ -34,10 +34,10 @@ func _ready():
 	
 	
 	
-	if Globals.debug_mode:
-		%main_menu.visible = true
-		%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-		%StartGame.grab_focus()
+	#if Globals.debug_mode:
+	%main_menu.visible = true
+	%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	%StartGame.grab_focus()
 	
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
@@ -105,14 +105,14 @@ func _on_fade_animation_animation_finished(anim_name):
 		%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
 		%fade_animation.play("fade_from_black")
 		
-		if not Globals.debug_mode:
-			%main_menu.visible = true
-			%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-			
-			%menu_deco_bg.visible = true
-			%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
-			
-			%StartGame.grab_focus()
+		#if not Globals.debug_mode:
+			#%main_menu.visible = true
+			#%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+			#
+			#%menu_deco_bg.visible = true
+			#%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
+			#
+			#%StartGame.grab_focus()
 		
 		$AudioStreamPlayer2D.play()
 

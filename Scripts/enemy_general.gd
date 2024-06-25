@@ -1175,6 +1175,7 @@ var spottedPlayer = false
 var followDelay = true
 
 func _on_scan_for_player_area_entered(area):
+	print("Player entered sight.")
 	if patroling:
 		if area.name == "Player_hitbox_main" and not dead:
 			spottedPlayer = true

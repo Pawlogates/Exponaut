@@ -1138,14 +1138,15 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 2
-offset_left = 128.0
-offset_top = 380.0
-offset_right = 736.0
-offset_bottom = 447.0
+offset_left = 160.0
+offset_top = 324.0
+offset_right = 768.0
+offset_bottom = 476.0
 theme_override_constants/line_spacing = 8
-text = "By: Pawlogates
+text = "Exponaut
+By: Pawlogates
 Thanks for playing!
-BETA-v0.8"
+BETA-v0.9"
 
 [connection signal="focus_entered" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Continue" to="main_menu/menu_container/Continue" method="_on_focus_exited"]

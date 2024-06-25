@@ -13,9 +13,9 @@ size = Vector2(48, 48)
 atlas = ExtResource("3_fjmtd")
 region = Rect2(1792, 256, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dw3a7"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_1eia4"]
 atlas = ExtResource("3_fjmtd")
-region = Rect2(1856, 256, 64, 64)
+region = Rect2(1792, 320, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jfau3"]
 animations = [{
@@ -24,7 +24,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_deyth")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dw3a7")
+"texture": SubResource("AtlasTexture_1eia4")
 }],
 "loop": true,
 "name": &"shoot",
@@ -55,6 +55,7 @@ unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_jfau3")
 animation = &"shoot"
 autoplay = "shoot"
+frame_progress = 0.599085
 
 [node name="remove_delay" type="Timer" parent="."]
 wait_time = 0.75

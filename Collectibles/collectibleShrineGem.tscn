@@ -1,4 +1,4 @@
-[gd_scene load_steps=30 format=3 uid="uid://dsn2i83vgnnpy"]
+[gd_scene load_steps=31 format=3 uid="uid://dsn2i83vgnnpy"]
 
 [ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_odj8i"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_tsp32"]
@@ -465,6 +465,18 @@ tracks/7/keys = {
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("%AnimatedSprite2D:modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="Animation" id="Animation_b6f8u"]
 resource_name = "hit"
@@ -479,6 +491,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_4h6n2"]
+resource_name = "hit_finalLevel"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("%AnimatedSprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 0, 1), Color(1, 0, 0, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_gitew"]
@@ -567,6 +594,7 @@ tracks/6/keys = {
 _data = {
 "RESET": SubResource("Animation_u6l55"),
 "hit": SubResource("Animation_b6f8u"),
+"hit_finalLevel": SubResource("Animation_4h6n2"),
 "score_value": SubResource("Animation_gitew")
 }
 
@@ -592,7 +620,6 @@ is_shrineGem = true
 shrineGem_destructible = true
 shrineGem_giveScore = true
 shrineGem_spawnItems = true
-shrineGem_openPortal = true
 spawnedAmount = 20
 SPEED = 500.0
 
@@ -673,6 +700,7 @@ scale = Vector2(0.512, 0.512)
 rect = Rect2(-500, -500, 1000, 1000)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_gip66")
 
 [node name="collisionCheck_delay" type="Timer" parent="."]

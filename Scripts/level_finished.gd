@@ -143,7 +143,7 @@ func exit_reached():
 	%"End Screen".visible = true
 	%"End Screen Values".visible = true
 	await LevelTransition.fade_from_black_slow()
-	%LevelSelectBtn.grab_focus()
+	%ContinueBtn.grab_focus()
 	
 	set_process(true)
 	calculate_rating()

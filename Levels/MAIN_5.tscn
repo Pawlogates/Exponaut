@@ -1,15 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://cb645unlvywfx"]
+[gd_scene load_steps=9 format=3 uid="uid://cb645unlvywfx"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_mnxgj"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_2mbhy"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="3_kndd0"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="4_7u1ri"]
+[ext_resource type="AudioStream" uid="uid://bpkooul4d3367" path="res://Assets/Sounds/music/intense3.mp3" id="5_hohqa"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="5_stn0m"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="6_udj3y"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="8_wp7mm"]
 
 [node name="World" instance=ExtResource("1_mnxgj")]
 shrine_level = true
-playerStartHP = 3
+final_level = true
+playerStartHP = 100
 shrine_selected_episode = "Main Levels"
 shrine_level_ID = "MAIN_5"
 shrine_level_number = 5
@@ -22,7 +25,7 @@ layer_3/tile_data = PackedInt32Array(-262119, 131075, 4, -196583, 131075, 4, -39
 
 [node name="tileset_objects" parent="." index="2" instance=ExtResource("3_kndd0")]
 unique_name_in_owner = true
-layer_0/tile_data = PackedInt32Array(-524272, 0, 786432, -655339, 0, 720896)
+layer_0/tile_data = PackedInt32Array(-524272, 0, 786432, -655339, 0, 720896, -917454, 0, 589824, -982989, 0, 589824, -982991, 0, 589824, -1048526, 0, 589824, -917471, 0, 7667712, -917470, 0, 7667712, -917469, 0, 7667712, -917468, 0, 7667712, -917467, 0, 7667712, -917466, 0, 7667712, -983002, 0, 7667712, -983003, 0, 7667712, -983004, 0, 7667712, -983005, 0, 7667712, -983006, 0, 7667712, -983007, 0, 7667712, -720883, 0, 4456448, -196581, 0, 4194304, -851934, 0, 4128768, -65533, 0, 4063232, -327686, 0, 4259840, -851952, 0, 4259840, -655335, 0, 4390912, -720869, 0, 851968, -720870, 0, 851968, -851940, 0, 851968, -917475, 0, 851968, -917476, 0, 851968, -917477, 0, 851968, -1048548, 0, 65536, -1048549, 0, 65536, -1114084, 0, 65536, -983012, 0, 65536, -1048547, 0, 65536, -1114092, 0, 65536, -1048556, 0, 65536, -1048555, 0, 65536, -1048554, 0, 65536, -1114090, 0, 65536, -1179626, 0, 65536, -1179627, 0, 65536, -1179628, 0, 65536, -1179629, 0, 65536, -1179630, 0, 65536, -1114094, 0, 65536, -1048558, 0, 65536, -1048557, 0, 65536, -1114093, 0, 65536, -1114091, 0, 65536, -917492, 0, 7471104, -983029, 0, 7471104, -851957, 0, 7471104, -1048564, 0, 7471104, -917493, 0, 7536640, -983028, 0, 7536640, -1048565, 0, 7536640, -1114100, 0, 7536640, -458746, 0, 1769472, -131062, 0, 1769472, -262131, 0, 1769472, -851948, 0, 1769472, -1114081, 0, 1769472, -1310711, 0, 1769472, -327673, 0, 4784128, -327672, 0, 4784128, -327671, 0, 4784128, -327670, 0, 4784128, -327669, 0, 4784128, -983015, 0, 4784128, -1048550, 0, 4784128, -983023, 0, 4718592, -917487, 0, 4718592, -917486, 0, 4718592, -983022, 0, 4718592, -851932, 0, 4718592, -131064, 0, 4718592, -458756, 0, 4718592, -458757, 0, 4718592, -720906, 0, 4718592, -327692, 0, 7733248, -327693, 0, 7733248, -327694, 0, 7733248, -393230, 0, 7733248, -458765, 0, 7733248, -524301, 0, 7733248, -524300, 0, 7733248, -524299, 0, 7733248, -458763, 0, 7733248, -393227, 0, 7733248, -393228, 0, 7733248, -524302, 0, 7733248, -458766, 0, 7733248, -393229, 0, 7733248, -458764, 0, 7733248, -327691, 0, 7733248, -458759, 0, 7864320, -393223, 0, 7864320, -393222, 0, 7864320, -458758, 0, 7864320, -458731, 0, 7077888, -131067, 0, 7077888, -720879, 0, 7012352, -65529, 0, 6881280, -196588, 0, 6946816, 65533, 0, 6946816, -262130, 0, 6815744, 2, 0, 6684672, -65534, 0, 6684672, -131070, 0, 6684672, -196606, 0, 6684672, -262142, 0, 6684672, -327678, 0, 6684672, -393214, 0, 6684672, -458750, 0, 6684672, -196607, 0, 6619136, 65534, 0, 3014656)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
@@ -49,6 +52,9 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
+[node name="music" parent="." index="7"]
+stream = ExtResource("5_hohqa")
+
 [node name="kill_area" parent="." index="14" instance=ExtResource("5_stn0m")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
@@ -56,3 +62,8 @@ scale = Vector2(320, 1)
 [node name="trigger_bgChange" parent="." index="15" instance=ExtResource("6_udj3y")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
+
+[node name="info_sign" parent="." index="18" instance=ExtResource("8_wp7mm")]
+position = Vector2(2592, -800)
+displayedText = "Thanks for playing the game bruhomie <333"
+displayedText_size = 1
