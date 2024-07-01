@@ -503,7 +503,7 @@ collectibleScoreValue = 25
 animation_always = true
 is_weapon = true
 weapon_type = "short_shotDelay"
-attack_delay = 0.1
+attack_delay = 0.25
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0

@@ -19,10 +19,10 @@ func _process(_delta):
 
 func _on_area_entered(area):
 	if area.name == "Player_hitbox_main":
-		Globals.bgFile_previous = Globals.bgFile_current
-		if Globals.bgFile_current != self.Background_filePath:
+		Globals.bg_File_previous = Globals.bg_File_current
+		if Globals.bg_File_current != self.Background_filePath:
 			
-			Globals.bgFile_current = self.Background_filePath
+			Globals.bg_File_current = self.Background_filePath
 			Globals.bgChange_entered.emit()
 		
 		

@@ -1,7 +1,6 @@
-[gd_scene load_steps=49 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=48 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b1wgp"]
-[ext_resource type="Resource" uid="uid://7ohqgqkvih67" path="res://defaultMovementData.tres" id="2_22q7a"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/Sprites_player.png" id="3_ia0aj"]
 [ext_resource type="AudioStream" uid="uid://bypu2n6tdxni4" path="res://Assets/Sounds/sfx/collect_secret2.wav" id="4_g2mbl"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_jwqoa"]
@@ -370,7 +369,6 @@ _data = {
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
-z_index = 1
 collision_layer = 2
 collision_mask = 5
 floor_constant_speed = true
@@ -378,7 +376,6 @@ floor_max_angle = 1.0472
 floor_snap_length = 15.0
 safe_margin = 0.1
 script = ExtResource("1_b1wgp")
-movement_data = ExtResource("2_22q7a")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_fshcs")

@@ -21,7 +21,7 @@
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Tiles/areaTransition.tscn" id="19_s0up0"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Tiles/trigger_music_change.tscn" id="20_fqg8c"]
 [ext_resource type="AudioStream" uid="uid://kj3ppp5g4ogj" path="res://Assets/Sounds/music/music_plains2.mp3" id="21_20un0"]
-[ext_resource type="AudioStream" uid="uid://lbqjed88r6uw" path="res://Assets/Sounds/music/ambience_loop8.mp3" id="22_nr36c"]
+[ext_resource type="AudioStream" uid="uid://lbqjed88r6uw" path="res://Assets/Sounds/ambience/ambience_loop8.mp3" id="22_nr36c"]
 [ext_resource type="AudioStream" uid="uid://csasqsuygonsr" path="res://Assets/Sounds/music/music_plains.mp3" id="23_re2vo"]
 [ext_resource type="AudioStream" uid="uid://ymeawbacseox" path="res://Assets/Sounds/music/music_plains4.mp3" id="24_dr136"]
 [ext_resource type="AudioStream" uid="uid://7ktosyyjye2a" path="res://Assets/Sounds/music/music_plains3.mp3" id="24_jxqkh"]

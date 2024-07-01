@@ -114,7 +114,7 @@ func _ready():
 	
 	
 	if not regular_level:
-		%quicksavedDisplay/Label.text = "Saving..."
+		%quicksavedDisplay/Label.text = "Checkpoint..."
 	
 	%HUD.visible = true
 	
@@ -151,8 +151,8 @@ func _ready():
 	Globals.exitReached.connect(exitReached_show_screen)
 	
 	
-	Globals.bgFile_previous = preload("res://Assets/Graphics/bg1.png")
-	Globals.bgFile_current = preload("res://Assets/Graphics/bg1.png")
+	Globals.bg_File_previous = preload("res://Assets/Graphics/bg1.png")
+	Globals.bg_File_current = preload("res://Assets/Graphics/bg1.png")
 	
 	Globals.bgChange_entered.connect(bg_change)
 	Globals.bgMove_entered.connect(bg_move)
@@ -201,10 +201,7 @@ func _ready():
 		player.camera.add_child(leaves_scene.instantiate())
 	
 	
-	
-	
-	Globals.cheated_state = false
-	
+	#Globals.cheated_state = false
 	
 	#animation_player.play("StartInAnim")
 	#await animation_player.animation_finished
@@ -228,21 +225,22 @@ func _ready():
 	
 	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
 	
-	if not regular_level and Globals.left_start_area:
-		load_saved_progress_overworld()
+	
+	if not regular_level and not Globals.just_started_new_game: 
+		load_saved_progress_overworld() #loads player related progress, doesn't conflict with load_game_area()
 	
 	Globals.transitioned = false
 	
 	
 	player.camera.position_smoothing_enabled = false
 	
-	await get_tree().create_timer(1, false).timeout
+	await get_tree().create_timer(0.2, false).timeout
 	
 	player.camera.position_smoothing_enabled = true
 	
 	
 	if area_ID != "area0":
-		load_game_area()
+		load_game_area() #loads states for all level objects, doesn't conflict with load_saved_progress_overworld()
 	
 	
 	night_modifications()
@@ -266,21 +264,58 @@ func _ready():
 	%bg_current/bg_a_transition.speed_scale = 1
 	%bg_current/bg_b_transition.speed_scale = 1
 	
-	await get_tree().create_timer(2, false).timeout
-	quickLoad_blocked = true
+	await get_tree().create_timer(0.2, false).timeout
 	save_game()
+	SavedData.savedData_save(true)
+	
+	quickLoad_blocked = true
 	$QuickloadLimiter.start()
 	Globals.is_saving = true
+	
+	
+	Globals.just_started_new_game = false
 
 
 
 func load_saved_progress_overworld():
-		Globals.level_score = SavedData.saved_score
-		if not Globals.transitioned:
-			player.position = SavedData.saved_position
-			print("The 'transitioned' (Globals) property is false, so player position is NOT skipped on this game load." + str(Globals.transitioned))
-		else:
-			print("The 'transitioned' (Globals) property is true, so player position is skipped on this game load (and the player is teleported to the (hopefully) correct area transition object). " + str(Globals.transitioned))
+	if SavedData.never_saved:
+		return
+	
+	#load score
+	Globals.level_score = SavedData.saved_score
+	
+	#load position
+	if not Globals.transitioned:
+		player.position = SavedData.saved_position
+		print("The 'transitioned' (Globals) property is false, so player position is NOT skipped on this game load." + str(Globals.transitioned))
+	else:
+		print("The 'transitioned' (Globals) property is true, so player position is skipped on this game load (and the player is teleported to the (hopefully) correct area transition object). " + str(Globals.transitioned))
+	
+	#load last used background texture
+	if not Globals.transitioned:
+		Globals.bg_File_current = SavedData.saved_bg_File_current
+		Globals.bg_a_File_current = SavedData.saved_bg_a_File_current
+		Globals.bg_b_File_current = SavedData.saved_bg_b_File_current
+		
+		Globals.bgOffset_target_x = SavedData.saved_bgOffset_target_x
+		Globals.bgOffset_target_y = SavedData.saved_bgOffset_target_y
+		
+		bg_free_to_change = true
+		Globals.bgChange_entered.emit()
+		Globals.bgMove_entered.emit()
+		bg_change()
+		bg_move()
+		#Globals.bgTransition_finished.emit()
+		
+		#load last played music
+		%music.stream = SavedData.saved_music_file
+		if SavedData.saved_music_isPlaying:
+			%music.play()
+		
+		#load last played ambience
+		%ambience.stream = SavedData.saved_ambience_file
+		if SavedData.saved_ambience_isPlaying:
+			%ambience.play()
 
 
 @onready var fps = %fps
@@ -299,8 +334,7 @@ var quickLoad_blocked = true
 #MAIN START
 
 func _physics_process(delta):
-	
-	#LEVEL TIME
+	#current level's playtime
 	levelTime = Time.get_ticks_msec() - start_level_msec
 	levelTime_visible = levelTime / 1000.0
 	level_timeDisplay.text = str(levelTime_visible)
@@ -340,7 +374,7 @@ func _physics_process(delta):
 	
 	
 	
-	#BACKGROUND MOVEMENT HANDLE
+	#HANDLE BACKGROUND MOVEMENT
 	
 	if not bg_position_set:
 		%bg_previous/CanvasLayer/bg.offset.x = move_toward(%bg_previous/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x * 1, 100 * bgMove_growthSpeed * delta)
@@ -635,7 +669,7 @@ func bg_change():
 		%bg_previous/bg_a_transition.play("bg_a_hide")
 		%bg_previous/bg_b_transition.play("bg_b_hide")
 		
-		%bg_current/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bgFile_current
+		%bg_current/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bg_File_current
 		%bg_current/CanvasLayer/bg/bg_a/TextureRect.texture = Globals.bg_a_File_current
 		%bg_current/CanvasLayer/bg/bg_b/TextureRect.texture = Globals.bg_b_File_current
 		
@@ -707,8 +741,6 @@ func save_game():
 		
 		Globals.saveState_saved.emit()
 		Globals.is_saving = false
-	
-	
 
 
 
@@ -755,11 +787,8 @@ func load_game():
 	#player.position.y = Globals.saved_player_posY
 	#Globals.level_score = Globals.saved_level_score
 	
-	if not regular_level:
-		load_saved_progress_overworld()
-	else:
-		Globals.level_score = Globals.saved_level_score
-		player.position = Vector2(Globals.saved_player_posX, Globals.saved_player_posY)
+	Globals.level_score = Globals.saved_level_score
+	player.position = Vector2(Globals.saved_player_posX, Globals.saved_player_posY)
 	
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
@@ -1111,8 +1140,8 @@ func save_game_area():
 func load_game_area():
 	print("Loading area state for: " + str(area_ID))
 	if not FileAccess.file_exists("user://savegame_" + area_ID + ".save"):
-		return # Error! We don't have a save to load.
 		print("Area state file not found for: " + str(area_ID))
+		return # Error! We don't have a save to load.
 
 	var save_nodes = get_tree().get_nodes_in_group("Persist")
 	for i in save_nodes:
@@ -1170,5 +1199,3 @@ func last_area_filePath_save():
 func reassign_player():
 	player = get_tree().get_first_node_in_group("player")
 	
-
-

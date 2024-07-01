@@ -37,6 +37,10 @@ collision_layer = 2
 floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_lghed")
+SPEED = 200.0
+V_SPEED = 200.0
+can_collect = true
+remove_delay = 0.5
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 2

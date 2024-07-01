@@ -4,16 +4,9 @@ extends CharacterBody2D
 const SPEED = 250.0
 
 var starParticleScene = preload("res://particles_special_multiple.tscn")
-var starParticle = starParticleScene.instantiate()
+var hit_effectScene = preload("res://hit_effect.tscn")
 
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
-var item = item_scene.instantiate()
-
-
-var hit_effectScene = preload("res://hit_effect.tscn")
-var hit_effect = hit_effectScene.instantiate()
-
-
 
 @onready var break_bonusBox = %break_bonusBox
 @onready var animation_player = %AnimationPlayer
@@ -66,7 +59,7 @@ func _on_area_2d_area_entered(area):
 			
 			Globals.boxBroken.emit()
 			
-			
+			var starParticle = starParticleScene.instantiate()
 			add_child(starParticle)
 		
 		
@@ -82,6 +75,7 @@ func _on_area_2d_area_entered(area):
 			Globals.boxBroken.emit()
 			
 			
+			var starParticle = starParticleScene.instantiate()
 			add_child(starParticle)
 	
 	
@@ -179,7 +173,7 @@ func spawn_collectibles():
 		spawn_item()
 		
 	
-	hit_effect = hit_effectScene.instantiate()
+	var hit_effect = hit_effectScene.instantiate()
 	add_child(hit_effect)
 
 
@@ -188,7 +182,7 @@ func spawn_collectibles():
 var rng = RandomNumberGenerator.new()
 
 func spawn_item():
-	item = item_scene.instantiate()
+	var item = item_scene.instantiate()
 	item.position = global_position
 	item.velocity.x = rng.randf_range(300.0, -300.0)
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)

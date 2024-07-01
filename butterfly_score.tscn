@@ -247,13 +247,16 @@ size = Vector2(640, 24)
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_4ji4u")
+hp = 7
 SPEED = 50
 movementType = "wave_V"
 scoreValue = 10000
 turnOnWall = true
 floating = true
+damageTo_player = false
 bonusBox_spread_position = false
 enable_generalTimers = false
+enemy_type = "butterfly_score"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)

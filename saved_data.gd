@@ -1,5 +1,6 @@
 extends Node2D
 
+var never_saved = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -7,7 +8,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 
@@ -28,6 +29,21 @@ var saved_weapon_phaser = -1
 var saved_secondaryWeapon_basic = -1
 var saved_secondaryWeapon_fast = -1
 
+#other
+var saved_bg_File_current = CompressedTexture2D
+var saved_bg_a_File_current = CompressedTexture2D
+var saved_bg_b_File_current = CompressedTexture2D
+
+var saved_bgOffset_target_x = 0
+var saved_bgOffset_target_y = 0
+
+var saved_music_file = AudioStreamMP3
+var saved_ambience_file = AudioStreamMP3
+
+var saved_music_isPlaying = false
+var saved_ambience_isPlaying = false
+
+
 func savedData_save(save_player_position):
 	if save_player_position:
 		saved_position = $/root/World.player.position
@@ -45,7 +61,53 @@ func savedData_save(save_player_position):
 	save_item_unlock_state("secondaryWeapon_basic")
 	save_item_unlock_state("secondaryWeapon_fast")
 	
+	saved_bg_File_current = Globals.bg_File_current
+	saved_bg_a_File_current = Globals.bg_a_File_current
+	saved_bg_b_File_current = Globals.bg_b_File_current
+	
+	saved_bgOffset_target_x = Globals.bgOffset_target_x
+	saved_bgOffset_target_y = Globals.bgOffset_target_y
+	
+	saved_music_file = $/root/World/"Music Controller"/music.stream
+	saved_ambience_file = $/root/World/"Ambience Controller"/ambience.stream
+	
+	saved_music_isPlaying = $/root/World/"Music Controller"/music.playing
+	saved_ambience_isPlaying = $/root/World/"Ambience Controller"/ambience.playing
+	
+	
+	never_saved = false
+	
+	#save all previous properties to the save file
 	savedData_save_file()
+
+
+func savedData_reset():
+	#saved properties (overworld):
+	saved_position = Vector2(0, 0) # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
+	saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
+	saved_last_area_filePath = "res://Levels/empty.tscn"
+	
+	#unlocked weapons
+	saved_weapon_basic = -1 # [0 if the weapon type was found in the world, making it available for purchase, 1 if purchased, making it permanently selectable using quickselect.]
+	saved_weapon_veryFast_speed = -1
+	saved_weapon_ice = -1
+	saved_weapon_fire = -1
+	saved_weapon_destructive_fast_speed = -1
+	saved_weapon_short_shotDelay = -1
+	saved_weapon_phaser = -1
+	saved_secondaryWeapon_basic = -1
+	saved_secondaryWeapon_fast = -1
+	
+	#other
+	saved_bg_File_current = CompressedTexture2D
+	saved_bg_a_File_current = CompressedTexture2D
+	saved_bg_b_File_current = CompressedTexture2D
+	
+	saved_bgOffset_target_x = 0
+	saved_bgOffset_target_x = 0
+	
+	saved_music_file = AudioStreamMP3
+	saved_ambience_file = AudioStreamMP3
 
 
 var item_unlock_state

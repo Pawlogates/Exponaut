@@ -81,8 +81,8 @@ signal bgChange_entered
 signal bgMove_entered
 signal bgTransition_finished
 
-var bgFile_previous = preload("res://Assets/Graphics/bg1.png")
-var bgFile_current = preload("res://Assets/Graphics/bg1.png")
+var bg_File_previous = preload("res://Assets/Graphics/bg1.png")
+var bg_File_current = preload("res://Assets/Graphics/bg1.png")
 
 var bg_a_File_previous = preload("res://Assets/Graphics/bg1a.png")
 var bg_a_File_current = preload("res://Assets/Graphics/bg1a.png")
@@ -122,21 +122,12 @@ var current_topRankScore = 100000
 
 signal save_progress
 signal progress_loadingFinished
-
-
-
-var quicksaves_enabled = false
+#var quicksaves_enabled = false
 
 var mode_scoreAttack = false
 
-
-
+var transitioned = false
 var next_transition = 0
-
-
-
-
-
 
 
 var debug_mode = false
@@ -145,8 +136,9 @@ var delete_saves = false
 signal cheated
 var cheated_state = false
 
-
 signal scoreReset
 
+
+#world states
+var just_started_new_game = false
 var left_start_area = false
-var transitioned = true

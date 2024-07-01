@@ -13,8 +13,6 @@ func _on_area_2d_area_entered(area):
 			$/root/World.save_game()
 			$/root/World.save_game_area()
 			
-			if $/root/World.regular_level:
-				SavedData.savedData_save(false)
-			else:
+			if not $/root/World.regular_level and not $/root/World.shrine_level:
 				SavedData.savedData_save(true)
 			

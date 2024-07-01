@@ -1,11 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://cjbjfwjx0ocbq"]
+[gd_scene load_steps=8 format=3 uid="uid://cjbjfwjx0ocbq"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_631pt"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_2wc6y"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="3_648po"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="4_dnyqy"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="5_6yky3"]
-[ext_resource type="AudioStream" uid="uid://csuycpfh1qweq" path="res://Assets/Sounds/music/general7.mp3" id="5_lmvhm"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="6_y4yhd"]
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="7_838mp"]
 
@@ -49,9 +48,6 @@ layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
-
-[node name="music" parent="." index="7"]
-stream = ExtResource("5_lmvhm")
 
 [node name="kill_area" parent="." index="14" instance=ExtResource("5_6yky3")]
 position = Vector2(7168, 5184)

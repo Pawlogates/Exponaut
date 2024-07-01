@@ -1,19 +1,12 @@
 extends StaticBody2D
 
-
 var activated = false
 @export var target_score = 1000
 @export var respawn_player_on_fail = true
 
-
-
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	$Label.text = str(target_score)
-
-
-
 
 func _on_area_2d_area_entered(area):
 	if area.get_parent().is_in_group("player"):

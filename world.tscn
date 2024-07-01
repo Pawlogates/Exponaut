@@ -1,12 +1,14 @@
-[gd_scene load_steps=21 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=23 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
+[ext_resource type="AudioStream" uid="uid://cu3e4pfj43wyo" path="res://Assets/Sounds/music/snow1.mp3" id="2_5pmjt"]
+[ext_resource type="PackedScene" uid="uid://d2xjhu1myvqf5" path="res://ambience_controller.tscn" id="2_64ddf"]
+[ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://music_controller.tscn" id="2_85f5g"]
 [ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://parallax_background_gradient.tscn" id="3_mn32p"]
-[ext_resource type="AudioStream" uid="uid://csasqsuygonsr" path="res://Assets/Sounds/music/music_plains.mp3" id="4_852sw"]
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Themes/Score_theme.tres" id="5_1aw6r"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="5_ay58j"]
-[ext_resource type="AudioStream" uid="uid://016x6ugxmvem" path="res://Assets/Sounds/music/ambience_loop14.mp3" id="5_hddan"]
+[ext_resource type="AudioStream" uid="uid://016x6ugxmvem" path="res://Assets/Sounds/ambience/ambience_loop14.mp3" id="5_hddan"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://level_finished_screen.tscn" id="6_mgn80"]
 [ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://info_text_display.tscn" id="7_2y4xw"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://quicksaved_display.tscn" id="7_nexah"]
@@ -59,19 +61,23 @@ texture_filter = 1
 script = ExtResource("1_8iwd0")
 playerStartHP = 15
 
-[node name="Player" parent="." instance=ExtResource("2_5ht3g")]
-unique_name_in_owner = true
+[node name="Music Controller" parent="." instance=ExtResource("2_85f5g")]
 
-[node name="ambience" type="AudioStreamPlayer" parent="."]
+[node name="music" type="AudioStreamPlayer" parent="Music Controller"]
+unique_name_in_owner = true
+stream = ExtResource("2_5pmjt")
+autoplay = true
+
+[node name="Ambience Controller" parent="." instance=ExtResource("2_64ddf")]
+
+[node name="ambience" type="AudioStreamPlayer" parent="Ambience Controller"]
 unique_name_in_owner = true
 stream = ExtResource("5_hddan")
 volume_db = -10.0
 autoplay = true
 
-[node name="music" type="AudioStreamPlayer" parent="."]
+[node name="Player" parent="." instance=ExtResource("2_5ht3g")]
 unique_name_in_owner = true
-stream = ExtResource("4_852sw")
-autoplay = true
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("3_mn32p")]
 

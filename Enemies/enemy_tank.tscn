@@ -368,7 +368,6 @@ floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_m7ywr")
 hp = 4
-SPEED = 100
 movementType = "normal"
 scoreValue = 350
 turnOnLedge = true

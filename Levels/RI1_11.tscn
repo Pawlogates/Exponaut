@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="4_61526"]
 [ext_resource type="AudioStream" uid="uid://due7c5la55njn" path="res://Assets/Sounds/music/music_boss.mp3" id="5_agqxx"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="5_eheuq"]
-[ext_resource type="AudioStream" uid="uid://brp0aot50hocq" path="res://Assets/Sounds/music/ambience_loop6.mp3" id="5_y5yrq"]
+[ext_resource type="AudioStream" uid="uid://brp0aot50hocq" path="res://Assets/Sounds/ambience/ambience_loop6.mp3" id="5_y5yrq"]
 [ext_resource type="PackedScene" uid="uid://dao01sb74ssw8" path="res://deco_bush.tscn" id="6_4yudw"]
 [ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://deco_cloud.tscn" id="7_472mf"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="8_k2bt4"]

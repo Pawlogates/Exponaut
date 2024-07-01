@@ -250,6 +250,7 @@ script = ExtResource("1_j0qia")
 hp = 1
 SPEED = 50
 movementType = "wave_V"
+give_score_onDeath = false
 turnOnWall = true
 floating = true
 damageTo_player = false
@@ -257,6 +258,7 @@ bonusBox_spawn_item_onDeath = true
 particles_golden = false
 particles_splash = false
 enable_generalTimers = false
+enemy_type = "butterfly"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)

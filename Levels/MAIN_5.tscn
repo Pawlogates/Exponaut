@@ -1,10 +1,9 @@
-[gd_scene load_steps=9 format=3 uid="uid://cb645unlvywfx"]
+[gd_scene load_steps=8 format=3 uid="uid://cb645unlvywfx"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_mnxgj"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_2mbhy"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="3_kndd0"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="4_7u1ri"]
-[ext_resource type="AudioStream" uid="uid://bpkooul4d3367" path="res://Assets/Sounds/music/intense3.mp3" id="5_hohqa"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="5_stn0m"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="6_udj3y"]
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="8_wp7mm"]
@@ -52,9 +51,6 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="music" parent="." index="7"]
-stream = ExtResource("5_hohqa")
-
 [node name="kill_area" parent="." index="14" instance=ExtResource("5_stn0m")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
@@ -63,7 +59,7 @@ scale = Vector2(320, 1)
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
 
-[node name="info_sign" parent="." index="18" instance=ExtResource("8_wp7mm")]
+[node name="info_sign" parent="." index="17" instance=ExtResource("8_wp7mm")]
 position = Vector2(2592, -800)
 displayedText = "Thanks for playing the game bruhomie <333"
 displayedText_size = 1

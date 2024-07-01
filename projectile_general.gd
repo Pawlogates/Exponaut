@@ -5,7 +5,7 @@ extends CharacterBody2D
 @export var V_SPEED = 400.0
 
 @export var can_collect = false
-@export var remove_delay = 1
+@export var remove_delay = 1.0
 @export var bouncy = false
 @export var familyID = 0
 @export var damageValue = 1

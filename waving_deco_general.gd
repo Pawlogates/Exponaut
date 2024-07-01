@@ -15,5 +15,5 @@ func _ready():
 	scale += Vector2(randf_range(-0.2, 0.2) * x, randf_range(-0.2, 0.2) * x)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass

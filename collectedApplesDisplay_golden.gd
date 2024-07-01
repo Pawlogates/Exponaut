@@ -7,6 +7,6 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if int($Label.text) != Globals.collected_goldenApples:
 		$Label.text = str(Globals.collected_goldenApples)

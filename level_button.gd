@@ -2,7 +2,7 @@ extends Node2D
 
 @export var icon_ID = 0
 @export var icon_position = Vector2(0, 0)
-@export var icon_level_filePath = preload("res://Levels/RI1_1.tscn")
+@export var icon_level_filePath = preload("res://Levels/MAIN_1.tscn")
 
 var level_number = 0
 
@@ -33,7 +33,7 @@ func _ready():
 		unlocked = true
 		
 	
-	print(level_state)
+	print("Level " + str(icon_ID) + "'s completion state is: " + str(level_state))
 	
 	if level_state == 0:
 		pass
@@ -98,16 +98,13 @@ func _ready():
 			topRankScore = 50000
 	
 	
-	
-	
-	
 	%level_button.mouse_filter = 1
 
 
 
 
 func _on_pressed():
-	if unlocked:
+	if unlocked or Globals.debug_mode:
 		Globals.next_transition = 0
 		%level_start.play()
 		await LevelTransition.fade_to_black_slow()

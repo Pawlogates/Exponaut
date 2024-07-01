@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_klj6p"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_jxafg"]
-[ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_projectileSecondary_bouncingBall.tscn" id="3_iwfuw"]
+[ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_secondaryProjectile_bouncingBall.tscn" id="3_iwfuw"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="3_rjuc0"]
 [ext_resource type="AudioStream" uid="uid://d2w8jwk47ik8x" path="res://Assets/Sounds/sfx/projectile_eggHit.wav" id="5_n40ey"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="6_adqsc"]

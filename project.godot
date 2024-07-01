@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Exponaut v0.8 - BETA"
+config/name="Exponaut v0.9"
 run/main_scene="res://start_menu.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/use_filter=false
@@ -26,7 +26,7 @@ SavedData="*res://saved_data.tscn"
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=4
+window/size/mode=3
 
 [importer_defaults]
 

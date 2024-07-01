@@ -512,9 +512,6 @@ func _on_collectible_exited(body):
 
 
 
-
-
-
 func _on_timer_timeout():
 	print("Collectible removed on timeout. (?)")
 	queue_free()
@@ -529,13 +526,8 @@ func _on_animation_player_2_animation_finished(anim_name):
 
 
 
-
-
-
-
-
-var velocity_x_last = 0
-var direction_last = 0
+var velocity_x_last = 0.0
+var direction_last = 0.0
 
 @export var direction = 0
 @export var SPEED = 600.0

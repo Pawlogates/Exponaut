@@ -248,8 +248,10 @@ size = Vector2(640, 24)
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_fhm4w")
+hp = 2
 SPEED = 50
 movementType = "wave_V"
+give_score_onDeath = false
 turnOnWall = true
 floating = true
 damageTo_player = false
@@ -260,6 +262,7 @@ bonusBox_throw_around = true
 bonusBox_spread_position = false
 particles_golden = false
 enable_generalTimers = false
+enemy_type = "butterfly_key"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)

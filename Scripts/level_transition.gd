@@ -56,13 +56,20 @@ func _process(_delta):
 		#%saved_progress.load_game()
 		#print("loaded")
 	
-	if Globals.left_start_area and Input.is_action_just_pressed("menu") or Input.is_action_just_pressed("menu") and Input.is_action_pressed("move_UP"):
-		await LevelTransition.fade_to_black()
-		get_tree().change_scene_to_packed(mapScreen)
-		await LevelTransition.fade_from_black_slow()
+	if Input.is_action_just_pressed("menu"):
+		if not Input.is_action_pressed("move_UP"):
+			await LevelTransition.fade_to_black()
+			get_tree().change_scene_to_packed(mapScreen)
+			await LevelTransition.fade_from_black_slow()
+		
+		else:
+			await LevelTransition.fade_to_black()
+			get_tree().change_scene_to_packed(load("res://start_menu.tscn"))
+			await LevelTransition.fade_from_black_slow()
+			
 	
-	if Input.is_action_just_pressed("show_debugInfo"):
-		if Globals.delete_saves:
+	if Globals.delete_saves:
+		if Input.is_action_just_pressed("show_debugInfo"):
 			DirAccess.remove_absolute("user://savegame_theBeginning.save")
 			DirAccess.remove_absolute("user://savegame_Overworld.save")
 			DirAccess.remove_absolute("user://savedProgress.save")

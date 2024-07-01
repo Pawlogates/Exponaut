@@ -54,9 +54,14 @@ func _ready():
 var saved_level_filePath = "res://Levels/empty.tscn"
 var saved_level = load("res://Levels/empty.tscn")
 
-func start_game():
+func start_game(): #starts a brand new playthrough and deletes save files
 	delete_saves()
+	SavedData.savedData_reset()
+	
+	Globals.transitioned = false
 	Globals.next_transition = 0
+	Globals.just_started_new_game = true
+	
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(startingArea)
 
@@ -65,6 +70,9 @@ func start_game():
 func _on_continue_pressed():
 	print(str(saved_level) + " is the file path of the saved last area level that you are loading into.")
 	saved_level = load(saved_level_filePath)
+	Globals.transitioned = false
+	Globals.next_transition = 0
+	
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(saved_level)
 
@@ -389,12 +397,20 @@ func last_area_filePath_load():
 
 func delete_saves():
 	var dir = DirAccess.open("user://")
-	if dir.file_exists("user://savegame.save"):
-		dir.remove("user://savegame.save")
+	
+	#general player progress
 	if dir.file_exists("user://savedData.save"):
 		dir.remove("user://savedData.save")
+		
+	#level select progress (top scores, level completion states, etc.)
 	if dir.file_exists("user://saved_progress.save"):
 		dir.remove("user://saved_progress.save")
+		
+	#quicksave (non-specific level state)
+	if dir.file_exists("user://savegame.save"):
+		dir.remove("user://savegame.save")
+		
+	#area states
 	if dir.file_exists("user://savegame_theBeginning.save"):
 		dir.remove("user://savegame_theBeginning.save")
 	if dir.file_exists("user://savegame_overworld.save"):
@@ -402,9 +418,5 @@ func delete_saves():
 	if dir.file_exists("user://savegame_overworld.save"):
 		dir.remove("user://savegame_overworld2.save")
 		
-	if dir.file_exists("user://filename.save"):
-		dir.remove("user://filename.save")
-	if dir.file_exists("user://filename.save"):
-		dir.remove("user://filename.save")
 	if dir.file_exists("user://filename.save"):
 		dir.remove("user://filename.save")

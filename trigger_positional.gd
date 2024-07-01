@@ -133,12 +133,16 @@ func _process(delta):
 
 
 func _on_body_entered(body):
+	if get_node_or_null("$Timer"):
+		return
 	if body.is_in_group("player"):
 		$Timer.stop()
 		active = true
 
 
 func _on_body_exited(body):
+	if get_node_or_null("$Timer"):
+		return
 	if body.is_in_group("player"):
 		$Timer.start()
 

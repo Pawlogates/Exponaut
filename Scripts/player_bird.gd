@@ -1,14 +1,5 @@
 extends player_general
 
-@export var SPEED = 400
-@export var GRAVITY_SCALE = 1.0
-@export var JUMP_VELOCITY = -300
-@export var FRICTION = 400
-@export var ACCELERATION = 500
-@export var AIR_ACCELERATION = 300
-@export var AIR_SLOWDOWN = 200
-
-
 func _ready():
 	Globals.player_pos = get_global_position()
 	Globals.player_posX = get_global_position()[0]
@@ -219,7 +210,7 @@ func _process(delta):
 		
 		handle_acceleration_direction(delta)
 		handle_air_acceleration(delta)
-		var was_in_air = not is_on_floor()
+		var _was_in_air = not is_on_floor()
 		var was_on_floor = is_on_floor()
 		var was_on_wall = is_on_wall_only()
 		

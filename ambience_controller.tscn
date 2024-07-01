@@ -1,0 +1,47 @@
+[gd_scene load_steps=6 format=3 uid="uid://d2xjhu1myvqf5"]
+
+[ext_resource type="Script" path="res://ambience_controller.gd" id="1_bbqoc"]
+[ext_resource type="AudioStream" uid="uid://by7gw2q8yutm2" path="res://Assets/Sounds/ambience/ambience6.mp3" id="2_snqgc"]
+[ext_resource type="AudioStream" uid="uid://chvi6ycadfi3x" path="res://Assets/Sounds/ambience/ambience_mysterious2.mp3" id="3_e7f4s"]
+[ext_resource type="AudioStream" uid="uid://rangaccummiw" path="res://Assets/Sounds/ambience/ambience_mysterious5.mp3" id="4_ad2kh"]
+[ext_resource type="AudioStream" uid="uid://c2ex1orqrippr" path="res://Assets/Sounds/ambience/ambience3.mp3" id="5_regut"]
+
+[node name="Ambience Controller" type="Node2D"]
+script = ExtResource("1_bbqoc")
+
+[node name="ambience_layer1" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("2_snqgc")
+
+[node name="ambience1_delay" type="Timer" parent="ambience_layer1"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ambience_layer2" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("3_e7f4s")
+
+[node name="ambience2_delay" type="Timer" parent="ambience_layer2"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ambience_layer3" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("4_ad2kh")
+
+[node name="ambience3_delay" type="Timer" parent="ambience_layer3"]
+unique_name_in_owner = true
+one_shot = true
+
+[node name="ambience_layer4" type="AudioStreamPlayer" parent="."]
+unique_name_in_owner = true
+stream = ExtResource("5_regut")
+
+[node name="ambience4_delay" type="Timer" parent="ambience_layer4"]
+unique_name_in_owner = true
+one_shot = true
+
+[connection signal="timeout" from="ambience_layer1/ambience1_delay" to="." method="_on_ambience_1_delay_timeout"]
+[connection signal="timeout" from="ambience_layer2/ambience2_delay" to="." method="_on_ambience_2_delay_timeout"]
+[connection signal="timeout" from="ambience_layer3/ambience3_delay" to="." method="_on_ambience_3_delay_timeout"]
+[connection signal="timeout" from="ambience_layer4/ambience4_delay" to="." method="_on_ambience_4_delay_timeout"]

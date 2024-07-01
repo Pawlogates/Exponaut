@@ -418,7 +418,6 @@ collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_iou5s")
-SPEED = 150
 movementType = "normal"
 turnOnLedge = true
 turnOnWall = true

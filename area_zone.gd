@@ -26,7 +26,7 @@ func _on_area_entered(area):
 			area.get_parent().inside_water += 1
 			if area.get_parent().inside_water:
 				area.get_parent().insideWater_multiplier = water_strength
-				area.get_parent().movement_data.SPEED *= water_slowdown
+				area.get_parent().SPEED *= water_slowdown
 				area.get_parent().velocity.y /= 3
 				area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.2
 			
@@ -38,7 +38,7 @@ func _on_area_entered(area):
 			
 		
 		elif area_type == "low_gravity":
-			area.get_parent().movement_data.GRAVITY_SCALE = 0.5
+			area.get_parent().GRAVITY_SCALE = 0.5
 		
 		
 		elif area_type == "bouncy":
@@ -66,7 +66,7 @@ func _on_area_exited(area):
 		elif area_type == "water":
 			area.get_parent().inside_water -= 1
 			if not area.get_parent().inside_water:
-				area.get_parent().movement_data.SPEED = area.get_parent().base_player_speed
+				area.get_parent().SPEED = area.get_parent().base_player_speed
 				area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.1
 			
 			$AudioStreamPlayer2D.play()
@@ -76,4 +76,4 @@ func _on_area_exited(area):
 			
 		
 		elif area_type == "low_gravity":
-			area.get_parent().movement_data.GRAVITY_SCALE = 1.0
+			area.get_parent().GRAVITY_SCALE = 1.0
