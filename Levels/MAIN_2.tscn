@@ -78,19 +78,3 @@ transform = Transform2D(1, 0, 0, 1, 800, -200)
 [node name="deco_cloud2" parent="." index="20" instance=ExtResource("7_fag8d")]
 offset = Vector2(2500, -400)
 transform = Transform2D(1, 0, 0, 1, 2500, -400)
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/spikes_1" to="tileset_objects/spikes_1" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133870" to="tileset_objects/@Area2D@133870" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133871" to="tileset_objects/@Area2D@133871" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133872" to="tileset_objects/@Area2D@133872" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133873" to="tileset_objects/@Area2D@133873" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133874" to="tileset_objects/@Area2D@133874" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133875" to="tileset_objects/@Area2D@133875" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133876" to="tileset_objects/@Area2D@133876" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133877" to="tileset_objects/@Area2D@133877" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133879" to="tileset_objects/@Area2D@133879" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@133880" to="tileset_objects/@Area2D@133880" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@135926" to="tileset_objects/@Area2D@135926" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/spikes_1" to="tileset_objectsSmall/spikes_1" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@134080" to="tileset_objectsSmall/@Area2D@134080" method="_on_area_entered"]

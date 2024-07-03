@@ -4,10 +4,10 @@
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_2do4g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
-size = Vector2(48, 64)
+size = Vector2(64, 64)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
-size = Vector2(48, 48)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ykbg3"]
+size = Vector2(32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kqbcl"]
 atlas = ExtResource("2_2do4g")
@@ -25,13 +25,14 @@ animations = [{
 }]
 
 [node name="player_projectile_veryFast_speed" type="CharacterBody2D" groups=["player_projectile"]]
-z_index = 5
 collision_layer = 2
+motion_mode = 1
 floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_wv0oi")
-SPEED = 1600.0
-V_SPEED = 1600.0
+SPEED = 1200.0
+SPEED_V = 800.0
+remove_delay = 4.0
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 2
@@ -41,7 +42,7 @@ collision_mask = 4
 shape = SubResource("RectangleShape2D_jvbw3")
 
 [node name="main_collision" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_ukwf1")
+shape = SubResource("RectangleShape2D_ykbg3")
 
 [node name="animation" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true

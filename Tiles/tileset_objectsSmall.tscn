@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=51 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes.tscn" id="2_oe0v7"]
@@ -46,6 +46,8 @@
 [ext_resource type="PackedScene" uid="uid://cicdmjrqn10qb" path="res://deco_chainLong_V_bg.tscn" id="39_q7u4g"]
 [ext_resource type="PackedScene" uid="uid://djxwn6oxqjm8o" path="res://deco_chainLong_H_bg.tscn" id="40_o3vkn"]
 [ext_resource type="PackedScene" uid="uid://d4gmvberj3p4w" path="res://checkpoint.tscn" id="41_4r6nw"]
+[ext_resource type="PackedScene" uid="uid://dunsjy0e6r37a" path="res://Tiles/skull_switch.tscn" id="42_7lusw"]
+[ext_resource type="PackedScene" uid="uid://cfybjdad00fro" path="res://Tiles/skull_switch_immortal.tscn" id="43_q4e6r"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -95,6 +97,8 @@ scenes/43/scene = ExtResource("38_o3vcv")
 scenes/44/scene = ExtResource("40_o3vkn")
 scenes/45/scene = ExtResource("39_q7u4g")
 scenes/46/scene = ExtResource("41_4r6nw")
+scenes/47/scene = ExtResource("42_7lusw")
+scenes/48/scene = ExtResource("43_q4e6r")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)

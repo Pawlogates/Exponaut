@@ -27,6 +27,8 @@ animations = [{
 [node name="player_projectile_basic" type="CharacterBody2D" groups=["player_projectile"]]
 z_index = 5
 collision_layer = 2
+motion_mode = 1
+floor_constant_speed = true
 floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_8lmer")
@@ -48,6 +50,5 @@ animation = &"shoot"
 autoplay = "shoot"
 
 [node name="remove_delay" type="Timer" parent="."]
-autostart = true
 
 [connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

@@ -34,11 +34,11 @@ animations = [{
 [node name="player_projectile_short_shotDelay" type="CharacterBody2D" groups=["player_projectile"]]
 z_index = 5
 collision_layer = 2
+motion_mode = 1
 floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_lghed")
 SPEED = 200.0
-V_SPEED = 200.0
 can_collect = true
 remove_delay = 0.5
 

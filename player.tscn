@@ -444,6 +444,10 @@ collision_mask = 0
 visible = false
 shape = SubResource("RectangleShape2D_x01vt")
 
+[node name="RayCast2D" type="RayCast2D" parent="."]
+position = Vector2(0, -56)
+target_position = Vector2(32, 0)
+
 [node name="dash_timer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true

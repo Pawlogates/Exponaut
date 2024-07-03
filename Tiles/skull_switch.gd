@@ -77,10 +77,8 @@ func _on_area_2d_area_entered(area):
 		
 		
 	if area.is_in_group("player_projectile"):
-		
 		if not destroyed:
-			if not immortal:
-				destroyed = true
+			
 			
 			
 			call_deferred("spawn_collectibles")
@@ -91,6 +89,7 @@ func _on_area_2d_area_entered(area):
 			#%AnimationPlayer.play("destroyed")
 			break_bonusBox.play()
 			if not immortal:
+				destroyed = true
 				add_child(dead_effect)
 				%AnimatedSprite2D.play("destroyed")
 			

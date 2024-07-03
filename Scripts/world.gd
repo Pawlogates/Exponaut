@@ -376,7 +376,7 @@ func _physics_process(delta):
 	
 	#HANDLE BACKGROUND MOVEMENT
 	
-	if not bg_position_set:
+	if not bg_position_set and not debug_bg_deleted:
 		%bg_previous/CanvasLayer/bg.offset.x = move_toward(%bg_previous/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x * 1, 100 * bgMove_growthSpeed * delta)
 		%bg_previous/CanvasLayer/bg.offset.y = move_toward(%bg_previous/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y * 1, 250 * bgMove_growthSpeed * delta)
 		
@@ -427,6 +427,7 @@ func _physics_process(delta):
 	#DEBUG
 	
 	if Input.is_action_just_pressed("show_debugInfo"):
+		print("clicked")
 		if debugToggle:
 			%fps.visible = false
 			%test.visible = false
@@ -435,7 +436,8 @@ func _physics_process(delta):
 			%test4.visible = false
 			debugToggle = false
 			get_tree().set_debug_collisions_hint(false)
-			$/root/World.player.weaponType = "basic"
+			if $/root/World.player.weaponType == "none":
+				$/root/World.player.weaponType = "basic"
 		
 		else:
 			%fps.visible = true
@@ -445,8 +447,22 @@ func _physics_process(delta):
 			%test4.visible = true
 			debugToggle = true
 			get_tree().set_debug_collisions_hint(true) 
-			$/root/World.player.weaponType = "basic"
-	
+			if $/root/World.player.weaponType == "none":
+				$/root/World.player.weaponType = "basic"
+		
+		
+		if Input.is_action_pressed("move_UP"):
+			Globals.debug_mode = true
+		if Input.is_action_pressed("move_DOWN"):
+			Globals.debug_mode = false
+		if Input.is_action_pressed("move_L"):
+			if not debug_bg_deleted:
+				debug_bg_deleted = true
+				%bg_current.queue_free()
+				%bg_previous.queue_free()
+		if Input.is_action_pressed("move_R"):
+			Globals.delete_saves = true
+			
 	
 	
 	
@@ -458,7 +474,7 @@ func _physics_process(delta):
 #MAIN END
 
 var night_toggle = true
-
+var debug_bg_deleted = false
 
 
 
@@ -814,9 +830,6 @@ func saved_from_outside():
 
 
 
-
-
-
 func _on_debug_refresh_timeout():
 	fps.text = str("fps: ", Engine.get_frames_per_second())
 	test.text = str("Total persistent objects present: ", Globals.test)
@@ -1167,7 +1180,7 @@ func load_game_area():
 		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
 
 		for i in node_data.keys():
-			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
+			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
 				continue
 			new_object.set(i, node_data[i])
 	

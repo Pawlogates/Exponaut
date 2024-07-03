@@ -1,8 +1,12 @@
 extends Node2D
 
-@export var start_toggle_fade = false
+@export var start_toggle_fade = true
 
 @onready var music_player_main = $music
+
+
+var print_limit = 100
+var print_limit_edge = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -14,6 +18,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	var previous_volume = music_player_main.volume_db
 	if fading == "in":
 		music_player_main.volume_db = move_toward(music_player_main.volume_db, 0, delta * 2)
 	
@@ -23,7 +28,17 @@ func _process(delta):
 	else:
 		pass
 	
-	print("Current music volume: " + str(music_player_main.volume_db))
+	if music_player_main.volume_db != previous_volume:
+		if print_limit > 0:
+			print_limit -= 1
+			return
+		print("Current music volume: " + str(music_player_main.volume_db))
+		print_limit = 100
+	
+	elif music_player_main.volume_db == 0 or music_player_main.volume_db == -30:
+		if not print_limit_edge:
+			print_limit_edge = true
+			print("Current music volume: " + str(music_player_main.volume_db))
 
 
 var fading = "none" # "in", "out", "none"
@@ -40,5 +55,6 @@ func _on_toggle_fade_delay_timeout():
 
 
 func randomize_toggle_fade_delay():
-	var delay = randi_range(1, 120)
+	var delay = randi_range(6, 120)
 	$toggle_fade_delay.wait_time = delay
+	print_limit_edge = false

@@ -160,19 +160,19 @@ var secondaryAttack_cooldown = false
 
 
 #WEAPON TYPES
-var scene_projectile_phaser = preload("res://player_projectile_phaser.tscn")
-var scene_projectile_basic = preload("res://player_projectile_basic.tscn")
-var scene_projectile_short_shotDelay = preload("res://player_projectile_short_shotDelay.tscn")
-var scene_projectile_ice = preload("res://player_projectile_ice.tscn")
-var scene_projectile_fire = preload("res://player_projectile_fire.tscn")
-var scene_projectile_destructive_fast_speed = preload("res://player_projectile_destructive_fast_speed.tscn")
-var scene_projectile_veryFast_speed = preload("res://player_projectile_veryFast_speed.tscn")
+var scene_projectile_phaser = load("res://player_projectile_phaser.tscn")
+var scene_projectile_basic = load("res://player_projectile_basic.tscn")
+var scene_projectile_short_shotDelay = load("res://player_projectile_short_shotDelay.tscn")
+var scene_projectile_ice = load("res://player_projectile_ice.tscn")
+var scene_projectile_fire = load("res://player_projectile_fire.tscn")
+var scene_projectile_destructive_fast_speed = load("res://player_projectile_destructive_fast_speed.tscn")
+var scene_projectile_veryFast_speed = load("res://player_projectile_veryFast_speed.tscn")
 
 #WEAPON TYPES END
 
 #SECONDARY WEAPONS
-var scene_secondaryProjectile_basic = preload("res://player_secondaryProjectile_basic.tscn")
-var scene_secondaryProjectile_fast = preload("res://player_secondaryProjectile_fast.tscn")
+var scene_secondaryProjectile_basic = load("res://player_secondaryProjectile_basic.tscn")
+var scene_secondaryProjectile_fast = load("res://player_secondaryProjectile_fast.tscn")
 
 
 #MAIN START
@@ -191,16 +191,48 @@ func _process(delta):
 	if debugMovement:
 		
 		if Input.is_action_pressed("move_R"):
-			global_position.x += 40
+			if Input.is_action_pressed("attack_secondary"):
+				global_position.x += 200 * delta
+				return
+			
+			elif Input.is_action_pressed("dash"):
+				global_position.x += 2000 * delta
+				return
+				
+			global_position.x += 1000 * delta
 		
 		if Input.is_action_pressed("move_L"):
-			global_position.x -= 40
+			if Input.is_action_pressed("attack_secondary"):
+				global_position.x -= 200 * delta
+				return
+			
+			elif Input.is_action_pressed("dash"):
+				global_position.x -= 2000 * delta
+				return
+				
+			global_position.x -= 1000 * delta
 		
 		if Input.is_action_pressed("move_UP"):
-			global_position.y -= 40
+			if Input.is_action_pressed("attack_secondary"):
+				global_position.y -= 200 * delta
+				return
+			
+			elif Input.is_action_pressed("dash"):
+				global_position.y -= 2000 * delta
+				return
+				
+			global_position.y -= 1000 * delta
 		
 		if Input.is_action_pressed("move_DOWN"):
-			global_position.y += 40
+			if Input.is_action_pressed("attack_secondary"):
+				global_position.y += 200 * delta
+				return
+				
+			elif Input.is_action_pressed("dash"):
+				global_position.y += 2000 * delta
+				return
+				
+			global_position.y += 1000 * delta
 	
 	else:
 		apply_gravity(delta)
@@ -436,15 +468,15 @@ func _process(delta):
 	
 	
 	#DEBUG
-	
-	if not debugMovement and Input.is_action_just_pressed("cheat"):
-		#movement_data = preload("res://fasterMovementData.tres")
-		debugMovement = true
-		Globals.cheated.emit()
-		
-	elif debugMovement and Input.is_action_just_pressed("cheat"):
-		#movement_data = preload("res://fasterMovementData.tres")
-		debugMovement = false
+	if Globals.debug_mode:
+		if not debugMovement and Input.is_action_just_pressed("cheat"):
+			#movement_data = preload("res://fasterMovementData.tres")
+			debugMovement = true
+			Globals.cheated.emit()
+			
+		elif debugMovement and Input.is_action_just_pressed("cheat"):
+			#movement_data = preload("res://fasterMovementData.tres")
+			debugMovement = false
 	
 	
 	
@@ -1013,7 +1045,6 @@ func _on_dash_check_timeout():
 
 
 func shoot_projectile(projectile_scene):
-	print(attack_cooldown)
 	if not attack_cooldown:
 		attack_cooldown = true
 		$attack_cooldown.start()
@@ -1023,8 +1054,9 @@ func shoot_projectile(projectile_scene):
 		animated_sprite_2d.play("shoot")
 		
 		var projectile = projectile_scene.instantiate()
-		projectile.position = position + Vector2(Globals.direction * 32, 0)
+		projectile.position = position + Vector2(Globals.direction * 24, 0)
 		get_parent().add_child(projectile)
+		
 		playSound_shoot()
 		
 	if direction != 0:

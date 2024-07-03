@@ -1,39 +1,38 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxw2223tsauud"]
+[gd_scene load_steps=7 format=3 uid="uid://dmbx54tq18lh7"]
 
-[ext_resource type="Script" path="res://projectile_general.gd" id="1_07q4f"]
-[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_f3vdr"]
+[ext_resource type="Script" path="res://projectile_general.gd" id="1_luuyy"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_ukhad"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
-size = Vector2(48, 64)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
 size = Vector2(48, 48)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_opqok"]
-atlas = ExtResource("2_f3vdr")
-region = Rect2(1792, 192, 64, 64)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
+size = Vector2(32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vds43"]
+atlas = ExtResource("2_ukhad")
+region = Rect2(1792, 0, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jfau3"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_opqok")
+"texture": SubResource("AtlasTexture_vds43")
 }],
 "loop": true,
 "name": &"shoot",
 "speed": 5.0
 }]
 
-[node name="player_projectile_ice" type="CharacterBody2D" groups=["player_projectile"]]
+[node name="player_projectile_basic" type="CharacterBody2D" groups=["player_projectile"]]
 z_index = 5
 collision_layer = 2
 motion_mode = 1
+floor_stop_on_slope = false
+floor_block_on_wall = false
 floor_max_angle = 1.22173
 safe_margin = 1.0
-script = ExtResource("1_07q4f")
-spawn_on_death = true
-give_momentum = true
-momentum_x = 300.0
+script = ExtResource("1_luuyy")
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 2
@@ -52,7 +51,5 @@ animation = &"shoot"
 autoplay = "shoot"
 
 [node name="remove_delay" type="Timer" parent="."]
-wait_time = 0.75
-autostart = true
 
 [connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]
