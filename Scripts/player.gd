@@ -10,10 +10,12 @@ extends CharacterBody2D
 @export var AIR_SLOWDOWN = -400.0
 @export var AIR_ACCELERATION = 1200.0
 
+@export var flight = false
+
 
 var air_jump = false
 var just_wall_jumped = false
-var was_wall_normal = Vector2.ZERO
+var was_on_wall_normal = Vector2.ZERO
 
 
 var starParticleScene = preload("res://particles_star.tscn")
@@ -87,8 +89,6 @@ var spawn_dust_effect = true
 
 
 
-var total_collectibles = 0
-
 #AREAS (water, wind, etc.
 var base_player_speed = 400
 
@@ -132,7 +132,7 @@ func _ready():
 	
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
-	total_collectibles = get_tree().get_nodes_in_group("Collectibles").size() + (get_tree().get_nodes_in_group("bonusBox").size() * 10)
+	Globals.collectibles_in_this_level = get_tree().get_nodes_in_group("Collectibles").size() + (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	
 	
 	if Globals.mode_scoreAttack:
@@ -176,351 +176,83 @@ var scene_secondaryProjectile_fast = load("res://player_secondaryProjectile_fast
 
 
 #MAIN START
-
 func _process(delta):
-	Globals.player_pos = get_global_position()
-	Globals.player_posX = get_global_position()[0]
-	Globals.player_posY = get_global_position()[1]
+	get_basic_player_values()
 	
-	if not dead:
-		direction = Input.get_axis("move_L", "move_R")
-	else:
-		direction = 0
-	
-	#debug
 	if debugMovement:
-		
-		if Input.is_action_pressed("move_R"):
-			if Input.is_action_pressed("attack_secondary"):
-				global_position.x += 200 * delta
-				return
-			
-			elif Input.is_action_pressed("dash"):
-				global_position.x += 2000 * delta
-				return
-				
-			global_position.x += 1000 * delta
-		
-		if Input.is_action_pressed("move_L"):
-			if Input.is_action_pressed("attack_secondary"):
-				global_position.x -= 200 * delta
-				return
-			
-			elif Input.is_action_pressed("dash"):
-				global_position.x -= 2000 * delta
-				return
-				
-			global_position.x -= 1000 * delta
-		
-		if Input.is_action_pressed("move_UP"):
-			if Input.is_action_pressed("attack_secondary"):
-				global_position.y -= 200 * delta
-				return
-			
-			elif Input.is_action_pressed("dash"):
-				global_position.y -= 2000 * delta
-				return
-				
-			global_position.y -= 1000 * delta
-		
-		if Input.is_action_pressed("move_DOWN"):
-			if Input.is_action_pressed("attack_secondary"):
-				global_position.y += 200 * delta
-				return
-				
-			elif Input.is_action_pressed("dash"):
-				global_position.y += 2000 * delta
-				return
-				
-			global_position.y += 1000 * delta
+		handle_debugMovement(delta)
 	
 	else:
 		apply_gravity(delta)
 		handle_wall_jump()
 		handle_jump(delta)
-	
-	
-	if Input.is_action_just_pressed("back"):
-		Globals.playerHP = 100
-		$/root/World.kill_player()
-		
-	
-	
-	
-	if not dead and Input.is_action_pressed("attack_fast"):
-		if weaponType == "phaser":
-			var projectile_phaser = scene_projectile_phaser.instantiate()
-			add_child(projectile_phaser)
-		
-		if weaponType == "basic":
-			shoot_projectile(scene_projectile_basic)
-		elif weaponType == "short_shotDelay":
-			shoot_projectile(scene_projectile_short_shotDelay)
-		elif weaponType == "ice":
-			shoot_projectile(scene_projectile_ice)
-		elif weaponType == "fire":
-			shoot_projectile(scene_projectile_fire)
-		elif weaponType == "destructive_fast_speed":
-			shoot_projectile(scene_projectile_destructive_fast_speed)
-		elif weaponType == "veryFast_speed":
-			shoot_projectile(scene_projectile_veryFast_speed)
-	
-	
-	#SECONDARY ATTACK
-	
-	if not dead and Input.is_action_pressed("attack_secondary"):
-		if secondaryWeaponType == "basic":
-			shoot_secondaryProjectile(scene_secondaryProjectile_basic)
-		elif secondaryWeaponType == "fast":
-			shoot_secondaryProjectile(scene_secondaryProjectile_fast)
-	
-	
-	
-	#PLAYER SHOOTING ANIMATION
-	
-	if not dead and weaponType == "phaser" and not is_dashing and not is_dashing and Input.is_action_just_released("attack_fast") and not crouch_walking and not crouching:
-		shooting = true
-		shoot_anim_delay.start()
-		animated_sprite_2d.play("shoot")
-		if direction != 0:
-			animated_sprite_2d.flip_h = (direction < 0)
-	
-	
-	
-	
-	
-	if direction != 0:
-		Globals.direction = direction
-	
-	if not debugMovement:
 		handle_acceleration_direction(delta)
 		handle_air_acceleration(delta)
+	
+	#SHOOTING LOGIC
+	handle_shooting()
 	
 	var was_in_air = not is_on_floor()
 	var was_on_floor = is_on_floor()
 	var was_on_wall = is_on_wall_only()
 	
 	if was_on_wall:
-		was_wall_normal = get_wall_normal()
-		
-	if not is_on_floor():
-		$idle_timer.stop()
-	
-	
-	
-	#DASH LOGIC
-	
-	if dashReady and Input.is_action_just_pressed("dash") and is_on_floor() and is_dashing == false and not crouch_walking and not crouching:
-		dash_end_slowdown_canceled = false
-		is_dashing = true
-		dashReady = false
-		$dash_timer.start()
-		player_collision.shape.extents = Vector2(20, 20)
-		player_collision.position += Vector2(0, 36)
-		
-		player_hitbox.shape.extents = Vector2(20, 20)
-		player_hitbox.position += Vector2(0, 36)
-	
-	#DASH LOGIC END
-	
-	
-	if not debugMovement:
-		move_and_slide()
-	
-	#CROUCHING LOGIC
-	if not dead and is_on_floor():
-		if direction != 0:
-			animated_sprite_2d.flip_h = (direction < 0)
-		if dashReady and Input.is_action_pressed("move_DOWN") and not crouch_walking and not crouchTimer:
-			crouch_walk_anim_delay.start()
-			crouch_walk_collision_switch.start()
-			crouching = true
-			crouchTimer = true
-			animated_sprite_2d.play("crouch")
-			
-			crouchMultiplier = 0.6
-			SPEED = 400 * crouchMultiplier
-			
-		
-		if crouch_walking:
-			animated_sprite_2d.play("crouch_walk")
-			crouching = false
-			
-			crouchMultiplier = 0.4
-			SPEED = 400.0 * crouchMultiplier
-			
-	
-	
-	if not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_walking or not is_on_floor() and can_stand_up == 0 and crouch_walking:
-		player_collision.shape.extents = Vector2(20, 56)
-		player_collision.position = Vector2(0, 0)
-		
-		player_hitbox.shape.extents = Vector2(20, 56)
-		player_hitbox.position = Vector2(0, 0)
-		
-		
-		crouching = false
-		crouch_walking = false
-		crouch_walk_anim_delay.stop()
-		crouch_walk_collision_switch.stop()
-		SPEED = 400.0
-		crouchMultiplier = 1
-		crouchTimer = false
-		
-	
+		was_on_wall_normal = get_wall_normal()
 	
 	var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
-	
 	if just_left_ledge:
 		jump_leniency.start()
-		
-		
-	
 	
 	var just_left_wall = was_on_wall and not is_on_wall()
-	
 	if just_left_wall:
 		wall_jump_leniency.start()
 	
+	#DASH LOGIC
+	handle_dash()
+	
+	#CROUCHING LOGIC
+	handle_crouching()
+	
 	
 	if not debugMovement:
+		if not stuck:
+			if flight:
+				handle_flight(delta)
+			
+			handle_inside_area()
+			move_and_slide() #MAIN MOVEMENT
+			
 		apply_friction(delta)
 		apply_air_slowdown(delta)
 		
 		update_anim()
-	
 	
 	just_wall_jumped = false
 	
 	if not attacked and not dead and velocity.y == 0 and is_on_floor() and was_in_air and not shooting and not crouch_walking and not crouching:
 		animated_sprite_2d.play("idle")
 	
+	handle_spawn_dust()
+	handle_zoom(delta)
+	handle_toggle_debugMovement()
+	handle_manual_player_death()
 	
-	if is_on_floor() and direction and spawn_dust_effect:
-		spawn_dust_effect = false
-		$dust_effect.start()
-		
-		effect_dust = effect_dustScene.instantiate()
-		effect_dust.position = Globals.player_pos - Vector2(0, -48)
-		get_parent().add_child(effect_dust)
-		
-	elif not is_on_floor():
-		spawn_dust_effect = true
-		$dust_effect.stop()
+	#HANDLE STUCK IN WALL
+	handle_stuck()
 	
 	
-	if inside_wind:
-		if insideWind_direction == -1:
-			position.x += -3
-		
-		elif insideWind_direction == 1:
-			position.x += 3
-		
-		
-	
-	if Input.is_action_pressed("zoom_out"):
-		print(str(zoomValue) + " is the current zoom value (speed multiplier)")
-		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 0.1, 0.01 * delta * 50 * zoomValue)
-		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 0.1, 0.01 * delta * 50 * zoomValue)
-		
-		if $Camera2D.zoom.x < 0.25:
-			zoomValue = 0.25
-			
-		elif $Camera2D.zoom.x < 0.5:
-			zoomValue = 0.35
-			
-		elif $Camera2D.zoom.x < 0.75:
-			zoomValue = 0.5
-			
-		elif $Camera2D.zoom.x > 1.2:
-			zoomValue = 1.5
-			
-		else:
-			zoomValue = 1
-		
-	
-	if Input.is_action_pressed("zoom_in"):
-		print(str(zoomValue) + " is the current zoom value (speed multiplier)")
-		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 2, 0.01 * delta * 50 * zoomValue)
-		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 2, 0.01 * delta * 50 * zoomValue)
-		
-		if $Camera2D.zoom.x < 0.25:
-			zoomValue = 0.25
-			
-		elif $Camera2D.zoom.x < 0.5:
-			zoomValue = 0.35
-			
-		elif $Camera2D.zoom.x < 0.75:
-			zoomValue = 0.5
-			
-		elif $Camera2D.zoom.x > 1.2:
-			zoomValue = 1.5
-			
-		else:
-			zoomValue = 1
-			
-	
-	
-	if Input.is_action_pressed("zoom_reset"):
-		$Camera2D.zoom.x = 1
-		$Camera2D.zoom.y = 1
-	
-	
-	
-	#DEBUG
-	if Globals.debug_mode:
-		if not debugMovement and Input.is_action_just_pressed("cheat"):
-			#movement_data = preload("res://fasterMovementData.tres")
-			debugMovement = true
-			Globals.cheated.emit()
-			
-		elif debugMovement and Input.is_action_just_pressed("cheat"):
-			#movement_data = preload("res://fasterMovementData.tres")
-			debugMovement = false
-	
-	
-	
-	
-	#STUCK IN WALL
-	
-	if velocity.y > 1000 and not can_stand_up == 0 and Input.is_action_just_pressed("jump"):
-		position.y += 6
-		position.x += 3
-	
-	if velocity.y > 6000:
-		position.y += -120
-		position.x += 40
-	
-	
-	
-	
-	if Globals.mode_scoreAttack:
-		if Globals.combo_tier >= 5:
-			if weaponType == "basic":
-				weaponType = "phaser"
-		else:
-			if weaponType == "phaser":
-				weaponType = "basic"
+	handle_gameMode_scoreAttack()
 
 #MAIN END
 
 
-
-
-
-
-
 var zoomValue = 1
-
 
 var is_dashing = false
 var started_dash = false
 var speedBlockActive = false
 var dash_slowdown = false
 var wall_jump = false
-
-
-
 
 func apply_gravity(delta):
 	if not is_on_floor() and not is_dashing or dash_slowdown:
@@ -628,11 +360,11 @@ func handle_wall_jump():
 	var wall_normal = get_wall_normal()
 	
 	if wall_jump_leniency.time_left > 0.0:
-		wall_normal = was_wall_normal
+		wall_normal = was_on_wall_normal
 	
 	
 	if Input.is_action_just_pressed("jump") and wall_jump:
-		velocity.x = wall_normal.x * SPEED / 2
+		velocity.x = wall_normal.x * SPEED * 2
 		if inside_water:
 			velocity.y = JUMP_VELOCITY * 1 * insideWater_multiplier
 		else:
@@ -661,10 +393,10 @@ func handle_acceleration_direction(delta):
 	#HANDLE WALKING
 	if direction != 0:
 		velocity.x = move_toward(velocity.x, direction * SPEED, ACCELERATION * delta * crouchMultiplier * insideWater_multiplier)
-		
+	
 	
 	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
-		velocity.x = velocity.x * 0.5
+		velocity.x = velocity.x * 0.75
 
 
 
@@ -690,6 +422,10 @@ var attacked = false
 var deathAnim_playing = false
 
 func update_anim():
+	if not is_on_floor():
+		$idle_timer.stop()
+	
+	
 	if dead and not deathAnim_playing:
 		deathAnim_playing = true
 		animated_sprite_2d.play("death")
@@ -878,28 +614,6 @@ func _on_dash_end_slowdown_active_timeout():
 
 
 
-var collected_collectibles = 0
-
-
-#DEBUG
-
-func debug_refresh():
-	Globals.test = get_tree().get_nodes_in_group("Persist").size() + get_tree().get_nodes_in_group("bonusBox").size()
-	Globals.test2 =  get_tree().get_nodes_in_group("Collectibles").size()
-	Globals.test3 = get_parent().area_ID
-	Globals.test4 = "unused debug value"
-	
-	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
-	
-	#if Globals.collected_collectibles >= 1000:
-		#Globals.infoSign_current_text = "You collected 1000 score items! Thanks for playing :v Your score is " + str(Globals.level_score) + "!"
-		#Globals.infoSign_current_size = 2
-		#Globals.info_sign_touched.emit()
-
-#DEBUG END
-
-
-
 #SAVE START
 
 func _on_player_hitbox_main_area_entered(area):
@@ -931,16 +645,6 @@ func saveState_loaded():
 	
 	
 	LevelTransition.fade_from_black_slow()
-
-
-
-
-
-
-
-func _on_debug_refresh_timeout():
-	debug_refresh()
-
 
 
 func _on_dust_effect_timeout():
@@ -1084,3 +788,319 @@ func shoot_secondaryProjectile(secondaryProjectile_scene):
 		
 	if direction != 0:
 		animated_sprite_2d.flip_h = (direction < 0)
+
+
+func handle_gameMode_scoreAttack():
+	if Globals.mode_scoreAttack:
+		if Globals.combo_tier >= 5:
+			if weaponType == "basic":
+				weaponType = "phaser"
+		else:
+			if weaponType == "phaser":
+				weaponType = "basic"
+
+
+@onready var raycast_top = $raycast_top
+@onready var raycast_bottom = $raycast_bottom
+@onready var raycast_middle = $raycast_middle
+
+var stuck = false
+
+func handle_stuck():
+	if stuck:
+		raycast_top.target_position.x = 16
+		raycast_bottom.target_position.x = 16
+		raycast_middle.target_position.x = 16
+		#raycast_top.enabled = true
+		#raycast_bottom.enabled = true
+		#raycast_middle.enabled = true
+	#else:
+		#raycast_top.enabled = false
+		#raycast_bottom.enabled = false
+		#raycast_middle.enabled = false
+	
+	if velocity.y > 4000:
+		if not stuck:
+			stuck = true
+	
+	if stuck:
+		if raycast_top.get_collider() or raycast_bottom.get_collider() or raycast_middle.get_collider():
+			position += Vector2(Globals.direction, -4)
+			velocity = Vector2(0, 0)
+		else:
+			stuck = false
+
+
+var confirm_timer_isActive = false
+func _on_stuck_check_timeout():
+	if confirm_timer_isActive:
+		return
+	
+	if velocity.y == JUMP_VELOCITY or velocity[1] == 0:
+		$stuckCheck/stuckCheck_confirm.start()
+		confirm_timer_isActive = true
+
+func _on_stuck_check_confirm_timeout():
+	if velocity.y == JUMP_VELOCITY or velocity[1] == 0:
+		stuck = true
+		print("The stuckCheck_confirm timer just went off while a rare stuck case is possible - [velocity.y = JUMP_VELOCITY] or [velocity = Vector2(0, 0)]. Now the 'stuck' variable becomes true and will be cancelled right after, unless any of the raycasts detect collision.") 
+		
+		raycast_top.target_position.x = 16
+		raycast_bottom.target_position.x = 16
+		raycast_middle.target_position.x = 16
+	
+	else:
+		print("The stuckCheck_confirm timer just went off, but it seems like there is no way the player could be stuck.")
+	
+	confirm_timer_isActive = false
+
+
+
+#Debug movement type that lets you freely move in any direction. Press CTRL + C to activate it. (needs Globals.debug_mode to be true)
+#Hold CTRL to move a lot slower. Hold SHIFT to move very fast.
+func handle_debugMovement(delta):
+	if Input.is_action_pressed("move_R"):
+		if Input.is_action_pressed("attack_secondary"):
+			global_position.x += 200 * delta
+			return
+		
+		elif Input.is_action_pressed("dash"):
+			global_position.x += 2000 * delta
+			return
+			
+		global_position.x += 1000 * delta
+	
+	if Input.is_action_pressed("move_L"):
+		if Input.is_action_pressed("attack_secondary"):
+			global_position.x -= 200 * delta
+			return
+		
+		elif Input.is_action_pressed("dash"):
+			global_position.x -= 2000 * delta
+			return
+			
+		global_position.x -= 1000 * delta
+	
+	if Input.is_action_pressed("move_UP"):
+		if Input.is_action_pressed("attack_secondary"):
+			global_position.y -= 200 * delta
+			return
+		
+		elif Input.is_action_pressed("dash"):
+			global_position.y -= 2000 * delta
+			return
+			
+		global_position.y -= 1000 * delta
+	
+	if Input.is_action_pressed("move_DOWN"):
+		if Input.is_action_pressed("attack_secondary"):
+			global_position.y += 200 * delta
+			return
+			
+		elif Input.is_action_pressed("dash"):
+			global_position.y += 2000 * delta
+			return
+			
+		global_position.y += 1000 * delta
+
+
+
+func handle_crouching():
+	if not dead and is_on_floor():
+		if direction != 0:
+			animated_sprite_2d.flip_h = (direction < 0)
+		if dashReady and Input.is_action_pressed("move_DOWN") and not crouch_walking and not crouchTimer:
+			crouch_walk_anim_delay.start()
+			crouch_walk_collision_switch.start()
+			crouching = true
+			crouchTimer = true
+			animated_sprite_2d.play("crouch")
+			
+			crouchMultiplier = 0.6
+			SPEED = 400 * crouchMultiplier
+			
+		
+		if crouch_walking:
+			animated_sprite_2d.play("crouch_walk")
+			crouching = false
+			
+			crouchMultiplier = 0.4
+			SPEED = 400.0 * crouchMultiplier
+	
+	if not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_walking or not is_on_floor() and can_stand_up == 0 and crouch_walking:
+		player_collision.shape.extents = Vector2(20, 56)
+		player_collision.position = Vector2(0, 0)
+		
+		player_hitbox.shape.extents = Vector2(20, 56)
+		player_hitbox.position = Vector2(0, 0)
+		
+		
+		crouching = false
+		crouch_walking = false
+		crouch_walk_anim_delay.stop()
+		crouch_walk_collision_switch.stop()
+		SPEED = 400.0
+		crouchMultiplier = 1
+		crouchTimer = false
+
+
+func handle_dash():
+	if dashReady and Input.is_action_just_pressed("dash") and is_on_floor() and is_dashing == false and not crouch_walking and not crouching:
+		dash_end_slowdown_canceled = false
+		is_dashing = true
+		dashReady = false
+		$dash_timer.start()
+		player_collision.shape.extents = Vector2(20, 20)
+		player_collision.position += Vector2(0, 36)
+		
+		player_hitbox.shape.extents = Vector2(20, 20)
+		player_hitbox.position += Vector2(0, 36)
+
+
+func handle_shooting():
+	#MAIN ATTACK
+	if not dead and Input.is_action_pressed("attack_main"):
+		if weaponType == "phaser":
+			var projectile_phaser = scene_projectile_phaser.instantiate()
+			add_child(projectile_phaser)
+			
+			#SHOOTING ANIMATION
+			shooting = true
+			shoot_anim_delay.start()
+			animated_sprite_2d.play("shoot")
+			if direction != 0:
+				animated_sprite_2d.flip_h = (direction < 0)
+		
+		if weaponType == "basic":
+			shoot_projectile(scene_projectile_basic)
+		elif weaponType == "short_shotDelay":
+			shoot_projectile(scene_projectile_short_shotDelay)
+		elif weaponType == "ice":
+			shoot_projectile(scene_projectile_ice)
+		elif weaponType == "fire":
+			shoot_projectile(scene_projectile_fire)
+		elif weaponType == "destructive_fast_speed":
+			shoot_projectile(scene_projectile_destructive_fast_speed)
+		elif weaponType == "veryFast_speed":
+			shoot_projectile(scene_projectile_veryFast_speed)
+	
+	
+	#SECONDARY ATTACK
+	if not dead and Input.is_action_pressed("attack_secondary"):
+		if secondaryWeaponType == "basic":
+			shoot_secondaryProjectile(scene_secondaryProjectile_basic)
+		elif secondaryWeaponType == "fast":
+			shoot_secondaryProjectile(scene_secondaryProjectile_fast)
+
+
+func get_basic_player_values():
+	if not dead:
+		direction = Input.get_axis("move_L", "move_R")
+	else:
+		direction = 0
+	
+	Globals.player_pos = get_global_position()
+	Globals.player_posX = get_global_position()[0]
+	Globals.player_posY = get_global_position()[1]
+	
+	if direction != 0:
+		Globals.direction = direction
+
+
+func handle_spawn_dust():
+	if is_on_floor() and direction and spawn_dust_effect:
+		spawn_dust_effect = false
+		$dust_effect.start()
+		
+		effect_dust = effect_dustScene.instantiate()
+		effect_dust.position = Globals.player_pos - Vector2(0, -48)
+		get_parent().add_child(effect_dust)
+		
+	elif not is_on_floor():
+		spawn_dust_effect = true
+		$dust_effect.stop()
+
+
+func handle_inside_area():
+	if inside_wind:
+		if insideWind_direction == -1:
+			position.x += -3
+		
+		elif insideWind_direction == 1:
+			position.x += 3
+
+
+func handle_zoom(delta):
+	if Input.is_action_pressed("zoom_out"):
+		print(str($Camera2D.zoom.x) + " is the current zoom. " + str(zoomValue) + " is the current zoomValue (speed multiplier)")
+		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 0.1, 0.01 * delta * 50 * zoomValue)
+		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 0.1, 0.01 * delta * 50 * zoomValue)
+		
+		if $Camera2D.zoom.x < 0.25:
+			zoomValue = 0.25
+			
+		elif $Camera2D.zoom.x < 0.5:
+			zoomValue = 0.35
+			
+		elif $Camera2D.zoom.x < 0.75:
+			zoomValue = 0.5
+			
+		elif $Camera2D.zoom.x > 1.2:
+			zoomValue = 1.5
+			
+		else:
+			zoomValue = 1
+		
+		
+	elif Input.is_action_pressed("zoom_in"):
+		print(str($Camera2D.zoom.x) + " is the current zoom. " + str(zoomValue) + " is the current zoomValue (speed multiplier)")
+		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 2, 0.01 * delta * 50 * zoomValue)
+		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 2, 0.01 * delta * 50 * zoomValue)
+		
+		if $Camera2D.zoom.x < 0.25:
+			zoomValue = 0.25
+			
+		elif $Camera2D.zoom.x < 0.5:
+			zoomValue = 0.35
+			
+		elif $Camera2D.zoom.x < 0.75:
+			zoomValue = 0.5
+			
+		elif $Camera2D.zoom.x > 1.2:
+			zoomValue = 1.5
+			
+		else:
+			zoomValue = 1
+		
+		
+	elif Input.is_action_pressed("zoom_reset"):
+		print("Camera zoom reset.")
+		$Camera2D.zoom.x = 1
+		$Camera2D.zoom.y = 1
+
+
+func handle_toggle_debugMovement():
+	if Globals.debug_mode:
+		if not debugMovement and Input.is_action_just_pressed("cheat"):
+			#movement_data = preload("res://fasterMovementData.tres")
+			debugMovement = true
+			Globals.cheated.emit()
+			
+		elif debugMovement and Input.is_action_just_pressed("cheat"):
+			#movement_data = preload("res://fasterMovementData.tres")
+			debugMovement = false
+
+
+func handle_manual_player_death():
+	if Input.is_action_just_pressed("back"):
+		Globals.playerHP = 100
+		$/root/World.kill_player()
+
+
+func handle_flight(delta):
+	if Input.is_action_pressed("jump") or Input.is_action_pressed("move_UP"):
+		velocity.y = move_toward(velocity.y, JUMP_VELOCITY, delta * 300)
+	elif Input.is_action_pressed("move_DOWN"):
+		velocity.y = move_toward(velocity.y, -JUMP_VELOCITY, delta * 300)
+	else:
+		velocity.y = move_toward(velocity.y, 0, delta * 600)

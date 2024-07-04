@@ -52,7 +52,7 @@ func _ready():
 
 
 func _process(_delta):
-	if not projectile_shot and Input.is_action_pressed("attack_fast") or enemyProjectile or not projectile_shot and Globals.debug_mode:
+	if not projectile_shot and Input.is_action_pressed("attack_main") or enemyProjectile or not projectile_shot and Globals.debug_mode:
 		projectile_shot = true
 		Globals.shot.emit()
 		

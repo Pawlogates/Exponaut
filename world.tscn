@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=24 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_8iwd0"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://player.tscn" id="2_5ht3g"]
@@ -19,6 +19,7 @@
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://inventory.tscn" id="12_nf7r3"]
 [ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://quickselect_screen.tscn" id="15_ia3vl"]
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://collectedApplesDisplay_golden.tscn" id="16_1nult"]
+[ext_resource type="PackedScene" uid="uid://d0vqhficbarvl" path="res://debug_screen.tscn" id="19_sl15u"]
 
 [sub_resource type="Animation" id="Animation_ru8b6"]
 length = 0.001
@@ -91,6 +92,7 @@ script = null
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 75
+visible = false
 
 [node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
 anchors_preset = 10
@@ -290,110 +292,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="CenterContainerFps" type="CenterContainer" parent="HUD"]
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.1
-anchor_right = 1.0
-anchor_bottom = 0.1
-offset_left = -128.0
-offset_bottom = 45.0
-grow_horizontal = 0
-
-[node name="fps" type="Label" parent="HUD/CenterContainerFps"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme = ExtResource("5_ay58j")
-text = "fps"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CenterContainerTest" type="CenterContainer" parent="HUD"]
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.15
-anchor_right = 1.0
-anchor_bottom = 0.15
-offset_left = -128.0
-offset_bottom = 45.0
-grow_horizontal = 0
-
-[node name="test" type="Label" parent="HUD/CenterContainerTest"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme = ExtResource("5_ay58j")
-theme_override_font_sizes/font_size = 24
-text = "debug 1"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CenterContainerTest2" type="CenterContainer" parent="HUD"]
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.2
-anchor_right = 1.0
-anchor_bottom = 0.2
-offset_left = -128.0
-offset_bottom = 45.0
-grow_horizontal = 0
-
-[node name="test2" type="Label" parent="HUD/CenterContainerTest2"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme = ExtResource("5_ay58j")
-theme_override_font_sizes/font_size = 24
-text = "debug 2"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CenterContainerTest3" type="CenterContainer" parent="HUD"]
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.25
-anchor_right = 1.0
-anchor_bottom = 0.25
-offset_left = -128.0
-offset_bottom = 45.0
-grow_horizontal = 0
-
-[node name="test3" type="Label" parent="HUD/CenterContainerTest3"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme = ExtResource("5_ay58j")
-theme_override_font_sizes/font_size = 24
-text = "debug 3"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CenterContainerTest4" type="CenterContainer" parent="HUD"]
-anchors_preset = -1
-anchor_left = 1.0
-anchor_top = 0.3
-anchor_right = 1.0
-anchor_bottom = 0.3
-offset_left = -128.0
-offset_bottom = 45.0
-grow_horizontal = 0
-
-[node name="test4" type="Label" parent="HUD/CenterContainerTest4"]
-unique_name_in_owner = true
-visible = false
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme = ExtResource("5_ay58j")
-theme_override_font_sizes/font_size = 24
-text = "debug 3"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="ScoreDisplay" parent="HUD" instance=ExtResource("7_vhiat")]
 unique_name_in_owner = true
 position = Vector2(64, 64)
@@ -425,6 +323,10 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+
+[node name="Debug Screen" parent="HUD" instance=ExtResource("19_sl15u")]
+unique_name_in_owner = true
+visible = false
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true

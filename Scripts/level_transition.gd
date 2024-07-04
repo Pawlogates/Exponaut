@@ -32,30 +32,16 @@ func fade_to_black_slow():
 	await animation_player.animation_finished
 
 
+
+
 func _ready():
 	blackScreen.color.a = 0.0
 	%saved_progress.load_game()
-	
-	if Globals.delete_saves:
-			DirAccess.remove_absolute("user://savegame_theBeginning.save")
-			DirAccess.remove_absolute("user://savegame_Overworld.save")
-			DirAccess.remove_absolute("user://savedProgress.save")
-			DirAccess.remove_absolute("user://savegame.save")
-
 
 
 var mapScreen = load("res://map_screen.tscn")
 
 func _process(_delta):
-	#if Input.is_action_just_pressed("quicksave"):
-		#%saved_progress.save_game()
-		#print("saved")
-		#
-		#
-	#if Input.is_action_just_pressed("quickload"):
-		#%saved_progress.load_game()
-		#print("loaded")
-	
 	if Input.is_action_just_pressed("menu"):
 		if not Input.is_action_pressed("move_UP"):
 			await LevelTransition.fade_to_black()
@@ -66,11 +52,3 @@ func _process(_delta):
 			await LevelTransition.fade_to_black()
 			get_tree().change_scene_to_packed(load("res://start_menu.tscn"))
 			await LevelTransition.fade_from_black_slow()
-			
-	
-	if Globals.delete_saves:
-		if Input.is_action_just_pressed("show_debugInfo"):
-			DirAccess.remove_absolute("user://savegame_theBeginning.save")
-			DirAccess.remove_absolute("user://savegame_Overworld.save")
-			DirAccess.remove_absolute("user://savedProgress.save")
-			DirAccess.remove_absolute("user://savegame.save")

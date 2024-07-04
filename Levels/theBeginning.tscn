@@ -1,4 +1,4 @@
-[gd_scene load_steps=38 format=3 uid="uid://1ahj48o4tkw0"]
+[gd_scene load_steps=37 format=3 uid="uid://1ahj48o4tkw0"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_ql571"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_at0o6"]
@@ -26,7 +26,6 @@
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="22_5b0nw"]
 [ext_resource type="VideoStream" path="res://Assets/Videos/tutorial3.ogv" id="22_op7dl"]
 [ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://trigger_positional.tscn" id="23_2vwoj"]
-[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="27_tnyee"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cl0fn"]
 size = Vector2(64, 192)
@@ -492,11 +491,6 @@ maxOffset_Y = 500
 position = Vector2(7424, -3680)
 displayedText = "Remember to come back here before the button timer runs out!"
 displayedText_size = 1
-
-[node name="trigger_bgMove" parent="." index="71" instance=ExtResource("27_tnyee")]
-position = Vector2(944, -64)
-bgMove_x = 900
-bgMove_y = -1200
 
 [connection signal="area_entered" from="checkpoint/checkpoint/Area2D" to="checkpoint" method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="checkpoint2/checkpoint/Area2D" to="checkpoint2" method="_on_area_2d_area_entered"]

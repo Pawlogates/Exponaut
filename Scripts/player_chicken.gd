@@ -26,12 +26,8 @@ func _ready():
 		%Camera2D.limit_right = $/root/World.cameraLimit_right
 		%Camera2D.limit_bottom = $/root/World.cameraLimit_bottom
 		%Camera2D.limit_top = $/root/World.cameraLimit_top
-	
-	#total collectibles
-	await get_tree().create_timer(0.5, false).timeout
-	total_collectibles = get_tree().get_nodes_in_group("Collectibles").size()
-	
-	
+
+
 	if Globals.mode_scoreAttack:
 		weaponType = "basic"
 	
@@ -733,20 +729,6 @@ func _on_dash_end_slowdown_active_timeout():
 
 
 
-#DEBUG
-
-func debug_refresh():
-	Globals.test = get_tree().get_nodes_in_group("Persist").size() + get_tree().get_nodes_in_group("bonusBox").size()
-	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size() + get_tree().get_nodes_in_group("loadingZone4").size() + get_tree().get_nodes_in_group("loadingZone0").size()
-	Globals.test3 = get_tree().get_nodes_in_group("Collectibles").size()
-	Globals.test4 = Globals.loadingZone_current
-	
-	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size()
-
-#DEBUG END
-
-
-
 
 #SAVE START
 
@@ -774,14 +756,6 @@ func saveState_loaded():
 	
 	player_hitbox.shape.extents = Vector2(20, 56)
 	player_hitbox.position = Vector2(0, 0)
-
-
-
-
-
-
-func _on_debug_refresh_timeout():
-	debug_refresh()
 
 
 

@@ -68,9 +68,7 @@ func _on_area_2d_area_entered(area):
 			#%Node2D.rotation_degrees = rng.randf_range(-60.0, 30.0)
 			#%AnimationPlayer.play("destroyed")
 			break_bonusBox.play()
-			if not immortal:
-				add_child(dead_effect)
-				%AnimatedSprite2D.play("destroyed")
+			
 			
 			Globals.boxBroken.emit()
 		

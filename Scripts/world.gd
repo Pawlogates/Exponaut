@@ -266,7 +266,9 @@ func _ready():
 	
 	await get_tree().create_timer(0.2, false).timeout
 	save_game()
-	SavedData.savedData_save(true)
+	
+	if not regular_level and not shrine_level:
+		SavedData.savedData_save(true)
 	
 	quickLoad_blocked = true
 	$QuickloadLimiter.start()
@@ -316,15 +318,6 @@ func load_saved_progress_overworld():
 		%ambience.stream = SavedData.saved_ambience_file
 		if SavedData.saved_ambience_isPlaying:
 			%ambience.play()
-
-
-@onready var fps = %fps
-@onready var test = %test
-@onready var test2 = %test2
-@onready var test3 = %test3
-@onready var test4 = %test4
-
-var debugToggle = false
 
 
 
@@ -418,58 +411,7 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("restart"):
 		retry()
-	
-	
-	
-	
-	
-	
-	#DEBUG
-	
-	if Input.is_action_just_pressed("show_debugInfo"):
-		print("clicked")
-		if debugToggle:
-			%fps.visible = false
-			%test.visible = false
-			%test2.visible = false
-			%test3.visible = false
-			%test4.visible = false
-			debugToggle = false
-			get_tree().set_debug_collisions_hint(false)
-			if $/root/World.player.weaponType == "none":
-				$/root/World.player.weaponType = "basic"
-		
-		else:
-			%fps.visible = true
-			%test.visible = true
-			%test2.visible = true
-			%test3.visible = true
-			%test4.visible = true
-			debugToggle = true
-			get_tree().set_debug_collisions_hint(true) 
-			if $/root/World.player.weaponType == "none":
-				$/root/World.player.weaponType = "basic"
-		
-		
-		if Input.is_action_pressed("move_UP"):
-			Globals.debug_mode = true
-		if Input.is_action_pressed("move_DOWN"):
-			Globals.debug_mode = false
-		if Input.is_action_pressed("move_L"):
-			if not debug_bg_deleted:
-				debug_bg_deleted = true
-				%bg_current.queue_free()
-				%bg_previous.queue_free()
-		if Input.is_action_pressed("move_R"):
-			Globals.delete_saves = true
-			
-	
-	
-	
-	
-	if Input.is_action_just_pressed("night_toggle"):
-		night_tileset_toggle()
-	
+
 
 #MAIN END
 
@@ -831,29 +773,10 @@ func saved_from_outside():
 
 
 func _on_debug_refresh_timeout():
-	fps.text = str("fps: ", Engine.get_frames_per_second())
-	test.text = str("Total persistent objects present: ", Globals.test)
-	test2.text = str("Total collectibles: ", Globals.test2)
-	test3.text = str("Current level's area_ID: ", Globals.test3)
-	test4.text = str("Debug value message: ", Globals.test4)
+	%"Debug Screen".refresh_debugInfo()
 	
-	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.test2)
-	
-	Globals.inventory_selectedItem = 1
-	
-	if Globals.debug_mode:
-		if player.weaponType == "none":
-			player.weaponType = "basic"
-		if player.secondaryWeaponType == "none":
-			player.secondaryWeaponType = "basic"
-		player.get_node("%attack_cooldown").wait_time = 0.2
-		player.get_node("%secondaryAttack_cooldown").wait_time = 0.2
-	
-	
-	#for teleporter in get_tree().get_nodes_in_group("teleporter"):
-		#print(teleporter.get_groups())
-		
-
+	Globals.collected_collectibles = Globals.collectibles_in_this_level - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
+	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.collectibles_in_this_level)
 
 
 
@@ -875,36 +798,36 @@ func key_collected():
 
 #NIGHT/DAY TIME
 
-func night_tileset_toggle():
-	if night_toggle:
-		night_toggle = false
-		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
-		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 0.8
-			
-	else:
-		night_toggle = true
-		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
-		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 1.0
+#func night_tileset_toggle():
+	#if night_toggle:
+		#night_toggle = false
+		#%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
+		#%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
+		#for object in get_tree().get_nodes_in_group("Persist"):
+			#object.modulate.r = 0.8
+		#for object in get_tree().get_nodes_in_group("player"):
+			#object.modulate.r = 0.8
+		#for object in get_tree().get_nodes_in_group("button_block"):
+			#object.modulate.r = 0.8
+		#for object in get_tree().get_nodes_in_group("button"):
+			#object.modulate.r = 0.8
+		#for object in get_tree().get_nodes_in_group("bonusBox"):
+			#object.modulate.r = 0.8
+			#
+	#else:
+		#night_toggle = true
+		#%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
+		#%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
+		#for object in get_tree().get_nodes_in_group("Persist"):
+			#object.modulate.r = 1.0
+		#for object in get_tree().get_nodes_in_group("player"):
+			#object.modulate.r = 1.0
+		#for object in get_tree().get_nodes_in_group("button_block"):
+			#object.modulate.r = 1.0
+		#for object in get_tree().get_nodes_in_group("button"):
+			#object.modulate.r = 1.0
+		#for object in get_tree().get_nodes_in_group("bonusBox"):
+			#object.modulate.r = 1.0
 
 
 
@@ -1211,4 +1134,3 @@ func last_area_filePath_save():
 
 func reassign_player():
 	player = get_tree().get_first_node_in_group("player")
-	

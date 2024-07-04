@@ -1,7 +1,6 @@
-[gd_scene load_steps=45 format=3 uid="uid://brqh4wo057162"]
+[gd_scene load_steps=44 format=3 uid="uid://brqh4wo057162"]
 
-[ext_resource type="Script" path="res://Scripts/player_chicken.gd" id="1_pfsje"]
-[ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="2_x558a"]
+[ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/Sprites_player.png" id="2_x558a"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="3_iyd42"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="4_0lutv"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_xay3t"]
@@ -360,7 +359,6 @@ collision_layer = 2
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 safe_margin = 0.1
-script = ExtResource("1_pfsje")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)

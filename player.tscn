@@ -444,9 +444,27 @@ collision_mask = 0
 visible = false
 shape = SubResource("RectangleShape2D_x01vt")
 
-[node name="RayCast2D" type="RayCast2D" parent="."]
+[node name="raycast_top" type="RayCast2D" parent="."]
 position = Vector2(0, -56)
-target_position = Vector2(32, 0)
+target_position = Vector2(40, 0)
+hit_from_inside = true
+
+[node name="raycast_bottom" type="RayCast2D" parent="."]
+position = Vector2(0, 56)
+target_position = Vector2(40, 0)
+hit_from_inside = true
+
+[node name="raycast_middle" type="RayCast2D" parent="."]
+target_position = Vector2(40, 0)
+hit_from_inside = true
+
+[node name="stuckCheck" type="Timer" parent="."]
+wait_time = 6.0
+autostart = true
+
+[node name="stuckCheck_confirm" type="Timer" parent="stuckCheck"]
+wait_time = 6.0
+one_shot = true
 
 [node name="dash_timer" type="Timer" parent="."]
 wait_time = 0.5
@@ -494,10 +512,6 @@ libraries = {
 "": SubResource("AnimationLibrary_wupbq")
 }
 
-[node name="DEBUG refresh" type="Timer" parent="."]
-wait_time = 3.0
-autostart = true
-
 [node name="jumpBuildVelocity" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.1
@@ -541,11 +555,12 @@ autostart = true
 [connection signal="body_entered" from="Player_hitbox_tileDetection" to="." method="_on_player_hitbox_tile_detection_body_entered"]
 [connection signal="body_exited" from="Player_hitbox_tileDetection" to="." method="_on_player_hitbox_tile_detection_body_exited"]
 [connection signal="area_entered" from="Player_hitbox_main" to="." method="_on_player_hitbox_main_area_entered"]
+[connection signal="timeout" from="stuckCheck" to="." method="_on_stuck_check_timeout"]
+[connection signal="timeout" from="stuckCheck/stuckCheck_confirm" to="." method="_on_stuck_check_confirm_timeout"]
 [connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
 [connection signal="timeout" from="dash_timer/dash_speedBlock" to="." method="_on_dash_speed_block_timeout"]
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_delay" to="." method="_on_dash_end_slowdown_timeout"]
 [connection signal="timeout" from="dash_timer/dash_endSlowdown_active" to="." method="_on_dash_end_slowdown_active_timeout"]
-[connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]
 [connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
 [connection signal="timeout" from="dust_effect" to="." method="_on_dust_effect_timeout"]
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]

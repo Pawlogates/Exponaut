@@ -3,6 +3,9 @@ extends Control
 var itemDisplay_scene = load("res://quickselect_itemDisplay.tscn")
 var previous_state = -1
 
+@onready var player = $/root/World/Player
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Globals.weapon_collected.connect(show_weapon)
@@ -15,10 +18,12 @@ func _ready():
 func _process(delta):
 	#print("state:" + str(unlock_state_secondaryWeapon_basic))
 	if Input.is_action_pressed("quickselect"):
+		player.block_movement = true
 		position.y = lerp(position.y, 345.0, 5 * delta)
 		scale = lerp(scale, Vector2(1.0, 1.0), 5 * delta)
 	
 	else:
+		player.block_movement = false
 		position.y = lerp(position.y, 2000.0, delta)
 		scale = lerp(scale, Vector2(0.01, 0.01), 10 * delta)
 

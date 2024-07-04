@@ -30,7 +30,6 @@ func _ready():
 	
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
-	total_collectibles = get_tree().get_nodes_in_group("Collectibles").size()
 	
 	
 	if Globals.mode_scoreAttack:
@@ -54,13 +53,6 @@ func _ready():
 
 
 
-func handle_flight(delta):
-	if Input.is_action_pressed("jump") or Input.is_action_pressed("move_UP"):
-		velocity.y = move_toward(velocity.y, JUMP_VELOCITY, delta * 300)
-	elif Input.is_action_pressed("move_DOWN"):
-		velocity.y = move_toward(velocity.y, -JUMP_VELOCITY, delta * 300)
-	else:
-		velocity.y = move_toward(velocity.y, 0, delta * 600)
 
 
 #MAIN START
@@ -731,20 +723,6 @@ func _on_dash_end_slowdown_active_timeout():
 
 
 
-#DEBUG
-
-func debug_refresh():
-	Globals.test = get_tree().get_nodes_in_group("Persist").size() + get_tree().get_nodes_in_group("bonusBox").size()
-	Globals.test2 = get_tree().get_nodes_in_group("loadingZone1").size() + get_tree().get_nodes_in_group("loadingZone2").size() + get_tree().get_nodes_in_group("loadingZone3").size() + get_tree().get_nodes_in_group("loadingZone4").size() + get_tree().get_nodes_in_group("loadingZone0").size()
-	Globals.test3 = get_tree().get_nodes_in_group("Collectibles").size()
-	Globals.test4 = Globals.loadingZone_current
-	
-	Globals.collected_collectibles = total_collectibles - get_tree().get_nodes_in_group("Collectibles").size()
-
-#DEBUG END
-
-
-
 
 #SAVE START
 
@@ -776,10 +754,6 @@ func saveState_loaded():
 
 
 
-
-
-func _on_debug_refresh_timeout():
-	debug_refresh()
 
 
 

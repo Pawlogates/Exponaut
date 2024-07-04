@@ -3,17 +3,17 @@
 [ext_resource type="Shader" path="res://Themes/palette_changeShader.gdshader" id="1_5mctv"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
-colors = PackedColorArray(0, 0, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
+colors = PackedColorArray(0, 1, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
 gradient = SubResource("Gradient_pk7t1")
 
 [resource]
 shader = ExtResource("1_5mctv")
-shader_parameter/disableProcessing = null
+shader_parameter/disableProcessing = false
 shader_parameter/modulate = Color(1, 1, 1, 1)
 shader_parameter/cycleMode = 2
-shader_parameter/cycleRate = 10.0
+shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
 shader_parameter/palette = SubResource("GradientTexture2D_ie5v4")

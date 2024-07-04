@@ -100,6 +100,7 @@ var test3 = 0
 var test4 = "none"
 
 var collected_collectibles = 0
+var collectibles_in_this_level = 0
 
 
 var inventory_selectedItem = 1
