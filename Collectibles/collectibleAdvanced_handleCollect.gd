@@ -1,23 +1,12 @@
 extends CharacterBody2D
 
-
 var starParticleScene = preload("res://particles_special.tscn")
 var starParticle2Scene = preload("res://particles_star.tscn")
 var orbParticleScene = preload("res://particles_special2_multiple.tscn")
-#var starParticle = starParticleScene.instantiate()
-#var starParticle2 = starParticle2Scene.instantiate()
-#var orbParticle = orbParticleScene.instantiate()
-
 var hit_effectScene = preload("res://hit_effect.tscn")
-
 var splashParticleScene = preload("res://particles_water_entered.tscn")
-#var splashParticle = splashParticleScene.instantiate()
-
 var effect_dustScene = preload("res://effect_dust.tscn")
-#var effect_dust = effect_dustScene.instantiate()
-
 var feathersParticleScene = preload("res://particles_feathers.tscn")
-#var feathersParticle = feathersParticleScene.instantiate()
 
 var start_pos = global_position
 
@@ -365,7 +354,7 @@ func _on_collectible_entered(body):
 			%AnimatedSprite2D.modulate.a = 0.5
 			
 		elif body.is_in_group("player_projectile") and not collected:
-			if not body.upward_attack:
+			if not body.upward_shot:
 				velocity.y = -200
 				velocity.x = 400 * body.direction
 			else:

@@ -3,10 +3,13 @@
 [ext_resource type="Shader" path="res://Themes/palette_changeShader.gdshader" id="1_5mctv"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
-colors = PackedColorArray(0, 1, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
+offsets = PackedFloat32Array(0, 0.497797, 1)
+colors = PackedColorArray(1, 1, 0, 1, 1, 0.482353, 0, 1, 1, 0.619608, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
 gradient = SubResource("Gradient_pk7t1")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
 
 [resource]
 shader = ExtResource("1_5mctv")

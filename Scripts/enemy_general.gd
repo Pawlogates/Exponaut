@@ -212,6 +212,8 @@ func randomize_everything():
 @export var bonusBox_spread_position = true
 @export var bonusBox_requiresVelocity = true
 @export var bonusBox_minimalVelocity = 100
+@export var bonusBox_giveVelocity = -800
+@export var bonusBox_giveVelocity_jump = -1200
 
 @export var particles_star = true
 @export var particles_golden = true
@@ -283,12 +285,15 @@ func _on_area_2d_area_entered(area):
 				return
 				
 			if Input.is_action_pressed("jump"):
-				area.get_parent().velocity.y = -600
+				area.get_parent().velocity.y = bonusBox_giveVelocity_jump
 				spawn_particles()
 				
 			else:
-				area.get_parent().velocity.y = -300
+				area.get_parent().velocity.y = bonusBox_giveVelocity
 				spawn_particles()
+			
+			if immortal:
+				return
 			
 			handle_damage(area)
 	
@@ -382,7 +387,7 @@ func handle_damage(area):
 		if onDeath_spawnObject:
 			call_deferred("spawnObjects")
 		if toggle_skull_blocks_onDeath:
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "skull_block", "skull_block_toggle")
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 		if onDeath_disappear_instantly:
 			await get_tree().create_timer(1, false).timeout
 			queue_free()

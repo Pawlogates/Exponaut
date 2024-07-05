@@ -1,8 +1,8 @@
 [gd_scene load_steps=22 format=3 uid="uid://dunsjy0e6r37a"]
 
-[ext_resource type="Script" path="res://Collectibles/bonus_box_general.gd" id="1_8em4h"]
-[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="2_hhjqm"]
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="3_halsg"]
+[ext_resource type="Script" path="res://Collectibles/bonus_box_general.gd" id="1_y1iop"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="2_21e3k"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="3_jdd3p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqmyr"]
 size = Vector2(48, 48)
@@ -223,51 +223,51 @@ _data = {
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ot4fj"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(128, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xcyth"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(192, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_strb8"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(256, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_64iq2"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(320, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_olf0f"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(384, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_abbyy"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(448, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q1kxn"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(512, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b8pxi"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(576, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_788ub"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(640, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2ej7p"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(704, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_p21yp"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(128, 768, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w5rxw"]
-atlas = ExtResource("3_halsg")
+atlas = ExtResource("3_jdd3p")
 region = Rect2(768, 768, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bd3tn"]
@@ -319,10 +319,16 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="skull_switch" type="CharacterBody2D" groups=["skull_switch"]]
+[node name="toggleSwitch" type="CharacterBody2D" groups=["toggleSwitch"]]
 z_index = 1
 collision_layer = 0
-script = ExtResource("1_8em4h")
+script = ExtResource("1_y1iop")
+onDeath_spawn_items = false
+onDeath_rotate_sprite = false
+onDeath_play_anim = false
+onDeath_play_spriteAnim = true
+onDeath_spawn_deadEffect = true
+onDeath_toggle_skullBlocks = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
@@ -346,7 +352,7 @@ libraries = {
 
 [node name="break_bonusBox" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("2_hhjqm")
+stream = ExtResource("2_21e3k")
 
 [node name="sprite_root" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -355,8 +361,7 @@ position = Vector2(0, -7)
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="sprite_root"]
 unique_name_in_owner = true
 sprite_frames = SubResource("SpriteFrames_bd3tn")
-animation = &"idle"
-frame_progress = 0.244073
+animation = &"destroyed"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 modulate = Color(1, 1, 1, 0.0980392)

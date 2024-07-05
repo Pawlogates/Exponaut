@@ -1,9 +1,10 @@
-[gd_scene load_steps=29 format=3 uid="uid://d0vqhficbarvl"]
+[gd_scene load_steps=30 format=3 uid="uid://d0vqhficbarvl"]
 
 [ext_resource type="Script" path="res://debug_screen.gd" id="1_13w6c"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="1_22ty4"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="3_hwihr"]
 [ext_resource type="Script" path="res://interactive_button.gd" id="4_fmwik"]
+[ext_resource type="PackedScene" uid="uid://cg5jpj6df864v" path="res://debug_shortcut_list_root.tscn" id="5_sm0kv"]
 
 [sub_resource type="Shader" id="Shader_mtegs"]
 code = "shader_type canvas_item;
@@ -238,7 +239,7 @@ gradient = SubResource("Gradient_lm5el")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_tpp3l"]
 shader = SubResource("Shader_h4ft5")
 shader_parameter/disableProcessing = false
-shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/modulate = Color(1, 0, 0, 1)
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
@@ -254,7 +255,7 @@ gradient = SubResource("Gradient_038n8")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_nd6gq"]
 shader = SubResource("Shader_h4ft5")
 shader_parameter/disableProcessing = false
-shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/modulate = Color(1, 0.588235, 0, 1)
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
@@ -305,7 +306,7 @@ gradient = SubResource("Gradient_oxbnt")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p305y"]
 shader = SubResource("Shader_h4ft5")
 shader_parameter/disableProcessing = false
-shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/modulate = Color(1, 1, 0, 1)
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
@@ -324,8 +325,10 @@ unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.588235)
 material = SubResource("ShaderMaterial_r5vru")
 layout_mode = 0
-offset_right = 960.0
-offset_bottom = 1080.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 936.0
+offset_bottom = 1056.0
 texture = SubResource("AtlasTexture_1rw7s")
 
 [node name="Debug Info" type="BoxContainer" parent="Debug Info Root"]
@@ -352,6 +355,9 @@ layout_mode = 2
 offset_right = 128.0
 offset_bottom = 32.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 text = "fps"
 
 [node name="CenterContainerTest" type="Control" parent="Debug Info Root/Debug Info"]
@@ -365,6 +371,9 @@ layout_mode = 2
 offset_right = 168.0
 offset_bottom = 24.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
 text = "debug 1"
 
@@ -379,6 +388,9 @@ layout_mode = 2
 offset_right = 168.0
 offset_bottom = 24.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
 text = "debug 2"
 
@@ -393,6 +405,9 @@ layout_mode = 2
 offset_right = 168.0
 offset_bottom = 24.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
 text = "debug 3"
 
@@ -407,6 +422,9 @@ layout_mode = 2
 offset_right = 168.0
 offset_bottom = 24.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
 text = "debug 3"
 
@@ -421,6 +439,9 @@ layout_mode = 2
 offset_right = 168.0
 offset_bottom = 24.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
 text = "debug 3"
 
@@ -435,6 +456,9 @@ layout_mode = 2
 offset_right = 168.0
 offset_bottom = 24.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
 text = "debug 3"
 
@@ -449,6 +473,9 @@ layout_mode = 2
 offset_right = 168.0
 offset_bottom = 24.0
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
 text = "debug 3"
 
@@ -457,9 +484,10 @@ unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.588235)
 material = SubResource("ShaderMaterial_tpp3l")
 layout_mode = 0
-offset_left = 960.0
-offset_right = 1920.0
-offset_bottom = 96.0
+offset_left = 984.0
+offset_top = 24.0
+offset_right = 1896.0
+offset_bottom = 120.0
 texture = SubResource("AtlasTexture_1rw7s")
 expand_mode = 1
 
@@ -498,6 +526,9 @@ offset_top = 20.0
 offset_bottom = 52.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 16
 text = "set night"
 horizontal_alignment = 1
@@ -526,6 +557,9 @@ offset_top = 20.0
 offset_bottom = 52.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 14
 text = "set night 2"
 horizontal_alignment = 1
@@ -554,6 +588,9 @@ offset_top = 20.0
 offset_bottom = 52.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 14
 text = "set night 3"
 horizontal_alignment = 1
@@ -581,6 +618,9 @@ offset_top = 12.0
 offset_bottom = 79.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 16
 text = "delete all save files"
 horizontal_alignment = 1
@@ -609,6 +649,9 @@ offset_top = 8.0
 offset_bottom = 75.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 12
 text = "delete background layers"
 horizontal_alignment = 1
@@ -619,10 +662,10 @@ unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.588235)
 material = SubResource("ShaderMaterial_nd6gq")
 layout_mode = 0
-offset_left = 960.0
-offset_top = 96.0
-offset_right = 1920.0
-offset_bottom = 192.0
+offset_left = 984.0
+offset_top = 120.0
+offset_right = 1896.0
+offset_bottom = 216.0
 texture = SubResource("AtlasTexture_1rw7s")
 expand_mode = 1
 
@@ -661,6 +704,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 10
 text = "basic"
 horizontal_alignment = 1
@@ -706,6 +752,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 12
 text = "veryFast speed"
 horizontal_alignment = 1
@@ -751,6 +800,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 10
 text = "ice"
 horizontal_alignment = 1
@@ -796,6 +848,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 10
 text = "fire"
 horizontal_alignment = 1
@@ -841,6 +896,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 8
 text = "destructive fast speed"
 horizontal_alignment = 1
@@ -886,6 +944,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 12
 text = "short shotDelay"
 horizontal_alignment = 1
@@ -931,6 +992,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 10
 text = "secondary basic"
 horizontal_alignment = 1
@@ -976,6 +1040,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 10
 text = "secondary fast"
 horizontal_alignment = 1
@@ -1021,6 +1088,9 @@ offset_top = 48.0
 offset_bottom = 80.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 10
 text = "not set"
 horizontal_alignment = 1
@@ -1047,10 +1117,10 @@ unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0.588235)
 material = SubResource("ShaderMaterial_p305y")
 layout_mode = 0
-offset_left = 960.0
-offset_top = 192.0
-offset_right = 1920.0
-offset_bottom = 288.0
+offset_left = 984.0
+offset_top = 216.0
+offset_right = 1896.0
+offset_bottom = 312.0
 texture = SubResource("AtlasTexture_1rw7s")
 expand_mode = 1
 
@@ -1088,6 +1158,9 @@ offset_top = 8.0
 offset_bottom = 75.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 12
 text = "reset currently selected inventory item"
 horizontal_alignment = 1
@@ -1116,6 +1189,9 @@ offset_top = 14.0
 offset_bottom = 81.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 14
 text = "set short shot delay"
 horizontal_alignment = 1
@@ -1144,10 +1220,114 @@ offset_top = 14.0
 offset_bottom = 81.0
 grow_horizontal = 2
 theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 14
 text = "set long shot delay"
 horizontal_alignment = 1
 autowrap_mode = 2
+
+[node name="Debug Buttons Button9" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_debug_mode" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="toggle_debug_mode" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "toggle debug mode"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button10" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_immortal" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="set_immortal" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "set immortal"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button11" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_magic_projectiles" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="toggle_magic_projectiles" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "toggle magic projectiles"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Shortcut List Root" parent="." instance=ExtResource("5_sm0kv")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 984.0
+offset_top = 568.0
+offset_right = 1896.0
+offset_bottom = 1056.0
 
 [node name="refresh_debugInfo" type="Timer" parent="."]
 wait_time = 0.4
@@ -1156,6 +1336,114 @@ autostart = true
 [node name="refresh_debugInfo_values" type="Timer" parent="."]
 wait_time = 4.0
 autostart = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 944.0
+offset_bottom = 32.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 32.0
+offset_bottom = 1064.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 16.0
+offset_top = 1048.0
+offset_right = 944.0
+offset_bottom = 1064.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 928.0
+offset_top = 16.0
+offset_right = 944.0
+offset_bottom = 1064.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 32.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 16.0
+offset_right = 992.0
+offset_bottom = 320.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 304.0
+offset_right = 1904.0
+offset_bottom = 320.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 560.0
+offset_right = 1904.0
+offset_bottom = 576.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 560.0
+offset_right = 992.0
+offset_bottom = 1064.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect11" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 1048.0
+offset_right = 1904.0
+offset_bottom = 1064.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect12" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 1888.0
+offset_top = 560.0
+offset_right = 1904.0
+offset_bottom = 1064.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 1888.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 320.0
+color = Color(0, 0, 0, 1)
 
 [connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" method="_on_focus_entered"]
 [connection signal="focus_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" method="_on_focus_exited"]
@@ -1242,5 +1530,20 @@ autostart = true
 [connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" method="_on_mouse_exited"]
 [connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="." method="_on_set_long_shot_delay_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="." method="_on_toggle_debug_mode_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="." method="_on_set_immortal_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="." method="_on_toggle_magic_projectiles_pressed"]
 [connection signal="timeout" from="refresh_debugInfo" to="." method="refresh_debugInfo"]
 [connection signal="timeout" from="refresh_debugInfo_values" to="." method="refresh_debugInfo_values"]

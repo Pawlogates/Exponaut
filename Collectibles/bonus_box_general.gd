@@ -12,10 +12,14 @@ var dead_effect_scene = preload("res://dead_effect.tscn")
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var destroyed = false
-
+var start_hp = 1
+var start_item_amount = 3
 
 
 #Properties
+@export var immortal = false
+@export var onDeath_reset = false
+@export var onDeath_reset_spawn_items_amount = true
 @export var hp = 1
 @export var SPEED = 250.0
 @export var bounce_min_velocity = 100
@@ -23,11 +27,16 @@ var destroyed = false
 @export var bounceJump_give_velocity = -600
 @export var floating = false
 @export var onDeath_spawn_items = true
-@export var itemAmount = 3
+@export var item_amount = 3
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
 @export var onDeath_rotate_sprite = true
 @export var onDeath_play_anim = true
+@export var onDeath_play_spriteAnim = false
 @export var onDeath_spawn_deadEffect = false
+@export var onHit_toggle_skullBlocks = false
+@export var onDeath_toggle_skullBlocks = false
+@export var hit_cooldown = false
+@export var hit_cooldown_time = 0.8
 #!Properties
 
 func _physics_process(delta):
@@ -46,6 +55,10 @@ func _physics_process(delta):
 
 #AREA ENTERED
 func _on_area_2d_area_entered(area):
+	if not active:
+		print("BonusBox entered, but it was inactive.")
+		return
+	
 	if area.is_in_group("player") and not area.get_parent().is_in_group("weightless"):
 		if not destroyed:
 			if player_bounce(area):
@@ -69,24 +82,42 @@ func _on_area_2d_area_entered(area):
 
 
 func reduce_hp(damageValue):
-	hp -= damageValue
-
+	if hit_cooldown:
+		active = false
+		$active_cooldown.start()
+		
+	if not immortal:
+		hp -= damageValue
+		
+	if onHit_toggle_skullBlocks:
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
+	
 func destroy():
-	destroyed = true
+	if not onDeath_reset:
+		destroyed = true
+		
+		if onDeath_play_spriteAnim:
+			%AnimatedSprite2D.play("destroyed")
+		if onDeath_rotate_sprite:
+			%sprite_root.rotation_degrees = rng.randf_range(-60.0, 30.0)
+		if onDeath_play_anim:
+			%AnimationPlayer.play("destroyed")
+		if onDeath_spawn_deadEffect:
+			var dead_effect = dead_effect_scene.instantiate()
+			add_child(dead_effect)
+	else:
+		hp = start_hp
+		if onDeath_reset_spawn_items_amount:
+			item_amount = start_item_amount
+	
+	
+	if onDeath_toggle_skullBlocks:
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleSwitch", "toggleBlock_toggle")
 	
 	if onDeath_spawn_items:
 		call_deferred("spawn_items")
-	if onDeath_rotate_sprite:
-		%sprite_root.rotation_degrees = rng.randf_range(-60.0, 30.0)
-	if onDeath_play_anim:
-		%AnimationPlayer.play("destroyed")
 	
 	break_bonusBox.play()
-	
-	if onDeath_spawn_deadEffect:
-		var dead_effect = dead_effect_scene.instantiate()
-		add_child(dead_effect)
-		
 	Globals.boxBroken.emit()
 	
 	var starParticle = starParticleScene.instantiate()
@@ -109,8 +140,8 @@ func player_bounce(area):
 
 
 func spawn_items():
-	while itemAmount > 0:
-		itemAmount -= 1
+	while item_amount > 0:
+		item_amount -= 1
 		spawn_item()
 		
 	
@@ -165,6 +196,13 @@ func offScreen_load():
 	$Area2D.set_monitoring(true)
 
 func _ready():
+	%AnimatedSprite2D.play("idle")
+	if hit_cooldown:
+		$active_cooldown.wait_time = hit_cooldown_time
+	
+	start_hp = hp
+	start_item_amount = item_amount
+	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -182,13 +220,21 @@ func _ready():
 #SAVE START
 func save():
 	var save_dict = {
-		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
 		"pos_y" : position.y,
 		"destroyed" : destroyed,
+		"hp" : hp,
+		"start_hp" : start_hp,
 		
 	}
 	return save_dict
 #SAVE END
+
+
+
+var active = true
+
+func _on_active_cooldown_timeout():
+	active = true

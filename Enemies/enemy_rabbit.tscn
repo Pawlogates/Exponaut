@@ -376,13 +376,13 @@ position = Vector2(0, -16)
 collision_layer = 0
 floor_max_angle = 1.0472
 script = ExtResource("1_scv7c")
-SPEED = 300
 ACCELERATION_MULTIPLIER = 0.5
 movementType = "followPlayerX_whenSpotted"
 scoreValue = 100
 turnOnWall = true
 patroling = true
 afterDelay_changeDirection = true
+immortal = true
 enable_generalTimers = false
 enemy_type = "rabbit"
 

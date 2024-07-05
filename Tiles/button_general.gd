@@ -1,10 +1,7 @@
 extends StaticBody2D
 
-
-
 var pressed = false
 @export var button_type = "none"
-
 
 func _on_area_2d_area_entered(area):
 	
@@ -25,11 +22,9 @@ func _on_area_2d_area_entered(area):
 		if button_type == "red":
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "redButton_pressed")
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button", "redButton_pressALL")
-	
-	
+		
+		
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key", "on_button_press")
-
-
 
 
 func _on_timer_timeout():
@@ -72,4 +67,3 @@ func redButton_pressALL():
 		%AnimationPlayer.play("button_pressed_DOWN")
 		pressed = true
 		%Timer.start()
-		

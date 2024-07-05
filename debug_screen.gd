@@ -7,6 +7,8 @@ extends Control
 @onready var test4 = %test4
 
 var debugToggle = false
+var toggle_debug_mode = false
+var toggle_debug_magic_projectiles = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -18,17 +20,21 @@ func _ready():
 func _process(_delta):
 	if Input.is_action_just_pressed("show_debugInfo"):
 		if not debugToggle:
-			visible = true
 			debugToggle = true
+			visible = true
+			
 			get_tree().set_debug_collisions_hint(true)
+			refresh_debugInfo()
+			refresh_debugInfo_values()
 			
 			$/root/World.player.block_movement = true
 		
 		else:
-			visible = false
 			debugToggle = false
+			visible = false
+			
 			get_tree().set_debug_collisions_hint(false) 
-		
+			
 			$/root/World.player.block_movement = false
 		
 		
@@ -248,3 +254,51 @@ func _on_set_short_shot_delay_pressed():
 func _on_set_long_shot_delay_pressed():
 	$/root/World.player.get_node("%attack_cooldown").wait_time = 1
 	$/root/World.player.get_node("%secondaryAttack_cooldown").wait_time = 1
+
+
+func _on_toggle_debug_mode_pressed():
+	if not toggle_debug_mode:
+		toggle_debug_mode = true
+		
+		Globals.debug_mode = true
+		
+		Globals.infoSign_current_text = str("Debug mode has been activated!")
+		Globals.infoSign_current_size = 0
+		Globals.info_sign_touched.emit()
+		
+	else:
+		toggle_debug_mode = false
+		
+		Globals.debug_mode = false
+		
+		Globals.infoSign_current_text = str("Debug mode has been disabled :(")
+		Globals.infoSign_current_size = 0
+		Globals.info_sign_touched.emit()
+
+
+func _on_set_immortal_pressed():
+	Globals.playerHP = 99999
+	
+	#$Player_hitbox_main.monitoring = false
+	#$Player_hitbox_exact.monitoring = false
+	#$Player_hitbox_main.monitorable = false
+	#$Player_hitbox_exact.monitorable = false
+
+func _on_toggle_magic_projectiles_pressed():
+	if not toggle_debug_magic_projectiles:
+		toggle_debug_magic_projectiles = true
+		
+		Globals.debug_magic_projectiles = true
+		
+		Globals.infoSign_current_text = str("Magic projectiles have been activated! Now they will respawn at player position instead of being removed. If you end up with too many at once, just toggle this option again.")
+		Globals.infoSign_current_size = 3
+		Globals.info_sign_touched.emit()
+		
+	else:
+		toggle_debug_magic_projectiles = false
+		
+		Globals.debug_magic_projectiles = false
+		
+		Globals.infoSign_current_text = str("Magic projectiles are no more...")
+		Globals.infoSign_current_size = 0
+		Globals.info_sign_touched.emit()

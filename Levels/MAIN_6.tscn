@@ -1,0 +1,61 @@
+[gd_scene load_steps=9 format=3 uid="uid://bl3lbxr2tra35"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_hasmk"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_51ib1"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tiles/tileset_main_precise.tscn" id="3_es88a"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="4_g2dga"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="5_kjbeh"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="6_m61sf"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="7_5qfpc"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="8_cfkvd"]
+
+[node name="World" instance=ExtResource("1_hasmk")]
+playerStartHP = 3
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_51ib1")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(131070, 65536, 8, 131071, 131072, 8, 65536, 327680, 8, 65537, 0, 8, 65538, 65536, 8, 65539, 0, 8, 65534, 262144, 8, -2, 196608, 8, -65538, 327680, 8, -131074, 65536, 8, -196610, 262144, 8, -262146, 262144, 8, -327682, 327680, 8, -393218, 65536, 8, -458754, 262144, 8, -524290, 196608, 8, -589826, 65536, 8, -655362, 196608, 8, 65547, 327680, 8, 65548, 196608, 8, 65549, 262144, 8, 65550, 262144, 8, 65546, 196608, 8, 65545, 65536, 8, 65541, 327680, 8, 65540, 327680, 8, 65557, 196608, 8, 65558, 327680, 8, 65556, 0, 8, 65551, 196608, 8, 65552, 327680, 8, 65553, 65536, 8, 65554, 196608, 8, 65555, 262144, 8, 22, 65536, 8, 23, 262144, 8, 24, 0, 8, 25, 131072, 8, 26, 196608, 8, 27, 131072, 8, 28, 327680, 8, 29, 131072, 8, 30, 65536, 8, 31, 196608, 8, 32, 262144, 8, -196586, 131072, 8, -262122, 0, 8, -327658, 65536, 8, -393194, 327680, 8, -196595, 0, 10, -851953, 196608, 8, -851943, 327680, 8, -786407, 0, 8, -720871, 0, 8, -655335, 196608, 8, -983025, 262144, 8, -917489, 327680, 8, -983024, 65536, 8, -983023, 327680, 8, -983022, 0, 8, -983021, 131072, 8, -983020, 327680, 8, -655340, 655360, 7, -983019, 196608, 8, -655339, 0, 7, -983018, 196608, 8, -655338, 262144, 8, -589802, 327680, 8, -983017, 131072, 8, -655337, 196608, 8, -983016, 0, 8, -655336, 131072, 8, -983015, 196608, 8, -917479, 262144, 8, -524266, 327680, 8, -458730, 0, 8, -196594, 524288, 3)
+layer_1/tile_data = PackedInt32Array(18, 851968, 12, 17, 851968, 12, 16, 851968, 12, 15, 851968, 12, 14, 851968, 12, 13, 851968, 12, 12, 851968, 12, 4, 786432, 12, 11, 851968, 12, 10, 851968, 12, 9, 851968, 12, 8, 851968, 12, 7, 851968, 12, 6, 851968, 12, 5, 851968, 12, 19, 851968, 12, 20, 851968, 12, 21, 917504, 12, -131056, 851968, 12, -65520, 851968, 14, -65519, 851968, 14, -65518, 851968, 14, -131055, 851968, 12, -131054, 851968, 12, -131053, 851968, 12, -131052, 851968, 12, -131051, 851968, 12, -131050, 851968, 12, -131049, 917504, 12, -131048, 851968, 13, -131047, 851968, 13, -131046, 851968, 13, -65510, 851968, 14, -65511, 851968, 14, -65512, 851968, 14, -65513, 917504, 14, -65514, 851968, 14, -65515, 851968, 14, -65516, 851968, 14, -65517, 851968, 14, -131059, 786432, 12, -65523, 786432, 14, -131058, 851968, 12, -131057, 851968, 12, -65521, 851968, 14, -65522, 851968, 14, -524268, 589824, 131080, -458732, 589824, 131080, -393196, 589824, 131080, -327660, 589824, 131080, -262124, 589824, 131080, -196588, 589824, 131080, -196584, 851968, 12, -196585, 786432, 12, -196583, 851968, 12, -196582, 851968, 12, -196581, 851968, 12, -196580, 851968, 12, -196579, 851968, 12, -196578, 851968, 12, -196577, 917504, 12, -131041, 917504, 14, -65508, 917504, 14, -65509, 851968, 14, -131045, 851968, 13, -131044, 851968, 13, -131043, 851968, 14, -131042, 851968, 14, -655340, 589824, 131080, -589804, 589824, 131080)
+
+[node name="tileset_main_precise" parent="." index="1" instance=ExtResource("3_es88a")]
+
+[node name="tileset_objects" parent="." index="2" instance=ExtResource("4_g2dga")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(65542, 0, 3080192, 65543, 0, 3080192, 65544, 0, 3080192, 19, 0, 8519680, -131050, 0, 3080192, -65514, 0, 3145728, -131045, 0, 2293760, -65509, 0, 2293760, -131058, 0, 851968, -131057, 0, 851968, -131056, 0, 851968, -131055, 0, 851968, -131054, 0, 851968, -131053, 0, 851968, -131052, 0, 851968, -131051, 0, 851968, -131049, 0, 851968, -196585, 0, 851968, -196584, 0, 851968, -196583, 0, 851968, -196582, 0, 851968, -196581, 0, 851968, -196580, 0, 851968, -196579, 0, 851968, -196578, 0, 851968, -196577, 0, 851968, 21, 0, 851968, 20, 0, 851968, 18, 0, 851968, 17, 0, 851968, 16, 0, 851968, 15, 0, 851968, 14, 0, 851968, 13, 0, 851968, 12, 0, 851968, 11, 0, 851968, 10, 0, 851968, 9, 0, 851968, 8, 0, 851968, 4, 0, 851968, 5, 0, 851968, 6, 0, 851968, 7, 0, 851968, -65520, 0, 8650752, -262131, 0, 2949120, -720873, 0, 2424832)
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_kjbeh")]
+unique_name_in_owner = true
+layer_0/tile_data = PackedInt32Array(38, 0, 851968)
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("5_kjbeh")]
+z_index = -5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("5_kjbeh")]
+z_index = 5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="kill_area" parent="." index="15" instance=ExtResource("6_m61sf")]
+position = Vector2(7168, 5184)
+scale = Vector2(320, 1)
+
+[node name="trigger_bgChange" parent="." index="16" instance=ExtResource("7_5qfpc")]
+position = Vector2(-3.05176e-05, -1.52588e-05)
+scale = Vector2(8, 8)
+
+[node name="trigger_bgMove" parent="." index="17" instance=ExtResource("8_cfkvd")]
+scale = Vector2(4, 4)

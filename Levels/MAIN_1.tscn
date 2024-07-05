@@ -61,9 +61,6 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="HUD" parent="." index="11"]
-visible = false
-
 [node name="kill_area" parent="." index="14" instance=ExtResource("5_en76f")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)

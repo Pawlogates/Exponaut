@@ -8,14 +8,14 @@ extends CharacterBody2D
 @export var GRAVITY_SCALE = 1.0
 
 @export var AIR_SLOWDOWN = -400.0
-@export var AIR_ACCELERATION = 1200.0
+@export var AIR_ACCELERATION = 1400.0
 
 @export var flight = false
 
 
+var normal_jump = false
 var air_jump = false
-var just_wall_jumped = false
-var was_on_wall_normal = Vector2.ZERO
+var on_wall_normal = Vector2.ZERO
 
 
 var starParticleScene = preload("res://particles_star.tscn")
@@ -86,7 +86,7 @@ var shooting = false
 var debugMovement = false
 
 var spawn_dust_effect = true
-
+var block_movement = false
 
 
 #AREAS (water, wind, etc.
@@ -106,16 +106,14 @@ func _ready():
 	Globals.player_posX = get_global_position()[0]
 	Globals.player_posY = get_global_position()[1]
 	
-	
 	Globals.saveState_loaded.connect(saveState_loaded)
 		
 	Globals.playerHit1.connect(reduceHp1)
 	Globals.playerHit2.connect(reduceHp2)
 	Globals.playerHit3.connect(reduceHp3)
-			
+	
 	Globals.shot_charged.connect(charged_effect)
 	Globals.shot.connect(cancel_effect)
-	
 	
 	Globals.saved_player_posX = position.x
 	Globals.saved_player_posY = position.y
@@ -137,19 +135,6 @@ func _ready():
 	
 	if Globals.mode_scoreAttack:
 		weaponType = "basic"
-	
-	
-	
-	if Globals.debug_mode:
-		#$Player_hitbox_main.monitoring = false
-		#$Player_hitbox_exact.monitoring = false
-		#$Player_hitbox_main.monitorable = false
-		#$Player_hitbox_exact.monitorable = false
-		
-		await get_tree().create_timer(1, false).timeout
-		Globals.playerHP = 99999
-
-
 
 
 
@@ -184,30 +169,17 @@ func _process(delta):
 	
 	else:
 		apply_gravity(delta)
-		handle_wall_jump()
-		handle_jump(delta)
+		
+		if not handle_jump(delta):
+			handle_wall_jump()
+			
 		handle_acceleration_direction(delta)
 		handle_air_acceleration(delta)
 	
 	#SHOOTING LOGIC
 	handle_shooting()
 	
-	var was_in_air = not is_on_floor()
-	var was_on_floor = is_on_floor()
-	var was_on_wall = is_on_wall_only()
-	
-	if was_on_wall:
-		was_on_wall_normal = get_wall_normal()
-	
-	var just_left_ledge = was_on_floor and not is_on_floor() and velocity.y >= 0
-	if just_left_ledge:
-		jump_leniency.start()
-	
-	var just_left_wall = was_on_wall and not is_on_wall()
-	if just_left_wall:
-		wall_jump_leniency.start()
-	
-	#DASH LOGIC
+	#DASHING LOGIC
 	handle_dash()
 	
 	#CROUCHING LOGIC
@@ -227,9 +199,7 @@ func _process(delta):
 		
 		update_anim()
 	
-	just_wall_jumped = false
-	
-	if not attacked and not dead and velocity.y == 0 and is_on_floor() and was_in_air and not shooting and not crouch_walking and not crouching:
+	if not attacked and not dead and velocity.y == 0 and is_on_floor() and not on_floor and not shooting and not crouch_walking and not crouching:
 		animated_sprite_2d.play("idle")
 	
 	handle_spawn_dust()
@@ -297,7 +267,8 @@ func handle_jump(delta):
 	if dead:
 		return
 		
-	if is_on_floor(): #or is_on_wall():
+	if is_on_floor():
+		normal_jump = true
 		air_jump = true
 		wall_jump = true
 		
@@ -318,17 +289,18 @@ func handle_jump(delta):
 	if dash_end_slowdown_await_jump and is_on_floor() and Input.is_action_just_pressed("jump"):
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
-		velocity.x = SPEED * 3 * direction
-		
-		
-
+		velocity.x = SPEED * 4 * direction
 	
-	if is_on_floor() or jump_leniency.time_left > 0.0:
+	
+	#NORMAL JUMP
+	if on_floor or normal_jump and jump_leniency.time_left > 0.0:
 		
 		if Input.is_action_just_pressed("jump"):
+			normal_jump = false
 			jump_build_velocity.start()
 			jump.play()
 			jumpBuildVelocity_active = true
+			return true
 	
 	if jumpBuildVelocity_active and Input.is_action_pressed("jump"):
 		if inside_water:
@@ -336,23 +308,21 @@ func handle_jump(delta):
 		else:
 			velocity.y = move_toward(velocity.y, JUMP_VELOCITY, 8500 * delta)
 		
-	elif not is_on_floor():
-		
+	elif not on_floor and not on_wall and not wall_jump_leniency.time_left > 0.0 or not on_floor and on_wall and not wall_jump and wall_jump_leniency.time_left > 0.0:
 		if Input.is_action_just_released("jump") and velocity.y < JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
-		
-		if Input.is_action_just_pressed("jump") and air_jump and not just_wall_jumped:
+		if Input.is_action_just_pressed("jump") and air_jump:
 			if inside_water:
 				velocity.y = JUMP_VELOCITY * 0.8 * insideWater_multiplier
 			else:
 				velocity.y = JUMP_VELOCITY * 0.8
-			
+				
 			air_jump = false
 			jump.play()
 			dash_end_slowdown_canceled = true
-		
-
-
+			return true
+	
+	return false
 
 
 func handle_wall_jump():
@@ -360,21 +330,17 @@ func handle_wall_jump():
 	var wall_normal = get_wall_normal()
 	
 	if wall_jump_leniency.time_left > 0.0:
-		wall_normal = was_on_wall_normal
+		wall_normal = on_wall_normal
 	
 	
 	if Input.is_action_just_pressed("jump") and wall_jump:
-		velocity.x = wall_normal.x * SPEED * 2
+		velocity.x = on_wall_normal.x * SPEED
 		if inside_water:
 			velocity.y = JUMP_VELOCITY * 1 * insideWater_multiplier
 		else:
 			velocity.y = JUMP_VELOCITY * 1
-			
-		just_wall_jumped = true
+		
 		wall_jump = false
-		
-		
-	
 
 
 
@@ -505,7 +471,8 @@ func _on_dash_timer_timeout():
 		player_hitbox.position = Vector2(0, 0)
 		
 		dashReady = true
-
+	
+	raycast_top.enabled = true
 
 
 
@@ -808,9 +775,9 @@ var stuck = false
 
 func handle_stuck():
 	if stuck:
-		raycast_top.target_position.x = 16
-		raycast_bottom.target_position.x = 16
-		raycast_middle.target_position.x = 16
+		raycast_top.target_position.x = 16 * Globals.direction
+		raycast_bottom.target_position.x = 16 * Globals.direction
+		raycast_middle.target_position.x = 16 * Globals.direction
 		#raycast_top.enabled = true
 		#raycast_bottom.enabled = true
 		#raycast_middle.enabled = true
@@ -825,7 +792,7 @@ func handle_stuck():
 	
 	if stuck:
 		if raycast_top.get_collider() or raycast_bottom.get_collider() or raycast_middle.get_collider():
-			position += Vector2(Globals.direction, -4)
+			position += Vector2(4 * Globals.direction, -4)
 			velocity = Vector2(0, 0)
 		else:
 			stuck = false
@@ -902,7 +869,9 @@ func handle_debugMovement(delta):
 			return
 			
 		global_position.y += 1000 * delta
-
+	
+	crouching = false
+	crouch_walking = false
 
 
 func handle_crouching():
@@ -919,6 +888,8 @@ func handle_crouching():
 			crouchMultiplier = 0.6
 			SPEED = 400 * crouchMultiplier
 			
+			raycast_top.enabled = false
+		
 		
 		if crouch_walking:
 			animated_sprite_2d.play("crouch_walk")
@@ -926,6 +897,8 @@ func handle_crouching():
 			
 			crouchMultiplier = 0.4
 			SPEED = 400.0 * crouchMultiplier
+			
+			raycast_top.enabled = false
 	
 	if not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_walking or not is_on_floor() and can_stand_up == 0 and crouch_walking:
 		player_collision.shape.extents = Vector2(20, 56)
@@ -942,7 +915,8 @@ func handle_crouching():
 		SPEED = 400.0
 		crouchMultiplier = 1
 		crouchTimer = false
-
+		
+		raycast_top.enabled = true
 
 func handle_dash():
 	if dashReady and Input.is_action_just_pressed("dash") and is_on_floor() and is_dashing == false and not crouch_walking and not crouching:
@@ -950,12 +924,14 @@ func handle_dash():
 		is_dashing = true
 		dashReady = false
 		$dash_timer.start()
+		
 		player_collision.shape.extents = Vector2(20, 20)
 		player_collision.position += Vector2(0, 36)
 		
 		player_hitbox.shape.extents = Vector2(20, 20)
 		player_hitbox.position += Vector2(0, 36)
-
+		
+		raycast_top.enabled = false
 
 func handle_shooting():
 	#MAIN ATTACK
@@ -993,11 +969,32 @@ func handle_shooting():
 			shoot_secondaryProjectile(scene_secondaryProjectile_fast)
 
 
+var on_floor = false #is_on_floor()
+var on_wall = false #is_on_wall_only()
+
 func get_basic_player_values():
-	if not dead:
+	if not dead and not block_movement:
 		direction = Input.get_axis("move_L", "move_R")
 	else:
 		direction = 0
+	
+	if is_on_floor():
+		on_floor = true
+	else:
+		on_floor = false
+	
+	if is_on_wall():
+		on_wall = true
+		on_wall_normal = get_wall_normal()
+	else:
+		on_wall = false
+	
+	#Leniency timers
+	if on_floor:
+		jump_leniency.start()
+	if on_wall:
+		wall_jump_leniency.start()
+	#Leniency timers
 	
 	Globals.player_pos = get_global_position()
 	Globals.player_posX = get_global_position()[0]
@@ -1082,13 +1079,33 @@ func handle_zoom(delta):
 func handle_toggle_debugMovement():
 	if Globals.debug_mode:
 		if not debugMovement and Input.is_action_just_pressed("cheat"):
-			#movement_data = preload("res://fasterMovementData.tres")
 			debugMovement = true
 			Globals.cheated.emit()
 			
+			#other
+			crouching = false
+			crouch_walking = false
+			
+			player_collision.shape.extents = Vector2(20, 56)
+			player_collision.position = Vector2(0, 0)
+			player_hitbox.shape.extents = Vector2(20, 56)
+			player_hitbox.position = Vector2(0, 0)
+			
+			raycast_top.enabled = true
+			
 		elif debugMovement and Input.is_action_just_pressed("cheat"):
-			#movement_data = preload("res://fasterMovementData.tres")
 			debugMovement = false
+			
+			#other
+			crouching = false
+			crouch_walking = false
+			
+			player_collision.shape.extents = Vector2(20, 56)
+			player_collision.position = Vector2(0, 0)
+			player_hitbox.shape.extents = Vector2(20, 56)
+			player_hitbox.position = Vector2(0, 0)
+			
+			raycast_top.enabled = true
 
 
 func handle_manual_player_death():

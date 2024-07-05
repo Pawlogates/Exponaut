@@ -1,23 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://dun5a8r7qx00f"]
+[gd_scene load_steps=9 format=3 uid="uid://dun5a8r7qx00f"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_vblad"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tiles/tileset_main_precise.tscn" id="3_68c3k"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="4_x2u5u"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="5_vglj4"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="6_puow3"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="8_tkrux"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="8_wsrry"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="9_wxu0a"]
 
 [node name="World" instance=ExtResource("1_vblad")]
 playerStartHP = 3
 
-[node name="Player" parent="." index="0"]
-cameraLimit_left = -640.0
-cameraLimit_right = 1e+07
-cameraLimit_bottom = 896.0
-cameraLimit_top = -1e+07
-
-[node name="tileset_main" parent="." index="1" instance=ExtResource("4_x2u5u")]
+[node name="tileset_main" parent="." index="0" instance=ExtResource("4_x2u5u")]
 unique_name_in_owner = true
+
+[node name="tileset_main_precise" parent="." index="1" instance=ExtResource("3_68c3k")]
 
 [node name="tileset_objects" parent="." index="2" instance=ExtResource("5_vglj4")]
 unique_name_in_owner = true
@@ -47,10 +45,13 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="kill_area" parent="." index="14" instance=ExtResource("8_tkrux")]
+[node name="kill_area" parent="." index="15" instance=ExtResource("8_tkrux")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
 
-[node name="trigger_bgChange" parent="." index="15" instance=ExtResource("9_wxu0a")]
+[node name="trigger_bgChange" parent="." index="16" instance=ExtResource("9_wxu0a")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
+
+[node name="trigger_bgMove" parent="." index="17" instance=ExtResource("8_wsrry")]
+scale = Vector2(4, 4)

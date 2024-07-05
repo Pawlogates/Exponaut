@@ -1,21 +1,21 @@
 [gd_scene load_steps=4 format=3 uid="uid://1vv072mxshuv"]
 
-[ext_resource type="Script" path="res://Tiles/skull_block.gd" id="1_8mjfh"]
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_c444b"]
+[ext_resource type="Script" path="res://Tiles/special_block.gd" id="1_xj3j2"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_ionqh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]
 size = Vector2(64, 64)
 
-[node name="skull_block" type="StaticBody2D" groups=["skull_block"]]
+[node name="toggleBlock_active" type="CharacterBody2D" groups=["toggleBlock"]]
 z_index = 1
 collision_layer = 3
-collision_mask = 3
-script = ExtResource("1_8mjfh")
+script = ExtResource("1_xj3j2")
+is_toggleBlock = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 z_index = -1
-texture = ExtResource("1_c444b")
+texture = ExtResource("2_ionqh")
 region_enabled = true
 region_rect = Rect2(384, 896, 64, 64)
 

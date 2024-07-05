@@ -33,8 +33,8 @@
 [ext_resource type="PackedScene" uid="uid://cs7hc4rry3lqm" path="res://Tiles/button_red.tscn" id="26_djeph"]
 [ext_resource type="PackedScene" uid="uid://tro6l8nm38dv" path="res://Tiles/special_block_destructibleCube.tscn" id="27_fo6u5"]
 [ext_resource type="PackedScene" uid="uid://bygyl36foeriy" path="res://Collectibles/collectibleJewel_yellow.tscn" id="28_01e8q"]
-[ext_resource type="PackedScene" uid="uid://1vv072mxshuv" path="res://Tiles/skull_block.tscn" id="28_m0ket"]
-[ext_resource type="PackedScene" uid="uid://rbwrv3rfagoa" path="res://Tiles/skull_block_inactive.tscn" id="29_c2744"]
+[ext_resource type="PackedScene" uid="uid://1vv072mxshuv" path="res://Tiles/special_block_toggleBlock_active.tscn" id="28_diy4v"]
+[ext_resource type="PackedScene" uid="uid://rbwrv3rfagoa" path="res://Tiles/special_block_toggleBlock_inactive.tscn" id="29_wwg5f"]
 [ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="30_s33b4"]
 [ext_resource type="PackedScene" uid="uid://bc4lqr8ajy0k8" path="res://deco_waterfall_bg.tscn" id="31_dfkvb"]
 [ext_resource type="PackedScene" uid="uid://do31hya7lw3u3" path="res://Collectibles/collectiblePeach.tscn" id="32_7y4h4"]
@@ -46,8 +46,8 @@
 [ext_resource type="PackedScene" uid="uid://cicdmjrqn10qb" path="res://deco_chainLong_V_bg.tscn" id="39_q7u4g"]
 [ext_resource type="PackedScene" uid="uid://djxwn6oxqjm8o" path="res://deco_chainLong_H_bg.tscn" id="40_o3vkn"]
 [ext_resource type="PackedScene" uid="uid://d4gmvberj3p4w" path="res://checkpoint.tscn" id="41_4r6nw"]
-[ext_resource type="PackedScene" uid="uid://dunsjy0e6r37a" path="res://Tiles/skull_switch.tscn" id="42_7lusw"]
-[ext_resource type="PackedScene" uid="uid://cfybjdad00fro" path="res://Tiles/skull_switch_immortal.tscn" id="43_q4e6r"]
+[ext_resource type="PackedScene" uid="uid://dunsjy0e6r37a" path="res://Tiles/bonus_box_toggleSwitch.tscn" id="42_lj3b8"]
+[ext_resource type="PackedScene" uid="uid://cfybjdad00fro" path="res://Tiles/bonus_box_toggleSwitch_immortal.tscn" id="43_5n515"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -84,8 +84,8 @@ scenes/30/scene = ExtResource("24_ofrri")
 scenes/31/scene = ExtResource("25_flmdt")
 scenes/32/scene = ExtResource("26_djeph")
 scenes/33/scene = ExtResource("27_fo6u5")
-scenes/34/scene = ExtResource("28_m0ket")
-scenes/35/scene = ExtResource("29_c2744")
+scenes/34/scene = ExtResource("28_diy4v")
+scenes/35/scene = ExtResource("29_wwg5f")
 scenes/36/scene = ExtResource("30_s33b4")
 scenes/37/scene = ExtResource("31_dfkvb")
 scenes/38/scene = ExtResource("32_7y4h4")
@@ -97,8 +97,8 @@ scenes/43/scene = ExtResource("38_o3vcv")
 scenes/44/scene = ExtResource("40_o3vkn")
 scenes/45/scene = ExtResource("39_q7u4g")
 scenes/46/scene = ExtResource("41_4r6nw")
-scenes/47/scene = ExtResource("42_7lusw")
-scenes/48/scene = ExtResource("43_q4e6r")
+scenes/47/scene = ExtResource("42_lj3b8")
+scenes/48/scene = ExtResource("43_5n515")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)

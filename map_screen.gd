@@ -183,9 +183,7 @@ func _on_main_menu_pressed():
 
 
 func _on_back_to_overworld_pressed():
-	if Globals.delete_saves:
-		SavedData.saved_last_area_filePath = "res://Levels/Overworld.tscn"
-	
+	#SavedData.saved_last_area_filePath = "res://Levels/Overworld.tscn"
 	var saved_level = load(SavedData.saved_last_area_filePath)
 	await LevelTransition.fade_to_black()
 	Globals.transitioned = false

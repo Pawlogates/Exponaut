@@ -98,9 +98,6 @@ position = Vector2(-5936, -2072)
 [node name="bg_previous" parent="." index="9"]
 z_index = -9
 
-[node name="HUD" parent="." index="10"]
-visible = false
-
 [node name="Triggers" type="Node2D" parent="." index="13"]
 
 [node name="trigger_bgChange3" parent="Triggers" index="0" instance=ExtResource("6_jraki")]

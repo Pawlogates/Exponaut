@@ -111,7 +111,6 @@ var infoSign_current_size = 0
 signal info_sign_touched
 
 
-
 var selected_episode = "Main Levels"
 var current_levelSet_ID = "MAIN"
 var next_level = -1
@@ -132,7 +131,9 @@ var next_transition = 0
 
 
 var debug_mode = false
-var delete_saves = false
+var debug_magic_projectiles = false
+
+#var delete_saves = false
 
 signal cheated
 var cheated_state = false

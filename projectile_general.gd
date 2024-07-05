@@ -52,7 +52,7 @@ func _ready():
 
 
 func _process(_delta):
-	if not projectile_shot and Input.is_action_pressed("attack_main") or enemyProjectile or not projectile_shot and Globals.debug_mode:
+	if not projectile_shot and Input.is_action_pressed("attack_main") or enemyProjectile or not projectile_shot and Globals.debug_magic_projectiles:
 		projectile_shot = true
 		Globals.shot.emit()
 		
@@ -137,7 +137,7 @@ func _on_remove_delay_timeout():
 		
 		get_parent().add_child(item)
 	
-	if Globals.debug_mode:
+	if Globals.debug_magic_projectiles:
 		position = Globals.player_pos + Vector2(24 * Globals.direction, 0)
 		projectile_shot = false
 		direction = 0

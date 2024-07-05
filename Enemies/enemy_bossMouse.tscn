@@ -397,7 +397,6 @@ floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_klj6p")
 hp = 15
-SPEED = 200
 movementType = "stationary"
 scoreValue = 10000
 patroling = true
