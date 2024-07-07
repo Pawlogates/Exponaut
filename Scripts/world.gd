@@ -166,14 +166,14 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
 	
-	
-	
 	#get_tree().paused = true
 	
 	#start_in_container.visible = true
 	start_in_container.visible = false
 	
 	
+	if Globals.debug_mode:
+		Globals.playerHP = 250
 	
 	
 	if night3 == true:
@@ -528,11 +528,6 @@ func exitReached_show_screen():
 			%"Level Finished".exit_reached()
 			
 			get_tree().paused = true
-	
-
-
-
-
 
 
 
@@ -568,8 +563,6 @@ func retry():
 	Globals.collected_in_cycle = 0
 	
 	Globals.playerHP = playerStartHP
-
-
 
 
 
@@ -610,11 +603,7 @@ func retry_loadSave(afterDelay):
 
 
 
-
-
-
 #Background change
-
 var bg_free_to_change = true
 
 func bg_change():

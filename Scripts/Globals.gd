@@ -18,14 +18,16 @@ var collected_blueApples = 0
 var collected_redApples = 0
 
 
-var playerHP
+var playerHP = 15
 
-var player_pos
-var player_posX
-var player_posY
+var player_pos = Vector2(0, 0)
+var player_posX = 0
+var player_posY = 0
+
+var player_velocity = Vector2(0, 0)
 
 
-var weaponType = "none"
+#var weaponType = "none"
 
 
 #signals

@@ -125,8 +125,6 @@ func _ready():
 		%Camera2D.limit_bottom = $/root/World.cameraLimit_bottom
 		%Camera2D.limit_top = $/root/World.cameraLimit_top
 	
-	weaponType = Globals.weaponType
-	
 	
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
@@ -179,11 +177,12 @@ func _process(delta):
 	#SHOOTING LOGIC
 	handle_shooting()
 	
-	#DASHING LOGIC
-	handle_dash()
-	
-	#CROUCHING LOGIC
-	handle_crouching()
+	if not debugMovement:
+		#DASHING LOGIC
+		handle_dash()
+		
+		#CROUCHING LOGIC
+		handle_crouching()
 	
 	
 	if not debugMovement:
@@ -999,6 +998,7 @@ func get_basic_player_values():
 	Globals.player_pos = get_global_position()
 	Globals.player_posX = get_global_position()[0]
 	Globals.player_posY = get_global_position()[1]
+	Globals.player_velocity = velocity
 	
 	if direction != 0:
 		Globals.direction = direction
@@ -1082,30 +1082,8 @@ func handle_toggle_debugMovement():
 			debugMovement = true
 			Globals.cheated.emit()
 			
-			#other
-			crouching = false
-			crouch_walking = false
-			
-			player_collision.shape.extents = Vector2(20, 56)
-			player_collision.position = Vector2(0, 0)
-			player_hitbox.shape.extents = Vector2(20, 56)
-			player_hitbox.position = Vector2(0, 0)
-			
-			raycast_top.enabled = true
-			
 		elif debugMovement and Input.is_action_just_pressed("cheat"):
 			debugMovement = false
-			
-			#other
-			crouching = false
-			crouch_walking = false
-			
-			player_collision.shape.extents = Vector2(20, 56)
-			player_collision.position = Vector2(0, 0)
-			player_hitbox.shape.extents = Vector2(20, 56)
-			player_hitbox.position = Vector2(0, 0)
-			
-			raycast_top.enabled = true
 
 
 func handle_manual_player_death():

@@ -104,8 +104,8 @@ shape = SubResource("RectangleShape2D_y3dwm")
 stream = ExtResource("3_l1auw")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-4.57764e-05, -32)
-scale = Vector2(38.4, 35.2)
+visible = false
+rect = Rect2(-2500, -2500, 5000, 5000)
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

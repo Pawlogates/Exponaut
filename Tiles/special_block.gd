@@ -4,12 +4,15 @@ var direction = 0
 var direction_V = 0
 
 var starParticleScene = preload("res://particles_star.tscn")
-var starParticle2Scene = preload("res://particles_star.tscn")
 var hit_effectScene = preload("res://hit_effect.tscn")
 var dead_effectScene = preload("res://dead_effect.tscn")
-var orbParticleScene = preload("res://particles_special2_multiple.tscn")
 var splashParticleScene = preload("res://particles_water_entered.tscn")
 var effect_dustScene = preload("res://effect_dust.tscn")
+var starParticleFastScene = preload("res://particles_starFast.tscn")
+var scene_particles_special2_multiple = preload("res://particles_special2_multiple.tscn")
+var scene_particles_special_multiple = preload("res://particles_special_multiple.tscn")
+var scene_particles_special = preload("res://particles_special.tscn")
+var scene_particles_water_entered = preload("res://particles_water_entered.tscn")
 
 
 #SPECIAL PROPERTIES
@@ -148,7 +151,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if toggles_toggleBlocks:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleSwitch", "toggleSwitch_toggle")
+				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 			
 			
 			if breakable:
@@ -191,9 +194,7 @@ func offScreen_unload():
 	
 	if get_node_or_null("$Area2D"):
 		$Area2D.set_monitorable(false)
-	
-	
-	
+
 
 func offScreen_load():
 	set_process(true)
@@ -214,15 +215,8 @@ func offScreen_load():
 
 
 func _ready():
-	if is_toggleBlock:
-		if toggleBlock_is_active:
-			$Sprite2D.region_rect = Rect2(384, 896, 64, 64)
-			$CollisionShape2D.disabled = false
-		
-		else:
-			$Sprite2D.region_rect = Rect2(448, 896, 64, 64)
-			$CollisionShape2D.disabled = true
-		
+	$VisibleOnScreenNotifier2D.visible = true
+	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -231,12 +225,21 @@ func _ready():
 	set_process_unhandled_input(false)
 	set_process_unhandled_key_input(false)
 	
+	
+	if is_toggleBlock:
+		if toggleBlock_is_active:
+			$Sprite2D.region_rect = Rect2(384, 896, 64, 64)
+			$CollisionShape2D.disabled = false
+		
+		else:
+			$Sprite2D.region_rect = Rect2(448, 896, 64, 64)
+			$CollisionShape2D.disabled = true
+	
 	if blockType != "none":
 		$Sprite2D/AnimationPlayer.active = false
 	
 	if get_node_or_null("$Area2D"):
 		$Area2D.set_monitorable(false)
-	
 	
 	if remove_after_delay:
 		%Timer.wait_time = remove_delay
@@ -353,15 +356,19 @@ func toggleBlock_toggle():
 		$Sprite2D.region_rect = Rect2(384, 896, 64, 64)
 		$CollisionShape2D.disabled = false
 		toggleBlock_is_active = true
+		z_index += 1
 	
 	else:
 		$Sprite2D.region_rect = Rect2(448, 896, 64, 64)
 		$CollisionShape2D.disabled = true
 		toggleBlock_is_active = false
+		z_index -= 1
 	
-	var dust = effect_dustScene.instantiate()
-	dust.anim_slow = true
-	add_child(dust)
-	
-	var stars = starParticleScene.instantiate()
-	add_child(stars)
+	if $VisibleOnScreenNotifier2D.is_on_screen():
+		var dust = effect_dustScene.instantiate()
+		#dust.anim_slow = true
+		add_child(dust)
+		var stars = starParticleScene.instantiate()
+		add_child(stars)
+		var particles_special_multiple = scene_particles_special_multiple.instantiate()
+		add_child(particles_special_multiple)

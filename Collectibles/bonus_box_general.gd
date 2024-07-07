@@ -4,9 +4,14 @@ extends CharacterBody2D
 @onready var animation_player = %AnimationPlayer
 @onready var sprite = %AnimatedSprite2D
 
-var starParticleScene = preload("res://particles_special_multiple.tscn")
 var hit_effectScene = preload("res://hit_effect.tscn")
 var dead_effect_scene = preload("res://dead_effect.tscn")
+var starParticleFastScene = preload("res://particles_starFast.tscn")
+var scene_particles_special2_multiple = preload("res://particles_special2_multiple.tscn")
+var scene_particles_special_multiple = preload("res://particles_special_multiple.tscn")
+var scene_particles_special = preload("res://particles_special.tscn")
+var scene_particles_water_entered = preload("res://particles_water_entered.tscn")
+
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -34,7 +39,7 @@ var start_item_amount = 3
 @export var onDeath_play_spriteAnim = false
 @export var onDeath_spawn_deadEffect = false
 @export var onHit_toggle_skullBlocks = false
-@export var onDeath_toggle_skullBlocks = false
+@export var onDeath_toggle_toggleBlocks = false
 @export var hit_cooldown = false
 @export var hit_cooldown_time = 0.8
 #!Properties
@@ -111,8 +116,8 @@ func destroy():
 			item_amount = start_item_amount
 	
 	
-	if onDeath_toggle_skullBlocks:
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleSwitch", "toggleBlock_toggle")
+	if onDeath_toggle_toggleBlocks:
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 	
 	if onDeath_spawn_items:
 		call_deferred("spawn_items")
@@ -120,8 +125,13 @@ func destroy():
 	break_bonusBox.play()
 	Globals.boxBroken.emit()
 	
-	var starParticle = starParticleScene.instantiate()
-	add_child(starParticle)
+	var particles_special2_multiple = scene_particles_special2_multiple.instantiate()
+	add_child(particles_special2_multiple)
+	var particles_special_multiple = scene_particles_special_multiple.instantiate()
+	add_child(particles_special_multiple)
+	var particles_special = scene_particles_special.instantiate()
+	add_child(particles_special)
+	
 
 func player_bounce(area):
 	if area.get_parent().velocity.y > bounce_min_velocity:

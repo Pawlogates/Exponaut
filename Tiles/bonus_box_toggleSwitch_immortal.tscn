@@ -319,14 +319,15 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="toggleSwitch_immortal" type="CharacterBody2D" groups=["toggleSwitch"]]
+[node name="toggleSwitch_immortal" type="CharacterBody2D" groups=["Persist", "toggleSwitch"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_wsjfk")
 onDeath_reset = true
+onDeath_reset_spawn_items_amount = false
 onDeath_rotate_sprite = false
 onDeath_play_anim = false
-onDeath_toggle_skullBlocks = true
+onDeath_toggle_toggleBlocks = true
 hit_cooldown = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

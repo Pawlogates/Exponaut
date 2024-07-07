@@ -1321,6 +1321,277 @@ text = "toggle magic projectiles"
 horizontal_alignment = 1
 autowrap_mode = 2
 
+[node name="Debug Buttons Screen Root4" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.588235)
+material = SubResource("ShaderMaterial_p305y")
+layout_mode = 0
+offset_left = 984.0
+offset_top = 312.0
+offset_right = 1896.0
+offset_bottom = 408.0
+texture = SubResource("AtlasTexture_1rw7s")
+expand_mode = 1
+
+[node name="Debug Buttons Screen" type="FlowContainer" parent="Debug Buttons Screen Root4"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reset_button_blue" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="reset_button_blue" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "reset button blue"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button7" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reset_button_green" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="reset_button_green" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "reset button green"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button8" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reset_button_red" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="reset_button_red" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "reset button red"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button9" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="activate_button_blue" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="activate_button_blue" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "activate button blue"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button10" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="activate_button_green" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="activate_button_green" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "activate button green"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button11" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="activate_button_red" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="activate_button_red" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "activate button red"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button12" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_toggleBlocks" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="toggle_toggleBlocks" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "toggle toggleBlocks"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button13" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="open_keyBlocks" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_hwihr")
+script = ExtResource("4_fmwik")
+
+[node name="open_keyBlocks" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_hwihr")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "toggle toggleBlocks"
+horizontal_alignment = 1
+autowrap_mode = 2
+
 [node name="Debug Shortcut List Root" parent="." instance=ExtResource("5_sm0kv")]
 unique_name_in_owner = true
 layout_mode = 0
@@ -1545,5 +1816,45 @@ color = Color(0, 0, 0, 1)
 [connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_mouse_exited"]
 [connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="." method="_on_toggle_magic_projectiles_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="." method="_on_reset_button_blue_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="." method="_on_reset_button_green_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="." method="_on_reset_button_red_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="." method="_on_activate_button_blue_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="." method="_on_activate_button_green_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="." method="_on_activate_button_red_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="." method="_on_toggle_toggle_blocks_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="." method="_on_open_key_blocks_pressed"]
 [connection signal="timeout" from="refresh_debugInfo" to="." method="refresh_debugInfo"]
 [connection signal="timeout" from="refresh_debugInfo_values" to="." method="refresh_debugInfo_values"]

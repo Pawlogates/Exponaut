@@ -13,11 +13,9 @@ func fade_from_black_slow():
 	await animation_player.animation_finished
 
 
-
 func fade_to_black_verySlow():
 	animation_player.play("fade_to_black_verySlow")
 	await animation_player.animation_finished
-
 
 func fade_to_black():
 	animation_player.play("fade_to_black")
@@ -30,8 +28,6 @@ func fade_to_black_fast():
 func fade_to_black_slow():
 	animation_player.play("fade_to_black_slow")
 	await animation_player.animation_finished
-
-
 
 
 func _ready():
@@ -52,3 +48,24 @@ func _process(_delta):
 			await LevelTransition.fade_to_black()
 			get_tree().change_scene_to_packed(load("res://start_menu.tscn"))
 			await LevelTransition.fade_from_black_slow()
+		
+		
+	elif Input.is_action_pressed("show_debugInfo"):
+		if Input.is_action_just_pressed("move_UP"):
+			Globals.debug_mode = true
+			if not get_node_or_null("/root/World"):
+				return
+			
+			Globals.infoSign_current_text = str("Debug mode has been activated!")
+			Globals.infoSign_current_size = 0
+			Globals.info_sign_touched.emit()
+			
+		if Input.is_action_just_pressed("move_DOWN"):
+			Globals.debug_mode = false
+			
+			if not get_node_or_null("/root/World"):
+				return
+			
+			Globals.infoSign_current_text = str("Debug mode has been disabled :(")
+			Globals.infoSign_current_size = 0
+			Globals.info_sign_touched.emit()

@@ -5,7 +5,6 @@ extends StaticBody2D
 
 #PRESSED
 func greenButton_pressed():
-	print("Button pressed: " + str(blockType))
 	if blockType == "green":
 		if blockDirection == 0:
 			%AnimationPlayer.play("green_move_left")
@@ -14,7 +13,6 @@ func greenButton_pressed():
 			%AnimationPlayer.play("green_move_right")
 
 func blueButton_pressed():
-	print("Button pressed: " + str(blockType))
 	if blockType == "blue":
 		if blockDirection == 0:
 			%AnimationPlayer.play("blue_move_up")
@@ -23,7 +21,6 @@ func blueButton_pressed():
 			%AnimationPlayer.play("blue_move_down")
 
 func redButton_pressed():
-	print("Button pressed: " + str(blockType))
 	if blockType == "red":
 		%AnimationPlayer.play("red_disable")
 

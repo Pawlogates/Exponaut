@@ -12,6 +12,7 @@ collision_layer = 3
 script = ExtResource("1_0do47")
 is_toggleBlock = true
 toggleBlock_is_active = false
+floating = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
@@ -23,3 +24,11 @@ region_rect = Rect2(448, 896, 64, 64)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_xcl5b")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
+position = Vector2(-4.57764e-05, -32)
+scale = Vector2(38.4, 35.2)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

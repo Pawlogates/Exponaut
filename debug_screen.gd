@@ -36,21 +36,6 @@ func _process(_delta):
 			get_tree().set_debug_collisions_hint(false) 
 			
 			$/root/World.player.block_movement = false
-		
-		
-		if Input.is_action_pressed("move_UP"):
-			Globals.debug_mode = true
-			
-			Globals.infoSign_current_text = str("Debug mode has been activated!")
-			Globals.infoSign_current_size = 0
-			Globals.info_sign_touched.emit()
-			
-		if Input.is_action_pressed("move_DOWN"):
-			Globals.debug_mode = false
-			
-			Globals.infoSign_current_text = str("Debug mode has been disabled :(")
-			Globals.infoSign_current_size = 0
-			Globals.info_sign_touched.emit()
 
 
 func refresh_debugInfo():
@@ -284,6 +269,7 @@ func _on_set_immortal_pressed():
 	#$Player_hitbox_main.monitorable = false
 	#$Player_hitbox_exact.monitorable = false
 
+
 func _on_toggle_magic_projectiles_pressed():
 	if not toggle_debug_magic_projectiles:
 		toggle_debug_magic_projectiles = true
@@ -302,3 +288,44 @@ func _on_toggle_magic_projectiles_pressed():
 		Globals.infoSign_current_text = str("Magic projectiles are no more...")
 		Globals.infoSign_current_size = 0
 		Globals.info_sign_touched.emit()
+
+
+func _on_reset_button_blue_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "blueButton_back")
+
+
+func _on_reset_button_green_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "greenButton_back")
+
+
+func _on_reset_button_red_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "redButton_back")
+
+
+func _on_activate_button_blue_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "blueButton_pressed")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button", "blueButton_pressALL")
+	
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key", "on_button_press")
+
+
+func _on_activate_button_green_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "greenButton_pressed")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button", "greenButton_pressALL")
+	
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key", "on_button_press")
+
+
+func _on_activate_button_red_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "redButton_pressed")
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button", "redButton_pressALL")
+	
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key", "on_button_press")
+
+
+func _on_toggle_toggle_blocks_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
+
+
+func _on_open_key_blocks_pressed():
+	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key_block", "key_block_destroy")

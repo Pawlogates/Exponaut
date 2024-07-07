@@ -182,13 +182,13 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
-size = Vector2(32, 72)
+size = Vector2(32, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(32, 80)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2h4lu"]
-size = Vector2(640, 64)
+size = Vector2(640, 72)
 
 [sub_resource type="Animation" id="Animation_u6l55"]
 length = 0.001
@@ -378,13 +378,16 @@ collision_layer = 0
 floor_max_angle = 1.0472
 script = ExtResource("1_x6sxi")
 SPEED = 300.0
-ACCELERATION_MULTIPLIER = 0.2
+ACCELERATION_MULTIPLIER = 0.25
 movementType = "followPlayerX_whenSpotted"
 scoreValue = 100
 turnOnWall = true
 patroling = true
 afterDelay_changeDirection = true
 immortal = true
+damageTo_player = false
+bonusBox_giveVelocity = -800
+bonusBox_giveVelocity_jump = -900
 enable_generalTimers = false
 enemy_type = "rabbit_immortal"
 
@@ -392,9 +395,7 @@ enemy_type = "rabbit_immortal"
 material = ExtResource("2_dsghu")
 position = Vector2(0, 2)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"jump"
-frame = 2
-frame_progress = 1.0
+animation = &"idle"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -412,6 +413,7 @@ one_shot = true
 unique_name_in_owner = true
 light_mask = 2
 visibility_layer = 2
+position = Vector2(0, 8)
 collision_layer = 6
 collision_mask = 2
 input_pickable = false
@@ -419,7 +421,6 @@ monitoring = false
 monitorable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_4klqh")
 
 [node name="patrolDirectionTimer" type="Timer" parent="."]
@@ -458,7 +459,7 @@ input_pickable = false
 
 [node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
-position = Vector2(-320, 4)
+position = Vector2(-320, 8)
 shape = SubResource("RectangleShape2D_2h4lu")
 
 [node name="jumpTimer" type="Timer" parent="."]

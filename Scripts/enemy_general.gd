@@ -2,7 +2,11 @@ extends enemy_basic
 
 var on_floor = false
 var on_wall = false
+var on_wall_normal = Vector2(0, 0)
 var on_ceiling = false
+
+var velocity_last_X = 0
+var velocity_last_Y = 0 
 
 var patrolRect_width = 320
 var patrolRect_height = 320
@@ -67,7 +71,7 @@ func randomize_everything():
 	shootProjectile_offset_Y = randi_range(-120, 120)
 	shootProjectile_player = applyRandom_falseTrue(3, 1)
 	shootProjectile_enemy = applyRandom_falseTrue(1, 6)
-	toggle_skull_blocks_onDeath = applyRandom_falseTrue(1, 3)
+	toggle_toggleBlocks_onDeath = applyRandom_falseTrue(1, 3)
 	whenAt_startPosition_X_stop = applyRandom_falseTrue(1, 4)
 	whenAt_startPosition_Y_stop = applyRandom_falseTrue(1, 4)
 	start_pos_leniency_X = randi_range(4, 64)
@@ -174,7 +178,7 @@ func randomize_everything():
 @export var shootProjectile_player = false
 @export var shootProjectile_enemy = true
 
-@export var toggle_skull_blocks_onDeath = false
+@export var toggle_toggleBlocks_onDeath = false
 
 @export var whenAt_startPosition_X_stop = false
 @export var whenAt_startPosition_Y_stop = false
@@ -212,8 +216,8 @@ func randomize_everything():
 @export var bonusBox_spread_position = true
 @export var bonusBox_requiresVelocity = true
 @export var bonusBox_minimalVelocity = 100
-@export var bonusBox_giveVelocity = -800
-@export var bonusBox_giveVelocity_jump = -1200
+@export var bonusBox_giveVelocity = -400
+@export var bonusBox_giveVelocity_jump = -600
 
 @export var particles_star = true
 @export var particles_golden = true
@@ -281,19 +285,21 @@ func _on_area_2d_area_entered(area):
 		
 		#HANDLE BONUS BOX PLAYER BOUNCE
 		if is_bonusBox:
-			if bonusBox_requiresVelocity and area.get_parent().velocity.y < bonusBox_minimalVelocity:
+			if bonusBox_requiresVelocity and Globals.player_velocity[1] < bonusBox_minimalVelocity:
 				return
 				
-			if Input.is_action_pressed("jump"):
+			if Input.is_action_pressed("jump"): #the velocity value here is effectively worth more, because of the building velocity mechanic that is active while you are holding the JUMP button.
 				area.get_parent().velocity.y = bonusBox_giveVelocity_jump
 				spawn_particles()
+				$/root/World.player.air_jump = true
+				$/root/World.player.wall_jump = true
 				
 			else:
 				area.get_parent().velocity.y = bonusBox_giveVelocity
 				spawn_particles()
+				$/root/World.player.air_jump = true
+				$/root/World.player.wall_jump = true
 			
-			if immortal:
-				return
 			
 			handle_damage(area)
 	
@@ -331,6 +337,9 @@ func _on_area_2d_area_entered(area):
 
 
 func handle_damage(area):
+	if immortal:
+		return
+	
 	attacked = true
 	attacked_timer.start()
 	hit.play()
@@ -386,7 +395,7 @@ func handle_damage(area):
 		
 		if onDeath_spawnObject:
 			call_deferred("spawnObjects")
-		if toggle_skull_blocks_onDeath:
+		if toggle_toggleBlocks_onDeath:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 		if onDeath_disappear_instantly:
 			await get_tree().create_timer(1, false).timeout
@@ -487,7 +496,13 @@ func spawnObjects():
 func _physics_process(delta):
 	on_floor = is_on_floor()
 	on_wall = is_on_wall()
+	on_wall_normal = get_wall_normal()
 	on_ceiling = is_on_ceiling()
+	
+	if velocity.x != 0:
+		velocity_last_X = velocity.x
+	if velocity.y != 0:
+		velocity_last_Y = velocity.y
 	
 	#MOVEMENT TYPE
 	if movementType == "normal":
@@ -750,12 +765,14 @@ func handle_turnOnWall():
 			
 			if turnOnLedge:
 				$scanForLedge.position.x = 32
-			
 		
-		if not dead and not movementType == "stationary":
-			velocity.x = SPEED * direction
-		elif not dead and movementType == "stationary":
-			velocity.x = SPEED / 2 * direction
+		
+		velocity.x = -velocity_last_X
+		
+		#if not dead and not movementType == "stationary":
+			#velocity.x = SPEED * direction
+		#elif not dead and movementType == "stationary":
+			#velocity.x = SPEED / 2 * direction
 
 
 

@@ -95,6 +95,22 @@ func _ready():
 		place_level_icon(5, Vector2(-124, -36), load("res://Levels/MAIN_5.tscn"))
 		#LEVEL ICON END
 		
+		#LEVEL ICON START
+		place_level_icon(5, Vector2(174, -36), load("res://Levels/MAIN_6.tscn"))
+		#LEVEL ICON END
+		
+		#LEVEL ICON START
+		place_level_icon(5, Vector2(224, -36), load("res://Levels/MAIN_7.tscn"))
+		#LEVEL ICON END
+		
+		#LEVEL ICON START
+		place_level_icon(5, Vector2(274, -36), load("res://Levels/MAIN_8.tscn"))
+		#LEVEL ICON END
+		
+		#LEVEL ICON START
+		place_level_icon(5, Vector2(324, -36), load("res://Levels/MAIN_9.tscn"))
+		#LEVEL ICON END
+		
 		
 	#EPISODE END
 	
@@ -132,7 +148,7 @@ func _ready():
 	
 	
 	Globals.progress_loadingFinished.emit()
-	
+	print(Globals.selected_episode)
 	$level_icon_container/level_button_root/level_button.grab_focus()
 	%ColorRect.visible = true
 	%fade_animation.play("fade_from_black")

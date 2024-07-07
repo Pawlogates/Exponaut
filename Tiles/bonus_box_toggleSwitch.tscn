@@ -319,7 +319,7 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="toggleSwitch" type="CharacterBody2D" groups=["toggleSwitch"]]
+[node name="toggleSwitch" type="CharacterBody2D" groups=["Persist", "toggleSwitch"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_y1iop")
@@ -328,7 +328,7 @@ onDeath_rotate_sprite = false
 onDeath_play_anim = false
 onDeath_play_spriteAnim = true
 onDeath_spawn_deadEffect = true
-onDeath_toggle_skullBlocks = true
+onDeath_toggle_toggleBlocks = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
