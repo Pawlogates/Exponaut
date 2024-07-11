@@ -293,10 +293,8 @@ func _on_toggle_magic_projectiles_pressed():
 func _on_reset_button_blue_pressed():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "blueButton_back")
 
-
 func _on_reset_button_green_pressed():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "greenButton_back")
-
 
 func _on_reset_button_red_pressed():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "redButton_back")
@@ -308,13 +306,11 @@ func _on_activate_button_blue_pressed():
 	
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key", "on_button_press")
 
-
 func _on_activate_button_green_pressed():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "greenButton_pressed")
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button", "greenButton_pressALL")
 	
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key", "on_button_press")
-
 
 func _on_activate_button_red_pressed():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "button_block", "redButton_pressed")
@@ -329,3 +325,37 @@ func _on_toggle_toggle_blocks_pressed():
 
 func _on_open_key_blocks_pressed():
 	get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key_block", "key_block_destroy")
+
+
+var toggle_music = false
+var toggle_ambience = false
+
+func _on_mute_music_pressed():
+	if not toggle_music:
+		toggle_music = true
+		$/root/World.music_controller.disabled = true
+		$/root/World.music.volume_db = -80
+	else:
+		toggle_music = false
+		$/root/World.music_controller.disabled = false
+		$/root/World.music.volume_db = 0
+
+func _on_mute_ambience_pressed():
+	if not toggle_ambience:
+		toggle_ambience = true
+		$/root/World.ambience_controller.disabled = true
+		$/root/World.ambience.volume_db = -80
+		
+		$/root/World.ambience_controller.layer_1.volume_db = -80
+		$/root/World.ambience_controller.layer_2.volume_db = -80
+		$/root/World.ambience_controller.layer_3.volume_db = -80
+		$/root/World.ambience_controller.layer_4.volume_db = -80
+	else:
+		toggle_ambience = false
+		$/root/World.ambience_controller.disabled = false
+		$/root/World.ambience.volume_db = 0
+		
+		$/root/World.ambience_controller.layer_1.volume_db = 0
+		$/root/World.ambience_controller.layer_2.volume_db = 0
+		$/root/World.ambience_controller.layer_3.volume_db = 0
+		$/root/World.ambience_controller.layer_4.volume_db = 0

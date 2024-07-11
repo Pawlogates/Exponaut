@@ -1,7 +1,7 @@
-[gd_scene load_steps=48 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=47 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_b1wgp"]
-[ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/Sprites_player.png" id="3_ia0aj"]
+[ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="3_ia0aj"]
 [ext_resource type="AudioStream" uid="uid://bypu2n6tdxni4" path="res://Assets/Sounds/sfx/collect_secret2.wav" id="4_g2mbl"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_jwqoa"]
 [ext_resource type="AudioStream" uid="uid://dlvig2qlrk412" path="res://Assets/Sounds/sfx/player_attack.wav" id="5_rifb5"]
@@ -278,9 +278,6 @@ size = Vector2(40, 112)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ct51a"]
 size = Vector2(32, 80)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_x01vt"]
-size = Vector2(40, 112)
-
 [sub_resource type="Animation" id="Animation_n7rd3"]
 length = 0.001
 tracks/0/type = "bezier"
@@ -420,29 +417,22 @@ z_index = 1
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 
-[node name="Player_hitbox_tileDetection" type="Area2D" parent="."]
+[node name="Player_hitbox_tileDetection" type="Area2D" parent="." groups=["player_exact"]]
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_tileDetection"]
-visible = false
 shape = SubResource("RectangleShape2D_q480c")
+debug_color = Color(0.611765, 0.537255, 0, 0.419608)
 
 [node name="Player_hitbox_main" type="Area2D" parent="." groups=["player"]]
+position = Vector2(0, 8)
 collision_layer = 2
 collision_mask = 7
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_main"]
-visible = false
 shape = SubResource("RectangleShape2D_ct51a")
-
-[node name="Player_hitbox_exact" type="Area2D" parent="." groups=["player_exact"]]
-collision_layer = 4
-collision_mask = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_exact"]
-visible = false
-shape = SubResource("RectangleShape2D_x01vt")
+debug_color = Color(0.984314, 0, 0.329412, 0.419608)
 
 [node name="raycast_top" type="RayCast2D" parent="."]
 position = Vector2(0, -56)

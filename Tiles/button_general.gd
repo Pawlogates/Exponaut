@@ -1,4 +1,4 @@
-extends StaticBody2D
+extends Node2D
 
 var pressed = false
 @export var button_type = "none"
@@ -7,6 +7,15 @@ func _ready():
 	if button_type == "reset_blue" or button_type == "reset_green" or button_type == "reset_red":
 		pressed = true
 	
+	if pressed:
+		%AnimationPlayer.play("button_pressed_DOWN")
+		if not button_type == "reset_blue" and not button_type == "reset_green" and not button_type == "reset_red":
+			%Timer.start()
+	
+	else:
+		%AnimationPlayer.play("button_back_DOWN")
+
+
 func _on_area_2d_area_entered(area):
 	if not pressed and area.is_in_group("player_exact") and not area.get_parent().is_in_group("weightless"):
 		pressed = true
@@ -72,8 +81,6 @@ func _on_timer_timeout():
 	pressed = false
 
 
-
-
 func blueButton_pressALL():
 	if button_type == "blue" and not pressed:
 		%AnimationPlayer.play("button_pressed_DOWN")
@@ -104,3 +111,16 @@ func reset_button():
 func press_button():
 	%AnimationPlayer.play("button_pressed_DOWN")
 	pressed = true
+
+
+#SAVE START
+func save():
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"pressed" : pressed,
+	}
+	return save_dict
+#!SAVE

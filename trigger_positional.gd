@@ -123,9 +123,9 @@ func _process(delta):
 	
 	if moveCamera:
 		if $/root/World.camera.position[0] != offsetValue:
-			$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], offsetValue, 0.2 * delta)
+			$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], offsetValue, delta)
 		if $/root/World.camera.position[1] != offsetValue_Y:
-			$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], offsetValue_Y, 0.2 * delta)
+			$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], offsetValue_Y, delta)
 	if zoomCamera:
 		if $/root/World.camera.zoom != Vector2(zoomValue, zoomValue):
 			$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
@@ -141,7 +141,7 @@ func _on_body_entered(body):
 
 
 func _on_body_exited(body):
-	if get_node_or_null("$Timer"):
+	if not get_node_or_null("$Timer"):
 		return
 	if body.is_in_group("player"):
 		$Timer.start()

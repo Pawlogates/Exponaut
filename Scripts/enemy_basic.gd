@@ -1,11 +1,16 @@
 class_name enemy_basic
 extends CharacterBody2D
 
-
 var starParticle_fastScene = preload("res://particles_special_multiple.tscn")
 var hit_effectScene = preload("res://hit_effect.tscn")
 var dead_effectScene = preload("res://dead_effect.tscn")
 var hitDeath_effectScene = preload("res://hitDeath_effect.tscn")
+var starParticleScene = preload("res://particles_special.tscn")
+var starParticle2Scene = preload("res://particles_star.tscn")
+var orbParticleScene = preload("res://particles_special2_multiple.tscn")
+var splashParticleScene = preload("res://particles_water_entered.tscn")
+var effect_dustScene = preload("res://effect_dust.tscn")
+var effect_dust_moveUpScene = preload("res://effect_dust_moveUp.tscn")
 
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
@@ -20,7 +25,6 @@ var direction_v = 1
 @export var debug = false
 
 var can_turn = true
-
 
 @onready var sprite = $AnimatedSprite2D
 
@@ -62,7 +66,6 @@ func remove_if_corpse():
 
 
 #IS IN VISIBLE RANGE?
-
 func basic_offScreen_unload():
 	set_process(false)
 	set_physics_process(false)
@@ -82,7 +85,6 @@ func basic_offScreen_unload():
 	$AnimatedSprite2D/DeadTimer.set_paused(true)
 	
 	remove_if_corpse()
-
 
 
 func basic_offScreen_load():
@@ -108,8 +110,6 @@ func basic_offScreen_load():
 	$Area2D.set_monitoring(true)
 
 
-
-
 func basic_onReady():
 	set_process(false)
 	set_physics_process(false)
@@ -129,7 +129,6 @@ func basic_onReady():
 	$AnimatedSprite2D/DeadTimer.set_paused(true)
 	
 	remove_if_corpse()
-
 
 
 func enemy_stunned():

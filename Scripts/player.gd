@@ -107,7 +107,7 @@ func _ready():
 	Globals.player_posY = get_global_position()[1]
 	
 	Globals.saveState_loaded.connect(saveState_loaded)
-		
+	
 	Globals.playerHit1.connect(reduceHp1)
 	Globals.playerHit2.connect(reduceHp2)
 	Globals.playerHit3.connect(reduceHp3)
@@ -456,7 +456,7 @@ func _on_dash_timer_timeout():
 		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
 		
-		player_hitbox.shape.extents = Vector2(20, 56)
+		player_hitbox.shape.extents = Vector2(16, 40)
 		player_hitbox.position = Vector2(0, 0)
 		
 		dashReady = true
@@ -466,7 +466,7 @@ func _on_dash_timer_timeout():
 		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
 		
-		player_hitbox.shape.extents = Vector2(20, 56)
+		player_hitbox.shape.extents = Vector2(16, 40)
 		player_hitbox.position = Vector2(0, 0)
 		
 		dashReady = true
@@ -527,7 +527,7 @@ func _on_crouch_walk_collision_switch_timeout():
 	player_collision.shape.extents = Vector2(20, 20)
 	player_collision.position += Vector2(0, 36)
 	player_hitbox.shape.extents = Vector2(20, 20)
-	player_hitbox.position += Vector2(0, 36)
+	player_hitbox.position += Vector2(0, 28)
 
 
 
@@ -604,7 +604,7 @@ func saveState_loaded():
 	player_collision.shape.extents = Vector2(20, 56)
 	player_collision.position = Vector2(0, 0)
 	
-	player_hitbox.shape.extents = Vector2(20, 56)
+	player_hitbox.shape.extents = Vector2(16, 40)
 	player_hitbox.position = Vector2(0, 0)
 	
 	deathAnim_playing = false
@@ -903,7 +903,7 @@ func handle_crouching():
 		player_collision.shape.extents = Vector2(20, 56)
 		player_collision.position = Vector2(0, 0)
 		
-		player_hitbox.shape.extents = Vector2(20, 56)
+		player_hitbox.shape.extents = Vector2(16, 40)
 		player_hitbox.position = Vector2(0, 0)
 		
 		
@@ -928,7 +928,7 @@ func handle_dash():
 		player_collision.position += Vector2(0, 36)
 		
 		player_hitbox.shape.extents = Vector2(20, 20)
-		player_hitbox.position += Vector2(0, 36)
+		player_hitbox.position += Vector2(0, 28)
 		
 		raycast_top.enabled = false
 

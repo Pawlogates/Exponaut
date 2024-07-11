@@ -1,67 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c8nt24sv5y1kb"]
+[gd_scene load_steps=6 format=3 uid="uid://c8nt24sv5y1kb"]
 
 [ext_resource type="Script" path="res://Tiles/special_block.gd" id="1_5ordj"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_o62qs"]
 [ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="3_sqlku"]
-
-[sub_resource type="Animation" id="Animation_3507k"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_2p6nt"]
-resource_name = "moveV_loop"
-length = 4.0
-loop_mode = 1
-step = 0.01
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(64, -0.25, 0, 0.998436, -1, -64, -1, 0.5, 1.1, -0.5, 64, -1.08824, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../CollisionShape2D:position:x")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../CollisionShape2D:position:y")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(64, -0.25, 0, 0.998436, -1, -64, -1, 0.5, 1.1, -0.5, 64, -1.08824, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_1356v"]
-_data = {
-"RESET": SubResource("Animation_3507k"),
-"moveV_loop": SubResource("Animation_2p6nt")
-}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
 size = Vector2(60, 48)
@@ -69,10 +10,11 @@ size = Vector2(60, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3dwm"]
 size = Vector2(60, 16)
 
-[node name="special_block_spikes_DOWN" type="CharacterBody2D"]
+[node name="special_block_spikes_DOWN" type="CharacterBody2D" groups=["Persist"]]
 z_index = 1
 collision_layer = 3
 script = ExtResource("1_5ordj")
+SPEED = 1000.0
 is_spikeBlock = true
 damage = 2
 
@@ -81,13 +23,6 @@ texture_filter = 1
 texture = ExtResource("2_o62qs")
 region_enabled = true
 region_rect = Rect2(256, 832, 64, 64)
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
-unique_name_in_owner = true
-root_node = NodePath("../..")
-libraries = {
-"": SubResource("AnimationLibrary_1356v")
-}
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=55 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes.tscn" id="2_oe0v7"]
@@ -48,6 +48,10 @@
 [ext_resource type="PackedScene" uid="uid://d4gmvberj3p4w" path="res://checkpoint.tscn" id="41_4r6nw"]
 [ext_resource type="PackedScene" uid="uid://dunsjy0e6r37a" path="res://Tiles/bonus_box_toggleSwitch.tscn" id="42_lj3b8"]
 [ext_resource type="PackedScene" uid="uid://cfybjdad00fro" path="res://Tiles/bonus_box_toggleSwitch_immortal.tscn" id="43_5n515"]
+[ext_resource type="PackedScene" uid="uid://cfv0k77wv0jto" path="res://Tiles/move_block_h2.tscn" id="44_eeyal"]
+[ext_resource type="PackedScene" uid="uid://c6a6e6sqb52cr" path="res://Tiles/move_block_v2.tscn" id="46_dnx4w"]
+[ext_resource type="PackedScene" uid="uid://bdjd80p8f5n7h" path="res://Tiles/move_block_h_pause.tscn" id="47_cltvn"]
+[ext_resource type="PackedScene" uid="uid://do4845rlxd1y4" path="res://Tiles/move_block_v_pause.tscn" id="48_hbcu2"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -99,6 +103,11 @@ scenes/45/scene = ExtResource("39_q7u4g")
 scenes/46/scene = ExtResource("41_4r6nw")
 scenes/47/scene = ExtResource("42_lj3b8")
 scenes/48/scene = ExtResource("43_5n515")
+scenes/49/scene = ExtResource("44_eeyal")
+scenes/50/scene = ExtResource("46_dnx4w")
+scenes/51/scene = ExtResource("47_cltvn")
+scenes/52/scene = ExtResource("48_hbcu2")
+scenes/53/scene = ExtResource("41_4r6nw")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)

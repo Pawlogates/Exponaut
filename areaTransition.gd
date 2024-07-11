@@ -14,7 +14,7 @@ func _on_area_entered(area):
 	if not entered:
 		if area.is_in_group("player"):
 			Globals.transitioned = true
-			Globals.weaponType = area.get_parent().weaponType
+			SavedData.saved_weapon = area.get_parent().weaponType
 			entered = true
 			var next_area:PackedScene = load(target_area)
 			

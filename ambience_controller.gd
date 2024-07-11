@@ -1,6 +1,9 @@
 extends Node2D
 
-@onready var ambience_player_main = $ambience
+@onready var layer_1 = %ambience_layer1
+@onready var layer_2 = %ambience_layer2
+@onready var layer_3 = %ambience_layer3
+@onready var layer_4 = %ambience_layer4
 
 @export var ambience_layer1_baseDelay = 90
 @export var ambience_layer2_baseDelay = 90
@@ -32,6 +35,7 @@ extends Node2D
 @export var ambience_layer3_volumeRange = 0.6
 @export var ambience_layer4_volumeRange = 0.6
 
+var disabled = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -42,6 +46,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if disabled:
+		return
+	
 	pass
 
 
@@ -130,6 +137,9 @@ func single_ambience_layer_randomize_volume(x):
 
 #delay timers
 func _on_ambience_1_delay_timeout():
+	if disabled:
+		return
+	
 	single_ambience_layer_randomize_delay(1)
 	single_ambience_layer_randomize_pitch(1)
 	single_ambience_layer_randomize_volume(1)
@@ -140,6 +150,9 @@ func _on_ambience_1_delay_timeout():
 
 
 func _on_ambience_2_delay_timeout():
+	if disabled:
+		return
+	
 	single_ambience_layer_randomize_delay(2)
 	single_ambience_layer_randomize_pitch(2)
 	single_ambience_layer_randomize_volume(2)
@@ -150,6 +163,9 @@ func _on_ambience_2_delay_timeout():
 
 
 func _on_ambience_3_delay_timeout():
+	if disabled:
+		return
+	
 	single_ambience_layer_randomize_delay(3)
 	single_ambience_layer_randomize_pitch(3)
 	single_ambience_layer_randomize_volume(3)
@@ -160,6 +176,9 @@ func _on_ambience_3_delay_timeout():
 
 
 func _on_ambience_4_delay_timeout():
+	if disabled:
+		return
+	
 	single_ambience_layer_randomize_delay(4)
 	single_ambience_layer_randomize_pitch(4)
 	single_ambience_layer_randomize_volume(4)

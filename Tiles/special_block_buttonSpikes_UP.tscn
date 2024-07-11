@@ -69,7 +69,7 @@ size = Vector2(62, 48)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y3dwm"]
 size = Vector2(62, 16)
 
-[node name="special_block_buttonSpikes_UP" type="CharacterBody2D" groups=["button_block"]]
+[node name="special_block_buttonSpikes_UP" type="CharacterBody2D" groups=["Persist", "button_block"]]
 z_index = 1
 collision_layer = 3
 script = ExtResource("1_nv0hf")
@@ -107,8 +107,8 @@ shape = SubResource("RectangleShape2D_y3dwm")
 stream = ExtResource("3_sbif1")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-4.57764e-05, -32)
-scale = Vector2(38.4, 35.2)
+visible = false
+rect = Rect2(-2500, -2500, 5000, 5000)
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

@@ -6,8 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]
 size = Vector2(64, 64)
 
-[node name="toggleBlock_inactive" type="CharacterBody2D" groups=["toggleBlock"]]
-z_index = 1
+[node name="toggleBlock_inactive" type="CharacterBody2D" groups=["Persist", "toggleBlock"]]
 collision_layer = 3
 script = ExtResource("1_0do47")
 is_toggleBlock = true

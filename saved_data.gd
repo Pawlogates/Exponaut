@@ -17,6 +17,8 @@ func _process(_delta):
 var saved_position = Vector2(0, 0) # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
 var saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
 var saved_last_area_filePath = "res://Levels/empty.tscn"
+var saved_weapon = "none"
+var saved_secondaryWeapon = "none"
 
 #unlocked weapons
 var saved_weapon_basic = -1 # [0 if the weapon type was found in the world, making it available for purchase, 1 if purchased, making it permanently selectable using quickselect.]
@@ -49,6 +51,7 @@ func savedData_save(save_player_position):
 		saved_position = $/root/World.player.position
 	
 	saved_score = Globals.level_score
+	saved_weapon = $/root/World.player.weaponType
 	
 	#save item unlock states
 	save_item_unlock_state("weapon_basic")

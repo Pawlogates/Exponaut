@@ -62,15 +62,15 @@ size = Vector2(64, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iushe"]
 size = Vector2(60, 20)
 
-[node name="button_red_root" type="Node2D" groups=["button", "button_red"]]
+[node name="button_red_root" type="Node2D" groups=["Persist", "button", "button_red"]]
 z_index = -1
+script = ExtResource("1_mgsvc")
+button_type = "red"
 
-[node name="button_red" type="StaticBody2D" parent="." groups=["button", "button_red"]]
+[node name="button_red" type="StaticBody2D" parent="."]
 z_index = 1
 collision_layer = 3
 collision_mask = 3
-script = ExtResource("1_mgsvc")
-button_type = "red"
 
 [node name="Sprite2D" type="Sprite2D" parent="button_red"]
 texture = ExtResource("2_fcsny")
@@ -89,7 +89,6 @@ shape = SubResource("RectangleShape2D_gk7p3")
 
 [node name="Area2D" type="Area2D" parent="button_red"]
 collision_layer = 0
-collision_mask = 4
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_red/Area2D"]
 shape = SubResource("RectangleShape2D_iushe")
@@ -103,5 +102,5 @@ one_shot = true
 unique_name_in_owner = true
 stream = ExtResource("3_bscmb")
 
-[connection signal="area_entered" from="button_red/Area2D" to="button_red" method="_on_area_2d_area_entered"]
-[connection signal="timeout" from="Timer" to="button_red" method="_on_timer_timeout"]
+[connection signal="area_entered" from="button_red/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

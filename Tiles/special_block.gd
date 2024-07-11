@@ -3,6 +3,8 @@ extends CharacterBody2D
 var direction = 0
 var direction_V = 0
 
+var block_movement = true
+
 var starParticleScene = preload("res://particles_star.tscn")
 var hit_effectScene = preload("res://hit_effect.tscn")
 var dead_effectScene = preload("res://dead_effect.tscn")
@@ -43,15 +45,13 @@ var scene_particles_water_entered = preload("res://particles_water_entered.tscn"
 @export var blockType = "none"
 @export var blockDirection = -1
 
-
-
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
-
 func _physics_process(delta):
 	if not is_on_floor() and not floating and blockType == "none":
-		velocity.y += gravity / 2 * delta
+		velocity.y = move_toward(velocity.y, SPEED, 500 * delta)
+	
 	elif floating:
 		velocity.y = 0
 	
@@ -67,11 +67,14 @@ func _physics_process(delta):
 	
 	
 	if not floating:
+		if block_movement:
+			return
+		
 		if movement_type == "normal":
 			var collision = move_and_slide()
 			if collision:
 				pass
-			
+		
 		if movement_type == "iceCube":
 			var collision = move_and_slide()
 			velocity.x = move_toward(velocity.x, 0, SPEED / 2 * delta)
@@ -82,9 +85,6 @@ func _physics_process(delta):
 			var collision = move_and_slide()
 			if collision:
 				velocity = Vector2(200, -300)
-	
-
-
 
 
 func _on_area_2d_area_entered(area):
@@ -177,6 +177,20 @@ func _on_area_2d_area_entered(area):
 			Globals.boxBroken.emit()
 
 
+#SAVE
+func save():
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Vector2 is not supported by JSON
+		"pos_y" : position.y,
+		"destroyed" : destroyed,
+		"toggleBlock_is_active" : toggleBlock_is_active,
+		"direction" : direction,
+		"direction_V" : direction_V,
+	}
+	return save_dict
+#!SAVE
 
 
 #IS IN VISIBLE RANGE?
@@ -188,9 +202,6 @@ func offScreen_unload():
 	set_process_internal(false)
 	set_process_unhandled_input(false)
 	set_process_unhandled_key_input(false)
-	
-	if blockType != "none":
-		$Sprite2D/AnimationPlayer.active = false
 	
 	if get_node_or_null("$Area2D"):
 		$Area2D.set_monitorable(false)
@@ -204,9 +215,6 @@ func offScreen_load():
 	set_process_internal(true)
 	set_process_unhandled_input(true)
 	set_process_unhandled_key_input(true)
-	
-	if blockType != "none":
-		$Sprite2D/AnimationPlayer.active = true
 	
 	if get_node_or_null("$Area2D"):
 		$Area2D.set_monitorable(true)
@@ -235,17 +243,15 @@ func _ready():
 			$Sprite2D.region_rect = Rect2(448, 896, 64, 64)
 			$CollisionShape2D.disabled = true
 	
-	if blockType != "none":
-		$Sprite2D/AnimationPlayer.active = false
-	
 	if get_node_or_null("$Area2D"):
 		$Area2D.set_monitorable(false)
 	
 	if remove_after_delay:
 		%Timer.wait_time = remove_delay
 		%Timer.start()
-
-
+	
+	await get_tree().create_timer(0.5, false).timeout
+	block_movement = false
 
 
 var destroyed = false
@@ -270,26 +276,6 @@ func spawn_item():
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
 	
 	get_parent().get_parent().add_child(item)
-	
-
-
-
-
-#SAVE START
-func save():
-	var save_dict = {
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
-		"pos_x" : position.x, # Vector2 is not supported by JSON
-		"pos_y" : position.y,
-		"destroyed" : destroyed,
-		"toggleBlock_is_active" : toggleBlock_is_active,
-	}
-	return save_dict
-
-#SAVE END
-
-
 
 
 func _on_timer_timeout():
@@ -298,8 +284,6 @@ func _on_timer_timeout():
 	get_parent().add_child(effect_dust)
 	
 	queue_free()
-
-
 
 
 #BUTTON PRESSED
@@ -330,6 +314,7 @@ func redButton_pressed():
 
 #BUTTON BACK
 func greenButton_back():
+	return
 	if blockType == "green":
 		if blockDirection == 0:
 			direction = -1
@@ -338,6 +323,7 @@ func greenButton_back():
 			direction = 1
 
 func blueButton_back():
+	return
 	if blockType == "blue":
 		if blockDirection == 0:
 			direction_V = -1

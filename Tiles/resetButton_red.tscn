@@ -62,16 +62,16 @@ size = Vector2(64, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iushe"]
 size = Vector2(60, 20)
 
-[node name="button_red_root" type="Node2D"]
+[node name="button_red_root" type="Node2D" groups=["Persist", "button", "resetButton_red"]]
 z_index = -1
+script = ExtResource("1_6bake")
+button_type = "reset_red"
 
-[node name="button_red" type="StaticBody2D" parent="." groups=["button", "resetButton_red"]]
+[node name="button_red" type="StaticBody2D" parent="."]
 z_index = 1
 position = Vector2(0, 32)
 collision_layer = 3
 collision_mask = 3
-script = ExtResource("1_6bake")
-button_type = "reset_red"
 
 [node name="Sprite2D" type="Sprite2D" parent="button_red"]
 texture = ExtResource("2_1ahy0")
@@ -104,5 +104,5 @@ one_shot = true
 unique_name_in_owner = true
 stream = ExtResource("3_m1y42")
 
-[connection signal="area_entered" from="button_red/Area2D" to="button_red" method="_on_area_2d_area_entered"]
-[connection signal="timeout" from="Timer" to="button_red" method="_on_timer_timeout"]
+[connection signal="area_entered" from="button_red/Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

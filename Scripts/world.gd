@@ -26,12 +26,14 @@ var levelTime = 0
 var start_level_msec = 0.0
 var levelTime_visible = 0
 
-@onready var music = %music
+@onready var music = $"Music Controller"/music
+@onready var ambience = $"Ambience Controller"/ambience
+@onready var music_controller = $"Music Controller"
+@onready var ambience_controller = $"Ambience Controller"
 
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = $tileset_objects
 @onready var tileset_objects_small = $tileset_objectsSmall
-
 
 @export var cameraLimit_left = 0.0
 @export var cameraLimit_right = 0.0
@@ -113,7 +115,8 @@ func _ready():
 	Globals.level_score = 0
 	
 	
-	if not regular_level:
+	if not regular_level and not shrine_level:
+		player.weaponType = SavedData.saved_weapon
 		%quicksavedDisplay/Label.text = "Checkpoint..."
 	
 	%HUD.visible = true

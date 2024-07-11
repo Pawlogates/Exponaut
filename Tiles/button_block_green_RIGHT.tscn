@@ -154,16 +154,16 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
 size = Vector2(64, 64)
 
-[node name="button_block_green_RIGHT_root" type="Node2D"]
+[node name="button_block_green_RIGHT_root" type="Node2D" groups=["Persist", "button_block"]]
 z_index = -1
+script = ExtResource("1_n5sob")
+blockType = "green"
+blockDirection = 0
 
-[node name="button_block_green_RIGHT" type="StaticBody2D" parent="." groups=["button_block"]]
+[node name="button_block_green_RIGHT" type="StaticBody2D" parent="."]
 z_index = 1
 collision_layer = 3
 collision_mask = 3
-script = ExtResource("1_n5sob")
-blockType = "green"
-blockDirection = 1
 
 [node name="Sprite2D" type="Sprite2D" parent="button_block_green_RIGHT"]
 texture = ExtResource("2_yjtm5")

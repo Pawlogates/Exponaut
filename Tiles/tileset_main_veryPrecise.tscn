@@ -1,16 +1,16 @@
-[gd_scene load_steps=16 format=3 uid="uid://dfg7r4vdcruea"]
+[gd_scene load_steps=16 format=3 uid="uid://b4rgndv0cew0"]
 
-[ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="1_1v2ja"]
-[ext_resource type="Texture2D" uid="uid://h64dv8q08gkv" path="res://Assets/Graphics/tilesets/tileset_liquids.png" id="2_4w47f"]
-[ext_resource type="Texture2D" uid="uid://bteqibfk4agqs" path="res://Assets/Graphics/tilesets/tileset2.png" id="3_jk5hk"]
-[ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="4_ts32j"]
-[ext_resource type="Texture2D" uid="uid://b81cvrweekhps" path="res://Assets/Graphics/tilesets/tileset3.png" id="5_rojwc"]
-[ext_resource type="Texture2D" uid="uid://bujvyo22wwe5o" path="res://Assets/Graphics/tilesets/tileset_decorations2.png" id="6_0tkiv"]
-[ext_resource type="Texture2D" uid="uid://cb0eeki8mjb37" path="res://Assets/Graphics/tilesets/tileset_seamless.png" id="7_hbxat"]
+[ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="1_t8aso"]
+[ext_resource type="Texture2D" uid="uid://h64dv8q08gkv" path="res://Assets/Graphics/tilesets/tileset_liquids.png" id="2_nyyo5"]
+[ext_resource type="Texture2D" uid="uid://bteqibfk4agqs" path="res://Assets/Graphics/tilesets/tileset2.png" id="3_v7lwi"]
+[ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="4_ijf04"]
+[ext_resource type="Texture2D" uid="uid://b81cvrweekhps" path="res://Assets/Graphics/tilesets/tileset3.png" id="5_57o3f"]
+[ext_resource type="Texture2D" uid="uid://bujvyo22wwe5o" path="res://Assets/Graphics/tilesets/tileset_decorations2.png" id="6_p5d22"]
+[ext_resource type="Texture2D" uid="uid://cb0eeki8mjb37" path="res://Assets/Graphics/tilesets/tileset_seamless.png" id="7_wlqv4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_80tip"]
 resource_name = "tileset"
-texture = ExtResource("1_1v2ja")
+texture = ExtResource("1_t8aso")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -1486,7 +1486,7 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_iwb4g"]
 resource_name = "liquids"
-texture = ExtResource("2_4w47f")
+texture = ExtResource("2_nyyo5")
 texture_region_size = Vector2i(64, 64)
 1:0/0 = 0
 1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -2193,7 +2193,7 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_i8idr"]
 resource_name = "tileset2"
-texture = ExtResource("3_jk5hk")
+texture = ExtResource("3_v7lwi")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -3688,7 +3688,7 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_x7pqt"]
 resource_name = "decorations"
-texture = ExtResource("4_ts32j")
+texture = ExtResource("4_ijf04")
 texture_region_size = Vector2i(64, 64)
 0:0/next_alternative_id = 2
 0:0/0 = 0
@@ -5013,7 +5013,7 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ems5j"]
 resource_name = "tileset3"
-texture = ExtResource("5_rojwc")
+texture = ExtResource("5_57o3f")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -6170,7 +6170,7 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ahahn"]
 resource_name = "decorations2"
-texture = ExtResource("6_0tkiv")
+texture = ExtResource("6_p5d22")
 texture_region_size = Vector2i(64, 64)
 14:0/size_in_atlas = Vector2i(3, 7)
 14:0/0 = 0
@@ -6239,7 +6239,7 @@ texture_region_size = Vector2i(64, 64)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e2ido"]
 resource_name = "seamless"
-texture = ExtResource("7_hbxat")
+texture = ExtResource("7_wlqv4")
 texture_region_size = Vector2i(64, 64)
 0:0/0 = 0
 0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
@@ -7586,7 +7586,8 @@ texture_region_size = Vector2i(64, 64)
 23:17/0/physics_layer_0/linear_velocity = Vector2(0, 0)
 23:17/0/physics_layer_0/angular_velocity = 0.0
 
-[sub_resource type="TileSet" id="TileSet_f35o8"]
+[sub_resource type="TileSet" id="TileSet_qcuf2"]
+tile_size = Vector2i(4, 4)
 physics_layer_0/collision_layer = 3
 sources/0 = SubResource("TileSetAtlasSource_80tip")
 sources/1 = SubResource("TileSetAtlasSource_iwb4g")
@@ -7596,11 +7597,12 @@ sources/4 = SubResource("TileSetAtlasSource_ems5j")
 sources/5 = SubResource("TileSetAtlasSource_ahahn")
 sources/6 = SubResource("TileSetAtlasSource_e2ido")
 
-[node name="tileset_main_precise" type="TileMap"]
+[node name="tileset_main_veryPrecise" type="TileMap"]
 visibility_layer = 2
 z_index = -1
 texture_filter = 1
-tile_set = SubResource("TileSet_f35o8")
+tile_set = SubResource("TileSet_qcuf2")
+rendering_quadrant_size = 4
 format = 2
 layer_0/name = "main"
 layer_0/z_index = 1
