@@ -35,7 +35,7 @@ var scene_particles_water_entered = preload("res://particles_water_entered.tscn"
 @export var collectibleAmount = 3
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
 
-
+@export var block_movement_onSpawn = true
 @export var movement_type = "normal"
 @export var is_spikeBlock = false
 @export var damage = 1
@@ -250,7 +250,9 @@ func _ready():
 		%Timer.wait_time = remove_delay
 		%Timer.start()
 	
-	await get_tree().create_timer(0.5, false).timeout
+	if block_movement_onSpawn:
+		await get_tree().create_timer(0.5, false).timeout
+	
 	block_movement = false
 
 

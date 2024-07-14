@@ -1,7 +1,7 @@
 [gd_scene load_steps=55 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
-[ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes.tscn" id="2_oe0v7"]
+[ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Tiles/spikes_UP.tscn" id="2_oe0v7"]
 [ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Tiles/move_block_h.tscn" id="3_a4am5"]
 [ext_resource type="PackedScene" uid="uid://va38cadkefjo" path="res://Tiles/move_block_v.tscn" id="4_njc2m"]
 [ext_resource type="PackedScene" uid="uid://cwylhbfoqohrq" path="res://Tiles/one_way_up.tscn" id="5_7w6yf"]

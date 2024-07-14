@@ -158,7 +158,7 @@ size = Vector2(64, 64)
 z_index = -1
 script = ExtResource("1_m2ldl")
 blockType = "green"
-blockDirection = 1
+blockDirection = 0
 
 [node name="button_block_green_LEFT" type="StaticBody2D" parent="."]
 z_index = 1

@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_bn0ff"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_q3w20"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_secondaryProjectile_bouncingBall.tscn" id="3_clw6e"]
+[ext_resource type="Shader" path="res://Themes/rainbow_effect.gdshader" id="4_47rqd"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_pf4ub"]
 [ext_resource type="Shader" path="res://Themes/rainbow_effect.gdshader" id="4_wd8hy"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="5_yxaxv"]
@@ -12,12 +13,6 @@
 [ext_resource type="AudioStream" uid="uid://d0q7oj4n6rdh1" path="res://Assets/Sounds/sfx/rabbit_death.wav" id="9_r3pns"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="10_lylws"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="11_m3i0y"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_pnxa8"]
-shader = ExtResource("4_wd8hy")
-shader_parameter/strength = 0.25
-shader_parameter/speed = 0.25
-shader_parameter/angle = 45.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bifyd"]
 atlas = ExtResource("4_pf4ub")
@@ -467,7 +462,6 @@ enable_generalTimers = false
 enemy_type = "rabbit_green"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = SubResource("ShaderMaterial_pnxa8")
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_tjlin")
 animation = &"jump"

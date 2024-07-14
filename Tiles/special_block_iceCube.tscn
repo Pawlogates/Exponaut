@@ -99,6 +99,7 @@ collision_layer = 3
 script = ExtResource("1_yass0")
 remove_after_delay = true
 remove_delay = 2.0
+block_movement_onSpawn = false
 movement_type = "iceCube"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
