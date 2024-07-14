@@ -211,7 +211,6 @@ func _process(delta):
 	
 	
 	handle_gameMode_scoreAttack()
-
 #MAIN END
 
 
@@ -252,7 +251,7 @@ func apply_gravity(delta):
 	else:
 		started_dash = false
 	
-	if dash_end_slowdown:
+	if dash_end_slowdown and not dash_end_slowdown_canceled:
 		velocity.x = move_toward(velocity.x, 0, 7000 * delta)
 	
 
@@ -288,7 +287,7 @@ func handle_jump(delta):
 	if dash_end_slowdown_await_jump and is_on_floor() and Input.is_action_just_pressed("jump"):
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
-		velocity.x = SPEED * 4 * direction
+		velocity.x = SPEED * 4.5 * direction
 	
 	
 	#NORMAL JUMP
@@ -318,7 +317,11 @@ func handle_jump(delta):
 				
 			air_jump = false
 			jump.play()
+			
 			dash_end_slowdown_canceled = true
+			if dash_end_slowdown_await_jump:
+				velocity.x += 300 * direction
+			
 			return true
 	
 	return false
@@ -565,19 +568,12 @@ func _on_dash_end_slowdown_timeout():
 		dash_end_slowdown_await_jump = false
 
 
-
-
 func _on_dash_end_slowdown_active_timeout():
 	dash_end_slowdown = false
 	dash_end_slowdown_canceled = false
 	just_landed_queued = false
 	just_landed = false
 	dash_end_slowdown_await_jump = false
-
-
-
-
-
 
 
 #SAVE START
