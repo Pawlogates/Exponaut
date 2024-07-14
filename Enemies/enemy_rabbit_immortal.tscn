@@ -382,6 +382,7 @@ ACCELERATION_MULTIPLIER = 0.25
 movementType = "followPlayerX_whenSpotted"
 scoreValue = 100
 turnOnWall = true
+slowDown_onDirectionChange = false
 patroling = true
 afterDelay_changeDirection = true
 immortal = true

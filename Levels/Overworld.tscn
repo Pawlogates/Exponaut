@@ -221,12 +221,12 @@ scale = Vector2(4, 6)
 target_area = "res://Levels/theBeginning.tscn"
 next_transition = 1
 
-[node name="areaTransition2" parent="." index="18" instance=ExtResource("29_nyjvy")]
+[node name="areaTransition3" parent="." index="18" instance=ExtResource("29_nyjvy")]
 unique_name_in_owner = true
 position = Vector2(1920, 6144)
 scale = Vector2(12, 1)
 target_area = "res://Levels/caves.tscn"
-next_transition = 1
+next_transition = 3
 
 [node name="trigger_musicChange" parent="." index="19" instance=ExtResource("15_4hhtf")]
 position = Vector2(-8288, -1024)
@@ -335,14 +335,14 @@ position = Vector2(-992, -928)
 displayedText = "Press ENTER to use an inventory item. Switch between items by pressing TAB."
 displayedText_size = 2
 
-[node name="areaTransition3" parent="." index="42" instance=ExtResource("29_nyjvy")]
+[node name="areaTransition4" parent="." index="42" instance=ExtResource("29_nyjvy")]
 unique_name_in_owner = true
 position = Vector2(7104, 2176)
 scale = Vector2(4, 8)
 target_area = "res://Levels/Overworld2.tscn"
-next_transition = 1
+next_transition = 4
 
-[node name="areaTransition4" parent="." index="43" instance=ExtResource("29_nyjvy")]
+[node name="areaTransition2" parent="." index="43" instance=ExtResource("29_nyjvy")]
 unique_name_in_owner = true
 position = Vector2(7168, -1760)
 scale = Vector2(2, 7)
@@ -354,7 +354,7 @@ unique_name_in_owner = true
 position = Vector2(7136, -2912)
 scale = Vector2(3, 5)
 target_area = "res://Levels/Overworld2.tscn"
-next_transition = 4
+next_transition = 5
 
 [node name="darkDecoParallax_grass" parent="." index="45" instance=ExtResource("24_6jyq5")]
 position = Vector2(-1712, 552)
@@ -566,8 +566,8 @@ scale = Vector2(0.8, 0.8)
 transform = Transform2D(0.8, 0, 0, 0.8, -5850, -2375)
 
 [node name="deco_cloud2" parent="." index="84" instance=ExtResource("35_3brp1")]
-offset = Vector2(-3800, -700)
-transform = Transform2D(1, 0, 0, 1, -3800, -700)
+offset = Vector2(-3750, -700)
+transform = Transform2D(1, 0, 0, 1, -3750, -700)
 
 [node name="deco_cloud6" parent="." index="85" instance=ExtResource("35_3brp1")]
 offset = Vector2(-5425, -125)

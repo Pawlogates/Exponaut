@@ -16,7 +16,7 @@ var rng = RandomNumberGenerator.new()
 #Properties
 @export var hp = 3
 @export var damageValue = 1
-@export var SPEED = 400.0
+@export var SPEED = 100.0
 @export var JUMP_VELOCITY = -400.0
 @export var ACCELERATION_MULTIPLIER = 1.0
 
@@ -28,6 +28,7 @@ var rng = RandomNumberGenerator.new()
 
 @export var turnOnLedge = false
 @export var turnOnWall = false
+@export var slowDown_onDirectionChange = true
 @export var floating = false
 
 @export var patroling = false
@@ -271,10 +272,6 @@ func _physics_process(delta):
 	
 	elif movementType == "moveAround_startPosition_Y_when_notSpotted":
 		moveAround_startPosition_Y_when_notSpotted(delta)
-	
-	
-	
-	
 	
 	
 	
@@ -580,7 +577,11 @@ func handle_turnOnLedge():
 			direction = 1
 			$scanForLedge.position.x = 32
 		
-		velocity.x = SPEED * direction
+		if slowDown_onDirectionChange:
+			velocity.x = -(0.25 * velocity_last_X)
+		else:
+			velocity.x = -velocity_last_X
+
 
 #TURN ON WALL
 func handle_turnOnWall():
@@ -600,13 +601,11 @@ func handle_turnOnWall():
 			if turnOnLedge:
 				$scanForLedge.position.x = 32
 		
-		
-		velocity.x = -velocity_last_X
-		
-		#if not dead and not movementType == "stationary":
-			#velocity.x = SPEED * direction
-		#elif not dead and movementType == "stationary":
-			#velocity.x = SPEED / 2 * direction
+		if slowDown_onDirectionChange:
+			velocity.x = -(0.25 * velocity_last_X)
+		else:
+			velocity.x = -velocity_last_X
+
 
 func _on_limit_turn_timeout():
 	can_turn = true

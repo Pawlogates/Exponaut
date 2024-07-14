@@ -1,9 +1,8 @@
-[gd_scene load_steps=47 format=3 uid="uid://ci46huf1xa7gh"]
+[gd_scene load_steps=46 format=3 uid="uid://ci46huf1xa7gh"]
 
 [ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_ndo11"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_h7u05"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_secondaryProjectile_bouncingBall.tscn" id="3_74vld"]
-[ext_resource type="Material" uid="uid://g07ca37hnt0w" path="res://Themes/rainbow_material.tres" id="4_b06ue"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_kf1fx"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="5_phth7"]
 [ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="6_j6vb5"]
@@ -453,14 +452,12 @@ scoreValue = 125
 turnOnWall = true
 onDeath_spawnObject_objectPath = ExtResource("2_h7u05")
 onDeath_spawnObject_objectAmount = 5
-immortal = true
 scene_shootProjectile = ExtResource("3_74vld")
 bouncy_Y = true
 enable_generalTimers = false
 enemy_type = "rabbit_green"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-material = ExtResource("4_b06ue")
 position = Vector2(0, -4)
 sprite_frames = SubResource("SpriteFrames_tjlin")
 animation = &"jump"
