@@ -37,7 +37,6 @@ collision_layer = 2
 safe_margin = 5.0
 script = ExtResource("1_mqa4s")
 SPEED = 600.0
-remove_delay = 2
 
 [node name="scan" type="Area2D" parent="."]
 collision_layer = 0

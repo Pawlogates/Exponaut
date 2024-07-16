@@ -37,7 +37,6 @@ func _process(_delta):
 			
 			$/root/World.player.block_movement = false
 
-
 func refresh_debugInfo():
 	fps.text = str("fps: ", Engine.get_frames_per_second())
 	test.text = str("Total persistent objects present: ", Globals.test)
@@ -51,7 +50,9 @@ func refresh_debugInfo_values():
 	Globals.test2 =  get_tree().get_nodes_in_group("Collectibles").size()
 	Globals.test3 = $/root/World.area_ID
 	Globals.test4 = "unused debug value"
-
+	
+	if Globals.delete_saves:
+		delete_saves()
 
 
 
@@ -116,8 +117,6 @@ func set_day():
 		object.modulate.r = 1.0
 
 
-
-
 func night_modifications():
 	await get_tree().create_timer(0.1, false).timeout
 	
@@ -151,15 +150,21 @@ func night_modifications():
 			object.modulate.r = 1.0
 
 
+func delete_saves():
+	DirAccess.remove_absolute("user://savegame_theBeginning.save")
+	DirAccess.remove_absolute("user://savegame_Overworld.save")
+	DirAccess.remove_absolute("user://savegame_Overworld2.save")
+	DirAccess.remove_absolute("user://savegame_Castle.save")
+	DirAccess.remove_absolute("user://savegame_Ascent.save")
+	DirAccess.remove_absolute("user://savegame.save")
+	DirAccess.remove_absolute("user://savedData.save")
+	DirAccess.remove_absolute("user://savedProgress.save")
 
 
 #BUTTONS
-
 func _on_delete_all_save_files_pressed():
-	DirAccess.remove_absolute("user://savegame_theBeginning.save")
-	DirAccess.remove_absolute("user://savegame_Overworld.save")
-	DirAccess.remove_absolute("user://savedProgress.save")
-	DirAccess.remove_absolute("user://savegame.save")
+	delete_saves()
+	Globals.delete_saves = true
 	
 	Globals.infoSign_current_text = str("All save files have been deleted.")
 	Globals.infoSign_current_size = 1
@@ -359,3 +364,8 @@ func _on_mute_ambience_pressed():
 		$/root/World.ambience_controller.layer_2.volume_db = 0
 		$/root/World.ambience_controller.layer_3.volume_db = 0
 		$/root/World.ambience_controller.layer_4.volume_db = 0
+
+
+func _on_set_day_pressed():
+	set_day()
+	night_modifications()

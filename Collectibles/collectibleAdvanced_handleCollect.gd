@@ -259,8 +259,6 @@ func offScreen_load():
 	animation_player.active = true
 	animation_player_2.active = true
 	$Area2D.set_monitorable(true)
-	
-	
 
 
 
@@ -269,8 +267,6 @@ func _process(_delta):
 	if removable or collected and not animation_player_2.current_animation == "score_value" and not animation_player.current_animation == "remove":
 		print("Removed already collected entity.")
 		queue_free()
-	
-	
 
 
 var bonus_material = preload("res://Collectibles/bonus_material.tres")
@@ -507,11 +503,8 @@ func _on_timer_timeout():
 
 
 func _on_animation_player_2_animation_finished(anim_name):
-	if anim_name != "hit" and not collected_special:
+	if anim_name == "score_value" and not collected_special:
 		removable = true
-
-
-
 
 
 

@@ -53,6 +53,7 @@ func _process(_delta):
 	elif Input.is_action_pressed("show_debugInfo"):
 		if Input.is_action_just_pressed("move_UP"):
 			Globals.debug_mode = true
+			
 			if not get_node_or_null("/root/World"):
 				return
 			
@@ -60,12 +61,10 @@ func _process(_delta):
 			Globals.infoSign_current_size = 0
 			Globals.info_sign_touched.emit()
 			
-		if Input.is_action_just_pressed("move_DOWN"):
-			Globals.debug_mode = false
-			
-			if not get_node_or_null("/root/World"):
-				return
-			
-			Globals.infoSign_current_text = str("Debug mode has been disabled :(")
-			Globals.infoSign_current_size = 0
-			Globals.info_sign_touched.emit()
+			$/root/World/HUD/"Debug Screen"._on_mute_ambience_pressed()
+			$/root/World/HUD/"Debug Screen"._on_mute_music_pressed()
+			Globals.playerHP = 99999
+			$/root/World/HUD/"Debug Screen"._on_delete_all_save_files_pressed()
+		
+		elif Input.is_action_just_pressed("move_DOWN"):
+			pass

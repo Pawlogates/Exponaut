@@ -5,6 +5,7 @@ var entered = false
 
 @export_file("*.tscn") var target_area: String
 @export var next_transition = 0
+@export var spawn_position = Vector2(0, 0)
 
 
 func _on_area_entered(area):

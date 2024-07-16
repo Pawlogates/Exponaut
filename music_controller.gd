@@ -23,13 +23,13 @@ func _process(delta):
 	
 	var previous_volume = music_player_main.volume_db
 	if fading == "in":
-		if music_player_main.volume_db >= -40:
+		if music_player_main.volume_db <= -40:
 			music_player_main.volume_db = move_toward(music_player_main.volume_db, 0, delta * 2)
 		else:
 			music_player_main.volume_db = move_toward(music_player_main.volume_db, 0, delta * 8)
 	
 	elif fading == "out":
-		if music_player_main.volume_db >= -40:
+		if music_player_main.volume_db <= -40:
 			music_player_main.volume_db = move_toward(music_player_main.volume_db, -80, delta * 2)
 		music_player_main.volume_db = move_toward(music_player_main.volume_db, -80, delta * 8)
 	

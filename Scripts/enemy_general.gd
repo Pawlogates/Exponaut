@@ -567,7 +567,9 @@ func offScreen_load():
 
 #OTHER BEHAVIOUR
 func handle_turnOnLedge():
-	if not $scanForLedge.get_collider() and is_on_floor():
+	if can_turn and not $scanForLedge.get_collider() and is_on_floor():
+		can_turn = false
+		%Limit_turn.start()
 		
 		if direction == 1:
 			direction = -1
@@ -578,7 +580,7 @@ func handle_turnOnLedge():
 			$scanForLedge.position.x = 32
 		
 		if slowDown_onDirectionChange:
-			velocity.x = -(0.25 * velocity_last_X)
+			velocity.x = -(0.5 * velocity_last_X)
 		else:
 			velocity.x = -velocity_last_X
 
@@ -602,7 +604,7 @@ func handle_turnOnWall():
 				$scanForLedge.position.x = 32
 		
 		if slowDown_onDirectionChange:
-			velocity.x = -(0.25 * velocity_last_X)
+			velocity.x = -(0.5 * velocity_last_X)
 		else:
 			velocity.x = -velocity_last_X
 

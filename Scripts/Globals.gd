@@ -135,7 +135,7 @@ var next_transition = 0
 var debug_mode = false
 var debug_magic_projectiles = false
 
-#var delete_saves = false
+var delete_saves = false
 
 signal cheated
 var cheated_state = false

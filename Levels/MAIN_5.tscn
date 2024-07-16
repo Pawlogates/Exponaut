@@ -62,5 +62,3 @@ scale = Vector2(8, 8)
 [node name="info_sign" parent="." index="18" instance=ExtResource("8_wp7mm")]
 position = Vector2(3488, -2144)
 displayedText = "Hold DOWN direction while shooting, to perform a downward shot."
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
