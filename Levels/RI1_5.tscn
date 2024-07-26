@@ -8,10 +8,10 @@
 [ext_resource type="AudioStream" uid="uid://kyur60gxpgj3" path="res://Assets/Sounds/music/music_castle.mp3" id="6_ispfk"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="8_hy2os"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="9_30db6"]
-[ext_resource type="Texture2D" uid="uid://buwqadivlxhsm" path="res://Assets/Graphics/bg9.png" id="10_iswjb"]
+[ext_resource type="Texture2D" uid="uid://buwqadivlxhsm" path="res://Assets/Graphics/backgrounds/bg_cavern_blue.png" id="10_iswjb"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Tiles/water_area.tscn" id="11_3k8sg"]
-[ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/bg_empty_a.png" id="11_7cmg2"]
-[ext_resource type="Texture2D" uid="uid://dxgcrho6dais6" path="res://Assets/Graphics/bg_empty_b.png" id="12_di1tv"]
+[ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/backgrounds/bg_empty_a.png" id="11_7cmg2"]
+[ext_resource type="Texture2D" uid="uid://dxgcrho6dais6" path="res://Assets/Graphics/backgrounds/bg_empty_b.png" id="12_di1tv"]
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="13_nbp1y"]
 
 [node name="World" instance=ExtResource("1_6f44a")]

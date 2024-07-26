@@ -1,6 +1,6 @@
 extends CenterContainer
 
-var startingArea = preload("res://Levels/theBeginning.tscn")
+var startingArea = preload("res://Levels/Factory.tscn")
 var mapScreen = preload("res://map_screen.tscn")
 
 

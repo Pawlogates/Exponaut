@@ -344,13 +344,13 @@ func toggleBlock_toggle():
 		$Sprite2D.region_rect = Rect2(384, 896, 64, 64)
 		$CollisionShape2D.disabled = false
 		toggleBlock_is_active = true
-		z_index += 1
+		#z_index += 1
 	
 	else:
 		$Sprite2D.region_rect = Rect2(448, 896, 64, 64)
 		$CollisionShape2D.disabled = true
 		toggleBlock_is_active = false
-		z_index -= 1
+		#z_index -= 1
 	
 	if $VisibleOnScreenNotifier2D.is_on_screen():
 		var dust = effect_dustScene.instantiate()

@@ -87,7 +87,7 @@ unique_name_in_owner = true
 
 [node name="bg_previous" parent="." instance=ExtResource("10_ian1u")]
 unique_name_in_owner = true
-script = null
+current = false
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true

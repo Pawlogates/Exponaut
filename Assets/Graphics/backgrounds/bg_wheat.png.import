@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dxgcrho6dais6"
-path="res://.godot/imported/bg_empty_b.png-f1f42f113297e2ec87155ada5c33a6f3.ctex"
+uid="uid://dlgroumdkvx8t"
+path="res://.godot/imported/bg_wheat.png-4560fb61ca7e0ca71505098e7bb92658.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/bg_empty_b.png"
-dest_files=["res://.godot/imported/bg_empty_b.png-f1f42f113297e2ec87155ada5c33a6f3.ctex"]
+source_file="res://Assets/Graphics/backgrounds/bg_wheat.png"
+dest_files=["res://.godot/imported/bg_wheat.png-4560fb61ca7e0ca71505098e7bb92658.ctex"]
 
 [params]
 

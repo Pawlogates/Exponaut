@@ -154,13 +154,14 @@ func _ready():
 	Globals.exitReached.connect(exitReached_show_screen)
 	
 	
-	Globals.bg_File_previous = preload("res://Assets/Graphics/bg1.png")
-	Globals.bg_File_current = preload("res://Assets/Graphics/bg1.png")
+	Globals.bg_File_previous = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
+	Globals.bg_File_current = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
 	
 	Globals.bgChange_entered.connect(bg_change)
 	Globals.bgMove_entered.connect(bg_move)
 	
 	
+	Globals.player_transformed.connect(reassign_player)
 	
 	#if not next_level is PackedScene:
 		#level_finished.next_level_btn.text = "Results"
@@ -379,27 +380,27 @@ func _physics_process(delta):
 	#HANDLE BACKGROUND MOVEMENT
 	
 	if not bg_position_set and not debug_bg_deleted:
-		%bg_previous/CanvasLayer/bg.offset.x = move_toward(%bg_previous/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x, 100 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg.offset.y = move_toward(%bg_previous/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
 		
-		%bg_current/CanvasLayer/bg.offset.x = move_toward(%bg_current/CanvasLayer/bg.offset.x, Globals.bgOffset_target_x, 100 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg.offset.y = move_toward(%bg_current/CanvasLayer/bg.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
 		
 		#bg_a
 		
-		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg_a.offset.x = move_toward(%bg_previous/CanvasLayer/bg_a.offset.x, Globals.bg_a_Offset_target_x, 200 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg_a.offset.y = move_toward(%bg_previous/CanvasLayer/bg_a.offset.y, Globals.bg_a_Offset_target_y, 200 * bgMove_growthSpeed * delta)
 		
-		%bg_current/CanvasLayer/bg/bg_a.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg/bg_a.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_a.motion_offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg_a.offset.x = move_toward(%bg_previous/CanvasLayer/bg_a.offset.x, Globals.bg_a_Offset_target_x, 200 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg_a.offset.y = move_toward(%bg_previous/CanvasLayer/bg_a.offset.y, Globals.bg_a_Offset_target_y, 200 * bgMove_growthSpeed * delta)
 		
 		#bg_b
 		
-		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_previous/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg_b.offset.x = move_toward(%bg_previous/CanvasLayer/bg_b.offset.x, Globals.bg_b_Offset_target_x, 150 * bgMove_growthSpeed * delta)
+		%bg_previous/CanvasLayer/bg_b.offset.y = move_toward(%bg_previous/CanvasLayer/bg_b.offset.y, Globals.bg_b_Offset_target_y, 150 * bgMove_growthSpeed * delta)
 		
-		%bg_current/CanvasLayer/bg/bg_b.motion_offset.x = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg/bg_b.motion_offset.y = move_toward(%bg_current/CanvasLayer/bg/bg_b.motion_offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg_b.offset.x = move_toward(%bg_previous/CanvasLayer/bg_b.offset.x, Globals.bg_b_Offset_target_x, 150 * bgMove_growthSpeed * delta)
+		%bg_current/CanvasLayer/bg_b.offset.y = move_toward(%bg_previous/CanvasLayer/bg_b.offset.y, Globals.bg_b_Offset_target_y, 150 * bgMove_growthSpeed * delta)
 		
 		
 		
@@ -408,7 +409,7 @@ func _physics_process(delta):
 			bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.1, 1)
 		
 		
-		if not instant_background_transitions and bgMove_started and %bg_previous/CanvasLayer/bg.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_a.motion_offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg/bg_b.motion_offset.y == Globals.bgOffset_target_y:
+		if not instant_background_transitions and bgMove_started and %bg_previous/CanvasLayer/bg_main.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_main.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_a.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_a.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_b.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_b.offset.y == Globals.bgOffset_target_y:
 			bg_position_set = true
 			bgMove_growthSpeed = 1
 			bgMove_started = false
@@ -610,8 +611,6 @@ func retry_loadSave(afterDelay):
 
 
 
-
-
 #Background change
 var bg_free_to_change = true
 
@@ -620,14 +619,15 @@ func bg_change():
 	
 	if bg_free_to_change:
 		bg_free_to_change = false
-		print("Background (main) texture began fading")
+		print("Background textures began fading.")
+		
 		%bg_previous/bg_transition.play("bg_hide")
 		%bg_previous/bg_a_transition.play("bg_a_hide")
 		%bg_previous/bg_b_transition.play("bg_b_hide")
 		
-		%bg_current/CanvasLayer/bg/bg_main/TextureRect.texture = Globals.bg_File_current
-		%bg_current/CanvasLayer/bg/bg_a/TextureRect.texture = Globals.bg_a_File_current
-		%bg_current/CanvasLayer/bg/bg_b/TextureRect.texture = Globals.bg_b_File_current
+		%bg_current/CanvasLayer/bg_main/bg_main/TextureRect.texture = Globals.bg_File_current
+		%bg_current/CanvasLayer/bg_a/bg_a/TextureRect.texture = Globals.bg_a_File_current
+		%bg_current/CanvasLayer/bg_b/bg_b/TextureRect.texture = Globals.bg_b_File_current
 		
 		%bg_current/bg_transition.play("bg_show")
 		%bg_current/bg_a_transition.play("bg_a_show")
@@ -1109,20 +1109,15 @@ func load_game_area():
 	Globals.saveState_loaded.emit()
 
 
-
-
-
 #Save progress loaded from the main menu screen.
-
 func last_area_filePath_save():
 	if shrine_level or regular_level:
 		return
 	
 	SavedData.saved_last_area_filePath = savedProgress_level_filePath
-	
-	
-
 
 
 func reassign_player():
-	player = get_tree().get_first_node_in_group("player")
+	player = get_tree().get_first_node_in_group("player_root")
+	camera = get_tree().get_first_node_in_group("player_camera")
+	get_tree().get_first_node_in_group("quickselect_screen").reassign_player()

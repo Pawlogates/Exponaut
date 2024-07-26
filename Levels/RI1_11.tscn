@@ -10,8 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://deco_cloud.tscn" id="7_472mf"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="8_k2bt4"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="9_un4g6"]
-[ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/bg_empty_a.png" id="10_4wyok"]
-[ext_resource type="Texture2D" uid="uid://dxgcrho6dais6" path="res://Assets/Graphics/bg_empty_b.png" id="11_wa8pq"]
+[ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/backgrounds/bg_empty_a.png" id="10_4wyok"]
+[ext_resource type="Texture2D" uid="uid://dxgcrho6dais6" path="res://Assets/Graphics/backgrounds/bg_empty_b.png" id="11_wa8pq"]
 
 [node name="World" instance=ExtResource("1_cgx2o")]
 playerStartHP = 3

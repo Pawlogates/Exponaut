@@ -102,6 +102,8 @@ var insideWater_multiplier = 1
 var damageValue = 1
 
 func _ready():
+	$/root/World.reassign_player()
+	
 	Globals.player_pos = get_global_position()
 	Globals.player_posX = get_global_position()[0]
 	Globals.player_posY = get_global_position()[1]
@@ -484,7 +486,6 @@ func reduceHp1():
 		damage.play()
 		attacked = true
 		$attackedTimer.start()
-	
 
 func reduceHp2():
 	if not dead:
@@ -627,11 +628,6 @@ func _on_secondary_attack_cooldown_timeout():
 		$AnimatedSprite2D.flip_h = (Globals.direction < 0)
 
 
-
-
-
-
-
 func _on_just_landed_delay_timeout():
 	justLanded_delay_started = false
 	just_landed_queued = true
@@ -641,16 +637,10 @@ func _on_await_jump_timer_timeout():
 	dash_end_slowdown_await_jump = false
 
 
-
-
-
-
 #TRANSFORMATIONS
-
 var player_bird_scene = load("res://player_bird.tscn")
 var player_chicken_scene = load("res://player_chicken.tscn")
 var player_rooster_scene = load("res://player.tscn")
-
 
 func transformInto_rooster():
 	call_deferred("deferred_spawnRooster")
@@ -665,23 +655,33 @@ func transformInto_chicken():
 	call_deferred("delete")
 
 
-
 func deferred_spawnRooster():
+	remove_from_group("player")
+	remove_from_group("player_root")
+	camera.remove_from_group("player_camera")
 	var player_rooster = player_rooster_scene.instantiate()
 	player_rooster.position = position
 	$/root/World.add_child(player_rooster)
 
 func deferred_spawnBird():
+	remove_from_group("player")
+	remove_from_group("player_root")
+	camera.remove_from_group("player_camera")
 	var player_bird = player_bird_scene.instantiate()
 	player_bird.position = position
 	$/root/World.add_child(player_bird)
 
 func deferred_spawnChicken():
+	remove_from_group("player")
+	remove_from_group("player_root")
+	camera.remove_from_group("player_camera")
 	var player_chicken = player_chicken_scene.instantiate()
 	player_chicken.position = position
 	$/root/World.add_child(player_chicken)
 
 
+func delete():
+	queue_free()
 
 
 func playSound_shoot():

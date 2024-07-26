@@ -365,7 +365,7 @@ _data = {
 "shot_charged": SubResource("Animation_scdec")
 }
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player" type="CharacterBody2D" groups=["player", "player_root"]]
 collision_layer = 2
 collision_mask = 5
 floor_constant_speed = true
@@ -410,7 +410,7 @@ one_shot = true
 wait_time = 0.15
 one_shot = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["player_camera"]]
 unique_name_in_owner = true
 process_mode = 3
 z_index = 1

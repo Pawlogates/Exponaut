@@ -465,9 +465,7 @@ enemy_type = "bird"
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 10)
 sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"jump"
-frame = 1
-frame_progress = 0.972194
+animation = &"flying"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75

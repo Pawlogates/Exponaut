@@ -168,4 +168,6 @@ func place_item_display(item, weaponMode):
 		
 		
 	get_tree().get_first_node_in_group("quickselect_itemDisplay").get_node("%Button").grab_focus()
-	
+
+func reassign_player():
+	player = get_tree().get_first_node_in_group("player_root")

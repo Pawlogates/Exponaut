@@ -1,15 +1,10 @@
 extends CenterContainer
 
 var level_icon_scene = load("res://level_button.tscn")
-#var level_icon = level_icon_scene.instantiate()
-
 var main_menu = load("res://start_menu.tscn")
 
-
 var level_number = 0
-
 var total_score = 0
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -11,11 +11,9 @@ func _process(_delta):
 	pass
 
 
-
-
-@export var Background_filePath = preload("res://Assets/Graphics/bg1.png")
-@export var Background_a_filePath = preload("res://Assets/Graphics/bg1a.png")
-@export var Background_b_filePath = preload("res://Assets/Graphics/bg1b.png")
+@export var Background_filePath = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
+@export var Background_a_filePath = preload("res://Assets/Graphics/backgrounds/bg_a_fields.png")
+@export var Background_b_filePath = preload("res://Assets/Graphics/backgrounds/bg_b_fields.png")
 
 func _on_area_entered(area):
 	if area.name == "Player_hitbox_main":

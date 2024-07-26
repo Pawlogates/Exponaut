@@ -1,16 +1,16 @@
 [gd_scene load_steps=13 format=3 uid="uid://qvxb24kyh4pu"]
 
 [ext_resource type="Script" path="res://background.gd" id="1_gwj4p"]
-[ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/bg1.png" id="2_rc4at"]
-[ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/bg1b.png" id="3_qdcue"]
-[ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/bg1a.png" id="5_sn8j5"]
+[ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/backgrounds/bg_fields.png" id="2_ur5s7"]
+[ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/backgrounds/bg_b_fields.png" id="3_p3sgr"]
+[ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/backgrounds/bg_a_fields.png" id="4_5ynqy"]
 
 [sub_resource type="Animation" id="Animation_03oew"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg_b/bg_b:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -22,7 +22,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CanvasLayer/bg/bg_a:modulate")
+tracks/1/path = NodePath("CanvasLayer/bg_a/bg_a:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -34,7 +34,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("CanvasLayer/bg/bg_main:modulate")
+tracks/2/path = NodePath("CanvasLayer/bg_main/bg_main:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -50,7 +50,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_a:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg_a/bg_a:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -66,7 +66,7 @@ length = 3.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_a:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg_a/bg_a:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -82,7 +82,7 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg_b/bg_b:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -98,7 +98,7 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_b:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg_b/bg_b:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -114,7 +114,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_main:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg_main/bg_main:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -130,7 +130,7 @@ length = 4.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CanvasLayer/bg/bg_main:modulate")
+tracks/0/path = NodePath("CanvasLayer/bg_main/bg_main:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -179,45 +179,50 @@ libraries = {
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="bg" type="ParallaxBackground" parent="CanvasLayer"]
+[node name="bg_main" type="ParallaxBackground" parent="CanvasLayer"]
 scroll_ignore_camera_zoom = true
 
-[node name="bg_main" type="ParallaxLayer" parent="CanvasLayer/bg"]
+[node name="bg_main" type="ParallaxLayer" parent="CanvasLayer/bg_main"]
 texture_repeat = 3
 motion_scale = Vector2(0.75, 0.1)
 motion_mirroring = Vector2(1920, 0)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_main"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg_main/bg_main"]
 offset_top = -900.0
 offset_right = 1920.0
 offset_bottom = 1440.0
-texture = ExtResource("2_rc4at")
+texture = ExtResource("2_ur5s7")
 stretch_mode = 4
 
-[node name="bg_b" type="ParallaxLayer" parent="CanvasLayer/bg"]
+[node name="bg_b" type="ParallaxBackground" parent="CanvasLayer"]
+scroll_ignore_camera_zoom = true
+
+[node name="bg_b" type="ParallaxLayer" parent="CanvasLayer/bg_b"]
 texture_repeat = 3
 motion_scale = Vector2(0.85, 0.4)
 motion_mirroring = Vector2(2560, 0)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_b"]
-modulate = Color(1, 1, 1, 0.235294)
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg_b/bg_b"]
 texture_repeat = 3
 offset_top = 320.0
 offset_right = 2560.0
 offset_bottom = 1180.0
-texture = ExtResource("3_qdcue")
+texture = ExtResource("3_p3sgr")
 
-[node name="bg_a" type="ParallaxLayer" parent="CanvasLayer/bg"]
+[node name="bg_a" type="ParallaxBackground" parent="CanvasLayer"]
+scroll_ignore_camera_zoom = true
+
+[node name="bg_a" type="ParallaxLayer" parent="CanvasLayer/bg_a"]
 texture_repeat = 3
 motion_scale = Vector2(0.95, 0.5)
 motion_mirroring = Vector2(1920, 0)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg/bg_a"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/bg_a/bg_a"]
 texture_repeat = 3
 offset_top = 320.0
 offset_right = 1920.0
 offset_bottom = 1180.0
-texture = ExtResource("5_sn8j5")
+texture = ExtResource("4_5ynqy")
 
 [connection signal="animation_finished" from="bg_transition" to="." method="_on_bg_transition_animation_finished"]
 [connection signal="timeout" from="bg_transition/bg_transition_buffer_delay" to="." method="_on_bg_transition_buffer_delay_timeout"]

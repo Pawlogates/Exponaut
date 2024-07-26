@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bjkqxj8c6bpll"
-path="res://.godot/imported/bg8.png-d2d8caa374597a4e0af7065d5b33bfc0.ctex"
+uid="uid://drilphqan5rds"
+path="res://.godot/imported/bg_fields_night.png-8c32b0d3eb64c1ca09a0a8dc8a038340.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/bg8.png"
-dest_files=["res://.godot/imported/bg8.png-d2d8caa374597a4e0af7065d5b33bfc0.ctex"]
+source_file="res://Assets/Graphics/backgrounds/bg_fields_night.png"
+dest_files=["res://.godot/imported/bg_fields_night.png-8c32b0d3eb64c1ca09a0a8dc8a038340.ctex"]
 
 [params]
 

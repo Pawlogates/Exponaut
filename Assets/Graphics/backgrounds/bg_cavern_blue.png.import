@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bxxvgscwky4sx"
-path="res://.godot/imported/bg6.png-b36e38bdda3f2897955dfa17498af8fc.ctex"
+uid="uid://buwqadivlxhsm"
+path="res://.godot/imported/bg_cavern_blue.png-6349395b09f7c418d0f15e6857c1a385.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/bg6.png"
-dest_files=["res://.godot/imported/bg6.png-b36e38bdda3f2897955dfa17498af8fc.ctex"]
+source_file="res://Assets/Graphics/backgrounds/bg_cavern_blue.png"
+dest_files=["res://.godot/imported/bg_cavern_blue.png-6349395b09f7c418d0f15e6857c1a385.ctex"]
 
 [params]
 

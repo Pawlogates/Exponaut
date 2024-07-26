@@ -18,10 +18,10 @@
 
 [node name="World" instance=ExtResource("1_4hk83")]
 savedProgress_level_filePath = "res://Levels/Ascent.tscn"
-cameraLimit_left = -1920.0
-cameraLimit_right = 3968.0
-cameraLimit_bottom = 704.0
-cameraLimit_top = -9536.0
+cameraLimit_left = -1984.0
+cameraLimit_right = 4032.0
+cameraLimit_bottom = 768.0
+cameraLimit_top = -9600.0
 regular_level = false
 playerStartHP = 3
 rain = true
@@ -45,7 +45,6 @@ layer_4/tile_data = PackedInt32Array(524382, 3, 6, 786526, 3, 7, 1048670, 3, 7, 
 
 [node name="tileset_objects" parent="." index="3" instance=ExtResource("5_a5pwy")]
 unique_name_in_owner = true
-layer_0/tile_data = PackedInt32Array(131058, 0, 7864320, 196594, 0, 7864320, 196595, 0, 7864320, 131059, 0, 7864320, -131066, 0, 7667712, -131065, 0, 7667712, -65529, 0, 7667712, -65530, 0, 7733248, -65531, 0, 7733248, -131063, 0, 7733248, -131064, 0, 7733248, -65528, 0, 7667712, -65513, 0, 393216, -327653, 0, 393216, -131027, 0, 393216, 6, 0, 393216, 262160, 0, 327680, 196627, 0, 327680, 393272, 0, 327680, -65503, 0, 327680, -131058, 0, 6750208, -327687, 0, 6750208, 131129, 0, 6750208, 196622, 0, 65536, 196624, 0, 65536, 131090, 0, 65536, 131092, 0, 65536, 21, 0, 65536, -131050, 0, 65536, -262122, 0, 65536, -393193, 0, 65536, -393191, 0, 65536, -393189, 0, 65536, -393187, 0, 65536, -262114, 0, 65536, -196576, 0, 65536, -131038, 0, 65536, -196572, 0, 65536, -262106, 0, 65536, -327640, 0, 65536, -262102, 0, 65536, -196564, 0, 65536, -393166, 0, 65536, -458701, 0, 65536, -393164, 0, 65536, -458699, 0, 65536, 327673, 0, 65536, 262138, 0, 65536, 327675, 0, 65536, 65565, 0, 2097152, 65566, 0, 2031616, 458803, 0, 2031616, -196606, 0, 4653056, -196570, 0, 4653056, 18, 0, 4521984, 65552, 0, 1507328, 17, 0, 1507328, 131089, 0, 1507328, 65554, 0, 1507328, 131123, 0, 1507328, -65488, 0, 1376256, -65487, 0, 1376256, 196639, 0, 1376256)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
@@ -53,7 +52,6 @@ layer_4/enabled = false
 
 [node name="tileset_objectsSmall" parent="." index="4" instance=ExtResource("6_vlpk8")]
 unique_name_in_owner = true
-layer_0/tile_data = PackedInt32Array(458763, 0, 262144)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
@@ -80,14 +78,11 @@ autoplay = false
 position = Vector2(1792, 192)
 
 [node name="bg_current" parent="." index="11"]
-main_g = 0.3
 b_r = 0.2
 b_g = 0.8
 b_a = 0.8
 
 [node name="bg_previous" parent="." index="12"]
-main_r = 0.0
-main_g = 0.3
 b_r = 0.2
 b_g = 0.8
 b_a = 0.8
@@ -130,7 +125,7 @@ Background_b_filePath = ExtResource("12_3jltn")
 [node name="trigger_bgMove" parent="Triggers" index="1" instance=ExtResource("9_r2lh6")]
 position = Vector2(1792, 192)
 scale = Vector2(6, 6)
-bgMove_y = 400
+bgMove_y = -700
 bg_a_Move_y = -200
 bg_b_Move_y = -350
 

@@ -450,8 +450,7 @@ func _on_collectible_entered(body):
 			elif transform_into == "pig":
 				$/root/World.player.transformInto_pig()
 			
-			$/root/World.reassign_player()
-		
+			Globals.player_transformed.emit()
 		
 		if is_key:
 			$/root/World.key_collected()

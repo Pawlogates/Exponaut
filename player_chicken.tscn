@@ -353,7 +353,7 @@ _data = {
 "shot_charged": SubResource("Animation_scdec")
 }
 
-[node name="Player_Chicken" type="CharacterBody2D" groups=["player", "weightless"]]
+[node name="Player" type="CharacterBody2D" groups=["player", "player_root", "weightless"]]
 z_index = 1
 scale = Vector2(2, 2)
 collision_layer = 2
@@ -399,7 +399,7 @@ one_shot = true
 wait_time = 0.15
 one_shot = true
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["player_camera"]]
 unique_name_in_owner = true
 process_mode = 3
 z_index = 1
@@ -502,6 +502,23 @@ one_shot = true
 unique_name_in_owner = true
 wait_time = 0.66
 one_shot = true
+
+[node name="attackedTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="raycast_top" type="RayCast2D" parent="."]
+position = Vector2(0, -56)
+target_position = Vector2(40, 0)
+hit_from_inside = true
+
+[node name="raycast_bottom" type="RayCast2D" parent="."]
+position = Vector2(0, 56)
+target_position = Vector2(40, 0)
+hit_from_inside = true
+
+[node name="raycast_middle" type="RayCast2D" parent="."]
+target_position = Vector2(40, 0)
+hit_from_inside = true
 
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]

@@ -1,8 +1,5 @@
 extends Node
 
-
-#variables
-
 var direction = 1
 
 var level_score = 0
@@ -26,12 +23,7 @@ var player_posY = 0
 
 var player_velocity = Vector2(0, 0)
 
-
-#var weaponType = "none"
-
-
 #signals
-
 signal itemCollected
 signal enemyHit
 signal boxBroken
@@ -57,9 +49,9 @@ signal secondaryWeapon_collected
 
 signal score_reduced
 
+signal player_transformed
 
-#Save state
-
+#Save state (unused?)
 signal saveState_loaded
 signal saveState_saved
 signal save
@@ -73,27 +65,33 @@ var saved_player_posY = player_posY
 
 var saved_level_score = level_score
 
-var loadingZone_current = "none"
+#var loadingZone_current = "none"
 
 
 
 #Background change
-
 signal bgChange_entered
 signal bgMove_entered
 signal bgTransition_finished
 
-var bg_File_previous = preload("res://Assets/Graphics/bg1.png")
-var bg_File_current = preload("res://Assets/Graphics/bg1.png")
+var bg_File_previous = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
+var bg_File_current = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
 
-var bg_a_File_previous = preload("res://Assets/Graphics/bg1a.png")
-var bg_a_File_current = preload("res://Assets/Graphics/bg1a.png")
+var bg_a_File_previous = preload("res://Assets/Graphics/backgrounds/bg_a_fields.png")
+var bg_a_File_current = preload("res://Assets/Graphics/backgrounds/bg_a_fields.png")
 
-var bg_b_File_previous = preload("res://Assets/Graphics/bg1b.png")
-var bg_b_File_current = preload("res://Assets/Graphics/bg1b.png")
+var bg_b_File_previous = preload("res://Assets/Graphics/backgrounds/bg_b_fields.png")
+var bg_b_File_current = preload("res://Assets/Graphics/backgrounds/bg_b_fields.png")
 
 var bgOffset_target_x = 0
 var bgOffset_target_y = 0
+
+var bg_a_Offset_target_x = 0
+var bg_a_Offset_target_y = 0
+
+var bg_b_Offset_target_x = 0
+var bg_b_Offset_target_y= 0
+#Background change end
 
 
 var test = 0
