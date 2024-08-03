@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bi5xs4kte6qai"]
 
-[ext_resource type="Script" path="res://parallax_background_gradient.gd" id="1_hvrc8"]
 [ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/fg_gradient.png" id="1_n3xco"]
+[ext_resource type="Script" path="res://Scripts/parallax_background_gradient.gd" id="1_xn10d"]
 
 [node name="ParallaxBackgroundGradient" type="Node2D"]
 z_index = 100
-script = ExtResource("1_hvrc8")
+script = ExtResource("1_xn10d")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = 50

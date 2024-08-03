@@ -23,7 +23,7 @@
 [ext_resource type="VideoStream" path="res://Assets/Videos/tutorial2.ogv" id="21_drv2c"]
 [ext_resource type="VideoStream" path="res://Assets/Videos/tutorial3.ogv" id="22_po6p1"]
 [ext_resource type="PackedScene" uid="uid://cskb3d0dg2faj" path="res://object_remover.tscn" id="23_vl5hi"]
-[ext_resource type="Script" path="res://checkpoint.gd" id="24_y07r5"]
+[ext_resource type="Script" path="res://Scripts/checkpoint.gd" id="24_j4asm"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="25_ehmoc"]
 [ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://trigger_positional.tscn" id="26_2oee2"]
 
@@ -59,7 +59,7 @@ size = Vector2(64, 512)
 size = Vector2(64, 192)
 
 [node name="World" instance=ExtResource("1_jqigd")]
-savedProgress_level_filePath = "res://Levels/theBeginning.tscn"
+savedProgress_level_filePath = "res://Levels/Factory.tscn"
 cameraLimit_left = -1e+07
 cameraLimit_right = 10432.0
 cameraLimit_bottom = 640.0
@@ -313,7 +313,7 @@ shape = SubResource("RectangleShape2D_xfbey")
 
 [node name="checkpoint" type="StaticBody2D" parent="." index="53"]
 position = Vector2(1840, -2016)
-script = ExtResource("24_y07r5")
+script = ExtResource("24_j4asm")
 
 [node name="checkpoint" type="Sprite2D" parent="checkpoint" index="0"]
 position = Vector2(-16, 0)
@@ -327,7 +327,7 @@ shape = SubResource("RectangleShape2D_mwk38")
 
 [node name="checkpoint2" type="StaticBody2D" parent="." index="54"]
 position = Vector2(3296, -2016)
-script = ExtResource("24_y07r5")
+script = ExtResource("24_j4asm")
 
 [node name="checkpoint" type="Sprite2D" parent="checkpoint2" index="0"]
 texture = SubResource("AtlasTexture_2jjck")
@@ -340,7 +340,7 @@ shape = SubResource("RectangleShape2D_tm3t0")
 
 [node name="checkpoint3" type="StaticBody2D" parent="." index="55"]
 position = Vector2(32, -2016)
-script = ExtResource("24_y07r5")
+script = ExtResource("24_j4asm")
 
 [node name="checkpoint" type="Sprite2D" parent="checkpoint3" index="0"]
 texture = SubResource("AtlasTexture_2jjck")

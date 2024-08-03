@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=3 uid="uid://dj5riu45e5sf7"]
 
-[ext_resource type="Script" path="res://remove_general.gd" id="1_a804r"]
-[ext_resource type="Script" path="res://particleEmit_general.gd" id="2_k4lom"]
+[ext_resource type="Script" path="res://Scripts/remove_general.gd" id="1_a804r"]
+[ext_resource type="Script" path="res://Scripts/particleEmit_general.gd" id="2_k4lom"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_qfhjm"]
 
 [sub_resource type="Curve" id="Curve_d62vd"]

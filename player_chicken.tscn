@@ -361,6 +361,10 @@ floor_max_angle = 1.0472
 floor_snap_length = 15.0
 safe_margin = 0.1
 script = ExtResource("1_03rdw")
+can_air_jump = false
+can_wall_jump = false
+can_crouch_walk = false
+can_dash = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -2)
@@ -537,3 +541,4 @@ hit_from_inside = true
 [connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
 [connection signal="timeout" from="justLanded_delay" to="." method="_on_just_landed_delay_timeout"]
 [connection signal="timeout" from="awaitJump_timer" to="." method="_on_await_jump_timer_timeout"]
+[connection signal="timeout" from="attackedTimer" to="." method="_on_attacked_timer_timeout"]

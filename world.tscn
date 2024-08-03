@@ -13,9 +13,9 @@
 [ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://info_text_display.tscn" id="7_2y4xw"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://quicksaved_display.tscn" id="7_nexah"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://score_display.tscn" id="7_vhiat"]
-[ext_resource type="Script" path="res://interactive_button.gd" id="8_5hfsd"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://combo_manager.tscn" id="9_yw32x"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://background.tscn" id="10_ian1u"]
+[ext_resource type="Script" path="res://Scripts/interactive_button.gd" id="11_3ltqr"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://inventory.tscn" id="12_nf7r3"]
 [ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://quickselect_screen.tscn" id="15_ia3vl"]
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://collectedApplesDisplay_golden.tscn" id="16_1nult"]
@@ -120,7 +120,7 @@ offset_right = 320.0
 offset_bottom = -368.0
 size_flags_horizontal = 4
 theme = ExtResource("5_ay58j")
-script = ExtResource("8_5hfsd")
+script = ExtResource("11_3ltqr")
 
 [node name="Player Died Text" type="RichTextLabel" parent="HUD/CenterContainer_info/Player Died Root/Player Died"]
 clip_contents = false

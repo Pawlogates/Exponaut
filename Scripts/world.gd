@@ -435,7 +435,7 @@ var debug_bg_deleted = false
 
 func handle_player_death():
 	player.dead = true
-	player.death.play()
+	player.sfx_death.play()
 	if regular_level:
 		#if Globals.quicksaves_enabled:
 			#retry_loadSave(true)

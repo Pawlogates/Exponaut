@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://cmncqo0vv0lwj"]
 
-[ext_resource type="Script" path="res://hanging_deco_general.gd" id="1_qqe41"]
+[ext_resource type="Script" path="res://Scripts/hanging_deco_general.gd" id="1_qqe41"]
 [ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="1_qs3lu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rdmqd"]

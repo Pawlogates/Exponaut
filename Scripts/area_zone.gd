@@ -62,7 +62,7 @@ func _on_area_exited(area):
 		elif area_type == "water":
 			area.get_parent().inside_water -= 1
 			if not area.get_parent().inside_water:
-				area.get_parent().SPEED = area.get_parent().base_player_speed
+				area.get_parent().SPEED = area.get_parent().base_SPEED
 				area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.1
 			
 			$AudioStreamPlayer2D.play()

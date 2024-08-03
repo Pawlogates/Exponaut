@@ -1,19 +1,19 @@
-[gd_scene load_steps=16 format=3 uid="uid://d0734vb1p0a4l"]
+[gd_scene load_steps=16 format=3 uid="uid://rl2pxvlbj6gb"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_j0qia"]
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_7og7f"]
-[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_vl5l7"]
-[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_fip6c"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="5_pwnso"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="6_nct61"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_4ji4u"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="3_ab8i0"]
+[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_q7a7g"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_0iobu"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_te704"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_6t1mb"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g078y"]
-atlas = ExtResource("2_7og7f")
-region = Rect2(0, 1128, 24, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_yartx"]
+atlas = ExtResource("3_ab8i0")
+region = Rect2(1824, 192, 24, 24)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_5q0ck"]
-atlas = ExtResource("2_7og7f")
-region = Rect2(24, 1128, 24, 24)
+[sub_resource type="AtlasTexture" id="AtlasTexture_56cao"]
+atlas = ExtResource("3_ab8i0")
+region = Rect2(1848, 192, 24, 24)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
 animations = [{
@@ -39,10 +39,10 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_g078y")
+"texture": SubResource("AtlasTexture_yartx")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_5q0ck")
+"texture": SubResource("AtlasTexture_56cao")
 }],
 "loop": true,
 "name": &"flying",
@@ -240,25 +240,23 @@ _data = {
 "score_value": SubResource("Animation_gitew")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhg72"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_upxjq"]
 size = Vector2(640, 24)
 
-[node name="butterfly" type="CharacterBody2D" groups=["Collectibles", "Persist", "enemies"]]
+[node name="butterfly_score" type="CharacterBody2D" groups=["Collectibles", "Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
-script = ExtResource("1_j0qia")
-hp = 1
+script = ExtResource("1_4ji4u")
+hp = 7
 SPEED = 50
 movementType = "wave_V"
-give_score_onDeath = false
+scoreValue = 10000
 turnOnWall = true
 floating = true
 damageTo_player = false
-bonusBox_spawn_item_onDeath = true
-particles_golden = false
-particles_splash = false
+bonusBox_spread_position = false
 enable_generalTimers = false
-enemy_type = "butterfly"
+enemy_type = "butterfly_score"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)
@@ -298,10 +296,10 @@ wait_time = 0.5
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_vl5l7")
+stream = ExtResource("4_q7a7g")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_fip6c")
+stream = ExtResource("5_0iobu")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -319,11 +317,11 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
-material = ExtResource("5_pwnso")
+material = ExtResource("6_te704")
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 160.0
-theme = ExtResource("6_nct61")
+theme = ExtResource("7_6t1mb")
 theme_override_font_sizes/font_size = 0
 text = "test"
 horizontal_alignment = 1
@@ -333,11 +331,6 @@ unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_ihjei")
 }
-
-[node name="Limit_turn" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 0.3
-one_shot = true
 
 [node name="patrolDirectionTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -357,7 +350,12 @@ input_pickable = false
 [node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
 position = Vector2(-320, 36)
-shape = SubResource("RectangleShape2D_vhg72")
+shape = SubResource("RectangleShape2D_upxjq")
+
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
 
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]

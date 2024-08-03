@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsesa2c0faeh6"]
 
-[ext_resource type="Script" path="res://Tiles/trigger_reset_score.gd" id="1_mrjbe"]
+[ext_resource type="Script" path="res://Scripts/trigger_reset_score.gd" id="1_mrjbe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
 size = Vector2(64, 64)

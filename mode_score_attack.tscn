@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bvvuh1tlyahup"]
 
-[ext_resource type="Script" path="res://mode_scoreAttack.gd" id="1_q63rt"]
+[ext_resource type="Script" path="res://Scripts/mode_scoreAttack.gd" id="1_q63rt"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="2_0yjpv"]
 [ext_resource type="Texture2D" uid="uid://bfk3cy4j5p5yy" path="res://Assets/Graphics/scoreDisplay_1.png" id="2_4wv6g"]
 

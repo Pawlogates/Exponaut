@@ -1,4 +1,3 @@
-class_name player_general
 extends CharacterBody2D
 
 @export var SPEED = 400.0
@@ -9,6 +8,13 @@ extends CharacterBody2D
 
 @export var AIR_SLOWDOWN = -400.0
 @export var AIR_ACCELERATION = 1400.0
+
+@export var can_jump = true
+@export var can_air_jump = true
+@export var can_wall_jump = true
+@export var can_crouch = true
+@export var can_crouch_walk = true
+@export var can_dash = true
 
 @export var flight = false
 
@@ -31,33 +37,34 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 @onready var jump_leniency = $jump_leniency
 @onready var wall_jump_leniency = $wallJump_leniency
 
-@onready var start_pos = global_position
+var start_pos = global_position
+
+var base_SPEED = SPEED
+var base_JUMP_VELOCITY = JUMP_VELOCITY
+var base_ACCELERATION = ACCELERATION
+var base_FRICTION = FRICTION
+var base_GRAVITY_SCALE = GRAVITY_SCALE
 
 @onready var player_collision = $CollisionShape2D
 @onready var player_hitbox = $Player_hitbox_main/CollisionShape2D
 
 
 @onready var camera = $Camera2D
-
 @onready var dash_timer = $dash_timer
 
-@onready var damage = $damage
-@onready var jump = $jump
-@onready var death = $death
-@onready var hit = $wall_jump
+@onready var sfx_damage = $damage
+@onready var sfx_jump = $jump
+@onready var sfx_death = $death
 
 @onready var animation_player = $AnimationPlayer
-
-
-
 @onready var shoot_anim_delay = $AnimatedSprite2D/shootAnimDelay
-
-
 @onready var crouch_walk_anim_delay = $AnimatedSprite2D/crouch_walkAnimDelay
+
 var crouch_walking = false
 var crouching = false
 var crouchTimer = false
 var crouchMultiplier = 1
+
 @onready var crouch_walk_collision_switch = $AnimatedSprite2D/crouch_walkCollisionSwitch
 @onready var player_hitbox_tile_detection = $Player_hitbox_tileDetection
 
@@ -89,9 +96,7 @@ var spawn_dust_effect = true
 var block_movement = false
 
 
-#AREAS (water, wind, etc.
-var base_player_speed = 400
-
+#AREAS (water, wind, etc.)
 var inside_wind = 0
 var insideWind_direction = 0
 
@@ -102,6 +107,12 @@ var insideWater_multiplier = 1
 var damageValue = 1
 
 func _ready():
+	base_SPEED = SPEED
+	base_JUMP_VELOCITY = JUMP_VELOCITY
+	base_ACCELERATION = ACCELERATION
+	base_FRICTION = FRICTION
+	base_GRAVITY_SCALE = GRAVITY_SCALE
+
 	$/root/World.reassign_player()
 	
 	Globals.player_pos = get_global_position()
@@ -137,7 +148,6 @@ func _ready():
 		weaponType = "basic"
 
 
-
 var attack_cooldown = false
 var secondaryAttack_cooldown = false
 @export var weaponType = "none"
@@ -170,8 +180,10 @@ func _process(delta):
 	else:
 		apply_gravity(delta)
 		
-		if not handle_jump(delta):
-			handle_wall_jump()
+		if can_jump:
+			if not handle_jump(delta):
+				if can_wall_jump:
+					handle_wall_jump()
 			
 		handle_acceleration_direction(delta)
 		handle_air_acceleration(delta)
@@ -181,10 +193,12 @@ func _process(delta):
 	
 	if not debugMovement:
 		#DASHING LOGIC
-		handle_dash()
+		if can_dash:
+			handle_dash()
 		
 		#CROUCHING LOGIC
-		handle_crouching()
+		if can_crouch:
+			handle_crouching()
 	
 	
 	if not debugMovement:
@@ -211,7 +225,6 @@ func _process(delta):
 	#HANDLE STUCK IN WALL
 	handle_stuck()
 	
-	
 	handle_gameMode_scoreAttack()
 #MAIN END
 
@@ -226,16 +239,17 @@ var wall_jump = false
 
 func apply_gravity(delta):
 	if not is_on_floor() and not is_dashing or dash_slowdown:
-		if Input.is_action_pressed("jump"):
-			if inside_water:
-				velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE * insideWater_multiplier
+		if not flight:
+			if Input.is_action_pressed("jump"):
+				if inside_water:
+					velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE * insideWater_multiplier
+				else:
+					velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE
 			else:
-				velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE
-		else:
-			if inside_water:
-				velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE * insideWater_multiplier
-			else:
-				velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE
+				if inside_water:
+					velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE * insideWater_multiplier
+				else:
+					velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE
 				
 	if not dead and is_dashing:
 		animated_sprite_2d.play("crouch")
@@ -298,7 +312,7 @@ func handle_jump(delta):
 		if Input.is_action_just_pressed("jump"):
 			normal_jump = false
 			jump_build_velocity.start()
-			jump.play()
+			sfx_jump.play()
 			jumpBuildVelocity_active = true
 			return true
 	
@@ -311,14 +325,14 @@ func handle_jump(delta):
 	elif not on_floor and not on_wall and not wall_jump_leniency.time_left > 0.0 or not on_floor and on_wall and not wall_jump and wall_jump_leniency.time_left > 0.0:
 		if Input.is_action_just_released("jump") and velocity.y < JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
-		if Input.is_action_just_pressed("jump") and air_jump:
+		if can_air_jump and Input.is_action_just_pressed("jump") and air_jump:
 			if inside_water:
 				velocity.y = JUMP_VELOCITY * 0.8 * insideWater_multiplier
 			else:
 				velocity.y = JUMP_VELOCITY * 0.8
 				
 			air_jump = false
-			jump.play()
+			sfx_jump.play()
 			
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
@@ -345,6 +359,7 @@ func handle_wall_jump():
 			velocity.y = JUMP_VELOCITY * 1
 		
 		wall_jump = false
+		$wall_jump.play()
 
 
 
@@ -381,20 +396,18 @@ func handle_air_acceleration(delta):
 		
 	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
 		velocity.x = velocity.x * 0.5
-		
-	
-
-
-
 
 
 var attacked = false
 var deathAnim_playing = false
 
 func update_anim():
-	if not is_on_floor():
-		$idle_timer.stop()
+	if direction != 0 and not dead:
+		animated_sprite_2d.flip_h = (direction < 0)
 	
+	if not flight:
+		if not is_on_floor():
+			$idle_timer.stop()
 	
 	if dead and not deathAnim_playing:
 		deathAnim_playing = true
@@ -408,8 +421,11 @@ func update_anim():
 		animated_sprite_2d.play("damage")
 		return
 	
+	if flight:
+		animated_sprite_2d.play("flight")
+		return
 	
-	if is_on_floor():
+	if is_on_floor() and not flight:
 		
 		idle_after_delay()
 		
@@ -417,38 +433,24 @@ func update_anim():
 			animated_sprite_2d.play("walk")
 			animated_sprite_2d.flip_h = (direction < 0)
 			$idle_timer.stop()
-		
-		
-	if not attacked and not dead and not is_dashing and not is_on_floor() and not shooting and not crouch_walking and not crouching:
-		animated_sprite_2d.play("jump")
-		
-		if direction != 0:
-			animated_sprite_2d.flip_h = (direction < 0)
-		
 	
-
+	if not flight and not attacked and not dead and not is_dashing and not is_on_floor() and not shooting and not crouch_walking and not crouching:
+		animated_sprite_2d.play("jump")
 
 
 func idle_after_delay():
 	if $idle_timer.is_stopped():
-		
 		$idle_timer.start()
-		
-
 
 
 func _on_idle_timer_timeout():
 	if not attacked and not dead and not is_dashing and not shooting and not crouch_walking and not crouching:
 		animated_sprite_2d.play("idle")
-		
-
-
 
 
 func apply_air_slowdown(delta):
 	if direction == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, AIR_SLOWDOWN * delta)
-	
 
 
 var dashReady = true
@@ -479,26 +481,24 @@ func _on_dash_timer_timeout():
 	raycast_top.enabled = true
 
 
-
 #PLAYER DAMAGE EFFECTS
 func reduceHp1():
 	if not dead:
-		damage.play()
+		sfx_damage.play()
 		attacked = true
 		$attackedTimer.start()
 
 func reduceHp2():
 	if not dead:
-		damage.play()
+		sfx_damage.play()
 		attacked = true
 		$attackedTimer.start()
 
 func reduceHp3():
 	if not dead:
-		damage.play()
+		sfx_damage.play()
 		attacked = true
 		$attackedTimer.start()
-
 
 
 func charged_effect():
@@ -524,8 +524,9 @@ func _on_shoot_anim_delay_timeout():
 
 
 func _on_crouch_walk_anim_delay_timeout():
-	crouch_walking = true
-	crouchTimer = false
+	if can_crouch_walk:
+		crouch_walking = true
+		crouchTimer = false
 
 func _on_crouch_walk_collision_switch_timeout():
 	player_collision.shape.extents = Vector2(20, 20)
@@ -881,7 +882,10 @@ func handle_crouching():
 			animated_sprite_2d.play("crouch")
 			
 			crouchMultiplier = 0.6
-			SPEED = 400 * crouchMultiplier
+			if can_crouch_walk:
+				SPEED = base_SPEED * crouchMultiplier
+			else:
+				SPEED = 0
 			
 			raycast_top.enabled = false
 		
@@ -891,7 +895,7 @@ func handle_crouching():
 			crouching = false
 			
 			crouchMultiplier = 0.4
-			SPEED = 400.0 * crouchMultiplier
+			SPEED = base_SPEED * crouchMultiplier
 			
 			raycast_top.enabled = false
 	
@@ -907,7 +911,7 @@ func handle_crouching():
 		crouch_walking = false
 		crouch_walk_anim_delay.stop()
 		crouch_walk_collision_switch.stop()
-		SPEED = 400.0
+		SPEED = base_SPEED
 		crouchMultiplier = 1
 		crouchTimer = false
 		
@@ -1090,8 +1094,8 @@ func handle_manual_player_death():
 
 func handle_flight(delta):
 	if Input.is_action_pressed("jump") or Input.is_action_pressed("move_UP"):
-		velocity.y = move_toward(velocity.y, JUMP_VELOCITY, delta * 300)
+		velocity.y = move_toward(velocity.y, JUMP_VELOCITY, delta * ACCELERATION / 2)
 	elif Input.is_action_pressed("move_DOWN"):
-		velocity.y = move_toward(velocity.y, -JUMP_VELOCITY, delta * 300)
+		velocity.y = move_toward(velocity.y, -JUMP_VELOCITY, delta * ACCELERATION / 2)
 	else:
 		velocity.y = move_toward(velocity.y, 0, delta * 600)

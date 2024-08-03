@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://byubd4srtpn5d"]
 
-[ext_resource type="Script" path="res://godrays.gd" id="2_2x10y"]
+[ext_resource type="Script" path="res://Scripts/godrays.gd" id="2_2x10y"]
 
 [node name="godrays_fg" type="ColorRect"]
 z_index = 50

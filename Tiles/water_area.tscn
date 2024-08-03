@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ctu8tt5axyxdq"]
 
-[ext_resource type="Script" path="res://area_zone.gd" id="1_m62lw"]
+[ext_resource type="Script" path="res://Scripts/area_zone.gd" id="1_m62lw"]
 [ext_resource type="AudioStream" uid="uid://bau2k4c3drkqf" path="res://Assets/Sounds/sfx/water_entered.wav" id="2_ipkd7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]

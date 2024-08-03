@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://to85611algdp"]
 
 [ext_resource type="Material" uid="uid://cx8ylybs2rnkg" path="res://Themes/hueShift.tres" id="1_8774k"]
-[ext_resource type="Script" path="res://dead_effect.gd" id="1_l5rbg"]
+[ext_resource type="Script" path="res://Scripts/dead_effect.gd" id="1_l5rbg"]
 [ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/sprites/star.png" id="2_waovt"]
 
 [sub_resource type="Animation" id="Animation_bux54"]

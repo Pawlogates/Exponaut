@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://clq84usohsuk8"]
 
-[ext_resource type="Script" path="res://weather.gd" id="1_rmu0k"]
+[ext_resource type="Script" path="res://Scripts/weather.gd" id="1_rmu0k"]
 
 [sub_resource type="Curve" id="Curve_qk6pp"]
 min_value = -20.0

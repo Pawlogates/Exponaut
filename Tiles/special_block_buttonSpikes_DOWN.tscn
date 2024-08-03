@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://doof5g6lsehx4"]
 
-[ext_resource type="Script" path="res://Tiles/special_block.gd" id="1_fwqq5"]
+[ext_resource type="Script" path="res://Scripts/special_block.gd" id="1_fwqq5"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_my1x7"]
 [ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="3_o5f8k"]
 

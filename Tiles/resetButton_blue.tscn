@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://fsjwmefaqk18"]
 
-[ext_resource type="Script" path="res://Tiles/button_general.gd" id="1_kf7hv"]
+[ext_resource type="Script" path="res://Scripts/button_general.gd" id="1_kf7hv"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_rpe4h"]
 [ext_resource type="AudioStream" uid="uid://dnjdf4yd60wnx" path="res://Assets/Sounds/sfx/button_pressed.wav" id="3_iswks"]
 

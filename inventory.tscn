@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cd8smchd5b76m"]
 
-[ext_resource type="Script" path="res://inventory.gd" id="1_k2jr4"]
+[ext_resource type="Script" path="res://Scripts/inventory.gd" id="1_k2jr4"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_14ni5"]
 
 [sub_resource type="Animation" id="Animation_ox5tj"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=31 format=3 uid="uid://dsn2i83vgnnpy"]
 
-[ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_odj8i"]
+[ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_b8e86"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_tsp32"]
 [ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_2jbb0"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_ttsq5"]
@@ -609,7 +609,7 @@ texture_filter = 1
 collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 5.0
-script = ExtResource("1_odj8i")
+script = ExtResource("1_b8e86")
 collectibleScoreValue = 500
 hard_to_collect = true
 animation_always = true

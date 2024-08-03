@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://qygd1xyixtnc"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_tvdcc"]
-[ext_resource type="Script" path="res://Teleporter.gd" id="2_qn7ei"]
+[ext_resource type="Script" path="res://Scripts/Teleporter.gd" id="2_qn7ei"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nc7w2"]
 atlas = ExtResource("1_tvdcc")

@@ -1,17 +1,17 @@
-[gd_scene load_steps=8 format=3 uid="uid://b77cpe5x67bko"]
+[gd_scene load_steps=8 format=3 uid="uid://c5otdvm7o5jdy"]
 
-[ext_resource type="Script" path="res://deco_waterfall.gd" id="1_1o844"]
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_a0jp5"]
+[ext_resource type="Script" path="res://Scripts/deco_waterfall.gd" id="1_3m7m6"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_a1jay"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_1g4h1"]
-atlas = ExtResource("2_a0jp5")
-region = Rect2(0, 320, 64, 64)
+[sub_resource type="AtlasTexture" id="AtlasTexture_kpbbi"]
+atlas = ExtResource("2_a1jay")
+region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_a8t04"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_1g4h1")
+"texture": SubResource("AtlasTexture_kpbbi")
 }],
 "loop": true,
 "name": &"default",
@@ -103,14 +103,15 @@ _data = {
 "loop": SubResource("Animation_d8vw1")
 }
 
-[node name="deco_waterBubbles" type="Container"]
+[node name="deco_chain" type="Container"]
 texture_filter = 1
 clip_contents = true
 offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
-script = ExtResource("1_1o844")
+rotation = 1.5708
+script = ExtResource("1_3m7m6")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(32, 32)
@@ -146,7 +147,6 @@ libraries = {
 "": SubResource("AnimationLibrary_tpxjg")
 }
 autoplay = "loop"
-speed_scale = 0.5
 
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

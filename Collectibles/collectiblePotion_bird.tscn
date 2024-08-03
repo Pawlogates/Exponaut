@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=3 uid="uid://br430ejb5euv1"]
 
-[ext_resource type="Script" path="res://Collectibles/collectibleAdvanced_handleCollect.gd" id="1_f6ss7"]
+[ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_4i2fq"]
 [ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_msvjr"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_v3v42"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_43n2u"]
@@ -503,7 +503,7 @@ collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 5.0
 safe_margin = 1.0
-script = ExtResource("1_f6ss7")
+script = ExtResource("1_4i2fq")
 collectibleScoreValue = 75
 floating = true
 upDown_loop = true
@@ -586,8 +586,8 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]

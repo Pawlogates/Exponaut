@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cbflprsbwlyac"]
 
-[ext_resource type="Script" path="res://Tiles/fire.gd" id="1_50j31"]
+[ext_resource type="Script" path="res://Scripts/fire.gd" id="1_50j31"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_xy20f"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m3kwk"]

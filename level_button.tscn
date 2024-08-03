@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://crpkpw12lktoc"]
 
-[ext_resource type="Script" path="res://level_button.gd" id="1_gn7yy"]
+[ext_resource type="Script" path="res://Scripts/level_button.gd" id="1_gn7yy"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_7sswb"]
 [ext_resource type="AudioStream" uid="uid://bj7k1b4g32e6q" path="res://Assets/Sounds/sfx/effect_moo.wav" id="3_6faij"]
 [ext_resource type="AudioStream" uid="uid://cxrgbraey7ntm" path="res://Assets/Sounds/sfx/rooster_cockcrow.wav" id="3_b50wd"]

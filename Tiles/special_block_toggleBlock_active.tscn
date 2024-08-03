@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://1vv072mxshuv"]
 
-[ext_resource type="Script" path="res://Tiles/special_block.gd" id="1_xj3j2"]
+[ext_resource type="Script" path="res://Scripts/special_block.gd" id="1_ns3ry"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_ionqh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]
@@ -8,7 +8,7 @@ size = Vector2(64, 64)
 
 [node name="toggleBlock_active" type="CharacterBody2D" groups=["Persist", "toggleBlock"]]
 collision_layer = 3
-script = ExtResource("1_xj3j2")
+script = ExtResource("1_ns3ry")
 is_toggleBlock = true
 floating = true
 

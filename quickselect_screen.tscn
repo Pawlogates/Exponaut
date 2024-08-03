@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://tolmaonlxbva"]
 
-[ext_resource type="Script" path="res://quickselect_screen.gd" id="1_0qfah"]
+[ext_resource type="Script" path="res://Scripts/quickselect_screen.gd" id="1_yspio"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_fn2lc"]
 
 [node name="quickselect_screen" type="Control" groups=["quickselect_screen"]]
@@ -17,7 +17,7 @@ offset_bottom = 195.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(390, 0)
-script = ExtResource("1_0qfah")
+script = ExtResource("1_yspio")
 
 [node name="quickselect_deco" type="Sprite2D" parent="."]
 position = Vector2(408, 160)

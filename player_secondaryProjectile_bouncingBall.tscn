@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://bpusy523xij41"]
 
-[ext_resource type="Script" path="res://secondaryProjectile.gd" id="1_e6635"]
+[ext_resource type="Script" path="res://Scripts/secondaryProjectile.gd" id="1_e6635"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_x67nq"]
 [ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="3_4dtpn"]
 

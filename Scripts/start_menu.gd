@@ -3,8 +3,6 @@ extends CenterContainer
 var startingArea = preload("res://Levels/Factory.tscn")
 var mapScreen = preload("res://map_screen.tscn")
 
-
-
 func _ready():
 	last_area_filePath_load()
 	LevelTransition.get_node("%saved_progress").load_game()
@@ -33,11 +31,13 @@ func _ready():
 	%menu_deco_bg.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	
-	
-	#if Globals.debug_mode:
+	#DEBUG
 	%main_menu.visible = true
 	%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-	%StartGame.grab_focus()
+	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+		%StartGame.grab_focus()
+	else:
+		%Continue.grab_focus()
 	
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
@@ -68,6 +68,9 @@ func start_game(): #starts a brand new playthrough and deletes save files
 
 
 func _on_continue_pressed():
+	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+		return
+	
 	print(str(saved_level) + " is the file path of the saved last area level that you are loading into.")
 	saved_level = load(saved_level_filePath)
 	Globals.transitioned = false
@@ -98,12 +101,6 @@ func _on_episode_button_pressed():
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(mapScreen)
 	LevelTransition.fade_from_black()
-	
-
-
-
-
-
 
 
 func _on_fade_animation_animation_finished(anim_name):
@@ -125,18 +122,49 @@ func _on_fade_animation_animation_finished(anim_name):
 		$AudioStreamPlayer2D.play()
 
 
-
-
 #BUTTONS
+func menu_appearance(group_number, anim_number, randomize_value, value_range): # set anim_number to 0 for random animation.
+	for button in get_tree().get_nodes_in_group("group" + str(group_number)):
+		button.showing_up = false
+		button.modulate.a = 0
+		
+		if button.size.x > 960:
+			button.size.x = 960
+		button.pivot_offset = Vector2(0, 0)
+	
+	var button_number = 0
+	for button in get_tree().get_nodes_in_group("group" + str(group_number)):
+		button_number += 1
+		button.moving = true
+		
+		if anim_number == 0:
+			anim_number = randi_range(1, 3)
+		
+		if randomize_value:
+			value_range = randf_range(-value_range, value_range)
+			button.pivot_offset = Vector2(randi_range(0, size.x), randi_range(0, size.y))
+		
+		await get_tree().create_timer(0.025 * button_number, false).timeout
+		button.showing_up = true
+		
+		if anim_number == 1:
+			button.position.x = value_range
+		elif anim_number == 2:
+			if abs(value_range) > 5:
+				value_range = 5
+			button.rotation = value_range
+		elif anim_number == 3:
+			if abs(value_range) > 10:
+				value_range = 10
+			button.scale = Vector2(abs(value_range), abs(value_range))
+
 
 func _on_start_game_pressed():
 	start_game()
-	
 
 
 func _on_quit_pressed():
 	get_tree().quit()
-	
 
 
 func _on_options_pressed():
@@ -151,6 +179,8 @@ func _on_options_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-416, -348)
 	
 	%Graphics.grab_focus()
+	
+	menu_appearance(2, 2, false, 5)
 
 
 func _on_graphics_pressed():
@@ -165,6 +195,8 @@ func _on_graphics_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-484, -348)
 	
 	%Resolution.grab_focus()
+	
+	menu_appearance(3, 2, true, 3)
 
 
 func _on_resolution_pressed():
@@ -179,6 +211,8 @@ func _on_resolution_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-424, -348)
 	
 	%AutoResolution.grab_focus()
+	
+	menu_appearance(8, 1, true, 2000)
 
 
 func _on_refreshrate_pressed():
@@ -193,6 +227,9 @@ func _on_refreshrate_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-452, -196)
 	
 	%AutoRefreshrate.grab_focus()
+	
+	menu_appearance(9, 0, true, 2000)
+
 
 func _on_audio_pressed():
 	%options_menu.visible = false
@@ -206,6 +243,8 @@ func _on_audio_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-484, -348)
 	
 	%"Music +".grab_focus()
+	
+	menu_appearance(4, 0, true, 2000)
 
 
 func _on_gameplay_pressed():
@@ -220,6 +259,8 @@ func _on_gameplay_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-484, -348)
 	
 	%"User Interface Type".grab_focus()
+	
+	menu_appearance(7, 3, true, 2)
 
 
 func _on_other_pressed():
@@ -234,17 +275,13 @@ func _on_other_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-484, -348)
 	
 	%"Option 1".grab_focus()
-
-
-
-
-
+	
+	menu_appearance(5, 0, true, 2000)
 
 
 
 
 #RETURN BUTTONS
-
 func _on_returnOptions_pressed():
 	%main_menu.visible = true
 	%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
@@ -256,7 +293,12 @@ func _on_returnOptions_pressed():
 	%menu_deco_bg_root.multiplier_H = 1
 	%menu_deco_bg_root.position_target = Vector2(-416, -316)
 	
-	%StartGame.grab_focus()
+	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+		%StartGame.grab_focus()
+	else:
+		%Continue.grab_focus()
+	
+	menu_appearance(1, 1, true, 2000)
 
 
 func _on_returnGraphics_pressed():
@@ -271,6 +313,8 @@ func _on_returnGraphics_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-416, -348)
 	
 	%Graphics.grab_focus()
+	
+	menu_appearance(2, 0, true, 2000)
 
 
 func _on_return_resolution_pressed():
@@ -285,6 +329,8 @@ func _on_return_resolution_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-484, -348)
 	
 	%Resolution.grab_focus()
+	
+	menu_appearance(3, 0, true, 2000)
 
 
 func _on_return_refreshrate_pressed():
@@ -299,6 +345,8 @@ func _on_return_refreshrate_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-484, -348)
 	
 	%Refreshrate.grab_focus()
+	
+	menu_appearance(3, 0, true, 2000)
 
 
 func _on_return_audio_pressed():
@@ -313,6 +361,8 @@ func _on_return_audio_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-416, -348)
 	
 	%Audio.grab_focus()
+	
+	menu_appearance(2, 0, true, 2000)
 
 
 func _on_return_other_pressed():
@@ -327,6 +377,8 @@ func _on_return_other_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-416, -348)
 	
 	%Other.grab_focus()
+	
+	menu_appearance(2, 0, true, 2000)
 
 
 func _on_return_gameplay_pressed():
@@ -341,19 +393,12 @@ func _on_return_gameplay_pressed():
 	%menu_deco_bg_root.position_target = Vector2(-416, -348)
 	
 	%Gameplay.grab_focus()
-
-
-
-
-
-
+	
+	menu_appearance(2, 0, true, 2000)
 
 
 func _on_bonus_pressed():
 	pass
-
-
-
 
 
 func _on_disable_quicksaves_pressed():
@@ -366,8 +411,6 @@ func _on_disable_quicksaves_pressed():
 		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
 
 
-
-
 func display_stretch_viewport_on():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
 
@@ -376,23 +419,18 @@ func display_stretch_viewport_off():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 
 
-
-
-
-
 func last_area_filePath_load():
 	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		print("The saved_last_area_filePath property is default (res://Levels/empty.tscn), so the Continue option is blocked.")
-		%Continue.process_mode = Node.PROCESS_MODE_DISABLED
-		%Continue.modulate.b = 0.3
-		%Continue.modulate.g = 0.3
-		%Continue.modulate.a = 0.3
+		#%Continue.process_mode = Node.PROCESS_MODE_DISABLED
+		%Continue.disabled = true
+		%Continue.get_parent().modulate.b = 0.3
+		%Continue.get_parent().modulate.g = 0.3
+		%Continue.get_parent().modulate.a = 0.5
 		
 		return
 	
 	saved_level_filePath = SavedData.saved_last_area_filePath
-
-
 
 
 func delete_saves():
@@ -401,15 +439,15 @@ func delete_saves():
 	#general player progress
 	if dir.file_exists("user://savedData.save"):
 		dir.remove("user://savedData.save")
-		
+	
 	#level select progress (top scores, level completion states, etc.)
 	if dir.file_exists("user://saved_progress.save"):
 		dir.remove("user://saved_progress.save")
-		
+	
 	#quicksave (non-specific level state)
 	if dir.file_exists("user://savegame.save"):
 		dir.remove("user://savegame.save")
-		
+	
 	#area states
 	if dir.file_exists("user://savegame_theBeginning.save"):
 		dir.remove("user://savegame_theBeginning.save")
@@ -417,6 +455,6 @@ func delete_saves():
 		dir.remove("user://savegame_overworld.save")
 	if dir.file_exists("user://savegame_overworld.save"):
 		dir.remove("user://savegame_overworld2.save")
-		
+	
 	if dir.file_exists("user://filename.save"):
 		dir.remove("user://filename.save")

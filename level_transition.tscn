@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" path="res://Scripts/level_transition.gd" id="1_bav2q"]
-[ext_resource type="Script" path="res://saved_progress.gd" id="2_rjoyn"]
+[ext_resource type="Script" path="res://Scripts/saved_progress.gd" id="2_rjoyn"]
 
 [sub_resource type="Animation" id="Animation_g0n3s"]
 length = 0.001

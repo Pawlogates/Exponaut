@@ -14,9 +14,9 @@
 [ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="12_umybr"]
 [ext_resource type="PackedScene" uid="uid://bcjt0a5qlv4g8" path="res://Collectibles/collectibleWeapon_fire.tscn" id="14_67pfm"]
 [ext_resource type="PackedScene" uid="uid://besfygg5x7036" path="res://Collectibles/collectibleWeapon_ice.tscn" id="15_5tjn1"]
-[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://butterfly.tscn" id="16_qbpfh"]
-[ext_resource type="PackedScene" uid="uid://bopqi6gxm65nb" path="res://butterfly_key.tscn" id="17_778be"]
-[ext_resource type="PackedScene" uid="uid://rl2pxvlbj6gb" path="res://butterfly_score.tscn" id="18_ub7x0"]
+[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="16_qbpfh"]
+[ext_resource type="PackedScene" uid="uid://bopqi6gxm65nb" path="res://Enemies/butterfly_key.tscn" id="17_778be"]
+[ext_resource type="PackedScene" uid="uid://rl2pxvlbj6gb" path="res://Enemies/butterfly_score.tscn" id="18_ub7x0"]
 [ext_resource type="PackedScene" uid="uid://dalx4wtwfl351" path="res://Enemies/enemy_chaos.tscn" id="19_gt1ww"]
 [ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://trigger_positional.tscn" id="19_sgi67"]
 

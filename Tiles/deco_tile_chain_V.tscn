@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bn7os2imtdij8"]
 
-[ext_resource type="Script" path="res://deco_waterfall.gd" id="1_713tv"]
+[ext_resource type="Script" path="res://Scripts/deco_waterfall.gd" id="1_713tv"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_8ltml"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kpbbi"]

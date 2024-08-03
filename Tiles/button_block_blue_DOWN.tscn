@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://cry8t6ojcoabt"]
 
-[ext_resource type="Script" path="res://Tiles/button_block.gd" id="1_4vf1q"]
+[ext_resource type="Script" path="res://Scripts/button_block.gd" id="1_4vf1q"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_47s6l"]
 
 [sub_resource type="Animation" id="Animation_mgiq8"]

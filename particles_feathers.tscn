@@ -1,8 +1,8 @@
 [gd_scene load_steps=19 format=3 uid="uid://dxfav0g51rvb5"]
 
-[ext_resource type="Script" path="res://remove_general.gd" id="1_sfyr5"]
+[ext_resource type="Script" path="res://Scripts/remove_general.gd" id="1_sfyr5"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_6xyn4"]
-[ext_resource type="Script" path="res://particleEmit_general.gd" id="3_v1scu"]
+[ext_resource type="Script" path="res://Scripts/particleEmit_general.gd" id="3_v1scu"]
 
 [sub_resource type="Curve" id="Curve_d62vd"]
 min_value = -20.0

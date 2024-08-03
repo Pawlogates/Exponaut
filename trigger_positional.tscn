@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://cvwfwuqqw6vpo"]
 
-[ext_resource type="Script" path="res://trigger_positional.gd" id="1_2kcyo"]
+[ext_resource type="Script" path="res://Scripts/trigger_positional.gd" id="1_2kcyo"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7bp8d"]
 size = Vector2(64, 64)

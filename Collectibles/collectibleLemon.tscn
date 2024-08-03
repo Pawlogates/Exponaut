@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://ch6kqcs773jq0"]
 
-[ext_resource type="Script" path="res://Scripts/collectible_handleCollect.gd" id="1_sirf8"]
+[ext_resource type="Script" path="res://Collectibles/collectible_simple.gd" id="1_sirf8"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_k1vho"]
 [ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_85w7k"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_nyl2x"]

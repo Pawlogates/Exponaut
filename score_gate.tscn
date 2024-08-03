@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bmnsg0hl7qcpu"]
 
 [ext_resource type="Texture2D" uid="uid://dd278jhul3ero" path="res://Assets/Graphics/sprites/score_gate.png" id="1_2fe0m"]
-[ext_resource type="Script" path="res://score_gate.gd" id="2_gwd64"]
+[ext_resource type="Script" path="res://Scripts/score_gate.gd" id="2_gwd64"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="3_rdcib"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isqap"]

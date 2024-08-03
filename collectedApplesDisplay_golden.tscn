@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://b5nfhi05mcdv4"]
 
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="1_pcyhy"]
-[ext_resource type="Script" path="res://collectedApplesDisplay_golden.gd" id="1_upp0r"]
+[ext_resource type="Script" path="res://Scripts/collectedApplesDisplay_golden.gd" id="1_upp0r"]
 [ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Themes/UI_theme.tres" id="2_o5yxg"]
 
 [node name="collectedApplesDisplay_golden" type="Control"]

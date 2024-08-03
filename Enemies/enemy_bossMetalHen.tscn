@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=3 uid="uid://c63l38ki43ymp"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_rhg5n"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_rhg5n"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_i4wkj"]
 [ext_resource type="AudioStream" uid="uid://dktvinfcsfjdf" path="res://Assets/Sounds/sfx/robot_damage.wav" id="3_tkw8o"]
 [ext_resource type="AudioStream" uid="uid://bh4ltljsggx0d" path="res://Assets/Sounds/sfx/effect_explosion2.wav" id="4_fmm6y"]

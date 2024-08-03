@@ -1,8 +1,8 @@
 [gd_scene load_steps=26 format=3 uid="uid://cjqinbb60vh6"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_dafch"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_dafch"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_p5pto"]
-[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://butterfly.tscn" id="2_ydoov"]
+[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="2_ydoov"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="3_cr62m"]
 [ext_resource type="AudioStream" uid="uid://0255vwcuk1kd" path="res://Assets/Sounds/sfx/frog_death.wav" id="4_nvevm"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_3tmgl"]

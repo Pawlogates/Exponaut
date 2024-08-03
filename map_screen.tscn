@@ -1,12 +1,12 @@
 [gd_scene load_steps=16 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Themes/displays_theme.tres" id="1_bev27"]
-[ext_resource type="Script" path="res://map_screen.gd" id="2_sfscu"]
-[ext_resource type="Script" path="res://interactive_button.gd" id="3_1q3hc"]
+[ext_resource type="Script" path="res://Scripts/map_screen.gd" id="2_byy7k"]
 [ext_resource type="AudioStream" uid="uid://bvra1tg3kt4at" path="res://Assets/Sounds/music/music_map.mp3" id="3_nerhi"]
-[ext_resource type="Script" path="res://menu_deco_bg.gd" id="5_wdajl"]
+[ext_resource type="Script" path="res://Scripts/interactive_button.gd" id="4_s8wjw"]
 [ext_resource type="Texture2D" uid="uid://buj1tlrawdtgc" path="res://Assets/Graphics/backgrounds/bg_jungle_cavern.png" id="5_wrx5s"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="6_ab56j"]
+[ext_resource type="Script" path="res://Scripts/menu_deco_bg.gd" id="6_kewhf"]
 [ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="6_m5dpc"]
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
@@ -82,7 +82,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_bev27")
-script = ExtResource("2_sfscu")
+script = ExtResource("2_byy7k")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_nerhi")
@@ -115,7 +115,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("3_1q3hc")
+script = ExtResource("4_s8wjw")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Enable Score Attack Mode"]
 clip_contents = false
@@ -135,7 +135,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("3_1q3hc")
+script = ExtResource("4_s8wjw")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Back to overworld"]
 clip_contents = false
@@ -155,7 +155,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("3_1q3hc")
+script = ExtResource("4_s8wjw")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Main menu"]
 clip_contents = false
@@ -198,7 +198,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(-848, -12)
 layout_mode = 2
 mouse_filter = 2
-script = ExtResource("5_wdajl")
+script = ExtResource("6_kewhf")
 multiplier_W = 0.8
 skew_low = 0.75
 skew_high = 0.8

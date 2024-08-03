@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://rbwrv3rfagoa"]
 
-[ext_resource type="Script" path="res://Tiles/special_block.gd" id="1_0do47"]
+[ext_resource type="Script" path="res://Scripts/special_block.gd" id="1_0do47"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_5a10q"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]

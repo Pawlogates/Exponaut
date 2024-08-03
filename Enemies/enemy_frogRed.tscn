@@ -1,7 +1,7 @@
 [gd_scene load_steps=36 format=3 uid="uid://5h7bdd7d5xnh"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_0ivkn"]
-[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://butterfly.tscn" id="2_1bxei"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_0ivkn"]
+[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="2_1bxei"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_54pa4"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="4_n6wk2"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="6_r5tes"]

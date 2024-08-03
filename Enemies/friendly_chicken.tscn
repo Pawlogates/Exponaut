@@ -1,6 +1,6 @@
 [gd_scene load_steps=18 format=3 uid="uid://c6bowx3li0fvy"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_07ea1"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_07ea1"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_epvql"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="3_1w3hq"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=29 format=3 uid="uid://b1554wlmeg7tk"]
 
-[ext_resource type="Script" path="res://Scripts/enemy_general.gd" id="1_0ji0i"]
+[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_0ji0i"]
 [ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_ibk1e"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="3_46204"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_ppspt"]
