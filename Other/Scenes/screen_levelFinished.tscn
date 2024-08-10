@@ -1,0 +1,360 @@
+[gd_scene load_steps=9 format=3 uid="uid://dijgiqym3g0vv"]
+
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_6vvdi"]
+[ext_resource type="Script" path="res://Scripts/level_finished.gd" id="2_xm0gm"]
+[ext_resource type="Script" path="res://Scripts/interactive_button.gd" id="3_v287l"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="4_7l3u8"]
+[ext_resource type="AudioStream" uid="uid://bj6mx4e78pqc6" path="res://Assets/Sounds/music/music_victory.mp3" id="4_in6rq"]
+[ext_resource type="Texture2D" uid="uid://dfphbqyrmgmmu" path="res://Assets/Graphics/backgrounds/bg_jungle.png" id="5_vlruk"]
+
+[sub_resource type="Animation" id="Animation_iwr8u"]
+resource_name = "level_finished_fade_in"
+length = 4.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_febto"]
+_data = {
+"level_finished_fade_in": SubResource("Animation_iwr8u")
+}
+
+[node name="Level Finished" type="ColorRect"]
+process_mode = 3
+z_index = 100
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = ExtResource("1_6vvdi")
+color = Color(0, 0, 0, 0.25098)
+script = ExtResource("2_xm0gm")
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="End Screen" type="Control" parent="CenterContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="end_screen_container" type="VBoxContainer" parent="CenterContainer/End Screen"]
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -544.0
+offset_top = -188.0
+offset_right = 96.0
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6vvdi")
+
+[node name="Level Score" type="Button" parent="CenterContainer/End Screen/end_screen_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/End Screen/end_screen_container/Level Score"]
+clip_contents = false
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Level Score[/wave]"
+autowrap_mode = 0
+
+[node name="Total Score" type="Button" parent="CenterContainer/End Screen/end_screen_container"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/End Screen/end_screen_container/Total Score"]
+clip_contents = false
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Total Score[/wave]"
+autowrap_mode = 0
+
+[node name="Rank Reward" type="HBoxContainer" parent="CenterContainer/End Screen"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = -960.0
+offset_top = 4.0
+offset_right = 960.0
+offset_bottom = 196.0
+alignment = 1
+
+[node name="Golden Apple Reward 1" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 1"]
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)
+
+[node name="Golden Apple Reward 2" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 2"]
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)
+
+[node name="Golden Apple Reward 3" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 3"]
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)
+
+[node name="Golden Apple Reward 4" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 4"]
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)
+
+[node name="Golden Apple Reward 5" type="Control" parent="CenterContainer/End Screen/Rank Reward"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(96, 64)
+layout_mode = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="CenterContainer/End Screen/Rank Reward/Golden Apple Reward 5"]
+position = Vector2(48, 96)
+texture = ExtResource("4_7l3u8")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)
+
+[node name="Top Rank" type="Button" parent="CenterContainer/End Screen"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+offset_left = -960.0
+offset_top = 228.0
+offset_right = 960.0
+offset_bottom = 324.0
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="top_rank_label" type="Label" parent="CenterContainer/End Screen/Top Rank"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 96.0
+text = "Top Rank: 0"
+horizontal_alignment = 1
+
+[node name="Achieved Rank" type="Button" parent="CenterContainer/End Screen"]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+offset_left = -960.0
+offset_top = 292.0
+offset_right = 960.0
+offset_bottom = 388.0
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="achieved_rank_label" type="Label" parent="CenterContainer/End Screen/Achieved Rank"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 96.0
+text = "Achieved Rank: 0"
+horizontal_alignment = 1
+
+[node name="End Screen Values" type="Control" parent="CenterContainer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+
+[node name="end_screen_container" type="VBoxContainer" parent="CenterContainer/End Screen Values"]
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 128.0
+offset_top = -188.0
+offset_right = 768.0
+offset_bottom = 148.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_6vvdi")
+
+[node name="Level Score" type="Button" parent="CenterContainer/End Screen Values/end_screen_container"]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="Level Score Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Level Score"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+text = "0"
+
+[node name="Total Score" type="Button" parent="CenterContainer/End Screen Values/end_screen_container"]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+script = ExtResource("3_v287l")
+
+[node name="Total Score Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Total Score"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+text = "0"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CenterContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Button Container" type="HBoxContainer" parent="CenterContainer/VBoxContainer/Control"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+offset_left = -832.0
+offset_top = 388.0
+offset_right = -92.0
+offset_bottom = 468.0
+mouse_filter = 2
+
+[node name="LevelSelectBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+mouse_filter = 1
+text = "Level Select"
+
+[node name="RetryBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+mouse_filter = 1
+text = "Retry"
+
+[node name="ContinueBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 16)
+layout_mode = 2
+mouse_filter = 1
+text = "Continue"
+
+[node name="Control" type="Control" parent="CenterContainer"]
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Level Finished Label" type="RichTextLabel" parent="CenterContainer/Control"]
+unique_name_in_owner = true
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -64.0
+offset_right = 360.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]Level Finished[/wave]"
+autowrap_mode = 0
+
+[node name="Background" type="TextureRect" parent="CenterContainer"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(0.360784, 0.32549, 1, 1)
+z_index = -5
+custom_minimum_size = Vector2(1920, 1080)
+layout_mode = 2
+mouse_filter = 2
+texture = ExtResource("5_vlruk")
+expand_mode = 1
+
+[node name="level_finished_text_hide" type="Timer" parent="."]
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_febto")
+}
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_in6rq")
+
+[connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Level Score" to="CenterContainer/End Screen/end_screen_container/Level Score" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Level Score" to="CenterContainer/End Screen/end_screen_container/Level Score" method="_on_focus_exited"]
+[connection signal="focus_entered" from="CenterContainer/End Screen/end_screen_container/Total Score" to="CenterContainer/End Screen/end_screen_container/Total Score" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen/end_screen_container/Total Score" to="CenterContainer/End Screen/end_screen_container/Total Score" method="_on_focus_exited"]
+[connection signal="focus_entered" from="CenterContainer/End Screen/Top Rank" to="CenterContainer/End Screen/Top Rank" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen/Top Rank" to="CenterContainer/End Screen/Top Rank" method="_on_focus_exited"]
+[connection signal="focus_entered" from="CenterContainer/End Screen/Achieved Rank" to="CenterContainer/End Screen/Achieved Rank" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen/Achieved Rank" to="CenterContainer/End Screen/Achieved Rank" method="_on_focus_exited"]
+[connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_exited"]
+[connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_entered"]
+[connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_exited"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/LevelSelectBtn" to="." method="_on_level_select_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/RetryBtn" to="." method="_on_retry_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/ContinueBtn" to="." method="_on_continue_btn_pressed"]

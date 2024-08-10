@@ -9,7 +9,7 @@ func _ready():
 	$darkDecoParallax/ParallaxLayer.motion_scale = Vector2(motion_scale_x, motion_scale_y)
 	$darkDecoParallax/ParallaxLayer.motion_offset = position
 	
-	$darkDecoParallax.visible = true
+	%deco.visible = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):

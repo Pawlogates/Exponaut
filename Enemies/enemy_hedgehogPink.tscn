@@ -2,15 +2,15 @@
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_vkq5d"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_3ppxe"]
-[ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://player_secondaryProjectile_bouncingBall.tscn" id="3_wbw2q"]
+[ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://Projectiles/player_secondaryProjectile_bouncingBall.tscn" id="3_wbw2q"]
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_nj3mw"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="5_mfadf"]
 [ext_resource type="AudioStream" uid="uid://d2w8jwk47ik8x" path="res://Assets/Sounds/sfx/projectile_eggHit.wav" id="6_w062j"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="7_7ywnn"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="8_xjomj"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="9_tf7ld"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="10_pf0g1"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="11_q8l6x"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="10_pf0g1"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="11_q8l6x"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qqfom"]
 atlas = ExtResource("4_nj3mw")

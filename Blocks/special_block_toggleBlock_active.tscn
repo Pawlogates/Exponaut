@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://1vv072mxshuv"]
+
+[ext_resource type="Script" path="res://Scripts/special_block.gd" id="1_clh31"]
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_ffmgl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xcl5b"]
+size = Vector2(64, 64)
+
+[node name="toggleBlock_active" type="CharacterBody2D" groups=["Persist", "toggleBlock"]]
+collision_layer = 3
+script = ExtResource("1_clh31")
+is_toggleBlock = true
+floating = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+z_index = -1
+texture = ExtResource("2_ffmgl")
+region_enabled = true
+region_rect = Rect2(384, 896, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+unique_name_in_owner = true
+shape = SubResource("RectangleShape2D_xcl5b")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+visible = false
+position = Vector2(-4.57764e-05, -32)
+scale = Vector2(38.4, 35.2)
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

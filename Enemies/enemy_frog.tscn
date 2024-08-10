@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="2_ydoov"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="3_cr62m"]
 [ext_resource type="AudioStream" uid="uid://0255vwcuk1kd" path="res://Assets/Sounds/sfx/frog_death.wav" id="4_nvevm"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_3tmgl"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_w12oc"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_3tmgl"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_w12oc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r68x5"]
 atlas = ExtResource("2_p5pto")

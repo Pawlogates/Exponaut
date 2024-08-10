@@ -1,7 +1,7 @@
 extends CenterContainer
 
 var startingArea = preload("res://Levels/Factory.tscn")
-var mapScreen = preload("res://map_screen.tscn")
+var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
 func _ready():
 	last_area_filePath_load()

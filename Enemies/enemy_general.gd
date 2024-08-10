@@ -49,8 +49,8 @@ var rng = RandomNumberGenerator.new()
 @export var dropProjectile_whenSpotted = false
 @export var shootProjectile_cooldown = 0.5
 @export var dropProjectile_cooldown = 0.5
-@export var scene_shootProjectile = load("res://player_projectile_basic.tscn")
-@export var scene_dropProjectile = load("res://player_secondaryProjectile_basic.tscn")
+@export var scene_shootProjectile : PackedScene = load("res://Projectiles/player_projectile_basic.tscn")
+@export var scene_dropProjectile : PackedScene = load("res://Projectiles/player_secondaryProjectile_basic.tscn")
 @export var altDropMethod = false
 @export var projectile_isBouncingBall = false
 @export var shootProjectile_offset_X = 0
@@ -1010,18 +1010,10 @@ func _on_scan_for_player_area_exited(area):
 			%followDelay.stop()
 			followDelay = true
 			%patrolDirectionTimer.start()
-		
-
 
 
 func _on_follow_delay_timeout():
 	followDelay = false
-
-
-
-
-
-
 
 
 func handle_dropProjectile_whenSpotted():
@@ -1357,9 +1349,9 @@ func applyRandom_falseTrue(false_probability, true_probability):
 
 
 @onready var list_movementType = ["normal", "followPlayerX", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted", "followPlayerY", "followPlayerXY", "chasePlayerXY_lookAtPlayer", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer_whenSpotted"]
-@onready var list_itemToSpawn = [load("res://Collectibles/collectibleOrange.tscn"), load("res://Collectibles/collectibleGrape.tscn"), load("res://Collectibles/bonus_box_oranges.tscn"), load("res://Collectibles/bonus_box_grapes.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frog.tscn"), load("res://Collectibles/collectibleRotApple.tscn"), load("res://Collectibles/bonus_box_rotApples.tscn"), load("res://Collectibles/collectibleWeapon_fire.tscn"), load("res://Collectibles/collectibleCarrot.tscn"), load("res://Collectibles/collectibleCheese.tscn"), load("res://Collectibles/collectiblePeach.tscn"), load("res://Collectibles/collectibleJewel_yellow.tscn"), load("res://gateItem_goldenApple.tscn"), load("res://Enemies/enemy_chaos.tscn")]
-@onready var list_projectileToSpawn = [load("res://player_projectile_basic.tscn"), load("res://player_projectile_destructive_fast_speed.tscn"), load("res://player_projectile_fire.tscn"), load("res://player_projectile_ice.tscn"), load("res://player_projectile_short_shotDelay.tscn"), load("res://player_projectile_veryFast_speed.tscn"), load("res://Enemies/projectile_bullet.tscn"), load("res://Enemies/projectile_fireball.tscn")]
-@onready var list_secondaryProjectileToSpawn = [load("res://player_secondaryProjectile_basic.tscn"), load("res://player_secondaryProjectile_fast.tscn"), load("res://player_secondaryProjectile_bouncingBall.tscn")]
+@onready var list_itemToSpawn = [load("res://Collectibles/collectibleOrange.tscn"), load("res://Collectibles/collectibleGrape.tscn"), load("res://Boxes/box_oranges.tscn"), load("res://Boxes/box_grapes.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frog.tscn"), load("res://Collectibles/collectibleRotApple.tscn"), load("res://Boxes/box_rotApples.tscn"), load("res://Collectibles/collectibleWeapon_fire.tscn"), load("res://Collectibles/collectibleCarrot.tscn"), load("res://Collectibles/collectibleCheese.tscn"), load("res://Collectibles/collectiblePeach.tscn"), load("res://Collectibles/collectibleJewel_yellow.tscn"), load("res://Collectibles/collectibleSpecialApple_golden.tscn"), load("res://Enemies/enemy_chaos.tscn")]
+@onready var list_projectileToSpawn = [load("res://Projectiles/player_projectile_basic.tscn"), load("res://Projectiles/player_projectile_destructive_fast_speed.tscn"), load("res://Projectiles/player_projectile_fire.tscn"), load("res://Projectiles/player_projectile_ice.tscn"), load("res://Projectiles/player_projectile_short_shotDelay.tscn"), load("res://Projectiles/player_projectile_veryFast_speed.tscn"), load("res://Projectiles/projectile_bullet.tscn"), load("res://Projectiles/projectile_fireball.tscn")]
+@onready var list_secondaryProjectileToSpawn = [load("res://Projectiles/player_secondaryProjectile_basic.tscn"), load("res://Projectiles/player_secondaryProjectile_fast.tscn"), load("res://Projectiles/player_secondaryProjectile_bouncingBall.tscn")]
 
 func randomize_everything():
 	SPEED = randi_range(0, 1200)

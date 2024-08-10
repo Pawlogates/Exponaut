@@ -2,10 +2,10 @@ extends StaticBody2D
 
 var destroyed = false
 
-var effect_dustScene = preload("res://effect_dust.tscn")
+var effect_dustScene = preload("res://Particles/effect_dust.tscn")
 var effect_dust = effect_dustScene.instantiate()
 
-var starParticleScene = preload("res://particles_special_multiple.tscn")
+var starParticleScene = preload("res://Particles/particles_special_multiple.tscn")
 var starParticle = starParticleScene.instantiate()
 
 # Called when the node enters the scene tree for the first time.

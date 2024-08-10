@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Collectibles/collectible_simple.gd" id="1_hjyve"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_r7jok"]
 [ext_resource type="AudioStream" uid="uid://8urqihtwdnar" path="res://Assets/Sounds/sfx/collect_jewel.wav" id="3_b1nnf"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_skslx"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_tn1fw"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="4_skslx"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="5_tn1fw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xkatk"]
 atlas = ExtResource("2_r7jok")

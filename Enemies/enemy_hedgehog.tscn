@@ -5,8 +5,8 @@
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_ue3lu"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_mc1wu"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_fex8l"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_87wys"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_doi42"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_gfw6j"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_dx6lm"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tbyi6"]
 atlas = ExtResource("2_ue3lu")
@@ -282,7 +282,8 @@ floor_snap_length = 15.0
 safe_margin = 0.15
 script = ExtResource("1_l5vdx")
 hp = 1
-SPEED = 150.0
+SPEED = 75.0
+ACCELERATION_MULTIPLIER = 0.5
 movementType = "normal"
 scoreValue = 25
 turnOnLedge = true
@@ -400,11 +401,11 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
-material = ExtResource("6_87wys")
+material = ExtResource("6_gfw6j")
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 160.0
-theme = ExtResource("7_doi42")
+theme = ExtResource("7_dx6lm")
 theme_override_font_sizes/font_size = 0
 text = "test"
 horizontal_alignment = 1

@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0uqoiwqio8u8"]
+
+[ext_resource type="Texture2D" uid="uid://cjxacvdqqpxk5" path="res://Assets/Graphics/other/fog_shadow.png" id="1_ldrpi"]
+
+[node name="glow_shadowFog" type="PointLight2D"]
+blend_mode = 1
+texture = ExtResource("1_ldrpi")

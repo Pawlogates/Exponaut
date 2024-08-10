@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=3 uid="uid://ctp8erg8pb2dy"]
 
-[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_2xmcn"]
-[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_x2org"]
-[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="3_nry01"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="4_o3du6"]
-[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="5_6pam5"]
-[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="6_wpmys"]
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_2xmcn"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_x2org"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_nry01"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="4_o3du6"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="5_6pam5"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_wpmys"]
 [ext_resource type="PackedScene" uid="uid://ca4g5sy70xmju" path="res://Enemies/enemy_pig.tscn" id="7_6h6jd"]
 [ext_resource type="PackedScene" uid="uid://cljye56wi53e8" path="res://Enemies/enemy_bat.tscn" id="9_5yiuq"]
 [ext_resource type="PackedScene" uid="uid://dbp42d4xr6p01" path="res://Enemies/enemy_bee.tscn" id="10_ltm1q"]
@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://bopqi6gxm65nb" path="res://Enemies/butterfly_key.tscn" id="17_778be"]
 [ext_resource type="PackedScene" uid="uid://rl2pxvlbj6gb" path="res://Enemies/butterfly_score.tscn" id="18_ub7x0"]
 [ext_resource type="PackedScene" uid="uid://dalx4wtwfl351" path="res://Enemies/enemy_chaos.tscn" id="19_gt1ww"]
-[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://trigger_positional.tscn" id="19_sgi67"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_positional.tscn" id="19_sgi67"]
 
 [node name="World" instance=ExtResource("1_2xmcn")]
 savedProgress_level_filePath = "res://Levels/overworld_test.tscn"
@@ -79,15 +79,19 @@ position = Vector2(-624, -8)
 
 [node name="enemyBat" parent="." index="19" instance=ExtResource("9_5yiuq")]
 position = Vector2(-776, 432)
+SPEED = 100.0
 
 [node name="enemyBee" parent="." index="20" instance=ExtResource("10_ltm1q")]
 position = Vector2(1048, 408)
+SPEED = 100.0
 
 [node name="enemyPiranha_a" parent="." index="21" instance=ExtResource("11_loitu")]
 position = Vector2(-5200, -120)
+SPEED = 100.0
 
 [node name="enemyPiranha" parent="." index="22" instance=ExtResource("12_umybr")]
 position = Vector2(-4296, -336)
+SPEED = 100.0
 
 [node name="enemyRabbit" parent="." index="23" instance=ExtResource("12_5li73")]
 position = Vector2(584, 312)
@@ -97,21 +101,27 @@ position = Vector2(-640, 432)
 
 [node name="butterfly" parent="." index="25" instance=ExtResource("16_qbpfh")]
 position = Vector2(-192, -40)
+SPEED = 100.0
 
 [node name="butterfly_key" parent="." index="26" instance=ExtResource("17_778be")]
 position = Vector2(536, -120)
+SPEED = 100.0
 
 [node name="butterfly_score" parent="." index="27" instance=ExtResource("18_ub7x0")]
 position = Vector2(1048, -64)
+SPEED = 100.0
 
 [node name="butterfly_key2" parent="." index="28" instance=ExtResource("17_778be")]
 position = Vector2(336, -568)
+SPEED = 100.0
 
 [node name="butterfly_score2" parent="." index="29" instance=ExtResource("18_ub7x0")]
 position = Vector2(-616, -456)
+SPEED = 100.0
 
 [node name="butterfly2" parent="." index="30" instance=ExtResource("16_qbpfh")]
 position = Vector2(1624, -408)
+SPEED = 100.0
 
 [node name="collectibleWeapon_ice" parent="." index="31" instance=ExtResource("14_67pfm")]
 position = Vector2(192, 56)

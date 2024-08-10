@@ -26,7 +26,7 @@ func _on_continue_btn_pressed():
 	Globals.transitioned = false
 	get_tree().change_scene_to_packed(saved_level)
 
-var mapScreen = load("res://map_screen.tscn")
+var mapScreen = load("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 func _on_level_select_btn_pressed():
 	await LevelTransition.fade_to_black()
 	get_tree().paused = false

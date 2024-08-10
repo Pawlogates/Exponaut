@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_x6sxi"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_agnuo"]
-[ext_resource type="Shader" path="res://Themes/rainbow_effect.gdshader" id="2_l78xp"]
+[ext_resource type="Shader" path="res://Other/Shaders/rainbow_effect.gdshader" id="2_l78xp"]
 [ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="3_xf860"]
 [ext_resource type="AudioStream" uid="uid://d0q7oj4n6rdh1" path="res://Assets/Sounds/sfx/rabbit_death.wav" id="4_fewmo"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="5_jvuke"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="6_wmib0"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_jvuke"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="6_wmib0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xl0tp"]
 shader = ExtResource("2_l78xp")

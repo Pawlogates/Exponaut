@@ -24,11 +24,9 @@ var air_jump = false
 var on_wall_normal = Vector2.ZERO
 
 
-var starParticleScene = preload("res://particles_star.tscn")
-var starParticle = starParticleScene.instantiate()
+var starParticleScene = preload("res://Particles/particles_star.tscn")
 
-var effect_dustScene = preload("res://effect_dust.tscn")
-var effect_dust = effect_dustScene.instantiate()
+var effect_dustScene = preload("res://Particles/effect_dust.tscn")
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -155,19 +153,19 @@ var secondaryAttack_cooldown = false
 
 
 #WEAPON TYPES
-var scene_projectile_phaser = load("res://player_projectile_phaser.tscn")
-var scene_projectile_basic = load("res://player_projectile_basic.tscn")
-var scene_projectile_short_shotDelay = load("res://player_projectile_short_shotDelay.tscn")
-var scene_projectile_ice = load("res://player_projectile_ice.tscn")
-var scene_projectile_fire = load("res://player_projectile_fire.tscn")
-var scene_projectile_destructive_fast_speed = load("res://player_projectile_destructive_fast_speed.tscn")
-var scene_projectile_veryFast_speed = load("res://player_projectile_veryFast_speed.tscn")
+var scene_projectile_phaser = load("res://Projectiles/player_projectile_phaser.tscn")
+var scene_projectile_basic = load("res://Projectiles/player_projectile_basic.tscn")
+var scene_projectile_short_shotDelay = load("res://Projectiles/player_projectile_short_shotDelay.tscn")
+var scene_projectile_ice = load("res://Projectiles/player_projectile_ice.tscn")
+var scene_projectile_fire = load("res://Projectiles/player_projectile_fire.tscn")
+var scene_projectile_destructive_fast_speed = load("res://Projectiles/player_projectile_destructive_fast_speed.tscn")
+var scene_projectile_veryFast_speed = load("res://Projectiles/player_projectile_veryFast_speed.tscn")
 
 #WEAPON TYPES END
 
 #SECONDARY WEAPONS
-var scene_secondaryProjectile_basic = load("res://player_secondaryProjectile_basic.tscn")
-var scene_secondaryProjectile_fast = load("res://player_secondaryProjectile_fast.tscn")
+var scene_secondaryProjectile_basic = load("res://Projectiles/player_secondaryProjectile_basic.tscn")
+var scene_secondaryProjectile_fast = load("res://Projectiles/player_secondaryProjectile_fast.tscn")
 
 
 #MAIN START
@@ -503,7 +501,8 @@ func reduceHp3():
 
 func charged_effect():
 	animation_player.play("shot_charged")
-	starParticle = starParticleScene.instantiate()
+	
+	var starParticle = starParticleScene.instantiate()
 	add_child(starParticle)
 	starParticle = starParticleScene.instantiate()
 	add_child(starParticle)
@@ -639,9 +638,9 @@ func _on_await_jump_timer_timeout():
 
 
 #TRANSFORMATIONS
-var player_bird_scene = load("res://player_bird.tscn")
-var player_chicken_scene = load("res://player_chicken.tscn")
-var player_rooster_scene = load("res://player.tscn")
+var player_bird_scene = load("res://Other/Scenes/player_bird.tscn")
+var player_chicken_scene = load("res://Other/Scenes/player_chicken.tscn")
+var player_rooster_scene = load("res://Other/Scenes/player.tscn")
 
 func transformInto_rooster():
 	call_deferred("deferred_spawnRooster")
@@ -1009,7 +1008,7 @@ func handle_spawn_dust():
 		spawn_dust_effect = false
 		$dust_effect.start()
 		
-		effect_dust = effect_dustScene.instantiate()
+		var effect_dust = effect_dustScene.instantiate()
 		effect_dust.position = Globals.player_pos - Vector2(0, -48)
 		get_parent().add_child(effect_dust)
 		

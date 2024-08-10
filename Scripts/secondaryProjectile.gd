@@ -17,35 +17,18 @@ var playerProjectile = true
 var upward_attack = false
 var downward_attack = false
 
-
 @export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
 var item = item_scene.instantiate()
 
-
-var starParticleScene = preload("res://particles_star.tscn")
-var starParticle = starParticleScene.instantiate()
-var hit_effectScene = preload("res://hit_effect.tscn")
-var hit_effect = hit_effectScene.instantiate()
-var dead_effectScene = preload("res://dead_effect.tscn")
-var dead_effect = dead_effectScene.instantiate()
-
-
-var starParticle2Scene = preload("res://particles_star.tscn")
-var orbParticleScene = preload("res://particles_special2_multiple.tscn")
-
-var starParticle2 = starParticle2Scene.instantiate()
-var orbParticle = orbParticleScene.instantiate()
-
-var splashParticleScene = preload("res://particles_water_entered.tscn")
-var splashParticle = splashParticleScene.instantiate()
-
-var effect_dustScene = preload("res://effect_dust.tscn")
-var effect_dust = effect_dustScene.instantiate()
-
-
+var starParticleScene = preload("res://Particles/particles_star.tscn")
+var hit_effectScene = preload("res://Particles/hit_effect.tscn")
+var dead_effectScene = preload("res://Particles/dead_effect.tscn")
+var starParticle2Scene = preload("res://Particles/particles_star.tscn")
+var orbParticleScene = preload("res://Particles/particles_special2_multiple.tscn")
+var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
+var effect_dustScene = preload("res://Particles/effect_dust.tscn")
 
 #SPECIAL PROPERTIES
-
 @export var immortal = false
 @export var floating = false
 @export var start_floating = false
@@ -154,7 +137,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if breakable:
-				effect_dust = effect_dustScene.instantiate()
+				var effect_dust = effect_dustScene.instantiate()
 				effect_dust.global_position = global_position
 				get_parent().add_child(effect_dust)
 				
@@ -170,6 +153,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if not immortal:
+				var dead_effect = dead_effectScene.instantiate()
 				add_child(dead_effect)
 				%AnimatedSprite2D.play("hit_ground")
 			
@@ -184,6 +168,7 @@ func _on_area_2d_area_entered(area):
 			
 			if destructible_strongWeapon:
 				if area.is_in_group("destructive"):
+					var effect_dust = effect_dustScene.instantiate()
 					effect_dust = effect_dustScene.instantiate()
 					effect_dust.global_position = global_position
 					get_parent().add_child(effect_dust)
@@ -191,7 +176,7 @@ func _on_area_2d_area_entered(area):
 					queue_free()
 			
 			elif destructible_anyWeapon:
-				effect_dust = effect_dustScene.instantiate()
+				var effect_dust = effect_dustScene.instantiate()
 				effect_dust.global_position = global_position
 				get_parent().add_child(effect_dust)
 					
@@ -203,7 +188,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if breakable:
-				effect_dust = effect_dustScene.instantiate()
+				var effect_dust = effect_dustScene.instantiate()
 				effect_dust.global_position = global_position
 				get_parent().add_child(effect_dust)
 				
@@ -218,6 +203,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if not immortal and breakable:
+				var dead_effect = dead_effectScene.instantiate()
 				add_child(dead_effect)
 				%AnimatedSprite2D.play("hit_ground")
 			
@@ -326,7 +312,7 @@ func spawn_collectibles():
 		spawn_item()
 		
 	
-	hit_effect = hit_effectScene.instantiate()
+	var hit_effect = hit_effectScene.instantiate()
 	add_child(hit_effect)
 
 
@@ -341,9 +327,6 @@ func spawn_item():
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
 	
 	get_parent().get_parent().add_child(item)
-	
-
-
 
 
 #SAVE START
@@ -368,7 +351,7 @@ func save():
 
 
 func _on_timer_timeout():
-	effect_dust = effect_dustScene.instantiate()
+	var effect_dust = effect_dustScene.instantiate()
 	effect_dust.global_position = global_position
 	get_parent().add_child(effect_dust)
 	

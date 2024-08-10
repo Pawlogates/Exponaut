@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://dofb2sjouxgdr" path="res://Collectibles/collectibleFeather.tscn" id="2_og5pt"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="3_froek"]
 [ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="4_5vrvd"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="5_d0hg7"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="6_iy8nh"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_d0hg7"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="6_iy8nh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hyhuy"]
 atlas = ExtResource("3_froek")

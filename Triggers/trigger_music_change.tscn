@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfnugj71ly62a"]
+
+[ext_resource type="Script" path="res://Scripts/trigger_music_change.gd" id="1_k26ap"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
+size = Vector2(64, 64)
+
+[node name="trigger_musicChange" type="Area2D" groups=["musicChange_area"]]
+collision_layer = 4
+collision_mask = 2
+input_pickable = false
+script = ExtResource("1_k26ap")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_jb7dg")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

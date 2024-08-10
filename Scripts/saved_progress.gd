@@ -75,7 +75,6 @@ func save_progress():
 	save_game()
 
 
-
 var current_level = 0
 
 func count_total_score(current_levelSet, level_count):
@@ -88,9 +87,6 @@ func count_total_score(current_levelSet, level_count):
 		total_score += get("score_" + current_levelSet + "_" + str(current_level))
 	
 	set("total_score_" + current_levelSet, total_score)
-
-
-
 
 
 #Save progress

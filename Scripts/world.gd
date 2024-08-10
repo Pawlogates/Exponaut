@@ -40,12 +40,8 @@ var levelTime_visible = 0
 @export var cameraLimit_bottom = 0.0
 @export var cameraLimit_top = 0.0
 
-
-var mode_scoreAttack_manager = preload("res://mode_score_attack.tscn").instantiate()
-
-var rain_scene = preload("res://weather_rain.tscn")
-var leaves_scene = preload("res://weather_leaves.tscn")
-
+var rain_scene = preload("res://Other/Scenes/Weather/weather_rain.tscn")
+var leaves_scene = preload("res://Other/Scenes/Weather/weather_leaves.tscn")
 
 @export var regular_level = true
 @export var shrine_level = false
@@ -90,6 +86,7 @@ func _ready():
 	last_area_filePath_save()
 	
 	if Globals.mode_scoreAttack:
+		var mode_scoreAttack_manager = load("res://Other/Scenes/Game Modes/mode_score_attack.tscn").instantiate()
 		add_child(mode_scoreAttack_manager)
 		%music.stream = preload("res://Assets/Sounds/music/mode_scoreAttack.mp3")
 		%music.volume_db = -3
@@ -195,8 +192,6 @@ func _ready():
 	else:
 		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
 		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
-		
-	
 	
 	
 	if rain == true:
@@ -575,10 +570,7 @@ func retry():
 	Globals.playerHP = playerStartHP
 
 
-
-
-var starParticleScene = preload("res://particles_special_multiple.tscn")
-var starParticle = starParticleScene.instantiate()
+var starParticleScene = preload("res://Particles/particles_special_multiple.tscn")
 
 func retry_loadSave(afterDelay):
 	await get_tree().create_timer(0.1, false).timeout
@@ -589,7 +581,7 @@ func retry_loadSave(afterDelay):
 	if afterDelay:
 		player.dead = true
 		
-		starParticle = starParticleScene.instantiate()
+		var starParticle = starParticleScene.instantiate()
 		starParticle.position = Globals.player_pos
 		add_child(starParticle)
 		starParticle = starParticleScene.instantiate()
@@ -959,16 +951,13 @@ func teleporter_assign_ID():
 		teleporter_ID += 1
 
 
-
-
-
-var mapScreen = load("res://map_screen.tscn")
+var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
 func retry_backToMap():
 	player.dead = true
 	%"Player Died".visible = true
 	
-	starParticle = starParticleScene.instantiate()
+	var starParticle = starParticleScene.instantiate()
 	starParticle.position = Globals.player_pos
 	add_child(starParticle)
 	starParticle = starParticleScene.instantiate()
@@ -986,8 +975,7 @@ func retry_backToMap():
 
 
 func retry_checkpoint():
-	starParticle = starParticleScene.instantiate()
-	
+	var starParticle = starParticleScene.instantiate()
 	starParticle.position = Globals.player_pos
 	add_child(starParticle)
 	starParticle = starParticleScene.instantiate()
@@ -1011,9 +999,6 @@ func retry_scoreGate():
 	player.dead = false
 	Globals.playerHP = playerStartHP
 	healthDisplay.text = str("HP:", Globals.playerHP)
-
-
-
 
 
 #Save area state

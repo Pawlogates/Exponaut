@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_supqp"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_v5lhu"]
 [ext_resource type="AudioStream" uid="uid://cwyd16lu3kan6" path="res://Assets/Sounds/sfx/collect_jewelSpecial.wav" id="3_262bv"]
-[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Themes/UI_theme.tres" id="4_fyx8g"]
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/UI_theme.tres" id="4_fyx8g"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j2lp3"]
 atlas = ExtResource("2_v5lhu")

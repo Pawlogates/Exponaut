@@ -1,6 +1,6 @@
 extends Area2D
 
-var splashParticleScene = preload("res://particles_water_entered.tscn")
+var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
 var splashParticle = splashParticleScene.instantiate()
 
 #possible area types: "wind", "water"

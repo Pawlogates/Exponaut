@@ -5,8 +5,8 @@
 [ext_resource type="AudioStream" uid="uid://1mv5m4gj4aco" path="res://Assets/Sounds/sfx/bee_idle.wav" id="3_rxrky"]
 [ext_resource type="AudioStream" uid="uid://dnxlofo4yg4ji" path="res://Assets/Sounds/sfx/bee_death.wav" id="4_6nlkh"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_7tj50"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_ie3dl"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_c8wt8"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_ie3dl"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_c8wt8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_eoglg"]
 atlas = ExtResource("2_c27yv")

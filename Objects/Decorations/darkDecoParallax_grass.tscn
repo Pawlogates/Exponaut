@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3nhc5l53cc5a"]
+
+[ext_resource type="PackedScene" uid="uid://hatulh20a5hg" path="res://Objects/Decorations/dark_deco_grass.tscn" id="1_a0vxp"]
+[ext_resource type="Script" path="res://Scripts/darkDecoParallax.gd" id="1_ksr3l"]
+
+[node name="darkDecoParallax_grass" type="Node2D"]
+script = ExtResource("1_ksr3l")
+
+[node name="darkDecoParallax" type="ParallaxBackground" parent="."]
+layer = 50
+follow_viewport_enabled = true
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="darkDecoParallax"]
+motion_scale = Vector2(0.033, 0.033)
+
+[node name="deco" parent="darkDecoParallax/ParallaxLayer" instance=ExtResource("1_a0vxp")]
+unique_name_in_owner = true
+visible = false
+scale = Vector2(1.5, 1.5)

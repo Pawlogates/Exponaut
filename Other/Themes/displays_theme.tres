@@ -1,0 +1,17 @@
+[gd_resource type="Theme" load_steps=4 format=3 uid="uid://dcxfejhbbj3pi"]
+
+[ext_resource type="StyleBox" uid="uid://cr24ipoe8k85p" path="res://Other/Styles/btn_deco2.tres" id="1_f0nuf"]
+[ext_resource type="FontFile" uid="uid://bxebncx20vx5q" path="res://Other/Fonts/font_main.png" id="1_kheqq"]
+[ext_resource type="StyleBox" uid="uid://rr4kun1gry6u" path="res://Other/Styles/btn_deco1.tres" id="2_v8205"]
+
+[resource]
+default_font = ExtResource("1_kheqq")
+default_font_size = 32
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_focus_color = Color(1, 1, 1, 0.827451)
+Button/fonts/font = ExtResource("1_kheqq")
+Button/styles/disabled = ExtResource("2_v8205")
+Button/styles/focus = ExtResource("2_v8205")
+Button/styles/hover = ExtResource("2_v8205")
+Button/styles/normal = ExtResource("1_f0nuf")
+Button/styles/pressed = ExtResource("2_v8205")

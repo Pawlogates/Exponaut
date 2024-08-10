@@ -34,7 +34,7 @@ func _ready():
 	
 	
 	for particles in particle_amount:
-		var portal_particle = preload("res://shrine_portal_particle.tscn").instantiate()
+		var portal_particle = preload("res://Particles/shrine_portal_particle.tscn").instantiate()
 		portal_particle.position = Vector2(randf_range(-5000, 5000), randf_range(-5000, 5000))
 		#portal_particle.modulate.b = randf_range(0.1, 1)
 		add_child(portal_particle)

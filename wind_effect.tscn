@@ -1,8 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://k2j8xknxyq2w"]
+[gd_scene load_steps=5 format=3 uid="uid://c4q1k06qwr1tf"]
 
-[ext_resource type="Material" uid="uid://bl823gio4gtca" path="res://Themes/wind_effect.tres" id="1_yrs4c"]
-[ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/fg_gradient.png" id="2_4mpbr"]
-[ext_resource type="Material" uid="uid://bmb74yx4w0ka3" path="res://Themes/screenTextureFilter.tres" id="3_l5ehq"]
+[ext_resource type="Material" uid="uid://bl823gio4gtca" path="res://Other/Materials/wind_effect.tres" id="1_yrs4c"]
+[ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/other/fg_gradient.png" id="2_4mpbr"]
+[ext_resource type="Material" uid="uid://bmb74yx4w0ka3" path="res://Other/Materials/screenTextureFilter.tres" id="3_l5ehq"]
 [ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="4_38qyq"]
 
 [node name="Wind Effect" type="TextureRect"]
@@ -16,10 +16,10 @@ texture = ExtResource("2_4mpbr")
 z_index = -99
 material = ExtResource("3_l5ehq")
 layout_mode = 0
-offset_left = -106.667
-offset_top = -293.333
-offset_right = 2266.33
-offset_bottom = 1039.67
+offset_left = -320.0
+offset_top = -186.667
+offset_right = 2053.0
+offset_bottom = 1146.34
 texture = ExtResource("4_38qyq")
 
 [node name="TextureRect2" type="TextureRect" parent="."]

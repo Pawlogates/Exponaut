@@ -5,11 +5,11 @@ extends Node2D
 func _ready():
 	var x =randi_range(1, 3)
 	if x == 1:
-		$Sprite2D.material = load("res://Themes/wave1.tres")
+		$Sprite2D.material = load("res://Other/Materials/wave1.tres")
 	elif x == 2:
-		$Sprite2D.material = load("res://Themes/wave2.tres")
+		$Sprite2D.material = load("res://Other/Materials/wave2.tres")
 	elif x == 3:
-		$Sprite2D.material = load("res://Themes/wave3.tres")
+		$Sprite2D.material = load("res://Other/Materials/wave3.tres")
 	
 	position += Vector2(randf_range(-10, 10) * x, randf_range(-5, 15) * x)
 	scale += Vector2(randf_range(-0.2, 0.2) * x, randf_range(-0.2, 0.2) * x)

@@ -5,16 +5,16 @@ var direction_V = 0
 
 var block_movement = true
 
-var starParticleScene = preload("res://particles_star.tscn")
-var hit_effectScene = preload("res://hit_effect.tscn")
-var dead_effectScene = preload("res://dead_effect.tscn")
-var splashParticleScene = preload("res://particles_water_entered.tscn")
-var effect_dustScene = preload("res://effect_dust.tscn")
-var starParticleFastScene = preload("res://particles_starFast.tscn")
-var scene_particles_special2_multiple = preload("res://particles_special2_multiple.tscn")
-var scene_particles_special_multiple = preload("res://particles_special_multiple.tscn")
-var scene_particles_special = preload("res://particles_special.tscn")
-var scene_particles_water_entered = preload("res://particles_water_entered.tscn")
+var starParticleScene = preload("res://Particles/particles_star.tscn")
+var hit_effectScene = preload("res://Particles/hit_effect.tscn")
+var dead_effectScene = preload("res://Particles/dead_effect.tscn")
+var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
+var effect_dustScene = preload("res://Particles/effect_dust.tscn")
+var starParticleFastScene = preload("res://Particles/particles_starFast.tscn")
+var scene_particles_special2_multiple = preload("res://Particles/particles_special2_multiple.tscn")
+var scene_particles_special_multiple = preload("res://Particles/particles_special_multiple.tscn")
+var scene_particles_special = preload("res://Particles/particles_special.tscn")
+var scene_particles_water_entered = preload("res://Particles/particles_water_entered.tscn")
 
 
 #SPECIAL PROPERTIES

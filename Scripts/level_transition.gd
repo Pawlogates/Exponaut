@@ -35,7 +35,7 @@ func _ready():
 	%saved_progress.load_game()
 
 
-var mapScreen = load("res://map_screen.tscn")
+var mapScreen = preload("res://Other/Scenes/level Select/screen_levelSelect.tscn")
 
 func _process(_delta):
 	if Input.is_action_just_pressed("menu"):
@@ -46,7 +46,7 @@ func _process(_delta):
 		
 		else:
 			await LevelTransition.fade_to_black()
-			get_tree().change_scene_to_packed(load("res://start_menu.tscn"))
+			get_tree().change_scene_to_packed(preload("res://Other/Scenes/menu_start.tscn"))
 			await LevelTransition.fade_from_black_slow()
 		
 		

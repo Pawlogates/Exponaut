@@ -101,8 +101,6 @@ func _ready():
 	%level_button.mouse_filter = 1
 
 
-
-
 func _on_pressed():
 	if unlocked or Globals.debug_mode:
 		Globals.next_transition = 0

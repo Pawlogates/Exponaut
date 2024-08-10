@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://dkvq2hs3hoerd"]
+
+[ext_resource type="Script" path="res://Scripts/collectedApplesDisplay_golden.gd" id="1_34ngd"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_x2c6j"]
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/UI_theme.tres" id="3_vme5u"]
+
+[node name="collectedApplesDisplay_golden" type="Control"]
+custom_minimum_size = Vector2(64, 96)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1856.0
+offset_bottom = -984.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_34ngd")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+texture = ExtResource("2_x2c6j")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_top = 64.0
+offset_right = 64.0
+offset_bottom = 88.0
+theme = ExtResource("3_vme5u")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1

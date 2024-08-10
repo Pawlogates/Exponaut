@@ -11,16 +11,16 @@ config_version=5
 [application]
 
 config/name="Exponaut v0.9"
-run/main_scene="res://start_menu.tscn"
+run/main_scene="res://Other/Scenes/menu_start.tscn"
 config/features=PackedStringArray("4.2", "Forward Plus")
 boot_splash/use_filter=false
-config/icon="res://Assets/Graphics/icon.svg"
+config/icon="res://Assets/Graphics/other/icon.svg"
 
 [autoload]
 
-LevelTransition="*res://level_transition.tscn"
+LevelTransition="*res://Other/Scenes/transition.tscn"
 Globals="*res://Scripts/Globals.gd"
-SavedData="*res://saved_data.tscn"
+SavedData="*res://Other/Scenes/saved_data.tscn"
 
 [display]
 

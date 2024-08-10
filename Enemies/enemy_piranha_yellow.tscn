@@ -1,12 +1,12 @@
 [gd_scene load_steps=29 format=3 uid="uid://b1554wlmeg7tk"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_0ji0i"]
-[ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_ibk1e"]
+[ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_ibk1e"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="3_46204"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_ppspt"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_ji75g"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="6_ffs5r"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="7_71ugb"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_ffs5r"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_71ugb"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_lkwqr"]
 shader = ExtResource("2_ibk1e")

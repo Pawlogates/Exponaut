@@ -1,6 +1,6 @@
 extends Control
 
-var itemDisplay_scene = load("res://quickselect_itemDisplay.tscn")
+var itemDisplay_scene = preload("res://Other/Scenes/User Interface/Quick Select/quickselect_itemDisplay.tscn")
 var previous_state = -1
 
 @onready var player = $/root/World/Player

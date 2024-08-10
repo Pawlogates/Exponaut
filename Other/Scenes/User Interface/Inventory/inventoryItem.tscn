@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://biea3w7ii0w6k"]
+
+[ext_resource type="Script" path="res://Scripts/inventoryItem.gd" id="1_d7i5t"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_jempq"]
+
+[node name="inventoryItem" type="Control" groups=["in_inventory"]]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 64.0
+script = ExtResource("1_d7i5t")
+
+[node name="item_icon" type="Sprite2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(32, 32)
+texture = ExtResource("2_jempq")
+region_enabled = true
+region_rect = Rect2(192, 589, 48, 48)

@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://bi5xs4kte6qai"]
+
+[ext_resource type="Script" path="res://Scripts/parallax_background_gradient.gd" id="1_joybx"]
+[ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/other/fg_gradient.png" id="2_nkdpl"]
+
+[node name="ParallaxBackgroundGradient" type="Node2D"]
+z_index = 100
+script = ExtResource("1_joybx")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 50
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+layer = 25
+scale = Vector2(2, 2)
+transform = Transform2D(2, 0, 0, 2, 0, 0)
+scroll_ignore_camera_zoom = true
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground"]
+unique_name_in_owner = true
+z_index = 25
+texture_repeat = 3
+motion_scale = Vector2(2, 1.25)
+motion_mirroring = Vector2(1920, 1080)
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+modulate = Color(1, 1, 1, 0.392157)
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("2_nkdpl")
+metadata/_edit_use_anchors_ = true

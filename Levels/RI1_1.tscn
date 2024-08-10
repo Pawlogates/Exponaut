@@ -1,13 +1,13 @@
 [gd_scene load_steps=9 format=3 uid="uid://bdffu02r8rgqr"]
 
-[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_jxklt"]
-[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="3_qa1gx"]
-[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="4_3vsa3"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="5_bjx5y"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Tiles/info_sign.tscn" id="6_cmrxq"]
-[ext_resource type="PackedScene" uid="uid://dao01sb74ssw8" path="res://deco_bush.tscn" id="7_bdhcy"]
-[ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://deco_cloud.tscn" id="8_h6umh"]
-[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="9_qpa1o"]
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_jxklt"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="3_qa1gx"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_3vsa3"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_bjx5y"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="6_cmrxq"]
+[ext_resource type="PackedScene" uid="uid://dao01sb74ssw8" path="res://Objects/Decorations/deco_bush.tscn" id="7_bdhcy"]
+[ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://Objects/Decorations/deco_cloud.tscn" id="8_h6umh"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="9_qpa1o"]
 
 [node name="World" instance=ExtResource("1_jxklt")]
 playerStartHP = 3

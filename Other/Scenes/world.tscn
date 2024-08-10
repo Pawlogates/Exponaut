@@ -1,0 +1,353 @@
+[gd_scene load_steps=24 format=3 uid="uid://pu6px63ietmi"]
+
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_25muh"]
+[ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_controller.tscn" id="2_1jcpx"]
+[ext_resource type="AudioStream" uid="uid://cu3e4pfj43wyo" path="res://Assets/Sounds/music/snow1.mp3" id="3_gut6j"]
+[ext_resource type="PackedScene" uid="uid://d2xjhu1myvqf5" path="res://Other/Scenes/ambience_controller.tscn" id="4_y15yt"]
+[ext_resource type="AudioStream" uid="uid://016x6ugxmvem" path="res://Assets/Sounds/ambience/ambience_loop14.mp3" id="5_3ydfu"]
+[ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://Other/Scenes/player.tscn" id="6_exop1"]
+[ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://Other/Scenes/parallax_background_gradient.tscn" id="7_3ull5"]
+[ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://Other/Scenes/background.tscn" id="8_8ihao"]
+[ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://Other/Scenes/User Interface/info_text_display.tscn" id="9_j05p1"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="10_g7uok"]
+[ext_resource type="Script" path="res://Scripts/interactive_button.gd" id="11_s64ti"]
+[ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://Other/Scenes/screen_levelFinished.tscn" id="12_pstdg"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="13_dwuwk"]
+[ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://Other/Scenes/User Interface/score_display.tscn" id="14_3v85e"]
+[ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://Other/Scenes/User Interface/checkpoint_display.tscn" id="15_82wab"]
+[ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://Other/Scenes/User Interface/Inventory/inventory.tscn" id="16_4pu55"]
+[ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://Other/Scenes/User Interface/Quick Select/quickselect_screen.tscn" id="17_q3m23"]
+[ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://Other/Scenes/User Interface/collectedApplesDisplay_golden.tscn" id="18_423d0"]
+[ext_resource type="PackedScene" uid="uid://d0vqhficbarvl" path="res://Other/Scenes/User Interface/Debug/screen_debug.tscn" id="19_lp8y3"]
+[ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="20_fa23o"]
+
+[sub_resource type="Animation" id="Animation_ru8b6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/StartInContainer/CenterContainer/StartIn:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["Start in 3"]
+}
+
+[sub_resource type="Animation" id="Animation_mgprj"]
+resource_name = "StartInAnim"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HUD/StartInContainer/CenterContainer/StartIn:text")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.4, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": ["Start in 3", "Start in 2", "Start in 1"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_vhdqb"]
+_data = {
+"RESET": SubResource("Animation_ru8b6"),
+"StartInAnim": SubResource("Animation_mgprj")
+}
+
+[node name="World" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_25muh")
+playerStartHP = 15
+
+[node name="Music Controller" parent="." instance=ExtResource("2_1jcpx")]
+
+[node name="music" type="AudioStreamPlayer" parent="Music Controller"]
+unique_name_in_owner = true
+stream = ExtResource("3_gut6j")
+autoplay = true
+
+[node name="Ambience Controller" parent="." instance=ExtResource("4_y15yt")]
+
+[node name="ambience" type="AudioStreamPlayer" parent="Ambience Controller"]
+unique_name_in_owner = true
+stream = ExtResource("5_3ydfu")
+volume_db = -10.0
+autoplay = true
+
+[node name="Player" parent="." instance=ExtResource("6_exop1")]
+unique_name_in_owner = true
+
+[node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("7_3ull5")]
+
+[node name="bg_current" parent="." instance=ExtResource("8_8ihao")]
+unique_name_in_owner = true
+
+[node name="bg_previous" parent="." instance=ExtResource("8_8ihao")]
+unique_name_in_owner = true
+current = false
+
+[node name="HUD" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+layer = 75
+visible = false
+
+[node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 824.0
+offset_bottom = 1048.0
+grow_horizontal = 2
+
+[node name="info_textDisplay" parent="HUD/CenterContainer_info" instance=ExtResource("9_j05p1")]
+layout_mode = 2
+
+[node name="Player Died Root" type="Control" parent="HUD/CenterContainer_info"]
+layout_mode = 2
+
+[node name="Player Died" type="Button" parent="HUD/CenterContainer_info/Player Died Root"]
+unique_name_in_owner = true
+visible = false
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+layout_mode = 2
+offset_left = -320.0
+offset_top = -432.0
+offset_right = 320.0
+offset_bottom = -368.0
+size_flags_horizontal = 4
+theme = ExtResource("10_g7uok")
+script = ExtResource("11_s64ti")
+
+[node name="Player Died Text" type="RichTextLabel" parent="HUD/CenterContainer_info/Player Died Root/Player Died"]
+clip_contents = false
+layout_mode = 0
+offset_right = 640.0
+offset_bottom = 64.0
+mouse_filter = 2
+theme_override_font_sizes/normal_font_size = 36
+bbcode_enabled = true
+text = "[wave amp=50.0 freq=10.0 connected=1]You died! Try again.[/wave]"
+autowrap_mode = 0
+
+[node name="Level Finished" parent="HUD" instance=ExtResource("12_pstdg")]
+unique_name_in_owner = true
+visible = false
+metadata/_edit_use_anchors_ = true
+
+[node name="StartInContainer" type="ColorRect" parent="HUD"]
+unique_name_in_owner = true
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="HUD/StartInContainer"]
+layout_mode = 2
+offset_left = 768.0
+offset_top = 448.0
+offset_right = 1152.0
+offset_bottom = 627.0
+color = Color(0, 0, 0, 0.384314)
+
+[node name="CenterContainer" type="CenterContainer" parent="HUD/StartInContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartIn" type="Label" parent="HUD/StartInContainer/CenterContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("13_dwuwk")
+theme_override_font_sizes/font_size = 32
+text = "Start in 3"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainerTime" type="CenterContainer" parent="HUD"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 72.0
+grow_horizontal = 2
+
+[node name="levelTime" type="Label" parent="HUD/CenterContainerTime"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme = ExtResource("10_g7uok")
+text = "time"
+horizontal_alignment = 1
+vertical_alignment = 1
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="CenterContainerHealth" type="CenterContainer" parent="HUD"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -192.0
+offset_top = 64.0
+offset_right = -64.0
+offset_bottom = 112.0
+grow_horizontal = 0
+
+[node name="health" type="Label" parent="HUD/CenterContainerHealth"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+theme = ExtResource("10_g7uok")
+text = "HP"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CenterContainerKeysLeft" type="CenterContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -256.0
+offset_top = -88.0
+offset_right = -128.0
+offset_bottom = -24.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="keysLeft" type="Label" parent="HUD/CenterContainerKeysLeft"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+theme = ExtResource("10_g7uok")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="filler_TotalKeys_left" type="CenterContainer" parent="HUD"]
+offset_left = 1568.0
+offset_top = 928.0
+offset_right = 1888.0
+offset_bottom = 992.0
+
+[node name="filler_TotalKeys_left" type="Label" parent="HUD/filler_TotalKeys_left"]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+theme = ExtResource("10_g7uok")
+theme_override_font_sizes/font_size = 22
+text = "Keys left:"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="TotalCollectibles_collected" type="CenterContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1856.0
+offset_top = -248.0
+offset_right = -1600.0
+offset_bottom = -184.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="TotalCollectibles_collected" type="Label" parent="HUD/TotalCollectibles_collected"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 64)
+layout_mode = 2
+theme = ExtResource("10_g7uok")
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="filler_TotalCollectibles_collected" type="CenterContainer" parent="HUD"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1888.0
+offset_top = -344.0
+offset_right = -1568.0
+offset_bottom = -248.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="filler_TotalCollectibles_collected" type="Label" parent="HUD/filler_TotalCollectibles_collected"]
+custom_minimum_size = Vector2(320, 64)
+layout_mode = 2
+theme = ExtResource("10_g7uok")
+theme_override_font_sizes/font_size = 22
+text = "Collectibles collected"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="ScoreDisplay" parent="HUD" instance=ExtResource("14_3v85e")]
+unique_name_in_owner = true
+position = Vector2(64, 64)
+
+[node name="quicksavedDisplay" parent="HUD" instance=ExtResource("15_82wab")]
+unique_name_in_owner = true
+position = Vector2(1024, 896)
+
+[node name="Inventory" parent="HUD" instance=ExtResource("16_4pu55")]
+
+[node name="quickselect_screen" parent="HUD" instance=ExtResource("17_q3m23")]
+
+[node name="collectedApples_display" type="Control" parent="HUD"]
+custom_minimum_size = Vector2(160, 320)
+layout_mode = 3
+anchors_preset = 0
+offset_left = 1728.0
+offset_top = 320.0
+offset_right = 1888.0
+offset_bottom = 640.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HUD/collectedApples_display"]
+layout_mode = 0
+offset_right = 160.0
+offset_bottom = 320.0
+alignment = 1
+
+[node name="collectedApplesDisplay_golden" parent="HUD/collectedApples_display/VBoxContainer" instance=ExtResource("18_423d0")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="Debug Screen" parent="HUD" instance=ExtResource("19_lp8y3")]
+unique_name_in_owner = true
+visible = false
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+process_mode = 3
+libraries = {
+"": SubResource("AnimationLibrary_vhdqb")
+}
+
+[node name="ComboManager" parent="." instance=ExtResource("20_fa23o")]
+unique_name_in_owner = true
+
+[node name="QuickloadLimiter" type="Timer" parent="."]
+one_shot = true
+
+[node name="DEBUG refresh" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="focus_entered" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_entered"]
+[connection signal="focus_exited" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_exited"]
+[connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
+[connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
+[connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]
+[connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]

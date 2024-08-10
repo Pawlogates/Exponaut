@@ -1,14 +1,14 @@
 [gd_scene load_steps=10 format=3 uid="uid://jx3xe1bo52xv"]
 
-[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://world.tscn" id="1_x68in"]
-[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tiles/tileset_main.tscn" id="2_o04mt"]
-[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tiles/tileset_objects.tscn" id="3_615vc"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tiles/tileset_objectsSmall.tscn" id="4_g7a2m"]
-[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Tiles/kill_area.tscn" id="5_xcq57"]
-[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Tiles/trigger_bg_change.tscn" id="6_yyml5"]
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_x68in"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_o04mt"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_615vc"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="4_g7a2m"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="5_xcq57"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_yyml5"]
 [ext_resource type="Texture2D" uid="uid://cvpcnuicbjb3u" path="res://Assets/Graphics/backgrounds/bg_swamp.png" id="7_54db4"]
 [ext_resource type="Texture2D" uid="uid://dnkumwh3w5j5g" path="res://Assets/Graphics/backgrounds/bg_a_clouds.png" id="8_gp8j2"]
-[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Tiles/trigger_bg_move.tscn" id="9_5qhnn"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="9_5qhnn"]
 
 [node name="World" instance=ExtResource("1_x68in")]
 shrine_level = true

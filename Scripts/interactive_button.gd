@@ -5,8 +5,10 @@ var moving = false
 var showing_up = true
 
 func _ready():
-	mouse_entered.connect(_on_mouse_entered)
-	mouse_exited.connect(_on_mouse_exited)
+	if not is_connected("mouse_entered", _on_mouse_entered):
+		mouse_entered.connect(_on_mouse_entered)
+	if not is_connected("mouse_exited", _on_mouse_exited):
+		mouse_exited.connect(_on_mouse_exited)
 
 #func _on_focus_entered():
 	#modulate.a = 1.0

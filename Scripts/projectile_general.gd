@@ -39,7 +39,7 @@ var not_bounced = true
 
 #SPAWN ITEM
 @export var spawn_on_death = false
-@export var item_scene = preload("res://Tiles/special_block_iceCube.tscn")
+@export var item_scene = preload("res://Blocks/special_block_iceCube.tscn")
 @export var give_momentum = false
 @export var momentum_x = 0.0
 @export var momentum_y = 0.0

@@ -1,14 +1,14 @@
 [gd_scene load_steps=19 format=3 uid="uid://br430ejb5euv1"]
 
 [ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_4i2fq"]
-[ext_resource type="Shader" path="res://Themes/hueShift_effect.gdshader" id="2_msvjr"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_v3v42"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Collectibles/bonus_material.tres" id="4_43n2u"]
+[ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_yuiyb"]
 [ext_resource type="AudioStream" uid="uid://dlpgj18466wn8" path="res://Assets/Sounds/sfx/collect_special.wav" id="4_py5ql"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Themes/collectedScore_theme.tres" id="5_d4s5g"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_uo178"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="6_4dh64"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_uhlsh"]
-shader = ExtResource("2_msvjr")
+shader = ExtResource("2_yuiyb")
 shader_parameter/Shift_Hue = 0.85
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cah4y"]
@@ -558,11 +558,11 @@ color = Color(1, 1, 1, 0)
 unique_name_in_owner = true
 z_index = 25
 texture_filter = 2
-material = ExtResource("4_43n2u")
+material = ExtResource("5_uo178")
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 160.0
-theme = ExtResource("5_d4s5g")
+theme = ExtResource("6_4dh64")
 theme_override_font_sizes/font_size = 0
 text = "test"
 horizontal_alignment = 1
@@ -586,8 +586,8 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]

@@ -12,7 +12,7 @@ func _ready():
 	gate_unlocked.connect(unlock)
 	
 	if item_type == "golden apple":
-		gateItem = load("res://gateItem_goldenApple.tscn")
+		gateItem = load("res://Other/Scenes/gateItem_goldenApple.tscn")
 	
 	
 	var itemsToAdd = required_item_amount
@@ -24,7 +24,6 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
-
 
 
 func _on_area_2d_body_entered(body):

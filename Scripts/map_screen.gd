@@ -1,7 +1,7 @@
 extends CenterContainer
 
-var level_icon_scene = load("res://level_button.tscn")
-var main_menu = load("res://start_menu.tscn")
+var level_icon_scene = load("res://Other/Scenes/Level Select/level_button.tscn")
+var main_menu = load("res://Other/Scenes/menu_start.tscn")
 
 var level_number = 0
 var total_score = 0
@@ -67,7 +67,7 @@ func _ready():
 	
 	#EPISODE START
 	if Globals.selected_episode == "Main Levels":
-		%background.texture = load("res://Assets/Graphics/menu_map2.png")
+		%background.texture = load("res://Assets/Graphics/other/menu_map2.png")
 		level_number = 0
 		
 		#LEVEL ICON START

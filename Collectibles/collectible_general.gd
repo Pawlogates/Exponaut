@@ -1,12 +1,12 @@
 extends CharacterBody2D
 
-var starParticleScene = preload("res://particles_special.tscn")
-var starParticle2Scene = preload("res://particles_star.tscn")
-var orbParticleScene = preload("res://particles_special2_multiple.tscn")
-var hit_effectScene = preload("res://hit_effect.tscn")
-var splashParticleScene = preload("res://particles_water_entered.tscn")
-var effect_dustScene = preload("res://effect_dust.tscn")
-var feathersParticleScene = preload("res://particles_feathers.tscn")
+var starParticleScene = preload("res://Particles/particles_special.tscn")
+var starParticle2Scene = preload("res://Particles/particles_star.tscn")
+var orbParticleScene = preload("res://Particles/particles_special2_multiple.tscn")
+var hit_effectScene = preload("res://Particles/hit_effect.tscn")
+var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
+var effect_dustScene = preload("res://Particles/effect_dust.tscn")
+var feathersParticleScene = preload("res://Particles/particles_feathers.tscn")
 
 var start_pos = global_position
 
@@ -269,9 +269,9 @@ func _process(_delta):
 		queue_free()
 
 
-var bonus_material = preload("res://Collectibles/bonus_material.tres")
+var bonus_material = preload("res://Other/Materials/bonus_material.tres")
 
-@export var inventory_item_scene = preload("res://inventoryItem.tscn")
+@export var inventory_item_scene = preload("res://Other/Scenes/User Interface/Inventory/inventoryItem.tscn")
 @export var inventory_itemToSpawn = preload("res://Collectibles/collectibleApple.tscn")
 @export var inventory_texture_region = Rect2(0, 0, 0, 0)
 
@@ -628,12 +628,9 @@ func on_button_press():
 		animation_player.pause()
 
 
-
 func _on_rot_delay_timeout():
 	rotten = true
-	%AnimatedSprite2D.material = preload("res://Collectibles/rotten_material.tres")
-
-
+	%AnimatedSprite2D.material = preload("res://Other/Materials/rotten_material.tres")
 
 
 var player_inside = false
@@ -798,7 +795,7 @@ func spawn_item_static():
 
 
 func spawn_portal():
-	var portal = preload("res://shrine_portal.tscn").instantiate()
+	var portal = preload("res://Objects/shrine_portal.tscn").instantiate()
 	portal.level_ID = shrineGem_portal_level_ID
 	portal.level_number = shrineGem_portal_level_number
 	portal.target_area = shrineGem_level_filePath

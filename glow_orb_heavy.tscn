@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://fa1gibclq2wn"]
-
-[ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/sprites/glow_shadowOrb_heavy.png" id="1_6wie1"]
-
-[node name="glow_orbHeavy" type="PointLight2D"]
-texture = ExtResource("1_6wie1")

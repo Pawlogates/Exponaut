@@ -1,7 +1,7 @@
 extends Node2D
 
-var starParticleScene = preload("res://particles_special.tscn")
-var starParticle2Scene = preload("res://particles_star.tscn")
+var starParticleScene = preload("res://Particles/particles_special.tscn")
+var starParticle2Scene = preload("res://Particles/particles_star.tscn")
 var starParticle = starParticleScene.instantiate()
 var starParticle2 = starParticle2Scene.instantiate()
 
@@ -15,16 +15,10 @@ var removable = false
 @onready var animation_player_2 = %AnimationPlayer2
 @onready var sprite = %AnimatedSprite2D
 
-
 @export var collectibleScoreValue = 0
 
-
-
 #OFFSCREEN START
-
 func _ready():
-	add_to_group("loadingZone0")
-	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -38,11 +32,7 @@ func _ready():
 	animation_player.active = false
 	animation_player_2.active = false
 	$Area2D.set_monitorable(false)
-	
-	
 	#OFFSCREEN END
-	
-	
 	
 	var xpos = self.global_position.x
 	animation_player.advance(abs(xpos) / 100)
@@ -50,17 +40,12 @@ func _ready():
 	Globals.saveState_loaded.connect(saveState_loaded)
 
 
-
 func saveState_loaded():
 	var xpos = self.global_position.x
 	animation_player.advance(abs(xpos) / 100)
-	
-
-
 
 
 #IS IN VISIBLE RANGE?
-
 func offScreen_unload():
 	set_process(false)
 	set_physics_process(false)
@@ -75,9 +60,7 @@ func offScreen_unload():
 	animation_player.active = false
 	animation_player_2.active = false
 	$Area2D.set_monitorable(false)
-	
-	
-	
+
 
 func offScreen_load():
 	set_process(true)
@@ -97,9 +80,6 @@ func offScreen_load():
 	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.set_monitorable(true)
 	$Area2D.set_monitoring(true)
-	
-	
-
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -108,7 +88,7 @@ func _process(_delta):
 		queue_free()
 
 
-var bonus_material = preload("res://Collectibles/bonus_material.tres")
+var bonus_material = preload("res://Other/Materials/bonus_material.tres")
 
 func _on_collectible_entered(body):
 	if body.is_in_group("player") and not collected or body.is_in_group("player_projectile") and not collected:
