@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://biihnrd26d0vg"
+path="res://.godot/imported/Kids Cheering.mp3-d9f7dbd20618105cfe1a7decf30363c3.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Kids Cheering.mp3"
+dest_files=["res://.godot/imported/Kids Cheering.mp3-d9f7dbd20618105cfe1a7decf30363c3.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

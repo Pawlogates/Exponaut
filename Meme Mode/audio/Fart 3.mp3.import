@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://xhs8ls23n7fy"
+path="res://.godot/imported/Fart 3.mp3-c142de74d7d7f6e48ea3147c1c5c5194.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Fart 3.mp3"
+dest_files=["res://.godot/imported/Fart 3.mp3-c142de74d7d7f6e48ea3147c1c5c5194.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

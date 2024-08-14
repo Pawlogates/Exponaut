@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_6vvdi"]
 [ext_resource type="Script" path="res://Scripts/level_finished.gd" id="2_xm0gm"]
-[ext_resource type="Script" path="res://Scripts/interactive_button.gd" id="3_v287l"]
+[ext_resource type="Script" path="res://Scripts/menu_button.gd" id="3_v287l"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="4_7l3u8"]
 [ext_resource type="AudioStream" uid="uid://bj6mx4e78pqc6" path="res://Assets/Sounds/music/music_victory.mp3" id="4_in6rq"]
 [ext_resource type="Texture2D" uid="uid://dfphbqyrmgmmu" path="res://Assets/Graphics/backgrounds/bg_jungle.png" id="5_vlruk"]

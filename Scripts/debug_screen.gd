@@ -336,7 +336,7 @@ func _on_open_key_blocks_pressed():
 var toggle_music = false
 var toggle_ambience = false
 
-func _on_mute_music_pressed():
+func _on_toggle_music_pressed():
 	if not toggle_music:
 		toggle_music = true
 		$/root/World.music_controller.disabled = true
@@ -346,7 +346,7 @@ func _on_mute_music_pressed():
 		$/root/World.music_controller.disabled = false
 		$/root/World.music.volume_db = 0
 
-func _on_mute_ambience_pressed():
+func _on_toggle_ambience_pressed():
 	if not toggle_ambience:
 		toggle_ambience = true
 		$/root/World.ambience_controller.disabled = true
@@ -370,3 +370,10 @@ func _on_mute_ambience_pressed():
 func _on_set_day_pressed():
 	set_day()
 	night_modifications()
+
+
+func _on_toggle_hud_pressed():
+	if $/root/World/HUD.visible:
+		$/root/World/HUD.visible = false
+	else:
+		$/root/World/HUD.visible = true

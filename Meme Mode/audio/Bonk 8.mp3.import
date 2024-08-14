@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dtfk2fdcch21l"
+path="res://.godot/imported/Bonk 8.mp3-e1fa59bef2befc4f3c12fe8d2800647a.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Bonk 8.mp3"
+dest_files=["res://.godot/imported/Bonk 8.mp3-e1fa59bef2befc4f3c12fe8d2800647a.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

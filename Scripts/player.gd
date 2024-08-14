@@ -310,7 +310,11 @@ func handle_jump(delta):
 		if Input.is_action_just_pressed("jump"):
 			normal_jump = false
 			jump_build_velocity.start()
+			
 			sfx_jump.play()
+			%AnimationPlayer.play("jumped")
+			%AnimationPlayer.speed_scale = 2
+			
 			jumpBuildVelocity_active = true
 			return true
 	
@@ -330,7 +334,10 @@ func handle_jump(delta):
 				velocity.y = JUMP_VELOCITY * 0.8
 				
 			air_jump = false
+			
 			sfx_jump.play()
+			%AnimationPlayer.play("jumped")
+			%AnimationPlayer.speed_scale = 2
 			
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
@@ -357,7 +364,10 @@ func handle_wall_jump():
 			velocity.y = JUMP_VELOCITY * 1
 		
 		wall_jump = false
+		
 		$wall_jump.play()
+		%AnimationPlayer.play("jumped")
+		%AnimationPlayer.speed_scale = 2
 
 
 

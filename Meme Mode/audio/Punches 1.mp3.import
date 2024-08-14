@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://n7xehn4dfe14"
+path="res://.godot/imported/Punches 1.mp3-0a5733e2e394b17db84b5a571697bd07.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Punches 1.mp3"
+dest_files=["res://.godot/imported/Punches 1.mp3-0a5733e2e394b17db84b5a571697bd07.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

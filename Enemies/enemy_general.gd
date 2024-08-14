@@ -182,21 +182,21 @@ func _ready():
 			$timerGeneral4.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
 			$timerGeneral5.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
 			$timerGeneral6.wait_time = rng.randf_range(generalTimer_min_cooldown, generalTimer_max_cooldown)
-	
+		
+		else:
+			$timerGeneral1.wait_time = generalTimer1_cooldown
+			$timerGeneral2.wait_time = generalTimer2_cooldown
+			$timerGeneral3.wait_time = generalTimer3_cooldown
+			$timerGeneral4.wait_time = generalTimer4_cooldown
+			$timerGeneral5.wait_time = generalTimer5_cooldown
+			$timerGeneral6.wait_time = generalTimer6_cooldown
+		
 		$timerGeneral1.start()
 		$timerGeneral2.start()
 		$timerGeneral3.start()
 		$timerGeneral4.start()
 		$timerGeneral5.start()
 		$timerGeneral6.start()
-		
-		$timerGeneral1.wait_time = generalTimer1_cooldown
-		$timerGeneral2.wait_time = generalTimer2_cooldown
-		$timerGeneral3.wait_time = generalTimer3_cooldown
-		$timerGeneral4.wait_time = generalTimer4_cooldown
-		$timerGeneral5.wait_time = generalTimer5_cooldown
-		$timerGeneral6.wait_time = generalTimer6_cooldown
-	
 	
 	
 	if patroling:
@@ -1110,11 +1110,6 @@ func stuck_inside_wall_check():
 			position -= Vector2(1, 8)
 		else:
 			stuck = false
-	
-
-
-
-
 
 
 
@@ -1319,15 +1314,15 @@ func generalTimers_correct_cooldowns():
 	if not generalTimer1_randomize_cooldown:
 		$timerGeneral1.wait_time = generalTimer1_cooldown
 	if not generalTimer2_randomize_cooldown:
-		$timerGeneral2.wait_time = generalTimer1_cooldown
+		$timerGeneral2.wait_time = generalTimer2_cooldown
 	if not generalTimer3_randomize_cooldown:
-		$timerGeneral3.wait_time = generalTimer1_cooldown
+		$timerGeneral3.wait_time = generalTimer3_cooldown
 	if not generalTimer4_randomize_cooldown:
-		$timerGeneral4.wait_time = generalTimer1_cooldown
+		$timerGeneral4.wait_time = generalTimer4_cooldown
 	if not generalTimer5_randomize_cooldown:
-		$timerGeneral5.wait_time = generalTimer1_cooldown
+		$timerGeneral5.wait_time = generalTimer5_cooldown
 	if not generalTimer6_randomize_cooldown:
-		$timerGeneral6.wait_time = generalTimer1_cooldown
+		$timerGeneral6.wait_time = generalTimer6_cooldown
 
 
 func applyRandom_fromList(list_name, list_length):

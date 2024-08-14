@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://4r5eqy8yr4eu"
+path="res://.godot/imported/300 people fake laugh.mp3-c9ae5c78f0a9a277f298607c1f31b544.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/300 people fake laugh.mp3"
+dest_files=["res://.godot/imported/300 people fake laugh.mp3-c9ae5c78f0a9a277f298607c1f31b544.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

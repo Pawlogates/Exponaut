@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bwrjkqn80s61e"
+path="res://.godot/imported/Police Siren 3.mp3-c30344639244ee58f9f092ce1669d6bd.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Police Siren 3.mp3"
+dest_files=["res://.godot/imported/Police Siren 3.mp3-c30344639244ee58f9f092ce1669d6bd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

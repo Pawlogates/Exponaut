@@ -7,20 +7,14 @@ extends Node2D
 @onready var player = %Player
 @onready var hud = %HUD
 
-
 @onready var level_finished = %"Level Finished"
-@onready var start_in_container = %StartInContainer
-@onready var start_in = %StartIn
-@onready var animation_player = %AnimationPlayer
 
 @onready var level_timeDisplay = %levelTime
 @onready var healthDisplay = %health
 @onready var keys_leftDisplay = %keysLeft
 
-
 @export_file("*.tscn") var savedProgress_level_filePath: String
 var savedProgress_nextTransition = Globals.next_transition
-
 
 var levelTime = 0
 var start_level_msec = 0.0
@@ -52,8 +46,6 @@ var key_total = 50
 
 @export var scoreAttack_collectibles = -1
 
-
-
 var instant_background_transitions = true
 
 @export var night = false
@@ -63,13 +55,11 @@ var instant_background_transitions = true
 @export var rain = false
 @export var leaves = false
 
-
 @export var shrine_selected_episode = "none"
 @export var shrine_level_ID = "none"
 @export var shrine_level_number = -1
 
-
-
+@export var meme_mode = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -92,17 +82,17 @@ func _ready():
 		%music.volume_db = -3
 		%music.play()
 	
-	#%bg_current.queue_free()
-	#%bg_previous.queue_free()
+	#%bg_current.queue_free() #DEBUG
+	#%bg_previous.queue_free() #DEBUG
+	
 	#$tileset_objects.queue_free() #DEBUG
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	
-	
-	#if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
-		#%Player/%Camera2D.limit_left = cameraLimit_left
-		#%Player/%Camera2D.limit_right = cameraLimit_right
-		#%Player/%Camera2D.limit_bottom = cameraLimit_bottom
-		#%Player/%Camera2D.limit_top = cameraLimit_top
+	if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
+		%Player/%Camera2D.limit_left = cameraLimit_left
+		%Player/%Camera2D.limit_right = cameraLimit_right
+		%Player/%Camera2D.limit_bottom = cameraLimit_bottom
+		%Player/%Camera2D.limit_top = cameraLimit_top
 	
 	
 	get_tree().paused = false
@@ -118,17 +108,17 @@ func _ready():
 	
 	%HUD.visible = true
 	
-	#tileset_objects.set_layer_enabled(0, true)
-	#tileset_objects.set_layer_enabled(1, true)
-	#tileset_objects.set_layer_enabled(2, true)
-	#tileset_objects.set_layer_enabled(3, true)
-	#tileset_objects.set_layer_enabled(4, true)
-	#
-	#tileset_objects_small.set_layer_enabled(0, true)
-	#tileset_objects_small.set_layer_enabled(1, true)
-	#tileset_objects_small.set_layer_enabled(2, true)
-	#tileset_objects_small.set_layer_enabled(3, true)
-	#tileset_objects_small.set_layer_enabled(4, true)
+	tileset_objects.set_layer_enabled(0, true)
+	tileset_objects.set_layer_enabled(1, true)
+	tileset_objects.set_layer_enabled(2, true)
+	tileset_objects.set_layer_enabled(3, true)
+	tileset_objects.set_layer_enabled(4, true)
+	
+	tileset_objects_small.set_layer_enabled(0, true)
+	tileset_objects_small.set_layer_enabled(1, true)
+	tileset_objects_small.set_layer_enabled(2, true)
+	tileset_objects_small.set_layer_enabled(3, true)
+	tileset_objects_small.set_layer_enabled(4, true)
 	
 	
 	Globals.playerHP = playerStartHP
@@ -167,12 +157,6 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
 	
-	#get_tree().paused = true
-	
-	#start_in_container.visible = true
-	start_in_container.visible = false
-	
-	
 	if Globals.debug_mode:
 		Globals.playerHP = 250
 	
@@ -199,12 +183,7 @@ func _ready():
 	if leaves == true:
 		player.camera.add_child(leaves_scene.instantiate())
 	
-	
 	#Globals.cheated_state = false
-	
-	#animation_player.play("StartInAnim")
-	#await animation_player.animation_finished
-	#get_tree().paused = false
 	
 	if instant_background_transitions:
 		%bg_previous/bg_transition.speed_scale = 20
@@ -218,7 +197,7 @@ func _ready():
 		bgMove_growthSpeed = 100
 	
 	
-	
+	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
 	if not regular_level and Globals.transitioned and Globals.next_transition != 0:
 		var areaTransition = get_node("%areaTransition" + str(Globals.next_transition))
 		if areaTransition.spawn_position != Vector2(0, 0):
@@ -228,16 +207,22 @@ func _ready():
 			print(areaTransition.position)
 			player.position = areaTransition.position
 	
-	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
-	
 	
 	if not regular_level and not Globals.just_started_new_game: 
 		load_saved_progress_overworld() #loads player related progress, doesn't conflict with load_game_area()
 	
 	Globals.transitioned = false
 	
-	
 	player.camera.position_smoothing_enabled = false
+	
+	if meme_mode:
+		$meme_mode_timer.start()
+		$/root/World/HUD.visible = false
+		
+		var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
+		meme_spawner.randomize = true
+		meme_spawner.position = Vector2(player.position.x + randi_range(-800, 800), player.position.y + randi_range(-500, 500))
+		add_child(meme_spawner)
 	
 	await get_tree().create_timer(0.2, false).timeout
 	
@@ -251,7 +236,6 @@ func _ready():
 	
 	night_modifications()
 	await LevelTransition.fade_from_black_slow()
-	
 	
 	
 	key_total = get_tree().get_nodes_in_group("key").size()
@@ -279,9 +263,7 @@ func _ready():
 	$QuickloadLimiter.start() #unused
 	Globals.is_saving = true #unused
 	
-	
 	Globals.just_started_new_game = false
-
 
 
 func load_saved_progress_overworld():
@@ -671,7 +653,6 @@ func save_game():
 
 			# Store the save dictionary as a new line in the save file.
 			save_gameFile.store_line(json_string)
-			
 		
 		
 		await get_tree().create_timer(0.1, false).timeout
@@ -685,8 +666,6 @@ func save_game():
 		
 		Globals.saveState_saved.emit()
 		Globals.is_saving = false
-
-
 
 
 func load_game():
@@ -741,11 +720,8 @@ func load_game():
 	Globals.saveState_loaded.emit()
 
 
-
-
 func _on_quickload_limiter_timeout():
 	quickLoad_blocked = false
-	
 
 func saved_from_outside():
 	quickLoad_blocked = true
@@ -755,14 +731,11 @@ func saved_from_outside():
 	$QuickloadLimiter.start()
 
 
-
 func _on_debug_refresh_timeout():
 	%"Debug Screen".refresh_debugInfo()
 	
 	Globals.collected_collectibles = Globals.collectibles_in_this_level - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.collectibles_in_this_level)
-
-
 
 func key_collected():
 	key_total -= 1
@@ -774,10 +747,6 @@ func key_collected():
 	await get_tree().create_timer(8, false).timeout
 	
 	keys_leftDisplay.text = str(get_tree().get_nodes_in_group("key").size())
-
-
-
-
 
 
 #NIGHT/DAY TIME
@@ -812,8 +781,6 @@ func key_collected():
 			#object.modulate.r = 1.0
 		#for object in get_tree().get_nodes_in_group("bonusBox"):
 			#object.modulate.r = 1.0
-
-
 
 
 func set_night():
@@ -864,7 +831,6 @@ func set_night3():
 		object.modulate.r = 0.8
 
 
-
 func set_day():
 	night_toggle = true
 	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
@@ -879,8 +845,6 @@ func set_day():
 		object.modulate.r = 1.0
 	for object in get_tree().get_nodes_in_group("bonusBox"):
 		object.modulate.r = 1.0
-
-
 
 
 func night_modifications():
@@ -916,10 +880,6 @@ func night_modifications():
 			object.modulate.r = 1.0
 
 
-
-
-
-
 func teleporter_assign_ID():
 	
 	var teleporter_type = "blue"
@@ -931,7 +891,6 @@ func teleporter_assign_ID():
 		teleporter_ID += 1
 	
 	
-	
 	teleporter_type = "red"
 	teleporter_ID = 1
 	
@@ -939,7 +898,6 @@ func teleporter_assign_ID():
 		
 		teleporter.add_to_group(str(str(teleporter_type), str(teleporter_ID)))
 		teleporter_ID += 1
-	
 	
 	
 	teleporter_type = "green"
@@ -1044,10 +1002,6 @@ func save_game_area():
 	
 	await get_tree().create_timer(0.1, false).timeout
 	Globals.is_saving = false
-	
-	
-
-
 
 
 func load_game_area():
@@ -1106,3 +1060,14 @@ func reassign_player():
 	player = get_tree().get_first_node_in_group("player_root")
 	camera = get_tree().get_first_node_in_group("player_camera")
 	get_tree().get_first_node_in_group("quickselect_screen").reassign_player()
+
+
+func _on_meme_mode_timer_timeout():
+	if meme_mode:
+		var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
+		meme_spawner.randomize = true
+		meme_spawner.position = Vector2(player.position.x + randi_range(-800, 800), player.position.y + randi_range(-500, 500))
+		add_child(meme_spawner)
+		
+		$meme_mode_timer.wait_time = randf_range(0.5, 6)
+		$meme_mode_timer.start()

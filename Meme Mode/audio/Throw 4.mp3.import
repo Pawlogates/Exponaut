@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cq8pl48o34455"
+path="res://.godot/imported/Throw 4.mp3-3b4dfce3f42e5d813d4c78f1bfbfce01.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Throw 4.mp3"
+dest_files=["res://.godot/imported/Throw 4.mp3-3b4dfce3f42e5d813d4c78f1bfbfce01.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

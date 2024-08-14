@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b42tv2jln8pys"
+path="res://.godot/imported/Look at this dude.mp3-faeeda042d6370d2985207e15db66ff8.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Look at this dude.mp3"
+dest_files=["res://.godot/imported/Look at this dude.mp3-faeeda042d6370d2985207e15db66ff8.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

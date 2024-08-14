@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://dpocib7hvpqy5"]
+
+[ext_resource type="Script" path="res://Meme Mode/memeMode_image_spawner.gd" id="1_f1a7f"]
+[ext_resource type="AudioStream" uid="uid://bkk6dteci8psp" path="res://Meme Mode/audio/music/1.mp3" id="2_mlvv0"]
+
+[node name="memeMode_image_spawner" type="Node2D"]
+z_index = 50
+script = ExtResource("1_f1a7f")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.15
+autostart = true
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="Timer3" type="Timer" parent="."]
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_mlvv0")
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
+[connection signal="timeout" from="Timer3" to="." method="_on_timer_3_timeout"]

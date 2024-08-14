@@ -61,8 +61,8 @@ func _process(_delta):
 			Globals.infoSign_current_size = 0
 			Globals.info_sign_touched.emit()
 			
-			$/root/World/HUD/"Debug Screen"._on_mute_ambience_pressed()
-			$/root/World/HUD/"Debug Screen"._on_mute_music_pressed()
+			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
+			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
 			Globals.playerHP = 99999
 			$/root/World/HUD/"Debug Screen"._on_delete_all_save_files_pressed()
 		

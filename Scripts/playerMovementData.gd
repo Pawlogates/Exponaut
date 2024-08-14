@@ -9,6 +9,4 @@ extends Resource
 @export var AIR_SLOWDOWN = -400.0
 @export var AIR_ACCELERATION = 1200.0
 
-
-
 @export var GRAVITY_SCALE = 1.0

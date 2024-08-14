@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d3isufsms1133"
+path="res://.godot/imported/Bonk 1.mp3-96a9c81c142178698632499f8124c4b6.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Bonk 1.mp3"
+dest_files=["res://.godot/imported/Bonk 1.mp3-96a9c81c142178698632499f8124c4b6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

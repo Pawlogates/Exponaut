@@ -1,6 +1,6 @@
 extends CenterContainer
 
-var startingArea = preload("res://Levels/Factory.tscn")
+var startingArea = preload("res://Levels/overworld_factory.tscn")
 var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
 func _ready():

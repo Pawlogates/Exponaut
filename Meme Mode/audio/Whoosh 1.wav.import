@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bohx8nswqwk44"
+path="res://.godot/imported/Whoosh 1.wav-85b8fd6ec928f61c04635433f088f1d2.sample"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Whoosh 1.wav"
+dest_files=["res://.godot/imported/Whoosh 1.wav-85b8fd6ec928f61c04635433f088f1d2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

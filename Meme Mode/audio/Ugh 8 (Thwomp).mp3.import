@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cotvjd2th6ffo"
+path="res://.godot/imported/Ugh 8 (Thwomp).mp3-671bf8f3306767f4347050ccc91fdc19.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Ugh 8 (Thwomp).mp3"
+dest_files=["res://.godot/imported/Ugh 8 (Thwomp).mp3-671bf8f3306767f4347050ccc91fdc19.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

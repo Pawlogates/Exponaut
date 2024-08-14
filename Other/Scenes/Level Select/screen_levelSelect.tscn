@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_tevf8"]
 [ext_resource type="Script" path="res://Scripts/map_screen.gd" id="2_7kq8d"]
 [ext_resource type="AudioStream" uid="uid://bvra1tg3kt4at" path="res://Assets/Sounds/music/music_map.mp3" id="3_0pmcl"]
-[ext_resource type="Script" path="res://Scripts/interactive_button.gd" id="4_v8rhd"]
+[ext_resource type="Script" path="res://Scripts/menu_button.gd" id="4_eht7p"]
 [ext_resource type="Texture2D" uid="uid://buj1tlrawdtgc" path="res://Assets/Graphics/backgrounds/bg_jungle_cavern.png" id="5_e0nv4"]
 [ext_resource type="Script" path="res://Scripts/menu_deco_bg.gd" id="6_ha6nx"]
 [ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="7_x4tce"]
@@ -115,7 +115,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("4_v8rhd")
+script = ExtResource("4_eht7p")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Enable Score Attack Mode"]
 clip_contents = false
@@ -135,7 +135,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("4_v8rhd")
+script = ExtResource("4_eht7p")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Back to overworld"]
 clip_contents = false
@@ -155,7 +155,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
-script = ExtResource("4_v8rhd")
+script = ExtResource("4_eht7p")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Main menu"]
 clip_contents = false

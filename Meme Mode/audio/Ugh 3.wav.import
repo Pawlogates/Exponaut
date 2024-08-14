@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bhatdaj0q4u40"
+path="res://.godot/imported/Ugh 3.wav-b49f9b18dd4da3f82a99bcdcf9204755.sample"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Ugh 3.wav"
+dest_files=["res://.godot/imported/Ugh 3.wav-b49f9b18dd4da3f82a99bcdcf9204755.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b3d0ynog26df7"
+path="res://.godot/imported/Quack 4.mp3-a1eca18865ad59a14f921cbe0bdb5b0f.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Quack 4.mp3"
+dest_files=["res://.godot/imported/Quack 4.mp3-a1eca18865ad59a14f921cbe0bdb5b0f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

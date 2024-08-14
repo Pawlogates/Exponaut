@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=20 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_25muh"]
 [ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_controller.tscn" id="2_1jcpx"]
@@ -10,9 +10,8 @@
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://Other/Scenes/background.tscn" id="8_8ihao"]
 [ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://Other/Scenes/User Interface/info_text_display.tscn" id="9_j05p1"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="10_g7uok"]
-[ext_resource type="Script" path="res://Scripts/interactive_button.gd" id="11_s64ti"]
+[ext_resource type="Script" path="res://Scripts/menu_button.gd" id="11_d5qy3"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://Other/Scenes/screen_levelFinished.tscn" id="12_pstdg"]
-[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="13_dwuwk"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://Other/Scenes/User Interface/score_display.tscn" id="14_3v85e"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://Other/Scenes/User Interface/checkpoint_display.tscn" id="15_82wab"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://Other/Scenes/User Interface/Inventory/inventory.tscn" id="16_4pu55"]
@@ -20,42 +19,6 @@
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://Other/Scenes/User Interface/collectedApplesDisplay_golden.tscn" id="18_423d0"]
 [ext_resource type="PackedScene" uid="uid://d0vqhficbarvl" path="res://Other/Scenes/User Interface/Debug/screen_debug.tscn" id="19_lp8y3"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="20_fa23o"]
-
-[sub_resource type="Animation" id="Animation_ru8b6"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HUD/StartInContainer/CenterContainer/StartIn:text")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": ["Start in 3"]
-}
-
-[sub_resource type="Animation" id="Animation_mgprj"]
-resource_name = "StartInAnim"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("HUD/StartInContainer/CenterContainer/StartIn:text")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": ["Start in 3", "Start in 2", "Start in 1"]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_vhdqb"]
-_data = {
-"RESET": SubResource("Animation_ru8b6"),
-"StartInAnim": SubResource("Animation_mgprj")
-}
 
 [node name="World" type="Node2D"]
 texture_filter = 1
@@ -120,7 +83,7 @@ offset_right = 320.0
 offset_bottom = -368.0
 size_flags_horizontal = 4
 theme = ExtResource("10_g7uok")
-script = ExtResource("11_s64ti")
+script = ExtResource("11_d5qy3")
 
 [node name="Player Died Text" type="RichTextLabel" parent="HUD/CenterContainer_info/Player Died Root/Player Died"]
 clip_contents = false
@@ -137,40 +100,6 @@ autowrap_mode = 0
 unique_name_in_owner = true
 visible = false
 metadata/_edit_use_anchors_ = true
-
-[node name="StartInContainer" type="ColorRect" parent="HUD"]
-unique_name_in_owner = true
-visible = false
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ColorRect" type="ColorRect" parent="HUD/StartInContainer"]
-layout_mode = 2
-offset_left = 768.0
-offset_top = 448.0
-offset_right = 1152.0
-offset_bottom = 627.0
-color = Color(0, 0, 0, 0.384314)
-
-[node name="CenterContainer" type="CenterContainer" parent="HUD/StartInContainer"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="StartIn" type="Label" parent="HUD/StartInContainer/CenterContainer"]
-unique_name_in_owner = true
-layout_mode = 2
-theme = ExtResource("13_dwuwk")
-theme_override_font_sizes/font_size = 32
-text = "Start in 3"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="CenterContainerTime" type="CenterContainer" parent="HUD"]
 anchors_preset = 10
@@ -328,13 +257,6 @@ size_flags_horizontal = 4
 unique_name_in_owner = true
 visible = false
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-unique_name_in_owner = true
-process_mode = 3
-libraries = {
-"": SubResource("AnimationLibrary_vhdqb")
-}
-
 [node name="ComboManager" parent="." instance=ExtResource("20_fa23o")]
 unique_name_in_owner = true
 
@@ -345,9 +267,14 @@ one_shot = true
 wait_time = 2.0
 autostart = true
 
+[node name="meme_mode_timer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
 [connection signal="focus_entered" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_entered"]
 [connection signal="focus_exited" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_exited"]
 [connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
 [connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
 [connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]
 [connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]
+[connection signal="timeout" from="meme_mode_timer" to="." method="_on_meme_mode_timer_timeout"]

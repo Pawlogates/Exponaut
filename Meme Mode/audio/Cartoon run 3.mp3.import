@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bnobsfbawyblo"
+path="res://.godot/imported/Cartoon run 3.mp3-51e9bfe2d902c30c52af8d23e69a5ecd.mp3str"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Cartoon run 3.mp3"
+dest_files=["res://.godot/imported/Cartoon run 3.mp3-51e9bfe2d902c30c52af8d23e69a5ecd.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

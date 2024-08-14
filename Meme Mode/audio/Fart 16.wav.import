@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://bt2rnuv8p16y4"
+path="res://.godot/imported/Fart 16.wav-c7e3d2ff97406ca1af65721004623a38.sample"
+
+[deps]
+
+source_file="res://mode_arabfunny/audio/Fart 16.wav"
+dest_files=["res://.godot/imported/Fart 16.wav-c7e3d2ff97406ca1af65721004623a38.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

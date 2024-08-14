@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjbgcg8jwp4v1"]
+
+[ext_resource type="AudioStream" uid="uid://6k3lw2pnyqrt" path="res://Meme Mode/audio/1.mp3" id="1_iwj2o"]
+
+[node name="memeMode_sfx" type="AudioStreamPlayer2D"]
+stream = ExtResource("1_iwj2o")
+autoplay = true
