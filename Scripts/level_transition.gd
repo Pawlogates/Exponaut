@@ -32,10 +32,10 @@ func fade_to_black_slow():
 
 func _ready():
 	blackScreen.color.a = 0.0
-	%saved_progress.load_game()
+	#%saved_progress.load_game()
 
 
-var mapScreen = preload("res://Other/Scenes/level Select/screen_levelSelect.tscn")
+var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
 func _process(_delta):
 	if Input.is_action_just_pressed("menu"):
@@ -66,5 +66,5 @@ func _process(_delta):
 			Globals.playerHP = 99999
 			$/root/World/HUD/"Debug Screen"._on_delete_all_save_files_pressed()
 		
-		elif Input.is_action_just_pressed("move_DOWN"):
-			pass
+		#elif Input.is_action_just_pressed("move_DOWN"):
+			#pass

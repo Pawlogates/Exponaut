@@ -6,30 +6,8 @@ var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn
 func _ready():
 	last_area_filePath_load()
 	LevelTransition.get_node("%saved_progress").load_game()
-	
-	%main_menu.visible = false
-	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%options_menu.visible = false
-	%options_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%graphics_menu.visible = false
-	%graphics_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%resolution_menu.visible = false
-	%resolution_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%refreshrate_menu.visible = false
-	%refreshrate_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%audio_menu.visible = false
-	%audio_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%gameplay_menu.visible = false
-	%gameplay_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%other_menu.visible = false
-	%other_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	
-	%ColorRect.visible = true
-	
-	%menu_deco_bg.visible = false
-	%menu_deco_bg.process_mode = Node.PROCESS_MODE_DISABLED
-	
+	hide_everything()
+	correct_toggle_buttons()
 	
 	#DEBUG
 	%main_menu.visible = true
@@ -46,9 +24,6 @@ func _ready():
 	%fade_animation.play("fade_from_black")
 	await get_tree().create_timer(3, false).timeout
 	%fade_animation.play("fade_to_black")
-	
-
-
 
 
 var saved_level_filePath = "res://Levels/empty.tscn"
@@ -66,7 +41,6 @@ func start_game(): #starts a brand new playthrough and deletes save files
 	get_tree().change_scene_to_packed(startingArea)
 
 
-
 func _on_continue_pressed():
 	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		return
@@ -80,7 +54,6 @@ func _on_continue_pressed():
 	get_tree().change_scene_to_packed(saved_level)
 
 
-
 func _on_levels_pressed():
 	%main_menu.visible = false
 	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
@@ -91,12 +64,7 @@ func _on_levels_pressed():
 	%"Additional Levels".grab_focus()
 
 
-
-
-
-
 #SELECTED EPISODE
-
 func _on_episode_button_pressed():
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(mapScreen)
@@ -108,16 +76,11 @@ func _on_fade_animation_animation_finished(anim_name):
 		SavedData.savedData_load()
 		
 		%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
+		
 		%fade_animation.play("fade_from_black")
 		
-		#if not Globals.debug_mode:
-			#%main_menu.visible = true
-			#%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-			#
-			#%menu_deco_bg.visible = true
-			#%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
-			#
-			#%StartGame.grab_focus()
+		%menu_deco_bg.visible = true
+		%menu_deco_bg.process_mode = Node.PROCESS_MODE_ALWAYS
 		
 		$AudioStreamPlayer2D.play()
 
@@ -142,7 +105,7 @@ func menu_appearance(group_number, anim_number, randomize_value, value_range): #
 		
 		if randomize_value:
 			value_range = randf_range(-value_range, value_range)
-			button.pivot_offset = Vector2(randi_range(0, size.x), randi_range(0, size.y))
+			button.pivot_offset = Vector2(randf_range(0, size.x), randf_range(0, size.y))
 		
 		await get_tree().create_timer(0.025 * button_number, false).timeout
 		button.showing_up = true
@@ -192,7 +155,7 @@ func _on_graphics_pressed():
 	
 	%menu_deco_bg_root.multiplier_W = 1.2
 	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-484, -348)
+	%menu_deco_bg_root.position_target = Vector2(-430, -340)
 	
 	%Resolution.grab_focus()
 	
@@ -238,27 +201,27 @@ func _on_audio_pressed():
 	%audio_menu.visible = true
 	%audio_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%menu_deco_bg_root.multiplier_W = 1.2
+	%menu_deco_bg_root.multiplier_W = 1.1
 	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-484, -348)
+	%menu_deco_bg_root.position_target = Vector2(-400, -250)
 	
 	%"Music +".grab_focus()
 	
 	menu_appearance(4, 0, true, 2000)
 
 
-func _on_gameplay_pressed():
+func _on_cheats_pressed():
 	%options_menu.visible = false
 	%options_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	%gameplay_menu.visible = true
-	%gameplay_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	%cheats_menu.visible = true
+	%cheats_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%menu_deco_bg_root.multiplier_W = 1.2
-	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-484, -348)
+	%menu_deco_bg_root.multiplier_W = 0.9
+	%menu_deco_bg_root.multiplier_H = 0.7
+	%menu_deco_bg_root.position_target = Vector2(-160, -240)
 	
-	%"User Interface Type".grab_focus()
+	%"Toggle Quicksaves".grab_focus()
 	
 	menu_appearance(7, 3, true, 2)
 
@@ -274,7 +237,7 @@ func _on_other_pressed():
 	%menu_deco_bg_root.multiplier_H = 1
 	%menu_deco_bg_root.position_target = Vector2(-484, -348)
 	
-	%"Option 1".grab_focus()
+	%"User Interface Type".grab_focus()
 	
 	menu_appearance(5, 0, true, 2000)
 
@@ -291,7 +254,7 @@ func _on_returnOptions_pressed():
 	
 	%menu_deco_bg_root.multiplier_W = 1
 	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-416, -316)
+	%menu_deco_bg_root.position_target = Vector2(-400, -348)
 	
 	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		%StartGame.grab_focus()
@@ -308,9 +271,9 @@ func _on_returnGraphics_pressed():
 	%graphics_menu.visible = false
 	%graphics_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	%menu_deco_bg_root.multiplier_W = 0.6
+	%menu_deco_bg_root.multiplier_W = 0.9
 	%menu_deco_bg_root.multiplier_H = 1.6
-	%menu_deco_bg_root.position_target = Vector2(-416, -348)
+	%menu_deco_bg_root.position_target = Vector2(-120, -348)
 	
 	%Graphics.grab_focus()
 	
@@ -356,7 +319,7 @@ func _on_return_audio_pressed():
 	%audio_menu.visible = false
 	%audio_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	%menu_deco_bg_root.multiplier_W = 0.6
+	%menu_deco_bg_root.multiplier_W = 1
 	%menu_deco_bg_root.multiplier_H = 1.6
 	%menu_deco_bg_root.position_target = Vector2(-416, -348)
 	
@@ -373,42 +336,38 @@ func _on_return_other_pressed():
 	%other_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	%menu_deco_bg_root.multiplier_W = 0.6
-	%menu_deco_bg_root.multiplier_H = 1.6
-	%menu_deco_bg_root.position_target = Vector2(-416, -348)
+	%menu_deco_bg_root.multiplier_H = 1.4
+	%menu_deco_bg_root.position_target = Vector2(-360, -320)
 	
-	%Other.grab_focus()
+	%Cheats.grab_focus()
 	
 	menu_appearance(2, 0, true, 2000)
 
 
-func _on_return_gameplay_pressed():
+func _on_return_cheats_pressed():
 	%options_menu.visible = true
 	%options_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%gameplay_menu.visible = false
-	%gameplay_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%cheats_menu.visible = false
+	%cheats_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	%menu_deco_bg_root.multiplier_W = 0.6
-	%menu_deco_bg_root.multiplier_H = 1.6
-	%menu_deco_bg_root.position_target = Vector2(-416, -348)
+	%menu_deco_bg_root.multiplier_W = 0.8
+	%menu_deco_bg_root.multiplier_H = 1
+	%menu_deco_bg_root.position_target = Vector2(0, -348)
 	
-	%Gameplay.grab_focus()
+	%Cheats.grab_focus()
 	
 	menu_appearance(2, 0, true, 2000)
 
 
-func _on_bonus_pressed():
-	pass
-
-
-func _on_disable_quicksaves_pressed():
+func _on_toggle_quicksaves_pressed():
 	if Globals.quicksaves_enabled == true:
 		Globals.quicksaves_enabled = false
-		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
+		%"Toggle Quicksaves"/RichTextLabel.text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
 	
 	elif Globals.quicksaves_enabled == false:
 		Globals.quicksaves_enabled = true
-		$"gameplay_menu/menu_container/Disable Quicksaves/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
+		%"Toggle Quicksaves"/RichTextLabel.text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
 
 
 func display_stretch_viewport_on():
@@ -458,3 +417,39 @@ func delete_saves():
 	
 	if dir.file_exists("user://filename.save"):
 		dir.remove("user://filename.save")
+
+
+func hide_everything():
+	%main_menu.visible = false
+	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%options_menu.visible = false
+	%options_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%graphics_menu.visible = false
+	%graphics_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%resolution_menu.visible = false
+	%resolution_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%refreshrate_menu.visible = false
+	%refreshrate_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%audio_menu.visible = false
+	%audio_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%cheats_menu.visible = false
+	%cheats_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%other_menu.visible = false
+	%other_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	%ColorRect.visible = true
+	
+	%menu_deco_bg.visible = false
+	%menu_deco_bg.process_mode = Node.PROCESS_MODE_DISABLED
+
+
+func correct_toggle_buttons():
+	if Globals.quicksaves_enabled == true:
+		%"Toggle Quicksaves"/RichTextLabel.text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
+	
+	elif Globals.quicksaves_enabled == false:
+		%"Toggle Quicksaves"/RichTextLabel.text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
+
+
+func _on_user_interface_type_pressed():
+	pass # Replace with function body.

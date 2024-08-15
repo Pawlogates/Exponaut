@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=50 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="2_vnlwi"]
@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://dlvig2qlrk412" path="res://Assets/Sounds/sfx/player_attack.wav" id="4_ibr3r"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_mtou0"]
 [ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="6_vae5a"]
+[ext_resource type="AudioStream" uid="uid://kw6nmpm2u6yh" path="res://Assets/Sounds/sfx/effect_landed.wav" id="6_vehlj"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="7_nf138"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
@@ -374,6 +375,43 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.4, 0.9, 1.4)
 }
 
+[sub_resource type="Animation" id="Animation_i10x8"]
+resource_name = "jumped"
+length = 1.6
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0.475, -0.25, 0, 0.25, 0, 0.525, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0.55, -0.25, 0, 0.25, 0, 0.45, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1, 1.5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.1, -0.25, 0, 0.25, 0, -0.1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.4, 0.9, 1.4)
+}
+
 [sub_resource type="Shader" id="Shader_sanu0"]
 code = "shader_type canvas_item;
 
@@ -432,7 +470,8 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wupbq"]
 _data = {
 "RESET": SubResource("Animation_n7rd3"),
-"jumped": SubResource("Animation_cn6g4"),
+"air_jumped": SubResource("Animation_cn6g4"),
+"jumped": SubResource("Animation_i10x8"),
 "shot_charged": SubResource("Animation_scdec")
 }
 
@@ -562,8 +601,14 @@ stream = ExtResource("4_ibr3r")
 [node name="jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("5_mtou0")
 
+[node name="air_jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_mtou0")
+
 [node name="wall_jump" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_vae5a")
+
+[node name="landed" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_vehlj")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("7_nf138")

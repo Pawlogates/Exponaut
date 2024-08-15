@@ -329,33 +329,29 @@ func _physics_process(delta):
 		level_timeDisplay.visible_characters = 4
 	else:
 		level_timeDisplay.visible_characters = 3
+	
+	
+	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
+		quickLoad_blocked = true
+		save_game()
+		$QuickloadLimiter.start()
+		Globals.is_saving = true
 		
+		await get_tree().create_timer(1.0, false).timeout
+		Globals.is_saving = false
 	
-	#if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
-		#quickLoad_blocked = true
-		#save_game()
-		#$QuickloadLimiter.start()
-		#Globals.is_saving = true
-		#
-		#
-		#await get_tree().create_timer(1.0, false).timeout
-		#Globals.is_saving = false
+	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
+		quickLoad_blocked = true
+		load_game()
+		$QuickloadLimiter.start()
+		Globals.is_saving = true
 		
-	
-	#if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
-		#quickLoad_blocked = true
-		#load_game()
-		#$QuickloadLimiter.start()
-		#Globals.is_saving = true
-		#
-		#
-		#await get_tree().create_timer(1.0, false).timeout
-		#Globals.is_saving = false
-	
+		
+		await get_tree().create_timer(1.0, false).timeout
+		Globals.is_saving = false
 	
 	
 	#HANDLE BACKGROUND MOVEMENT
-	
 	if not bg_position_set and not debug_bg_deleted:
 		%bg_previous/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
 		%bg_previous/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
@@ -1024,10 +1020,8 @@ func load_game_area():
 		if not parse_result == OK:
 			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 			continue
-
+		
 		var node_data = json.get_data()
-
-
 		
 		var new_object = load(node_data["filename"]).instantiate()
 		get_node(node_data["parent"]).add_child(new_object)

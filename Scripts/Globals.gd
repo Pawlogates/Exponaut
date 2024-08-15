@@ -122,7 +122,7 @@ var current_topRankScore = 100000
 
 signal save_progress
 signal progress_loadingFinished
-#var quicksaves_enabled = false
+var quicksaves_enabled = false
 
 var mode_scoreAttack = false
 

@@ -4,7 +4,7 @@ var image_filepath = CompressedTexture2D
 
 var opacity_fade_out = true
 var scale_down = false
-var rotate = false
+var rotates = false
 
 var scale_x = 1
 var scale_y = 1
@@ -58,6 +58,10 @@ func _ready():
 				video_filepath = preload("res://Meme Mode/videos/4.ogv")
 			elif rolled_video == 5:
 				video_filepath = preload("res://Meme Mode/videos/5.ogv")
+			elif rolled_video == 6:
+				video_filepath = preload("res://Meme Mode/videos/6.ogv")
+			elif rolled_video == 7:
+				video_filepath = preload("res://Meme Mode/videos/7.ogv")
 		
 		var video = video_scene.instantiate()
 		video.position += Vector2(-300, -150)
@@ -87,7 +91,7 @@ func _process(delta):
 	
 	if opacity_fade_out:
 		modulate.a = move_toward(modulate.a, 0, delta / 5)
-	if rotate:
+	if rotates:
 		rotation_degrees = move_toward(rotation_degrees, 1000 * rotate_direction, delta * 10 * rotate_speed)
 	
 	move_and_slide()

@@ -54,6 +54,9 @@ layer_4/enabled = false
 [node name="music" parent="Music Controller" index="5"]
 autoplay = false
 
+[node name="ambience" parent="Ambience Controller" index="4"]
+autoplay = false
+
 [node name="Player" parent="." index="9"]
 position = Vector2(4624, -5712)
 

@@ -51,8 +51,10 @@ var base_GRAVITY_SCALE = GRAVITY_SCALE
 @onready var dash_timer = $dash_timer
 
 @onready var sfx_damage = $damage
-@onready var sfx_jump = $jump
 @onready var sfx_death = $death
+@onready var sfx_jump = $jump
+@onready var sfx_air_jump = $air_jump
+@onready var sfx_wall_jump = $wall_jump
 
 @onready var animation_player = $AnimationPlayer
 @onready var shoot_anim_delay = $AnimatedSprite2D/shootAnimDelay
@@ -104,6 +106,9 @@ var insideWater_multiplier = 1
 
 var damageValue = 1
 
+#ACTIVATES WHEN PLAYER LANDS ON THE GROUND
+signal player_just_landed
+
 func _ready():
 	base_SPEED = SPEED
 	base_JUMP_VELOCITY = JUMP_VELOCITY
@@ -128,6 +133,8 @@ func _ready():
 	
 	Globals.saved_player_posX = position.x
 	Globals.saved_player_posY = position.y
+	
+	player_just_landed.connect(on_player_landed)
 	
 	
 	if $/root/World.cameraLimit_left != 0.0 or $/root/World.cameraLimit_right != 0.0 or $/root/World.cameraLimit_top != 0.0 or $/root/World.cameraLimit_bottom != 0.0:
@@ -224,6 +231,8 @@ func _process(delta):
 	handle_stuck()
 	
 	handle_gameMode_scoreAttack()
+	
+	handle_just_landed()
 #MAIN END
 
 
@@ -234,6 +243,9 @@ var started_dash = false
 var speedBlockActive = false
 var dash_slowdown = false
 var wall_jump = false
+
+var true_just_landed_queued = true
+var true_just_landed = false
 
 func apply_gravity(delta):
 	if not is_on_floor() and not is_dashing or dash_slowdown:
@@ -268,6 +280,10 @@ func apply_gravity(delta):
 	if dash_end_slowdown and not dash_end_slowdown_canceled:
 		velocity.x = move_toward(velocity.x, 0, 7000 * delta)
 	
+	#HANDLE JUST LANDED
+	if true_just_landed_queued and is_on_floor():
+		true_just_landed_queued = false
+		true_just_landed = true
 
 var count = 0
 var just_landed = false
@@ -312,6 +328,7 @@ func handle_jump(delta):
 			jump_build_velocity.start()
 			
 			sfx_jump.play()
+			%AnimationPlayer.stop()
 			%AnimationPlayer.play("jumped")
 			%AnimationPlayer.speed_scale = 2
 			
@@ -335,9 +352,10 @@ func handle_jump(delta):
 				
 			air_jump = false
 			
-			sfx_jump.play()
-			%AnimationPlayer.play("jumped")
-			%AnimationPlayer.speed_scale = 2
+			sfx_air_jump.play()
+			%AnimationPlayer.stop()
+			%AnimationPlayer.play("air_jumped")
+			%AnimationPlayer.speed_scale = 3
 			
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
@@ -350,11 +368,6 @@ func handle_jump(delta):
 
 func handle_wall_jump():
 	if not is_on_wall_only() and wall_jump_leniency.time_left <= 0.0: return
-	var wall_normal = get_wall_normal()
-	
-	if wall_jump_leniency.time_left > 0.0:
-		wall_normal = on_wall_normal
-	
 	
 	if Input.is_action_just_pressed("jump") and wall_jump:
 		velocity.x = on_wall_normal.x * SPEED
@@ -365,9 +378,10 @@ func handle_wall_jump():
 		
 		wall_jump = false
 		
-		$wall_jump.play()
-		%AnimationPlayer.play("jumped")
-		%AnimationPlayer.speed_scale = 2
+		sfx_wall_jump.play()
+		%AnimationPlayer.stop()
+		%AnimationPlayer.play("air_jumped")
+		%AnimationPlayer.speed_scale = 3
 
 
 
@@ -544,11 +558,8 @@ func _on_crouch_walk_collision_switch_timeout():
 	player_hitbox.position += Vector2(0, 28)
 
 
-
 func _on_jump_build_velocity_timeout():
 	jumpBuildVelocity_active = false
-
-
 
 
 #CHECK IF INSIDE TILES
@@ -559,14 +570,13 @@ func _on_player_hitbox_tile_detection_body_exited(_body):
 	can_stand_up -= 1
 
 
-
 var dash_end_slowdown_canceled = false
 
 func _on_dash_speed_block_timeout():
 	started_dash = true
 	speedBlockActive = false
 	dash_end_slowdown_delay.start()
-	
+
 
 func _on_dash_end_slowdown_timeout():
 	if not dash_end_slowdown_canceled:
@@ -599,8 +609,6 @@ func _on_player_hitbox_main_area_entered(area):
 	elif area.is_in_group("bgMove_area"):
 		if not get_parent().regular_level:
 			get_parent().bgMove_growthSpeed = 1
-	
-
 
 
 func saveState_loaded():
@@ -1108,3 +1116,17 @@ func handle_flight(delta):
 		velocity.y = move_toward(velocity.y, -JUMP_VELOCITY, delta * ACCELERATION / 2)
 	else:
 		velocity.y = move_toward(velocity.y, 0, delta * 600)
+
+
+func handle_just_landed():
+	if true_just_landed:
+		true_just_landed = false
+		print("landed")
+		player_just_landed.emit()
+	if not is_on_floor():
+		true_just_landed_queued = true
+
+
+func on_player_landed():
+	%AnimationPlayer.play("RESET")
+	$landed.play()

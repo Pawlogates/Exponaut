@@ -2,7 +2,7 @@ extends Node2D
 
 var meme_scene = preload("res://Meme Mode/memeMode_image.tscn")
 
-var randomize = false
+var randomize_all = false
 
 var image_filepath = preload("res://Meme Mode/pictures/5.jpg")
 var sound_filepath = preload("res://Meme Mode/audio/1.mp3")
@@ -10,7 +10,7 @@ var music_filepath = preload("res://Meme Mode/audio/music/1.mp3")
 
 var opacity_fade_out = true
 var scale_down = false
-var rotate = false
+var rotates = false
 
 var scale_x = 1
 var scale_y = 1
@@ -29,7 +29,7 @@ var is_video = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if randomize:
+	if randomize_all:
 		var rolled_video = randi_range(0, 3)
 		if rolled_video == 3:
 			is_video = true
@@ -137,11 +137,11 @@ func _ready():
 		else:
 			scale_down = false
 		
-		var rolled_rotate = randi_range(0, 3)
-		if rolled_rotate == 3:
-			rotate = true
+		var rolled_rotates = randi_range(0, 3)
+		if rolled_rotates == 3:
+			rotates = true
 		else:
-			rotate = false
+			rotates = false
 		
 		var rolled_fall = randi_range(0, 2)
 		if rolled_fall == 1 or rolled_fall == 2:
@@ -164,7 +164,7 @@ func _ready():
 			rotate_left = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	pass
 
 

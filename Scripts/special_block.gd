@@ -316,22 +316,22 @@ func redButton_pressed():
 
 #BUTTON BACK
 func greenButton_back():
-	return
-	if blockType == "green":
-		if blockDirection == 0:
-			direction = -1
-		
-		elif blockDirection == 1:
-			direction = 1
+	pass
+	#if blockType == "green":
+		#if blockDirection == 0:
+			#direction = -1
+		#
+		#elif blockDirection == 1:
+			#direction = 1
 
 func blueButton_back():
-	return
-	if blockType == "blue":
-		if blockDirection == 0:
-			direction_V = -1
-		
-		elif blockDirection == 1:
-			direction_V = 1
+	pass
+	#if blockType == "blue":
+		#if blockDirection == 0:
+			#direction_V = -1
+		#
+		#elif blockDirection == 1:
+			#direction_V = 1
 
 func redButton_back():
 	if blockType == "red":
