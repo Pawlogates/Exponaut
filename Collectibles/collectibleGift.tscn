@@ -256,8 +256,8 @@ tracks/14/keys = {
 "times": PackedFloat32Array(0)
 }
 
-[sub_resource type="Animation" id="Animation_wwvab"]
-resource_name = "loop"
+[sub_resource type="Animation" id="Animation_djdqf"]
+resource_name = "loop_upDown"
 length = 4.0
 loop_mode = 1
 tracks/0/type = "bezier"
@@ -279,7 +279,7 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(-24, -0.25, 0, 0.7, 0, 24, -0.6, -1, 0.6, -1, -24, -0.6, 1, 0.6, 1),
+"points": PackedFloat32Array(-24, -0.8, 0, 0.8, 0, 24, -0.8, -1, 0.8, -1, -24, -0.8, 1, 0.8, 1),
 "times": PackedFloat32Array(0, 2, 4)
 }
 
@@ -368,7 +368,7 @@ tracks/6/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yo3ck"]
 _data = {
 "RESET": SubResource("Animation_snhod"),
-"loop": SubResource("Animation_wwvab"),
+"loop_upDown": SubResource("Animation_djdqf"),
 "remove": SubResource("Animation_bjdi4")
 }
 
@@ -563,9 +563,9 @@ floor_snap_length = 5.0
 safe_margin = 1.0
 script = ExtResource("1_uuxm5")
 collectibleScoreValue = 75
-is_gift = true
 animation_always = true
 floating = true
+is_gift = true
 inventory_texture_region = Rect2(96, 491, 48, 48)
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]

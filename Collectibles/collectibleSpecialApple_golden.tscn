@@ -361,8 +361,8 @@ tracks/6/keys = {
 "times": PackedFloat32Array(0, 4)
 }
 
-[sub_resource type="Animation" id="Animation_wwvab"]
-resource_name = "loop"
+[sub_resource type="Animation" id="Animation_6tpde"]
+resource_name = "loop_upDown"
 length = 4.0
 loop_mode = 1
 tracks/0/type = "bezier"
@@ -384,7 +384,7 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(-24, -0.25, 0, 0.7, 0, 24, -0.6, -1, 0.6, -1, -24, -0.6, 1, 0.6, 1),
+"points": PackedFloat32Array(-24, -0.8, 0, 0.8, 0, 24, -0.8, -1, 0.8, -1, -24, -0.8, 1, 0.8, 1),
 "times": PackedFloat32Array(0, 2, 4)
 }
 
@@ -474,7 +474,7 @@ tracks/6/keys = {
 _data = {
 "RESET": SubResource("Animation_snhod"),
 "collect_special": SubResource("Animation_paods"),
-"loop": SubResource("Animation_wwvab"),
+"loop_upDown": SubResource("Animation_6tpde"),
 "remove": SubResource("Animation_bjdi4")
 }
 
@@ -669,6 +669,8 @@ floor_snap_length = 5.0
 safe_margin = 1.0
 script = ExtResource("1_supqp")
 collectibleScoreValue = 2500
+give_score = false
+loop_anim = "none"
 is_specialApple = "golden"
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]

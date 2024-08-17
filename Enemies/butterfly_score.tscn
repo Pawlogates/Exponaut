@@ -248,7 +248,6 @@ z_index = 1
 collision_layer = 0
 script = ExtResource("1_4ji4u")
 hp = 7
-SPEED = 50
 movementType = "wave_V"
 scoreValue = 10000
 turnOnWall = true
@@ -357,11 +356,22 @@ unique_name_in_owner = true
 wait_time = 0.3
 one_shot = true
 
+[node name="scanForLedge" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(32, 0)
+target_position = Vector2(0, 112)
+
+[node name="ColorRect" type="ColorRect" parent="scanForLedge"]
+visible = false
+modulate = Color(1, 0, 0, 0.345098)
+offset_right = 4.0
+offset_bottom = 112.0
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_player_entered"]
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

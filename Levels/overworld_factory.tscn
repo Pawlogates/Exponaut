@@ -59,14 +59,14 @@ size = Vector2(64, 512)
 size = Vector2(64, 192)
 
 [node name="World" instance=ExtResource("1_bhkyt")]
-savedProgress_level_filePath = "res://Levels/Factory.tscn"
+savedProgress_level_filePath = "res://Levels/overworld_factory.tscn"
 cameraLimit_left = -1e+07
 cameraLimit_right = 10432.0
 cameraLimit_bottom = 640.0
 cameraLimit_top = -1e+07
 regular_level = false
 playerStartHP = 10
-area_ID = "theBeginning"
+area_ID = "overworld_factory"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_7dfdb")]
 unique_name_in_owner = true

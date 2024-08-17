@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=57 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="2_vnlwi"]
@@ -8,12 +8,11 @@
 [ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="6_vae5a"]
 [ext_resource type="AudioStream" uid="uid://kw6nmpm2u6yh" path="res://Assets/Sounds/sfx/effect_landed.wav" id="6_vehlj"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="7_nf138"]
+[ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow_effect.tres" id="9_6epbf"]
+[ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/player_rainbowSlow_effect.tres" id="10_yfdc7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
 size = Vector2(40, 112)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ami3x"]
-resource_local_to_scene = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_s7vmi"]
 atlas = ExtResource("2_vnlwi")
@@ -284,55 +283,32 @@ length = 0.001
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/0/path = NodePath("AnimatedSprite2D:scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
-tracks/1/type = "value"
+tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:material:shader")
+tracks/1/path = NodePath("AnimatedSprite2D:scale:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [null]
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
 }
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("AnimatedSprite2D:scale:x")
+tracks/2/path = NodePath("AnimatedSprite2D:rotation")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AnimatedSprite2D:scale:y")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/4/type = "bezier"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("AnimatedSprite2D:rotation")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "handle_modes": PackedInt32Array(0),
 "points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
@@ -412,59 +388,57 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.4, 0.9, 1.4)
 }
 
-[sub_resource type="Shader" id="Shader_sanu0"]
-code = "shader_type canvas_item;
-
-uniform float strength: hint_range(0., 1.) = 0.5;
-uniform float speed: hint_range(0., 10.) = 0.5;
-uniform float angle: hint_range(0., 360.) = 0.;
-
-void fragment() {
-    float hue = UV.x * cos(radians(angle)) - UV.y * sin(radians(angle));
-    hue = fract(hue + fract(TIME  * speed));
-    float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
-    vec3 rainbow;
-    if(hue < 1./6.){
-        rainbow = vec3(1., x, 0.);
-    } else if (hue < 1./3.) {
-        rainbow = vec3(x, 1., 0);
-    } else if (hue < 0.5) {
-        rainbow = vec3(0, 1., x);
-    } else if (hue < 2./3.) {
-        rainbow = vec3(0., x, 1.);
-    } else if (hue < 5./6.) {
-        rainbow = vec3(x, 0., 1.);
-    } else {
-        rainbow = vec3(1., 0., x);
-    }
-    vec4 color = texture(TEXTURE, UV);
-    COLOR = mix(color, vec4(rainbow, color.a), strength);
-}"
-
-[sub_resource type="Animation" id="Animation_scdec"]
-resource_name = "shot_charged"
+[sub_resource type="Animation" id="Animation_kkrtk"]
+resource_name = "scale_downUp"
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/0/path = NodePath("AnimatedSprite2D:scale:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 0.7, 1)
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0.25, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 1)
 }
-tracks/1/type = "value"
+tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:material:shader")
+tracks/1/path = NodePath("AnimatedSprite2D:scale:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.7, 1),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 1,
-"values": [SubResource("Shader_sanu0"), null, null]
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0.25, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.3, 1)
+}
+
+[sub_resource type="Animation" id="Animation_1hfo2"]
+resource_name = "rotate_right"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 6.28319, -1, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_p3da0"]
+resource_name = "rotate_left"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, -6.283, -1, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wupbq"]
@@ -472,7 +446,121 @@ _data = {
 "RESET": SubResource("Animation_n7rd3"),
 "air_jumped": SubResource("Animation_cn6g4"),
 "jumped": SubResource("Animation_i10x8"),
-"shot_charged": SubResource("Animation_scdec")
+"rotate_left": SubResource("Animation_p3da0"),
+"rotate_right": SubResource("Animation_1hfo2"),
+"scale_downUp": SubResource("Animation_kkrtk")
+}
+
+[sub_resource type="Animation" id="Animation_f7ykp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_2a4pd"]
+resource_name = "shot_charged"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("9_6epbf"), null]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_2c8md"]
+resource_name = "max_score_multiplier_reached"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("10_yfdc7"), ExtResource("10_yfdc7")]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.25, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_a3nuy"]
+resource_name = "streak_reset"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("10_yfdc7"), null]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mcx4o"]
+_data = {
+"RESET": SubResource("Animation_f7ykp"),
+"max_score_multiplier_reached": SubResource("Animation_2c8md"),
+"shot_charged": SubResource("Animation_2a4pd"),
+"streak_reset": SubResource("Animation_a3nuy")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player", "player_root"]]
@@ -485,11 +573,11 @@ safe_margin = 0.1
 script = ExtResource("1_gy5p5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_fshcs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-material = SubResource("ShaderMaterial_ami3x")
 position = Vector2(0, -24)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_c8f3n")
@@ -531,6 +619,7 @@ position_smoothing_speed = 4.0
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_tileDetection"]
+visible = false
 shape = SubResource("RectangleShape2D_q480c")
 debug_color = Color(0.611765, 0.537255, 0, 0.419608)
 
@@ -541,6 +630,7 @@ collision_mask = 7
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_main"]
+visible = false
 shape = SubResource("RectangleShape2D_ct51a")
 debug_color = Color(0.984314, 0, 0.329412, 0.419608)
 
@@ -619,6 +709,11 @@ libraries = {
 "": SubResource("AnimationLibrary_wupbq")
 }
 
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mcx4o")
+}
+
 [node name="jumpBuildVelocity" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.1
@@ -655,6 +750,10 @@ one_shot = true
 wait_time = 0.2
 autostart = true
 
+[node name="powerup_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkCollisionSwitch" to="." method="_on_crouch_walk_collision_switch_timeout"]
@@ -676,3 +775,4 @@ autostart = true
 [connection signal="timeout" from="awaitJump_timer" to="." method="_on_await_jump_timer_timeout"]
 [connection signal="timeout" from="attackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="dashCheck" to="." method="_on_dash_check_timeout"]
+[connection signal="timeout" from="powerup_timer" to="." method="_on_powerup_timer_timeout"]

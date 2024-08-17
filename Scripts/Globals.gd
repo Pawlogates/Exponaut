@@ -23,12 +23,11 @@ var player_posY = 0
 
 var player_velocity = Vector2(0, 0)
 
-#signals
+#SIGNALS
 signal itemCollected
 signal enemyHit
 signal boxBroken
 signal specialAction
-
 
 signal playerHit1
 signal playerHit2
@@ -36,7 +35,6 @@ signal playerHit3
 signal kill_player
 signal increaseHp1
 signal increaseHp2
-
 
 signal shot
 signal shot_charged
@@ -47,26 +45,26 @@ signal can_stand_up
 signal weapon_collected
 signal secondaryWeapon_collected
 
+signal powerup_activated
+
 signal score_reduced
 
 signal player_transformed
 
-#Save state (unused?)
+#unused?
 signal saveState_loaded
 signal saveState_saved
 signal save
 
+signal max_score_multiplier_reached
+
+
 var is_saving = false
-
-
 
 var saved_player_posX = player_posX
 var saved_player_posY = player_posY
 
 var saved_level_score = level_score
-
-#var loadingZone_current = "none"
-
 
 
 #Background change
@@ -134,9 +132,6 @@ var debug_mode = false
 var debug_magic_projectiles = false
 
 var delete_saves = false
-
-signal cheated
-var cheated_state = false
 
 signal scoreReset
 

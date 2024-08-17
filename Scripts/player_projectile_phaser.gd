@@ -1,6 +1,5 @@
 extends Node2D
 
-
 @onready var shot_main = $Area2D
 @onready var charged_shot_buffer = $Timer
 
@@ -10,12 +9,10 @@ extends Node2D
 @onready var charged_shot = $Area2D/charged_shot
 @onready var audio_stream_player_2d = $AudioStreamPlayer2D
 
-
 var projectile_shot = false
 var charged = false
 
 var damageValue = 1
-
 
 var started = false
 
@@ -28,21 +25,18 @@ var x
 var enemyProjectile = false
 var playerProjectile = true
 
-var upward_attack = false
-var downward_attack = false
-
+var upward_shot = false
+var downward_shot = false
 
 func _ready():
-	set_name.call_deferred("player_projectile_phaser")
-
-
+	set_name("player_projectile_phaser")
 
 var can_collect = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):
 	
-	if Input.is_action_just_released("attack_fast") and not charged and not started:
+	if Input.is_action_just_released("attack_main") and not charged and not started:
 		Globals.shot.emit()
 		charged_shot_buffer.stop()
 		x = rng.randf_range(0, 2)
@@ -58,7 +52,7 @@ func _physics_process(_delta):
 			
 			can_collect = true
 			await get_tree().create_timer(0.5, false).timeout
-			upward_attack = true
+			upward_shot = true
 
 		elif Globals.direction == -1 and projectile_shot == false:
 				shot_anim.play("shot_animL")
@@ -69,11 +63,8 @@ func _physics_process(_delta):
 				shot_anim.play("shot_animR")
 				player_projectile_phaser.visible = true
 				projectile_shot = true
-				
-				
-			
-			
-	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Input.is_action_pressed("move_DOWN"):
+	
+	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Input.is_action_pressed("move_DOWN"):
 		damageValue = 3
 		started = true
 		charged_shot.visible = false
@@ -85,10 +76,10 @@ func _physics_process(_delta):
 		
 		can_collect = true
 		await get_tree().create_timer(0.5, false).timeout
-		upward_attack = true
+		upward_shot = true
 		
 	
-	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Globals.direction == 1:
+	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.direction == 1:
 		damageValue = 3
 		started = true
 		charged_shot.visible = false
@@ -98,7 +89,7 @@ func _physics_process(_delta):
 		Globals.shot.emit()
 		charged_shot_buffer.stop()
 		
-	elif charged == true and Input.is_action_just_released("attack_fast") and charged and not started and not projectile_shot and Globals.direction == -1:
+	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.direction == -1:
 		damageValue = 3
 		started = true
 		charged_shot.visible = false

@@ -18,14 +18,14 @@
 [node name="World" instance=ExtResource("1_rfky8")]
 light_mask = 7
 visibility_layer = 7
-savedProgress_level_filePath = "res://Levels/Castle.tscn"
+savedProgress_level_filePath = "res://Levels/overworld_castle.tscn"
 cameraLimit_left = -4608.0
 cameraLimit_right = 9600.0
 cameraLimit_bottom = 1280.0
 cameraLimit_top = -4672.0
 regular_level = false
 playerStartHP = 3
-area_ID = "castle"
+area_ID = "overworld_castle"
 metadata/_edit_vertical_guides_ = [-1984.0, -1152.0, 448.0, 3200.0, 4672.0, -3072.0]
 metadata/_edit_horizontal_guides_ = [960.0, 960.0, 1024.0, 832.0, 960.0, 896.0]
 

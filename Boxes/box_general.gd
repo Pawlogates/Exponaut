@@ -81,9 +81,7 @@ func _on_area_2d_area_entered(area):
 			
 			if hp <= 0:
 				destroy()
-
-#AREA ENTERED
-
+#AREA ENTERED END
 
 
 func reduce_hp(damageValue):

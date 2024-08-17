@@ -38,6 +38,12 @@ func _ready():
 var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
 func _process(_delta):
+	if Input.is_action_just_pressed("pause"):
+		if get_tree().paused == false:
+			get_tree().paused = true
+		elif get_tree().paused == true:
+			get_tree().paused = false
+	
 	if Input.is_action_just_pressed("menu"):
 		if not Input.is_action_pressed("move_UP"):
 			await LevelTransition.fade_to_black()
@@ -57,14 +63,14 @@ func _process(_delta):
 			if not get_node_or_null("/root/World"):
 				return
 			
+			Globals.playerHP = 99999
+			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
+			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
+			$/root/World/HUD/"Debug Screen"._on_delete_all_save_files_pressed()
+			
 			Globals.infoSign_current_text = str("Debug mode has been activated!")
 			Globals.infoSign_current_size = 0
 			Globals.info_sign_touched.emit()
-			
-			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
-			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
-			Globals.playerHP = 99999
-			$/root/World/HUD/"Debug Screen"._on_delete_all_save_files_pressed()
 		
 		#elif Input.is_action_just_pressed("move_DOWN"):
 			#pass

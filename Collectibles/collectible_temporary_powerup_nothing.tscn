@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://bpappkkw82d6q"]
+
+[ext_resource type="PackedScene" uid="uid://c2cm0aw561fcj" path="res://Collectibles/collectible_base.tscn" id="1_4b2xy"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_pnndw"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qdc1n"]
+atlas = ExtResource("2_pnndw")
+region = Rect2(240, 586, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_kht6i"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qdc1n")
+}],
+"loop": true,
+"name": &"anim",
+"speed": 15.0
+}]
+
+[node name="temporary_powerup_nothing" instance=ExtResource("1_4b2xy")]
+loop_anim = "loop_scale"
+is_temporary_powerup = true
+temporary_powerup_duration = 5
+
+[node name="AnimatedSprite2D" parent="Area2D" index="0"]
+sprite_frames = SubResource("SpriteFrames_kht6i")

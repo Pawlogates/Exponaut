@@ -3,8 +3,8 @@ extends Area2D
 var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
 var splashParticle = splashParticleScene.instantiate()
 
-#possible area types: "wind", "water"
-@export var area_type = "none"
+#possible zone types: "wind", "water"
+@export var zone_type = "none"
 
 #possible wind directions: "left", "right"
 @export var wind_direction = 0
@@ -14,11 +14,11 @@ var splashParticle = splashParticleScene.instantiate()
 
 func _on_area_entered(area):
 	if area.is_in_group("player"):
-		if area_type == "wind":
+		if zone_type == "wind":
 			area.get_parent().inside_wind += 1
 			area.get_parent().insideWind_direction = wind_direction
 		
-		elif area_type == "water":
+		elif zone_type == "water":
 			area.get_parent().inside_water += 1
 			if area.get_parent().inside_water:
 				area.get_parent().insideWater_multiplier = water_strength
@@ -30,14 +30,13 @@ func _on_area_entered(area):
 			splashParticle = splashParticleScene.instantiate()
 			splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
 			get_parent().add_child(splashParticle)
-			
-			
 		
-		elif area_type == "low_gravity":
+		
+		elif zone_type == "low_gravity":
 			area.get_parent().GRAVITY_SCALE = 0.5
 		
 		
-		elif area_type == "bouncy":
+		elif zone_type == "bouncy":
 			area.get_parent().velocity.y = -400
 			$AudioStreamPlayer2D.play()
 			splashParticle = splashParticleScene.instantiate()
@@ -45,21 +44,18 @@ func _on_area_entered(area):
 			get_parent().add_child(splashParticle)
 		
 		
-		elif area_type == "kill":
+		elif zone_type == "kill":
 			print("Kill area entered.")
 			Globals.kill_player.emit()
-
-
-
 
 
 func _on_area_exited(area):
 	if area.is_in_group("player"):
 		
-		if area_type == "wind":
+		if zone_type == "wind":
 			area.get_parent().inside_wind -= 1
 		
-		elif area_type == "water":
+		elif zone_type == "water":
 			area.get_parent().inside_water -= 1
 			if not area.get_parent().inside_water:
 				area.get_parent().SPEED = area.get_parent().base_SPEED
@@ -71,5 +67,5 @@ func _on_area_exited(area):
 			get_parent().add_child(splashParticle)
 			
 		
-		elif area_type == "low_gravity":
+		elif zone_type == "low_gravity":
 			area.get_parent().GRAVITY_SCALE = 1.0

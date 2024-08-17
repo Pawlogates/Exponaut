@@ -7,6 +7,7 @@ var hit_effectScene = preload("res://Particles/hit_effect.tscn")
 var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
 var effect_dustScene = preload("res://Particles/effect_dust.tscn")
 var feathersParticleScene = preload("res://Particles/particles_feathers.tscn")
+var particle_score_scene = preload("res://Particles/particle_score.tscn")
 
 var start_pos = global_position
 
@@ -24,21 +25,25 @@ var collected_special = false
 
 var checkpoint_active = false
 
-@onready var collect_1 = %collect1
+@onready var sfx_collect1 = %collect1
 @onready var timer = %Timer
 @onready var animation_player = %AnimationPlayer
-@onready var animation_player_2 = %AnimationPlayer2
+@onready var animation_player2 = %AnimationPlayer2
 @onready var sprite = %AnimatedSprite2D
+@onready var collisionCheck_delay = $collisionCheck_delay
+
+@onready var world = $/root/World
+@onready var player = $/root/World.player
 
 #PROPERTIES
 @export var collectibleScoreValue = 50
+@export var give_score = true
 @export var hard_to_collect = false
-@export var is_gift = false
 @export var animation_always = false
 @export var floating = false
 @export var is_key = false
 @export var collectable = true
-@export var upDown_loop = false
+@export_enum("none", "loop_upDown", "loop_upDown_slight", "loop_scale") var loop_anim = "loop_upDown"
 @export var hp = 5
 @export var is_shrineGem = false
 @export var shrineGem_destructible = false
@@ -54,12 +59,23 @@ var checkpoint_active = false
 
 @export var is_specialApple = "none" #options: "red", "blue", "golden"
 
+@export var is_temporary_powerup = false
+@export_enum("none", "higher_jump", "increased_speed", "teleport_forward_on_airJump") var temporary_powerup = "none"
+@export var temporary_powerup_duration = 10
+
 @export_file("*.tscn") var item_scene = "res://Collectibles/Gift_orangeBox.tscn" #preload("res://Collectibles/collectibleApple.tscn")
 @export var spawnedAmount = 3
 @export var item_posSpread = 100
 @export var item_velSpread = 300
 
-#WEAPON PICKUP
+#GIFT
+@export var is_gift = false
+@export var inventory_item_scene = preload("res://Other/Scenes/User Interface/Inventory/inventoryItem.tscn")
+@export var inventory_itemToSpawn = preload("res://Collectibles/collectibleApple.tscn")
+@export var inventory_texture_region = Rect2(0, 0, 0, 0)
+#GIFT END
+
+#WEAPONS
 @export var is_weapon = false
 @export var is_SecondaryWeapon = false
 
@@ -67,7 +83,7 @@ var checkpoint_active = false
 @export var attack_delay = 1.0
 @export var secondaryWeapon_type = "none"
 @export var secondaryAttack_delay = 1.0
-#WEAPON PICKUP
+#WEAPONS END
 
 @export var is_healthItem = false
 @export var rotting = false
@@ -76,17 +92,20 @@ var checkpoint_active = false
 @export var is_potion = false
 @export var transform_into = "none"
 
+@export var SPEED = 600.0
+@export var SLOWDOWN = 1.5
+@export var direction = 0
 
+@export var debug = false
+#PROPERTIES END
 
 @onready var topRankScore = 100000
-
 @onready var level_completionState = 0
 @onready var level_score = 0
 @onready var level_rank = "D"
 @onready var level_rank_value = 1
 
 #OFFSCREEN START
-
 func _ready():
 	set_process(false)
 	set_physics_process(false)
@@ -99,16 +118,20 @@ func _ready():
 	sprite.pause()
 	sprite.visible = false
 	animation_player.active = false
-	animation_player_2.active = false
+	animation_player2.active = false
 	$Area2D.set_monitorable(false)
-	
 	#OFFSCREEN END
 	
-	animation_player.advance(abs(start_pos[0]) / 100)
 	Globals.saveState_loaded.connect(saveState_loaded)
 	
-	if upDown_loop:
-		animation_player.play("loop")
+	animation_player.advance(abs(start_pos[0]) / 100)
+	
+	if loop_anim == "loop_upDown":
+		animation_player.play("loop_upDown")
+	elif loop_anim == "loop_upDown_slight":
+		animation_player.play("loop_upDown_slight")
+	elif loop_anim == "loop_scale":
+		animation_player.play("loop_scale")
 	
 	if rotting:
 		%rotDelay.start()
@@ -116,9 +139,6 @@ func _ready():
 	if shrineGem_is_finalLevel:
 		modulate.g = 0.0
 		modulate.b = 0.0
-	
-	
-	
 	
 	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.monitoring = true
@@ -129,104 +149,13 @@ func _ready():
 	if shrineGem_openPortal:
 		level_completionState = LevelTransition.get_node("%saved_progress").get("state_" + shrineGem_portal_level_ID)
 		level_score = LevelTransition.get_node("%saved_progress").get("score_" + shrineGem_portal_level_ID)
-	
-		if Globals.selected_episode == "Additional Levels":
-			if shrineGem_portal_level_number == 1:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 2:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 3:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 4:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 5:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 6:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 7:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 8:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 9:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 10:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 11:
-				topRankScore = 50000
-		
-		elif Globals.selected_episode == "Main Levels":
-			if shrineGem_portal_level_number == 1:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 2:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 3:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 4:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 5:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 6:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 7:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 8:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 9:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 10:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 11:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 12:
-				topRankScore = 50000
-			elif shrineGem_portal_level_number == 13:
-				topRankScore = 50000
-		
-		var rating_top = topRankScore
-		var rating_6 = rating_top * 0.8
-		var rating_5 = rating_top * 0.6
-		var rating_4 = rating_top * 0.4
-		var rating_3 = rating_top * 0.2
-		var rating_2 = rating_top * 0.1
-		var rating_1 = 0
-		
-		if level_score >= rating_top:
-			level_rank = "S+"
-			level_rank_value = 7
-		elif level_score >= rating_6:
-			level_rank = "S"
-			level_rank_value = 6
-		elif level_score >= rating_5:
-			level_rank = "A"
-			level_rank_value = 5
-		elif level_score >= rating_4:
-			level_rank = "B"
-			level_rank_value = 4
-		elif level_score >= rating_3:
-			level_rank = "C"
-			level_rank_value = 3
-		elif level_score >= rating_2:
-			level_rank = "D"
-			level_rank_value = 2
-		elif level_score >= rating_1:
-			level_rank = "none"
-			level_rank_value = 1
+		set_level_rank_values()
 	
 	await get_tree().create_timer(5, false).timeout
 	checkpoint_active = true
 
 
-
-
-func saveState_loaded():
-	animation_player.advance(abs(start_pos[0]) / 100)
-	
-
-
-
-
 #IS IN VISIBLE RANGE?
-
 func offScreen_unload():
 	set_process(false)
 	set_physics_process(false)
@@ -239,11 +168,9 @@ func offScreen_unload():
 	sprite.pause()
 	sprite.visible = false
 	animation_player.active = false
-	animation_player_2.active = false
+	animation_player2.active = false
 	$Area2D.set_monitorable(false)
-	
-	
-	
+
 
 func offScreen_load():
 	set_process(true)
@@ -257,27 +184,35 @@ func offScreen_load():
 	sprite.play()
 	sprite.visible = true
 	animation_player.active = true
-	animation_player_2.active = true
+	animation_player2.active = true
 	$Area2D.set_monitorable(true)
-
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if removable or collected and not animation_player_2.current_animation == "score_value" and not animation_player.current_animation == "remove":
+	if removable or collected and not animation_player2.current_animation == "score_value" and not animation_player.current_animation == "remove":
 		print("Removed already collected entity.")
 		queue_free()
 
 
 var bonus_material = preload("res://Other/Materials/bonus_material.tres")
 
-@export var inventory_item_scene = preload("res://Other/Scenes/User Interface/Inventory/inventoryItem.tscn")
-@export var inventory_itemToSpawn = preload("res://Collectibles/collectibleApple.tscn")
-@export var inventory_texture_region = Rect2(0, 0, 0, 0)
-
-
 func _on_collectible_entered(body):
 	inside_check_enter(body)
+	
+	if is_gift and get_tree().get_nodes_in_group("in_inventory").size() >= 6:
+		return
+	
+	if is_temporary_powerup:
+		player.powerup_timer.wait_time = temporary_powerup_duration
+		player.powerup_timer.start()
+		
+		Globals.powerup_activated.emit()
+		
+		if temporary_powerup == "higher_jump":
+			pass
+		elif temporary_powerup == "increased_speed":
+			pass
 	
 	if is_specialApple != "none":
 		if is_specialApple == "golden":
@@ -296,21 +231,20 @@ func _on_collectible_entered(body):
 		
 		$Area2D.set_deferred("monitoring", false)
 		%AnimationPlayer.play("collect_special")
-		animation_player_2.play("score_value")
+		animation_player2.play("score_value")
 		random_pitch_collect()
 		collected_special = true
-		
-		return
 	
 	
 	if is_healthItem:
 		if body.is_in_group("player") and not collected:
 			collected = true
+			
 			Globals.itemCollected.emit()
 			Globals.increaseHp1.emit()
 			
 			animation_player.play("remove")
-			collect_1.play()
+			sfx_collect1.play()
 			body.add_child(starParticleScene.instantiate())
 			body.add_child(starParticleScene.instantiate())
 			body.add_child(starParticleScene.instantiate())
@@ -318,27 +252,21 @@ func _on_collectible_entered(body):
 			
 			var feathersParticle = feathersParticleScene.instantiate()
 			feathersParticle.position = position
-			$/root/World.add_child(feathersParticle)
+			world.add_child(feathersParticle)
 			
 			feathersParticle = feathersParticleScene.instantiate()
 			feathersParticle.position = position
-			$/root/World.add_child(feathersParticle)
-			
-			return
-			
-		
+			world.add_child(feathersParticle)
 	
-	if is_gift and get_tree().get_nodes_in_group("in_inventory").size() >= 6:
-		return
 	
 	if is_gift and body.is_in_group("player") and not collected or is_gift and body.is_in_group("player_projectile") and body.can_collect and not collected:
 		if get_tree().get_nodes_in_group("in_inventory").size() < 6:
 			var item = inventory_item_scene.instantiate()
-			$/root/World.get_node("HUD/Inventory/InventoryContainer").add_child(item)
+			world.get_node("HUD/Inventory/InventoryContainer").add_child(item)
 			item.item_toSpawn = inventory_itemToSpawn
 			item.display_region_rect = inventory_texture_region
 		
-		$/root/World.get_node("HUD/Inventory").call("check_inventory")
+		world.get_node("HUD/Inventory").call("check_inventory")
 		get_tree().call_group("in_inventory", "selected_check")
 		
 		#get_tree().call_group("in_inventory", "itemOrder_correct")
@@ -367,7 +295,7 @@ func _on_collectible_entered(body):
 			
 			var starParticle = starParticleScene.instantiate()
 			starParticle.position = position
-			$/root/World.add_child(starParticle)
+			world.add_child(starParticle)
 			
 			add_child(splashParticleScene.instantiate())
 		
@@ -384,24 +312,10 @@ func _on_collectible_entered(body):
 					
 					#await get_tree().create_timer(0.5, false).timeout
 					
-					%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
-					
-					#timer.start()
-					animation_player.play("remove")
-					animation_player_2.play("score_value")
-					
-					
-					if Globals.collected_in_cycle == 0:
-						Globals.level_score += collectibleScoreValue
-					
-					else:
-						Globals.level_score += collectibleScoreValue
-						Globals.combo_score += collectibleScoreValue * Globals.combo_tier
-					
 					Globals.itemCollected.emit()
 					
 					if shrineGem_giveScore:
-						give_score()
+						award_score()
 						
 					if shrineGem_spawnItems:
 						call_deferred("spawn_collectibles")
@@ -413,55 +327,42 @@ func _on_collectible_entered(body):
 					if shrineGem_portal_level_ID != "none" and LevelTransition.get_node("%saved_progress").get("state_" + str(shrineGem_portal_level_ID)) == 0:
 						LevelTransition.get_node("%saved_progress").set(("state_" + str(shrineGem_portal_level_ID)), -1)
 						Globals.save_progress.emit()
-						
 	
 	
 	if collectable and not rotten and body.is_in_group("player") and not collected or collectable and not rotten and body.is_in_group("player_projectile") and body.can_collect and not collected:
 		collected = true
-		%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
 		
-		#timer.start()
-		animation_player.play("remove")
-		animation_player_2.play("score_value")
-		
-		
-		if Globals.collected_in_cycle == 0:
-			Globals.level_score += collectibleScoreValue
-		
-		else:
-			Globals.level_score += collectibleScoreValue
-			Globals.combo_score += collectibleScoreValue * Globals.combo_tier
+		if give_score:
+			award_score()
 		
 		Globals.itemCollected.emit()
 		
-		give_score()
-		
 		if is_potion:
-			$/root/World.reassign_player()
+			world.reassign_player()
 			
 			if transform_into == "rooster":
-				$/root/World.player.transformInto_rooster()
+				world.player.transformInto_rooster()
 			elif transform_into == "bird":
-				$/root/World.player.transformInto_bird()
+				world.player.transformInto_bird()
 			elif transform_into == "chicken":
-				$/root/World.player.transformInto_chicken()
+				world.player.transformInto_chicken()
 			elif transform_into == "frog":
-				$/root/World.player.transformInto_frog()
+				world.player.transformInto_frog()
 			elif transform_into == "pig":
-				$/root/World.player.transformInto_pig()
+				world.player.transformInto_pig()
 			
 			Globals.player_transformed.emit()
 		
 		if is_key:
-			$/root/World.key_collected()
+			world.key_collected()
 			
 			add_child(orbParticleScene.instantiate())
 			
 		
 		if is_weapon:
-			$/root/World.reassign_player()
-			$/root/World.player.weaponType = weapon_type
-			$/root/World.player.get_node("%attack_cooldown").wait_time = attack_delay
+			world.reassign_player()
+			world.player.weaponType = weapon_type
+			world.player.get_node("%attack_cooldown").wait_time = attack_delay
 			
 			add_child(orbParticleScene.instantiate())
 			add_child(splashParticleScene.instantiate())
@@ -470,9 +371,9 @@ func _on_collectible_entered(body):
 			Globals.weapon_collected.emit()
 		
 		if is_SecondaryWeapon:
-			$/root/World.reassign_player()
-			$/root/World.player.secondaryWeaponType = secondaryWeapon_type
-			$/root/World.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
+			world.reassign_player()
+			world.player.secondaryWeaponType = secondaryWeapon_type
+			world.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
 			
 			add_child(orbParticleScene.instantiate())
 			add_child(splashParticleScene.instantiate())
@@ -481,19 +382,17 @@ func _on_collectible_entered(body):
 			Globals.secondaryWeapon_collected.emit()
 
 
-
-
 func _on_collectible_exited(body):
 	inside_check_exit(body)
 	
 	if is_shrineGem:
 		if body.is_in_group("player"):
-			%AnimatedSprite2D.modulate.r = 1.0
-			%AnimatedSprite2D.modulate.a = 1.0
+			if get_node_or_null("%AnimatedSprite2D"):
+				%AnimatedSprite2D.modulate.r = 1.0
+				%AnimatedSprite2D.modulate.a = 1.0
 			
 		elif body.is_in_group("player_projectile"):
 			pass
-
 
 
 func _on_timer_timeout():
@@ -506,23 +405,17 @@ func _on_animation_player_2_animation_finished(anim_name):
 		removable = true
 
 
-
 var velocity_x_last = 0.0
 var direction_last = 0.0
 
-@export var direction = 0
-@export var SPEED = 600.0
-@export var SLOWDOWN = 1.5
-
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
 
 var random_position_offset = Vector2(randf_range(0, 250), randf_range(0, 250)) 
 
 func _physics_process(delta):
 	if collected_special:
-		position = lerp(position, $/root/World.player.position + random_position_offset, delta)
+		position = lerp(position, world.player.position + random_position_offset, delta)
 	
 	
 	if stop_upDownLoopAnim:
@@ -545,7 +438,7 @@ func _physics_process(delta):
 	if player_inside:
 		#if hard_to_collect or rotten:
 		collidable = false
-		$collisionCheck_delay.start()
+		collisionCheck_delay.start()
 		
 		if Globals.direction != 0:
 			direction_last = Globals.direction
@@ -556,41 +449,35 @@ func _physics_process(delta):
 	if enemy_inside:
 		if collidable:
 			collidable = false
-			$collisionCheck_delay.start()
+			collisionCheck_delay.start()
 			
 			if direction != 0:
 				direction_last = direction
 			velocity.x = 250 * direction_last
-		
-		
+	
 	
 	if is_on_wall():
 		velocity.x = -velocity_x_last / 2
 		collidable = false
-		$collisionCheck_delay.start()
-		
+		collisionCheck_delay.start()
+	
 	elif velocity.x != 0:
 		velocity_x_last = velocity.x
-		
+	
 	
 	if not collected and not floating and not collected_special or button_pressed:
 		move_and_slide()
-	
 	
 	
 	if not animation_always:
 		%AnimatedSprite2D.speed_scale = velocity.x / 100
 	
 	
-	
-	
-	
 	if fall_when_button_pressed:
 		if button_pressed and %AnimatedSprite2D.position.y > 0:
 			%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
 			%AnimatedSprite2D.position.y -= 1
-
-			
+		
 		elif button_pressed and %AnimatedSprite2D.position.y < 0:
 			%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
 			%AnimatedSprite2D.position.y += 1
@@ -598,27 +485,18 @@ func _physics_process(delta):
 	if debug:
 		print(item_scene)
 
-@export var debug = false
 
-
-
-
-
-
-
-
-
+func saveState_loaded():
+	animation_player.advance(abs(start_pos[0]) / 100)
 
 
 func _on_collision_check_delay_timeout():
 	collidable = true
 
 
-
 func destroy_self():
 	print("This entity (type: collectible) has self destroyed.")
 	queue_free()
-
 
 
 func on_button_press():
@@ -640,14 +518,13 @@ var player_projectile_inside = false
 var collidable = true
 
 
-
 func inside_check_enter(body):
 	if body.is_in_group("player"):
 		player_inside = true
 		print("entered player")
 		if collidable and hard_to_collect or collidable and rotten:
 			collidable = false
-			$collisionCheck_delay.start()
+			collisionCheck_delay.start()
 			
 			direction = body.direction
 		
@@ -655,7 +532,7 @@ func inside_check_enter(body):
 		enemy_inside = true
 		if collidable:
 			collidable = false
-			$collisionCheck_delay.start()
+			collisionCheck_delay.start()
 			
 			direction = body.direction
 		
@@ -663,11 +540,9 @@ func inside_check_enter(body):
 		player_projectile_inside = true
 		if collidable:
 			collidable = false
-			$collisionCheck_delay.start()
+			collisionCheck_delay.start()
 			
 			direction = body.direction
-			
-
 
 
 func inside_check_exit(body):
@@ -688,38 +563,8 @@ func inside_check_exit(body):
 			direction = body.direction
 		
 		
-		
-		
 		if not player_inside and not player_projectile_inside and not enemy_inside:
 			direction = 0
-		
-
-
-
-
-
-
-
-#func _on_area_2d_area_entered(area):
-	##SAVE START
-	#
-	#if area.is_in_group("loadingZone_area"):
-	#
-		#remove_from_group("loadingZone0")
-		#remove_from_group("loadingZone1")
-		#remove_from_group("loadingZone2")
-		#remove_from_group("loadingZone3")
-		#remove_from_group("loadingZone4")
-		#remove_from_group("loadingZone5")
-		#
-		#loadingZone = area.loadingZone_number
-		#add_to_group(loadingZone)
-		#
-		##print("this ", name, " is in: ", loadingZone, is_in_group(loadingZone))
-	#
-	#
-	##SAVE END
-
 
 
 func stop_upDownLoop():
@@ -733,7 +578,12 @@ func stop_upDownLoop():
 		%AnimatedSprite2D.position.y += 1
 
 
-func give_score():
+func award_score():
+	Globals.level_score += collectibleScoreValue
+	
+	if Globals.collected_in_cycle > 0:
+		Globals.combo_score += collectibleScoreValue * Globals.combo_tier
+	
 	add_child(starParticleScene.instantiate())
 	if Globals.combo_tier > 1:
 		add_child(starParticleScene.instantiate())
@@ -748,27 +598,56 @@ func give_score():
 					add_child(starParticle2Scene.instantiate())
 					%collect1.pitch_scale = 1.4
 					bonus_material.set_shader_parameter("strength", 0.5)
-					
+	
 	else:
 		%collect1.pitch_scale = 1
 		bonus_material.set_shader_parameter("strength", 0.0)
-			
-	collect_1.play()
+	
+	sfx_collect1.play()
+	
+	%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
+	%collectedDisplay.position += Vector2(randi_range(-50, 50), randi_range(-50, 50))
+	
+	animation_player.play("remove")
+	animation_player2.play("score_value")
+	
+	#Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier).
+	if Globals.collected_in_cycle == 20:
+		var max_multiplier_particle_amount = 50
+		while max_multiplier_particle_amount > 0:
+			max_multiplier_particle_amount -= 1
+			call_deferred("spawn_particle_score", 2)
+	
+	#Handle double score particles (temporary powerups).
+	if not player.double_score:
+		return
+	
+	var effective_score = collectibleScoreValue * Globals.combo_tier
+	var particle_amount : int
+	
+	if collectibleScoreValue * Globals.combo_tier < 25:
+		particle_amount = effective_score
+	else:
+		particle_amount = 25
+	
+	while particle_amount > 0:
+		particle_amount -= 1
+		call_deferred("spawn_particle_score", 1)
 
-
-
+func spawn_particle_score(scale_multiplier : int):
+	var particle = particle_score_scene.instantiate()
+	particle.position = position
+	particle.scale = Vector2(scale_multiplier, scale_multiplier)
+	world.add_child(particle)
 
 
 func spawn_collectibles():
 	while spawnedAmount > 0:
 		spawnedAmount -= 1
 		spawn_item()
-		
 	
 	var hit_effect = hit_effectScene.instantiate()
 	add_child(hit_effect)
-
-
 
 
 var rng = RandomNumberGenerator.new()
@@ -780,7 +659,7 @@ func spawn_item():
 		item.velocity.x = rng.randf_range(item_velSpread, -item_velSpread)
 		item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
 		
-		$/root/World.add_child(item)
+		world.add_child(item)
 	else:
 		spawn_item_static()
 
@@ -790,7 +669,7 @@ func spawn_item_static():
 	item.position.x = global_position.x + rng.randf_range(item_posSpread, -item_posSpread)
 	item.position.y = global_position.y + rng.randf_range(item_posSpread, -item_posSpread)
 	
-	$/root/World.add_child(item)
+	world.add_child(item)
 
 
 
@@ -808,7 +687,7 @@ func spawn_portal():
 	portal.level_rank_value = level_rank_value
 	portal.level_displayedName = shrineGem_displayedName
 	
-	$/root/World.add_child(portal)
+	world.add_child(portal)
 
 
 
@@ -821,8 +700,8 @@ func _on_animation_player_animation_finished(anim_name):
 
 
 func random_pitch_collect():
-	collect_1.pitch_scale = (randf_range(0.8, 1.2))
-	collect_1.play()
+	sfx_collect1.pitch_scale = (randf_range(0.8, 1.2))
+	sfx_collect1.play()
 
 
 func _on_shrine_gem_checkpoint_trigger_body_entered(body):
@@ -831,22 +710,12 @@ func _on_shrine_gem_checkpoint_trigger_body_entered(body):
 			#await get_tree().create_timer(1, false).timeout
 			print("Shrine Gem checkpoint activated.")
 			checkpoint_active = false
-			$/root/World.save_game()
-			$/root/World.save_game_area()
+			world.save_game()
+			world.save_game_area()
 			SavedData.savedData_save(true)
 
 
-
-
-
-
-
-
-
 #SAVE START
-
-#var loadingZone = "loadingZone0"
-
 func save():
 	var save_dict = {
 		#"loadingZone" : loadingZone,
@@ -879,5 +748,88 @@ func save():
 		
 	}
 	return save_dict
-
 #SAVE END
+
+
+func set_level_rank_values():
+	if Globals.selected_episode == "Additional Levels":
+		if shrineGem_portal_level_number == 1:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 2:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 3:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 4:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 5:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 6:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 7:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 8:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 9:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 10:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 11:
+			topRankScore = 50000
+	
+	elif Globals.selected_episode == "Main Levels":
+		if shrineGem_portal_level_number == 1:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 2:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 3:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 4:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 5:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 6:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 7:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 8:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 9:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 10:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 11:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 12:
+			topRankScore = 50000
+		elif shrineGem_portal_level_number == 13:
+			topRankScore = 50000
+	
+	var rating_top = topRankScore
+	var rating_6 = rating_top * 0.8
+	var rating_5 = rating_top * 0.6
+	var rating_4 = rating_top * 0.4
+	var rating_3 = rating_top * 0.2
+	var rating_2 = rating_top * 0.1
+	var rating_1 = 0
+	
+	if level_score >= rating_top:
+		level_rank = "S+"
+		level_rank_value = 7
+	elif level_score >= rating_6:
+		level_rank = "S"
+		level_rank_value = 6
+	elif level_score >= rating_5:
+		level_rank = "A"
+		level_rank_value = 5
+	elif level_score >= rating_4:
+		level_rank = "B"
+		level_rank_value = 4
+	elif level_score >= rating_3:
+		level_rank = "C"
+		level_rank_value = 3
+	elif level_score >= rating_2:
+		level_rank = "D"
+		level_rank_value = 2
+	elif level_score >= rating_1:
+		level_rank = "none"
+		level_rank_value = 1

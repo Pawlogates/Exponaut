@@ -42,9 +42,6 @@ func _ready():
 	await get_tree().create_timer(10, false).timeout
 	$AnimationPlayer.play("portal_open")
 	$AnimationPlayer2.play("fadeIn_info")
-	
-
-
 
 
 func _on_area_entered(area):
@@ -65,11 +62,6 @@ func _on_area_entered(area):
 			get_parent().save_game_area()
 			await LevelTransition.fade_to_black()
 			get_tree().change_scene_to_packed(next_area)
-		
-
-
-#func _on_area_exited(_area):
-	#active = true
 
 
 func _on_timer_timeout():

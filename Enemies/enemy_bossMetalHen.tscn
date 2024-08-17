@@ -422,6 +422,17 @@ libraries = {
 "": SubResource("AnimationLibrary_ihjei")
 }
 
+[node name="scanForLedge" type="RayCast2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(32, 0)
+target_position = Vector2(0, 112)
+
+[node name="ColorRect" type="ColorRect" parent="scanForLedge"]
+visible = false
+modulate = Color(1, 0, 0, 0.345098)
+offset_right = 4.0
+offset_bottom = 112.0
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

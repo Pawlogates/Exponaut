@@ -29,14 +29,14 @@
 light_mask = 7
 visibility_layer = 7
 z_index = -5
-savedProgress_level_filePath = "res://Levels/Overworld2.tscn"
+savedProgress_level_filePath = "res://Levels/overworld_glades.tscn"
 cameraLimit_left = 5376.0
 cameraLimit_right = 25472.0
 cameraLimit_bottom = 5056.0
 cameraLimit_top = -5312.0
 regular_level = false
 playerStartHP = 3
-area_ID = "overworld2"
+area_ID = "overworld_glades"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_pwrbj")]
 unique_name_in_owner = true

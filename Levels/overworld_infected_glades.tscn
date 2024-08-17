@@ -40,7 +40,7 @@
 light_mask = 7
 visibility_layer = 7
 z_index = -5
-savedProgress_level_filePath = "res://Levels/Overworld.tscn"
+savedProgress_level_filePath = "res://Levels/overworld_infected_glades.tscn"
 cameraLimit_left = -11584.0
 cameraLimit_right = 7232.0
 cameraLimit_bottom = 6336.0
@@ -49,7 +49,7 @@ regular_level = false
 playerStartHP = 10
 rain = true
 leaves = true
-area_ID = "overworld"
+area_ID = "overworld_infected_glades"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_g6gxa")]
 unique_name_in_owner = true

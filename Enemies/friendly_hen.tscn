@@ -144,13 +144,10 @@ damageTo_player = false
 generalTimer1_cooldown = 4.0
 generalTimer3_cooldown = 2.0
 generalTimer4_cooldown = 1.0
-generalTimer5_cooldown = 45.0
 generalTimer1_randomize_cooldown = true
 generalTimer2_randomize_cooldown = true
 generalTimer3_randomize_cooldown = true
 generalTimer4_randomize_cooldown = true
-generalTimer_randomize_cooldown_onSpawn = true
-t_item_amount = 4
 t_afterDelay_jump = true
 t_afterDelay_jump_timerID = 1
 t_afterDelay_changeDirection = true
@@ -159,8 +156,6 @@ t_afterDelay_idleSound = true
 t_afterDelay_idleSound_timerID = 3
 t_afterDelay_randomize_speedAndJumpVelocity = true
 t_afterDelay_randomize_speedAndJumpVelocity_timerID = 4
-t_afterDelay_spawn_collectibles = true
-t_afterDelay_spawn_collectibles_timerID = 5
 enemy_type = "hen"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

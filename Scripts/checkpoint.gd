@@ -15,4 +15,3 @@ func _on_area_2d_area_entered(area):
 			
 			if not $/root/World.regular_level and not $/root/World.shrine_level:
 				SavedData.savedData_save(true)
-			

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://ctu8tt5axyxdq"]
 
-[ext_resource type="Script" path="res://Scripts/area_zone.gd" id="1_m62lw"]
+[ext_resource type="Script" path="res://Scripts/zone_general.gd" id="1_gbhxa"]
 [ext_resource type="AudioStream" uid="uid://bau2k4c3drkqf" path="res://Assets/Sounds/sfx/water_entered.wav" id="2_ipkd7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
@@ -9,8 +9,8 @@ size = Vector2(64, 64)
 [node name="water_area" type="Area2D"]
 collision_layer = 0
 collision_mask = 7
-script = ExtResource("1_m62lw")
-area_type = "water"
+script = ExtResource("1_gbhxa")
+zone_type = "water"
 water_strength = 0.8
 water_slowdown = 0.6
 

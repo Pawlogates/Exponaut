@@ -1,13 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://4rdhbwr8gea4"]
+[gd_scene load_steps=3 format=3 uid="uid://4rdhbwr8gea4"]
 
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="1_i4dtr"]
 [ext_resource type="Script" path="res://Scripts/score_display.gd" id="2_y2l1u"]
-[ext_resource type="Script" path="res://Scripts/Multiplier.gd" id="3_atitu"]
-[ext_resource type="Script" path="res://Scripts/CollectedInCycle.gd" id="4_rxr4e"]
-[ext_resource type="Script" path="res://Scripts/ComboScore.gd" id="5_gl0a6"]
 
 [node name="ScoreDisplay" type="Node2D"]
 process_mode = 3
+script = ExtResource("2_y2l1u")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -1
@@ -25,9 +23,9 @@ theme_override_font_sizes/font_size = 56
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("2_y2l1u")
 
 [node name="Multiplier" type="Label" parent="."]
+unique_name_in_owner = true
 offset_top = 165.0
 offset_right = 384.0
 offset_bottom = 285.0
@@ -37,9 +35,9 @@ theme_override_font_sizes/font_size = 32
 text = "x1"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("3_atitu")
 
-[node name="CollectedInCycle" type="Label" parent="."]
+[node name="Streak" type="Label" parent="."]
+unique_name_in_owner = true
 offset_top = 210.0
 offset_right = 384.0
 offset_bottom = 330.0
@@ -49,9 +47,9 @@ theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("4_rxr4e")
 
 [node name="ComboScore" type="Label" parent="."]
+unique_name_in_owner = true
 offset_top = 75.0
 offset_right = 384.0
 offset_bottom = 195.0
@@ -61,4 +59,3 @@ theme_override_font_sizes/font_size = 56
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
-script = ExtResource("5_gl0a6")

@@ -17,7 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="15_sk7oh"]
 
 [node name="World" instance=ExtResource("1_yoitb")]
-savedProgress_level_filePath = "res://Levels/Ascent.tscn"
+savedProgress_level_filePath = "res://Levels/overworld_ascent.tscn"
 cameraLimit_left = -1920.0
 cameraLimit_right = 3968.0
 cameraLimit_bottom = 704.0
@@ -26,7 +26,7 @@ regular_level = false
 playerStartHP = 3
 rain = true
 leaves = true
-area_ID = "ascent"
+area_ID = "overworld_ascent"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_dbrpa")]
 unique_name_in_owner = true

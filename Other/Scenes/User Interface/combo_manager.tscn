@@ -6,17 +6,12 @@
 [node name="ComboManager" type="Node2D"]
 script = ExtResource("1_bhqmy")
 
-[node name="combo_cycle_timer" type="Timer" parent="."]
+[node name="collectible_streak_timer" type="Timer" parent="."]
 wait_time = 2.5
 one_shot = true
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="collectible_streak_finished" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("2_h4ctp")
 volume_db = -5.0
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.2
-autostart = true
-
-[connection signal="timeout" from="combo_cycle_timer" to="." method="_on_combo_cycle_timer_timeout"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="collectible_streak_timer" to="." method="_on_collectible_streak_timer_timeout"]

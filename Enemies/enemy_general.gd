@@ -1,5 +1,10 @@
 extends enemy_basic
 
+@onready var world = $/root/World
+@onready var player = $/root/World.player
+
+@onready var scanForLedge = $scanForLedge
+
 var on_floor = false
 var on_wall = false
 var on_wall_normal = Vector2(0, 0)
@@ -210,7 +215,6 @@ func _ready():
 		%flyCooldown.start()
 	
 	
-	
 	#Debug
 	if debug:
 		$debug_label.visible = true
@@ -233,101 +237,82 @@ func _physics_process(delta):
 	#MOVEMENT TYPE
 	if movementType == "normal":
 		movement_normal(delta)
-		
+	
 	elif movementType == "followPlayerX":
 		movement_followPlayerX(delta)
 	elif movementType == "followPlayerY":
 		movement_followPlayerY(delta)
 	elif movementType == "followPlayerXY":
 		movement_followPlayerXY(delta)
-		
+	
 	elif movementType == "followPlayerX_whenSpotted":
 		movement_followPlayerX_whenSpotted(delta)
 	elif movementType == "followPlayerY_whenSpotted":
 		movement_followPlayerY_whenSpotted(delta)
 	elif movementType == "followPlayerXY_whenSpotted":
 		movement_followPlayerXY_whenSpotted(delta)
-		
+	
 	elif movementType == "chasePlayerXY_lookAtPlayer":
 		movement_chasePlayerXY_lookAtPlayer(delta)
 	elif movementType == "chasePlayerXY_lookAtPlayer_whenSpotted":
 		movement_chasePlayerXY_lookAtPlayer_whenSpotted(delta)
-		
+	
 	
 	elif movementType == "stationary":
 		movement_stationary(delta)
 	
 	elif movementType == "wave_H":
 		movement_wave_H(delta)
-	
 	elif movementType == "wave_V":
 		movement_wave_V(delta)
 	
 	
 	elif movementType == "moveAround_startPosition_XY_when_notSpotted":
 		moveAround_startPosition_XY_when_notSpotted(delta)
-	
 	elif movementType == "moveAround_startPosition_X_when_notSpotted":
 		moveAround_startPosition_X_when_notSpotted(delta)
-	
 	elif movementType == "moveAround_startPosition_Y_when_notSpotted":
 		moveAround_startPosition_Y_when_notSpotted(delta)
-	
-	
 	
 	
 	#OTHER BEHAVIOUR
 	if turnOnLedge:
 		handle_turnOnLedge()
-	
 	if turnOnWall:
 		handle_turnOnWall()
-	
 	
 	if patroling:
 		handle_patroling()
 	
-	
 	if dropProjectile_whenSpotted:
 		handle_dropProjectile_whenSpotted()
-	
 	if shootProjectile_whenSpotted:
 		handle_shootProjectile_whenSpotted()
 	
-	
 	if whenAt_startPosition_X_stop:
 		handle_whenAt_startPosition_X_stop(delta)
-	
 	if whenAt_startPosition_Y_stop:
 		handle_whenAt_startPosition_Y_stop(delta)
 	
-	
 	if bouncy_Y:
 		handle_bouncy_Y(delta)
-	
 	if bouncy_X:
 		handle_bouncy_X(delta)
-	
 	
 	if ascending:
 		handle_ascending(delta)
 	
 	
-	
 	if not floating or dead:
-		
 		#USE BASIC GRAVITY?
 		if not is_ascending and movementType != "followPlayerY" and movementType != "followPlayerXY" and movementType != "chasePlayerXY_lookAtPlayer" and movementType != "chasePlayerXY_lookAtPlayer_whenSpotted":
 			if not is_on_floor():
 				velocity.y += gravity * delta
 	
-	
 	if force_static_H:
 		velocity.x = 0
 	if force_static_V:
 		velocity.y = 0
-	
-	
 	
 	basic_sprite_flipDirection()
 	stuck_inside_wall_check()
@@ -367,14 +352,14 @@ func _on_area_2d_area_entered(area):
 			if Input.is_action_pressed("jump"): #the velocity value here is effectively worth more, because of the building velocity mechanic that is active while you are holding the JUMP button.
 				area.get_parent().velocity.y = bonusBox_giveVelocity_jump
 				spawn_particles()
-				$/root/World.player.air_jump = true
-				$/root/World.player.wall_jump = true
+				world.player.air_jump = true
+				world.player.wall_jump = true
 				
 			else:
 				area.get_parent().velocity.y = bonusBox_giveVelocity
 				spawn_particles()
-				$/root/World.player.air_jump = true
-				$/root/World.player.wall_jump = true
+				world.player.air_jump = true
+				world.player.wall_jump = true
 			
 			
 			handle_damage(area)
@@ -510,21 +495,21 @@ func handle_damage(area):
 			var star1 = starParticleScene.instantiate()
 			var star2 = starParticleScene.instantiate()
 			var star3 = starParticleScene.instantiate()
-			var dust = effect_dust_moveUpScene.instantiate()
 			
 			add_child(star1)
 			add_child(star2)
 			add_child(star3)
-			add_child(dust)
 		
 		
 		death.play()
 		
 		var hitDeath_effect = hitDeath_effectScene.instantiate()
 		var dead_effect = dead_effectScene.instantiate()
+		var dust = effect_dust_moveUpScene.instantiate()
 		
 		add_child(hitDeath_effect)
 		add_child(dead_effect)
+		add_child(dust)
 		
 		if onDeath_spawnObject:
 			call_deferred("spawnObjects")
@@ -542,7 +527,7 @@ func spawnObjects():
 		
 		var onDeath_spawnObject_object = onDeath_spawnObject_objectPath.instantiate()
 		onDeath_spawnObject_object.position = position + Vector2(rng.randf_range(40.0, -40.0), rng.randf_range(40.0, -40.0))
-		$/root/World.add_child(onDeath_spawnObject_object)
+		world.add_child(onDeath_spawnObject_object)
 		
 		if onDeath_spawnObject_object.get_class() == "CharacterBody2D" and onDeath_spawnObject_throwAround:
 			onDeath_spawnObject_object.velocity.x = rng.randf_range(400.0, -400.0)
@@ -567,17 +552,17 @@ func offScreen_load():
 
 #OTHER BEHAVIOUR
 func handle_turnOnLedge():
-	if can_turn and not $scanForLedge.get_collider() and is_on_floor():
+	if can_turn and not scanForLedge.get_collider() and is_on_floor():
 		can_turn = false
 		%Limit_turn.start()
 		
 		if direction == 1:
 			direction = -1
-			$scanForLedge.position.x = -32
+			scanForLedge.position.x = -32
 			
 		else:
 			direction = 1
-			$scanForLedge.position.x = 32
+			scanForLedge.position.x = 32
 		
 		if slowDown_onDirectionChange:
 			velocity.x = -(0.5 * velocity_last_X)
@@ -595,13 +580,13 @@ func handle_turnOnWall():
 			direction = -1
 			
 			if turnOnLedge:
-				$scanForLedge.position.x = -32
+				scanForLedge.position.x = -32
 			
 		else:
 			direction = 1
 			
 			if turnOnLedge:
-				$scanForLedge.position.x = 32
+				scanForLedge.position.x = 32
 		
 		if slowDown_onDirectionChange:
 			velocity.x = -(0.5 * velocity_last_X)
@@ -1033,7 +1018,7 @@ func handle_dropProjectile_whenSpotted():
 			dropProjectile.enemyProjectile = true
 			dropProjectile.playerProjectile = false
 			dropProjectile.bouncy = true
-			$/root/World.add_child(dropProjectile)
+			world.add_child(dropProjectile)
 			
 			$dropProjectile.play()
 			
@@ -1073,15 +1058,12 @@ func handle_shootProjectile_whenSpotted():
 				shootProjectile.enemyProjectile = false
 			
 			
-			
-			$/root/World.add_child(shootProjectile)
+			world.add_child(shootProjectile)
 			
 			$shootProjectile.play()
 			
 			attacking = true
 			attacking_timer.start()
-
-
 
 
 var shoot_delay = false
@@ -1094,7 +1076,6 @@ func _on_drop_delay_timeout():
 	drop_delay = false
 
 
-
 var stuck = false
 
 func stuck_inside_wall_check():
@@ -1105,17 +1086,14 @@ func stuck_inside_wall_check():
 			stuck = true
 		
 	if stuck:
-		if $scanForLedge.get_collider():
+		if scanForLedge.get_collider():
 			velocity.y = 0
 			position -= Vector2(1, 8)
 		else:
 			stuck = false
 
 
-
-
 #GENERAL TIMERS
-
 func handle_generalTimerTimeout(generalTimer):
 	#If the timer ID that goes off, matches with any timer action's ID, then the action is executed.
 	if t_afterDelay_jump:
@@ -1229,11 +1207,11 @@ func t_changeDirection():
 func t_selfDestruct():
 	var effect_dust = effect_dustScene.instantiate()
 	effect_dust.global_position = global_position
-	$/root/World.add_child(effect_dust)
+	world.add_child(effect_dust)
 	
 	var orbParticle = orbParticleScene.instantiate()
 	orbParticle.global_position = global_position
-	$/root/World.add_child(orbParticle)
+	world.add_child(orbParticle)
 	
 	queue_free()
 
@@ -1268,7 +1246,7 @@ func t_spawn_item():
 	else:
 		item.position = position
 	
-	$/root/World.add_child(item)
+	world.add_child(item)
 
 
 #GENERAL TIMERS END
@@ -1307,7 +1285,7 @@ func bonusBox_spawn_item():
 	else:
 		item.position = position
 	
-	$/root/World.add_child(item)
+	world.add_child(item)
 
 
 func generalTimers_correct_cooldowns():

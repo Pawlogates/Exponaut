@@ -14,7 +14,7 @@ func _on_area_2d_area_entered(area):
 			return
 		
 		get_parent().get_node("%ComboManager").reset_combo_tier()
-		get_parent().get_node("%ScoreDisplay/Score").displayScore = Globals.level_score + Globals.combo_score
+		get_parent().get_node("%ScoreDisplay").displayScore = Globals.level_score + Globals.combo_score
 		await get_tree().create_timer(0.1, false).timeout
 		
 		if Globals.level_score >= target_score:

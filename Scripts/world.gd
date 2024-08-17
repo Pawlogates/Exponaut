@@ -65,7 +65,7 @@ var instant_background_transitions = true
 func _ready():
 	LevelTransition.blackScreen.color.a = 1.0
 	
-	if area_ID != "theBeginning":
+	if area_ID != "overworld_factory":
 		Globals.left_start_area = true
 	
 	if shrine_level:
@@ -259,9 +259,9 @@ func _ready():
 	if not regular_level and not shrine_level:
 		SavedData.savedData_save(true)
 	
-	quickLoad_blocked = true #unused
-	$QuickloadLimiter.start() #unused
-	Globals.is_saving = true #unused
+	quickLoad_blocked = false
+	$QuickloadLimiter.start()
+	Globals.is_saving = false
 	
 	Globals.just_started_new_game = false
 
@@ -307,14 +307,12 @@ func load_saved_progress_overworld():
 			%ambience.play()
 
 
-
 var scoreAttack_timeLeft
 var quickLoad_blocked = true
 
 #MAIN START
-
 func _physics_process(delta):
-	#current level's playtime
+	#Current level's playtime
 	levelTime = Time.get_ticks_msec() - start_level_msec
 	levelTime_visible = levelTime / 1000.0
 	level_timeDisplay.text = str(levelTime_visible)
@@ -391,21 +389,14 @@ func _physics_process(delta):
 			bgMove_started = true
 	
 	
-	
 	if Input.is_action_just_pressed("restart"):
 		retry()
-
-
 #MAIN END
 
 var night_toggle = true
 var debug_bg_deleted = false
 
-
-
-
 #HANDLE REDUCE PLAYER HP
-
 func handle_player_death():
 	player.dead = true
 	player.sfx_death.play()
@@ -424,8 +415,6 @@ func reduceHp1():
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
 		handle_player_death()
-		
-	
 
 func reduceHp2():
 	Globals.playerHP -= 2
@@ -458,9 +447,6 @@ func increaseHp3():
 	healthDisplay.text = str("HP:", Globals.playerHP)
 
 
-
-
-
 #HANDLE LEVEL EXIT REACHED (unused?)
 
 func _on_exitReached_next_level():
@@ -477,9 +463,6 @@ func _on_exitReached_retry():
 	retry()
 
 
-
-
-
 func exitReached_show_screen():
 	
 	if not Globals.mode_scoreAttack:
@@ -488,7 +471,6 @@ func exitReached_show_screen():
 		%"Level Finished".exit_reached()
 		
 		get_tree().paused = true
-	
 	
 	
 	elif Globals.mode_scoreAttack:
@@ -513,7 +495,6 @@ func exitReached_show_screen():
 			get_tree().paused = true
 
 
-
 func go_to_next_level(): #unused?
 	
 	if not next_level is PackedScene: return
@@ -526,7 +507,6 @@ func go_to_next_level(): #unused?
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
 	Globals.collected_in_cycle = 0
-
 
 
 func retry():
@@ -624,6 +604,7 @@ func bg_move():
 
 #Save state
 func save_game():
+	print(Globals.is_saving)
 	if not Globals.is_saving:
 		Globals.is_saving = true
 		
@@ -746,7 +727,6 @@ func key_collected():
 
 
 #NIGHT/DAY TIME
-
 #func night_tileset_toggle():
 	#if night_toggle:
 		#night_toggle = false
@@ -981,8 +961,6 @@ func save_game_area():
 
 		# Store the save dictionary as a new line in the save file.
 		save_gameFile.store_line(json_string)
-			
-		
 	
 	
 	Globals.saved_level_score = Globals.level_score
@@ -1031,7 +1009,6 @@ func load_game_area():
 			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
 				continue
 			new_object.set(i, node_data[i])
-	
 	
 	
 	#Globals.level_score = Globals.saved_level_score

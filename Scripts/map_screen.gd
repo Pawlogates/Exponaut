@@ -11,7 +11,6 @@ func _ready():
 	LevelTransition.get_node("%saved_progress").load_game()
 	print(str(Globals.selected_episode) + " is the currently selected episode (level set).")
 	
-	
 	#EPISODE START
 	if Globals.selected_episode == "Additional Levels":
 		%background.texture = load("res://Assets/Graphics/backgrounds/bg_jungle_cavern.png")
@@ -60,9 +59,8 @@ func _ready():
 		#LEVEL ICON START
 		place_level_icon(12, Vector2(496, -60), load("res://Levels/RI1_11.tscn"))
 		#LEVEL ICON END
-		
-	#EPISODE END
 	
+	#EPISODE END
 	
 	
 	#EPISODE START
@@ -105,13 +103,11 @@ func _ready():
 		#LEVEL ICON START
 		place_level_icon(5, Vector2(324, -36), load("res://Levels/MAIN_9.tscn"))
 		#LEVEL ICON END
-		
-		
+	
 	#EPISODE END
 	
 	
-	
-	#load saved level state
+	#Load saved level states.
 	
 	#RI1
 	if Globals.selected_episode == "Additional Levels":
@@ -120,9 +116,7 @@ func _ready():
 			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI1_" + str(icon.level_number))
 			print("Saved level completion state: ", icon.level_state)
 		
-		
 		Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_RI1")
-		
 	
 	#Main Levels
 	elif Globals.selected_episode == "Main Levels":
@@ -139,22 +133,13 @@ func _ready():
 		total_score = LevelTransition.get_node("%saved_progress").get("total_score")
 		
 		#Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_MAIN")
-		
-	
 	
 	Globals.progress_loadingFinished.emit()
 	print(Globals.selected_episode)
 	$level_icon_container/level_button_root/level_button.grab_focus()
 	%ColorRect.visible = true
 	%fade_animation.play("fade_from_black")
-	
 
-
-
-
-#var Icon_ID = -1
-#var Position = Vector2(0, 0)
-#var Level_FilePath = load("res://Levels/RI1_1.tscn")
 
 func place_level_icon(Icon_ID, Position, Level_FilePath):
 	
@@ -171,12 +156,6 @@ func place_level_icon(Icon_ID, Position, Level_FilePath):
 	%level_icon_container.add_child(level_icon)
 
 
-
-
-
-
-
-
 func _on_enable_score_attack_mode_pressed():
 	if Globals.mode_scoreAttack == false:
 		Globals.mode_scoreAttack = true
@@ -185,8 +164,6 @@ func _on_enable_score_attack_mode_pressed():
 	elif Globals.mode_scoreAttack == true:
 		Globals.mode_scoreAttack = false
 		$"menu_main/menu_container/Enable Score Attack Mode/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
-		
-		
 
 
 func _on_main_menu_pressed():
@@ -194,11 +171,12 @@ func _on_main_menu_pressed():
 
 
 func _on_back_to_overworld_pressed():
-	#SavedData.saved_last_area_filePath = "res://Levels/Overworld.tscn"
 	var saved_level = load(SavedData.saved_last_area_filePath)
+	
+	#DEBUG
+	if saved_level == load("res://Levels/empty.tscn"):
+		saved_level = load("res://Levels/overworld_infected_glades.tscn")
+	
 	await LevelTransition.fade_to_black()
 	Globals.transitioned = false
 	get_tree().change_scene_to_packed(saved_level)
-
-
-
