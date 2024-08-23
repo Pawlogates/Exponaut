@@ -53,12 +53,6 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="bg_current" parent="." index="11"]
-b_a = 0.25
-
-[node name="bg_previous" parent="." index="12"]
-b_a = 0.25
-
 [node name="kill_area" parent="." index="16" instance=ExtResource("7_c6cl6")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)

@@ -795,3 +795,17 @@ displayedText_size = 2
 position = Vector2(-1824, -1056)
 displayedText = "Golden apple gates will open if you collect the required amount of golden apples."
 displayedText_size = 2
+
+[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@40708" to="tileset_objects/@Area2D@40708" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@40716" to="tileset_objects/@Area2D@40716" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@40750" to="tileset_objects/@Area2D@40750" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@40751" to="tileset_objects/@Area2D@40751" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@41018" to="tileset_objects/@Area2D@41018" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@41019" to="tileset_objects/@Area2D@41019" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@41246" to="tileset_objects/@Area2D@41246" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@41247" to="tileset_objects/@Area2D@41247" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@41248" to="tileset_objects/@Area2D@41248" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@41249" to="tileset_objects/@Area2D@41249" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@41250" to="tileset_objects/@Area2D@41250" method="_on_area_entered"]

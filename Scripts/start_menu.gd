@@ -408,12 +408,12 @@ func delete_saves():
 		dir.remove("user://savegame.save")
 	
 	#area states
-	if dir.file_exists("user://savegame_theBeginning.save"):
-		dir.remove("user://savegame_theBeginning.save")
-	if dir.file_exists("user://savegame_overworld.save"):
-		dir.remove("user://savegame_overworld.save")
-	if dir.file_exists("user://savegame_overworld.save"):
-		dir.remove("user://savegame_overworld2.save")
+	if dir.file_exists("user://savegame_overworld_factory.save"):
+		dir.remove("user://savegame_overworld_factory.save")
+	if dir.file_exists("user://savegame_overworld_glades.save"):
+		dir.remove("user://savegame_overworld_glades.save")
+	if dir.file_exists("user://savegame_overworld_infected_glades.save"):
+		dir.remove("user://savegame_overworld_infected_glades.save")
 	
 	if dir.file_exists("user://filename.save"):
 		dir.remove("user://filename.save")

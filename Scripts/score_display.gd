@@ -7,11 +7,18 @@ var displayScore = 0
 @onready var streak_label = %Streak
 @onready var comboScore_label = %ComboScore
 
-func _process(_delta):
+func _process(delta):
 	count_score()
 	multiplier_label.text = str("x", Globals.combo_tier)
 	streak_label.text = str(Globals.collected_in_cycle)
 	comboScore_label.text = str(Globals.combo_score)
+	
+	if Globals.collected_in_cycle > 0:
+		comboScore_label.modulate.a = move_toward(comboScore_label.modulate.a, 1, delta)
+	else:
+		comboScore_label.modulate.a = move_toward(comboScore_label.modulate.a, 0, delta)
+	
+	comboScore_label.scale = comboScore_label.scale.move_toward(Vector2(1, 1), delta)
 
 
 var count_direction = 1
@@ -45,6 +52,7 @@ func _ready():
 	Globals.saveState_loaded.connect(score_correct_saved)
 	Globals.score_reduced.connect(score_correct)
 	Globals.scoreReset.connect(reset_displayScore)
+	Globals.itemCollected.connect(on_itemCollected)
 
 
 func score_correct_saved():
@@ -57,3 +65,7 @@ func score_correct():
 
 func reset_displayScore():
 	displayScore = 0
+
+
+func on_itemCollected():
+	comboScore_label.scale = Vector2(1.1, 1.1)

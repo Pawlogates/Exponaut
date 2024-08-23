@@ -237,7 +237,7 @@ target_score = 30000
 unique_name_in_owner = true
 position = Vector2(10304, -3712)
 scale = Vector2(4, 6)
-target_area = "res://Levels/Overworld.tscn"
+target_area = "res://Levels/overworld_infected_glades.tscn"
 next_transition = 1
 
 [node name="wind_area" parent="." index="42" instance=ExtResource("17_6ar0g")]

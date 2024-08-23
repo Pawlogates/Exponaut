@@ -106,7 +106,7 @@ func _on_collectible_entered(body):
 		
 		Globals.level_score += collectibleScoreValue
 	
-	if Globals.collected_in_cycle > 0:
+	if Globals.collected_in_cycle > 1:
 		Globals.combo_score += collectibleScoreValue * Globals.combo_tier
 	
 	add_child(starParticleScene.instantiate())

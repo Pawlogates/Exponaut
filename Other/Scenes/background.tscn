@@ -154,6 +154,7 @@ _data = {
 [node name="background" type="Node2D"]
 z_index = -10
 script = ExtResource("1_buqj4")
+b_a = 0.25
 
 [node name="bg_transition" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true

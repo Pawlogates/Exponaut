@@ -19,7 +19,7 @@ func _on_retry_btn_pressed():
 func _on_continue_btn_pressed():
 	#next_level.emit()
 	if Globals.delete_saves:
-		SavedData.saved_last_area_filePath = "res://Levels/Overworld.tscn"
+		SavedData.saved_last_area_filePath = "res://Levels/overworld_infected_glades.tscn"
 	
 	var saved_level = load(SavedData.saved_last_area_filePath)
 	await LevelTransition.fade_to_black()
@@ -240,5 +240,3 @@ func count_inventoryItems():
 	if Globals.inventory_currentItemCount > 0:
 		displayedBonus_items += 1000
 		
-
-
