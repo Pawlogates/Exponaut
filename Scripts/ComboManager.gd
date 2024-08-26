@@ -24,7 +24,7 @@ func check_combo_tier():
 	elif Globals.collected_in_cycle > 5:
 		Globals.combo_tier = 2
 	
-	elif Globals.collected_in_cycle > 0:
+	elif Globals.collected_in_cycle >= 0:
 		Globals.combo_tier = 1
 	
 	
@@ -75,5 +75,10 @@ func reset_combo_cycle_long():
 
 
 func _on_collectible_streak_timer_timeout():
-	print("Collectible streak finished.")
+	var comboScore_value_display = preload("res://Other/Scenes/score_value.tscn").instantiate()
+	comboScore_value_display.score = Globals.combo_score
+	comboScore_value_display.position = $/root/World.player.position
+	$/root/World.add_child(comboScore_value_display)
+	
 	reset_combo_tier()
+	print("Collectible streak finished.")

@@ -573,7 +573,6 @@ safe_margin = 0.1
 script = ExtResource("1_gy5p5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 shape = SubResource("RectangleShape2D_fshcs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -619,7 +618,6 @@ position_smoothing_speed = 4.0
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_tileDetection"]
-visible = false
 shape = SubResource("RectangleShape2D_q480c")
 debug_color = Color(0.611765, 0.537255, 0, 0.419608)
 
@@ -630,7 +628,6 @@ collision_mask = 7
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_main"]
-visible = false
 shape = SubResource("RectangleShape2D_ct51a")
 debug_color = Color(0.984314, 0, 0.329412, 0.419608)
 

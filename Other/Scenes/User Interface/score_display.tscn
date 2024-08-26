@@ -1,61 +1,218 @@
-[gd_scene load_steps=3 format=3 uid="uid://4rdhbwr8gea4"]
+[gd_scene load_steps=5 format=3 uid="uid://4rdhbwr8gea4"]
 
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="1_i4dtr"]
 [ext_resource type="Script" path="res://Scripts/score_display.gd" id="2_y2l1u"]
+
+[sub_resource type="Animation" id="Animation_k00jd"]
+resource_name = "comboScore_show"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4g1wx"]
+_data = {
+"comboScore_show": SubResource("Animation_k00jd")
+}
 
 [node name="ScoreDisplay" type="Node2D"]
 process_mode = 3
 script = ExtResource("2_y2l1u")
 
-[node name="ColorRect" type="ColorRect" parent="."]
-z_index = -1
-offset_right = 384.0
-offset_bottom = 195.0
-color = Color(0, 0, 0, 1)
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_4g1wx")
+}
 
-[node name="Score" type="Label" parent="."]
-unique_name_in_owner = true
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 offset_right = 384.0
-offset_bottom = 120.0
+offset_bottom = 128.0
+
+[node name="bg_score" type="Control" parent="Control"]
+z_index = -1
+anchors_preset = 0
+offset_right = 384.0
+offset_bottom = 64.0
+
+[node name="ColorRect" type="ColorRect" parent="Control/bg_score"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect" type="ColorRect" parent="Control/bg_score/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00260417
+anchor_top = 0.015625
+anchor_right = 0.0234375
+anchor_bottom = 1.01563
+offset_left = -3.0
+offset_top = -2.0
+offset_right = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.140447, 0.140447, 0.140447, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect2" type="ColorRect" parent="Control/bg_score/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.00521
+anchor_top = 0.03125
+anchor_right = 1.02604
+anchor_bottom = 1.03125
+offset_left = -4.0
+offset_top = -3.0
+offset_right = -8.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.140447, 0.140447, 0.140447, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect3" type="ColorRect" parent="Control/bg_score/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.00520833
+anchor_top = 0.03125
+anchor_right = 1.0
+anchor_bottom = 0.125
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 2.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.140447, 0.140447, 0.140447, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect4" type="ColorRect" parent="Control/bg_score/ColorRect"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0104167
+anchor_top = 1.0625
+anchor_right = 1.00521
+anchor_bottom = 1.15625
+offset_left = -6.0
+offset_top = -6.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.140447, 0.140447, 0.140447, 1)
+metadata/_edit_use_anchors_ = true
+
+[node name="bg_comboScore" type="Control" parent="Control"]
+z_index = -2
+anchors_preset = 0
+offset_right = 384.0
+offset_bottom = 64.0
+
+[node name="ColorRect2" type="ColorRect" parent="Control/bg_comboScore"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Score" type="Label" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0625
+anchor_top = 0.1875
+anchor_right = 0.9375
+anchor_bottom = 0.3125
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_i4dtr")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 56
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 48
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="Multiplier" type="Label" parent="."]
+[node name="Multiplier" type="Label" parent="Control"]
 unique_name_in_owner = true
-offset_top = 165.0
-offset_right = 384.0
-offset_bottom = 285.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.416667
+anchor_top = 1.25
+anchor_right = 0.583333
+anchor_bottom = 1.25
+offset_left = -32.0
+offset_top = -16.0
+offset_right = 32.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_i4dtr")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 32
 text = "x1"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="Streak" type="Label" parent="."]
+[node name="Streak" type="Label" parent="Control"]
 unique_name_in_owner = true
-offset_top = 210.0
-offset_right = 384.0
-offset_bottom = 330.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.375
+anchor_top = 1.625
+anchor_right = 0.625
+anchor_bottom = 1.625
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_i4dtr")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 32
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
-[node name="ComboScore" type="Label" parent="."]
+[node name="ComboScore" type="Label" parent="Control"]
 unique_name_in_owner = true
-offset_top = 75.0
-offset_right = 384.0
-offset_bottom = 195.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.0625
+anchor_top = 0.6875
+anchor_right = 0.9375
+anchor_bottom = 0.8125
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
 theme = ExtResource("1_i4dtr")
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_font_sizes/font_size = 56
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 48
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

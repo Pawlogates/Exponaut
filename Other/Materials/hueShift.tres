@@ -4,4 +4,4 @@
 
 [resource]
 shader = ExtResource("1_h3y3r")
-shader_parameter/Shift_Hue = 0.0
+shader_parameter/Shift_Hue = 0.25

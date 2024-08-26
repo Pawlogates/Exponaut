@@ -198,6 +198,9 @@ func _process(_delta):
 var bonus_material = preload("res://Other/Materials/bonus_material.tres")
 
 func _on_collectible_entered(body):
+	if not body.is_in_group("player") and not body.is_in_group("player_projectile"):
+		return
+	
 	inside_check_enter(body)
 	
 	if is_gift and get_tree().get_nodes_in_group("in_inventory").size() >= 6:
@@ -528,7 +531,7 @@ func inside_check_enter(body):
 			
 			direction = body.direction
 		
-	if body.is_in_group("enemies"):
+	elif body.is_in_group("enemies"):
 		enemy_inside = true
 		if collidable:
 			collidable = false
@@ -536,7 +539,7 @@ func inside_check_enter(body):
 			
 			direction = body.direction
 		
-	if body.is_in_group("player_projectile"):
+	elif body.is_in_group("player_projectile"):
 		player_projectile_inside = true
 		if collidable:
 			collidable = false

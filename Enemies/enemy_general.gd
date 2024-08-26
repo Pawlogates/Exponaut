@@ -361,7 +361,6 @@ func _on_area_2d_area_entered(area):
 				world.player.air_jump = true
 				world.player.wall_jump = true
 			
-			
 			handle_damage(area)
 	
 	

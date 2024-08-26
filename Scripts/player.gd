@@ -252,25 +252,38 @@ func apply_gravity(delta):
 					velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE * insideWater_multiplier
 				else:
 					velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE
+			
+			elif Input.is_action_pressed("move_DOWN"):
+				if inside_water:
+					velocity.y += gravity * 2.0 * delta * GRAVITY_SCALE * insideWater_multiplier
+				else:
+					velocity.y += gravity * 4.0 * delta * GRAVITY_SCALE
+			
 			else:
 				if inside_water:
 					velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE * insideWater_multiplier
 				else:
 					velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE
-				
+			
+	
 	if not dead and is_dashing:
-		sprite.play("crouch")
 		if not speedBlockActive or dash_slowdown:
 			dash_speed_block.start()
+		
 		speedBlockActive = true
+		sprite.play("crouch")
+		
 		if started_dash == false or dash_slowdown:
 			velocity.x = 0
-		else:
-			velocity.y += gravity * delta * 2 * GRAVITY_SCALE
-			
-			velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
-			
 		
+		else:
+			if Input.is_action_pressed("move_DOWN"):
+				velocity.y += gravity * delta * 4 * GRAVITY_SCALE
+				velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
+			else:
+				velocity.y += gravity * delta * 2 * GRAVITY_SCALE
+				velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
+	
 	else:
 		started_dash = false
 	
@@ -314,7 +327,7 @@ func handle_jump(delta):
 	if dash_end_slowdown_await_jump and is_on_floor() and Input.is_action_just_pressed("jump"):
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
-		velocity.x = SPEED * 4.5 * direction
+		velocity.x = base_SPEED * 4.5 * direction
 	
 	
 	#NORMAL JUMP
@@ -351,7 +364,7 @@ func handle_jump(delta):
 	elif not on_floor and not on_wall and not wall_jump_leniency.time_left > 0.0 or not on_floor and on_wall and not wall_jump and wall_jump_leniency.time_left > 0.0:
 		if Input.is_action_just_released("jump") and velocity.y < JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
-		if can_air_jump and Input.is_action_just_pressed("jump") and air_jump:
+		if can_air_jump and Input.is_action_just_pressed("jump") and air_jump and not Input.is_action_pressed("move_DOWN"):
 			if inside_water:
 				velocity.y = JUMP_VELOCITY * 0.8 * insideWater_multiplier
 			else:
@@ -613,6 +626,7 @@ func _on_dash_end_slowdown_active_timeout():
 	just_landed_queued = false
 	just_landed = false
 	dash_end_slowdown_await_jump = false
+	animation_player2.play("streak_reset")
 
 
 #SAVE START

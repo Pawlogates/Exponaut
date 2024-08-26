@@ -17,16 +17,16 @@ vec4 applyPalette(vec4 sprTex)
 {	// Palette data
 	ivec2	palSize	 = textureSize(palette, 0);
 	int		palCount = palSize.x * palSize.y;
-	
+
 	// Color channel data
 	float idxPalette = floor(sprTex.r * 256.00);	// Color index
 	float idxCycEnds = floor(sprTex.g * 256.00);	// Color cycle end index
 	float idxCycLeng = floor(sprTex.b * 256.00);	// Color cycle length
-	
+
 	// Cycling
 	float idxCycle	 = cycleOffset + TIME * cycleRate;	// Cycle frame
 	float idxCycNext = idxPalette;
-	
+
 	// Ignore index #0
 	if (idxPalette > 0.0)
 	{
@@ -37,7 +37,7 @@ vec4 applyPalette(vec4 sprTex)
 				{
 					idxPalette = floor(idxPalette + mod(idxCycle, idxCycLeng));
 					idxCycNext = idxPalette + 1.0;
-					
+
 					// Wrap indices around if they exceed end of cycle
 					if (idxPalette > idxCycEnds)
 						idxPalette -= idxCycLeng;
@@ -56,15 +56,15 @@ vec4 applyPalette(vec4 sprTex)
 		idxPalette = mod(idxPalette - 1.0, float(palCount - 1)) + 1.0;
 		idxCycNext = mod(idxCycNext - 1.0, float(palCount - 1)) + 1.0;
 	}
-	
+
 	// Palette sampler UV
 	float yxUV = idxPalette / float(palSize.x);
-	
+
 	// Sample palette from center of pixel (maximum result accuracy)
 	float xUV = fract(yxUV) + (0.5 / float(palSize.x));
 	float yUV = floor(yxUV) / float(palSize.y) + (0.5 / float(palSize.y));
 	vec2 palUV = vec2(xUV, yUV);
-	
+
 	if (!colorBlending)
 	{
 		// Unblended result
@@ -74,12 +74,12 @@ vec4 applyPalette(vec4 sprTex)
 	{
 		// Next cycle step sampler UV
 		float nyxUV = idxCycNext / float(palSize.x);
-		
+
 		// Center next index sampler
 		float nxUV = fract(nyxUV) + (0.5 / float(palSize.x));
 		float nyUV = floor(nyxUV) / float(palSize.y) + (0.5 / float(palSize.y));
 		vec2 nxtUV = vec2(nxUV, nyUV);
-		
+
 		// Blend result
 		vec4 pixel	= texture(palette, palUV);
 		vec4 next	= texture(palette, nxtUV);
@@ -92,8 +92,7 @@ void fragment()
 	if (!disableProcessing)
 	{
 		COLOR = applyPalette(texture(TEXTURE, UV)) * modulate * COLOR.a;
-		
+
 	}
 
 }
-
