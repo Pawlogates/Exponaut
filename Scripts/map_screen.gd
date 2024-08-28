@@ -101,7 +101,7 @@ func _ready():
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(324, -36), load("res://Levels/MAIN_9.tscn"))
+		place_level_icon(5, Vector2(324, -36), load("res://Levels/testLevel_collectibles.tscn"))
 		#LEVEL ICON END
 	
 	#EPISODE END

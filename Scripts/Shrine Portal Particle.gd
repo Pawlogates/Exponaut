@@ -63,4 +63,3 @@ func _physics_process(delta):
 		queue_free()
 		print("Removed this shrine portal particle.")
 	
-

@@ -12,6 +12,8 @@ func _ready():
 	#DEBUG
 	%main_menu.visible = true
 	%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	menu_appearance(1, 1, true, 2000)
+	
 	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		%StartGame.grab_focus()
 	else:
@@ -22,6 +24,7 @@ func _ready():
 	
 	await get_tree().create_timer(0.5, false).timeout
 	%fade_animation.play("fade_from_black")
+	correct_button_ordering()
 	await get_tree().create_timer(3, false).timeout
 	%fade_animation.play("fade_to_black")
 
@@ -75,7 +78,7 @@ func _on_fade_animation_animation_finished(anim_name):
 	if anim_name == "fade_to_black":
 		SavedData.savedData_load()
 		
-		%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
+		#%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
 		
 		%fade_animation.play("fade_from_black")
 		
@@ -86,7 +89,11 @@ func _on_fade_animation_animation_finished(anim_name):
 
 
 #BUTTONS
-func menu_appearance(group_number, anim_number, randomize_value, value_range): # set anim_number to 0 for random animation.
+func menu_appearance(group_number, anim_number, randomize_value, value_range): # Set anim_number to 0 for random animation.
+	for button in get_tree().get_nodes_in_group("buttons"):
+		button.showing_up = false
+		button.moving = false
+	
 	for button in get_tree().get_nodes_in_group("group" + str(group_number)):
 		button.showing_up = false
 		button.modulate.a = 0
@@ -144,6 +151,7 @@ func _on_options_pressed():
 	%Graphics.grab_focus()
 	
 	menu_appearance(2, 2, false, 5)
+	deco_correct_polygons()
 
 
 func _on_graphics_pressed():
@@ -160,6 +168,7 @@ func _on_graphics_pressed():
 	%Resolution.grab_focus()
 	
 	menu_appearance(3, 2, true, 3)
+	deco_correct_polygons()
 
 
 func _on_resolution_pressed():
@@ -176,6 +185,7 @@ func _on_resolution_pressed():
 	%AutoResolution.grab_focus()
 	
 	menu_appearance(8, 1, true, 2000)
+	deco_correct_polygons()
 
 
 func _on_refreshrate_pressed():
@@ -192,6 +202,7 @@ func _on_refreshrate_pressed():
 	%AutoRefreshrate.grab_focus()
 	
 	menu_appearance(9, 0, true, 2000)
+	deco_correct_polygons()
 
 
 func _on_audio_pressed():
@@ -208,6 +219,7 @@ func _on_audio_pressed():
 	%"Music +".grab_focus()
 	
 	menu_appearance(4, 0, true, 2000)
+	deco_correct_polygons()
 
 
 func _on_cheats_pressed():
@@ -224,6 +236,7 @@ func _on_cheats_pressed():
 	%"Toggle Quicksaves".grab_focus()
 	
 	menu_appearance(7, 3, true, 2)
+	deco_correct_polygons()
 
 
 func _on_other_pressed():
@@ -240,6 +253,7 @@ func _on_other_pressed():
 	%"User Interface Type".grab_focus()
 	
 	menu_appearance(5, 0, true, 2000)
+	deco_correct_polygons()
 
 
 
@@ -453,3 +467,25 @@ func correct_toggle_buttons():
 
 func _on_user_interface_type_pressed():
 	pass # Replace with function body.
+
+
+func correct_button_ordering():
+	var x = 0
+	for button in get_tree().get_nodes_in_group("buttons_root") + get_tree().get_nodes_in_group("buttons_deco"):
+		button.z_index = x
+		x += 1
+
+func deco_correct_polygons():
+	for button in get_tree().get_nodes_in_group("buttons"):
+		if button.has_method("correct_polygons"):
+			button.correct_polygons()
+
+
+func _process(delta):
+	pass
+	#if Input.is_action_just_pressed("show_debugInfo"):
+		#var x = 0
+		#for button in get_tree().get_nodes_in_group("buttons"):
+			#button.z_index = x
+			#print(button.z_index)
+			#x += 1

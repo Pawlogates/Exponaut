@@ -459,9 +459,9 @@ moveCamera = true
 camera_baseOffset = -300
 minOffset = -300
 maxOffset = -300
-camera_baseOffset_Y = 400
-minOffset_Y = 400
-maxOffset_Y = 400
+camera_baseOffset_Y = 650
+minOffset_Y = 650
+maxOffset_Y = 650
 
 [node name="trigger_positional13" parent="." index="68" instance=ExtResource("26_clhao")]
 position = Vector2(5344, -5184)

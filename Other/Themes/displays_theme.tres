@@ -7,7 +7,6 @@
 [resource]
 default_font = ExtResource("1_kheqq")
 default_font_size = 32
-Button/colors/font_color = Color(1, 1, 1, 1)
 Button/colors/font_focus_color = Color(1, 1, 1, 0.827451)
 Button/fonts/font = ExtResource("1_kheqq")
 Button/styles/disabled = ExtResource("2_v8205")

@@ -1,12 +1,39 @@
-[gd_scene load_steps=13 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=21 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_j2qdm"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="2_fbau1"]
 [ext_resource type="AudioStream" uid="uid://dfoqdahqfeem3" path="res://Assets/Sounds/music/factory3.mp3" id="3_27u0b"]
 [ext_resource type="Script" path="res://Scripts/menu_button.gd" id="4_5ppq6"]
-[ext_resource type="Texture2D" uid="uid://c4lir88jf7e0r" path="res://Assets/Graphics/backgrounds/bg_cosmos_red.png" id="4_pv502"]
+[ext_resource type="Shader" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_g50ce"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="6_dumls"]
 [ext_resource type="Script" path="res://Scripts/menu_deco_bg.gd" id="6_wno4y"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="9_aijrc"]
+
+[sub_resource type="Gradient" id="Gradient_pk7t1"]
+offsets = PackedFloat32Array(0, 0.5, 1)
+colors = PackedColorArray(0.227451, 0, 0.623529, 1, 0.110214, 0.000903703, 0.41854, 1, 0.227451, 0, 0.623529, 1)
+metadata/_snap_enabled = true
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
+gradient = SubResource("Gradient_pk7t1")
+fill_from = Vector2(1, 0)
+fill_to = Vector2(0, 0)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x7ot7"]
+shader = ExtResource("5_g50ce")
+shader_parameter/disableProcessing = false
+shader_parameter/modulate = Color(1, 0, 0, 1)
+shader_parameter/cycleMode = 2
+shader_parameter/cycleRate = 10.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true
+shader_parameter/palette = SubResource("GradientTexture2D_ie5v4")
+
+[sub_resource type="Gradient" id="Gradient_6e8e5"]
+colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8ibil"]
+gradient = SubResource("Gradient_6e8e5")
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
 length = 0.001
@@ -61,6 +88,41 @@ _data = {
 "fade_to_black": SubResource("Animation_7qc2w")
 }
 
+[sub_resource type="Shader" id="Shader_o6u4a"]
+code = "shader_type canvas_item;
+
+uniform float strength: hint_range(0., 1.) = 0.5;
+uniform float speed: hint_range(0., 10.) = 0.5;
+uniform float angle: hint_range(0., 360.) = 0.;
+
+void fragment() {
+    float hue = UV.x * cos(radians(angle)) - UV.y * sin(radians(angle));
+    hue = fract(hue + fract(TIME  * speed));
+    float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
+    vec3 rainbow;
+    if(hue < 1./6.){
+        rainbow = vec3(1., x, 0.);
+    } else if (hue < 1./3.) {
+        rainbow = vec3(x, 1., 0);
+    } else if (hue < 0.5) {
+        rainbow = vec3(0, 1., x);
+    } else if (hue < 2./3.) {
+        rainbow = vec3(0., x, 1.);
+    } else if (hue < 5./6.) {
+        rainbow = vec3(x, 0., 1.);
+    } else {
+        rainbow = vec3(1., 0., x);
+    }
+    vec4 color = texture(TEXTURE, UV);
+    COLOR = mix(color, vec4(rainbow, color.a), strength) * COLOR.a;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qht5b"]
+shader = SubResource("Shader_o6u4a")
+shader_parameter/strength = 0.5
+shader_parameter/speed = 0.5
+shader_parameter/angle = 320.0
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_7vxly"]
 atlas = ExtResource("6_dumls")
 region = Rect2(896, 123, 360, 144)
@@ -79,6 +141,7 @@ stream = ExtResource("3_27u0b")
 
 [node name="main_menu" type="Control" parent="."]
 unique_name_in_owner = true
+visible = false
 layout_mode = 2
 
 [node name="menu_container" type="VBoxContainer" parent="main_menu"]
@@ -114,6 +177,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Control/Continue"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -128,6 +192,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Continue[/wave]"
@@ -151,6 +218,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Control2/StartGame"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -165,6 +233,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Start new game[/wave]"
@@ -188,6 +259,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Control3/Levels"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -202,6 +274,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Levels[/wave]"
@@ -224,6 +299,7 @@ grow_vertical = 2
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Control4/Options"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -238,6 +314,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Options[/wave]"
@@ -260,6 +339,7 @@ grow_vertical = 2
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="main_menu/menu_container/Control5/Quit"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -274,6 +354,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Quit[/wave]"
@@ -318,6 +401,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control/Graphics"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -332,6 +416,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Graphics[/wave]"
@@ -354,6 +441,7 @@ grow_vertical = 2
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control2/Audio"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -368,6 +456,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Audio[/wave]"
@@ -390,6 +481,7 @@ grow_vertical = 2
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control3/Other"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -404,6 +496,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Other[/wave]"
@@ -426,6 +521,7 @@ grow_vertical = 2
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control4/Cheats"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -440,6 +536,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Cheats[/wave]"
@@ -462,6 +561,7 @@ grow_vertical = 2
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control5/ReturnOptions"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -476,6 +576,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
@@ -520,6 +623,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="graphics_menu/menu_container/Control/Resolution"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -534,6 +638,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Resolution[/wave]"
@@ -557,6 +664,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="graphics_menu/menu_container/Control2/Refreshrate"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -571,6 +679,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Refreshrate[/wave]"
@@ -594,6 +705,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="graphics_menu/menu_container/Control3/ReturnGraphics"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -608,6 +720,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
@@ -654,8 +769,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-350, -40)
+polygon2_position = Vector2(-350, 40)
+polygon3_position = Vector2(-500, 40)
+polygon4_position = Vector2(-500, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Music/Control/Music +"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -670,6 +790,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]P[/wave]"
@@ -691,8 +814,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-350, -40)
+polygon2_position = Vector2(-350, 40)
+polygon3_position = Vector2(-500, 40)
+polygon4_position = Vector2(-500, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Music/Control2/Music -"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -707,6 +835,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]-[/wave]"
@@ -732,8 +863,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-350, -40)
+polygon2_position = Vector2(-350, 40)
+polygon3_position = Vector2(-500, 40)
+polygon4_position = Vector2(-500, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Effects/Control/Effects +"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -748,6 +884,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]P[/wave]"
@@ -769,8 +908,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-350, -40)
+polygon2_position = Vector2(-350, 40)
+polygon3_position = Vector2(-500, 40)
+polygon4_position = Vector2(-500, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Effects/Control2/Effects -"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -785,6 +929,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]-[/wave]"
@@ -807,8 +954,11 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(400, -40)
+polygon2_position = Vector2(400, 40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Control/ReturnAudio"]
+z_index = 125
 clip_contents = false
 layout_mode = 0
 offset_left = 24.0
@@ -816,6 +966,9 @@ offset_top = 24.0
 offset_right = 984.0
 offset_bottom = 88.0
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
@@ -846,7 +999,7 @@ theme = ExtResource("1_j2qdm")
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 
-[node name="User Interface Type" type="Button" parent="other_menu/menu_container/Control" groups=["group7"]]
+[node name="User Interface Type" type="Button" parent="other_menu/menu_container/Control" groups=["group5"]]
 unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
@@ -859,6 +1012,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="other_menu/menu_container/Control/User Interface Type"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -873,6 +1027,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]User Interface Type[/wave]"
@@ -896,6 +1053,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="other_menu/menu_container/Control2/ReturnOther"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -910,6 +1068,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
@@ -955,6 +1116,7 @@ script = ExtResource("4_5ppq6")
 episode_select = "Additional Levels"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control/Additional Levels"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -969,6 +1131,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Additional Levels[/wave]"
@@ -993,6 +1158,7 @@ script = ExtResource("4_5ppq6")
 episode_select = "Main Levels"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control2/Main Levels"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1007,6 +1173,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Main Levels[/wave]"
@@ -1051,6 +1220,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="cheats_menu/menu_container/Control2/Toggle Quicksaves"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1065,6 +1235,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Enable Quicksaves[/wave]"
@@ -1088,6 +1261,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="cheats_menu/menu_container/Control3/ReturnCheats"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1098,6 +1272,9 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
@@ -1142,6 +1319,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/Control/AutoResolution"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1156,6 +1334,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Auto[/wave]"
@@ -1179,6 +1360,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/Control2/1280 x 720"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1193,6 +1375,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]1280 x 720[/wave]"
@@ -1216,6 +1401,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/Control3/1920 x 1080"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1230,6 +1416,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]1920 x 1080[/wave]"
@@ -1253,6 +1442,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/Control4/2560 x 1440"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1267,6 +1457,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]2560 x 1440[/wave]"
@@ -1290,6 +1483,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/Control5/3840 x 2160"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1304,6 +1498,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]3840 x 2160[/wave]"
@@ -1327,6 +1524,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="resolution_menu/menu_container/Control6/ReturnResolution"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1337,6 +1535,9 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
@@ -1381,8 +1582,13 @@ grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-250, -40)
+polygon2_position = Vector2(-250, 40)
+polygon3_position = Vector2(-450, 40)
+polygon4_position = Vector2(-450, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/Control/AutoRefreshrate"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1397,6 +1603,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Auto[/wave]"
@@ -1418,8 +1627,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-250, -40)
+polygon2_position = Vector2(-250, 40)
+polygon3_position = Vector2(-450, 40)
+polygon4_position = Vector2(-450, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/Control2/30hz"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1434,6 +1648,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]30hz[/wave]"
@@ -1455,8 +1672,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-250, -40)
+polygon2_position = Vector2(-250, 40)
+polygon3_position = Vector2(-450, 40)
+polygon4_position = Vector2(-450, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/Control3/60hz"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1471,6 +1693,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]60hz[/wave]"
@@ -1492,8 +1717,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-250, -40)
+polygon2_position = Vector2(-250, 40)
+polygon3_position = Vector2(-450, 40)
+polygon4_position = Vector2(-450, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/Control4/75hz"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1508,6 +1738,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]75hz[/wave]"
@@ -1529,8 +1762,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-250, -40)
+polygon2_position = Vector2(-250, 40)
+polygon3_position = Vector2(-450, 40)
+polygon4_position = Vector2(-450, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/Control5/100hz"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1545,6 +1783,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]100hz[/wave]"
@@ -1566,8 +1807,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-250, -40)
+polygon2_position = Vector2(-250, 40)
+polygon3_position = Vector2(-450, 40)
+polygon4_position = Vector2(-450, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/Control6/120hz"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1582,6 +1828,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]120hz[/wave]"
@@ -1603,8 +1852,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-250, -40)
+polygon2_position = Vector2(-250, 40)
+polygon3_position = Vector2(-450, 40)
+polygon4_position = Vector2(-450, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/menu_container/Control7/144hz"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1619,6 +1873,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]144hz[/wave]"
@@ -1651,8 +1908,13 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
+polygon1_position = Vector2(-150, -40)
+polygon2_position = Vector2(-150, 40)
+polygon3_position = Vector2(-500, 40)
+polygon4_position = Vector2(-500, -40)
 
 [node name="RichTextLabel" type="RichTextLabel" parent="refreshrate_menu/Control/ReturnRefreshrate"]
+z_index = 125
 clip_contents = false
 layout_mode = 1
 anchors_preset = 8
@@ -1667,6 +1929,9 @@ offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
 text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
@@ -1676,10 +1941,11 @@ autowrap_mode = 0
 [node name="background" type="TextureRect" parent="."]
 unique_name_in_owner = true
 z_index = -5
+material = SubResource("ShaderMaterial_x7ot7")
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("4_pv502")
+texture = SubResource("GradientTexture1D_8ibil")
 expand_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -1707,6 +1973,7 @@ position_target = Vector2(-416, -316)
 [node name="menu_deco_bg" type="TextureRect" parent="menu_deco_bg_root"]
 unique_name_in_owner = true
 z_index = -4
+material = SubResource("ShaderMaterial_qht5b")
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -1726,6 +1993,7 @@ expand_mode = 1
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
+theme = ExtResource("9_aijrc")
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 2
