@@ -3,11 +3,18 @@ extends CenterContainer
 var startingArea = preload("res://Levels/overworld_factory.tscn")
 var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
+var block_button_sounds = true 
+
 func _ready():
-	last_area_filePath_load()
 	LevelTransition.get_node("%saved_progress").load_game()
+	last_area_filePath_load()
+	
 	hide_everything()
 	correct_toggle_buttons()
+	
+	LevelTransition.fade_from_black()
+	
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	#DEBUG
 	%main_menu.visible = true
@@ -44,29 +51,6 @@ func start_game(): #starts a brand new playthrough and deletes save files
 	get_tree().change_scene_to_packed(startingArea)
 
 
-func _on_continue_pressed():
-	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
-		return
-	
-	print(str(saved_level) + " is the file path of the saved last area level that you are loading into.")
-	saved_level = load(saved_level_filePath)
-	Globals.transitioned = false
-	Globals.next_transition = 0
-	
-	await LevelTransition.fade_to_black()
-	get_tree().change_scene_to_packed(saved_level)
-
-
-func _on_levels_pressed():
-	%main_menu.visible = false
-	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	%episodeSelect_menu.visible = true
-	%episodeSelect_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-	
-	%"Additional Levels".grab_focus()
-
-
 #SELECTED EPISODE
 func _on_episode_button_pressed():
 	await LevelTransition.fade_to_black()
@@ -88,7 +72,6 @@ func _on_fade_animation_animation_finished(anim_name):
 		$AudioStreamPlayer2D.play()
 
 
-#BUTTONS
 func menu_appearance(group_number, anim_number, randomize_value, value_range): # Set anim_number to 0 for random animation.
 	for button in get_tree().get_nodes_in_group("buttons"):
 		button.showing_up = false
@@ -129,13 +112,37 @@ func menu_appearance(group_number, anim_number, randomize_value, value_range): #
 			button.scale = Vector2(abs(value_range), abs(value_range))
 
 
+#BUTTONS
 func _on_start_game_pressed():
 	start_game()
-
 
 func _on_quit_pressed():
 	get_tree().quit()
 
+func _on_continue_pressed():
+	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+		return
+	
+	print(str(saved_level) + " is the file path of the saved last area level that you are loading into.")
+	saved_level = load(saved_level_filePath)
+	Globals.transitioned = false
+	Globals.next_transition = 0
+	
+	await LevelTransition.fade_to_black()
+	get_tree().change_scene_to_packed(saved_level)
+
+func _on_levels_pressed():
+	%main_menu.visible = false
+	%main_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	
+	%episodeSelect_menu.visible = true
+	%episodeSelect_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	menu_appearance(6, 0, true, 2000)
+	deco_correct_polygons()
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%"Additional Levels".grab_focus()
 
 func _on_options_pressed():
 	%main_menu.visible = false
@@ -144,15 +151,15 @@ func _on_options_pressed():
 	%options_menu.visible = true
 	%options_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%menu_deco_bg_root.multiplier_W = 0.6
-	%menu_deco_bg_root.multiplier_H = 1.6
-	%menu_deco_bg_root.position_target = Vector2(-416, -348)
-	
-	%Graphics.grab_focus()
+	%menu_deco_bg_root.multiplier_W = 0.5
+	%menu_deco_bg_root.multiplier_H = 1.5
+	%menu_deco_bg_root.position_target = Vector2(25, -325)
 	
 	menu_appearance(2, 2, false, 5)
 	deco_correct_polygons()
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Graphics.grab_focus()
 
 func _on_graphics_pressed():
 	%options_menu.visible = false
@@ -165,11 +172,11 @@ func _on_graphics_pressed():
 	%menu_deco_bg_root.multiplier_H = 1
 	%menu_deco_bg_root.position_target = Vector2(-430, -340)
 	
-	%Resolution.grab_focus()
-	
 	menu_appearance(3, 2, true, 3)
 	deco_correct_polygons()
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Resolution.grab_focus()
 
 func _on_resolution_pressed():
 	%graphics_menu.visible = false
@@ -178,15 +185,15 @@ func _on_resolution_pressed():
 	%resolution_menu.visible = true
 	%resolution_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%menu_deco_bg_root.multiplier_W = 0.6
-	%menu_deco_bg_root.multiplier_H = 1.8
-	%menu_deco_bg_root.position_target = Vector2(-424, -348)
-	
-	%AutoResolution.grab_focus()
+	%menu_deco_bg_root.multiplier_W = 0.8
+	%menu_deco_bg_root.multiplier_H = 1.2
+	%menu_deco_bg_root.position_target = Vector2(-380, -340)
 	
 	menu_appearance(8, 1, true, 2000)
 	deco_correct_polygons()
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%AutoResolution.grab_focus()
 
 func _on_refreshrate_pressed():
 	%graphics_menu.visible = false
@@ -195,15 +202,15 @@ func _on_refreshrate_pressed():
 	%refreshrate_menu.visible = true
 	%refreshrate_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%menu_deco_bg_root.multiplier_W = 1.2
-	%menu_deco_bg_root.multiplier_H = 0.8
-	%menu_deco_bg_root.position_target = Vector2(-452, -196)
-	
-	%AutoRefreshrate.grab_focus()
+	%menu_deco_bg_root.multiplier_W = 1.1
+	%menu_deco_bg_root.multiplier_H = 0.7
+	%menu_deco_bg_root.position_target = Vector2(-300, -100)
 	
 	menu_appearance(9, 0, true, 2000)
 	deco_correct_polygons()
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%AutoRefreshrate.grab_focus()
 
 func _on_audio_pressed():
 	%options_menu.visible = false
@@ -214,13 +221,13 @@ func _on_audio_pressed():
 	
 	%menu_deco_bg_root.multiplier_W = 1.1
 	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-400, -250)
-	
-	%"Music +".grab_focus()
+	%menu_deco_bg_root.position_target = Vector2(-375, -200)
 	
 	menu_appearance(4, 0, true, 2000)
 	deco_correct_polygons()
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%"Music +".grab_focus()
 
 func _on_cheats_pressed():
 	%options_menu.visible = false
@@ -231,13 +238,13 @@ func _on_cheats_pressed():
 	
 	%menu_deco_bg_root.multiplier_W = 0.9
 	%menu_deco_bg_root.multiplier_H = 0.7
-	%menu_deco_bg_root.position_target = Vector2(-160, -240)
-	
-	%"Toggle Quicksaves".grab_focus()
+	%menu_deco_bg_root.position_target = Vector2(-400, -150)
 	
 	menu_appearance(7, 3, true, 2)
 	deco_correct_polygons()
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%"Toggle Quicksaves".grab_focus()
 
 func _on_other_pressed():
 	%options_menu.visible = false
@@ -248,12 +255,13 @@ func _on_other_pressed():
 	
 	%menu_deco_bg_root.multiplier_W = 1.2
 	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-484, -348)
-	
-	%"User Interface Type".grab_focus()
+	%menu_deco_bg_root.position_target = Vector2(-400, -350)
 	
 	menu_appearance(5, 0, true, 2000)
 	deco_correct_polygons()
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%"User Interface Type".grab_focus()
 
 
 
@@ -268,15 +276,15 @@ func _on_returnOptions_pressed():
 	
 	%menu_deco_bg_root.multiplier_W = 1
 	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-400, -348)
+	%menu_deco_bg_root.position_target = Vector2(-350, -200)
 	
+	menu_appearance(1, 1, true, 2000)
+	
+	await get_tree().create_timer(0.2, false).timeout
 	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		%StartGame.grab_focus()
 	else:
 		%Continue.grab_focus()
-	
-	menu_appearance(1, 1, true, 2000)
-
 
 func _on_returnGraphics_pressed():
 	%options_menu.visible = true
@@ -285,14 +293,14 @@ func _on_returnGraphics_pressed():
 	%graphics_menu.visible = false
 	%graphics_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	%menu_deco_bg_root.multiplier_W = 0.9
-	%menu_deco_bg_root.multiplier_H = 1.6
+	%menu_deco_bg_root.multiplier_W = 0.8
+	%menu_deco_bg_root.multiplier_H = 1.2
 	%menu_deco_bg_root.position_target = Vector2(-120, -348)
 	
-	%Graphics.grab_focus()
-	
 	menu_appearance(2, 0, true, 2000)
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Graphics.grab_focus()
 
 func _on_return_resolution_pressed():
 	%resolution_menu.visible = false
@@ -301,14 +309,14 @@ func _on_return_resolution_pressed():
 	%graphics_menu.visible = true
 	%graphics_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%menu_deco_bg_root.multiplier_W = 1.2
-	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-484, -348)
-	
-	%Resolution.grab_focus()
+	%menu_deco_bg_root.multiplier_W = 1.1
+	%menu_deco_bg_root.multiplier_H = 0.9
+	%menu_deco_bg_root.position_target = Vector2(-375, -275)
 	
 	menu_appearance(3, 0, true, 2000)
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Resolution.grab_focus()
 
 func _on_return_refreshrate_pressed():
 	%refreshrate_menu.visible = false
@@ -317,14 +325,14 @@ func _on_return_refreshrate_pressed():
 	%graphics_menu.visible = true
 	%graphics_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%menu_deco_bg_root.multiplier_W = 1.2
-	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-484, -348)
-	
-	%Refreshrate.grab_focus()
+	%menu_deco_bg_root.multiplier_W = 0.8
+	%menu_deco_bg_root.multiplier_H = 0.6
+	%menu_deco_bg_root.position_target = Vector2(-400, -300)
 	
 	menu_appearance(3, 0, true, 2000)
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Refreshrate.grab_focus()
 
 func _on_return_audio_pressed():
 	%options_menu.visible = true
@@ -335,12 +343,12 @@ func _on_return_audio_pressed():
 	
 	%menu_deco_bg_root.multiplier_W = 1
 	%menu_deco_bg_root.multiplier_H = 1.6
-	%menu_deco_bg_root.position_target = Vector2(-416, -348)
-	
-	%Audio.grab_focus()
+	%menu_deco_bg_root.position_target = Vector2(-350, -350)
 	
 	menu_appearance(2, 0, true, 2000)
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Audio.grab_focus()
 
 func _on_return_other_pressed():
 	%options_menu.visible = true
@@ -353,10 +361,10 @@ func _on_return_other_pressed():
 	%menu_deco_bg_root.multiplier_H = 1.4
 	%menu_deco_bg_root.position_target = Vector2(-360, -320)
 	
-	%Cheats.grab_focus()
-	
 	menu_appearance(2, 0, true, 2000)
-
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Cheats.grab_focus()
 
 func _on_return_cheats_pressed():
 	%options_menu.visible = true
@@ -369,9 +377,10 @@ func _on_return_cheats_pressed():
 	%menu_deco_bg_root.multiplier_H = 1
 	%menu_deco_bg_root.position_target = Vector2(0, -348)
 	
-	%Cheats.grab_focus()
-	
 	menu_appearance(2, 0, true, 2000)
+	
+	await get_tree().create_timer(0.2, false).timeout
+	%Cheats.grab_focus()
 
 
 func _on_toggle_quicksaves_pressed():
@@ -477,11 +486,11 @@ func correct_button_ordering():
 
 func deco_correct_polygons():
 	for button in get_tree().get_nodes_in_group("buttons"):
-		if button.has_method("correct_polygons"):
+		if button.has_method("correct_polygons()"):
 			button.correct_polygons()
 
 
-func _process(delta):
+func _process(_delta):
 	pass
 	#if Input.is_action_just_pressed("show_debugInfo"):
 		#var x = 0
@@ -489,3 +498,10 @@ func _process(delta):
 			#button.z_index = x
 			#print(button.z_index)
 			#x += 1
+
+
+@onready var block_button_sounds_timer = $block_button_sounds
+
+func _on_block_button_sounds_timeout() -> void:
+	print("Button sounds no longer blocked.")
+	block_button_sounds = false

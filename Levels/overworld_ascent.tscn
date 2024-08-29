@@ -100,7 +100,7 @@ scale = Vector2(320, 1)
 unique_name_in_owner = true
 position = Vector2(96, 640)
 scale = Vector2(35, 2)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 10
 spawn_position = Vector2(-448, 320)
 
@@ -108,7 +108,7 @@ spawn_position = Vector2(-448, 320)
 unique_name_in_owner = true
 position = Vector2(2784, 640)
 scale = Vector2(23, 2)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 11
 spawn_position = Vector2(1792, 192)
 
@@ -116,7 +116,7 @@ spawn_position = Vector2(1792, 192)
 unique_name_in_owner = true
 position = Vector2(3872, -512)
 scale = Vector2(3, 10)
-target_area = "res://Levels/Castle.tscn"
+target_area = "res://Levels/overworld_castle.tscn"
 next_transition = 2
 
 [node name="Triggers" type="Node2D" parent="." index="22"]

@@ -621,21 +621,22 @@ func award_score():
 			max_multiplier_particle_amount -= 1
 			call_deferred("spawn_particle_score", 2)
 	
-	#Handle double score particles (temporary powerups).
-	if not player.double_score:
-		return
-	
-	var effective_score = collectibleScoreValue * Globals.combo_tier
-	var particle_amount : int
-	
-	if collectibleScoreValue * Globals.combo_tier < 25:
-		particle_amount = effective_score
-	else:
-		particle_amount = 25
-	
-	while particle_amount > 0:
-		particle_amount -= 1
-		call_deferred("spawn_particle_score", 1)
+	# Handle double score particles (while a temporary powerup is active).
+	if get_node_or_null("$/root/World/player"):
+		if not player.double_score:
+			return
+		
+		var effective_score = collectibleScoreValue * Globals.combo_tier
+		var particle_amount : int
+		
+		if collectibleScoreValue * Globals.combo_tier < 25:
+			particle_amount = effective_score
+		else:
+			particle_amount = 25
+		
+		while particle_amount > 0:
+			particle_amount -= 1
+			call_deferred("spawn_particle_score", 1)
 
 func spawn_particle_score(scale_multiplier : int):
 	var particle = particle_score_scene.instantiate()

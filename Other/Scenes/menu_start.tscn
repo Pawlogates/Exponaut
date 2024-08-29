@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=24 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_j2qdm"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="2_fbau1"]
@@ -125,7 +125,43 @@ shader_parameter/angle = 320.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7vxly"]
 atlas = ExtResource("6_dumls")
-region = Rect2(896, 123, 360, 144)
+region = Rect2(896, 128, 328, 136)
+
+[sub_resource type="Animation" id="Animation_d4oei"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-0.261799, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ap78o"]
+resource_name = "skew_loop"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Node2D:skew")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(-0.261799, -0.25, 0, 1, 0, 0.261799, -1, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ounmy"]
+_data = {
+"RESET": SubResource("Animation_d4oei"),
+"skew_loop": SubResource("Animation_ap78o")
+}
 
 [node name="StartMenu" type="CenterContainer"]
 anchors_preset = 15
@@ -1965,16 +2001,18 @@ libraries = {
 
 [node name="menu_deco_bg_root" type="Control" parent="."]
 unique_name_in_owner = true
+texture_filter = 1
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_wno4y")
-position_target = Vector2(-416, -316)
 
-[node name="menu_deco_bg" type="TextureRect" parent="menu_deco_bg_root"]
+[node name="Node2D" type="Node2D" parent="menu_deco_bg_root"]
+skew = -0.261799
+
+[node name="menu_deco_bg" type="TextureRect" parent="menu_deco_bg_root/Node2D"]
 unique_name_in_owner = true
 z_index = -4
 material = SubResource("ShaderMaterial_qht5b")
-layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -1989,7 +2027,13 @@ grow_vertical = 2
 pivot_offset = Vector2(1000, 500)
 mouse_filter = 2
 texture = SubResource("AtlasTexture_7vxly")
-expand_mode = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="menu_deco_bg_root"]
+libraries = {
+"": SubResource("AnimationLibrary_ounmy")
+}
+autoplay = "skew_loop"
+speed_scale = 0.2
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
@@ -2006,6 +2050,12 @@ text = "Exponaut
 By: Pawlogates
 Thanks for playing!
 BETA-v0.9"
+
+[node name="block_button_sounds" type="Timer" parent="."]
+process_mode = 3
+wait_time = 0.25
+one_shot = true
+autostart = true
 
 [connection signal="focus_entered" from="main_menu/menu_container/Control/Continue" to="main_menu/menu_container/Control/Continue" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Control/Continue" to="main_menu/menu_container/Control/Continue" method="_on_focus_exited"]
@@ -2113,3 +2163,4 @@ BETA-v0.9"
 [connection signal="focus_exited" from="refreshrate_menu/Control/ReturnRefreshrate" to="refreshrate_menu/Control/ReturnRefreshrate" method="_on_focus_exited"]
 [connection signal="pressed" from="refreshrate_menu/Control/ReturnRefreshrate" to="." method="_on_return_refreshrate_pressed"]
 [connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]
+[connection signal="timeout" from="block_button_sounds" to="." method="_on_block_button_sounds_timeout"]

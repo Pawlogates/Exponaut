@@ -23,7 +23,6 @@ func _ready():
 	%icon_levelFinished.visible = false
 	
 	
-	
 	#set level button state
 	await Globals.progress_loadingFinished
 	if not is_main_level and level_number <= Globals.next_level:
@@ -102,7 +101,7 @@ func _ready():
 
 
 func _on_pressed():
-	if unlocked or Globals.debug_mode:
+	if unlocked or Globals.debug_mode or Globals.selected_episode == "Additional Levels":
 		Globals.next_transition = 0
 		%level_start.play()
 		await LevelTransition.fade_to_black_slow()
@@ -110,7 +109,7 @@ func _on_pressed():
 		LevelTransition.fade_from_black_slow()
 		
 		if Globals.selected_episode == "Additional Levels":
-			Globals.current_level_ID = str("RI1_", level_number)
+			Globals.current_level_ID = str("BONUS_", level_number)
 			Globals.current_level_number = level_number
 			
 		elif Globals.selected_episode == "Main Levels":
@@ -119,9 +118,6 @@ func _on_pressed():
 		
 	else:
 		%level_locked.play()
-		
-
-
 
 
 func _on_focus_entered():

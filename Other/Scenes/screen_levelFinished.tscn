@@ -67,6 +67,8 @@ custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("3_v287l")
+menu_name = "none"
+enable_deco = false
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/End Screen/end_screen_container/Level Score"]
 clip_contents = false
@@ -87,6 +89,8 @@ custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("3_v287l")
+menu_name = "none"
+enable_deco = false
 
 [node name="RichTextLabel" type="RichTextLabel" parent="CenterContainer/End Screen/end_screen_container/Total Score"]
 clip_contents = false
@@ -175,6 +179,8 @@ offset_right = 960.0
 offset_bottom = 324.0
 size_flags_horizontal = 4
 script = ExtResource("3_v287l")
+menu_name = "none"
+enable_deco = false
 
 [node name="top_rank_label" type="Label" parent="CenterContainer/End Screen/Top Rank"]
 unique_name_in_owner = true
@@ -196,6 +202,8 @@ offset_right = 960.0
 offset_bottom = 388.0
 size_flags_horizontal = 4
 script = ExtResource("3_v287l")
+menu_name = "none"
+enable_deco = false
 
 [node name="achieved_rank_label" type="Label" parent="CenterContainer/End Screen/Achieved Rank"]
 unique_name_in_owner = true
@@ -233,6 +241,8 @@ custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("3_v287l")
+menu_name = "none"
+enable_deco = false
 
 [node name="Level Score Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Level Score"]
 unique_name_in_owner = true
@@ -248,6 +258,8 @@ custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 script = ExtResource("3_v287l")
+menu_name = "none"
+enable_deco = false
 
 [node name="Total Score Label" type="Label" parent="CenterContainer/End Screen Values/end_screen_container/Total Score"]
 unique_name_in_owner = true

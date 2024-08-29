@@ -1,8 +1,6 @@
 extends ColorRect
 
-
 signal retry()
-signal next_level()
 
 @onready var retry_btn = %RetryBtn
 @onready var level_select_btn = %LevelSelectBtn

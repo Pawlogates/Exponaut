@@ -154,6 +154,8 @@ func _ready():
 		#level_finished.next_level_btn.text = "Results"
 		#next_level = preload("res://VictoryScreen.tscn")
 	
+	
+	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
 	
@@ -220,7 +222,7 @@ func _ready():
 		$/root/World/HUD.visible = false
 		
 		var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
-		meme_spawner.randomize = true
+		meme_spawner.randomize_all = true
 		meme_spawner.position = Vector2(player.position.x + randi_range(-800, 800), player.position.y + randi_range(-500, 500))
 		add_child(meme_spawner)
 	
@@ -1036,7 +1038,7 @@ func reassign_player():
 func _on_meme_mode_timer_timeout():
 	if meme_mode:
 		var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
-		meme_spawner.randomize = true
+		meme_spawner.randomize_all = true
 		meme_spawner.position = Vector2(player.position.x + randi_range(-800, 800), player.position.y + randi_range(-500, 500))
 		add_child(meme_spawner)
 		

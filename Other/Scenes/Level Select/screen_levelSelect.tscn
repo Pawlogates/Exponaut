@@ -1,13 +1,18 @@
-[gd_scene load_steps=16 format=3 uid="uid://1yrqwkydp78d"]
+[gd_scene load_steps=17 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_tevf8"]
 [ext_resource type="Script" path="res://Scripts/map_screen.gd" id="2_7kq8d"]
-[ext_resource type="AudioStream" uid="uid://bvra1tg3kt4at" path="res://Assets/Sounds/music/music_map.mp3" id="3_0pmcl"]
+[ext_resource type="AudioStream" uid="uid://bwf4nucobwg4x" path="res://Assets/Sounds/music/intense1.mp3" id="3_e37xu"]
 [ext_resource type="Script" path="res://Scripts/menu_button.gd" id="4_eht7p"]
-[ext_resource type="Texture2D" uid="uid://buj1tlrawdtgc" path="res://Assets/Graphics/backgrounds/bg_jungle_cavern.png" id="5_e0nv4"]
 [ext_resource type="Script" path="res://Scripts/menu_deco_bg.gd" id="6_ha6nx"]
 [ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="7_x4tce"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="8_ru2um"]
+
+[sub_resource type="Gradient" id="Gradient_uas2u"]
+colors = PackedColorArray(0.618933, 1.73271e-06, 3.85046e-07, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_agkmp"]
+gradient = SubResource("Gradient_uas2u")
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
 length = 0.001
@@ -85,7 +90,7 @@ theme = ExtResource("1_tevf8")
 script = ExtResource("2_7kq8d")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_0pmcl")
+stream = ExtResource("3_e37xu")
 autoplay = true
 
 [node name="menu_main" type="Control" parent="."]
@@ -108,16 +113,27 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_tevf8")
 
-[node name="Enable Score Attack Mode" type="Button" parent="menu_main/menu_container"]
+[node name="Control" type="Control" parent="menu_main/menu_container"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="Enable Score Attack Mode" type="Button" parent="menu_main/menu_container/Control"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
+offset_top = 12.0
+offset_right = 640.0
+offset_bottom = 76.0
 size_flags_horizontal = 4
 script = ExtResource("4_eht7p")
+menu_name = "Map Screen"
+polygon1_position = Vector2(400, -40)
+polygon2_position = Vector2(400, 10)
+polygon3_position = Vector2(-488, 10)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Enable Score Attack Mode"]
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Control/Enable Score Attack Mode"]
 clip_contents = false
 layout_mode = 0
 offset_right = 640.0
@@ -128,16 +144,27 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
 autowrap_mode = 0
 
-[node name="Back to overworld" type="Button" parent="menu_main/menu_container"]
+[node name="Control2" type="Control" parent="menu_main/menu_container"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="Back to overworld" type="Button" parent="menu_main/menu_container/Control2"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
+offset_top = 8.0
+offset_right = 640.0
+offset_bottom = 72.0
 size_flags_horizontal = 4
 script = ExtResource("4_eht7p")
+menu_name = "Map Screen"
+polygon1_position = Vector2(150, -40)
+polygon2_position = Vector2(150, 10)
+polygon3_position = Vector2(-488, 10)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Back to overworld"]
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Control2/Back to overworld"]
 clip_contents = false
 layout_mode = 0
 offset_right = 640.0
@@ -148,16 +175,27 @@ bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]Back to overworld[/wave]"
 autowrap_mode = 0
 
-[node name="Main menu" type="Button" parent="menu_main/menu_container"]
+[node name="Control3" type="Control" parent="menu_main/menu_container"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+
+[node name="Main menu" type="Button" parent="menu_main/menu_container/Control3"]
 unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
+offset_top = 4.0
+offset_right = 640.0
+offset_bottom = 68.0
 size_flags_horizontal = 4
 script = ExtResource("4_eht7p")
+menu_name = "Map Screen"
+polygon1_position = Vector2(-100, -40)
+polygon2_position = Vector2(-100, 10)
+polygon3_position = Vector2(-488, 10)
 
-[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Main menu"]
+[node name="RichTextLabel" type="RichTextLabel" parent="menu_main/menu_container/Control3/Main menu"]
 clip_contents = false
 layout_mode = 0
 offset_right = 640.0
@@ -174,7 +212,7 @@ z_index = -5
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 mouse_filter = 2
-texture = ExtResource("5_e0nv4")
+texture = SubResource("GradientTexture1D_agkmp")
 expand_mode = 1
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -195,19 +233,18 @@ speed_scale = 5.0
 
 [node name="menu_deco_bg_root" type="Control" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(-848, -12)
 layout_mode = 2
 mouse_filter = 2
 script = ExtResource("6_ha6nx")
-multiplier_W = 0.8
+multiplier_W = 1.2
 skew_low = 0.75
 skew_high = 0.8
 scale_low_X = 0.6
 scale_low_Y = 0.65
 scale_high_Y = 0.75
-position_target = Vector2(-848, 212)
-speed_W = 2.0
-speed_H = 1.0
+position_target = Vector2(-800, 150)
+speed_W = 12.0
+speed_H = 4.0
 
 [node name="menu_deco_bg" type="TextureRect" parent="menu_deco_bg_root"]
 unique_name_in_owner = true
@@ -219,12 +256,12 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -752.0
-offset_top = 52.0
-offset_right = -702.0
-offset_bottom = 77.0
+offset_left = -750.0
+offset_right = -700.0
+offset_bottom = 25.0
 grow_horizontal = 2
 grow_vertical = 2
+pivot_offset = Vector2(750, 250)
 mouse_filter = 2
 texture = SubResource("AtlasTexture_7vxly")
 expand_mode = 1
@@ -275,13 +312,13 @@ grow_vertical = 2
 text = "score"
 horizontal_alignment = 1
 
-[connection signal="focus_entered" from="menu_main/menu_container/Enable Score Attack Mode" to="menu_main/menu_container/Enable Score Attack Mode" method="_on_focus_entered"]
-[connection signal="focus_exited" from="menu_main/menu_container/Enable Score Attack Mode" to="menu_main/menu_container/Enable Score Attack Mode" method="_on_focus_exited"]
-[connection signal="pressed" from="menu_main/menu_container/Enable Score Attack Mode" to="." method="_on_enable_score_attack_mode_pressed"]
-[connection signal="focus_entered" from="menu_main/menu_container/Back to overworld" to="menu_main/menu_container/Back to overworld" method="_on_focus_entered"]
-[connection signal="focus_exited" from="menu_main/menu_container/Back to overworld" to="menu_main/menu_container/Back to overworld" method="_on_focus_exited"]
-[connection signal="pressed" from="menu_main/menu_container/Back to overworld" to="." method="_on_back_to_overworld_pressed"]
-[connection signal="focus_entered" from="menu_main/menu_container/Main menu" to="menu_main/menu_container/Main menu" method="_on_focus_entered"]
-[connection signal="focus_exited" from="menu_main/menu_container/Main menu" to="menu_main/menu_container/Main menu" method="_on_focus_exited"]
-[connection signal="pressed" from="menu_main/menu_container/Main menu" to="." method="_on_main_menu_pressed"]
+[connection signal="focus_entered" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="menu_main/menu_container/Control/Enable Score Attack Mode" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="menu_main/menu_container/Control/Enable Score Attack Mode" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="." method="_on_enable_score_attack_mode_pressed"]
+[connection signal="focus_entered" from="menu_main/menu_container/Control2/Back to overworld" to="menu_main/menu_container/Control2/Back to overworld" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Control2/Back to overworld" to="menu_main/menu_container/Control2/Back to overworld" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Control2/Back to overworld" to="." method="_on_back_to_overworld_pressed"]
+[connection signal="focus_entered" from="menu_main/menu_container/Control3/Main menu" to="menu_main/menu_container/Control3/Main menu" method="_on_focus_entered"]
+[connection signal="focus_exited" from="menu_main/menu_container/Control3/Main menu" to="menu_main/menu_container/Control3/Main menu" method="_on_focus_exited"]
+[connection signal="pressed" from="menu_main/menu_container/Control3/Main menu" to="." method="_on_main_menu_pressed"]
 [connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]

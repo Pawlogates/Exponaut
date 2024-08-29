@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=19 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_25muh"]
 [ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_controller.tscn" id="2_1jcpx"]
@@ -10,7 +10,6 @@
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://Other/Scenes/background.tscn" id="8_8ihao"]
 [ext_resource type="PackedScene" uid="uid://c1k7nrn7y624x" path="res://Other/Scenes/User Interface/info_text_display.tscn" id="9_j05p1"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="10_g7uok"]
-[ext_resource type="Script" path="res://Scripts/menu_button.gd" id="11_d5qy3"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://Other/Scenes/screen_levelFinished.tscn" id="12_pstdg"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://Other/Scenes/User Interface/score_display.tscn" id="14_3v85e"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://Other/Scenes/User Interface/checkpoint_display.tscn" id="15_82wab"]
@@ -55,7 +54,6 @@ current = false
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 75
-visible = false
 
 [node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
 anchors_preset = 10
@@ -70,27 +68,18 @@ layout_mode = 2
 [node name="Player Died Root" type="Control" parent="HUD/CenterContainer_info"]
 layout_mode = 2
 
-[node name="Player Died" type="Button" parent="HUD/CenterContainer_info/Player Died Root"]
+[node name="Player Died" type="RichTextLabel" parent="HUD/CenterContainer_info/Player Died Root"]
 unique_name_in_owner = true
 visible = false
-self_modulate = Color(1, 1, 1, 0)
 z_index = 1
-custom_minimum_size = Vector2(640, 64)
-layout_mode = 2
+clip_contents = false
+layout_mode = 0
 offset_left = -320.0
 offset_top = -432.0
 offset_right = 320.0
 offset_bottom = -368.0
-size_flags_horizontal = 4
-theme = ExtResource("10_g7uok")
-script = ExtResource("11_d5qy3")
-
-[node name="Player Died Text" type="RichTextLabel" parent="HUD/CenterContainer_info/Player Died Root/Player Died"]
-clip_contents = false
-layout_mode = 0
-offset_right = 640.0
-offset_bottom = 64.0
 mouse_filter = 2
+theme = ExtResource("10_g7uok")
 theme_override_font_sizes/normal_font_size = 36
 bbcode_enabled = true
 text = "[wave amp=50.0 freq=10.0 connected=1]You died! Try again.[/wave]"
@@ -271,9 +260,6 @@ autostart = true
 wait_time = 4.0
 one_shot = true
 
-[connection signal="focus_entered" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_entered"]
-[connection signal="focus_exited" from="HUD/CenterContainer_info/Player Died Root/Player Died" to="HUD/CenterContainer_info/Player Died Root/Player Died" method="_on_focus_exited"]
-[connection signal="next_level" from="HUD/Level Finished" to="." method="_on_exitReached_next_level"]
 [connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
 [connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]
 [connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]

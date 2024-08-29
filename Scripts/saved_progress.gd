@@ -3,32 +3,32 @@ extends Node2D
 #states 1: 0 - unfinished, 1 - finished, 2 - all big apples collected, 3 - all collectibles collected, -1 - unlocked (main game exclusive)
 
 # Additional levels
-var state_RI1_1 = 0
-var state_RI1_2 = 0
-var state_RI1_3 = 0
-var state_RI1_4 = 0
-var state_RI1_5 = 0
-var state_RI1_6 = 0
-var state_RI1_7 = 0
-var state_RI1_8 = 0
-var state_RI1_9 = 0
-var state_RI1_10 = 0
-var state_RI1_11 = 0
+var state_BONUS_1 = 0
+var state_BONUS_2 = 0
+var state_BONUS_3 = 0
+var state_BONUS_4 = 0
+var state_BONUS_5 = 0
+var state_BONUS_6 = 0
+var state_BONUS_7 = 0
+var state_BONUS_8 = 0
+var state_BONUS_9 = 0
+var state_BONUS_10 = 0
+var state_BONUS_11 = 0
 
-var score_RI1_1 = 0
-var score_RI1_2 = 0
-var score_RI1_3 = 0
-var score_RI1_4 = 0
-var score_RI1_5 = 0
-var score_RI1_6 = 0
-var score_RI1_7 = 0
-var score_RI1_8 = 0
-var score_RI1_9 = 0
-var score_RI1_10 = 0
-var score_RI1_11 = 0
+var score_BONUS_1 = 0
+var score_BONUS_2 = 0
+var score_BONUS_3 = 0
+var score_BONUS_4 = 0
+var score_BONUS_5 = 0
+var score_BONUS_6 = 0
+var score_BONUS_7 = 0
+var score_BONUS_8 = 0
+var score_BONUS_9 = 0
+var score_BONUS_10 = 0
+var score_BONUS_11 = 0
 
-var total_score_RI1 = 0
-var next_level_RI1 = 1
+var total_score_BONUS = 0
+var next_level_BONUS = 1
 
 
 # Main Levels
@@ -64,12 +64,9 @@ var total_score_MAIN = 0
 var next_level_MAIN = -1
 
 
-
-
-
-
 func _ready():
 	Globals.save_progress.connect(save_progress)
+
 
 func save_progress():
 	save_game()
@@ -92,7 +89,7 @@ func count_total_score(current_levelSet, level_count):
 #Save progress
 
 func save_game():
-	var saved_progress_file = FileAccess.open("user://saved_progress.save", FileAccess.WRITE)
+	var saved_progress_file = FileAccess.open("user://saved_levelSetProgress.save", FileAccess.WRITE)
 	var saved_progress_data = call("save")
 
 	# JSON provides a static method to serialized JSON string.
@@ -100,17 +97,14 @@ func save_game():
 
 	# Store the save dictionary as a new line in the save file.
 	saved_progress_file.store_line(json_string)
-	
-
-
 
 
 func load_game():
-	if not FileAccess.file_exists("user://saved_progress.save"):
-		print("Couldn't find the save file (saved_progress - All of the LEVEL SET level completion states and scores).")
+	if not FileAccess.file_exists("user://saved_levelSetProgress.save"):
+		print("Couldn't find the save file (saved_levelSetProgress - All of the LEVEL SET level completion states and scores).")
 		return # Error! We don't have a save to load.
 		
-	var saved_progress_file = FileAccess.open("user://saved_progress.save", FileAccess.READ)
+	var saved_progress_file = FileAccess.open("user://saved_levelSetProgress.save", FileAccess.READ)
 	while saved_progress_file.get_position() < saved_progress_file.get_length():
 		var json_string = saved_progress_file.get_line()
 		var json = JSON.new()
@@ -124,32 +118,32 @@ func load_game():
 		
 		#LOAD PROGRESS
 		
-		#RI1
-		state_RI1_1 = data["state_RI1_1"]
-		state_RI1_2 = data["state_RI1_2"]
-		state_RI1_3 = data["state_RI1_3"]
-		state_RI1_4 = data["state_RI1_4"]
-		state_RI1_5 = data["state_RI1_5"]
-		state_RI1_6 = data["state_RI1_6"]
-		state_RI1_7 = data["state_RI1_7"]
-		state_RI1_8 = data["state_RI1_8"]
-		state_RI1_9 = data["state_RI1_9"]
-		state_RI1_10 = data["state_RI1_10"]
-		state_RI1_11 = data["state_RI1_11"]
+		#BONUS
+		state_BONUS_1 = data["state_BONUS_1"]
+		state_BONUS_2 = data["state_BONUS_2"]
+		state_BONUS_3 = data["state_BONUS_3"]
+		state_BONUS_4 = data["state_BONUS_4"]
+		state_BONUS_5 = data["state_BONUS_5"]
+		state_BONUS_6 = data["state_BONUS_6"]
+		state_BONUS_7 = data["state_BONUS_7"]
+		state_BONUS_8 = data["state_BONUS_8"]
+		state_BONUS_9 = data["state_BONUS_9"]
+		state_BONUS_10 = data["state_BONUS_10"]
+		state_BONUS_11 = data["state_BONUS_11"]
 		
-		score_RI1_1 = data["score_RI1_1"]
-		score_RI1_2 = data["score_RI1_2"]
-		score_RI1_3 = data["score_RI1_3"]
-		score_RI1_4 = data["score_RI1_4"]
-		score_RI1_5 = data["score_RI1_5"]
-		score_RI1_6 = data["score_RI1_6"]
-		score_RI1_7 = data["score_RI1_7"]
-		score_RI1_8 = data["score_RI1_8"]
-		score_RI1_9 = data["score_RI1_9"]
-		score_RI1_10 = data["score_RI1_10"]
-		score_RI1_11 = data["score_RI1_11"]
+		score_BONUS_1 = data["score_BONUS_1"]
+		score_BONUS_2 = data["score_BONUS_2"]
+		score_BONUS_3 = data["score_BONUS_3"]
+		score_BONUS_4 = data["score_BONUS_4"]
+		score_BONUS_5 = data["score_BONUS_5"]
+		score_BONUS_6 = data["score_BONUS_6"]
+		score_BONUS_7 = data["score_BONUS_7"]
+		score_BONUS_8 = data["score_BONUS_8"]
+		score_BONUS_9 = data["score_BONUS_9"]
+		score_BONUS_10 = data["score_BONUS_10"]
+		score_BONUS_11 = data["score_BONUS_11"]
 		
-		next_level_RI1 = data["next_level_RI1"]
+		next_level_BONUS = data["next_level_BONUS"]
 		
 		
 		#MAIN
@@ -186,44 +180,37 @@ func load_game():
 		#LOAD PROGRESS END
 
 
-
-
-
-
-
-
-
 #SAVE START
 
 func save():
 	var save_dict = {
 		
-		#RI1
-		"state_RI1_1" : state_RI1_1,
-		"state_RI1_2" : state_RI1_2,
-		"state_RI1_3" : state_RI1_3,
-		"state_RI1_4" : state_RI1_4,
-		"state_RI1_5" : state_RI1_5,
-		"state_RI1_6" : state_RI1_6,
-		"state_RI1_7" : state_RI1_7,
-		"state_RI1_8" : state_RI1_8,
-		"state_RI1_9" : state_RI1_9,
-		"state_RI1_10" : state_RI1_10,
-		"state_RI1_11" : state_RI1_11,
+		# BONUS
+		"state_BONUS_1" : state_BONUS_1,
+		"state_BONUS_2" : state_BONUS_2,
+		"state_BONUS_3" : state_BONUS_3,
+		"state_BONUS_4" : state_BONUS_4,
+		"state_BONUS_5" : state_BONUS_5,
+		"state_BONUS_6" : state_BONUS_6,
+		"state_BONUS_7" : state_BONUS_7,
+		"state_BONUS_8" : state_BONUS_8,
+		"state_BONUS_9" : state_BONUS_9,
+		"state_BONUS_10" : state_BONUS_10,
+		"state_BONUS_11" : state_BONUS_11,
 		
-		"score_RI1_1" : score_RI1_1,
-		"score_RI1_2" : score_RI1_2,
-		"score_RI1_3" : score_RI1_3,
-		"score_RI1_4" : score_RI1_4,
-		"score_RI1_5" : score_RI1_5,
-		"score_RI1_6" : score_RI1_6,
-		"score_RI1_7" : score_RI1_7,
-		"score_RI1_8" : score_RI1_8,
-		"score_RI1_9" : score_RI1_9,
-		"score_RI1_10" : score_RI1_10,
-		"score_RI1_11" : score_RI1_11,
+		"score_BONUS_1" : score_BONUS_1,
+		"score_BONUS_2" : score_BONUS_2,
+		"score_BONUS_3" : score_BONUS_3,
+		"score_BONUS_4" : score_BONUS_4,
+		"score_BONUS_5" : score_BONUS_5,
+		"score_BONUS_6" : score_BONUS_6,
+		"score_BONUS_7" : score_BONUS_7,
+		"score_BONUS_8" : score_BONUS_8,
+		"score_BONUS_9" : score_BONUS_9,
+		"score_BONUS_10" : score_BONUS_10,
+		"score_BONUS_11" : score_BONUS_11,
 		
-		"next_level_RI1" : next_level_RI1,
+		"next_level_BONUS" : next_level_BONUS,
 		
 		
 		#MAIN

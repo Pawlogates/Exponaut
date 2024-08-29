@@ -516,6 +516,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="set_night" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night"]
 custom_minimum_size = Vector2(128, 0)
@@ -547,6 +548,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="set_night2" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2"]
 custom_minimum_size = Vector2(128, 0)
@@ -578,6 +580,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="set_night3" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3"]
 custom_minimum_size = Vector2(128, 0)
@@ -609,6 +612,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="set_day" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day"]
 custom_minimum_size = Vector2(128, 0)
@@ -639,6 +643,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="delete_all_save_files" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files"]
 custom_minimum_size = Vector2(128, 0)
@@ -670,6 +675,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="delete_background_layers" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers"]
 custom_minimum_size = Vector2(128, 0)
@@ -725,6 +731,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic"]
 custom_minimum_size = Vector2(128, 0)
@@ -773,6 +780,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed"]
 custom_minimum_size = Vector2(128, 0)
@@ -821,6 +829,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice"]
 custom_minimum_size = Vector2(128, 0)
@@ -869,6 +878,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire"]
 custom_minimum_size = Vector2(128, 0)
@@ -917,6 +927,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed"]
 custom_minimum_size = Vector2(128, 0)
@@ -965,6 +976,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay"]
 custom_minimum_size = Vector2(128, 0)
@@ -1013,6 +1025,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic"]
 custom_minimum_size = Vector2(128, 0)
@@ -1061,6 +1074,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast"]
 custom_minimum_size = Vector2(128, 0)
@@ -1109,6 +1123,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet"]
 custom_minimum_size = Vector2(128, 0)
@@ -1179,6 +1194,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="reset_currently_selected_inventory_item" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item"]
 custom_minimum_size = Vector2(128, 0)
@@ -1210,6 +1226,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="set_short_shotDelay" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay"]
 custom_minimum_size = Vector2(128, 0)
@@ -1241,6 +1258,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="set_long_shotDelay" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay"]
 custom_minimum_size = Vector2(128, 0)
@@ -1272,6 +1290,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="toggle_debug_mode" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode"]
 custom_minimum_size = Vector2(128, 0)
@@ -1303,6 +1322,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="set_immortal" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal"]
 custom_minimum_size = Vector2(128, 0)
@@ -1334,6 +1354,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="toggle_magic_projectiles" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles"]
 custom_minimum_size = Vector2(128, 0)
@@ -1388,6 +1409,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="reset_button_blue" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue"]
 custom_minimum_size = Vector2(128, 0)
@@ -1419,6 +1441,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="reset_button_green" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green"]
 custom_minimum_size = Vector2(128, 0)
@@ -1450,6 +1473,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="reset_button_red" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red"]
 custom_minimum_size = Vector2(128, 0)
@@ -1481,6 +1505,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="activate_button_blue" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue"]
 custom_minimum_size = Vector2(128, 0)
@@ -1512,6 +1537,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="activate_button_green" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green"]
 custom_minimum_size = Vector2(128, 0)
@@ -1543,6 +1569,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="activate_button_red" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red"]
 custom_minimum_size = Vector2(128, 0)
@@ -1574,6 +1601,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="toggle_toggleBlocks" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks"]
 custom_minimum_size = Vector2(128, 0)
@@ -1605,6 +1633,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="open_keyBlocks" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks"]
 custom_minimum_size = Vector2(128, 0)
@@ -1659,6 +1688,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="toggle_music" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music"]
 custom_minimum_size = Vector2(128, 0)
@@ -1690,6 +1720,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="toggle_ambience" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience"]
 custom_minimum_size = Vector2(128, 0)
@@ -1721,6 +1752,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
+enable_deco = false
 
 [node name="toggle_hud" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud"]
 custom_minimum_size = Vector2(128, 0)

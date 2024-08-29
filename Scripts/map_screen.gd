@@ -9,99 +9,76 @@ var total_score = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	LevelTransition.get_node("%saved_progress").load_game()
-	print(str(Globals.selected_episode) + " is the currently selected episode (level set).")
+	print(str(Globals.selected_episode) + " is the currently selected Level Set.")
+	
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	#EPISODE START
 	if Globals.selected_episode == "Additional Levels":
-		%background.texture = load("res://Assets/Graphics/backgrounds/bg_jungle_cavern.png")
+		%background.texture = load("res://Assets/Graphics/other/levelSelect_screen2.png")
 		level_number = 0
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(-368, -140), load("res://Levels/RI1_1.tscn"))
+		place_level_icon(0, Vector2(-368, -140), load("res://Levels/testLevel_collectibles.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(-416, 4), load("res://Levels/RI1_2.tscn"))
+		place_level_icon(0, Vector2(-416, 4), load("res://Levels/testLevel_overworld_state.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(2, Vector2(-320, 132), load("res://Levels/RI1_3.tscn"))
+		place_level_icon(0, Vector2(-320, 132), load("res://Levels/testLevel_random_enemy.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(4, Vector2(-240, 4), load("res://Levels/RI1_4.tscn"))
+		place_level_icon(0, Vector2(-240, 4), load("res://Levels/testLevel_memeSpawner.tscn"))
 		#LEVEL ICON END
 		
-		#LEVEL ICON START
-		place_level_icon(9, Vector2(-160, -92), load("res://Levels/RI1_5.tscn"))
-		#LEVEL ICON END
+		# DEBUG - OVERWORLD AREAS
+		place_level_icon(2, Vector2(540, -240), load("res://Levels/overworld_factory.tscn"))
+		place_level_icon(2, Vector2(540, -180), load("res://Levels/overworld_infected_glades.tscn"))
+		place_level_icon(2, Vector2(540, -120), load("res://Levels/overworld_glades.tscn"))
+		place_level_icon(2, Vector2(540, -60), load("res://Levels/overworld_ascent.tscn"))
+		place_level_icon(2, Vector2(600, -60), load("res://Levels/overworld_castle.tscn"))
 		
-		#LEVEL ICON START
-		place_level_icon(7, Vector2(-16, -28), load("res://Levels/RI1_6.tscn"))
-		#LEVEL ICON END
-		
-		#LEVEL ICON START
-		place_level_icon(2, Vector2(32, 100), load("res://Levels/RI1_7.tscn"))
-		#LEVEL ICON END
-		
-		#LEVEL ICON START
-		place_level_icon(1, Vector2(176, 164), load("res://Levels/RI1_8.tscn"))
-		#LEVEL ICON END
-		
-		#LEVEL ICON START
-		place_level_icon(4, Vector2(240, 52), load("res://Levels/RI1_9.tscn"))
-		#LEVEL ICON END
-		
-		#LEVEL ICON START
-		place_level_icon(9, Vector2(352, -44), load("res://Levels/RI1_10.tscn"))
-		#LEVEL ICON END
-		
-		#LEVEL ICON START
-		place_level_icon(12, Vector2(496, -60), load("res://Levels/RI1_11.tscn"))
-		#LEVEL ICON END
-	
 	#EPISODE END
 	
 	
 	#EPISODE START
 	if Globals.selected_episode == "Main Levels":
-		%background.texture = load("res://Assets/Graphics/other/menu_map2.png")
+		%background.texture = load("res://Assets/Graphics/other/levelSelect_screen.png")
 		level_number = 0
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(-416, 4), load("res://Levels/MAIN_1.tscn"))
+		place_level_icon(0, Vector2(-460, 40), load("res://Levels/MAIN_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(7, Vector2(-352, 36), load("res://Levels/MAIN_2.tscn"))
+		place_level_icon(2, Vector2(-360, 80), load("res://Levels/MAIN_2.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(10, Vector2(-272, 36), load("res://Levels/MAIN_3.tscn"))
+		place_level_icon(0, Vector2(280, 60), load("res://Levels/MAIN_3.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(-192, -28), load("res://Levels/MAIN_4.tscn"))
+		place_level_icon(1, Vector2(180, 40), load("res://Levels/MAIN_4.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(-124, -36), load("res://Levels/MAIN_5.tscn"))
+		place_level_icon(0, Vector2(-120, -100), load("res://Levels/MAIN_5.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(174, -36), load("res://Levels/MAIN_6.tscn"))
+		place_level_icon(1, Vector2(700, 80), load("res://Levels/MAIN_6.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(224, -36), load("res://Levels/MAIN_7.tscn"))
+		place_level_icon(1, Vector2(200, -40), load("res://Levels/MAIN_7.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(5, Vector2(274, -36), load("res://Levels/MAIN_8.tscn"))
-		#LEVEL ICON END
-		
-		#LEVEL ICON START
-		place_level_icon(5, Vector2(324, -36), load("res://Levels/testLevel_collectibles.tscn"))
+		place_level_icon(2, Vector2(350, -120), load("res://Levels/MAIN_8.tscn"))
 		#LEVEL ICON END
 	
 	#EPISODE END
@@ -109,14 +86,14 @@ func _ready():
 	
 	#Load saved level states.
 	
-	#RI1
+	# Additional levels
 	if Globals.selected_episode == "Additional Levels":
 		for icon in get_tree().get_nodes_in_group("level_icon"):
-			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_RI1_" + str(icon.level_number))
-			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_RI1_" + str(icon.level_number))
+			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_BONUS_" + str(icon.level_number))
+			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_BONUS_" + str(icon.level_number))
 			print("Saved level completion state: ", icon.level_state)
 		
-		Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_RI1")
+		Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_BONUS")
 	
 	#Main Levels
 	elif Globals.selected_episode == "Main Levels":
@@ -134,11 +111,22 @@ func _ready():
 		
 		#Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_MAIN")
 	
+	
 	Globals.progress_loadingFinished.emit()
 	print(Globals.selected_episode)
 	$level_icon_container/level_button_root/level_button.grab_focus()
 	%ColorRect.visible = true
 	%fade_animation.play("fade_from_black")
+	
+	await get_tree().create_timer(0.1, false).timeout
+	
+	var x = 0
+	for button in get_tree().get_nodes_in_group("buttons_root") + get_tree().get_nodes_in_group("buttons_deco"):
+		button.z_index = x
+		x += 1
+	
+	for button in get_tree().get_nodes_in_group("buttons"):
+		button.moving = true
 
 
 func place_level_icon(Icon_ID, Position, Level_FilePath):
@@ -167,6 +155,7 @@ func _on_enable_score_attack_mode_pressed():
 
 
 func _on_main_menu_pressed():
+	await LevelTransition.fade_to_black_slow()
 	get_tree().change_scene_to_packed(main_menu)
 
 

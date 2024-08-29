@@ -177,7 +177,7 @@ func _on_timer_timeout():
 		image.position = position + Vector2(randi_range(-200, 200), randi_range(-200, 200))
 	else:
 		image.position = position
-	image.rotate = rotate
+	image.rotates = rotates
 	image.scale_x = scale_x
 	image.scale_y = scale_y
 	image.vel_x = vel_x

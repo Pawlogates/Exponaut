@@ -1,16 +1,16 @@
-[gd_scene load_steps=33 format=3 uid="uid://dsxyieuscvnvu"]
+[gd_scene load_steps=40 format=3 uid="uid://dsxyieuscvnvu"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_ijta4"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_cijwv"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="3_fylys"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="4_q66u7"]
 [ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="5_s3lob"]
+[ext_resource type="AudioStream" uid="uid://kw6nmpm2u6yh" path="res://Assets/Sounds/sfx/effect_landed.wav" id="6_xmvyl"]
+[ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/player_rainbowSlow_effect.tres" id="7_pg4fo"]
+[ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow_effect.tres" id="8_r0gvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
 size = Vector2(24, 16)
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ami3x"]
-resource_local_to_scene = true
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_63w7x"]
 atlas = ExtResource("2_cijwv")
@@ -275,6 +275,118 @@ _data = {
 "shot_charged": SubResource("Animation_scdec")
 }
 
+[sub_resource type="Animation" id="Animation_f7ykp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_2c8md"]
+resource_name = "max_score_multiplier_reached"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("7_pg4fo"), ExtResource("7_pg4fo")]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.25, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_2a4pd"]
+resource_name = "shot_charged"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("8_r0gvf"), null]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_a3nuy"]
+resource_name = "streak_reset"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:material")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [ExtResource("7_pg4fo"), null]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:material:shader_parameter/strength")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mcx4o"]
+_data = {
+"RESET": SubResource("Animation_f7ykp"),
+"max_score_multiplier_reached": SubResource("Animation_2c8md"),
+"shot_charged": SubResource("Animation_2a4pd"),
+"streak_reset": SubResource("Animation_a3nuy")
+}
+
 [node name="Player" type="CharacterBody2D" groups=["player", "player_root", "weightless"]]
 z_index = 1
 scale = Vector2(2, 2)
@@ -296,7 +408,6 @@ shape = SubResource("RectangleShape2D_fshcs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
-material = SubResource("ShaderMaterial_ami3x")
 position = Vector2(0, -4)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_c8f3n")
@@ -395,6 +506,7 @@ stream = ExtResource("5_s3lob")
 stream = ExtResource("3_fylys")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
 libraries = {
 "": SubResource("AnimationLibrary_wupbq")
 }
@@ -443,6 +555,21 @@ hit_from_inside = true
 [node name="raycast_middle" type="RayCast2D" parent="."]
 target_position = Vector2(40, 0)
 hit_from_inside = true
+
+[node name="landed" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_xmvyl")
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_mcx4o")
+}
+
+[node name="powerup_timer" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="air_jump" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_q66u7")
 
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]

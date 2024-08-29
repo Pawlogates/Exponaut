@@ -1,5 +1,7 @@
 extends Button
 
+@export var menu_name = "StartMenu"
+
 var ignore_mouse = false
 
 @export var enable_deco = true
@@ -25,6 +27,10 @@ func _ready():
 	if not is_connected("focus_exited", _on_focus_exited):
 		focus_exited.connect(_on_focus_exited)
 	
+	if not is_connected("pressed", _on_pressed):
+		pressed.connect(_on_pressed)
+	
+	
 	if enable_deco:
 		self_modulate.a = 0
 		var deco = preload("res://Other/Scenes/button_deco.tscn").instantiate()
@@ -32,6 +38,7 @@ func _ready():
 		deco.polygon2_position = polygon2_position
 		deco.polygon3_position = polygon3_position
 		deco.polygon4_position = polygon4_position
+		deco.menu_name = menu_name
 		add_child(deco)
 		
 		button_deco = $button_deco
@@ -41,7 +48,10 @@ func _on_focus_entered():
 		modulate.r = 0.5
 		modulate.g = 1.0
 		modulate.b = 1.0
-		button_deco.scale = Vector2(1.2, 1.2)
+		
+		if enable_deco:
+			button_deco.scale = Vector2(1.2, 1.2)
+			button_deco.on_focused()
 
 func _on_focus_exited():
 	if not disabled:
@@ -55,8 +65,9 @@ func _on_mouse_entered():
 		modulate.g = 1.0
 		modulate.b = 1.0
 		
-		if not ignore_mouse:
+		if enable_deco and not ignore_mouse:
 			button_deco.scale = Vector2(1.2, 1.2)
+			button_deco.on_focused()
 			
 			ignore_mouse = true
 			await get_tree().create_timer(0.3, false).timeout
@@ -67,6 +78,10 @@ func _on_mouse_exited():
 		modulate.r = 1.0
 		modulate.g = 1.0
 		modulate.b = 1.0
+
+func _on_pressed():
+	if enable_deco:
+		button_deco.on_clicked()
 
 
 #IF IS AN EPISODE BUTTON
@@ -80,7 +95,10 @@ func _physics_process(delta):
 		position = lerp(position, Vector2(0, 0), delta * 5)
 		rotation = lerp(rotation, 0.0, delta * 5)
 		scale = lerp(scale, Vector2(1, 1), delta * 5)
-		button_deco.scale = lerp(button_deco.scale, Vector2(1, 1), delta * 5)
+		
+		if enable_deco:
+			button_deco.scale = lerp(button_deco.scale, Vector2(1, 1), delta * 5)
+	
 	if showing_up:
 		modulate.a = move_toward(modulate.a, 1, delta * 2)
 	

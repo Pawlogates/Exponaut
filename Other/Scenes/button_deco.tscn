@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bxel62smpe7tm"]
+[gd_scene load_steps=6 format=3 uid="uid://bxel62smpe7tm"]
 
 [ext_resource type="Script" path="res://Other/Scenes/button_deco.gd" id="1_k2dgl"]
+[ext_resource type="AudioStream" uid="uid://co5hmcavxpvpa" path="res://Assets/Sounds/sfx/effect_count.wav" id="2_fjday"]
+[ext_resource type="AudioStream" uid="uid://darbfxi2qbvny" path="res://Assets/Sounds/sfx/medium_effect1.wav" id="3_vyouj"]
 
 [sub_resource type="Gradient" id="Gradient_mtptn"]
 colors = PackedColorArray(1, 0, 0, 1, 1, 0.698039, 0, 1)
@@ -31,3 +33,10 @@ z_index = -2
 offset = Vector2(488, 40)
 antialiased = true
 polygon = PackedVector2Array(-504, 56, -504, -56, 504, -56, 504, 56)
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_fjday")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_vyouj")
+volume_db = 10.0
