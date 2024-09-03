@@ -1,5 +1,12 @@
 extends CharacterBody2D
 
+@onready var world = $/root/World
+@onready var player = $/root/World.player
+
+@onready var sfx_hit_wall: AudioStreamPlayer2D = $sfx_hit_wall
+@onready var sfx_hit_player: AudioStreamPlayer2D = $sfx_hit_player
+
+@export_enum("normal", "charged", "lethalBall") var projectile_type = "normal"
 
 @export var SPEED = 400.0
 @export var SPEED_V = 400.0
@@ -10,15 +17,26 @@ extends CharacterBody2D
 @export var familyID = 0
 @export var damageValue = 1
 
+var starParticle_fastScene = preload("res://Particles/particles_special_multiple.tscn")
+var hit_effectScene = preload("res://Particles/hit_effect.tscn")
+var dead_effectScene = preload("res://Particles/dead_effect.tscn")
+var hitDeath_effectScene = preload("res://Particles/hitDeath_effect.tscn")
+var starParticleScene = preload("res://Particles/particles_special.tscn")
+var starParticle2Scene = preload("res://Particles/particles_star.tscn")
+var orbParticleScene = preload("res://Particles/particles_special2_multiple.tscn")
+var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
+var effect_dustScene = preload("res://Particles/effect_dust.tscn")
+var effect_dust_moveUpScene = preload("res://Particles/effect_dust_moveUp.tscn")
+
 var enemyProjectile = false
 var playerProjectile = true
 
 var upward_shot = false
 var downward_shot = false
 
-
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var delta_value : float = 0
 
 var x = 1
 var rng = RandomNumberGenerator.new()
@@ -36,6 +54,7 @@ var start_pos = Vector2(0, 0)
 var start_frame_correct = true
 var not_bounced = true
 
+var is_lethalBall = false
 
 #SPAWN ITEM
 @export var spawn_on_death = false
@@ -44,24 +63,33 @@ var not_bounced = true
 @export var momentum_x = 0.0
 @export var momentum_y = 0.0
 
-
 func _ready():
 	start_pos = position
 	$remove_delay.wait_time = remove_delay
 	$remove_delay.start()
 
 
-func _process(_delta):
+func _process(delta):
+	delta_value = delta
+	
 	if not projectile_shot and Input.is_action_pressed("attack_main") or enemyProjectile or not projectile_shot and Globals.debug_magic_projectiles:
 		projectile_shot = true
 		Globals.shot.emit()
 		
 		start_pos = position
 		
-		if not enemyProjectile and Globals.direction != 0:
-			%animation.flip_h = (Globals.direction < 0)
-		elif enemyProjectile and direction != 0:
-			%animation.flip_h = (direction < 0)
+		if projectile_type == "lethalBall":
+			if not player.lethalBall_released:
+				is_lethalBall = true
+				player.lethalBall_released = true
+				add_to_group("lethalBall")
+				set_velocity(Vector2(0, 0))
+		
+		if projectile_type == "normal":
+			if not enemyProjectile and Globals.direction != 0:
+				%animation.flip_h = (Globals.direction < 0)
+			elif enemyProjectile and direction != 0:
+				%animation.flip_h = (direction < 0)
 		
 		
 		if not enemyProjectile:
@@ -71,55 +99,94 @@ func _process(_delta):
 				direction = 0
 				direction_V = 1
 				
-				if Globals.direction == 1:
-					rotation_degrees = 90
-				elif Globals.direction == -1:
-					rotation_degrees = -90
+				if not projectile_type == "lethalBall":
+					if Globals.direction == 1:
+						rotation_degrees = 90
+					elif Globals.direction == -1:
+						rotation_degrees = -90
 				
+				if projectile_type == "lethalBall" and not is_lethalBall:
+					$hitbox_down.monitoring = true
+					$hitbox_down/CollisionShape2D/ColorRect3.visible = true
 			
 			elif Globals.direction == 1:
 				direction = 1
 				downward_shot = false
 				vertical_shot = false
 				
+				if projectile_type == "lethalBall" and not is_lethalBall:
+					$hitbox_right.monitoring = true
+					$hitbox_right/CollisionShape2D/ColorRect2.visible = true
 			
 			elif Globals.direction == -1:
 				direction = -1
 				downward_shot = false
 				vertical_shot = false
-		
+				
+				if projectile_type == "lethalBall" and not is_lethalBall:
+					$hitbox_left.monitoring = true
+					$hitbox_left/CollisionShape2D/ColorRect.visible = true
 		
 		direction_whenShot = Globals.direction
 	
 	
 	if is_on_wall():
-		if direction != 0:
-			%animation.flip_h = (direction < 0)
-		
-		
-		#handle straight surface bounce
-		straight_bounce()
-		
-		#handle slope surface bounce
-		if vertical_shot:
-			slope_bounce(true)
+		if projectile_type == "normal":
+			if direction != 0:
+				%animation.flip_h = (direction < 0)
 			
-		else:
-			slope_bounce(false)
+			
+			# Handle straight surface bounce
+			straight_bounce()
+			
+			# Handle slope surface bounce
+			if vertical_shot:
+				slope_bounce(true)
+				
+			else:
+				slope_bounce(false)
+			
+			
+			if direction_whenShot == 1:
+				rotation_degrees = 90
+			else:
+				rotation_degrees = -90
 		
-		
-		if direction_whenShot == 1:
-			rotation_degrees = 90
+		elif projectile_type == "lethalBall":
+			var collision_info = move_and_collide(velocity * delta)
+			if collision_info:
+				velocity = velocity.bounce(collision_info.get_normal())
+				
+				$sfx_hit_wall.play()
+				$AnimationPlayer.play("hit_wall")
+				
+				var hit_effect = hit_effectScene.instantiate()
+				hit_effect.position = position
+				world.add_child(hit_effect)
+				
+				var star = starParticle_fastScene.instantiate()
+				star.position = position
+				world.add_child(star)
+	
+	
+	if projectile_type == "normal":
+		velocity = Vector2(SPEED * direction, SPEED_V * direction_V)
+		move_and_slide()
+	
+	elif projectile_type == "lethalBall":
+		if not is_lethalBall:
+			velocity = Vector2(0, 0)
 		else:
-			rotation_degrees = -90
-	
-	velocity = Vector2(SPEED * direction, SPEED_V * direction_V)
-	
-	move_and_slide()
+			if not is_on_wall():
+				move_and_slide()
 	
 	if start_frame_correct:
 		start_frame_correct = false
 		position.y = start_pos[1]
+
+
+func _on_hitbox_body_entered(body: Node2D) -> void:
+	pass # Replace with function body.
 
 
 func _on_remove_delay_timeout():
@@ -147,10 +214,11 @@ func _on_remove_delay_timeout():
 		start_frame_correct = true
 		not_bounced = true
 		return
-		
+	
+	if is_lethalBall:
+		return
+	
 	queue_free()
-
-
 
 
 func slope_bounce(is_vertical_shot):
@@ -237,3 +305,31 @@ func _on_scan_body_entered(body):
 			Globals.playerHit2.emit()
 		elif damageValue == 3:
 			Globals.playerHit3.emit()
+
+
+func _on_hitbox_left_body_entered(body: Node2D) -> void:
+	body.SPEED *= 1.2
+	if body.is_in_group("lethalBall"):
+		body.velocity = Vector2(-0.6, 0.4) * body.SPEED * delta_value
+		body.velocity = Vector2(-0.6, 0.4) * body.SPEED * delta_value
+		
+		get_tree().get_first_node_in_group("lethalBall").sfx_hit_player.play()
+		queue_free()
+
+func _on_hitbox_right_body_entered(body: Node2D) -> void:
+	body.SPEED *= 1.2
+	if body.is_in_group("lethalBall"):
+		body.velocity = Vector2(0.6, 0.4) * body.SPEED * delta_value
+		body.velocity = Vector2(0.6, 0.4) * body.SPEED * delta_value
+		
+		get_tree().get_first_node_in_group("lethalBall").sfx_hit_player.play()
+		queue_free()
+
+func _on_hitbox_down_body_entered(body: Node2D) -> void:
+	if body.is_in_group("lethalBall"):
+		body.SPEED *= 0.8
+		direction = Input.get_axis("move_L", "move_R")
+		body.velocity = Vector2(0.3 * direction, 0.7) * body.SPEED * delta_value
+		
+		get_tree().get_first_node_in_group("lethalBall").sfx_hit_player.play()
+		queue_free()

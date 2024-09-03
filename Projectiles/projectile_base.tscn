@@ -24,7 +24,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="player_projectile_basic" type="CharacterBody2D" groups=["player_projectile"]]
+[node name="projectile_base" type="CharacterBody2D" groups=["player_projectile"]]
 z_index = 5
 collision_layer = 2
 motion_mode = 1

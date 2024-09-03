@@ -56,7 +56,6 @@ func load_saved_unlocked_weapons():
 	
 	if SavedData.saved_secondaryWeapon_fast >= 0:
 		place_item_display("secondaryWeapon_fast", 1)
-	
 
 
 func show_weapon():
@@ -84,6 +83,8 @@ func show_weapon():
 	elif $/root/World.player.weaponType == "phaser":
 		itemDisplay.item = "weapon_phaser"
 	
+	else:
+		return
 	
 	
 	var allowed = true
@@ -100,7 +101,7 @@ func show_weapon():
 			set("unlock_state_" + item, 0)
 		
 	get_tree().get_first_node_in_group("quickselect_itemDisplay").get_node("%Button").grab_focus()
-	
+
 
 func show_secondaryWeapon():
 	var itemDisplay = itemDisplay_scene.instantiate()

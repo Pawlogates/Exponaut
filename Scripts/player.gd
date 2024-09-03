@@ -100,6 +100,8 @@ var damageValue = 1
 
 var double_score = false
 
+var lethalBall_released = false
+
 #ACTIVATES WHEN PLAYER LANDS ON THE GROUND
 signal player_just_landed
 
@@ -151,28 +153,6 @@ func _ready():
 		weaponType = "basic"
 
 
-var attack_cooldown = false
-var secondaryAttack_cooldown = false
-@export var weaponType = "none"
-@export var secondaryWeaponType = "none"
-
-
-#WEAPON TYPES
-var scene_projectile_phaser = load("res://Projectiles/player_projectile_phaser.tscn")
-var scene_projectile_basic = load("res://Projectiles/player_projectile_basic.tscn")
-var scene_projectile_short_shotDelay = load("res://Projectiles/player_projectile_short_shotDelay.tscn")
-var scene_projectile_ice = load("res://Projectiles/player_projectile_ice.tscn")
-var scene_projectile_fire = load("res://Projectiles/player_projectile_fire.tscn")
-var scene_projectile_destructive_fast_speed = load("res://Projectiles/player_projectile_destructive_fast_speed.tscn")
-var scene_projectile_veryFast_speed = load("res://Projectiles/player_projectile_veryFast_speed.tscn")
-#WEAPON TYPES END
-
-#SECONDARY WEAPONS
-var scene_secondaryProjectile_basic = load("res://Projectiles/player_secondaryProjectile_basic.tscn")
-var scene_secondaryProjectile_fast = load("res://Projectiles/player_secondaryProjectile_fast.tscn")
-
-
-#MAIN START
 func _process(delta):
 	get_basic_player_values()
 	
@@ -230,6 +210,7 @@ func _process(delta):
 	handle_gameMode_scoreAttack()
 	
 	handle_just_landed()
+
 #MAIN END
 
 
@@ -981,6 +962,28 @@ func handle_dash():
 		
 		raycast_top.enabled = false
 
+
+var attack_cooldown = false
+var secondaryAttack_cooldown = false
+@export var weaponType = "none"
+@export var secondaryWeaponType = "none"
+
+#WEAPON TYPES
+var scene_projectile_phaser = load("res://Projectiles/player_projectile_phaser.tscn")
+var scene_projectile_basic = load("res://Projectiles/player_projectile_basic.tscn")
+var scene_projectile_short_shotDelay = load("res://Projectiles/player_projectile_short_shotDelay.tscn")
+var scene_projectile_ice = load("res://Projectiles/player_projectile_ice.tscn")
+var scene_projectile_fire = load("res://Projectiles/player_projectile_fire.tscn")
+var scene_projectile_destructive_fast_speed = load("res://Projectiles/player_projectile_destructive_fast_speed.tscn")
+var scene_projectile_veryFast_speed = load("res://Projectiles/player_projectile_veryFast_speed.tscn")
+var scene_projectile_lethalBall_basic = load("res://Projectiles/projectile_lethalBall_base.tscn")
+#WEAPON TYPES END
+
+#SECONDARY WEAPON TYPES
+var scene_secondaryProjectile_basic = load("res://Projectiles/player_secondaryProjectile_basic.tscn")
+var scene_secondaryProjectile_fast = load("res://Projectiles/player_secondaryProjectile_fast.tscn")
+#SECONDARY WEAPON TYPES END
+
 func handle_shooting():
 	#MAIN ATTACK
 	if weaponType == "phaser":
@@ -1011,6 +1014,8 @@ func handle_shooting():
 			shoot_projectile(scene_projectile_destructive_fast_speed)
 		elif weaponType == "veryFast_speed":
 			shoot_projectile(scene_projectile_veryFast_speed)
+		elif weaponType == "lethalBall_basic":
+			shoot_projectile(scene_projectile_lethalBall_basic)
 	
 	
 	#SECONDARY ATTACK

@@ -1,17 +1,13 @@
 extends Sprite2D
 
 @onready var collect_particles = $".."
-
+@onready var animation_player = $"../AnimationPlayer"
 
 var rng = RandomNumberGenerator.new()
 
 var x = rng.randfn(0, 1)
 var y = rng.randf_range(0, 3.6) * 100
 var z = rng.randf_range(1, 2)
-
-
-
-@onready var animation_player = $"../AnimationPlayer"
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -24,12 +20,9 @@ func _ready():
 	animation_player.play("afterSpawn")
 
 
-
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	pass
-
 
 
 func _on_animation_player_animation_finished(_anim_name):

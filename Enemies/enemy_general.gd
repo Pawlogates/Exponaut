@@ -959,9 +959,6 @@ func _on_fly_end_timeout():
 		%flyCooldown.start()
 
 
-
-
-
 func handle_patrolDirection():
 	if not dead and not patrolRectStatic:
 		if direction == 1:
@@ -970,17 +967,15 @@ func handle_patrolDirection():
 			%scanForPlayer_CollisionShape2D.position.x = -patrolRect_width / 2
 
 
-
-#spot player logic
-
+# Spot player logic
 var spottedPlayer = false
 var followDelay = true
 
 func _on_scan_for_player_area_entered(area):
-	print("Player entered sight.")
 	if patroling:
 		if area.name == "Player_hitbox_main" and not dead:
 			spottedPlayer = true
+			print("Player entered sight.")
 			await get_tree().create_timer(0.1, false).timeout
 			%followDelay.start()
 			%patrolDirectionTimer.stop()
