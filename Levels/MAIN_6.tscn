@@ -1,10 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://bl3lbxr2tra35"]
+[gd_scene load_steps=10 format=3 uid="uid://bl3lbxr2tra35"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_hasmk"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_51ib1"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="3_es88a"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_g2dga"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_kjbeh"]
+[ext_resource type="AudioStream" uid="uid://do14rg1o1weqn" path="res://Assets/Sounds/music/plains5.mp3" id="6_62gks"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_m61sf"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_5qfpc"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="8_cfkvd"]
@@ -55,6 +56,9 @@ layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+
+[node name="music" parent="Music Controller" index="5"]
+stream = ExtResource("6_62gks")
 
 [node name="kill_area" parent="." index="15" instance=ExtResource("6_m61sf")]
 position = Vector2(7168, 5184)

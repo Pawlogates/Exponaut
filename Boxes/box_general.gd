@@ -1,5 +1,8 @@
 extends CharacterBody2D
 
+@onready var world = $/root/World
+@onready var player = $/root/World.player
+
 @onready var break_bonusBox = %break_bonusBox
 @onready var animation_player = %AnimationPlayer
 @onready var sprite = %AnimatedSprite2D
@@ -21,7 +24,7 @@ var start_hp = 1
 var start_item_amount = 3
 
 
-#Properties
+# Properties
 @export var immortal = false
 @export var onDeath_reset = false
 @export var onDeath_reset_spawn_items_amount = true
@@ -42,7 +45,7 @@ var start_item_amount = 3
 @export var onDeath_toggle_toggleBlocks = false
 @export var hit_cooldown = false
 @export var hit_cooldown_time = 0.8
-#!Properties
+# Properties end
 
 func _physics_process(delta):
 	if not is_on_floor() and not floating:
@@ -56,32 +59,33 @@ func _physics_process(delta):
 	
 	if not destroyed and not floating:
 		move_and_slide()
-		
 
-#AREA ENTERED
-func _on_area_2d_area_entered(area):
+
+#BODY ENTERED
+func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not active:
 		print("BonusBox entered, but it was inactive.")
 		return
 	
-	if area.is_in_group("player") and not area.get_parent().is_in_group("weightless"):
+	if body.is_in_group("player") and not body.get_parent().is_in_group("weightless"):
 		if not destroyed:
-			if player_bounce(area):
-				var damageValue = area.get_parent().damageValue
+			if player_bounce(body):
+				var damageValue = body.damageValue
 				reduce_hp(damageValue)
 			
 			if hp <= 0:
 				destroy()
 		
 		
-	if area.is_in_group("player_projectile"):
+	elif body.is_in_group("player_projectile"):
 		if not destroyed:
-			var damageValue = area.get_parent().damageValue
+			var damageValue = body.damageValue
 			reduce_hp(damageValue)
 			
 			if hp <= 0:
 				destroy()
-#AREA ENTERED END
+
+#BODY ENTERED END
 
 
 func reduce_hp(damageValue):
@@ -131,15 +135,15 @@ func destroy():
 	add_child(particles_special)
 	
 
-func player_bounce(area):
-	if area.get_parent().velocity.y > bounce_min_velocity:
+func player_bounce(body):
+	if body.velocity.y > bounce_min_velocity:
 		if Input.is_action_pressed("jump"):
-			area.get_parent().velocity.y = bounceJump_give_velocity
+			body.velocity.y = bounceJump_give_velocity
 		else:
-			area.get_parent().velocity.y = bounce_give_velocity
+			body.velocity.y = bounce_give_velocity
 		
-		area.get_parent().air_jump = true
-		area.get_parent().wall_jump = true
+		body.air_jump = true
+		body.wall_jump = true
 		
 		return true
 	
@@ -151,12 +155,9 @@ func spawn_items():
 	while item_amount > 0:
 		item_amount -= 1
 		spawn_item()
-		
 	
 	var hit_effect = hit_effectScene.instantiate()
 	add_child(hit_effect)
-
-
 
 
 var rng = RandomNumberGenerator.new()
@@ -167,8 +168,7 @@ func spawn_item():
 	item.velocity.x = rng.randf_range(300.0, -300.0)
 	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
 	
-	get_parent().get_parent().add_child(item)
-
+	world.add_child(item)
 
 
 #IS IN VISIBLE RANGE?
@@ -239,7 +239,6 @@ func save():
 	}
 	return save_dict
 #SAVE END
-
 
 
 var active = true

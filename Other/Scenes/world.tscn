@@ -46,14 +46,17 @@ unique_name_in_owner = true
 
 [node name="bg_current" parent="." instance=ExtResource("8_8ihao")]
 unique_name_in_owner = true
+b_a = 0.33
 
 [node name="bg_previous" parent="." instance=ExtResource("8_8ihao")]
 unique_name_in_owner = true
 current = false
+b_a = 0.33
 
 [node name="HUD" type="CanvasLayer" parent="."]
 unique_name_in_owner = true
 layer = 75
+visible = false
 
 [node name="CenterContainer_info" type="CenterContainer" parent="HUD"]
 anchors_preset = 10

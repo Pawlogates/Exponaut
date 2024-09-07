@@ -98,35 +98,15 @@ func _physics_process(_delta):
 		shot_anim.play("shot_anim_CHARGED_L")
 		Globals.shot.emit()
 		charged_shot_buffer.stop()
-		
-		
-	
-	#elif started and not projectile_shot:
 
-		#mouse_pos = get_local_mouse_position()
-		#player_projectile_phaser.position = player_projectile_phaser.position.lerp(mouse_pos, delta * FOLLOW_SPEED)
-		#print(mouse_pos)
-	
-	
-	
-	else:
-		pass
-	
-	
+
 func _on_timer_timeout():
 	charged = true
 	Globals.shot_charged.emit()
-	
 
 
 func _on_animation_player_animation_finished(_shot_anim):
 	queue_free()
-
-
-
-
-
-
 
 
 var direction = 0

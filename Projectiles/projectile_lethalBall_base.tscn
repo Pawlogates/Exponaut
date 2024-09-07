@@ -1,10 +1,11 @@
-[gd_scene load_steps=98 format=3 uid="uid://3rvglkj1jcs1"]
+[gd_scene load_steps=100 format=3 uid="uid://3rvglkj1jcs1"]
 
 [ext_resource type="Script" path="res://Scripts/projectile_general.gd" id="1_6voux"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_1ieku"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_enoct"]
 [ext_resource type="Texture2D" uid="uid://yt7eqh605dy3" path="res://Assets/Graphics/effects/projectile29.png" id="3_fbwym"]
 [ext_resource type="AudioStream" uid="uid://darbfxi2qbvny" path="res://Assets/Sounds/sfx/medium_effect1.wav" id="4_jhwbn"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="6_lgpoo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0eahs"]
 radius = 32.0
@@ -611,6 +612,65 @@ animations = [{
 "speed": 20.0
 }]
 
+[sub_resource type="Animation" id="Animation_t1862"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("AnimatedSprite2D:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimatedSprite2D:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("speed_display:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_y5a7c"]
 resource_name = "hit_wall"
 tracks/0/type = "bezier"
@@ -658,57 +718,27 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0, 1)
 }
 
-[sub_resource type="Animation" id="Animation_t1862"]
-length = 0.001
-tracks/0/type = "bezier"
+[sub_resource type="Animation" id="Animation_1d2ft"]
+resource_name = "show_speed"
+length = 2.0
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimatedSprite2D:modulate:r")
+tracks/0/path = NodePath("speed_display:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("AnimatedSprite2D:modulate:g")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("AnimatedSprite2D:modulate:b")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("AnimatedSprite2D:modulate:a")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0, 0.5, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_cxq8m"]
 _data = {
 "RESET": SubResource("Animation_t1862"),
-"hit_wall": SubResource("Animation_y5a7c")
+"hit_wall": SubResource("Animation_y5a7c"),
+"show_speed": SubResource("Animation_1d2ft")
 }
 
 [node name="projectile_lethalBall_base" type="CharacterBody2D" groups=["player_projectile"]]
@@ -723,7 +753,7 @@ script = ExtResource("1_6voux")
 projectile_type = "lethalBall"
 SPEED = 15000.0
 
-[node name="hitbox" type="Area2D" parent="."]
+[node name="hitbox" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 2
 collision_mask = 4
 
@@ -806,6 +836,9 @@ frame_progress = 0.840351
 [node name="remove_delay" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="stopMovement" type="Timer" parent="."]
+one_shot = true
+
 [node name="sfx_hit_wall" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_enoct")
 volume_db = 10.0
@@ -819,8 +852,20 @@ libraries = {
 "": SubResource("AnimationLibrary_cxq8m")
 }
 
+[node name="speed_display" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0)
+offset_left = -128.0
+offset_top = 40.0
+offset_right = 128.0
+offset_bottom = 88.0
+theme = ExtResource("6_lgpoo")
+theme_override_font_sizes/font_size = 32
+text = "0"
+horizontal_alignment = 1
+
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_entered" from="hitbox_left" to="." method="_on_hitbox_left_body_entered"]
 [connection signal="body_entered" from="hitbox_right" to="." method="_on_hitbox_right_body_entered"]
 [connection signal="body_entered" from="hitbox_down" to="." method="_on_hitbox_down_body_entered"]
 [connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]
+[connection signal="timeout" from="stopMovement" to="." method="_on_stop_movement_timeout"]

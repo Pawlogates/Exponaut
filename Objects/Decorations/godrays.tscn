@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/godrays.gd" id="1_dcrxb"]
 
 [node name="godrays" type="ColorRect"]
-z_index = 40
+z_index = 50
 offset_left = -608.0
 offset_top = -32.0
 offset_right = 32.0

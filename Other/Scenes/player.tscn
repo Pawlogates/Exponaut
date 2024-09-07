@@ -751,6 +751,10 @@ autostart = true
 wait_time = 5.0
 one_shot = true
 
+[node name="block_movement_full" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkCollisionSwitch" to="." method="_on_crouch_walk_collision_switch_timeout"]
@@ -773,3 +777,4 @@ one_shot = true
 [connection signal="timeout" from="attackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="dashCheck" to="." method="_on_dash_check_timeout"]
 [connection signal="timeout" from="powerup_timer" to="." method="_on_powerup_timer_timeout"]
+[connection signal="timeout" from="block_movement_full" to="." method="_on_block_movement_full_timeout"]

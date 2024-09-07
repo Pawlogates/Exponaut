@@ -76,7 +76,7 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id="Animation_k43qq"]
-resource_name = "new_animation"
+resource_name = "gradient_loop"
 length = 10.0
 loop_mode = 1
 tracks/0/type = "bezier"
@@ -105,7 +105,7 @@ tracks/1/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8ten2"]
 _data = {
 "RESET": SubResource("Animation_amegw"),
-"new_animation": SubResource("Animation_k43qq")
+"gradient_loop": SubResource("Animation_k43qq")
 }
 
 [node name="Gradient" type="TextureRect"]
@@ -121,4 +121,4 @@ texture = SubResource("PlaceholderTexture2D_832g4")
 libraries = {
 "": SubResource("AnimationLibrary_8ten2")
 }
-autoplay = "new_animation"
+autoplay = "gradient_loop"

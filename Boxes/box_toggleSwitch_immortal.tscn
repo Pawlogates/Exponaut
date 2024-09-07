@@ -371,7 +371,7 @@ rect = Rect2(-500, -500, 1000, 1000)
 wait_time = 0.8
 one_shot = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="timeout" from="active_cooldown" to="." method="_on_active_cooldown_timeout"]

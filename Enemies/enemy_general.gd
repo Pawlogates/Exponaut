@@ -335,26 +335,26 @@ func _physics_process(delta):
 
 func _on_area_2d_area_entered(area):
 	#HANDLE ATTACK PLAYER
-	if area.name == "Player_hitbox_main" and not dead:
+	if area.is_in_group("player") and not dead:
 		if damageTo_player:
 			attacking = true
 			attacking_timer.start()
 			
 			if can_affect_player:
 				Globals.playerHit1.emit()
-			
+		
 		
 		#HANDLE BONUS BOX PLAYER BOUNCE
 		if is_bonusBox:
 			if bonusBox_requiresVelocity and Globals.player_velocity[1] < bonusBox_minimalVelocity:
 				return
-				
+			
 			if Input.is_action_pressed("jump"): #the velocity value here is effectively worth more, because of the building velocity mechanic that is active while you are holding the JUMP button.
 				area.get_parent().velocity.y = bonusBox_giveVelocity_jump
 				spawn_particles()
 				world.player.air_jump = true
 				world.player.wall_jump = true
-				
+			
 			else:
 				area.get_parent().velocity.y = bonusBox_giveVelocity
 				spawn_particles()

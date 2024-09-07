@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://cb645unlvywfx"]
+[gd_scene load_steps=9 format=3 uid="uid://cb645unlvywfx"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_mnxgj"]
+[ext_resource type="AudioStream" uid="uid://dgl0huovn44aa" path="res://Assets/Sounds/music/plains1.mp3" id="2_0wxcc"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_2mbhy"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_kndd0"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="4_7u1ri"]
@@ -15,6 +16,9 @@ playerStartHP = 100
 shrine_selected_episode = "Main Levels"
 shrine_level_ID = "MAIN_5"
 shrine_level_number = 5
+
+[node name="music" parent="Music Controller" index="5"]
+stream = ExtResource("2_0wxcc")
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_2mbhy")]
 unique_name_in_owner = true

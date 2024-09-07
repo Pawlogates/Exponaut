@@ -39,7 +39,6 @@ var zoomValue = 1.0
 @export var maxZoom = 1.5
 
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass

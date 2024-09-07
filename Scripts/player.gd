@@ -36,8 +36,9 @@ var base_FRICTION = FRICTION
 var base_GRAVITY_SCALE = GRAVITY_SCALE
 
 @onready var world = $/root/World
-@onready var camera = $Camera2D
+
 @onready var sprite = $AnimatedSprite2D
+@onready var camera = $Camera2D
 
 @onready var player_collision = $CollisionShape2D
 @onready var player_hitbox = $Player_hitbox_main/CollisionShape2D
@@ -54,6 +55,7 @@ var base_GRAVITY_SCALE = GRAVITY_SCALE
 @onready var dash_speed_block = $dash_timer/dash_speedBlock
 @onready var dash_end_slowdown_delay = $dash_timer/dash_endSlowdown_delay
 @onready var dash_end_slowdown_active = $dash_timer/dash_endSlowdown_active
+@onready var timer_block_movement_full: Timer = $block_movement_full
 
 @onready var sfx_damage = $damage
 @onready var sfx_death = $death
@@ -87,7 +89,9 @@ var shooting = false
 var debugMovement = false
 
 var spawn_dust_effect = true
+
 var block_movement = false
+var block_movement_full = false
 
 #AREAS (water, wind, etc.)
 var inside_wind = 0
@@ -189,7 +193,9 @@ func _process(delta):
 				handle_flight(delta)
 			
 			handle_inside_area()
-			move_and_slide() #MAIN MOVEMENT
+			
+			if not block_movement_full:
+				move_and_slide() #MAIN MOVEMENT
 			
 		apply_friction(delta)
 		apply_air_slowdown(delta)
@@ -1187,3 +1193,8 @@ func on_max_score_multiplier_reached():
 
 func on_comboReset():
 	animation_player2.play("streak_reset")
+
+
+func _on_block_movement_full_timeout() -> void:
+	block_movement_full = false
+	velocity = Vector2(0, 0)

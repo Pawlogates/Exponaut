@@ -481,7 +481,6 @@ modulate = Color(1, 1, 1, 0.0980392)
 scale = Vector2(0.256, 0.256)
 rect = Rect2(-500, -500, 1000, 1000)
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_collectible_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
 [connection signal="animation_finished" from="collectedDisplayAnimAnchor/AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]

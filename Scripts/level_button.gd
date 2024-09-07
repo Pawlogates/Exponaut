@@ -96,7 +96,6 @@ func _ready():
 		elif level_number == 13:
 			topRankScore = 50000
 	
-	
 	%level_button.mouse_filter = 1
 
 

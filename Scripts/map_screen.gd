@@ -15,7 +15,6 @@ func _ready():
 	
 	#EPISODE START
 	if Globals.selected_episode == "Additional Levels":
-		%background.texture = load("res://Assets/Graphics/other/levelSelect_screen2.png")
 		level_number = 0
 		
 		#LEVEL ICON START
@@ -31,7 +30,11 @@ func _ready():
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-240, 4), load("res://Levels/testLevel_memeSpawner.tscn"))
+		place_level_icon(0, Vector2(-140, 4), load("res://Levels/testLevel_memeSpawner.tscn"))
+		#LEVEL ICON END
+		
+		#LEVEL ICON START
+		place_level_icon(0, Vector2(240, 64), load("res://Levels/testLevel_lethalBall.tscn"))
 		#LEVEL ICON END
 		
 		# DEBUG - OVERWORLD AREAS

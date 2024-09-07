@@ -198,10 +198,11 @@ func _on_set_night3_pressed():
 
 
 func _on_delete_background_layers_pressed():
-	if not $/root/World.debug_bg_deleted:
-		$/root/World.debug_bg_deleted = true
+	if not $/root/World.bg_deleted:
+		$/root/World.bg_deleted = true
 		$/root/World.get_node("%bg_current").queue_free()
 		$/root/World.get_node("%bg_previous").queue_free()
+		$/root/World.get_node("%ParallaxBackgroundGradient").queue_free()
 		
 		Globals.infoSign_current_text = str("All background layers have been removed. (for better performance)")
 		Globals.infoSign_current_size = 1

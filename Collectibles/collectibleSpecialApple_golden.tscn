@@ -749,8 +749,6 @@ wait_time = 0.1
 one_shot = true
 autostart = true
 
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="animation_finished" from="Area2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]

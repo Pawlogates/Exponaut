@@ -61,6 +61,8 @@ var instant_background_transitions = true
 
 @export var meme_mode = false
 
+@export var delete_background_layers = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	LevelTransition.blackScreen.color.a = 1.0
@@ -229,16 +231,21 @@ func _ready():
 	await get_tree().create_timer(0.2, false).timeout
 	
 	save_game()
-	player.camera.position_smoothing_enabled = true
-	
 	
 	if area_ID != "area0":
-		load_game_area() #loads states for all level objects, doesn't conflict with load_saved_progress_overworld()
-	
+		load_game_area() # Loads states for all level objects, doesn't conflict with load_saved_progress_overworld().
 	
 	night_modifications()
-	await LevelTransition.fade_from_black_slow()
 	
+	player.camera.position_smoothing_enabled = true
+	
+	if delete_background_layers:
+		bg_deleted = true
+		%bg_current.queue_free()
+		%bg_previous.queue_free()
+		$ParallaxBackgroundGradient.queue_free()
+	
+	await LevelTransition.fade_from_black_slow()
 	
 	key_total = get_tree().get_nodes_in_group("key").size()
 	keys_leftDisplay.text = str(key_total)
@@ -248,13 +255,14 @@ func _ready():
 	
 	instant_background_transitions = false
 	
-	%bg_previous/bg_transition.speed_scale = 1
-	%bg_previous/bg_a_transition.speed_scale = 1
-	%bg_previous/bg_b_transition.speed_scale = 1
-
-	%bg_current/bg_transition.speed_scale = 1
-	%bg_current/bg_a_transition.speed_scale = 1
-	%bg_current/bg_b_transition.speed_scale = 1
+	if not bg_deleted:
+		%bg_previous/bg_transition.speed_scale = 1
+		%bg_previous/bg_a_transition.speed_scale = 1
+		%bg_previous/bg_b_transition.speed_scale = 1
+		
+		%bg_current/bg_transition.speed_scale = 1
+		%bg_current/bg_a_transition.speed_scale = 1
+		%bg_current/bg_b_transition.speed_scale = 1
 	
 	#await get_tree().create_timer(0.2, false).timeout
 	
@@ -352,7 +360,7 @@ func _physics_process(delta):
 	
 	
 	#HANDLE BACKGROUND MOVEMENT
-	if not bg_position_set and not debug_bg_deleted:
+	if not bg_position_set and not bg_deleted:
 		%bg_previous/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
 		%bg_previous/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
 		
@@ -376,11 +384,9 @@ func _physics_process(delta):
 		%bg_current/CanvasLayer/bg_b.offset.y = move_toward(%bg_previous/CanvasLayer/bg_b.offset.y, Globals.bg_b_Offset_target_y, 150 * bgMove_growthSpeed * delta)
 		
 		
-		
 		if not instant_background_transitions:
 			bgMove_growthSpeed *= 0.995
 			bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.1, 1)
-		
 		
 		if not instant_background_transitions and bgMove_started and %bg_previous/CanvasLayer/bg_main.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_main.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_a.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_a.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_b.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_b.offset.y == Globals.bgOffset_target_y:
 			bg_position_set = true
@@ -396,7 +402,7 @@ func _physics_process(delta):
 #MAIN END
 
 var night_toggle = true
-var debug_bg_deleted = false
+var bg_deleted = false
 
 #HANDLE REDUCE PLAYER HP
 func handle_player_death():

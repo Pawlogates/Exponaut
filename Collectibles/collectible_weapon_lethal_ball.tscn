@@ -124,6 +124,7 @@ animations = [{
 }]
 
 [node name="weapon_lethalBall" instance=ExtResource("1_1pamr")]
+animation_always = true
 loop_anim = "none"
 is_weapon = true
 weapon_type = "lethalBall_basic"
