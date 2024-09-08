@@ -95,7 +95,6 @@ func _physics_process(delta):
 				velocity = Vector2(200, -300)
 	
 	
-	
 	if velocity.y != 0:
 		velocity_Y_last = velocity.y
 	if velocity.x != 0:
@@ -116,9 +115,6 @@ func _physics_process(delta):
 		else: 
 			velocity.y = -velocity_Y_last
 			$AudioStreamPlayer2D.play()
-		
-	
-
 
 
 func _on_area_2d_area_entered(area):
@@ -158,9 +154,8 @@ func _on_area_2d_area_entered(area):
 				%AnimatedSprite2D.play("hit_ground")
 			
 			Globals.boxBroken.emit()
-		
-		
-		
+	
+	
 	if area.is_in_group("player_projectile"):
 		if not destroyed:
 			if not immortal:
@@ -179,9 +174,9 @@ func _on_area_2d_area_entered(area):
 				var effect_dust = effect_dustScene.instantiate()
 				effect_dust.global_position = global_position
 				get_parent().add_child(effect_dust)
-					
-				queue_free()
 				
+				queue_free()
+			
 			
 			if toggles_skull_blocks:
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "skull_block", "skull_block_toggle")
@@ -208,29 +203,6 @@ func _on_area_2d_area_entered(area):
 				%AnimatedSprite2D.play("hit_ground")
 			
 			Globals.boxBroken.emit()
-		
-	
-	
-	#SAVE START
-	
-	elif area.is_in_group("loadingZone_area"):
-	
-		remove_from_group("loadingZone0")
-		remove_from_group("loadingZone1")
-		remove_from_group("loadingZone2")
-		remove_from_group("loadingZone3")
-		remove_from_group("loadingZone4")
-		remove_from_group("loadingZone5")
-		
-		loadingZone = area.loadingZone_ID
-		add_to_group(loadingZone)
-		
-		#print("this object is in: ", loadingZone)
-
-	#SAVE END
-
-
-
 
 
 #IS IN VISIBLE RANGE?
@@ -249,8 +221,6 @@ func offScreen_unload():
 	%AnimatedSprite2D/AnimationPlayer.active = false
 	$Area2D.set_monitorable(false)
 	$Area2D.set_monitoring(false)
-	
-	
 
 func offScreen_load():
 	set_process(true)
@@ -265,18 +235,12 @@ func offScreen_load():
 	#sprite.visible = true
 	%AnimatedSprite2D/AnimationPlayer.active = true
 	
-	
 	if not hit_ground or bouncy_onGround:
 		await get_tree().create_timer(0.2, false).timeout
 		$Area2D.set_monitorable(true)
 		$Area2D.set_monitoring(true)
-	
-	
 
 func _ready():
-
-	add_to_group("loadingZone0")
-	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -290,18 +254,13 @@ func _ready():
 	%AnimatedSprite2D/AnimationPlayer.active = false
 	$Area2D.set_monitorable(false)
 	
-	
 	#if not destroyed:
 		#%AnimatedSprite2D.play("idle")
-	
-	
 	
 	
 	if remove_after_delay:
 		%Timer.wait_time = remove_delay
 		%Timer.start()
-
-
 
 
 var destroyed = false
@@ -310,12 +269,10 @@ func spawn_collectibles():
 	while collectibleAmount > 0:
 		collectibleAmount -= 1
 		spawn_item()
-		
+	
 	
 	var hit_effect = hit_effectScene.instantiate()
 	add_child(hit_effect)
-
-
 
 
 var rng = RandomNumberGenerator.new()
@@ -331,11 +288,8 @@ func spawn_item():
 
 #SAVE START
 
-var loadingZone = "loadingZone0"
-
 func save():
 	var save_dict = {
-		"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
@@ -346,8 +300,6 @@ func save():
 	return save_dict
 
 #SAVE END
-
-
 
 
 func _on_timer_timeout():

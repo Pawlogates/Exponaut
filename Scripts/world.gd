@@ -63,6 +63,11 @@ var instant_background_transitions = true
 
 @export var delete_background_layers = false
 
+@export var whiteBlocks_make_rainbow = false
+@export var whiteBlocks_toggleBetween = false
+@export var whiteBlocks_toggleBetween_delay = 45.0
+var whiteBlocks_toggle = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	LevelTransition.blackScreen.color.a = 1.0
@@ -227,6 +232,14 @@ func _ready():
 		meme_spawner.randomize_all = true
 		meme_spawner.position = Vector2(player.position.x + randi_range(-800, 800), player.position.y + randi_range(-500, 500))
 		add_child(meme_spawner)
+	
+	if whiteBlocks_make_rainbow:
+		if whiteBlocks_toggleBetween:
+			$whiteBlocks_make_rainbow.play("fade_out")
+			$whiteBlocks_make_rainbow/Timer.wait_time = whiteBlocks_toggleBetween_delay
+			$whiteBlocks_make_rainbow/Timer.start()
+		else:
+			$whiteBlocks_make_rainbow.play("fade_in")
 	
 	await get_tree().create_timer(0.2, false).timeout
 	
@@ -672,25 +685,23 @@ func load_game():
 		if not parse_result == OK:
 			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 			continue
-
+		
 		var node_data = json.get_data()
-
-
 		
 		#if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "loadingZone0":
 		var new_object = load(node_data["filename"]).instantiate()
 		get_node(node_data["parent"]).add_child(new_object)
 		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
-
+		
 		for i in node_data.keys():
-			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y" or i == "destroyed":
+			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
 				continue
 			new_object.set(i, node_data[i])
-			
+		
 		#else:
 			#continue
-			
-		
+	
+	
 	#player.position.x = Globals.saved_player_posX
 	#player.position.y = Globals.saved_player_posY
 	#Globals.level_score = Globals.saved_level_score
@@ -1050,3 +1061,15 @@ func _on_meme_mode_timer_timeout():
 		
 		$meme_mode_timer.wait_time = randf_range(0.5, 6)
 		$meme_mode_timer.start()
+
+
+func _on_timer_timeout() -> void:
+	print(whiteBlocks_toggle)
+	if whiteBlocks_toggle:
+		whiteBlocks_toggle = false
+		$whiteBlocks_make_rainbow.play("fade_out")
+		healthDisplay.text = "out"
+	else:
+		whiteBlocks_toggle = true
+		$whiteBlocks_make_rainbow.play("fade_in")
+		healthDisplay.text = "in"

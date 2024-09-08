@@ -1,8 +1,8 @@
-[gd_scene load_steps=19 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=24 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_25muh"]
 [ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_controller.tscn" id="2_1jcpx"]
-[ext_resource type="AudioStream" uid="uid://cu3e4pfj43wyo" path="res://Assets/Sounds/music/snow1.mp3" id="3_gut6j"]
+[ext_resource type="AudioStream" uid="uid://7xoh66av8tjx" path="res://Assets/Sounds/music/ascent2.mp3" id="3_4yis1"]
 [ext_resource type="PackedScene" uid="uid://d2xjhu1myvqf5" path="res://Other/Scenes/ambience_controller.tscn" id="4_y15yt"]
 [ext_resource type="AudioStream" uid="uid://016x6ugxmvem" path="res://Assets/Sounds/ambience/ambience_loop14.mp3" id="5_3ydfu"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://Other/Scenes/player.tscn" id="6_exop1"]
@@ -16,8 +16,60 @@
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://Other/Scenes/User Interface/Inventory/inventory.tscn" id="16_4pu55"]
 [ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://Other/Scenes/User Interface/Quick Select/quickselect_screen.tscn" id="17_q3m23"]
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://Other/Scenes/User Interface/collectedApplesDisplay_golden.tscn" id="18_423d0"]
+[ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/rainbow_material2.tres" id="19_eepji"]
 [ext_resource type="PackedScene" uid="uid://d0vqhficbarvl" path="res://Other/Scenes/User Interface/Debug/screen_debug.tscn" id="19_lp8y3"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="20_fa23o"]
+
+[sub_resource type="Animation" id="Animation_aveud"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("whiteBlocks_make_rainbow/Node2D:material:shader_parameter/strength")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_ytae0"]
+resource_name = "fade_in"
+length = 4.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("whiteBlocks_make_rainbow/Node2D:material:shader_parameter/strength")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4)
+}
+
+[sub_resource type="Animation" id="Animation_gl8s0"]
+resource_name = "fade_out"
+length = 4.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("whiteBlocks_make_rainbow/Node2D:material:shader_parameter/strength")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tyqb8"]
+_data = {
+"RESET": SubResource("Animation_aveud"),
+"fade_in": SubResource("Animation_ytae0"),
+"fade_out": SubResource("Animation_gl8s0")
+}
 
 [node name="World" type="Node2D"]
 texture_filter = 1
@@ -28,7 +80,7 @@ playerStartHP = 15
 
 [node name="music" type="AudioStreamPlayer" parent="Music Controller"]
 unique_name_in_owner = true
-stream = ExtResource("3_gut6j")
+stream = ExtResource("3_4yis1")
 autoplay = true
 
 [node name="Ambience Controller" parent="." instance=ExtResource("4_y15yt")]
@@ -262,6 +314,17 @@ autostart = true
 [node name="meme_mode_timer" type="Timer" parent="."]
 wait_time = 4.0
 one_shot = true
+
+[node name="whiteBlocks_make_rainbow" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tyqb8")
+}
+
+[node name="Node2D" type="Node2D" parent="whiteBlocks_make_rainbow"]
+material = ExtResource("19_eepji")
+
+[node name="Timer" type="Timer" parent="whiteBlocks_make_rainbow"]
+wait_time = 45.0
 
 [connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
 [connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=166 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=167 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_vmdr1"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_txmjs"]
@@ -366,6 +366,18 @@ scenes/26/scene = ExtResource("36_80vdf")
 scenes/27/scene = ExtResource("37_1pedo")
 scenes/28/scene = ExtResource("60_q6w6i")
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_slwwi"]
+resource_name = "other"
+scenes/1/scene = ExtResource("76_pbgi8")
+scenes/2/scene = ExtResource("131_u0ifu")
+scenes/3/scene = ExtResource("65_ioi7l")
+scenes/4/scene = ExtResource("66_jh1el")
+scenes/5/scene = ExtResource("35_e6l11")
+scenes/6/scene = ExtResource("67_r6an7")
+scenes/7/scene = ExtResource("96_c2ug2")
+scenes/8/scene = ExtResource("99_6g1bf")
+scenes/9/scene = ExtResource("97_rgyok")
+
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yfn55"]
 resource_name = "blocks"
 scenes/1/scene = ExtResource("13_ioc07")
@@ -471,6 +483,7 @@ sources/7 = SubResource("TileSetScenesCollectionSource_puexm")
 sources/8 = SubResource("TileSetScenesCollectionSource_ejx4g")
 sources/9 = SubResource("TileSetScenesCollectionSource_c1p70")
 sources/10 = SubResource("TileSetScenesCollectionSource_bdx2g")
+sources/3 = SubResource("TileSetScenesCollectionSource_slwwi")
 
 [node name="tileset_objects" type="TileMap"]
 visibility_layer = 2

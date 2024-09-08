@@ -101,27 +101,21 @@ position = Vector2(-640, 432)
 
 [node name="butterfly" parent="." index="25" instance=ExtResource("13_u0t81")]
 position = Vector2(-192, -40)
-SPEED = 100.0
 
 [node name="butterfly_key" parent="." index="26" instance=ExtResource("14_d8tiq")]
 position = Vector2(536, -120)
-SPEED = 100.0
 
 [node name="butterfly_score" parent="." index="27" instance=ExtResource("15_qia7n")]
 position = Vector2(1048, -64)
-SPEED = 100.0
 
 [node name="butterfly_key2" parent="." index="28" instance=ExtResource("14_d8tiq")]
 position = Vector2(336, -568)
-SPEED = 100.0
 
 [node name="butterfly_score2" parent="." index="29" instance=ExtResource("15_qia7n")]
 position = Vector2(-616, -456)
-SPEED = 100.0
 
 [node name="butterfly2" parent="." index="30" instance=ExtResource("13_u0t81")]
 position = Vector2(1624, -408)
-SPEED = 100.0
 
 [node name="collectibleWeapon_ice" parent="." index="31" instance=ExtResource("16_qq3cx")]
 position = Vector2(192, 56)
@@ -398,4 +392,4 @@ position = Vector2(-3752, -4432)
 scale = Vector2(359.7, 5.05)
 RESET_OFFSET = true
 RESET_ZOOM = true
-vertical = true
+horizontal = false

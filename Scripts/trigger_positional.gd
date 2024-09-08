@@ -46,6 +46,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	print(active)
 	if not active:
 		return
 	
@@ -117,7 +118,6 @@ func _process(delta):
 	if RESET_ZOOM:
 		$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
 		return
-		
 	
 	
 	if moveCamera:
@@ -128,23 +128,18 @@ func _process(delta):
 	if zoomCamera:
 		if $/root/World.camera.zoom != Vector2(zoomValue, zoomValue):
 			$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
-			
 
 
 func _on_body_entered(body):
-	if get_node_or_null("$Timer"):
-		return
 	if body.is_in_group("player"):
 		$Timer.stop()
 		active = true
 
-
 func _on_body_exited(body):
-	if not get_node_or_null("$Timer"):
-		return
 	if body.is_in_group("player"):
+		print("DEACTIVATED???")
 		$Timer.start()
 
-
 func _on_timer_timeout():
+	print("DEACTIVATED")
 	active = false

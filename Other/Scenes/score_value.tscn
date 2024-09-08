@@ -4,6 +4,53 @@
 [ext_resource type="Script" path="res://Other/Scenes/score_value.gd" id="1_sj14u"]
 [ext_resource type="Material" uid="uid://g07ca37hnt0w" path="res://Other/Materials/rainbow_material.tres" id="2_qw4nc"]
 
+[sub_resource type="Animation" id="Animation_h8fwk"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
 [sub_resource type="Animation" id="Animation_1nkg4"]
 resource_name = "opacity_fade_in"
 tracks/0/type = "bezier"
@@ -71,53 +118,6 @@ tracks/5/keys = {
 "handle_modes": PackedInt32Array(0, 0),
 "points": PackedFloat32Array(0.1, -0.25, 0, 0.25, 0, 1, -1, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 1)
-}
-
-[sub_resource type="Animation" id="Animation_h8fwk"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate:r")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:modulate:g")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:modulate:b")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:modulate:a")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
 }
 
 [sub_resource type="Animation" id="Animation_4t4n3"]
@@ -196,9 +196,10 @@ vertical_alignment = 1
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture_filter = 1
+layout_mode = 0
+offset_top = -8.0
 offset_right = 512.0
-offset_bottom = 128.0
-scale = Vector2(1.1, 1.1)
+offset_bottom = 120.0
 pivot_offset = Vector2(256, 64)
 theme = ExtResource("1_6182f")
 theme_override_font_sizes/font_size = 64
@@ -207,14 +208,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label2" type="Label" parent="main_label"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture_filter = 1
+layout_mode = 0
 offset_left = 8.0
-offset_top = 8.0
+offset_top = -8.0
 offset_right = 520.0
-offset_bottom = 136.0
+offset_bottom = 120.0
 pivot_offset = Vector2(256, 64)
 theme = ExtResource("1_6182f")
 theme_override_font_sizes/font_size = 64
@@ -223,14 +224,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label3" type="Label" parent="main_label"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture_filter = 1
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 504.0
-offset_bottom = 120.0
+layout_mode = 0
+offset_left = 8.0
+offset_right = 520.0
+offset_bottom = 128.0
 pivot_offset = Vector2(256, 64)
 theme = ExtResource("1_6182f")
 theme_override_font_sizes/font_size = 64
@@ -239,14 +239,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label4" type="Label" parent="main_label"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture_filter = 1
+layout_mode = 0
 offset_left = 8.0
-offset_top = -8.0
+offset_top = 8.0
 offset_right = 520.0
-offset_bottom = 120.0
+offset_bottom = 136.0
 pivot_offset = Vector2(256, 64)
 theme = ExtResource("1_6182f")
 theme_override_font_sizes/font_size = 64
@@ -255,13 +255,13 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label5" type="Label" parent="main_label"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture_filter = 1
-offset_left = 8.0
-offset_right = 520.0
-offset_bottom = 128.0
+layout_mode = 0
+offset_top = 8.0
+offset_right = 512.0
+offset_bottom = 136.0
 pivot_offset = Vector2(256, 64)
 theme = ExtResource("1_6182f")
 theme_override_font_sizes/font_size = 64
@@ -270,10 +270,26 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Label6" type="Label" parent="main_label"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture_filter = 1
+layout_mode = 0
+offset_left = -8.0
+offset_top = 8.0
+offset_right = 504.0
+offset_bottom = 136.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("1_6182f")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label7" type="Label" parent="main_label"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
 offset_left = -8.0
 offset_right = 504.0
 offset_bottom = 128.0
@@ -284,29 +300,15 @@ text = "score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Label7" type="Label" parent="main_label"]
-visible = false
-modulate = Color(0, 0, 0, 1)
-z_index = -1
-texture_filter = 1
-offset_top = -8.0
-offset_right = 512.0
-offset_bottom = 120.0
-pivot_offset = Vector2(256, 64)
-theme = ExtResource("1_6182f")
-theme_override_font_sizes/font_size = 64
-text = "score"
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="Label8" type="Label" parent="main_label"]
-visible = false
 modulate = Color(0, 0, 0, 1)
 z_index = -1
 texture_filter = 1
-offset_top = 8.0
-offset_right = 512.0
-offset_bottom = 136.0
+layout_mode = 0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 504.0
+offset_bottom = 120.0
 pivot_offset = Vector2(256, 64)
 theme = ExtResource("1_6182f")
 theme_override_font_sizes/font_size = 64

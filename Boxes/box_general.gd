@@ -41,7 +41,7 @@ var start_item_amount = 3
 @export var onDeath_play_anim = true
 @export var onDeath_play_spriteAnim = false
 @export var onDeath_spawn_deadEffect = false
-@export var onHit_toggle_skullBlocks = false
+@export var onHit_toggle_toggleBlocks = false
 @export var onDeath_toggle_toggleBlocks = false
 @export var hit_cooldown = false
 @export var hit_cooldown_time = 0.8
@@ -75,8 +75,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			
 			if hp <= 0:
 				destroy()
-		
-		
+	
 	elif body.is_in_group("player_projectile"):
 		if not destroyed:
 			var damageValue = body.damageValue
@@ -96,9 +95,9 @@ func reduce_hp(damageValue):
 	if not immortal:
 		hp -= damageValue
 		
-	if onHit_toggle_skullBlocks:
+	if onHit_toggle_toggleBlocks:
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
-	
+
 func destroy():
 	if not onDeath_reset:
 		destroyed = true
@@ -133,7 +132,7 @@ func destroy():
 	add_child(particles_special_multiple)
 	var particles_special = scene_particles_special.instantiate()
 	add_child(particles_special)
-	
+
 
 func player_bounce(body):
 	if body.velocity.y > bounce_min_velocity:
@@ -223,6 +222,11 @@ func _ready():
 	sprite.visible = false
 	animation_player.active = false
 	$Area2D.set_monitorable(false)
+	
+	await get_tree().create_timer(0.2, false).timeout
+	
+	if destroyed:
+		queue_free()
 
 
 #SAVE START
@@ -235,7 +239,7 @@ func save():
 		"destroyed" : destroyed,
 		"hp" : hp,
 		"start_hp" : start_hp,
-		
+	
 	}
 	return save_dict
 #SAVE END

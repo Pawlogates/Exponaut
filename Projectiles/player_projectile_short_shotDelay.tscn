@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://bbn11cxixv6rd"]
 
-[ext_resource type="Script" path="res://Scripts/projectile_general.gd" id="1_lghed"]
+[ext_resource type="Script" path="res://Projectiles/projectile_general.gd" id="1_lghed"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_spabs"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
@@ -39,7 +39,6 @@ floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_lghed")
 SPEED = 200.0
-can_collect = true
 remove_delay = 0.5
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]

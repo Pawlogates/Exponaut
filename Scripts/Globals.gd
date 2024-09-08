@@ -42,6 +42,7 @@ signal exitReached
 signal comboReset
 signal can_stand_up
 
+var weaponType = "none"
 signal weapon_collected
 signal secondaryWeapon_collected
 

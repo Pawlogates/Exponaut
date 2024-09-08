@@ -1,10 +1,10 @@
 [gd_scene load_steps=17 format=3 uid="uid://cxggeqhxdo0c"]
 
-[ext_resource type="Script" path="res://Scripts/player_projectile_phaser.gd" id="1_yevc8"]
-[ext_resource type="Texture2D" uid="uid://bhcgyl112uc1i" path="res://Assets/Graphics/other/basic_projectile.png" id="2_p5qjb"]
-[ext_resource type="Material" uid="uid://b7voscs0a3njp" path="res://Other/Materials/screenTextureEffect.tres" id="3_7of5e"]
-[ext_resource type="Texture2D" uid="uid://cqilw70a4xuvb" path="res://Assets/Graphics/other/testShader.png" id="4_kfnoo"]
-[ext_resource type="AudioStream" uid="uid://ccuhliqs4yoc3" path="res://Assets/Sounds/sfx/medium_effect2.wav" id="5_7viss"]
+[ext_resource type="Script" path="res://Projectiles/projectile_charged_general.gd" id="1_pnsbe"]
+[ext_resource type="Texture2D" uid="uid://bhcgyl112uc1i" path="res://Assets/Graphics/other/basic_projectile.png" id="2_vfw7e"]
+[ext_resource type="Material" uid="uid://b7voscs0a3njp" path="res://Other/Materials/screenTextureEffect.tres" id="3_4owlt"]
+[ext_resource type="Texture2D" uid="uid://cqilw70a4xuvb" path="res://Assets/Graphics/other/testShader.png" id="4_xj8tl"]
+[ext_resource type="AudioStream" uid="uid://ccuhliqs4yoc3" path="res://Assets/Sounds/sfx/medium_effect2.wav" id="5_rghj1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8hc3l"]
 size = Vector2(85.3333, 80)
@@ -958,54 +958,51 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxgxn"]
 size = Vector2(85.3333, 80)
 
-[node name="Node2D" type="Node2D"]
-scale = Vector2(0.75, 0.75)
-
-[node name="player_projectile_phaser" type="CharacterBody2D" parent="." groups=["player_projectile"]]
+[node name="player_projectile_phaser" type="CharacterBody2D" groups=["player_projectile"]]
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("1_yevc8")
+script = ExtResource("1_pnsbe")
 
-[node name="Area2D" type="Area2D" parent="player_projectile_phaser" groups=["player_projectile"]]
+[node name="Area2D" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 2
 collision_mask = 4
 
-[node name="Sprite2D" type="Sprite2D" parent="player_projectile_phaser/Area2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
 modulate = Color(1, 1, 1, 0)
 scale = Vector2(-1, -1)
-texture = ExtResource("2_p5qjb")
+texture = ExtResource("2_vfw7e")
 
-[node name="projectile_hitbox" type="CollisionShape2D" parent="player_projectile_phaser/Area2D"]
+[node name="projectile_hitbox" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(1.90735e-06, 1.90735e-06)
 shape = SubResource("RectangleShape2D_8hc3l")
 disabled = true
 
-[node name="charged_shot" type="Sprite2D" parent="player_projectile_phaser/Area2D"]
-material = ExtResource("3_7of5e")
+[node name="charged_shot" type="Sprite2D" parent="Area2D"]
+material = ExtResource("3_4owlt")
 rotation = 3.14159
 scale = Vector2(1e-05, 1e-05)
-texture = ExtResource("4_kfnoo")
+texture = ExtResource("4_xj8tl")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="player_projectile_phaser"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_25126")
 }
 autoplay = "charge_grow"
 
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="player_projectile_phaser"]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 rotation = 0.00793694
-stream = ExtResource("5_7viss")
+stream = ExtResource("5_rghj1")
 area_mask = 65537
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="player_projectile_phaser"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 scale = Vector2(1e-05, 1e-05)
 shape = SubResource("RectangleShape2D_fxgxn")
 
-[node name="Timer" type="Timer" parent="player_projectile_phaser"]
+[node name="Timer" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
 autostart = true
 
-[connection signal="animation_finished" from="player_projectile_phaser/AnimationPlayer" to="player_projectile_phaser" method="_on_animation_player_animation_finished"]
-[connection signal="animation_started" from="player_projectile_phaser/AnimationPlayer" to="player_projectile_phaser" method="_on_animation_player_animation_started"]
-[connection signal="timeout" from="player_projectile_phaser/Timer" to="player_projectile_phaser" method="_on_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="animation_started" from="AnimationPlayer" to="." method="_on_animation_player_animation_started"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

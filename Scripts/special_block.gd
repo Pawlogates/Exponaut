@@ -234,6 +234,18 @@ func _ready():
 	set_process_unhandled_key_input(false)
 	
 	
+	if get_node_or_null("$Area2D"):
+		$Area2D.set_monitorable(false)
+	
+	if remove_after_delay:
+		%Timer.wait_time = remove_delay
+		%Timer.start()
+	
+	if not block_movement_onSpawn:
+		block_movement = false
+	
+	await get_tree().create_timer(0.25, false).timeout
+	
 	if is_toggleBlock:
 		if toggleBlock_is_active:
 			$Sprite2D.region_rect = Rect2(384, 896, 64, 64)
@@ -243,15 +255,8 @@ func _ready():
 			$Sprite2D.region_rect = Rect2(448, 896, 64, 64)
 			$CollisionShape2D.disabled = true
 	
-	if get_node_or_null("$Area2D"):
-		$Area2D.set_monitorable(false)
-	
-	if remove_after_delay:
-		%Timer.wait_time = remove_delay
-		%Timer.start()
-	
 	if block_movement_onSpawn:
-		await get_tree().create_timer(0.5, false).timeout
+		await get_tree().create_timer(0.25, false).timeout
 	
 	block_movement = false
 
@@ -265,8 +270,6 @@ func spawn_collectibles():
 	
 	var hit_effect = hit_effectScene.instantiate()
 	add_child(hit_effect)
-
-
 
 
 var rng = RandomNumberGenerator.new()
@@ -311,7 +314,6 @@ func redButton_pressed():
 	print(blockType)
 	if blockType == "red":
 		%AnimationPlayer.play("red_disable")
-
 
 
 #BUTTON BACK

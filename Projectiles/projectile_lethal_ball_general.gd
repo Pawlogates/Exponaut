@@ -9,12 +9,12 @@ extends CharacterBody2D
 @onready var speed_display: Label = $speed_display
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 
-@export_enum("normal", "charged", "lethalBall") var projectile_type = "normal"
+#@export_enum("normal", "charged", "lethalBall") var projectile_type = "normal"
 
-@export var SPEED = 400.0
+@export var SPEED = 20000.0
 @export var SPEED_V = 400.0
 
-@export var can_collect = false
+@export var can_collect = true
 @export var remove_delay = 1.0
 @export var bouncy = false
 @export var familyID = 0
@@ -86,18 +86,11 @@ func _process(delta):
 		
 		start_pos = position
 		
-		if projectile_type == "lethalBall":
-			if not player.lethalBall_released:
-				is_lethalBall = true
-				player.lethalBall_released = true
-				add_to_group("lethalBall")
-				set_velocity(Vector2(0, 0))
-		
-		if projectile_type == "normal":
-			if not enemyProjectile and Globals.direction != 0:
-				%animation.flip_h = (Globals.direction < 0)
-			elif enemyProjectile and direction != 0:
-				%animation.flip_h = (direction < 0)
+		if not player.lethalBall_released:
+			is_lethalBall = true
+			player.lethalBall_released = true
+			add_to_group("lethalBall")
+			set_velocity(Vector2(0, 0))
 		
 		
 		if not enemyProjectile:
@@ -107,13 +100,7 @@ func _process(delta):
 				direction = 0
 				direction_V = 1
 				
-				if not projectile_type == "lethalBall":
-					if Globals.direction == 1:
-						rotation_degrees = 90
-					elif Globals.direction == -1:
-						rotation_degrees = -90
-				
-				if projectile_type == "lethalBall" and not is_lethalBall:
+				if not is_lethalBall:
 					$hitbox_down.monitoring = true
 					$hitbox_down/CollisionShape2D/ColorRect3.visible = true
 			
@@ -122,7 +109,7 @@ func _process(delta):
 				downward_shot = false
 				vertical_shot = false
 				
-				if projectile_type == "lethalBall" and not is_lethalBall:
+				if not is_lethalBall:
 					$hitbox_right.monitoring = true
 					$hitbox_right/CollisionShape2D/ColorRect2.visible = true
 			
@@ -131,7 +118,7 @@ func _process(delta):
 				downward_shot = false
 				vertical_shot = false
 				
-				if projectile_type == "lethalBall" and not is_lethalBall:
+				if not is_lethalBall:
 					$hitbox_left.monitoring = true
 					$hitbox_left/CollisionShape2D/ColorRect.visible = true
 		
@@ -139,28 +126,7 @@ func _process(delta):
 	
 	
 	if is_on_wall():
-		if projectile_type == "normal":
-			if direction != 0:
-				%animation.flip_h = (direction < 0)
-			
-			
-			# Handle straight surface bounce
-			straight_bounce()
-			
-			# Handle slope surface bounce
-			if vertical_shot:
-				slope_bounce(true)
-				
-			else:
-				slope_bounce(false)
-			
-			
-			if direction_whenShot == 1:
-				rotation_degrees = 90
-			else:
-				rotation_degrees = -90
-		
-		elif projectile_type == "lethalBall" and not stop_movement:
+		if not stop_movement:
 			var collision_info = move_and_collide(velocity * delta, true)
 			if collision_info:
 				velocity = velocity.bounce(collision_info.get_normal())
@@ -177,23 +143,17 @@ func _process(delta):
 				star.position = position
 				world.add_child(star)
 	
-	
-	if projectile_type == "normal":
-		velocity = Vector2(SPEED * direction, SPEED_V * direction_V)
-		move_and_slide()
-	
-	elif projectile_type == "lethalBall":
-		if not is_lethalBall:
-			velocity = Vector2(0, 0)
+	if not is_lethalBall:
+		velocity = Vector2(0, 0)
+	else:
+		speed_current = lerp(float(speed_current), float(speed_target), delta)
+		if speed_current / 200 > 999.5:
+			speed_display.text = str(1000)
 		else:
-			speed_current = lerp(float(speed_current), float(speed_target), delta)
-			if speed_current / 200 > 999.5:
-				speed_display.text = str(1000)
-			else:
-				speed_display.text = str(int(speed_current / 200))
-			
-			if not stop_movement:
-				move_and_slide()
+			speed_display.text = str(int(speed_current / 200))
+		
+		if not stop_movement:
+			move_and_slide()
 	
 	if start_frame_correct:
 		start_frame_correct = false

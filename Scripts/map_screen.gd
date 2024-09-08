@@ -22,7 +22,7 @@ func _ready():
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-416, 4), load("res://Levels/testLevel_overworld_state.tscn"))
+		place_level_icon(0, Vector2(-416, 4), load("res://Levels/testLevel_object_saved_state.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START

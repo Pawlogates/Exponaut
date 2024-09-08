@@ -975,7 +975,7 @@ var secondaryAttack_cooldown = false
 @export var secondaryWeaponType = "none"
 
 #WEAPON TYPES
-var scene_projectile_phaser = load("res://Projectiles/player_projectile_phaser.tscn")
+var scene_projectile_phaser = load("res://Projectiles/player_projectile_charged_phaser.tscn")
 var scene_projectile_basic = load("res://Projectiles/player_projectile_basic.tscn")
 var scene_projectile_short_shotDelay = load("res://Projectiles/player_projectile_short_shotDelay.tscn")
 var scene_projectile_ice = load("res://Projectiles/player_projectile_ice.tscn")

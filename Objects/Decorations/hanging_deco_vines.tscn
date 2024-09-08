@@ -10,6 +10,7 @@ size = Vector2(16, 16)
 size = Vector2(16, 64)
 
 [node name="hangingDeco_vines" type="Node2D"]
+z_index = 1
 script = ExtResource("1_qqe41")
 
 [node name="Root" type="RigidBody2D" parent="."]

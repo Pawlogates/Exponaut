@@ -1,6 +1,6 @@
 [gd_scene load_steps=11 format=3 uid="uid://cgygc2y12hn6l"]
 
-[ext_resource type="Script" path="res://Scripts/projectile_general.gd" id="1_dtja5"]
+[ext_resource type="Script" path="res://Projectiles/projectile_general.gd" id="1_dtja5"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_44cuo"]
 [ext_resource type="AudioStream" uid="uid://m4x8f78vmnba" path="res://Assets/Sounds/sfx/pig_attack.wav" id="3_ds6nq"]
 

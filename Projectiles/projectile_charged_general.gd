@@ -77,7 +77,7 @@ func _physics_process(_delta):
 		can_collect = true
 		await get_tree().create_timer(0.5, false).timeout
 		upward_shot = true
-		
+	
 	
 	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.direction == 1:
 		damageValue = 3
@@ -88,7 +88,7 @@ func _physics_process(_delta):
 		shot_anim.play("shot_anim_CHARGED_R")
 		Globals.shot.emit()
 		charged_shot_buffer.stop()
-		
+	
 	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.direction == -1:
 		damageValue = 3
 		started = true

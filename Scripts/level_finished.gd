@@ -5,11 +5,9 @@ signal retry()
 @onready var retry_btn = %RetryBtn
 @onready var level_select_btn = %LevelSelectBtn
 
-
 var level_score = 0
 var displayed_totalScore = 0
 var displayed_score = 0
-
 
 func _on_retry_btn_pressed():
 	retry.emit()
@@ -108,9 +106,6 @@ func exit_reached():
 		if LevelTransition.get_node("%saved_progress").get("score_" + str(Globals.current_level_ID)) < level_score:
 			LevelTransition.get_node("%saved_progress").set("score_" + str(Globals.current_level_ID), level_score)
 	
-	
-	
-	
 		if Globals.selected_episode == "Additional Levels":
 			if Globals.current_level_number == LevelTransition.get_node("%saved_progress").next_level_RI1:
 				LevelTransition.get_node("%saved_progress").next_level_RI1 += 1
@@ -119,17 +114,14 @@ func exit_reached():
 		Globals.save_progress.emit()
 	
 	
-	
 	if $/root/World.final_level:
 		if first_time_clear:
 			await LevelTransition.fade_to_black_verySlow()
 			await get_tree().create_timer(2, true).timeout
-			var credits = load("res://credits.tscn")
+			var credits = load("res://Other/Scenes/screen_credits.tscn")
 			get_tree().change_scene_to_packed(credits)
 			
 			return
-		
-	
 	
 	$AudioStreamPlayer.play()
 	$level_finished_text_hide.start()
@@ -145,9 +137,6 @@ func exit_reached():
 	
 	set_process(true)
 	calculate_rating()
-	
-	
-
 
 
 var rank = "D" #possible ranks: D, C, B, A, S (no reward), S+ (no reward)
