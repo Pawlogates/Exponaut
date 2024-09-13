@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://cccpw68bhryyg"]
+
+[ext_resource type="TileSet" uid="uid://6ukb8rqdd1tc" path="res://Tilesets/decorations.tres" id="1_da6ja"]
+
+[node name="decorations" type="TileMapLayer"]
+texture_filter = 1
+use_parent_material = true
+position = Vector2(2, 2)
+tile_set = ExtResource("1_da6ja")
+rendering_quadrant_size = 4

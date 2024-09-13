@@ -86,9 +86,8 @@ sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-352, -512)
-scale = Vector2(3, 1.75)
-rect = Rect2(0, 0, 256, 512)
+modulate = Color(1, 1, 1, 0.196078)
+rect = Rect2(-250, -250, 500, 500)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

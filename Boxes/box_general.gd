@@ -64,7 +64,7 @@ func _physics_process(delta):
 #BODY ENTERED
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if not active:
-		print("BonusBox entered, but it was inactive.")
+		print("Box entered, but it was inactive.")
 		return
 	
 	if body.is_in_group("player") and not body.get_parent().is_in_group("weightless"):

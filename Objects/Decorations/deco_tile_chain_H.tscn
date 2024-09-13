@@ -139,8 +139,8 @@ autoplay = "default"
 frame_progress = 0.525694
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-96, -192)
-rect = Rect2(0, 0, 256, 512)
+modulate = Color(1, 1, 1, 0.196078)
+rect = Rect2(-250, -250, 500, 500)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

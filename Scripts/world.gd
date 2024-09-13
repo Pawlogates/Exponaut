@@ -625,7 +625,6 @@ func bg_move():
 
 #Save state
 func save_game():
-	print(Globals.is_saving)
 	if not Globals.is_saving:
 		Globals.is_saving = true
 		
@@ -1064,7 +1063,6 @@ func _on_meme_mode_timer_timeout():
 
 
 func _on_timer_timeout() -> void:
-	print(whiteBlocks_toggle)
 	if whiteBlocks_toggle:
 		whiteBlocks_toggle = false
 		$whiteBlocks_make_rainbow.play("fade_out")

@@ -1167,7 +1167,7 @@ func handle_flight(delta):
 func handle_just_landed():
 	if true_just_landed:
 		true_just_landed = false
-		print("landed")
+		print("Player landed.")
 		player_just_landed.emit()
 	if not is_on_floor():
 		true_just_landed_queued = true

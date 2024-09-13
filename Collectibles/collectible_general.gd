@@ -524,7 +524,7 @@ var collidable = true
 func inside_check_enter(body):
 	if body.is_in_group("player"):
 		player_inside = true
-		print("entered player")
+		print("Player entered.")
 		if collidable and hard_to_collect or collidable and rotten:
 			collidable = false
 			collisionCheck_delay.start()
@@ -555,7 +555,7 @@ func inside_check_exit(body):
 			#if hard_to_collect or rotten:
 			player_inside = false
 			direction = body.direction
-			print("exitted player")
+			print("Player exitted.")
 		
 		if body.is_in_group("player_projectile"):
 			player_projectile_inside = false
