@@ -48,7 +48,10 @@ var saved_ambience_isPlaying = false
 
 func savedData_save(save_player_position):
 	if save_player_position:
-		saved_position = $/root/World.player.position
+		if $/root/World.last_checkpoint_pos == Vector2(0, 0):
+			saved_position = $/root/World.player.position
+		else:
+			saved_position = $/root/World.last_checkpoint_pos
 	
 	saved_score = Globals.level_score
 	saved_weapon = $/root/World.player.weaponType

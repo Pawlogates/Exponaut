@@ -213,6 +213,9 @@ func _process(delta):
 	#HANDLE STUCK IN WALL
 	handle_stuck()
 	
+	#DEBUG SCREEN
+	handle_debug_screen()
+	
 	handle_gameMode_scoreAttack()
 	
 	handle_just_landed()
@@ -748,6 +751,20 @@ func _on_dash_check_timeout():
 
 
 func shoot_projectile(projectile_scene):
+	if weaponType == "basic" and Globals.collected_in_cycle >= 20:
+		if not dead and Input.is_action_just_pressed("attack_main"):
+			var projectile_phaser = scene_projectile_phaser.instantiate()
+			add_child(projectile_phaser)
+			
+			#SHOOTING ANIMATION
+			shooting = true
+			shoot_anim_delay.start()
+			sprite.play("shoot")
+			if direction != 0:
+				sprite.flip_h = (direction < 0)
+		
+		return
+	
 	if not attack_cooldown:
 		attack_cooldown = true
 		$attack_cooldown.start()
@@ -1198,3 +1215,29 @@ func on_comboReset():
 func _on_block_movement_full_timeout() -> void:
 	block_movement_full = false
 	velocity = Vector2(0, 0)
+
+
+var debugToggle = false
+var scene_debug_screen = preload("res://Other/Scenes/User Interface/Debug/screen_debug.tscn")
+func handle_debug_screen():
+	if Input.is_action_just_pressed("show_debugInfo"):
+		if not debugToggle:
+			var debug_screen = scene_debug_screen.instantiate()
+			world.hud.add_child(debug_screen)
+			
+			debug_screen.debugToggle = true
+			debugToggle = true
+			debug_screen.visible = true
+			
+			get_tree().set_debug_collisions_hint(true)
+			debug_screen.refresh_debugInfo()
+			debug_screen.refresh_debugInfo_values()
+			
+			$/root/World.player.block_movement = true
+		
+		else:
+			$/root/World.player.block_movement = false
+			get_tree().set_debug_collisions_hint(false)
+			
+			world.debug_screen_delete()
+			debugToggle = false

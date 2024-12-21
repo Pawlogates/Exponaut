@@ -127,6 +127,7 @@ var mode_scoreAttack = false
 
 var transitioned = false
 var next_transition = 0
+var load_saved_position = true
 
 
 var debug_mode = false

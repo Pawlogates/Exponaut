@@ -1,0 +1,57 @@
+[gd_scene load_steps=9 format=3 uid="uid://by5agnrio10cp"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_6dmxn"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_yt0i1"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="3_2aay3"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_iahvb"]
+[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_cl0l4"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_a5hyn"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_aquum"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="8_6gb6a"]
+
+[node name="World" instance=ExtResource("1_6dmxn")]
+playerStartHP = 3
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_yt0i1")]
+unique_name_in_owner = true
+
+[node name="tileset_main_precise" parent="." index="1" instance=ExtResource("3_2aay3")]
+
+[node name="tileset_objects" parent="." index="2" instance=ExtResource("4_iahvb")]
+unique_name_in_owner = true
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_cl0l4")]
+unique_name_in_owner = true
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("5_cl0l4")]
+z_index = -5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("5_cl0l4")]
+z_index = 5
+layer_1/enabled = false
+layer_2/enabled = false
+layer_3/enabled = false
+layer_4/enabled = false
+
+[node name="kill_area" parent="." index="15" instance=ExtResource("6_a5hyn")]
+position = Vector2(7168, 5184)
+scale = Vector2(320, 1)
+
+[node name="trigger_bgChange" parent="." index="16" instance=ExtResource("7_aquum")]
+position = Vector2(-3.05176e-05, -1.52588e-05)
+scale = Vector2(8, 8)
+
+[node name="trigger_bgMove" parent="." index="17" instance=ExtResource("8_6gb6a")]
+scale = Vector2(4, 4)

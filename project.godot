@@ -22,6 +22,10 @@ LevelTransition="*res://Other/Scenes/transition.tscn"
 Globals="*res://Scripts/Globals.gd"
 SavedData="*res://Other/Scenes/saved_data.tscn"
 
+[debug]
+
+gdscript/warnings/unused_signal=0
+
 [display]
 
 window/size/viewport_width=1920

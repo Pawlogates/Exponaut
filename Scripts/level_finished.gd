@@ -13,9 +13,12 @@ func _on_retry_btn_pressed():
 	retry.emit()
 
 func _on_continue_btn_pressed():
-	#next_level.emit()
 	if Globals.delete_saves:
 		SavedData.saved_last_area_filePath = "res://Levels/overworld_infected_glades.tscn"
+	
+	elif SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+		_on_level_select_btn_pressed()
+		return
 	
 	var saved_level = load(SavedData.saved_last_area_filePath)
 	await LevelTransition.fade_to_black()
@@ -30,7 +33,6 @@ func _on_level_select_btn_pressed():
 	await LevelTransition.fade_from_black_slow()
 
 
-
 var score_counted_emitted = false
 signal score_counted()
 
@@ -43,7 +45,6 @@ func _ready():
 	%"Golden Apple Reward 3".modulate.a = 0.2
 	%"Golden Apple Reward 4".modulate.a = 0.2
 	%"Golden Apple Reward 5".modulate.a = 0.2
-	
 
 
 func _process(_delta):
@@ -64,17 +65,15 @@ func _process(_delta):
 		
 	if displayed_score != level_score and level_score - displayed_score > 25000:
 		displayed_score += 251
-		
+	
 	
 	%"Level Score Label".text = str(displayed_score)
 	%"Total Score Label".text = str(displayed_totalScore)
 	
 	
-	
 	if not score_counted_emitted and displayed_score == level_score:
 		score_counted.emit()
 		score_counted_emitted = true
-	
 
 
 var first_time_clear = false
@@ -188,7 +187,6 @@ func calculate_rating():
 		%"Golden Apple Reward 5".modulate.a = 1.0
 
 
-
 func after_score_counted():
 	if Globals.current_levelSet_ID == "MAIN":
 		LevelTransition.get_node("%saved_progress").count_total_score(Globals.current_levelSet_ID, 13)
@@ -203,12 +201,6 @@ func after_score_counted():
 		#count_hp()
 		#await get_tree().create_timer(0.5, true).timeout
 		#count_inventoryItems()
-
-
-
-
-
-
 
 
 var displayedBonus_hp = 0
@@ -226,4 +218,3 @@ func count_hp():
 func count_inventoryItems():
 	if Globals.inventory_currentItemCount > 0:
 		displayedBonus_items += 1000
-		

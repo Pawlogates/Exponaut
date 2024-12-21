@@ -22,7 +22,6 @@ func _ready():
 		$Timer.start()
 
 
-
 #DESTROY KEY BLOCK
 
 func key_block_destroy():
@@ -49,10 +48,7 @@ func deferred_key_block_destroy():
 #DESTROY KEY BLOCK END
 
 
-
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("key_opener"):
 		key_block_destroy()
 		area.get_parent().destroy_self()
-		
-	

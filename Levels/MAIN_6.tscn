@@ -13,7 +13,6 @@
 [node name="World" instance=ExtResource("1_hasmk")]
 shrine_level = true
 playerStartHP = 3
-shrine_selected_episode = "Main Levels"
 shrine_level_ID = "MAIN_6"
 shrine_level_number = 6
 

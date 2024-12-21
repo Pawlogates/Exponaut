@@ -156,7 +156,7 @@
 [ext_resource type="PackedScene" uid="uid://flag654itsqj" path="res://Objects/Decorations/rect_gradient.tscn" id="154_y2fsk"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
-resource_name = "objects"
+resource_name = "everything"
 scenes/1/scene = ExtResource("1_vmdr1")
 scenes/2/scene = ExtResource("52_uatvx")
 scenes/3/scene = ExtResource("63_2x7i4")

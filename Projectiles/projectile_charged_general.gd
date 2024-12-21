@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 
 @onready var shot_main = $Area2D
 @onready var charged_shot_buffer = $Timer

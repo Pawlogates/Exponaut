@@ -506,6 +506,7 @@ floor_snap_length = 5.0
 safe_margin = 1.0
 script = ExtResource("1_awyw2")
 collectibleScoreValue = 25
+loop_anim = "none"
 rotting = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]

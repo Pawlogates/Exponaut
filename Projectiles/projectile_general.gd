@@ -138,8 +138,8 @@ func _process(delta):
 		position.y = start_pos[1]
 
 
-func _on_hitbox_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
+#func _on_hitbox_body_entered(body: Node2D) -> void:
+	#pass # Replace with function body.
 
 
 func _on_remove_delay_timeout():

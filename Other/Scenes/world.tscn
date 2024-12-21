@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=23 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_25muh"]
 [ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_controller.tscn" id="2_1jcpx"]
@@ -17,7 +17,6 @@
 [ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://Other/Scenes/User Interface/Quick Select/quickselect_screen.tscn" id="17_q3m23"]
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://Other/Scenes/User Interface/collectedApplesDisplay_golden.tscn" id="18_423d0"]
 [ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/rainbow_material2.tres" id="19_eepji"]
-[ext_resource type="PackedScene" uid="uid://d0vqhficbarvl" path="res://Other/Scenes/User Interface/Debug/screen_debug.tscn" id="19_lp8y3"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="20_fa23o"]
 
 [sub_resource type="Animation" id="Animation_aveud"]
@@ -296,10 +295,6 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
-
-[node name="Debug Screen" parent="HUD" instance=ExtResource("19_lp8y3")]
-unique_name_in_owner = true
-visible = false
 
 [node name="ComboManager" parent="." instance=ExtResource("20_fa23o")]
 unique_name_in_owner = true

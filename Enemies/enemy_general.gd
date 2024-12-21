@@ -597,8 +597,7 @@ func _on_limit_turn_timeout():
 	can_turn = true
 	if debug:
 		print("CAN TURN AGAIN")
-#!TURN ON WALL
-
+#TURN ON WALL END
 
 
 #OTHER BEHAVIOUR

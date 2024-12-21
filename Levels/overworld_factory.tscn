@@ -164,22 +164,18 @@ scale = Vector2(1, 8)
 [node name="info_sign" parent="." index="26" instance=ExtResource("13_a6ra1")]
 position = Vector2(480, 96)
 displayedText = "Press Z or Spacebar to jump. Hold for a higher jump."
-displayedText_size = 1
 
 [node name="info_sign2" parent="." index="27" instance=ExtResource("13_a6ra1")]
 position = Vector2(1952, 32)
 displayedText = "You can bounce off a wall once before having to touch the ground again."
-displayedText_size = 2
 
 [node name="info_sign3" parent="." index="28" instance=ExtResource("13_a6ra1")]
 position = Vector2(1824, -352)
 displayedText = "You can also air-jump once before touching the ground."
-displayedText_size = 1
 
 [node name="info_sign4" parent="." index="29" instance=ExtResource("13_a6ra1")]
 position = Vector2(2912, -992)
 displayedText = "Hold down arrow to crouch. You can also walk while crouching."
-displayedText_size = 1
 
 [node name="info_sign14" parent="." index="30" instance=ExtResource("13_a6ra1")]
 position = Vector2(3168, -4896)
@@ -189,7 +185,6 @@ displayedText_size = 1
 [node name="info_sign13" parent="." index="31" instance=ExtResource("13_a6ra1")]
 position = Vector2(4224, -416)
 displayedText = "Remember to HOLD the jump button, to perform a higher jump."
-displayedText_size = 1
 
 [node name="info_sign5" parent="." index="32" instance=ExtResource("13_a6ra1")]
 position = Vector2(224, -3552)

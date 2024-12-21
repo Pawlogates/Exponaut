@@ -12,7 +12,7 @@ var polygon4_position = Vector2(-488, -40)
 func _ready() -> void:
 	if menu_name != "none":
 		menu = get_node("/root/" + menu_name)
-		print("$/root/" + menu_name)
+		#print("$/root/" + menu_name)
 		
 		get_parent().get_parent().add_to_group("buttons_root")
 		get_parent().add_to_group("buttons")

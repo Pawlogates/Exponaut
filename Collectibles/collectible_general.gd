@@ -486,7 +486,7 @@ func _physics_process(delta):
 			%AnimatedSprite2D.position.y += 1
 	
 	if debug:
-		print(item_scene)
+		pass
 
 
 func saveState_loaded():

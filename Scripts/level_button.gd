@@ -102,6 +102,7 @@ func _ready():
 func _on_pressed():
 	if unlocked or Globals.debug_mode or Globals.selected_episode == "Additional Levels":
 		Globals.next_transition = 0
+		Globals.load_saved_position = false
 		%level_start.play()
 		await LevelTransition.fade_to_black_slow()
 		get_tree().change_scene_to_packed(icon_level_filePath)
@@ -161,4 +162,3 @@ func _on_mouse_exited():
 	modulate.g = 1.0
 	%glow_root.modulate.a = 1.0
 	get_parent().get_node("%level_info_container").visible = false
-	

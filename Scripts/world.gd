@@ -5,7 +5,9 @@ extends Node2D
 @export var next_level: PackedScene
 
 @onready var player = %Player
+
 @onready var hud = %HUD
+var debug_screen: Control #Added and deleted on demand.
 
 @onready var level_finished = %"Level Finished"
 
@@ -71,6 +73,7 @@ var whiteBlocks_toggle = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	LevelTransition.blackScreen.color.a = 1.0
+	
 	
 	if area_ID != "overworld_factory":
 		Globals.left_start_area = true
@@ -217,10 +220,11 @@ func _ready():
 			player.position = areaTransition.position
 	
 	
-	if not regular_level and not Globals.just_started_new_game: 
+	if not regular_level and not Globals.just_started_new_game and Globals.load_saved_position: 
 		load_saved_progress_overworld() #loads player related progress, doesn't conflict with load_game_area()
 	
 	Globals.transitioned = false
+	Globals.load_saved_position = true
 	
 	player.camera.position_smoothing_enabled = false
 	
@@ -623,6 +627,8 @@ func bg_move():
 	bg_position_set = false
 
 
+var last_checkpoint_pos = Vector2(0, 0)
+
 #Save state
 func save_game():
 	if not Globals.is_saving:
@@ -656,8 +662,12 @@ func save_game():
 		
 		Globals.saved_level_score = Globals.level_score
 		
-		Globals.saved_player_posX = Globals.player_posX
-		Globals.saved_player_posY = Globals.player_posY
+		if last_checkpoint_pos == Vector2(0, 0):
+			Globals.saved_player_posX = Globals.player_posX
+			Globals.saved_player_posY = Globals.player_posY
+		else:
+			Globals.saved_player_posX = last_checkpoint_pos[0]
+			Globals.saved_player_posY = last_checkpoint_pos[1]
 		
 		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
 		
@@ -727,7 +737,8 @@ func saved_from_outside():
 
 
 func _on_debug_refresh_timeout():
-	%"Debug Screen".refresh_debugInfo()
+	if get_node_or_null("HUD/Debug Screen"):
+		$"HUD/Debug Screen".refresh_debugInfo()
 	
 	Globals.collected_collectibles = Globals.collectibles_in_this_level - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.collectibles_in_this_level)
@@ -984,8 +995,14 @@ func save_game_area():
 	Globals.saved_level_score = Globals.level_score
 	
 	reassign_player()
-	Globals.saved_player_posX = player.position.x
-	Globals.saved_player_posY = player.position.y
+	
+	if last_checkpoint_pos == Vector2(0, 0):
+		Globals.saved_player_posX = player.position.x
+		Globals.saved_player_posY = player.position.y
+	else:
+		Globals.saved_player_posX = last_checkpoint_pos[0]
+		Globals.saved_player_posY = last_checkpoint_pos[1]
+	
 	
 	%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
 	
@@ -1071,3 +1088,13 @@ func _on_timer_timeout() -> void:
 		whiteBlocks_toggle = true
 		$whiteBlocks_make_rainbow.play("fade_in")
 		healthDisplay.text = "in"
+
+
+func debug_screen_delete():
+	debug_screen = $"HUD/Debug Screen"
+	
+	if not get_node_or_null("HUD/Debug Screen"):
+		return
+	
+	debug_screen.queue_free()
+	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
