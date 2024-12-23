@@ -5,7 +5,7 @@
 [resource]
 shader = ExtResource("1_714mx")
 shader_parameter/color = Color(1, 1, 1, 1)
-shader_parameter/width = 1.0
+shader_parameter/width = 5.0
 shader_parameter/pattern = 0
 shader_parameter/inside = false
 shader_parameter/add_margins = true

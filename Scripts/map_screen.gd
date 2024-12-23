@@ -1,5 +1,7 @@
 extends CenterContainer
 
+var saved_progress : Node2D
+
 var level_icon_scene = load("res://Other/Scenes/Level Select/level_button.tscn")
 var main_menu = load("res://Other/Scenes/menu_start.tscn")
 
@@ -8,13 +10,15 @@ var total_score = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	saved_progress = LevelTransition.get_node("%saved_progress")
+	
 	LevelTransition.get_node("%saved_progress").load_game()
 	print(str(Globals.selected_episode) + " is the currently selected Level Set.")
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	#EPISODE START
-	if Globals.selected_episode == "Additional Levels":
+	if Globals.selected_episode == "Debug Levels":
 		level_number = 0
 		
 		#LEVEL ICON START
@@ -53,35 +57,43 @@ func _ready():
 		level_number = 0
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-460, 40), load("res://Levels/MAIN_1.tscn"))
+		var info_MAIN_1 = saved_progress.get("info_MAIN_1")
+		place_level_icon(info_MAIN_1[1], Vector2(-460, 40), load("res://Levels/MAIN_1.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(2, Vector2(-360, 80), load("res://Levels/MAIN_2.tscn"))
+		var info_MAIN_2 = saved_progress.get("info_MAIN_2")
+		place_level_icon(info_MAIN_2[1], Vector2(-360, 80), load("res://Levels/MAIN_2.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(280, 60), load("res://Levels/MAIN_3.tscn"))
+		var info_MAIN_3 = saved_progress.get("info_MAIN_3")
+		place_level_icon(info_MAIN_3[1], Vector2(280, 60), load("res://Levels/MAIN_3.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(180, 40), load("res://Levels/MAIN_4.tscn"))
+		var info_MAIN_4 = saved_progress.get("info_MAIN_4")
+		place_level_icon(info_MAIN_4[1], Vector2(180, 40), load("res://Levels/MAIN_4.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-120, -100), load("res://Levels/MAIN_5.tscn"))
+		var info_MAIN_5 = saved_progress.get("info_MAIN_5")
+		place_level_icon(info_MAIN_5[1], Vector2(-120, -100), load("res://Levels/MAIN_5.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(700, 80), load("res://Levels/MAIN_6.tscn"))
+		var info_MAIN_6 = saved_progress.get("info_MAIN_6")
+		place_level_icon(info_MAIN_6[1], Vector2(700, 80), load("res://Levels/MAIN_6.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(1, Vector2(200, -40), load("res://Levels/MAIN_7.tscn"))
+		var info_MAIN_7 = saved_progress.get("info_MAIN_7")
+		place_level_icon(info_MAIN_7[1], Vector2(200, -40), load("res://Levels/MAIN_7.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(2, Vector2(350, -120), load("res://Levels/MAIN_8.tscn"))
+		var info_MAIN_8 = saved_progress.get("info_MAIN_8")
+		place_level_icon(info_MAIN_8[1], Vector2(350, -120), load("res://Levels/MAIN_8.tscn"))
 		#LEVEL ICON END
 	
 	#EPISODE END
@@ -89,16 +101,18 @@ func _ready():
 	
 	#Load saved level states.
 	
-	# Additional levels
-	if Globals.selected_episode == "Additional Levels":
+	# Bonus levels
+	if Globals.selected_episode == "Bonus Levels":
+		Globals.current_levelSet_ID = "BONUS"
+		
 		for icon in get_tree().get_nodes_in_group("level_icon"):
 			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_BONUS_" + str(icon.level_number))
 			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_BONUS_" + str(icon.level_number))
-			print("Saved level completion state: ", icon.level_state)
+			#print("Saved level completion state: ", icon.level_state)
 		
 		Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_BONUS")
 	
-	#Main Levels
+	# Main Levels
 	elif Globals.selected_episode == "Main Levels":
 		Globals.current_levelSet_ID = "MAIN"
 		
@@ -106,7 +120,7 @@ func _ready():
 			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_MAIN_" + str(icon.level_number))
 			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_MAIN_" + str(icon.level_number))
 			icon.is_main_level = true
-			print("Saved level completion state: ", icon.level_state)
+			#print("Saved level completion state: ", icon.level_state)
 		
 		
 		LevelTransition.get_node("%saved_progress").count_total_score("MAIN", 13)
@@ -114,9 +128,12 @@ func _ready():
 		
 		#Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_MAIN")
 	
+	# Debug Levels
+	elif Globals.selected_episode == "Debug Levels":
+		pass
+	
 	
 	Globals.progress_loadingFinished.emit()
-	print(Globals.selected_episode)
 	$level_icon_container/level_button_root/level_button.grab_focus()
 	%ColorRect.visible = true
 	%fade_animation.play("fade_from_black")
@@ -158,11 +175,17 @@ func _on_enable_score_attack_mode_pressed():
 
 
 func _on_main_menu_pressed():
+	if check_if_buttons_blocked():
+		return
+	
 	await LevelTransition.fade_to_black_slow()
 	get_tree().change_scene_to_packed(main_menu)
 
 
 func _on_back_to_overworld_pressed():
+	if check_if_buttons_blocked():
+		return
+	
 	var saved_level = load(SavedData.saved_last_area_filePath)
 	
 	#DEBUG
@@ -172,3 +195,15 @@ func _on_back_to_overworld_pressed():
 	await LevelTransition.fade_to_black()
 	Globals.transitioned = false
 	get_tree().change_scene_to_packed(saved_level)
+
+
+var buttons_blocked = false
+func check_if_buttons_blocked():
+	if buttons_blocked:
+		print("Buttons are blocked.")
+		return true
+	buttons_blocked = true
+
+func _on_buttons_blocked_timeout() -> void:
+	print("Button are no longer blocked.")
+	buttons_blocked = false

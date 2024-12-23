@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqtpito0c3p7p"]
+
+[ext_resource type="PackedScene" uid="uid://dun5a8r7qx00f" path="res://Levels/empty.tscn" id="1_a2f6y"]
+
+[node name="World" instance=ExtResource("1_a2f6y")]
+cameraLimit_left = -1152.0
+cameraLimit_right = 1e+06
+cameraLimit_bottom = 448.0
+cameraLimit_top = -1e+06
+playerStartHP = 9999
+shrine_selected_episode = "Debug Levels"

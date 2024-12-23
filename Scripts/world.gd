@@ -324,12 +324,14 @@ func load_saved_progress_overworld():
 		#Globals.bgTransition_finished.emit()
 		
 		#load last played music
-		%music.stream = SavedData.saved_music_file
+		if SavedData.saved_music_file:
+			%music.stream = SavedData.saved_music_file
 		if SavedData.saved_music_isPlaying:
 			%music.play()
 		
 		#load last played ambience
-		%ambience.stream = SavedData.saved_ambience_file
+		if SavedData.saved_ambience_file:
+			%ambience.stream = SavedData.saved_ambience_file
 		if SavedData.saved_ambience_isPlaying:
 			%ambience.play()
 

@@ -2,7 +2,7 @@ extends Node2D
 
 #states 1: 0 - unfinished, 1 - finished, 2 - all big apples collected, 3 - all collectibles collected, -1 - unlocked (main game exclusive)
 
-# Additional levels
+# Bonus levels
 var state_BONUS_1 = 0
 var state_BONUS_2 = 0
 var state_BONUS_3 = 0
@@ -31,7 +31,7 @@ var total_score_BONUS = 0
 var next_level_BONUS = 1
 
 
-# Main Levels
+# Main levels
 var state_MAIN_1 = 0
 var state_MAIN_2 = 0
 var state_MAIN_3 = 0
@@ -62,6 +62,35 @@ var score_MAIN_13 = 0
 
 var total_score_MAIN = 0
 var next_level_MAIN = -1
+
+
+
+# Level info (static). - [level name, icon id, max rank score]
+var info_BONUS_1 = ["Desert Dash", 1, 100000]
+var info_BONUS_2 = ["Desert Dash", 1, 100000]
+var info_BONUS_3 = ["Desert Dash", 1, 100000]
+var info_BONUS_4 = ["Desert Dash", 1, 100000]
+var info_BONUS_5 = ["Desert Dash", 1, 100000]
+var info_BONUS_6 = ["Desert Dash", 1, 100000]
+var info_BONUS_7 = ["Desert Dash", 1, 100000]
+var info_BONUS_8 = ["Desert Dash", 1, 100000]
+var info_BONUS_9 = ["Desert Dash", 1, 100000]
+var info_BONUS_10 = ["Desert Dash", 1, 100000]
+var info_BONUS_11 = ["Desert Dash", 1, 100000]
+
+var info_MAIN_1 = ["Desert Dash", 0, 100000]
+var info_MAIN_2 = ["Desert Dash", 2, 100000]
+var info_MAIN_3 = ["Desert Dash", 1, 100000]
+var info_MAIN_4 = ["Desert Dash", 1, 100000]
+var info_MAIN_5 = ["Desert Dash", 1, 100000]
+var info_MAIN_6 = ["Desert Dash", 1, 100000]
+var info_MAIN_7 = ["Desert Dash", 1, 100000]
+var info_MAIN_8 = ["Desert Dash", 1, 100000]
+var info_MAIN_9 = ["Desert Dash", 1, 100000]
+var info_MAIN_10 = ["Desert Dash", 1, 100000]
+var info_MAIN_11 = ["Desert Dash", 1, 100000]
+var info_MAIN_12 = ["Desert Dash", 1, 100000]
+var info_MAIN_13 = ["Desert Dash", 1, 100000]
 
 
 func _ready():

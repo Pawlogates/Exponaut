@@ -152,15 +152,8 @@ func night_modifications():
 
 
 func delete_saves():
-	DirAccess.remove_absolute("user://savegame_test.save")
-	DirAccess.remove_absolute("user://savegame_theBeginning.save")
-	DirAccess.remove_absolute("user://savegame_Overworld.save")
-	DirAccess.remove_absolute("user://savegame_Overworld2.save")
-	DirAccess.remove_absolute("user://savegame_Castle.save")
-	DirAccess.remove_absolute("user://savegame_Ascent.save")
-	#DirAccess.remove_absolute("user://savegame.save")
-	DirAccess.remove_absolute("user://savedProgress.save")
-	DirAccess.remove_absolute("user://savedData.save")
+	SavedData.delete_area_states()
+	SavedData.savedData_reset()
 
 
 #BUTTONS

@@ -318,6 +318,10 @@ grow_vertical = 2
 text = "score"
 horizontal_alignment = 1
 
+[node name="buttons_blocked" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
 [connection signal="focus_entered" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="menu_main/menu_container/Control/Enable Score Attack Mode" method="_on_focus_entered"]
 [connection signal="focus_exited" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="menu_main/menu_container/Control/Enable Score Attack Mode" method="_on_focus_exited"]
 [connection signal="pressed" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="." method="_on_enable_score_attack_mode_pressed"]
@@ -328,3 +332,4 @@ horizontal_alignment = 1
 [connection signal="focus_exited" from="menu_main/menu_container/Control3/Main menu" to="menu_main/menu_container/Control3/Main menu" method="_on_focus_exited"]
 [connection signal="pressed" from="menu_main/menu_container/Control3/Main menu" to="." method="_on_main_menu_pressed"]
 [connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]
+[connection signal="timeout" from="buttons_blocked" to="." method="_on_buttons_blocked_timeout"]

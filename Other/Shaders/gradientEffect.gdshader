@@ -27,6 +27,6 @@ void fragment() {
 	/*distortedUV.x += distortedUV.y * 0.7  * scale;*/
 	/*COLOR = mix(pixelColor, color, flashState) * scale;*/
 	COLOR.a *= opacity_scale;
-	COLOR = mix(pixelColor, gradientColor, 0.7);
+	COLOR = mix(pixelColor, gradientColor, 0.5);
 	
 }

@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dutlj6pc1qp86"]
+
+[ext_resource type="PackedScene" uid="uid://dun5a8r7qx00f" path="res://Levels/empty.tscn" id="1_1el5y"]
+
+[node name="World" instance=ExtResource("1_1el5y")]
+cameraLimit_left = -1152.0
+cameraLimit_right = 1e+06
+cameraLimit_bottom = 448.0
+cameraLimit_top = -1e+06
+shrine_level = true
+shrine_selected_episode = "Main Levels"
+shrine_level_ID = "MAIN_0"
+shrine_level_number = 0

@@ -32,7 +32,7 @@ func _ready():
 		unlocked = true
 		
 	
-	print("Level " + str(icon_ID) + "'s completion state is: " + str(level_state))
+	print("Level " + str(level_number) + "'s completion state is: " + str(level_state))
 	
 	if level_state == 0:
 		pass
@@ -44,7 +44,7 @@ func _ready():
 		%icon_levelAllCollectiblesCollected.visible = true
 	
 	
-	if Globals.selected_episode == "Additional Levels":
+	if Globals.selected_episode == "Bonus Levels":
 		if level_number == 1:
 			topRankScore = 50000
 		elif level_number == 2:
@@ -100,7 +100,7 @@ func _ready():
 
 
 func _on_pressed():
-	if unlocked or Globals.debug_mode or Globals.selected_episode == "Additional Levels":
+	if unlocked or Globals.debug_mode or Globals.selected_episode == "Debug Levels":
 		Globals.next_transition = 0
 		Globals.load_saved_position = false
 		%level_start.play()
@@ -108,7 +108,7 @@ func _on_pressed():
 		get_tree().change_scene_to_packed(icon_level_filePath)
 		LevelTransition.fade_from_black_slow()
 		
-		if Globals.selected_episode == "Additional Levels":
+		if Globals.selected_episode == "Bonus Levels":
 			Globals.current_level_ID = str("BONUS_", level_number)
 			Globals.current_level_number = level_number
 			

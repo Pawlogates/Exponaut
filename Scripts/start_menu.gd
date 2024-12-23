@@ -3,8 +3,6 @@ extends CenterContainer
 var startingArea = preload("res://Levels/overworld_factory.tscn")
 var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
-var block_button_sounds = true 
-
 func _ready():
 	LevelTransition.get_node("%saved_progress").load_game()
 	last_area_filePath_load()
@@ -40,7 +38,7 @@ var saved_level_filePath = "res://Levels/empty.tscn"
 var saved_level = load("res://Levels/empty.tscn")
 
 func start_game(): #starts a brand new playthrough and deletes save files
-	delete_saves()
+	SavedData.delete_area_states()
 	SavedData.savedData_reset()
 	
 	Globals.transitioned = false
@@ -53,6 +51,9 @@ func start_game(): #starts a brand new playthrough and deletes save files
 
 #SELECTED EPISODE
 func _on_episode_button_pressed():
+	if check_if_buttons_blocked():
+		return
+	
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(mapScreen)
 	LevelTransition.fade_from_black()
@@ -114,12 +115,21 @@ func menu_appearance(group_number, anim_number, randomize_value, value_range): #
 
 #BUTTONS
 func _on_start_game_pressed():
+	if check_if_buttons_blocked():
+		return
+	
 	start_game()
 
 func _on_quit_pressed():
+	if check_if_buttons_blocked():
+		return
+	
 	get_tree().quit()
 
 func _on_continue_pressed():
+	if check_if_buttons_blocked():
+		return
+	
 	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		return
 	
@@ -262,7 +272,6 @@ func _on_other_pressed():
 	
 	await get_tree().create_timer(0.2, false).timeout
 	%"User Interface Type".grab_focus()
-
 
 
 
@@ -415,31 +424,31 @@ func last_area_filePath_load():
 	saved_level_filePath = SavedData.saved_last_area_filePath
 
 
-func delete_saves():
-	var dir = DirAccess.open("user://")
-	
-	#general player progress
-	if dir.file_exists("user://savedData.save"):
-		dir.remove("user://savedData.save")
-	
-	#level select progress (top scores, level completion states, etc.)
-	if dir.file_exists("user://saved_progress.save"):
-		dir.remove("user://saved_progress.save")
-	
-	#quicksave (non-specific level state)
-	if dir.file_exists("user://savegame.save"):
-		dir.remove("user://savegame.save")
-	
-	#area states
-	if dir.file_exists("user://savegame_overworld_factory.save"):
-		dir.remove("user://savegame_overworld_factory.save")
-	if dir.file_exists("user://savegame_overworld_glades.save"):
-		dir.remove("user://savegame_overworld_glades.save")
-	if dir.file_exists("user://savegame_overworld_infected_glades.save"):
-		dir.remove("user://savegame_overworld_infected_glades.save")
-	
-	if dir.file_exists("user://filename.save"):
-		dir.remove("user://filename.save")
+#func delete_saves():
+	#var dir = DirAccess.open("user://")
+	#
+	##general player progress
+	#if dir.file_exists("user://savedData.save"):
+		#dir.remove("user://savedData.save")
+	#
+	##level select progress (top scores, level completion states, etc.)
+	#if dir.file_exists("user://saved_progress.save"):
+		#dir.remove("user://saved_progress.save")
+	#
+	##quicksave (non-specific level state)
+	#if dir.file_exists("user://savegame.save"):
+		#dir.remove("user://savegame.save")
+	#
+	##overworld area states
+	#if dir.file_exists("user://savegame_overworld_factory.save"):
+		#dir.remove("user://savegame_overworld_factory.save")
+	#if dir.file_exists("user://savegame_overworld_glades.save"):
+		#dir.remove("user://savegame_overworld_glades.save")
+	#if dir.file_exists("user://savegame_overworld_infected_glades.save"):
+		#dir.remove("user://savegame_overworld_infected_glades.save")
+	#
+	#if dir.file_exists("user://filename.save"):
+		#dir.remove("user://filename.save")
 
 
 func hide_everything():
@@ -492,6 +501,7 @@ func deco_correct_polygons():
 
 func _process(_delta):
 	pass
+	
 	#if Input.is_action_just_pressed("show_debugInfo"):
 		#var x = 0
 		#for button in get_tree().get_nodes_in_group("buttons"):
@@ -502,6 +512,20 @@ func _process(_delta):
 
 @onready var block_button_sounds_timer = $block_button_sounds
 
+var block_button_sounds = true 
 func _on_block_button_sounds_timeout() -> void:
 	print("Button sounds no longer blocked.")
 	block_button_sounds = false
+
+
+# If "buttons_blocked" property is true, then stop button behaviour. A timer resets the property to false.
+var buttons_blocked = false
+func check_if_buttons_blocked():
+	if buttons_blocked:
+		print("Buttons are blocked.")
+		return true
+	buttons_blocked = true
+
+func _on_buttons_blocked_timeout() -> void:
+	print("Button are no longer blocked.")
+	buttons_blocked = false

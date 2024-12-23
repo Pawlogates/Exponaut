@@ -116,6 +116,37 @@ func savedData_reset():
 	saved_ambience_file = AudioStreamMP3
 
 
+func delete_area_states():
+	var dir = DirAccess.open("user://")
+	
+	#general player progress
+	if dir.file_exists("user://savedData.save"):
+		dir.remove("user://savedData.save")
+	
+	#level select progress (top scores, level completion states, etc.)
+	if dir.file_exists("user://saved_levelSetProgress.save"):
+		dir.remove("user://saved_levelSetProgress.save")
+	
+	#quicksave (non-specific level state)
+	if dir.file_exists("user://savegame.save"):
+		dir.remove("user://savegame.save")
+	
+	#overworld area states
+	if dir.file_exists("user://savegame_overworld_factory.save"):
+		dir.remove("user://savegame_overworld_factory.save")
+	if dir.file_exists("user://savegame_overworld_infected_glades.save"):
+		dir.remove("user://savegame_overworld_infected_glades.save")
+	if dir.file_exists("user://savegame_overworld_glades.save"):
+		dir.remove("user://savegame_overworld_glades.save")
+	if dir.file_exists("user://savegame_overworld_castle.save"):
+		dir.remove("user://savegame_overworld_castle.save")
+	if dir.file_exists("user://savegame_overworld_ascent.save"):
+		dir.remove("user://savegame_overworld_ascent.save")
+	
+	if dir.file_exists("user://filename.save"):
+		dir.remove("user://filename.save")
+
+
 var item_unlock_state
 func save_item_unlock_state(item):
 	item_unlock_state = $/root/World/HUD/quickselect_screen.get("unlock_state_" + item)
@@ -129,7 +160,6 @@ func savedData_save_file():
 	
 	# Store the save dictionary as a new line in the save file.
 	savedData_file.store_line(json_string)
-	
 
 
 func savedData_load():

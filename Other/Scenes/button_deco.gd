@@ -56,19 +56,19 @@ func correct_polygons():
 func on_focused(): # Called from buttons using this deco.
 	if menu.get("block_button_sounds"):
 		if menu.block_button_sounds:
+			print("Button sounds blocked.")
 			return
 	
 	$AudioStreamPlayer.play()
 
 func on_clicked(): # Called from buttons using this deco.
-	if menu.get("block_button_sounds"):
+	if "block_button_sounds" in menu:
 		if menu.block_button_sounds:
+			print("Button sounds blocked.")
 			return
 	
 	$AudioStreamPlayer2.play()
 	
-	if menu.get("block_button_sounds"):
+	if "block_button_sounds" in menu:
 		menu.block_button_sounds = true
 		menu.block_button_sounds_timer.start()
-	
-	print("Button sounds blocked.")
