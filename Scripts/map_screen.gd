@@ -41,6 +41,14 @@ func _ready():
 		place_level_icon(0, Vector2(240, 64), load("res://Levels/testLevel_lethalBall.tscn"))
 		#LEVEL ICON END
 		
+		#LEVEL ICON START
+		place_level_icon(0, Vector2(300, 64), load("res://Levels/testLevel_switches.tscn"))
+		#LEVEL ICON END
+		
+		#LEVEL ICON START
+		place_level_icon(0, Vector2(360, 64), load("res://Levels/testLevel_weapons.tscn"))
+		#LEVEL ICON END
+		
 		# DEBUG - OVERWORLD AREAS
 		place_level_icon(2, Vector2(540, -240), load("res://Levels/overworld_factory.tscn"))
 		place_level_icon(2, Vector2(540, -180), load("res://Levels/overworld_infected_glades.tscn"))

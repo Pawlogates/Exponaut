@@ -137,6 +137,7 @@ func _on_continue_pressed():
 	saved_level = load(saved_level_filePath)
 	Globals.transitioned = false
 	Globals.next_transition = 0
+	Globals.just_started_new_game = false
 	
 	await LevelTransition.fade_to_black()
 	get_tree().change_scene_to_packed(saved_level)

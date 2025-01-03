@@ -12,13 +12,14 @@ func _process(_delta):
 	pass
 
 
-
 #saved properties (overworld):
 var saved_position = Vector2(0, 0) # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
 var saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
 var saved_last_area_filePath = "res://Levels/empty.tscn"
 var saved_weapon = "none"
+var saved_weapon_delay = 1.0
 var saved_secondaryWeapon = "none"
+var saved_secondaryWeapon_delay = 1.0
 
 #unlocked weapons
 var saved_weapon_basic = -1 # [0 if the weapon type was found in the world, making it available for purchase, 1 if purchased, making it permanently selectable using quickselect.]
@@ -55,6 +56,9 @@ func savedData_save(save_player_position):
 	
 	saved_score = Globals.level_score
 	saved_weapon = $/root/World.player.weaponType
+	saved_weapon_delay = $/root/World.player.timer_attack_cooldown.wait_time
+	saved_weapon = $/root/World.player.weaponType
+	saved_secondaryWeapon_delay = $/root/World.player.timer_secondary_attack_cooldown.wait_time
 	
 	#save item unlock states
 	save_item_unlock_state("weapon_basic")
@@ -88,6 +92,8 @@ func savedData_save(save_player_position):
 
 
 func savedData_reset():
+	never_saved = true
+	
 	#saved properties (overworld):
 	saved_position = Vector2(0, 0) # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
 	saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
@@ -181,9 +187,16 @@ func savedData_load():
 		
 		#LOAD SAVED PROPERTIES
 		
+		saved_last_area_filePath = data["saved_last_area_filePath"]
+		
 		saved_position = data["saved_position"]
 		saved_score = data["saved_score"]
-		saved_last_area_filePath = data["saved_last_area_filePath"]
+		
+		saved_weapon = data["saved_weapon"]
+		saved_weapon_delay = data["saved_weapon_delay"]
+		saved_secondaryWeapon = data["saved_secondaryWeapon"]
+		saved_secondaryWeapon_delay = data["saved_secondaryWeapon_delay"]
+		
 		saved_weapon_basic = data["saved_weapon_basic"]
 		saved_weapon_veryFast_speed = data["saved_weapon_veryFast_speed"]
 		saved_weapon_ice = data["saved_weapon_ice"]
@@ -196,6 +209,8 @@ func savedData_load():
 		
 		#saved_propertyName = data["saved_propertyName"]
 		
+		never_saved = data["never_saved"]
+		
 		#LOAD SAVED PROPERTIES END
 
 
@@ -205,9 +220,16 @@ func savedData_load():
 func savedData_save_dictionary():
 	var save_dict = {
 		#saved properties
+		"saved_last_area_filePath" : saved_last_area_filePath,
+		
 		"saved_position" : saved_position,
 		"saved_score" : saved_score,
-		"saved_last_area_filePath" : saved_last_area_filePath,
+		
+		"saved_weapon" : saved_weapon,
+		"saved_weapon_delay" : saved_weapon_delay,
+		"saved_secondaryWeapon" : saved_secondaryWeapon,
+		"saved_secondaryWeapon_delay" : saved_secondaryWeapon_delay,
+		
 		"saved_weapon_basic" : saved_weapon_basic,
 		"saved_weapon_veryFast_speed" : saved_weapon_veryFast_speed,
 		"saved_weapon_ice" : saved_weapon_ice,
@@ -219,6 +241,8 @@ func savedData_save_dictionary():
 		"saved_secondaryWeapon_fast" : saved_secondaryWeapon_fast,
 		
 		#"saved_propertyName" : saved_propertyName,
+		
+		"never_saved" : never_saved,
 	
 	}
 	return save_dict

@@ -515,7 +515,6 @@ collectibleScoreValue = 25
 animation_always = true
 floating = true
 is_key = true
-loop_anim = "none"
 fall_when_button_pressed = true
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]

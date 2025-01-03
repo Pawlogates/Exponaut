@@ -9,3 +9,6 @@ cameraLimit_bottom = 448.0
 cameraLimit_top = -1e+06
 playerStartHP = 9999
 shrine_selected_episode = "Debug Levels"
+
+[node name="ParallaxBackgroundGradient" parent="." index="17"]
+unique_name_in_owner = false

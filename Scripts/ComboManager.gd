@@ -46,10 +46,12 @@ func reset_combo_tier():
 
 func reset_combo_timer():
 	streak_timer.wait_time = 2.5
+	print(streak_timer.wait_time)
 	streak_timer.start()
 
 func reset_combo_timer_long():
 	streak_timer.wait_time = 5.0
+	print(streak_timer.wait_time)
 	streak_timer.start()
 
 

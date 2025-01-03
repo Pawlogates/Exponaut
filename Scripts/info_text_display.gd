@@ -6,10 +6,6 @@ func _ready():
 	Globals.info_sign_touched.connect(show_info)
 
 
-
-
-
-
 #var displaying = false
 var current_text = str(Globals.infoSign_current_text)
 var current_size = Globals.infoSign_current_size
@@ -33,9 +29,6 @@ func show_info():
 	
 	
 	$"../Timer".start()
-	
-
-
 
 
 func _on_timer_timeout():
@@ -47,9 +40,3 @@ func _on_timer_timeout():
 		$"../AnimationPlayer".play("hide_2")
 	elif current_size == 3:
 		$"../AnimationPlayer".play("hide_3")
-	
-
-
-#func _on_animation_player_animation_finished(anim_name):
-	#if anim_name == "hide_0" or anim_name == "hide_1" or anim_name == "hide_2":
-		#displaying = false

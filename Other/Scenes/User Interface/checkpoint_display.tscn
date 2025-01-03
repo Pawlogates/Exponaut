@@ -47,7 +47,7 @@ offset_right = 80.0
 offset_bottom = 40.0
 theme = ExtResource("1_v6mw3")
 theme_override_font_sizes/font_size = 48
-text = "Saving..."
+text = "Checkpoint..."
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Label"]
 libraries = {

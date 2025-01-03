@@ -14,7 +14,7 @@
 
 [node name="World" instance=ExtResource("1_xn17t")]
 shrine_level = true
-playerStartHP = 3
+playerStartHP = 5
 rain = true
 leaves = true
 shrine_selected_episode = "Main Levels"
@@ -113,7 +113,19 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional5" parent="." index="22" instance=ExtResource("11_heb0u")]
+[node name="trigger_positional9" parent="." index="22" instance=ExtResource("11_heb0u")]
+position = Vector2(6048, -192)
+scale = Vector2(1, 2)
+RESET_OFFSET = true
+RESET_ZOOM = true
+vertical = true
+minOffset = 0
+maxOffset = 500
+camera_baseZoom = 3.0
+minZoom = 1.0
+maxZoom = 2.0
+
+[node name="trigger_positional5" parent="." index="23" instance=ExtResource("11_heb0u")]
 position = Vector2(5792, -768)
 scale = Vector2(15, 12)
 moveCamera = true
@@ -125,7 +137,7 @@ zoomCamera = true
 minZoom = 0.85
 maxZoom = 1.0
 
-[node name="trigger_positional2" parent="." index="23" instance=ExtResource("11_heb0u")]
+[node name="trigger_positional2" parent="." index="24" instance=ExtResource("11_heb0u")]
 position = Vector2(2880, 800)
 scale = Vector2(8, 3)
 RESET_OFFSET = true
@@ -134,7 +146,7 @@ vertical = true
 minOffset = 0
 maxOffset = 500
 
-[node name="trigger_positional3" parent="." index="24" instance=ExtResource("11_heb0u")]
+[node name="trigger_positional3" parent="." index="25" instance=ExtResource("11_heb0u")]
 position = Vector2(2176, -288)
 scale = Vector2(2, 7)
 RESET_OFFSET = true
@@ -143,7 +155,7 @@ vertical = true
 minOffset = 0
 maxOffset = 500
 
-[node name="trigger_positional8" parent="." index="25" instance=ExtResource("11_heb0u")]
+[node name="trigger_positional8" parent="." index="26" instance=ExtResource("11_heb0u")]
 position = Vector2(2560, -96)
 scale = Vector2(10, 1)
 RESET_OFFSET = true
@@ -152,7 +164,7 @@ vertical = true
 minOffset = 0
 maxOffset = 500
 
-[node name="trigger_positional4" parent="." index="26" instance=ExtResource("11_heb0u")]
+[node name="trigger_positional4" parent="." index="27" instance=ExtResource("11_heb0u")]
 position = Vector2(2944, -352)
 scale = Vector2(2, 7)
 RESET_OFFSET = true
@@ -160,3 +172,18 @@ RESET_ZOOM = true
 vertical = true
 minOffset = 0
 maxOffset = 500
+
+[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187310" to="tileset_objects/@Area2D@187310" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187311" to="tileset_objects/@Area2D@187311" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187312" to="tileset_objects/@Area2D@187312" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187313" to="tileset_objects/@Area2D@187313" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187314" to="tileset_objects/@Area2D@187314" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187315" to="tileset_objects/@Area2D@187315" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187316" to="tileset_objects/@Area2D@187316" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187318" to="tileset_objects/@Area2D@187318" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187319" to="tileset_objects/@Area2D@187319" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187320" to="tileset_objects/@Area2D@187320" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187321" to="tileset_objects/@Area2D@187321" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@187322" to="tileset_objects/@Area2D@187322" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

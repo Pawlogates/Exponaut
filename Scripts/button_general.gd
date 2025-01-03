@@ -4,8 +4,7 @@ var pressed = false
 @export var button_type = "none"
 
 func _ready():
-	if button_type == "reset_blue" or button_type == "reset_green" or button_type == "reset_red":
-		pressed = true
+	await get_tree().create_timer(0.5, false).timeout
 	
 	if pressed:
 		%AnimationPlayer.play("button_pressed_DOWN")
@@ -113,8 +112,9 @@ func press_button():
 	pressed = true
 
 
-#SAVE START
+#SAVE
 func save():
+	print(pressed)
 	var save_dict = {
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),

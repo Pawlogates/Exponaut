@@ -4,10 +4,14 @@ var itemDisplay_scene = preload("res://Other/Scenes/User Interface/Quick Select/
 var previous_state = -1
 
 @onready var player = $/root/World/Player
+@onready var world = $/root/World
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if world.regular_level or world.shrine_level:
+		queue_free()
+	
 	Globals.weapon_collected.connect(show_weapon)
 	Globals.secondaryWeapon_collected.connect(show_secondaryWeapon)
 	

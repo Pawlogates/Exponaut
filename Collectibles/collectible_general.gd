@@ -45,17 +45,17 @@ var checkpoint_active = false
 @export var collectable = true
 @export_enum("none", "loop_upDown", "loop_upDown_slight", "loop_scale") var loop_anim = "loop_upDown"
 @export var hp = 5
+
 @export var is_shrineGem = false
 @export var shrineGem_destructible = false
 @export var shrineGem_giveScore = false
 @export var shrineGem_spawnItems = false
 @export var shrineGem_openPortal = false
-@export var shrineGem_particleAmount = 25
-@export var shrineGem_portal_level_ID = "none"
-@export var shrineGem_portal_level_number = 0
+@export var shrineGem_particle_amount = 25
+@export var shrineGem_portal_level_ID = "MAIN_0"
 @export_file("*.tscn") var shrineGem_level_filePath : String
-@export var shrineGem_displayedName = "none"
 @export var shrineGem_is_finalLevel = false
+@export var shrineGem_checkpoint_offset = Vector2(320, -64)
 
 @export var is_specialApple = "none" #options: "red", "blue", "golden"
 
@@ -99,11 +99,6 @@ var checkpoint_active = false
 @export var debug = false
 #PROPERTIES END
 
-@onready var topRankScore = 100000
-@onready var level_completionState = 0
-@onready var level_score = 0
-@onready var level_rank = "D"
-@onready var level_rank_value = 1
 
 #OFFSCREEN START
 func _ready():
@@ -145,11 +140,6 @@ func _ready():
 	
 	if global_position != Vector2(0, 0):
 		start_pos = global_position
-	
-	if shrineGem_openPortal:
-		level_completionState = LevelTransition.get_node("%saved_progress").get("state_" + shrineGem_portal_level_ID)
-		level_score = LevelTransition.get_node("%saved_progress").get("score_" + shrineGem_portal_level_ID)
-		set_level_rank_values()
 	
 	await get_tree().create_timer(5, false).timeout
 	checkpoint_active = true
@@ -680,20 +670,11 @@ func spawn_item_static():
 func spawn_portal():
 	var portal = preload("res://Objects/shrine_portal.tscn").instantiate()
 	portal.level_ID = shrineGem_portal_level_ID
-	portal.level_number = shrineGem_portal_level_number
-	portal.target_area = shrineGem_level_filePath
-	portal.particle_amount = shrineGem_particleAmount
+	portal.level_filePath = shrineGem_level_filePath
+	portal.particle_amount = shrineGem_particle_amount
 	portal.position = start_pos
 	
-	portal.level_completionState = level_completionState
-	portal.level_score = level_score
-	portal.level_rank = level_rank
-	portal.level_rank_value = level_rank_value
-	portal.level_displayedName = shrineGem_displayedName
-	
 	world.add_child(portal)
-
-
 
 
 
@@ -706,17 +687,6 @@ func _on_animation_player_animation_finished(anim_name):
 func random_pitch_collect():
 	sfx_collect1.pitch_scale = (randf_range(0.8, 1.2))
 	sfx_collect1.play()
-
-
-func _on_shrine_gem_checkpoint_trigger_body_entered(body):
-	if checkpoint_active:
-		if body.is_in_group("player"):
-			#await get_tree().create_timer(1, false).timeout
-			print("Shrine Gem checkpoint activated.")
-			checkpoint_active = false
-			world.save_game()
-			world.save_game_area()
-			SavedData.savedData_save(true)
 
 
 #SAVE START
@@ -737,9 +707,7 @@ func save():
 		"shrineGem_giveScore" : shrineGem_giveScore,
 		"shrineGem_spawnItems" : shrineGem_spawnItems,
 		"shrineGem_openPortal" : shrineGem_openPortal,
-		"shrineGem_particleAmount" : shrineGem_particleAmount,
-		"shrineGem_portal_level_number" : shrineGem_portal_level_number,
-		"shrineGem_displayedName" : shrineGem_displayedName,
+		"shrineGem_particleAmount" : shrineGem_particle_amount,
 		"shrineGem_is_finalLevel" : shrineGem_is_finalLevel,
 		"is_specialApple" : is_specialApple,
 		"item_scene" : item_scene,
@@ -753,87 +721,3 @@ func save():
 	}
 	return save_dict
 #SAVE END
-
-
-func set_level_rank_values():
-	if Globals.selected_episode == "Additional Levels":
-		if shrineGem_portal_level_number == 1:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 2:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 3:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 4:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 5:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 6:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 7:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 8:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 9:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 10:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 11:
-			topRankScore = 50000
-	
-	elif Globals.selected_episode == "Main Levels":
-		if shrineGem_portal_level_number == 1:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 2:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 3:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 4:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 5:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 6:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 7:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 8:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 9:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 10:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 11:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 12:
-			topRankScore = 50000
-		elif shrineGem_portal_level_number == 13:
-			topRankScore = 50000
-	
-	var rating_top = topRankScore
-	var rating_6 = rating_top * 0.8
-	var rating_5 = rating_top * 0.6
-	var rating_4 = rating_top * 0.4
-	var rating_3 = rating_top * 0.2
-	var rating_2 = rating_top * 0.1
-	var rating_1 = 0
-	
-	if level_score >= rating_top:
-		level_rank = "S+"
-		level_rank_value = 7
-	elif level_score >= rating_6:
-		level_rank = "S"
-		level_rank_value = 6
-	elif level_score >= rating_5:
-		level_rank = "A"
-		level_rank_value = 5
-	elif level_score >= rating_4:
-		level_rank = "B"
-		level_rank_value = 4
-	elif level_score >= rating_3:
-		level_rank = "C"
-		level_rank_value = 3
-	elif level_score >= rating_2:
-		level_rank = "D"
-		level_rank_value = 2
-	elif level_score >= rating_1:
-		level_rank = "none"
-		level_rank_value = 1

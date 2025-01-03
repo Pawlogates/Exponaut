@@ -110,11 +110,9 @@ func _ready():
 	Globals.save.connect(saved_from_outside)
 	
 	Globals.level_score = 0
-	
-	
-	if not regular_level and not shrine_level:
-		player.weaponType = SavedData.saved_weapon
-		%quicksavedDisplay/Label.text = "Checkpoint..."
+	Globals.combo_score = 0
+	Globals.collected_in_cycle = 0
+	Globals.combo_tier = 0
 	
 	%HUD.visible = true
 	
@@ -223,8 +221,6 @@ func _ready():
 	if not regular_level and not Globals.just_started_new_game and Globals.load_saved_position: 
 		load_saved_progress_overworld() #loads player related progress, doesn't conflict with load_game_area()
 	
-	Globals.transitioned = false
-	Globals.load_saved_position = true
 	
 	player.camera.position_smoothing_enabled = false
 	
@@ -247,7 +243,11 @@ func _ready():
 	
 	await get_tree().create_timer(0.2, false).timeout
 	
-	save_game()
+	if not Globals.transitioned:
+		save_game()
+	
+	Globals.transitioned = false
+	Globals.load_saved_position = true
 	
 	if area_ID != "area0":
 		load_game_area() # Loads states for all level objects, doesn't conflict with load_saved_progress_overworld().
@@ -291,21 +291,33 @@ func _ready():
 	Globals.is_saving = false
 	
 	Globals.just_started_new_game = false
+	
+	if area_ID != "overworld_factory":
+		SavedData.never_saved = false
 
 
+#Apply saved player properties in the overworld.
 func load_saved_progress_overworld():
 	if SavedData.never_saved:
 		return
 	
-	#load score
-	Globals.level_score = SavedData.saved_score
-	
 	#load position
 	if not Globals.transitioned:
+		print(SavedData.saved_position)
 		player.position = SavedData.saved_position
 		print("The 'transitioned' (Globals) property is false, so player position is NOT skipped on this game load." + str(Globals.transitioned))
 	else:
 		print("The 'transitioned' (Globals) property is true, so player position is skipped on this game load (and the player is teleported to the (hopefully) correct area transition object). " + str(Globals.transitioned))
+	
+	#load score
+	Globals.level_score = SavedData.saved_score
+	
+	#load equipped weapons
+	player.weaponType = SavedData.saved_weapon
+	player.timer_attack_cooldown.wait_time = SavedData.saved_weapon_delay
+	player.secondaryWeaponType = SavedData.saved_secondaryWeapon
+	player.timer_secondary_attack_cooldown.wait_time = SavedData.saved_secondaryWeapon_delay
+	
 	
 	#load last used background texture
 	if not Globals.transitioned:
@@ -678,6 +690,9 @@ func save_game():
 
 
 func load_game():
+	if SavedData.never_saved:
+		return
+	
 	if not FileAccess.file_exists("user://savegame.save"):
 		return # Error! We don't have a save to load.
 
@@ -1016,6 +1031,9 @@ func save_game_area():
 
 
 func load_game_area():
+	if SavedData.never_saved:
+		return
+	
 	print("Loading area state for: " + str(area_ID))
 	if not FileAccess.file_exists("user://savegame_" + area_ID + ".save"):
 		print("Area state file not found for: " + str(area_ID))
@@ -1062,12 +1080,14 @@ func last_area_filePath_save():
 		return
 	
 	SavedData.saved_last_area_filePath = savedProgress_level_filePath
+	print(SavedData.saved_last_area_filePath)
 
 
 func reassign_player():
 	player = get_tree().get_first_node_in_group("player_root")
 	camera = get_tree().get_first_node_in_group("player_camera")
-	get_tree().get_first_node_in_group("quickselect_screen").reassign_player()
+	if not regular_level and not shrine_level:
+		get_tree().get_first_node_in_group("quickselect_screen").reassign_player()
 
 
 func _on_meme_mode_timer_timeout():

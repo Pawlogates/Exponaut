@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=3 uid="uid://dsn2i83vgnnpy"]
+[gd_scene load_steps=30 format=3 uid="uid://dsn2i83vgnnpy"]
 
 [ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_b8e86"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_tsp32"]
@@ -601,9 +601,6 @@ _data = {
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gip66"]
 size = Vector2(48, 48)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_5i8c1"]
-size = Vector2(768, 768)
-
 [node name="Shrine Gem" type="CharacterBody2D" groups=["Persist"]]
 texture_filter = 1
 collision_layer = 0
@@ -707,14 +704,6 @@ wait_time = 0.2
 one_shot = true
 autostart = true
 
-[node name="shrine gem checkpoint trigger" type="Area2D" parent="."]
-unique_name_in_owner = true
-collision_layer = 0
-collision_mask = 2
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="shrine gem checkpoint trigger"]
-shape = SubResource("RectangleShape2D_5i8c1")
-
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_collectible_exited"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
@@ -722,4 +711,3 @@ shape = SubResource("RectangleShape2D_5i8c1")
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="timeout" from="collisionCheck_delay" to="." method="_on_collision_check_delay_timeout"]
-[connection signal="body_entered" from="shrine gem checkpoint trigger" to="." method="_on_shrine_gem_checkpoint_trigger_body_entered"]

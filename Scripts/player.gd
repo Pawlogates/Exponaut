@@ -43,6 +43,9 @@ var base_GRAVITY_SCALE = GRAVITY_SCALE
 @onready var player_collision = $CollisionShape2D
 @onready var player_hitbox = $Player_hitbox_main/CollisionShape2D
 
+@onready var timer_attack_cooldown: Timer = %attack_cooldown
+@onready var timer_secondary_attack_cooldown: Timer = %secondaryAttack_cooldown
+
 @onready var jump_leniency = $jump_leniency
 @onready var wall_jump_leniency = $wallJump_leniency
 @onready var powerup_timer = $powerup_timer

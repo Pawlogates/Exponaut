@@ -466,7 +466,10 @@ func handle_damage(area):
 		hp -= area.get_parent().damageValue
 	else:
 		hp -= area.damageValue
-	Globals.enemyHit.emit()
+	
+	if not hp <= 0:
+		Globals.enemyHit.emit()
+	
 	if hp <= 0:
 		dead = true
 		
@@ -485,7 +488,6 @@ func handle_damage(area):
 			if give_score_onDeath:
 				Globals.level_score += scoreValue
 				Globals.combo_score += scoreValue * Globals.combo_tier
-				Globals.itemCollected.emit()
 				
 				%collectedDisplay.text = str(scoreValue * Globals.combo_tier)
 				%AnimationPlayer.play("score_value")

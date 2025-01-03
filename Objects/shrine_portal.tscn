@@ -532,11 +532,10 @@ region = Rect2(128, 512, 64, 64)
 atlas = ExtResource("4_n748y")
 region = Rect2(192, 512, 64, 64)
 
-[node name="Shrine Portal" type="Area2D"]
+[node name="Shrine Portal" type="Area2D" groups=["Persist"]]
 collision_layer = 0
 collision_mask = 2
 script = ExtResource("1_i8dxa")
-target_area = "res://Levels/RI1_9.tscn"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -94,6 +94,7 @@ autoplay = true
 unique_name_in_owner = true
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("7_3ull5")]
+unique_name_in_owner = true
 
 [node name="bg_current" parent="." instance=ExtResource("8_8ihao")]
 unique_name_in_owner = true

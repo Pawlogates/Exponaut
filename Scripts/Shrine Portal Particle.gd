@@ -23,7 +23,6 @@ func _ready():
 	$AnimatedSprite2D.speed_scale = randf_range(0.1, 2)
 	await get_tree().create_timer(10, false).timeout
 	swarming = false
-	
 
 
 func _physics_process(delta):
@@ -44,7 +43,7 @@ func _physics_process(delta):
 		#velocity.y += gravity * delta
 	
 	velocity.y = move_toward(velocity.y, direction_v * SPEED, SPEED * buildSpeed * delta / 20)
-
+	
 	if swarming:
 		if direction:
 			velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * buildSpeed * delta / 20)
@@ -62,4 +61,3 @@ func _physics_process(delta):
 	if scale.x <= 0.005:
 		queue_free()
 		print("Removed this shrine portal particle.")
-	

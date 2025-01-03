@@ -67,7 +67,6 @@ func _process(_delta):
 			if get_node_or_null("/root/World/HUD/Debug Screen"):
 				$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
 				$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
-				$/root/World/HUD/"Debug Screen"._on_delete_all_save_files_pressed()
 			
 			Globals.infoSign_current_text = str("Debug mode has been activated!")
 			Globals.infoSign_current_size = 0

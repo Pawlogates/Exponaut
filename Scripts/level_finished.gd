@@ -86,7 +86,7 @@ func exit_reached():
 	level_score = Globals.level_score
 	
 	
-	if not Globals.mode_scoreAttack:
+	if not Globals.mode_scoreAttack and not Globals.selected_episode == "Debug Levels":
 		if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 1:
 			first_time_clear = true
 		

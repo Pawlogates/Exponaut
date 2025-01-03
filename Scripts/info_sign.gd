@@ -1,7 +1,5 @@
 extends StaticBody2D
 
-
-
 @export var displayedText = "none"
 @export var displayedText_size = 0
 
