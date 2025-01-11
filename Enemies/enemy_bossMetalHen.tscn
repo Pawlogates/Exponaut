@@ -290,7 +290,7 @@ _data = {
 [node name="enemyBossMetalHen" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
-collision_layer = 0
+collision_layer = 2
 floor_max_angle = 0.523599
 script = ExtResource("1_rhg5n")
 hp = 25

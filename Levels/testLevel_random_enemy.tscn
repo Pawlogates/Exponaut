@@ -35,7 +35,7 @@ layer_1/tile_data = PackedInt32Array(786422, 851968, 12, 786423, 851968, 12, 786
 
 [node name="tileset_objects" parent="." index="2" instance=ExtResource("3_y8b5a")]
 unique_name_in_owner = true
-layer_0/tile_data = PackedInt32Array(-65517, 0, 262144, -262154, 0, 262144, -131059, 0, 65536, -131060, 0, 65536, -65524, 0, 65536, -65525, 0, 65536, -131061, 0, 65536, -131062, 0, 65536, -196597, 0, 65536, -196596, 0, 65536, -196595, 0, 65536, -262132, 0, 65536, -262133, 0, 65536, -196598, 0, 65536, -7, 0, 65536, -6, 0, 65536, -5, 0, 65536, -4, 0, 65536, -65504, 0, 65536, -131040, 0, 65536, -196576, 0, 65536, -262112, 0, 65536, -327648, 0, 65536, -393184, 0, 65536, -458720, 0, 65536, -65513, 0, 65536, -131048, 0, 65536, -65511, 0, 65536, 32, 0, 65536, -65532, 0, 6946816, -131076, 0, 6946816, 131063, 0, 7077888, -65507, 0, 7208960, 65524, 0, 589824, 8, 0, 262144, -458740, 0, 327680, 65558, 0, 393216, -131079, 0, 393216, -393218, 0, 327680, -327681, 0, 3145728, -327684, 0, 3145728, -393216, 0, 3145728, -393215, 0, 3145728, 65546, 0, 2949120, 851958, 0, 786432, 851959, 0, 786432, 851960, 0, 786432, 851961, 0, 786432, 720885, 0, 786432, 720884, 0, 786432, 720883, 0, 786432, 720882, 0, 786432, 720881, 0, 786432, 786421, 0, 786432, 786420, 0, 786432, 786419, 0, 786432, 786418, 0, 786432, 786417, 0, 786432, 327602, 0, 458752, 196551, 0, 458752, 1507270, 0, 393216, -196646, 0, 1835008, -458776, 0, 1835008, -196636, 0, 1900544, -524322, 0, 1900544, -65571, 0, 1966080, -262169, 0, 1638400, -655397, 0, 1638400, 1114082, 0, 1638400, 1572828, 0, 1966080, 1507278, 0, 1966080, 1376210, 0, 1966080, -458771, 0, 720896, -524307, 0, 720896, -589843, 0, 720896, -655379, 0, 720896, -720915, 0, 720896, -786451, 0, 720896, 15, 0, 1114112, 131067, 0, 1114112, -6815863, 0, 720896, -6881399, 0, 720896, -7733349, 0, 720896, -7536736, 0, 720896, -7602273, 0, 786432, -7667814, 0, 786432, -7602267, 0, 786432, -7667803, 0, 786432, -7667802, 0, 786432, -7602266, 0, 786432, -6553624, 0, 720896, -6553628, 0, 720896, -6029331, 0, 720896, -8454179, 0, 786432, -8454181, 0, 786432, -8978468, 0, 720896, -8912932, 0, 720896, -8847396, 0, 720896, -8781860, 0, 720896, -8716324, 0, 720896, -8650788, 0, 720896, -8454180, 0, 786432, -8323217, 0, 720896, -8061072, 0, 720896, -8257681, 0, 720896, -8192145, 0, 720896, -8126609, 0, 720896, -8061071, 0, 720896, -8061070, 0, 720896, -8061073, 0, 720896, -8323213, 0, 720896, -8061069, 0, 720896, -8388753, 0, 720896, -8454289, 0, 720896, -8519825, 0, 720896, -8585361, 0, 720896, -8585360, 0, 720896, -8585359, 0, 720896, -8585358, 0, 720896, -8585357, 0, 720896, -8585356, 0, 720896, -8585355, 0, 720896, -8585354, 0, 720896, -8585353, 0, 720896, -8650889, 0, 720896, -8716425, 0, 720896, -8323212, 0, 720896, -8323211, 0, 720896, -8323210, 0, 720896, -8257674, 0, 720896, -8257673, 0, 720896, -8257672, 0, 720896, -8257671, 0, 720896, -8257670, 0, 720896, -8323206, 0, 720896, -8388742, 0, 720896, -8454278, 0, 720896, -8519814, 0, 720896, -8585350, 0, 720896, -8650886, 0, 720896, -8061068, 0, 720896, -8061067, 0, 720896, -8061066, 0, 720896, -8061065, 0, 720896, -8061064, 0, 720896, -8061063, 0, 720896, -8061062, 0, 720896, -8061061, 0, 720896, -8061059, 0, 720896, -8061058, 0, 720896, -8061057, 0, 720896, -8061060, 0, 720896, -8454277, 0, 720896, -8454276, 0, 720896, -8454275, 0, 720896, -8454274, 0, 720896, -8454273, 0, 720896, -8454272, 0, 720896, -8454271, 0, 720896, -8388735, 0, 720896, -8323199, 0, 720896, -8257663, 0, 720896, -8192127, 0, 720896, -8126591, 0, 720896, -8061055, 0, 720896, -8061056, 0, 720896, -8126608, 0, 786432, -8126607, 0, 786432, -8126598, 0, 786432, -8257675, 0, 786432, -8585331, 0, 1769472, -8519795, 0, 1769472, -8454259, 0, 1769472, -8388723, 0, 1769472, -8388722, 0, 1769472, -8388721, 0, 1769472, -8388720, 0, 1769472, -8454256, 0, 1769472, -8519792, 0, 1769472, -8585328, 0, 1769472, -8585329, 0, 1769472, -8585330, 0, 1769472, -8519794, 0, 1769472, -8454258, 0, 1769472, -8454257, 0, 1769472, -8519793, 0, 1769472, -8454255, 0, 1769472, -8519791, 0, 1769472, -8585327, 0, 1769472, -8388719, 0, 1769472, -8126533, 0, 1769472, -8060997, 0, 1769472, -8060996, 0, 1769472, -8126531, 0, 1769472, -8126532, 0, 1769472, -7995460, 0, 1769472, -7995459, 0, 1769472, -7995461, 0, 1769472, -8060995, 0, 1769472, -7995458, 0, 1769472, -8060994, 0, 1769472, -8126530, 0, 1769472, -5832746, 0, 1769472, -5767210, 0, 1769472, -5767209, 0, 1769472, -5767208, 0, 1769472, -5832744, 0, 1769472, -5832745, 0, 1769472, -5898281, 0, 1769472, -5898282, 0, 1769472, -5898280, 0, 1769472)
+layer_0/tile_data = PackedInt32Array(-65517, 0, 262144, -262154, 0, 262144, -131059, 0, 65536, -131060, 0, 65536, -65524, 0, 65536, -65525, 0, 65536, -131061, 0, 65536, -131062, 0, 65536, -196597, 0, 65536, -196596, 0, 65536, -196595, 0, 65536, -262132, 0, 65536, -262133, 0, 65536, -196598, 0, 65536, -7, 0, 65536, -6, 0, 65536, -5, 0, 65536, -4, 0, 65536, -65504, 0, 65536, -131040, 0, 65536, -196576, 0, 65536, -262112, 0, 65536, -327648, 0, 65536, -393184, 0, 65536, -458720, 0, 65536, -65513, 0, 65536, -131048, 0, 65536, -65511, 0, 65536, 32, 0, 65536, -65532, 0, 6946816, -131076, 0, 6946816, 131063, 0, 7077888, -65507, 0, 7208960, 65524, 0, 589824, 8, 0, 262144, -458740, 0, 327680, 65558, 0, 393216, -131079, 0, 393216, -393218, 0, 327680, -327681, 0, 3145728, -327684, 0, 3145728, -393216, 0, 3145728, -393215, 0, 3145728, 65546, 0, 2949120, 851958, 0, 786432, 851959, 0, 786432, 851960, 0, 786432, 851961, 0, 786432, 720885, 0, 786432, 720884, 0, 786432, 720883, 0, 786432, 720882, 0, 786432, 720881, 0, 786432, 786421, 0, 786432, 786420, 0, 786432, 786419, 0, 786432, 786418, 0, 786432, 786417, 0, 786432, 327602, 0, 458752, 196551, 0, 458752, 1507270, 0, 393216, -196646, 0, 1835008, -458776, 0, 1835008, -196636, 0, 1900544, -524322, 0, 1900544, -65571, 0, 1966080, -262169, 0, 1638400, -655397, 0, 1638400, 1114082, 0, 1638400, 1572828, 0, 1966080, 1507278, 0, 1966080, 1376210, 0, 1966080, -458771, 0, 720896, -524307, 0, 720896, -589843, 0, 720896, -655379, 0, 720896, -720915, 0, 720896, -786451, 0, 720896, 15, 0, 1114112, 131067, 0, 1114112, -6815863, 0, 720896, -6881399, 0, 720896, -7733349, 0, 720896, -7536736, 0, 720896, -7602273, 0, 786432, -7667814, 0, 786432, -7602267, 0, 786432, -7667803, 0, 786432, -7667802, 0, 786432, -7602266, 0, 786432, -6553624, 0, 720896, -6553628, 0, 720896, -6029331, 0, 720896, -8454179, 0, 786432, -8454181, 0, 786432, -8978468, 0, 720896, -8912932, 0, 720896, -8847396, 0, 720896, -8781860, 0, 720896, -8716324, 0, 720896, -8650788, 0, 720896, -8454180, 0, 786432, -8323217, 0, 720896, -8061072, 0, 720896, -8257681, 0, 720896, -8192145, 0, 720896, -8126609, 0, 720896, -8061071, 0, 720896, -8061070, 0, 720896, -8061073, 0, 720896, -8323213, 0, 720896, -8061069, 0, 720896, -8388753, 0, 720896, -8454289, 0, 720896, -8519825, 0, 720896, -8585361, 0, 720896, -8585360, 0, 720896, -8585359, 0, 720896, -8585358, 0, 720896, -8585357, 0, 720896, -8585356, 0, 720896, -8585355, 0, 720896, -8585354, 0, 720896, -8585353, 0, 720896, -8650889, 0, 720896, -8716425, 0, 720896, -8323212, 0, 720896, -8323211, 0, 720896, -8323210, 0, 720896, -8257674, 0, 720896, -8257673, 0, 720896, -8257672, 0, 720896, -8257671, 0, 720896, -8257670, 0, 720896, -8323206, 0, 720896, -8388742, 0, 720896, -8454278, 0, 720896, -8519814, 0, 720896, -8585350, 0, 720896, -8650886, 0, 720896, -8061068, 0, 720896, -8061067, 0, 720896, -8061066, 0, 720896, -8061065, 0, 720896, -8061064, 0, 720896, -8061063, 0, 720896, -8061062, 0, 720896, -8061061, 0, 720896, -8061059, 0, 720896, -8061058, 0, 720896, -8061057, 0, 720896, -8061060, 0, 720896, -8454277, 0, 720896, -8454276, 0, 720896, -8454275, 0, 720896, -8454274, 0, 720896, -8454273, 0, 720896, -8454272, 0, 720896, -8454271, 0, 720896, -8388735, 0, 720896, -8323199, 0, 720896, -8257663, 0, 720896, -8192127, 0, 720896, -8126591, 0, 720896, -8061055, 0, 720896, -8061056, 0, 720896, -8126608, 0, 786432, -8126607, 0, 786432, -8126598, 0, 786432, -8257675, 0, 786432, -8519795, 0, 1769472, -8585327, 0, 1769472, -5832746, 0, 1769472, -7995459, 0, 1769472)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
@@ -198,181 +198,175 @@ position = Vector2(-7128, -7480)
 [node name="enemyTest25" parent="." index="57" instance=ExtResource("18_bmtgw")]
 position = Vector2(-6632, -7544)
 
-[node name="enemyTest26" parent="." index="58" instance=ExtResource("18_bmtgw")]
-position = Vector2(-3808, -7720)
-
-[node name="enemyTest27" parent="." index="59" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest27" parent="." index="58" instance=ExtResource("18_bmtgw")]
 position = Vector2(-2640, -8408)
 
-[node name="enemyTest28" parent="." index="60" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest28" parent="." index="59" instance=ExtResource("18_bmtgw")]
 position = Vector2(-1840, -7264)
 
-[node name="enemyTest29" parent="." index="61" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest29" parent="." index="60" instance=ExtResource("18_bmtgw")]
 position = Vector2(-1536, -6120)
 
-[node name="enemyTest30" parent="." index="62" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest30" parent="." index="61" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3072, -6840)
 
-[node name="enemyTest31" parent="." index="63" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest31" parent="." index="62" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3560, -7176)
 
-[node name="enemyTest32" parent="." index="64" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest32" parent="." index="63" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3768, -6216)
 
-[node name="enemyTest33" parent="." index="65" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest33" parent="." index="64" instance=ExtResource("18_bmtgw")]
 position = Vector2(-4672, -5544)
 
-[node name="enemyTest34" parent="." index="66" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest34" parent="." index="65" instance=ExtResource("18_bmtgw")]
 position = Vector2(-7200, -5728)
 
-[node name="enemyTest35" parent="." index="67" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest35" parent="." index="66" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8264, -5504)
 
-[node name="enemyTest36" parent="." index="68" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest36" parent="." index="67" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8848, -5648)
 
-[node name="enemyTest37" parent="." index="69" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest37" parent="." index="68" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9536, -5448)
 
-[node name="enemyTest38" parent="." index="70" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest38" parent="." index="69" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9616, -6648)
 
-[node name="enemyTest39" parent="." index="71" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest39" parent="." index="70" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8312, -6744)
 
-[node name="enemyTest40" parent="." index="72" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest40" parent="." index="71" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9016, -8520)
 
-[node name="enemyTest41" parent="." index="73" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest41" parent="." index="72" instance=ExtResource("18_bmtgw")]
 position = Vector2(-6176, -7928)
 
-[node name="enemyTest42" parent="." index="74" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest42" parent="." index="73" instance=ExtResource("18_bmtgw")]
 position = Vector2(-4752, -6384)
 
-[node name="enemyTest43" parent="." index="75" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest43" parent="." index="74" instance=ExtResource("18_bmtgw")]
 position = Vector2(-5776, -6744)
 
-[node name="enemyTest44" parent="." index="76" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest44" parent="." index="75" instance=ExtResource("18_bmtgw")]
 position = Vector2(-6736, -6512)
 
-[node name="enemyTest45" parent="." index="77" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest45" parent="." index="76" instance=ExtResource("18_bmtgw")]
 position = Vector2(-7088, -7056)
 
-[node name="enemyTest46" parent="." index="78" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest46" parent="." index="77" instance=ExtResource("18_bmtgw")]
 position = Vector2(-2584, -8544)
 
-[node name="enemyTest47" parent="." index="79" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest47" parent="." index="78" instance=ExtResource("18_bmtgw")]
 position = Vector2(-1784, -7400)
 
-[node name="enemyTest48" parent="." index="80" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest48" parent="." index="79" instance=ExtResource("18_bmtgw")]
 position = Vector2(-1480, -6256)
 
-[node name="enemyTest49" parent="." index="81" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest49" parent="." index="80" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3016, -6976)
 
-[node name="enemyTest50" parent="." index="82" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest50" parent="." index="81" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3504, -7312)
 
-[node name="enemyTest51" parent="." index="83" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest51" parent="." index="82" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3712, -6352)
 
-[node name="enemyTest52" parent="." index="84" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest52" parent="." index="83" instance=ExtResource("18_bmtgw")]
 position = Vector2(-4616, -5680)
 
-[node name="enemyTest53" parent="." index="85" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest53" parent="." index="84" instance=ExtResource("18_bmtgw")]
 position = Vector2(-7144, -5864)
 
-[node name="enemyTest54" parent="." index="86" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest54" parent="." index="85" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8208, -5640)
 
-[node name="enemyTest55" parent="." index="87" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest55" parent="." index="86" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8792, -5784)
 
-[node name="enemyTest56" parent="." index="88" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest56" parent="." index="87" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9480, -5584)
 
-[node name="enemyTest57" parent="." index="89" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest57" parent="." index="88" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9560, -6784)
 
-[node name="enemyTest58" parent="." index="90" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest58" parent="." index="89" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8256, -6880)
 
-[node name="enemyTest59" parent="." index="91" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest59" parent="." index="90" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8960, -8656)
 
-[node name="enemyTest60" parent="." index="92" instance=ExtResource("18_bmtgw")]
-position = Vector2(-6120, -8064)
-
-[node name="enemyTest61" parent="." index="93" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest61" parent="." index="91" instance=ExtResource("18_bmtgw")]
 position = Vector2(-4696, -6520)
 
-[node name="enemyTest62" parent="." index="94" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest62" parent="." index="92" instance=ExtResource("18_bmtgw")]
 position = Vector2(-5720, -6880)
 
-[node name="enemyTest63" parent="." index="95" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest63" parent="." index="93" instance=ExtResource("18_bmtgw")]
 position = Vector2(-6680, -6648)
 
-[node name="enemyTest64" parent="." index="96" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest64" parent="." index="94" instance=ExtResource("18_bmtgw")]
 position = Vector2(-7032, -7192)
 
-[node name="enemyTest65" parent="." index="97" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest65" parent="." index="95" instance=ExtResource("18_bmtgw")]
 position = Vector2(-2848, -8600)
 
-[node name="enemyTest66" parent="." index="98" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest66" parent="." index="96" instance=ExtResource("18_bmtgw")]
 position = Vector2(-2048, -7456)
 
-[node name="enemyTest67" parent="." index="99" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest67" parent="." index="97" instance=ExtResource("18_bmtgw")]
 position = Vector2(-1744, -6312)
 
-[node name="enemyTest68" parent="." index="100" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest68" parent="." index="98" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3280, -7032)
 
-[node name="enemyTest69" parent="." index="101" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest69" parent="." index="99" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3768, -7368)
 
-[node name="enemyTest70" parent="." index="102" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest70" parent="." index="100" instance=ExtResource("18_bmtgw")]
 position = Vector2(-3976, -6408)
 
-[node name="enemyTest71" parent="." index="103" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest71" parent="." index="101" instance=ExtResource("18_bmtgw")]
 position = Vector2(-4880, -5736)
 
-[node name="enemyTest72" parent="." index="104" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest72" parent="." index="102" instance=ExtResource("18_bmtgw")]
 position = Vector2(-7408, -5920)
 
-[node name="enemyTest73" parent="." index="105" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest73" parent="." index="103" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8472, -5696)
 
-[node name="enemyTest74" parent="." index="106" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest74" parent="." index="104" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9056, -5840)
 
-[node name="enemyTest75" parent="." index="107" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest75" parent="." index="105" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9744, -5640)
 
-[node name="enemyTest76" parent="." index="108" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest76" parent="." index="106" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9824, -6840)
 
-[node name="enemyTest77" parent="." index="109" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest77" parent="." index="107" instance=ExtResource("18_bmtgw")]
 position = Vector2(-8520, -6936)
 
-[node name="enemyTest78" parent="." index="110" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest78" parent="." index="108" instance=ExtResource("18_bmtgw")]
 position = Vector2(-9224, -8712)
 
-[node name="enemyTest79" parent="." index="111" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest79" parent="." index="109" instance=ExtResource("18_bmtgw")]
 position = Vector2(-6384, -8120)
 
-[node name="enemyTest80" parent="." index="112" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest80" parent="." index="110" instance=ExtResource("18_bmtgw")]
 position = Vector2(-4960, -6576)
 
-[node name="enemyTest81" parent="." index="113" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest81" parent="." index="111" instance=ExtResource("18_bmtgw")]
 position = Vector2(-5984, -6936)
 
-[node name="enemyTest82" parent="." index="114" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest82" parent="." index="112" instance=ExtResource("18_bmtgw")]
 position = Vector2(-6944, -6704)
 
-[node name="enemyTest83" parent="." index="115" instance=ExtResource("18_bmtgw")]
+[node name="enemyTest83" parent="." index="113" instance=ExtResource("18_bmtgw")]
 position = Vector2(-7296, -7248)
 
-[node name="trigger_positional" parent="." index="116" instance=ExtResource("19_wclpb")]
+[node name="trigger_positional" parent="." index="114" instance=ExtResource("19_wclpb")]
 position = Vector2(-6224, -5552)
 scale = Vector2(26.8, 11.3)
 moveCamera = true
@@ -387,9 +381,11 @@ camera_baseZoom = 0.3
 minZoom = 0.27
 maxZoom = 0.3
 
-[node name="trigger_positional2" parent="." index="117" instance=ExtResource("19_wclpb")]
+[node name="trigger_positional2" parent="." index="115" instance=ExtResource("19_wclpb")]
 position = Vector2(-3752, -4432)
 scale = Vector2(359.7, 5.05)
 RESET_OFFSET = true
 RESET_ZOOM = true
 horizontal = false
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

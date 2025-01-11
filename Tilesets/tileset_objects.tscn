@@ -1,4 +1,4 @@
-[gd_scene load_steps=167 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=173 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_vmdr1"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_txmjs"]
@@ -143,11 +143,16 @@
 [ext_resource type="PackedScene" uid="uid://dieunvhai1sjq" path="res://Collectibles/collectible_apple_rainbow.tscn" id="142_8vuae"]
 [ext_resource type="PackedScene" uid="uid://bpappkkw82d6q" path="res://Collectibles/collectible_temporary_powerup_nothing.tscn" id="143_7f70a"]
 [ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="144_h7r1b"]
+[ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="144_jia70"]
+[ext_resource type="PackedScene" uid="uid://da0htgtcareps" path="res://Triggers/zone_wind_L.tscn" id="145_4e37i"]
 [ext_resource type="PackedScene" uid="uid://cxfthwios5msq" path="res://Enemies/enemy_fireImp.tscn" id="145_jxcjw"]
 [ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://Objects/Decorations/glow_fog_gradient_colorful.tscn" id="145_s14ug"]
 [ext_resource type="PackedScene" uid="uid://fa1gibclq2wn" path="res://Objects/Decorations/glow_orb_heavy.tscn" id="146_kgoyt"]
+[ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="146_txcht"]
 [ext_resource type="PackedScene" uid="uid://chykfjtli3g53" path="res://Objects/Decorations/glow_orb_soft.tscn" id="147_31jvj"]
+[ext_resource type="PackedScene" uid="uid://bmrqly8vl8m48" path="res://Triggers/zone_wind_UP.tscn" id="147_21207"]
 [ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="148_kbji4"]
+[ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="148_wbs4m"]
 [ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="149_kd78b"]
 [ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://Objects/Decorations/glow_shadow_orb_soft.tscn" id="150_mnplm"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://Objects/Decorations/wavingDeco_grass.tscn" id="151_yjnnk"]
@@ -340,6 +345,14 @@ scenes/6/scene = ExtResource("43_ca28y")
 scenes/7/scene = ExtResource("42_qyylt")
 scenes/8/scene = ExtResource("44_fxgoh")
 
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_w572k"]
+resource_name = "zones"
+scenes/1/scene = ExtResource("144_jia70")
+scenes/2/scene = ExtResource("145_4e37i")
+scenes/3/scene = ExtResource("146_txcht")
+scenes/4/scene = ExtResource("147_21207")
+scenes/5/scene = ExtResource("148_wbs4m")
+
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_qgj2q"]
 resource_name = "enemies"
 scenes/1/scene = ExtResource("87_asbjn")
@@ -367,7 +380,7 @@ scenes/27/scene = ExtResource("37_1pedo")
 scenes/28/scene = ExtResource("60_q6w6i")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_slwwi"]
-resource_name = "other"
+resource_name = "objects"
 scenes/1/scene = ExtResource("76_pbgi8")
 scenes/2/scene = ExtResource("131_u0ifu")
 scenes/3/scene = ExtResource("65_ioi7l")
@@ -484,6 +497,7 @@ sources/8 = SubResource("TileSetScenesCollectionSource_ejx4g")
 sources/9 = SubResource("TileSetScenesCollectionSource_c1p70")
 sources/10 = SubResource("TileSetScenesCollectionSource_bdx2g")
 sources/3 = SubResource("TileSetScenesCollectionSource_slwwi")
+sources/11 = SubResource("TileSetScenesCollectionSource_w572k")
 
 [node name="tileset_objects" type="TileMap"]
 visibility_layer = 2

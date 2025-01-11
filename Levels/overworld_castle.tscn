@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="11_0nix5"]
 [ext_resource type="Texture2D" uid="uid://dsqa3f4pw5rov" path="res://Assets/Graphics/backgrounds/bg_mountains.png" id="12_gtmr5"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="13_ga1ly"]
-[ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind.tscn" id="14_xtj7n"]
+[ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="14_xtj7n"]
 
 [node name="World" instance=ExtResource("1_rfky8")]
 light_mask = 7

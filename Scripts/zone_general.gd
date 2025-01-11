@@ -1,45 +1,46 @@
 extends Area2D
 
 var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
-var splashParticle = splashParticleScene.instantiate()
+
+@onready var world = $/root/World
+@onready var player = $/root/World.player
 
 #possible zone types: "wind", "water"
 @export var zone_type = "none"
 
 #possible wind directions: "left", "right"
-@export var wind_direction = 0
+@export var wind_direction_X = 0
+@export var wind_direction_Y = 0
 
 @export var water_strength = 1.0
 @export var water_slowdown = 1.0
 
 func _on_area_entered(area):
 	if area.is_in_group("player"):
+	
 		if zone_type == "wind":
-			area.get_parent().inside_wind += 1
-			area.get_parent().insideWind_direction = wind_direction
+			player.inside_wind += 1
+			player.insideWind_direction = wind_direction_X
+		
 		
 		elif zone_type == "water":
-			area.get_parent().inside_water += 1
-			if area.get_parent().inside_water:
-				area.get_parent().insideWater_multiplier = water_strength
-				area.get_parent().SPEED *= water_slowdown
-				area.get_parent().velocity.y /= 3
-				area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.2
-			
-			$AudioStreamPlayer2D.play()
-			splashParticle = splashParticleScene.instantiate()
-			splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
-			get_parent().add_child(splashParticle)
+			player.inside_water += 1
+			if player.inside_water == 1:
+				water_effect()
+				player.insideWater_multiplier = water_strength
+				player.SPEED = player.base_SPEED * water_slowdown
+				player.velocity.y /= 3
+				player.get_node("jumpBuildVelocity").wait_time = 0.25
 		
 		
 		elif zone_type == "low_gravity":
-			area.get_parent().GRAVITY_SCALE = 0.5
+			player.GRAVITY_SCALE = 0.5
 		
 		
 		elif zone_type == "bouncy":
-			area.get_parent().velocity.y = -400
+			player.velocity.y = -400
 			$AudioStreamPlayer2D.play()
-			splashParticle = splashParticleScene.instantiate()
+			var splashParticle = splashParticleScene.instantiate()
 			splashParticle.global_position = Globals.player_pos
 			get_parent().add_child(splashParticle)
 		
@@ -51,21 +52,25 @@ func _on_area_entered(area):
 
 func _on_area_exited(area):
 	if area.is_in_group("player"):
-		
+	
 		if zone_type == "wind":
-			area.get_parent().inside_wind -= 1
+			player.inside_wind -= 1
+		
 		
 		elif zone_type == "water":
-			area.get_parent().inside_water -= 1
-			if not area.get_parent().inside_water:
-				area.get_parent().SPEED = area.get_parent().base_SPEED
-				area.get_parent().get_node("jumpBuildVelocity").wait_time = 0.1
-			
-			$AudioStreamPlayer2D.play()
-			splashParticle = splashParticleScene.instantiate()
-			splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
-			get_parent().add_child(splashParticle)
-			
+			player.inside_water -= 1
+			if player.inside_water == 0:
+				water_effect()
+				player.SPEED = player.base_SPEED
+				player.get_node("jumpBuildVelocity").wait_time = 0.1
+		
 		
 		elif zone_type == "low_gravity":
-			area.get_parent().GRAVITY_SCALE = 1.0
+			player.GRAVITY_SCALE = 1.0
+
+
+func water_effect():
+	$AudioStreamPlayer2D.play()
+	var splashParticle = splashParticleScene.instantiate()
+	splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
+	get_parent().add_child(splashParticle)

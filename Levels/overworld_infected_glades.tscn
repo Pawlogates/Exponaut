@@ -801,17 +801,3 @@ displayedText = "Hold Q or Middle Mouse Button to open the weapon select menu."
 position = Vector2(-1824, -1056)
 displayedText = "Golden apple gates will open if you collect the required amount of golden apples."
 displayedText_size = 2
-
-[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@178824" to="tileset_objects/@Area2D@178824" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@178832" to="tileset_objects/@Area2D@178832" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@178866" to="tileset_objects/@Area2D@178866" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@178867" to="tileset_objects/@Area2D@178867" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@179123" to="tileset_objects/@Area2D@179123" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@179124" to="tileset_objects/@Area2D@179124" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@179344" to="tileset_objects/@Area2D@179344" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@179345" to="tileset_objects/@Area2D@179345" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@179346" to="tileset_objects/@Area2D@179346" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@179347" to="tileset_objects/@Area2D@179347" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@179348" to="tileset_objects/@Area2D@179348" method="_on_area_entered"]

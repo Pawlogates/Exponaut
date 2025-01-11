@@ -425,7 +425,7 @@ _data = {
 [node name="enemyGhost" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
-collision_layer = 0
+collision_layer = 2
 floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_ojusb")

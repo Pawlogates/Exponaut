@@ -9,6 +9,9 @@ var effect_dustScene = preload("res://Particles/effect_dust.tscn")
 var feathersParticleScene = preload("res://Particles/particles_feathers.tscn")
 var particle_score_scene = preload("res://Particles/particle_score.tscn")
 
+
+var direction = 0
+
 var start_pos = global_position
 
 var collected = false
@@ -25,6 +28,10 @@ var collected_special = false
 
 var checkpoint_active = false
 
+var enemy_last = Node
+var projectile_last = Node
+var collectible_last = Node
+
 @onready var sfx_collect1 = %collect1
 @onready var timer = %Timer
 @onready var animation_player = %AnimationPlayer
@@ -38,13 +45,13 @@ var checkpoint_active = false
 #PROPERTIES
 @export var collectibleScoreValue = 50
 @export var give_score = true
-@export var hard_to_collect = false
 @export var animation_always = false
 @export var floating = false
 @export var is_key = false
 @export var collectable = true
 @export_enum("none", "loop_upDown", "loop_upDown_slight", "loop_scale") var loop_anim = "loop_upDown"
 @export var hp = 5
+@export var damageValue = 1
 
 @export var is_shrineGem = false
 @export var shrineGem_destructible = false
@@ -93,8 +100,7 @@ var checkpoint_active = false
 @export var transform_into = "none"
 
 @export var SPEED = 600.0
-@export var SLOWDOWN = 1.5
-@export var direction = 0
+@export var SLOWDOWN = 200.0
 
 @export var debug = false
 #PROPERTIES END
@@ -188,7 +194,7 @@ func _process(_delta):
 var bonus_material = preload("res://Other/Materials/bonus_material.tres")
 
 func _on_collectible_entered(body):
-	if not body.is_in_group("player") and not body.is_in_group("player_projectile"):
+	if not body.is_in_group("player") and not body.is_in_group("player_projectile") and not body.is_in_group("enemies") and not body.is_in_group("collectibles"):
 		return
 	
 	inside_check_enter(body)
@@ -219,7 +225,6 @@ func _on_collectible_entered(body):
 		elif is_specialApple == "red":
 			Globals.collected_redApples += 1
 			%collectedDisplay.text = str(Globals.collected_redApples)
-			
 		
 		
 		$Area2D.set_deferred("monitoring", false)
@@ -417,26 +422,24 @@ func _physics_process(delta):
 	
 	if not is_on_floor():
 		velocity.y += gravity * delta
-		
 	
+	velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN / 2 * delta)
 	
-	if direction:
-		velocity.x = direction * SPEED
-	elif collidable or is_shrineGem:
+	if collidable: #or is_shrineGem
 		if is_on_floor():
-			velocity.x = move_toward(velocity.x, 0, SPEED / SLOWDOWN * delta)
-		
+			velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN * delta)
 		
 		
 	if player_inside:
-		#if hard_to_collect or rotten:
 		collidable = false
 		collisionCheck_delay.start()
 		
-		if Globals.direction != 0:
-			direction_last = Globals.direction
+		if player.direction == 0:
+			direction = Globals.direction
 			
-		velocity.x = SPEED * direction_last
+		velocity.x = player.velocity.x * 1.2
+		if abs(velocity.x) <= 150:
+			velocity.x = 150 * direction
 	
 	
 	if enemy_inside:
@@ -444,9 +447,25 @@ func _physics_process(delta):
 			collidable = false
 			collisionCheck_delay.start()
 			
-			if direction != 0:
-				direction_last = direction
-			velocity.x = 250 * direction_last
+			if enemy_last.direction != 0:
+				direction = enemy_last.direction
+			
+			velocity.x = enemy_last.velocity.x * 1.2
+			if abs(velocity.x) <= 150:
+				velocity.x = 150 * direction
+	
+	
+	if projectile_inside:
+		if collidable:
+			collidable = false
+			collisionCheck_delay.start()
+			
+			if projectile_last.direction != 0:
+				direction = projectile_last.direction
+			
+			velocity.x = projectile_last.velocity.x * 1.2
+			if abs(velocity.x) <= 150:
+				velocity.x = 150 * direction
 	
 	
 	if is_on_wall():
@@ -506,7 +525,7 @@ func _on_rot_delay_timeout():
 
 var player_inside = false
 var enemy_inside = false
-var player_projectile_inside = false
+var projectile_inside = false
 
 var collidable = true
 
@@ -514,49 +533,52 @@ var collidable = true
 func inside_check_enter(body):
 	if body.is_in_group("player"):
 		player_inside = true
-		print("Player entered.")
-		if collidable and hard_to_collect or collidable and rotten:
+		print("Player entered this collectible.")
+		if collidable:
 			collidable = false
 			collisionCheck_delay.start()
 			
-			direction = body.direction
+			#direction = body.direction
 		
 	elif body.is_in_group("enemies"):
+		enemy_last = body
 		enemy_inside = true
+		print("Enemy entered this collectible.")
 		if collidable:
 			collidable = false
 			collisionCheck_delay.start()
 			
-			direction = body.direction
+			#direction = body.direction
 		
 	elif body.is_in_group("player_projectile"):
-		player_projectile_inside = true
+		projectile_last = body
+		projectile_inside = true
+		print("Collectible entered this collectible.")
 		if collidable:
 			collidable = false
 			collisionCheck_delay.start()
 			
-			direction = body.direction
+			#direction = body.direction
 
 
 func inside_check_exit(body):
 	if body.is_in_group("player") or body.is_in_group("player_projectile") or body.is_in_group("enemies"):
 		
 		if body.is_in_group("player"):
-			#if hard_to_collect or rotten:
 			player_inside = false
-			direction = body.direction
+			#direction = body.direction
 			print("Player exitted.")
 		
 		if body.is_in_group("player_projectile"):
-			player_projectile_inside = false
-			direction = body.direction
+			projectile_inside = false
+			#direction = body.direction
 		
 		if body.is_in_group("enemies"):
 			enemy_inside = false
-			direction = body.direction
+			#direction = body.direction
 		
 		
-		if not player_inside and not player_projectile_inside and not enemy_inside:
+		if not player_inside and not projectile_inside and not enemy_inside:
 			direction = 0
 
 

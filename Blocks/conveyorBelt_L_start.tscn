@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://dokdy1bmohvt8"]
+[gd_scene load_steps=8 format=3 uid="uid://dokdy1bmohvt8"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_m57u2"]
+[ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="2_fmr6p"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_43ykq"]
 atlas = ExtResource("1_m57u2")
@@ -50,3 +51,7 @@ frame_progress = 0.773324
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_xcl5b")
+
+[node name="wind" parent="." instance=ExtResource("2_fmr6p")]
+position = Vector2(0, -32)
+wind_direction = -1

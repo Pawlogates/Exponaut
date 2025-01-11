@@ -267,7 +267,7 @@ _data = {
 [node name="enemyBat" type="CharacterBody2D" groups=["Persist", "enemies"]]
 z_index = 1
 texture_filter = 1
-collision_layer = 0
+collision_layer = 2
 script = ExtResource("1_7ijuc")
 hp = 2
 SPEED = 150

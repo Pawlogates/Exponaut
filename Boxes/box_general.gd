@@ -73,8 +73,8 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				var damageValue = body.damageValue
 				reduce_hp(damageValue)
 			
-			if hp <= 0:
-				destroy()
+				if hp <= 0:
+					destroy()
 	
 	elif body.is_in_group("player_projectile"):
 		if not destroyed:
@@ -83,7 +83,18 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			
 			if hp <= 0:
 				destroy()
-
+	
+	elif body.is_in_group("Collectibles") or body.is_in_group("enemies"):
+		if not destroyed:
+			if other_bounce(body):
+				var damageValue = body.damageValue
+				reduce_hp(damageValue)
+				
+				if hp <= 0:
+					destroy()
+	
+	else:
+		print(body.get_groups())
 #BODY ENTERED END
 
 
@@ -149,6 +160,15 @@ func player_bounce(body):
 	else:
 		return false
 
+func other_bounce(body):
+	if body.velocity.y > bounce_min_velocity:
+		body.velocity.y = bounce_give_velocity
+		
+		return true
+	
+	else:
+		return false
+
 
 func spawn_items():
 	while item_amount > 0:
@@ -165,7 +185,7 @@ func spawn_item():
 	var item = item_scene.instantiate()
 	item.position = global_position
 	item.velocity.x = rng.randf_range(300.0, -300.0)
-	item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
+	item.velocity.y = rng.randf_range(-100.0, -300.0)
 	
 	world.add_child(item)
 

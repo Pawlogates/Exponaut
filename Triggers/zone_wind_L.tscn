@@ -1,15 +1,16 @@
-[gd_scene load_steps=3 format=3 uid="uid://cyx2xypyj6fwx"]
+[gd_scene load_steps=3 format=3 uid="uid://da0htgtcareps"]
 
-[ext_resource type="Script" path="res://Scripts/zone_general.gd" id="1_fnysw"]
+[ext_resource type="Script" path="res://Scripts/zone_general.gd" id="1_u6inw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
 size = Vector2(64, 64)
 
-[node name="wind_area" type="Area2D"]
+[node name="wind_L" type="Area2D"]
 collision_layer = 0
 collision_mask = 7
-script = ExtResource("1_fnysw")
+script = ExtResource("1_u6inw")
 zone_type = "wind"
+wind_direction_X = -1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_32ipw")

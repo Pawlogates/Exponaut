@@ -253,7 +253,7 @@ shape = SubResource("RectangleShape2D_fqmyr")
 [node name="Area2D" type="Area2D" parent="."]
 unique_name_in_owner = true
 collision_layer = 0
-collision_mask = 2
+collision_mask = 10
 monitoring = false
 monitorable = false
 
