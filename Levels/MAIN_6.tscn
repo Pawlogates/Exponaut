@@ -15,8 +15,9 @@
 [node name="World" instance=ExtResource("1_tgt55")]
 shrine_level = true
 playerStartHP = 3
-shrine_level_ID = "MAIN_4"
-shrine_level_number = 4
+selected_episode = "Main Levels"
+level_ID = "MAIN_6"
+level_number = 6
 
 [node name="Music Controller" parent="." index="0"]
 unique_name_in_owner = true

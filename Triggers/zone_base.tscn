@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://crvdbmttd2gt5"]
+
+[ext_resource type="Script" path="res://Scripts/zone_general.gd" id="1_vdswl"]
+[ext_resource type="AudioStream" uid="uid://bau2k4c3drkqf" path="res://Assets/Sounds/sfx/water_entered.wav" id="2_4unhl"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
+size = Vector2(64, 64)
+
+[node name="zone" type="Area2D"]
+collision_layer = 0
+collision_mask = 15
+script = ExtResource("1_vdswl")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_32ipw")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_4unhl")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="body_exited" from="." to="." method="_on_body_exited"]

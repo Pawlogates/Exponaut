@@ -36,6 +36,7 @@ cameraLimit_bottom = 5056.0
 cameraLimit_top = -5312.0
 regular_level = false
 playerStartHP = 3
+selected_episode = "Main Levels"
 area_ID = "overworld_glades"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_pwrbj")]
@@ -293,39 +294,48 @@ music_file = ExtResource("17_4swh5")
 
 [node name="wind_area" parent="Areas" index="0" instance=ExtResource("20_s05mh")]
 position = Vector2(12512, -2112)
+collision_mask = 7
 
 [node name="wind_area3" parent="Areas" index="1" instance=ExtResource("20_s05mh")]
 position = Vector2(11040, -1984)
 scale = Vector2(2.33, 1)
+collision_mask = 7
 
 [node name="wind_area4" parent="Areas" index="2" instance=ExtResource("20_s05mh")]
 position = Vector2(11040, -2304)
 scale = Vector2(1.66, 1)
+collision_mask = 7
 
 [node name="wind_area7" parent="Areas" index="3" instance=ExtResource("20_s05mh")]
 position = Vector2(16384, -2048)
 scale = Vector2(0.66, 1)
+collision_mask = 7
 
 [node name="wind_area8" parent="Areas" index="4" instance=ExtResource("20_s05mh")]
 position = Vector2(13280, 3200)
+collision_mask = 7
 
 [node name="wind_area5" parent="Areas" index="5" instance=ExtResource("20_s05mh")]
 position = Vector2(8960, -2688)
 scale = Vector2(1.66, 1)
+collision_mask = 7
 
 [node name="wind_area2" parent="Areas" index="6" instance=ExtResource("20_s05mh")]
 position = Vector2(12800, -2240)
 scale = Vector2(0.7, 1)
+collision_mask = 7
 
 [node name="water_area" parent="Areas" index="7" instance=ExtResource("21_b4y0d")]
 position = Vector2(15424, -1248)
 scale = Vector2(42, 5)
+collision_mask = 7
 water_strength = 0.5
 water_slowdown = 0.8
 
 [node name="water_area2" parent="Areas" index="8" instance=ExtResource("21_b4y0d")]
 position = Vector2(16320, -1696)
 scale = Vector2(14, 9)
+collision_mask = 7
 water_strength = 0.5
 water_slowdown = 0.8
 

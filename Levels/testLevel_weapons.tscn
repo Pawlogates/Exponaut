@@ -13,6 +13,8 @@
 
 [node name="World" instance=ExtResource("1_yrrvv")]
 playerStartHP = 3
+selected_episode = "Debug Levels"
+level_ID = "DEBUG_3"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_yqsff")]
 unique_name_in_owner = true

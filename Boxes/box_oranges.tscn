@@ -239,7 +239,7 @@ animations = [{
 
 [node name="BonusBox_oranges" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]
 z_index = 1
-collision_layer = 0
+collision_layer = 8
 script = ExtResource("1_722wu")
 item_amount = 6
 

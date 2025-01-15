@@ -12,6 +12,8 @@
 savedProgress_level_filePath = "res://Levels/overworld_test.tscn"
 regular_level = false
 playerStartHP = 3
+selected_episode = "Debug Levels"
+level_ID = "DEBUG_9"
 area_ID = "test"
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_xl6ef")]
@@ -60,9 +62,7 @@ position = Vector2(-658, 43)
 collectibleScoreValue = 45000
 hp = 2
 shrineGem_portal_level_ID = "MAIN_1"
-shrineGem_portal_level_number = 3
 shrineGem_level_filePath = "res://Levels/MAIN_5.tscn"
-shrineGem_displayedName = "fuck save states"
 item_scene = "res://Collectibles/collectibleWeapon_veryFast_speed.tscn"
 debug = true
 
@@ -72,7 +72,6 @@ collectibleScoreValue = 909090
 floating = false
 hp = 1
 shrineGem_portal_level_ID = "MAIN_2"
-shrineGem_displayedName = "why"
 item_scene = "res://Collectibles/collectibleGrape.tscn"
 item_posSpread = 200
 item_velSpread = 900
@@ -82,9 +81,7 @@ position = Vector2(1056, 37)
 collectibleScoreValue = 5
 floating = false
 hp = 10
-shrineGem_particleAmount = 200
 shrineGem_portal_level_ID = "MAIN_3"
-shrineGem_displayedName = "idk"
 item_scene = "res://Enemies/enemy_ghost.tscn"
 item_posSpread = 200
 item_velSpread = 900

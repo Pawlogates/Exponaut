@@ -1,19 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://blm45t8prhk5g"]
+[gd_scene load_steps=2 format=3 uid="uid://blm45t8prhk5g"]
 
-[ext_resource type="Script" path="res://Scripts/zone_general.gd" id="1_om0mh"]
+[ext_resource type="PackedScene" uid="uid://crvdbmttd2gt5" path="res://Triggers/zone_base.tscn" id="1_cakcv"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
-size = Vector2(64, 64)
-
-[node name="wind" type="Area2D"]
-collision_layer = 0
-collision_mask = 7
-script = ExtResource("1_om0mh")
-zone_type = "wind"
+[node name="wind_DOWN" instance=ExtResource("1_cakcv")]
+wind_direction_X = 0
 wind_direction_Y = 1
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_32ipw")
-
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+wind_strength_Y = 10.0

@@ -563,7 +563,7 @@ _data = {
 "streak_reset": SubResource("Animation_a3nuy")
 }
 
-[node name="Player" type="CharacterBody2D" groups=["player_root"]]
+[node name="Player" type="CharacterBody2D" groups=["player", "player_root"]]
 collision_layer = 2
 collision_mask = 5
 floor_constant_speed = true
@@ -755,6 +755,14 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
+[node name="just_left_wind" type="Timer" parent="."]
+wait_time = 1.2
+one_shot = true
+
+[node name="just_bounced" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
 [connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/crouch_walkCollisionSwitch" to="." method="_on_crouch_walk_collision_switch_timeout"]
@@ -778,3 +786,5 @@ one_shot = true
 [connection signal="timeout" from="dashCheck" to="." method="_on_dash_check_timeout"]
 [connection signal="timeout" from="powerup_timer" to="." method="_on_powerup_timer_timeout"]
 [connection signal="timeout" from="block_movement_full" to="." method="_on_block_movement_full_timeout"]
+[connection signal="timeout" from="just_left_wind" to="." method="_on_just_left_wind_timeout"]
+[connection signal="timeout" from="just_bounced" to="." method="_on_just_bounced_timeout"]

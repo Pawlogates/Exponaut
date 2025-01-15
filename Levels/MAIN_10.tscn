@@ -11,6 +11,9 @@
 
 [node name="World" instance=ExtResource("1_l5ahk")]
 playerStartHP = 3
+selected_episode = "Main Levels"
+level_ID = "MAIN_10"
+level_number = 10
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_0o0qd")]
 unique_name_in_owner = true

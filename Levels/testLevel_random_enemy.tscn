@@ -24,9 +24,8 @@
 savedProgress_level_filePath = "res://Levels/overworld_test.tscn"
 shrine_level = true
 playerStartHP = 500
-shrine_selected_episode = "Main Levels"
-shrine_level_ID = "MAIN_3"
-shrine_level_number = 3
+selected_episode = "Debug Levels"
+level_ID = "DEBUG_7"
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_gft5j")]
 unique_name_in_owner = true
@@ -387,5 +386,3 @@ scale = Vector2(359.7, 5.05)
 RESET_OFFSET = true
 RESET_ZOOM = true
 horizontal = false
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

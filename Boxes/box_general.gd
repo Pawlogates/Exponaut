@@ -29,7 +29,9 @@ var start_item_amount = 3
 @export var onDeath_reset = false
 @export var onDeath_reset_spawn_items_amount = true
 @export var hp = 1
+@export var damageValue = 1
 @export var SPEED = 250.0
+@export var GRAVITY_SCALE = 1.0
 @export var bounce_min_velocity = 100
 @export var bounce_give_velocity = -400
 @export var bounceJump_give_velocity = -600
@@ -53,8 +55,9 @@ func _physics_process(delta):
 	else:
 		velocity.y = 0
 	
+	handle_inside_zone()
 	
-	if velocity.x != 0:
+	if velocity.x != 0 and not inside_wind:
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 	
 	if not destroyed and not floating:
@@ -84,7 +87,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			if hp <= 0:
 				destroy()
 	
-	elif body.is_in_group("Collectibles") or body.is_in_group("enemies"):
+	elif body.is_in_group("Collectibles") or body.is_in_group("enemies") or body.is_in_group("bonusBox"):
+		if body == self:
+			return
+		
 		if not destroyed:
 			if other_bounce(body):
 				var damageValue = body.damageValue
@@ -95,6 +101,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	
 	else:
 		print(body.get_groups())
+
 #BODY ENTERED END
 
 
@@ -269,3 +276,18 @@ var active = true
 
 func _on_active_cooldown_timeout():
 	active = true
+
+
+#AREAS (water, wind, etc.)
+var inside_wind = 0 # If above 0, the item is affected by wind.
+var insideWind_direction_X = 0
+var insideWind_direction_Y = 0
+var insideWind_strength_X = 1.0
+var insideWind_strength_Y = 1.0
+
+var inside_water = 0
+var insideWater_multiplier = 1
+
+func handle_inside_zone():
+	if inside_wind:
+		velocity.x += 10 * insideWind_direction_X * insideWind_strength_X

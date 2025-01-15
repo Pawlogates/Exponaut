@@ -309,6 +309,8 @@ func _physics_process(delta):
 			if not is_on_floor():
 				velocity.y += gravity * delta
 	
+	handle_inside_zone()
+	
 	if force_static_H:
 		velocity.x = 0
 	if force_static_V:
@@ -566,7 +568,7 @@ func handle_turnOnLedge():
 			scanForLedge.position.x = 32
 		
 		if slowDown_onDirectionChange:
-			velocity.x = -(0.5 * velocity_last_X)
+			velocity.x = -(0.25 * velocity_last_X)
 		else:
 			velocity.x = -velocity_last_X
 
@@ -590,7 +592,7 @@ func handle_turnOnWall():
 				scanForLedge.position.x = 32
 		
 		if slowDown_onDirectionChange:
-			velocity.x = -(0.5 * velocity_last_X)
+			velocity.x = -(0.25 * velocity_last_X)
 		else:
 			velocity.x = -velocity_last_X
 
@@ -654,7 +656,7 @@ func movement_normal(delta):
 		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * delta)
 		
 	else:
-		velocity.x = move_toward(velocity.x, 0, 10)
+		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
 
 
 func movement_followPlayerX(delta):
@@ -1416,3 +1418,18 @@ func randomize_everything():
 	modulate.g = randf_range(0, 1)
 	modulate.b = randf_range(0, 1)
 	modulate.a = randf_range(0.5, 1)
+
+
+#AREAS (water, wind, etc.)
+var inside_wind = 0 # If above 0, the item is affected by wind.
+var insideWind_direction_X = 0
+var insideWind_direction_Y = 0
+var insideWind_strength_X = 1.0
+var insideWind_strength_Y = 1.0
+
+var inside_water = 0
+var insideWater_multiplier = 1
+
+func handle_inside_zone():
+	if inside_wind:
+		velocity.x += 5 * insideWind_direction_X * insideWind_strength_X

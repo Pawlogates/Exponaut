@@ -8,6 +8,3 @@ cameraLimit_right = 1e+06
 cameraLimit_bottom = 448.0
 cameraLimit_top = -1e+06
 shrine_level = true
-shrine_selected_episode = "Main Levels"
-shrine_level_ID = "MAIN_0"
-shrine_level_number = 0

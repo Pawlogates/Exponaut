@@ -50,6 +50,7 @@ regular_level = false
 playerStartHP = 5
 rain = true
 leaves = true
+selected_episode = "Main Levels"
 area_ID = "overworld_infected_glades"
 
 [node name="decorations_fg2" parent="." index="0" instance=ExtResource("2_j3jxf")]

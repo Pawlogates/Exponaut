@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ba5hsxsr4eg2t"]
+
+[ext_resource type="PackedScene" uid="uid://crvdbmttd2gt5" path="res://Triggers/zone_base.tscn" id="1_d86ws"]
+
+[node name="bouncy" instance=ExtResource("1_d86ws")]
+zone_type = "bouncy"

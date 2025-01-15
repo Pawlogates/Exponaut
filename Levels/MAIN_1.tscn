@@ -17,9 +17,9 @@ shrine_level = true
 playerStartHP = 5
 rain = true
 leaves = true
-shrine_selected_episode = "Main Levels"
-shrine_level_ID = "MAIN_1"
-shrine_level_number = 1
+selected_episode = "Main Levels"
+level_ID = "MAIN_1"
+level_number = 1
 
 [node name="music" parent="Music Controller" index="5"]
 stream = ExtResource("2_r5lr7")

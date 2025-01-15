@@ -14,9 +14,9 @@
 [node name="World" instance=ExtResource("1_631pt")]
 shrine_level = true
 playerStartHP = 5
-shrine_selected_episode = "Main Levels"
-shrine_level_ID = "MAIN_4"
-shrine_level_number = 4
+selected_episode = "Main Levels"
+level_ID = "MAIN_4"
+level_number = 4
 delete_background_layers = true
 whiteBlocks_make_rainbow = true
 whiteBlocks_toggleBetween = true
@@ -72,6 +72,7 @@ stream = ExtResource("6_d7kuy")
 [node name="kill_area" parent="." index="15" instance=ExtResource("5_6yky3")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
+collision_mask = 7
 
 [node name="trigger_bgChange" parent="." index="16" instance=ExtResource("6_y4yhd")]
 position = Vector2(-3.05176e-05, -1.52588e-05)

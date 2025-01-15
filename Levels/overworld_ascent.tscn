@@ -26,6 +26,7 @@ regular_level = false
 playerStartHP = 3
 rain = true
 leaves = true
+selected_episode = "Main Levels"
 area_ID = "overworld_ascent"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_dbrpa")]

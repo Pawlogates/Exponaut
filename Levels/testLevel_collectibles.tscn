@@ -14,7 +14,8 @@
 
 [node name="World" instance=ExtResource("1_cgvx8")]
 playerStartHP = 999
-shrine_selected_episode = "Additional Levels"
+selected_episode = "Debug Levels"
+level_ID = "DEBUG_1"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_unutw")]
 unique_name_in_owner = true

@@ -1,24 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctu8tt5axyxdq"]
+[gd_scene load_steps=2 format=3 uid="uid://ctu8tt5axyxdq"]
 
-[ext_resource type="Script" path="res://Scripts/zone_general.gd" id="1_gbhxa"]
-[ext_resource type="AudioStream" uid="uid://bau2k4c3drkqf" path="res://Assets/Sounds/sfx/water_entered.wav" id="2_ipkd7"]
+[ext_resource type="PackedScene" uid="uid://crvdbmttd2gt5" path="res://Triggers/zone_base.tscn" id="1_jtl8u"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
-size = Vector2(64, 64)
-
-[node name="water" type="Area2D"]
-collision_layer = 0
-collision_mask = 7
-script = ExtResource("1_gbhxa")
+[node name="water" instance=ExtResource("1_jtl8u")]
 zone_type = "water"
-water_strength = 0.8
-water_slowdown = 0.6
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_32ipw")
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_ipkd7")
-
-[connection signal="area_entered" from="." to="." method="_on_area_entered"]
-[connection signal="area_exited" from="." to="." method="_on_area_exited"]

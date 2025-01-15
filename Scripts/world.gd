@@ -57,9 +57,9 @@ var instant_background_transitions = true
 @export var rain = false
 @export var leaves = false
 
-@export var shrine_selected_episode = "none"
-@export var shrine_level_ID = "none"
-@export var shrine_level_number = -1
+@export var selected_episode = "none"
+@export var level_ID = "none"
+@export var level_number = -1
 
 @export var meme_mode = false
 
@@ -78,10 +78,10 @@ func _ready():
 	if area_ID != "overworld_factory":
 		Globals.left_start_area = true
 	
-	if shrine_level:
-		Globals.selected_episode = shrine_selected_episode
-		Globals.current_level_ID = shrine_level_ID
-		Globals.current_level_number = shrine_level_number
+	if shrine_level or regular_level:
+		Globals.selected_episode = selected_episode #shrine_selected_episode
+		Globals.current_level_ID = level_ID #shrine_level_ID
+		Globals.current_level_number = level_number #shrine_level_number
 	
 	last_area_filePath_save()
 	

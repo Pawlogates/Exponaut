@@ -1,5 +1,8 @@
 extends Control
 
+@onready var world = $/root/World
+@onready var player = $/root/World.player
+
 @onready var fps = %fps
 @onready var test = %test
 @onready var test2 = %test2
@@ -28,7 +31,7 @@ func _process(_delta):
 			refresh_debugInfo()
 			refresh_debugInfo_values()
 			
-			$/root/World.player.block_movement = true
+			#$/root/World.player.block_movement = true
 		
 		else:
 			debugToggle = false
@@ -36,25 +39,24 @@ func _process(_delta):
 			
 			get_tree().set_debug_collisions_hint(false) 
 			
-			$/root/World.player.block_movement = false
+			#$/root/World.player.block_movement = false
+
 
 func refresh_debugInfo():
 	fps.text = str("fps: ", Engine.get_frames_per_second())
 	test.text = str("Total persistent objects present: ", Globals.test)
-	test2.text = str("Total collectibles: ", Globals.test2)
+	test2.text = str("Player velocity: ", "X", int(player.velocity.x), " Y", int(player.velocity.y))
 	test3.text = str("Current level's area_ID: ", Globals.test3)
-	test4.text = str("Debug value message: ", Globals.test4)
-
+	test4.text = str("Inside Wind: ", player.inside_wind, " Direction: ", "X", player.insideWind_direction_X, " Y", player.insideWind_direction_Y)
 
 func refresh_debugInfo_values():
-	Globals.test = get_tree().get_nodes_in_group("Persist").size() + get_tree().get_nodes_in_group("bonusBox").size()
+	Globals.test = get_tree().get_nodes_in_group("Persist").size()
 	Globals.test2 =  get_tree().get_nodes_in_group("Collectibles").size()
 	Globals.test3 = $/root/World.area_ID
-	Globals.test4 = "unused debug value"
+	Globals.test4 = 0
 	
 	if Globals.delete_saves:
 		delete_saves()
-
 
 
 func set_night():

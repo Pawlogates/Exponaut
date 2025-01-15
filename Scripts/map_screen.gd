@@ -22,31 +22,39 @@ func _ready():
 		level_number = 0
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-368, -140), load("res://Levels/testLevel_collectibles.tscn"))
+		place_level_icon(0, Vector2(-400, 64), load("res://Levels/testLevel_collectibles.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-416, 4), load("res://Levels/testLevel_object_saved_state.tscn"))
+		place_level_icon(0, Vector2(-350, 64), load("res://Levels/testLevel_object_saved_state.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-320, 132), load("res://Levels/testLevel_random_enemy.tscn"))
+		place_level_icon(0, Vector2(-300, 64), load("res://Levels/testLevel_random_enemy.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-140, 4), load("res://Levels/testLevel_memeSpawner.tscn"))
+		place_level_icon(0, Vector2(-250, 64), load("res://Levels/testLevel_memeSpawner.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(240, 64), load("res://Levels/testLevel_lethalBall.tscn"))
+		place_level_icon(0, Vector2(-200, 64), load("res://Levels/testLevel_lethalBall.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(300, 64), load("res://Levels/testLevel_switches.tscn"))
+		place_level_icon(0, Vector2(-150, 64), load("res://Levels/testLevel_switches.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(360, 64), load("res://Levels/testLevel_weapons.tscn"))
+		place_level_icon(0, Vector2(-100, 64), load("res://Levels/testLevel_weapons.tscn"))
+		#LEVEL ICON END
+		
+		#LEVEL ICON START
+		place_level_icon(0, Vector2(-50, 64), load("res://Levels/testLevel_physics_objects.tscn"))
+		#LEVEL ICON END
+		
+		#LEVEL ICON START
+		place_level_icon(0, Vector2(0, 64), load("res://Levels/testLevel_zones.tscn"))
 		#LEVEL ICON END
 		
 		# DEBUG - OVERWORLD AREAS

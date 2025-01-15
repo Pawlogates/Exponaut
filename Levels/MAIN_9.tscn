@@ -13,9 +13,9 @@
 
 [node name="World" instance=ExtResource("1_yh3la")]
 playerStartHP = 3
-shrine_selected_episode = "Main Levels"
-shrine_level_ID = "MAIN_4"
-shrine_level_number = 4
+selected_episode = "Main Levels"
+level_ID = "MAIN_9"
+level_number = 9
 delete_background_layers = true
 whiteBlocks_make_rainbow = true
 whiteBlocks_toggleBetween = true

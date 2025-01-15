@@ -13,9 +13,9 @@
 [node name="World" instance=ExtResource("1_gp17o")]
 shrine_level = true
 playerStartHP = 3
-shrine_selected_episode = "Main Levels"
-shrine_level_ID = "MAIN_2"
-shrine_level_number = 2
+selected_episode = "Main Levels"
+level_ID = "MAIN_2"
+level_number = 2
 
 [node name="music" parent="Music Controller" index="5"]
 stream = ExtResource("2_lljnu")

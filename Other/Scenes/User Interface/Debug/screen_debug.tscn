@@ -1784,7 +1784,7 @@ wait_time = 0.4
 autostart = true
 
 [node name="refresh_debugInfo_values" type="Timer" parent="."]
-wait_time = 4.0
+wait_time = 0.5
 autostart = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -1830,6 +1830,15 @@ offset_left = 976.0
 offset_top = 16.0
 offset_right = 1904.0
 offset_bottom = 32.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 1888.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 320.0
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect7" type="ColorRect" parent="."]
@@ -1884,15 +1893,6 @@ offset_left = 1888.0
 offset_top = 560.0
 offset_right = 1904.0
 offset_bottom = 1064.0
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect6" type="ColorRect" parent="."]
-z_index = -5
-layout_mode = 0
-offset_left = 1888.0
-offset_top = 16.0
-offset_right = 1904.0
-offset_bottom = 320.0
 color = Color(0, 0, 0, 1)
 
 [connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" method="_on_focus_entered"]

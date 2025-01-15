@@ -96,13 +96,6 @@ var spawn_dust_effect = true
 var block_movement = false
 var block_movement_full = false
 
-#AREAS (water, wind, etc.)
-var inside_wind = 0
-var insideWind_direction = 0
-
-var inside_water = 0
-var insideWater_multiplier = 1
-
 var damageValue = 1
 
 var double_score = false
@@ -195,7 +188,7 @@ func _process(delta):
 			if flight:
 				handle_flight(delta)
 			
-			handle_inside_area()
+			handle_inside_zone()
 			
 			if not block_movement_full:
 				move_and_slide() #MAIN MOVEMENT
@@ -418,32 +411,46 @@ func handle_wall_jump():
 
 
 func apply_friction(delta):
-	if direction == 0:
+	if direction == 0 and not inside_wind and not just_bounced:
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 
 
 func handle_acceleration_direction(delta):
 	
-	if not is_on_floor(): return
+	if not is_on_floor() or just_bounced: return
 	
-	#HANDLE WALKING
+	# HANDLE WALKING
 	if direction != 0:
-		velocity.x = move_toward(velocity.x, direction * SPEED, ACCELERATION * delta * crouchMultiplier * insideWater_multiplier)
+		# Unlimited velocity buildup due to wind (conveyor belts).
+		if inside_wind and insideWind_direction_X == Globals.direction:
+			velocity.x = move_toward(velocity.x, direction * 10000, ACCELERATION * delta * crouchMultiplier * insideWater_multiplier)
+		# Normal
+		else:
+			velocity.x = move_toward(velocity.x, direction * SPEED, ACCELERATION * delta * crouchMultiplier * insideWater_multiplier)
 	
+	if just_bounced:
+		return
 	
 	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
-		velocity.x = velocity.x * 0.75
+		velocity.x *= 0.75
 
 
 func handle_air_acceleration(delta):
-	
-	if is_on_floor(): return
+	if is_on_floor() or just_bounced: return
 	
 	if direction != 0:
-		velocity.x = move_toward(velocity.x, SPEED * direction,AIR_ACCELERATION * delta)
-		
+		# Reduce slowdown while under influence of heavy wind (conveyor belts).
+		if just_left_wind:
+			velocity.x = move_toward(velocity.x, SPEED * 2 * direction, AIR_ACCELERATION / 3 * delta)
+		# Normal
+		else:
+			velocity.x = move_toward(velocity.x, SPEED * direction, AIR_ACCELERATION * delta)
+	
+	if just_bounced:
+		return
+	
 	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
-		velocity.x = velocity.x * 0.5
+		velocity.x *= 0.75
 
 
 var attacked = false
@@ -1102,13 +1109,32 @@ func handle_spawn_dust():
 		$dust_effect.stop()
 
 
-func handle_inside_area():
+@onready var timer_just_left_wind: Timer = $just_left_wind
+var just_left_wind = false
+var just_left_wind_active = false
+
+#AREAS (water, wind, etc.)
+var inside_wind = 0 # If above 0, the player is affected by wind.
+var insideWind_direction_X = 0
+var insideWind_direction_Y = 0
+var insideWind_strength_X = 1.0
+var insideWind_strength_Y = 1.0
+
+var inside_water = 0
+var insideWater_multiplier = 1
+
+func handle_inside_zone():
 	if inside_wind:
-		if insideWind_direction == -1:
-			position.x += -3
-		
-		elif insideWind_direction == 1:
-			position.x += 3
+		velocity.x += 10 * insideWind_direction_X * insideWind_strength_X
+		velocity.y += 10 * insideWind_direction_Y * insideWind_strength_Y
+		just_left_wind = false
+		just_left_wind_active = false
+	else:
+		if abs(velocity.x) > 1000 and not just_left_wind_active:
+			just_left_wind = true
+			timer_just_left_wind.start()
+			just_left_wind_active = true
+			print("just_left_wind is now true (player left a conveyor belt).")
 
 
 func handle_zoom(delta):
@@ -1225,6 +1251,7 @@ var scene_debug_screen = preload("res://Other/Scenes/User Interface/Debug/screen
 func handle_debug_screen():
 	if Input.is_action_just_pressed("show_debugInfo"):
 		if not debugToggle:
+			#$/root/World.player.block_movement = true
 			var debug_screen = scene_debug_screen.instantiate()
 			world.hud.add_child(debug_screen)
 			
@@ -1235,12 +1262,31 @@ func handle_debug_screen():
 			get_tree().set_debug_collisions_hint(true)
 			debug_screen.refresh_debugInfo()
 			debug_screen.refresh_debugInfo_values()
-			
-			$/root/World.player.block_movement = true
 		
 		else:
-			$/root/World.player.block_movement = false
+			#$/root/World.player.block_movement = false
 			get_tree().set_debug_collisions_hint(false)
 			
 			world.debug_screen_delete()
 			debugToggle = false
+
+
+func _on_just_left_wind_timeout() -> void:
+	just_left_wind = false
+	print("just_left_wind is now false (player left a conveyor belt for and a set time is up) so regular air acceleration is applied.")
+
+
+# If the player just bounced off a bounce-type zone.
+@onready var timer_just_bounced: Timer = $just_bounced
+var just_bounced = false
+
+func on_player_just_bounced():
+	just_bounced = true
+	timer_just_bounced.start()
+	air_jump = true
+	wall_jump = true
+	sprite.modulate.g = 0.8
+
+func _on_just_bounced_timeout() -> void:
+	just_bounced = false
+	sprite.modulate.g = 1.0

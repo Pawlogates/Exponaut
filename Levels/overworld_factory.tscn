@@ -66,6 +66,7 @@ cameraLimit_bottom = 640.0
 cameraLimit_top = -1e+07
 regular_level = false
 playerStartHP = 5
+selected_episode = "Main Levels"
 area_ID = "overworld_factory"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_7dfdb")]

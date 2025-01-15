@@ -55,4 +55,3 @@ shape = SubResource("RectangleShape2D_xcl5b")
 
 [node name="wind" parent="." instance=ExtResource("2_skcxv")]
 position = Vector2(0, -32)
-wind_direction = 1

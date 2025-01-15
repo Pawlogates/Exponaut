@@ -13,8 +13,9 @@
 [node name="World" instance=ExtResource("1_xn17t")]
 shrine_level = true
 playerStartHP = 3
-shrine_level_ID = "MAIN_6"
-shrine_level_number = 6
+selected_episode = "Main Levels"
+level_ID = "MAIN_7"
+level_number = 7
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_yo0ve")]
 unique_name_in_owner = true

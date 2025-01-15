@@ -25,6 +25,7 @@ cameraLimit_bottom = 1280.0
 cameraLimit_top = -4672.0
 regular_level = false
 playerStartHP = 3
+selected_episode = "Main Levels"
 area_ID = "overworld_castle"
 metadata/_edit_vertical_guides_ = [-1984.0, -1152.0, 448.0, 3200.0, 4672.0, -3072.0]
 metadata/_edit_horizontal_guides_ = [960.0, 960.0, 1024.0, 832.0, 960.0, 896.0]
@@ -246,19 +247,15 @@ spawn_position = Vector2(4672, 960)
 [node name="wind_area" parent="." index="23" instance=ExtResource("14_xtj7n")]
 position = Vector2(-1088, -304)
 scale = Vector2(10, 1)
-wind_direction = -1
 
 [node name="wind_area2" parent="." index="24" instance=ExtResource("14_xtj7n")]
 position = Vector2(-1760, -304)
 scale = Vector2(5, 1)
-wind_direction = -1
 
 [node name="wind_area3" parent="." index="25" instance=ExtResource("14_xtj7n")]
 position = Vector2(-2368, -304)
 scale = Vector2(4, 1)
-wind_direction = -1
 
 [node name="wind_area4" parent="." index="26" instance=ExtResource("14_xtj7n")]
 position = Vector2(2304, 336)
 scale = Vector2(2, 1)
-wind_direction = 1

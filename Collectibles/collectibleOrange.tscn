@@ -535,7 +535,6 @@ floor_snap_length = 5.0
 safe_margin = 1.0
 script = ExtResource("1_31q6y")
 collectibleScoreValue = 25
-collectable = false
 loop_anim = "none"
 
 [node name="Area2D" type="Area2D" parent="."]

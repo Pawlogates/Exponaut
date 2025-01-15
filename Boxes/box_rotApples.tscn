@@ -271,7 +271,7 @@ animations = [{
 
 [node name="BonusBox_rotApples" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]
 z_index = 1
-collision_layer = 0
+collision_layer = 8
 script = ExtResource("1_qe1i0")
 floating = true
 item_amount = 7

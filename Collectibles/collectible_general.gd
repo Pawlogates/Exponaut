@@ -32,6 +32,7 @@ var enemy_last = Node
 var projectile_last = Node
 var collectible_last = Node
 
+
 @onready var sfx_collect1 = %collect1
 @onready var timer = %Timer
 @onready var animation_player = %AnimationPlayer
@@ -101,6 +102,7 @@ var collectible_last = Node
 
 @export var SPEED = 600.0
 @export var SLOWDOWN = 200.0
+@export var GRAVITY_SCALE = 1.0
 
 @export var debug = false
 #PROPERTIES END
@@ -426,7 +428,7 @@ func _physics_process(delta):
 	velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN / 2 * delta)
 	
 	if collidable: #or is_shrineGem
-		if is_on_floor():
+		if is_on_floor() and not inside_wind:
 			velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN * delta)
 		
 		
@@ -466,6 +468,9 @@ func _physics_process(delta):
 			velocity.x = projectile_last.velocity.x * 1.2
 			if abs(velocity.x) <= 150:
 				velocity.x = 150 * direction
+	
+	
+	handle_inside_zone()
 	
 	
 	if is_on_wall():
@@ -709,6 +714,21 @@ func _on_animation_player_animation_finished(anim_name):
 func random_pitch_collect():
 	sfx_collect1.pitch_scale = (randf_range(0.8, 1.2))
 	sfx_collect1.play()
+
+
+#AREAS (water, wind, etc.)
+var inside_wind = 0 # If above 0, the item is affected by wind.
+var insideWind_direction_X = 0
+var insideWind_direction_Y = 0
+var insideWind_strength_X = 1.0
+var insideWind_strength_Y = 1.0
+
+var inside_water = 0
+var insideWater_multiplier = 1
+
+func handle_inside_zone():
+	if inside_wind:
+		velocity.x += 5 * insideWind_direction_X * insideWind_strength_X
 
 
 #SAVE START

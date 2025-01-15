@@ -8,4 +8,6 @@ cameraLimit_right = 1e+06
 cameraLimit_bottom = 448.0
 cameraLimit_top = -1e+06
 playerStartHP = 9999
-shrine_selected_episode = "Debug Levels"
+selected_episode = "Debug Levels"
+level_ID = "DEBUG_0"
+level_number = -1
