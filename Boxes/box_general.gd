@@ -23,6 +23,8 @@ var destroyed = false
 var start_hp = 1
 var start_item_amount = 3
 
+var velocity_x_last = 0.0
+
 
 # Properties
 @export var immortal = false
@@ -55,17 +57,28 @@ func _physics_process(delta):
 	else:
 		velocity.y = 0
 	
-	handle_inside_zone()
+	handle_inside_zone(delta)
 	
 	if velocity.x != 0 and not inside_wind:
 		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+	
+	handle_inside_zone(delta)
+	
+	if is_on_wall():
+		velocity.x = -velocity_x_last / 2
+	
+	elif velocity.x != 0:
+		velocity_x_last = velocity.x
 	
 	if not destroyed and not floating:
 		move_and_slide()
 
 
-#BODY ENTERED
+# BODY ENTERED
 func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body == self:
+			return
+	
 	if not active:
 		print("Box entered, but it was inactive.")
 		return
@@ -73,45 +86,58 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and not body.get_parent().is_in_group("weightless"):
 		if not destroyed:
 			if player_bounce(body):
-				var damageValue = body.damageValue
-				reduce_hp(damageValue)
+				var value = body.damageValue
+				reduce_hp(value)
 			
 				if hp <= 0:
 					destroy()
 	
 	elif body.is_in_group("player_projectile"):
 		if not destroyed:
-			var damageValue = body.damageValue
-			reduce_hp(damageValue)
+			var value = body.damageValue
+			reduce_hp(value)
 			
 			if hp <= 0:
 				destroy()
 	
 	elif body.is_in_group("Collectibles") or body.is_in_group("enemies") or body.is_in_group("bonusBox"):
-		if body == self:
-			return
 		
 		if not destroyed:
 			if other_bounce(body):
-				var damageValue = body.damageValue
-				reduce_hp(damageValue)
+				var value = body.damageValue
+				reduce_hp(value)
 				
 				if hp <= 0:
 					destroy()
 	
-	else:
-		print(body.get_groups())
+	#else:
+		#print(body.get_groups())
 
-#BODY ENTERED END
+# BODY ENTERED END
+
+# AREA ENTERED
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area.get_parent().is_in_group("special_block"):
+		var block = area.get_parent()
+		
+		if not destroyed:
+			if other_bounce(block):
+				var value = block.damageValue
+				reduce_hp(value)
+				
+				if hp <= 0:
+					destroy()
+
+# AREA ENTERED END
 
 
-func reduce_hp(damageValue):
+func reduce_hp(value):
 	if hit_cooldown:
 		active = false
 		$active_cooldown.start()
 		
 	if not immortal:
-		hp -= damageValue
+		hp -= value
 		
 	if onHit_toggle_toggleBlocks:
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
@@ -169,7 +195,7 @@ func player_bounce(body):
 
 func other_bounce(body):
 	if body.velocity.y > bounce_min_velocity:
-		body.velocity.y = bounce_give_velocity
+		body.velocity.y = bounceJump_give_velocity
 		
 		return true
 	
@@ -288,6 +314,6 @@ var insideWind_strength_Y = 1.0
 var inside_water = 0
 var insideWater_multiplier = 1
 
-func handle_inside_zone():
+func handle_inside_zone(delta):
 	if inside_wind:
-		velocity.x += 10 * insideWind_direction_X * insideWind_strength_X
+		velocity.x += SPEED / 5 * insideWind_direction_X * insideWind_strength_X * delta

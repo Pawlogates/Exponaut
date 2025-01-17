@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://1yrqwkydp78d"]
+[gd_scene load_steps=18 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_tevf8"]
 [ext_resource type="Script" path="res://Scripts/map_screen.gd" id="2_7kq8d"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://Scripts/menu_button.gd" id="4_eht7p"]
 [ext_resource type="Script" path="res://Scripts/menu_deco_bg.gd" id="6_ha6nx"]
 [ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="7_x4tce"]
+[ext_resource type="Theme" uid="uid://r4gv8ac0831q" path="res://Other/Themes/small_text_theme.tres" id="8_f6rh0"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="8_ru2um"]
 
 [sub_resource type="Gradient" id="Gradient_uas2u"]
@@ -282,41 +283,136 @@ layout_mode = 2
 
 [node name="TextureRect" type="TextureRect" parent="level_info_container"]
 layout_mode = 0
-offset_left = 528.0
-offset_top = 228.0
-offset_right = 816.0
+offset_left = 512.0
+offset_top = 164.0
+offset_right = 832.0
 offset_bottom = 484.0
 texture = SubResource("AtlasTexture_ot7iw")
 
-[node name="Container" type="Container" parent="level_info_container/TextureRect"]
-layout_mode = 2
-offset_left = 144.0
-offset_top = 128.0
-offset_right = 144.0
-offset_bottom = 128.0
+[node name="level_info" type="VBoxContainer" parent="level_info_container/TextureRect"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
 
-[node name="level_info" type="VBoxContainer" parent="level_info_container/TextureRect/Container"]
+[node name="Control" type="Control" parent="level_info_container/TextureRect/level_info"]
+custom_minimum_size = Vector2(96, 80)
 layout_mode = 2
 
-[node name="Control" type="Control" parent="level_info_container/TextureRect/Container/level_info"]
-layout_mode = 2
-
-[node name="score" type="Label" parent="level_info_container/TextureRect/Container/level_info/Control"]
+[node name="name" type="Label" parent="level_info_container/TextureRect/level_info/Control"]
 unique_name_in_owner = true
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
+anchors_preset = 14
 anchor_top = 0.5
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -80.0
 offset_top = -16.0
-offset_right = 80.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "name"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="name_filler" type="Label" parent="level_info_container/TextureRect/level_info/Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_f6rh0")
+text = "level name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control2" type="Control" parent="level_info_container/TextureRect/level_info"]
+custom_minimum_size = Vector2(96, 80)
+layout_mode = 2
+
+[node name="score" type="Label" parent="level_info_container/TextureRect/level_info/Control2"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -16.0
 offset_bottom = 16.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "score"
 horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="score_filler" type="Label" parent="level_info_container/TextureRect/level_info/Control2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_f6rh0")
+text = "best score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Control3" type="Control" parent="level_info_container/TextureRect/level_info"]
+custom_minimum_size = Vector2(96, 80)
+layout_mode = 2
+
+[node name="rank" type="Label" parent="level_info_container/TextureRect/level_info/Control3"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -16.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "rank"
+horizontal_alignment = 1
+vertical_alignment = 2
+
+[node name="rank_filler" type="Label" parent="level_info_container/TextureRect/level_info/Control3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -8.0
+offset_bottom = -56.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_f6rh0")
+text = "score rank"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="top_rank_score" type="Label" parent="level_info_container/TextureRect/level_info/Control3"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = 20.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 16
+text = "top_rank_score"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="buttons_blocked" type="Timer" parent="."]
 wait_time = 5.0

@@ -79,9 +79,9 @@ func _ready():
 		Globals.left_start_area = true
 	
 	if shrine_level or regular_level:
-		Globals.selected_episode = selected_episode #shrine_selected_episode
-		Globals.current_level_ID = level_ID #shrine_level_ID
-		Globals.current_level_number = level_number #shrine_level_number
+		Globals.selected_episode = selected_episode #normal/shrine_selected_episode
+		Globals.current_level_ID = level_ID #normal/shrine_level_ID
+		Globals.current_level_number = level_number #normal/shrine_level_number
 	
 	last_area_filePath_save()
 	
@@ -468,7 +468,7 @@ func reduceHp3():
 		handle_player_death()
 
 func kill_player():
-	Globals.playerHP -= 100
+	Globals.playerHP = 0
 	healthDisplay.text = str("HP:", Globals.playerHP)
 	if Globals.playerHP <= 0 and not player.dead:
 		handle_player_death()
@@ -629,7 +629,6 @@ func bg_change():
 		
 		await Globals.bgTransition_finished
 		bg_free_to_change = true
-
 
 
 

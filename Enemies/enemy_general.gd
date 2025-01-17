@@ -23,7 +23,11 @@ var rng = RandomNumberGenerator.new()
 @export var damageValue = 1
 @export var SPEED = 100.0
 @export var JUMP_VELOCITY = -400.0
-@export var ACCELERATION_MULTIPLIER = 1.0
+@export var ACCELERATION = 1.0
+@export var SLOWDOWN = 1.0
+@export var gravity_value = 1.0
+@export var wind_multiplier_x = 1.0
+@export var wind_multiplier_y = 1.0
 
 @export_enum("normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer", "chasePlayerXY_lookAtPlayer_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted") var movementType: String
 
@@ -309,7 +313,7 @@ func _physics_process(delta):
 			if not is_on_floor():
 				velocity.y += gravity * delta
 	
-	handle_inside_zone()
+	handle_inside_zone(delta)
 	
 	if force_static_H:
 		velocity.x = 0
@@ -366,6 +370,21 @@ func _on_area_2d_area_entered(area):
 			handle_damage(area)
 	
 	
+	# HANDLE SPECIAL BLOCK ENTERED
+	if area.get_parent().is_in_group("special_block"):
+		var block = area.get_parent()
+		
+		# HANDLE BONUS BOX SPECIAL BLOCK BOUNCE
+		if is_bonusBox:
+			if bonusBox_requiresVelocity and block.velocity[1] < bonusBox_minimalVelocity:
+				return
+			
+			block.get_parent().velocity.y = bonusBox_giveVelocity_jump
+			spawn_particles()
+			
+			handle_damage(area)
+	
+	
 	#HANDLE IMMORTAL
 	elif immortal and area.is_in_group("player_projectile") and not area.get_parent().enemyProjectile:
 		attacking = true
@@ -377,7 +396,6 @@ func _on_area_2d_area_entered(area):
 		if not dead:
 			handle_damage(area)
 			call_deferred("enemy_stunned")
-			
 	
 	#HANDLE ENEMY ENTERED
 	elif area.get_parent().is_in_group("enemies"):
@@ -618,7 +636,7 @@ func handle_whenAt_startPosition_X_stop(delta):
 			#scale = Vector2(1.5, 1.5)
 		if not spottedPlayer:
 			start_pos_can_turn_X = false
-			velocity.x = move_toward(velocity.x, 0, delta * ACCELERATION_MULTIPLIER * 1000)
+			velocity.x = move_toward(velocity.x, 0, delta * ACCELERATION * 1000)
 	else:
 		start_pos_can_turn_X = true
 		#if debug:
@@ -627,7 +645,7 @@ func handle_whenAt_startPosition_X_stop(delta):
 
 func handle_whenAt_startPosition_Y_stop(delta):
 	if start_pos_y - global_position.y <= start_pos_leniency_Y:
-		velocity.y = move_toward(velocity.y, 0, delta * ACCELERATION_MULTIPLIER)
+		velocity.y = move_toward(velocity.y, 0, delta * ACCELERATION)
 		start_pos_can_turn_Y = false
 
 
@@ -647,16 +665,16 @@ func handle_bouncy_X(_delta):
 
 func handle_ascending(delta):
 	if is_ascending and not dead:
-		velocity.y = move_toward(velocity.y, JUMP_VELOCITY, delta * ACCELERATION_MULTIPLIER * 1000)
+		velocity.y = move_toward(velocity.y, JUMP_VELOCITY, delta * ACCELERATION * 1000)
 
 
 #MOVEMENT TYPES
 func movement_normal(delta):
 	if direction and not dead:
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * delta)
-		
+		move_in_direction(delta)
+	
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+		move_toward_zero_velocity_x(delta)
 
 
 func movement_followPlayerX(delta):
@@ -668,10 +686,10 @@ func movement_followPlayerX(delta):
 			elif global_position.x < Globals.player_posX:
 				direction = 1
 		
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 3 * delta * ACCELERATION_MULTIPLIER)
+		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 3 * delta * ACCELERATION)
 		
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED * 3 * delta)
+		move_toward_zero_velocity_x(delta)
 
 
 func movement_followPlayerY(delta):
@@ -683,7 +701,7 @@ func movement_followPlayerY(delta):
 	
 	
 	if not dead:
-		velocity.y = move_toward(velocity.y, direction_v * SPEED, SPEED * ACCELERATION_MULTIPLIER * delta)
+		velocity.y = move_toward(velocity.y, direction_v * SPEED, SPEED * ACCELERATION * delta)
 	elif not is_on_floor():
 		velocity.y = move_toward(velocity.y, direction_v * SPEED, SPEED * delta)
 
@@ -707,11 +725,8 @@ func movement_chasePlayerXY_lookAtPlayer(delta):
 func movement_followPlayerX_whenSpotted(delta):
 	if spottedPlayer:
 		movement_followPlayerX(delta)
-	
-	if spottedPlayer:
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * delta * ACCELERATION_MULTIPLIER)
 	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
+		move_toward_zero_velocity_x(delta)
 
 
 func movement_followPlayerY_whenSpotted(delta):
@@ -736,13 +751,12 @@ func movement_chasePlayerXY_lookAtPlayer_whenSpotted(delta):
 func movement_stationary(delta):
 	if not dead:
 		if not t_afterDelay_jumpAndMove:
-			if Globals.player_posX > position.x:
+			if Globals.player_posX >= position.x:
 				direction = 1
 			else:
 				direction = -1
 		
-		if direction:
-			velocity.x = move_toward(velocity.x, 0, 150 * delta)
+		move_toward_zero_velocity_x(delta)
 
 
 var velocity_H_target = 100
@@ -754,11 +768,11 @@ func movement_wave_V(delta):
 	if direction:
 		velocity.x = direction * SPEED
 	else:
-		velocity.x = move_toward(velocity.x, 0, 500 * delta * ACCELERATION_MULTIPLIER)
+		move_toward_zero_velocity_x(delta)
 	
 	
 	if dead:
-		velocity.y = move_toward(velocity.y, 800, 400 * delta * ACCELERATION_MULTIPLIER)
+		velocity.y = move_toward(velocity.y, 800, 400 * delta * ACCELERATION)
 	
 	if not dead:
 		if velocity.y == velocity_V_target:
@@ -777,11 +791,11 @@ func movement_wave_H(delta):
 	if direction:
 		velocity.y = direction * SPEED
 	else:
-		velocity.y = move_toward(velocity.x, 0, 500 * delta * ACCELERATION_MULTIPLIER)
+		velocity.y = move_toward(velocity.y, 0, 500 * delta * ACCELERATION)
 	
 	
 	if dead:
-		velocity.x = move_toward(velocity.x, 800, 400 * delta * ACCELERATION_MULTIPLIER)
+		velocity.x = move_toward(velocity.x, 800, 400 * delta * ACCELERATION)
 	
 	if not dead:
 		if velocity.x == velocity_H_target:
@@ -831,8 +845,8 @@ func moveAround_startPosition_XY_when_notSpotted(delta):
 	
 	
 	if not dead:
-		velocity.x = move_toward(velocity.x, direction * SPEED, delta * 1000 * ACCELERATION_MULTIPLIER)
-		velocity.y = move_toward(velocity.y, direction_v * SPEED, delta * 800 * ACCELERATION_MULTIPLIER)
+		velocity.x = move_toward(velocity.x, direction * SPEED, delta * 1000 * ACCELERATION)
+		velocity.y = move_toward(velocity.y, direction_v * SPEED, delta * 800 * ACCELERATION)
 	
 	
 	if dead:
@@ -1326,7 +1340,7 @@ func applyRandom_falseTrue(false_probability, true_probability):
 func randomize_everything():
 	SPEED = randi_range(0, 1200)
 	JUMP_VELOCITY = randi_range(0, -1200)
-	ACCELERATION_MULTIPLIER = randi_range(0, 12)
+	ACCELERATION = randi_range(0, 12)
 	movementType = applyRandom_fromList("list_movementType", 10) #14 for every type
 	give_score_onDeath = applyRandom_falseTrue(1, 9)
 	scoreValue = randi_range(0, 100000)
@@ -1430,6 +1444,19 @@ var insideWind_strength_Y = 1.0
 var inside_water = 0
 var insideWater_multiplier = 1
 
-func handle_inside_zone():
+func handle_inside_zone(delta):
 	if inside_wind:
-		velocity.x += 5 * insideWind_direction_X * insideWind_strength_X
+		if velocity.x > 0:
+			direction = 1
+		elif velocity.x < 0:
+			direction = -1
+		
+		velocity.x += SPEED * ACCELERATION * wind_multiplier_x * insideWind_direction_X * insideWind_strength_X * delta
+
+
+func move_in_direction(delta):
+	velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * ACCELERATION * delta)
+
+func move_toward_zero_velocity_x(delta):
+	if inside_wind : return
+	velocity.x = move_toward(velocity.x, 0 * SPEED, SPEED * SLOWDOWN * delta)

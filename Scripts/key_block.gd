@@ -22,7 +22,7 @@ func _ready():
 		$Timer.start()
 
 
-#DESTROY KEY BLOCK
+# DESTROY KEY BLOCK
 
 func key_block_destroy():
 	call_deferred("deferred_key_block_destroy")
@@ -30,25 +30,25 @@ func key_block_destroy():
 
 func deferred_key_block_destroy():
 	if not destroyed:
-			%Sprite2D.visible = false
-			%CollisionShape2D.disabled = true
-			%CollisionShape2D_scan.disabled = true
-			
-			$Timer.start()
-			destroyed = true
-			
-			
-			var dust = effect_dustScene.instantiate()
-			dust.anim_slow = true
-			add_child(dust)
-			
-			var stars = starParticleScene.instantiate()
-			add_child(stars)
+		%Sprite2D.visible = false
+		%CollisionShape2D.disabled = true
+		%CollisionShape2D_scan.disabled = true
+		
+		$Timer.start()
+		destroyed = true
+		
+		
+		var dust = effect_dustScene.instantiate()
+		dust.anim_slow = true
+		add_child(dust)
+		
+		var stars = starParticleScene.instantiate()
+		add_child(stars)
 
-#DESTROY KEY BLOCK END
+# DESTROY KEY BLOCK END
 
 
 func _on_area_2d_area_entered(area):
-	if area.is_in_group("key_opener"):
+	if area.get_parent().is_in_group("key_opener"):
 		key_block_destroy()
 		area.get_parent().destroy_self()

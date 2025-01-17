@@ -2,35 +2,6 @@ extends Node2D
 
 #states 1: 0 - unfinished, 1 - finished, 2 - all big apples collected, 3 - all collectibles collected, -1 - unlocked (main game exclusive)
 
-# Bonus levels
-var state_BONUS_1 = 0
-var state_BONUS_2 = 0
-var state_BONUS_3 = 0
-var state_BONUS_4 = 0
-var state_BONUS_5 = 0
-var state_BONUS_6 = 0
-var state_BONUS_7 = 0
-var state_BONUS_8 = 0
-var state_BONUS_9 = 0
-var state_BONUS_10 = 0
-var state_BONUS_11 = 0
-
-var score_BONUS_1 = 0
-var score_BONUS_2 = 0
-var score_BONUS_3 = 0
-var score_BONUS_4 = 0
-var score_BONUS_5 = 0
-var score_BONUS_6 = 0
-var score_BONUS_7 = 0
-var score_BONUS_8 = 0
-var score_BONUS_9 = 0
-var score_BONUS_10 = 0
-var score_BONUS_11 = 0
-
-var total_score_BONUS = 0
-var next_level_BONUS = 1
-
-
 # Main levels
 var state_MAIN_1 = 0
 var state_MAIN_2 = 0
@@ -63,8 +34,53 @@ var score_MAIN_13 = 0
 var total_score_MAIN = 0
 var next_level_MAIN = -1
 
+# Bonus levels
+var state_BONUS_1 = 0
+var state_BONUS_2 = 0
+var state_BONUS_3 = 0
+var state_BONUS_4 = 0
+var state_BONUS_5 = 0
+var state_BONUS_6 = 0
+var state_BONUS_7 = 0
+var state_BONUS_8 = 0
+var state_BONUS_9 = 0
+var state_BONUS_10 = 0
+var state_BONUS_11 = 0
+
+var score_BONUS_1 = 0
+var score_BONUS_2 = 0
+var score_BONUS_3 = 0
+var score_BONUS_4 = 0
+var score_BONUS_5 = 0
+var score_BONUS_6 = 0
+var score_BONUS_7 = 0
+var score_BONUS_8 = 0
+var score_BONUS_9 = 0
+var score_BONUS_10 = 0
+var score_BONUS_11 = 0
+
+var total_score_BONUS = 0
+var next_level_BONUS = 1
+
 
 # Level info (static). - [level name, icon id, max rank score, time target]
+
+# Main Levels
+var info_MAIN_1 = ["Desert Dash", 0, 180000, 60]
+var info_MAIN_2 = ["Valley of Vigor", 2, 75000, 60]
+var info_MAIN_3 = ["Toggle Land", 1, 250000, 60]
+var info_MAIN_4 = ["Drawing Board", 1, 80000, 60]
+var info_MAIN_5 = ["Chilling Exercise", 1, 4000, 60]
+var info_MAIN_6 = ["Dash Practice", 1, 25000, 60]
+var info_MAIN_7 = ["Puzzlin' Around", 1, 15000, 60]
+var info_MAIN_8 = ["Bogaloo Banger", 1, 100000, 60]
+var info_MAIN_9 = ["Mistymaze Mountain", 1, 100000, 60]
+var info_MAIN_10 = ["Unnamed", 1, 100000, 60]
+var info_MAIN_11 = ["Unnamed", 1, 100000, 60]
+var info_MAIN_12 = ["Unnamed", 1, 100000, 60]
+var info_MAIN_13 = ["Unnamed", 1, 100000, 60]
+
+# Bonus Levels
 var info_BONUS_1 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_2 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_3 = ["Unnamed", 1, 100000, 60]
@@ -77,19 +93,21 @@ var info_BONUS_9 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_10 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_11 = ["Unnamed", 1, 100000, 60]
 
-var info_MAIN_1 = ["Desert Dash", 0, 100000, 60]
-var info_MAIN_2 = ["Valley of Vigor", 2, 100000, 60]
-var info_MAIN_3 = ["Toggle Land", 1, 100000, 60]
-var info_MAIN_4 = ["Drawing Board", 1, 100000, 60]
-var info_MAIN_5 = ["Dash Practice", 1, 100000, 60]
-var info_MAIN_6 = ["Unnamed", 1, 100000, 60]
-var info_MAIN_7 = ["Unnamed", 1, 100000, 60]
-var info_MAIN_8 = ["Unnamed", 1, 100000, 60]
-var info_MAIN_9 = ["Unnamed", 1, 100000, 60]
-var info_MAIN_10 = ["Unnamed", 1, 100000, 60]
-var info_MAIN_11 = ["Unnamed", 1, 100000, 60]
-var info_MAIN_12 = ["Unnamed", 1, 100000, 60]
-var info_MAIN_13 = ["Unnamed", 1, 100000, 60]
+# Debug Levels
+var info_DEBUG_1 = ["test_collectibles", 1, -1, 60]
+var info_DEBUG_2 = ["test_physics_objects", 1, -1, 60]
+var info_DEBUG_3 = ["test_zones", 1, -1, 60]
+var info_DEBUG_4 = ["test_weapons", 1, -1, 60]
+var info_DEBUG_5 = ["test_switches", 1, -1, 60]
+var info_DEBUG_6 = ["test_random_enemies", 1, -1, 60]
+var info_DEBUG_7 = ["test_lethalBall", 1, -1, 60]
+var info_DEBUG_8 = ["test_meme_mode", 1, -1, 60]
+var info_DEBUG_9 = ["test_object_saved_state", 1, -1, 60]
+var info_DEBUG_10 = ["area_factory", 2, -1, 60]
+var info_DEBUG_11 = ["area_infected_glades", 2, -1, 60]
+var info_DEBUG_12 = ["area_glades", 2, -1, 60]
+var info_DEBUG_13 = ["area_castle", 2, -1, 60]
+var info_DEBUG_14 = ["area_ascent", 2, -1, 60]
 
 
 func _ready():
@@ -114,15 +132,54 @@ func count_total_score(current_levelSet, level_count):
 	set("total_score_" + current_levelSet, total_score)
 
 
+var rank = "D" #possible ranks: D, C, B, A, S (no reward), S+ (no reward)
+var rank_value = -1
+
+func calculate_rank(topRankScore, level_score):
+	var rating_top = topRankScore
+	var rating_5 = rating_top * 0.8
+	var rating_4 = rating_top * 0.6
+	var rating_3 = rating_top * 0.4
+	var rating_2 = rating_top * 0.2
+	var rating_1 = 0
+	
+	if topRankScore == -1: # Debug levels
+		rank = "none"
+		rank_value = 0
+	elif level_score >= rating_top:
+		rank = "S+"
+		rank_value = 6
+	elif level_score >= rating_5:
+		rank = "S"
+		rank_value = 5
+	elif level_score >= rating_4:
+		rank = "A"
+		rank_value = 4
+	elif level_score >= rating_3:
+		rank = "B"
+		rank_value = 3
+	elif level_score >= rating_2:
+		rank = "C"
+		rank_value = 2
+	elif level_score > rating_1:
+		rank = "D"
+		rank_value = 1
+	else:
+		rank = "none"
+		rank_value = 0
+	
+	return [rank, rank_value]
+
+
 #Save progress
 
 func save_game():
 	var saved_progress_file = FileAccess.open("user://saved_levelSetProgress.save", FileAccess.WRITE)
 	var saved_progress_data = call("save")
-
+	
 	# JSON provides a static method to serialized JSON string.
 	var json_string = JSON.stringify(saved_progress_data)
-
+	
 	# Store the save dictionary as a new line in the save file.
 	saved_progress_file.store_line(json_string)
 
@@ -141,7 +198,7 @@ func load_game():
 		if not parse_result == OK:
 			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
 			continue
-			
+		
 		var data = json.get_data()
 		
 		#LOAD PROGRESS

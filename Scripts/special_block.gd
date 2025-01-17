@@ -1,9 +1,11 @@
 extends CharacterBody2D
 
 var direction = 0
-var direction_V = 0
+var direction_y = 0
 
 var block_movement = true
+
+var velocity_x_last = 0.0
 
 var starParticleScene = preload("res://Particles/particles_star.tscn")
 var hit_effectScene = preload("res://Particles/hit_effect.tscn")
@@ -19,12 +21,19 @@ var scene_particles_water_entered = preload("res://Particles/particles_water_ent
 
 #SPECIAL PROPERTIES
 @export var SPEED = 250.0
+@export var SPEED_Y = 500.0
+@export var ACCELERATION = 250.0
+@export var ACCELERATION_V = 1.0
+@export var SLOWDOWN = 250.0
+@export var GRAVITY_SCALE = 1.0
+
 @export var is_toggleBlock = false
 @export var toggleBlock_is_active = true
 @export var immortal = false
 @export var floating = false
 @export var start_floating = false
 @export var breakable = false
+@export var hp = 3
 @export var bouncy = false
 @export var spawns_items = false
 @export var toggles_toggleBlocks = false
@@ -38,32 +47,40 @@ var scene_particles_water_entered = preload("res://Particles/particles_water_ent
 @export var block_movement_onSpawn = true
 @export var movement_type = "normal"
 @export var is_spikeBlock = false
-@export var damage = 1
+@export var damageValue = 1
 
 @export var destructible_weapon = false
 
-@export var blockType = "none"
+@export var blockType = "normal"
 @export var blockDirection = -1
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func _physics_process(delta):
-	if not is_on_floor() and not floating and blockType == "none":
-		velocity.y = move_toward(velocity.y, SPEED, 500 * delta)
+	if not is_on_floor() and not floating and blockType == "normal":
+		velocity.y = move_toward(velocity.y, SPEED_Y, ACCELERATION_V * 500 * delta)
 	
 	elif floating:
-		velocity.y = 0
+		velocity.y = move_toward(velocity.y, 0, SPEED_Y * ACCELERATION_V * delta)
 	
 	
-	if direction and blockType != "none":
-		velocity.x = move_toward(velocity.x, SPEED * direction, SPEED * delta)
+	if not inside_wind:
+		if direction and blockType != "normal":
+			velocity.x = move_toward(velocity.x, SPEED * direction, SPEED * delta)
+		elif velocity.x != 0:
+			velocity.x = move_toward(velocity.x, 0, SLOWDOWN * delta)
+		
+		if direction_y and blockType != "normal":
+			velocity.y = move_toward(velocity.y, SPEED * direction_y, SPEED * delta)
+	
+	handle_inside_zone(delta)
+	
+	if is_on_wall():
+		velocity.x = -velocity_x_last / 2
+	
 	elif velocity.x != 0:
-		velocity.x = move_toward(velocity.x, 0, SPEED * delta)
-	
-	if direction_V and blockType != "none":
-		velocity.y = move_toward(velocity.y, SPEED * direction_V, SPEED * delta)
-	
+		velocity_x_last = velocity.x
 	
 	
 	if not floating:
@@ -125,13 +142,13 @@ func _on_area_2d_area_entered(area):
 		
 		
 		if is_spikeBlock:
-			if damage == 1:
+			if damageValue == 1:
 				Globals.playerHit1.emit()
-			elif damage == 2:
+			elif damageValue == 2:
 				Globals.playerHit2.emit()
-			elif damage == 3:
+			elif damageValue == 3:
 				Globals.playerHit3.emit()
-			elif damage == 100:
+			elif damageValue == 100:
 				Globals.kill_player.emit()
 		
 		
@@ -187,7 +204,7 @@ func save():
 		"destroyed" : destroyed,
 		"toggleBlock_is_active" : toggleBlock_is_active,
 		"direction" : direction,
-		"direction_V" : direction_V,
+		"direction_y" : direction_y,
 	}
 	return save_dict
 #!SAVE
@@ -305,10 +322,10 @@ func blueButton_pressed():
 	print(blockType)
 	if blockType == "blue":
 		if blockDirection == 0:
-			direction_V = -1
+			direction_y = -1
 		
 		elif blockDirection == 1:
-			direction_V = 1
+			direction_y = 1
 
 func redButton_pressed():
 	print(blockType)
@@ -330,10 +347,10 @@ func blueButton_back():
 	pass
 	#if blockType == "blue":
 		#if blockDirection == 0:
-			#direction_V = -1
+			#direction_y = -1
 		#
 		#elif blockDirection == 1:
-			#direction_V = 1
+			#direction_y = 1
 
 func redButton_back():
 	if blockType == "red":
@@ -362,3 +379,18 @@ func toggleBlock_toggle():
 		add_child(stars)
 		var particles_special_multiple = scene_particles_special_multiple.instantiate()
 		add_child(particles_special_multiple)
+
+
+#AREAS (water, wind, etc.)
+var inside_wind = 0 # If above 0, the item is affected by wind.
+var insideWind_direction_X = 0
+var insideWind_direction_Y = 0
+var insideWind_strength_X = 1.0
+var insideWind_strength_Y = 1.0
+
+var inside_water = 0
+var insideWater_multiplier = 1
+
+func handle_inside_zone(delta):
+	if inside_wind:
+		velocity.x += SPEED * insideWind_direction_X * insideWind_strength_X * delta

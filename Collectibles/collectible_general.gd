@@ -338,6 +338,7 @@ func _on_collectible_entered(body):
 		Globals.itemCollected.emit()
 		
 		if is_potion:
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "Collectibles", "reassign_player")
 			world.reassign_player()
 			
 			if transform_into == "rooster":
@@ -360,6 +361,7 @@ func _on_collectible_entered(body):
 			
 		
 		if is_weapon:
+			reassign_player()
 			world.reassign_player()
 			world.player.weaponType = weapon_type
 			world.player.get_node("%attack_cooldown").wait_time = attack_delay
@@ -371,6 +373,7 @@ func _on_collectible_entered(body):
 			Globals.weapon_collected.emit()
 		
 		if is_SecondaryWeapon:
+			reassign_player()
 			world.reassign_player()
 			world.player.secondaryWeaponType = secondaryWeapon_type
 			world.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
@@ -406,7 +409,7 @@ func _on_animation_player_2_animation_finished(anim_name):
 
 
 var velocity_x_last = 0.0
-var direction_last = 0.0
+var direction_last = 0
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -425,20 +428,22 @@ func _physics_process(delta):
 	if not is_on_floor():
 		velocity.y += gravity * delta
 	
-	velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN / 2 * delta)
+	if not inside_wind:
+		if collidable: #or is_shrineGem
+			if is_on_floor():
+				velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN * delta)
+			else:
+				velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN / 2 * delta)
 	
-	if collidable: #or is_shrineGem
-		if is_on_floor() and not inside_wind:
-			velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN * delta)
-		
-		
 	if player_inside:
 		collidable = false
 		collisionCheck_delay.start()
 		
+		reassign_player() # Remove this line as soon as all collectibles have their root node in the "Collectibles" group (and remove their Area2D's from that group).
+		
 		if player.direction == 0:
 			direction = Globals.direction
-			
+		
 		velocity.x = player.velocity.x * 1.2
 		if abs(velocity.x) <= 150:
 			velocity.x = 150 * direction
@@ -470,7 +475,7 @@ func _physics_process(delta):
 				velocity.x = 150 * direction
 	
 	
-	handle_inside_zone()
+	handle_inside_zone(delta)
 	
 	
 	if is_on_wall():
@@ -726,9 +731,13 @@ var insideWind_strength_Y = 1.0
 var inside_water = 0
 var insideWater_multiplier = 1
 
-func handle_inside_zone():
+func handle_inside_zone(delta):
 	if inside_wind:
-		velocity.x += 5 * insideWind_direction_X * insideWind_strength_X
+		velocity.x += SPEED / 5 * insideWind_direction_X * insideWind_strength_X * delta
+
+
+func reassign_player():
+	player = get_tree().get_first_node_in_group("player_root")
 
 
 #SAVE START

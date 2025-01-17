@@ -12,13 +12,15 @@ var total_score = 0
 func _ready():
 	saved_progress = LevelTransition.get_node("%saved_progress")
 	
-	LevelTransition.get_node("%saved_progress").load_game()
+	saved_progress.load_game()
+	
 	print(str(Globals.selected_episode) + " is the currently selected Level Set.")
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	#EPISODE START
 	if Globals.selected_episode == "Debug Levels":
+		#%background.texture = load("res://Assets/Graphics/other/levelSelect_screen.png")
 		level_number = 0
 		
 		#LEVEL ICON START
@@ -26,36 +28,37 @@ func _ready():
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-350, 64), load("res://Levels/testLevel_object_saved_state.tscn"))
+		place_level_icon(1, Vector2(-350, 64), load("res://Levels/testLevel_physics_objects.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-300, 64), load("res://Levels/testLevel_random_enemy.tscn"))
+		place_level_icon(0, Vector2(-300, 64), load("res://Levels/testLevel_zones.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-250, 64), load("res://Levels/testLevel_memeSpawner.tscn"))
+		place_level_icon(1, Vector2(-250, 64), load("res://Levels/testLevel_weapons.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-200, 64), load("res://Levels/testLevel_lethalBall.tscn"))
+		place_level_icon(0, Vector2(-200, 64), load("res://Levels/testLevel_switches.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-150, 64), load("res://Levels/testLevel_switches.tscn"))
+		place_level_icon(1, Vector2(-150, 64), load("res://Levels/testLevel_random_enemy.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-100, 64), load("res://Levels/testLevel_weapons.tscn"))
+		place_level_icon(0, Vector2(-100, 64), load("res://Levels/testLevel_lethalBall.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(-50, 64), load("res://Levels/testLevel_physics_objects.tscn"))
+		place_level_icon(1, Vector2(-50, 64), load("res://Levels/testLevel_memeSpawner.tscn"))
 		#LEVEL ICON END
 		
 		#LEVEL ICON START
-		place_level_icon(0, Vector2(0, 64), load("res://Levels/testLevel_zones.tscn"))
+		place_level_icon(0, Vector2(0, 64), load("res://Levels/testLevel_object_saved_state.tscn"))
 		#LEVEL ICON END
+		
 		
 		# DEBUG - OVERWORLD AREAS
 		place_level_icon(2, Vector2(540, -240), load("res://Levels/overworld_factory.tscn"))
@@ -115,34 +118,44 @@ func _ready():
 	#EPISODE END
 	
 	
-	#Load saved level states.
+	# Load saved level states.
+	
+	# Main Levels
+	if Globals.selected_episode == "Main Levels":
+		Globals.current_levelSet_ID = "MAIN"
+		
+		for icon in get_tree().get_nodes_in_group("level_icon"):
+			var level_saved_state = saved_progress.get(str("state_", Globals.current_levelSet_ID, "_", icon.level_number))
+			var level_saved_score = saved_progress.get(str("score_", Globals.current_levelSet_ID, "_", icon.level_number))
+			icon.level_state = level_saved_state
+			icon.level_score = level_saved_score
+			#print("Saved level completion state: ", icon.level_state)
+			
+			icon.is_main_level = true
+		
+		
+		saved_progress.count_total_score(Globals.current_levelSet_ID, 13)
+		total_score = saved_progress.get("total_score")
+		
+		#Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_MAIN")
+	
 	
 	# Bonus levels
 	if Globals.selected_episode == "Bonus Levels":
 		Globals.current_levelSet_ID = "BONUS"
 		
 		for icon in get_tree().get_nodes_in_group("level_icon"):
-			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_BONUS_" + str(icon.level_number))
-			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_BONUS_" + str(icon.level_number))
+			var level_saved_state = saved_progress.get(str("state_", Globals.current_levelSet_ID, "_", icon.level_number))
+			var level_saved_score = saved_progress.get(str("score_", Globals.current_levelSet_ID, "_", icon.level_number))
+			icon.level_state = level_saved_state
+			icon.level_score = level_saved_score
 			#print("Saved level completion state: ", icon.level_state)
 		
-		Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_BONUS")
+		saved_progress.count_total_score(Globals.current_levelSet_ID, 13)
+		total_score = saved_progress.get("total_score")
+		
+		Globals.next_level = saved_progress.get("next_level_BONUS")
 	
-	# Main Levels
-	elif Globals.selected_episode == "Main Levels":
-		Globals.current_levelSet_ID = "MAIN"
-		
-		for icon in get_tree().get_nodes_in_group("level_icon"):
-			icon.level_state = LevelTransition.get_node("%saved_progress").get("state_MAIN_" + str(icon.level_number))
-			icon.level_score = LevelTransition.get_node("%saved_progress").get("score_MAIN_" + str(icon.level_number))
-			icon.is_main_level = true
-			#print("Saved level completion state: ", icon.level_state)
-		
-		
-		LevelTransition.get_node("%saved_progress").count_total_score("MAIN", 13)
-		total_score = LevelTransition.get_node("%saved_progress").get("total_score")
-		
-		#Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_MAIN")
 	
 	# Debug Levels
 	elif Globals.selected_episode == "Debug Levels":
@@ -183,11 +196,11 @@ func place_level_icon(Icon_ID, Position, Level_FilePath):
 func _on_enable_score_attack_mode_pressed():
 	if Globals.mode_scoreAttack == false:
 		Globals.mode_scoreAttack = true
-		$"menu_main/menu_container/Enable Score Attack Mode/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Score Attack Mode[/wave]"
+		$"menu_main/menu_container/Control/Enable Score Attack Mode/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Disable Score Attack Mode[/wave]"
 		
 	elif Globals.mode_scoreAttack == true:
 		Globals.mode_scoreAttack = false
-		$"menu_main/menu_container/Enable Score Attack Mode/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
+		$"menu_main/menu_container/Control/Enable Score Attack Mode/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
 
 
 func _on_main_menu_pressed():

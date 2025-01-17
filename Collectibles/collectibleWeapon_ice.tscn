@@ -501,6 +501,7 @@ safe_margin = 1.0
 script = ExtResource("1_aomce")
 collectibleScoreValue = 25
 animation_always = true
+loop_anim = "none"
 is_weapon = true
 weapon_type = "ice"
 

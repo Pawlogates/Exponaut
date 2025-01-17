@@ -189,7 +189,8 @@ func savedData_load():
 		
 		saved_last_area_filePath = data["saved_last_area_filePath"]
 		
-		saved_position = data["saved_position"]
+		saved_position[0] = data["saved_position_x"]
+		saved_position[1] = data["saved_position_y"]
 		saved_score = data["saved_score"]
 		
 		saved_weapon = data["saved_weapon"]
@@ -222,7 +223,8 @@ func savedData_save_dictionary():
 		#saved properties
 		"saved_last_area_filePath" : saved_last_area_filePath,
 		
-		"saved_position" : saved_position,
+		"saved_position_x" : saved_position[0],
+		"saved_position_y" : saved_position[1],
 		"saved_score" : saved_score,
 		
 		"saved_weapon" : saved_weapon,

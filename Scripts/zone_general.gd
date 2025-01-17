@@ -61,7 +61,38 @@ func _on_area_entered(area):
 		elif zone_type == "kill":
 			print("Kill area entered.")
 			Globals.kill_player.emit()
-
+	
+	
+	
+	elif area.get_parent().is_in_group("special_block"):
+		var block = area.get_parent()
+		
+		if zone_type == "wind":
+			block.inside_wind += 1
+			block.insideWind_direction_X = wind_direction_X
+			block.insideWind_direction_Y = wind_direction_Y
+			block.insideWind_strength_X = wind_strength_X
+			block.insideWind_strength_Y = wind_strength_Y
+		
+		
+		elif zone_type == "water":
+			block.inside_water += 1
+			if block.inside_water == 1:
+				#water_effect_general()
+				pass
+		
+		
+		elif zone_type == "gravity":
+			block.GRAVITY_SCALE = gravity_value
+		
+		
+		elif zone_type == "bouncy":
+			if bouncy_velocity_X != -1:
+				block.velocity.x = bouncy_velocity_X
+			if bouncy_velocity_Y != -1:
+				block.velocity.y = bouncy_velocity_Y
+			
+			#water_effect_general()
 
 func _on_area_exited(area):
 	if area.is_in_group("player"):
@@ -80,6 +111,25 @@ func _on_area_exited(area):
 		
 		elif zone_type == "gravity":
 			player.GRAVITY_SCALE = 1.0
+	
+	
+	
+	elif area.get_parent().is_in_group("special_block"):
+		var block = area.get_parent()
+		
+		if zone_type == "wind":
+			block.inside_wind -= 1
+		
+		
+		elif zone_type == "water":
+			block.inside_water -= 1
+			if block.inside_water == 0:
+				#water_effect_general()
+				pass
+		
+		
+		elif zone_type == "gravity":
+			block.GRAVITY_SCALE = 1.0
 
 
 func _on_body_entered(body: Node2D) -> void:
@@ -123,7 +173,7 @@ func _on_body_exited(body: Node2D) -> void:
 		elif zone_type == "water":
 			body.inside_water -= 1
 			if body.inside_water == 0:
-				water_effect()
+				#water_effect_general()
 				pass
 		
 		

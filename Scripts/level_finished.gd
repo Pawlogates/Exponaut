@@ -9,6 +9,8 @@ var level_score = 0
 var displayed_totalScore = 0
 var displayed_score = 0
 
+var saved_progress = Node2D
+
 func _on_retry_btn_pressed():
 	retry.emit()
 
@@ -37,6 +39,8 @@ var score_counted_emitted = false
 signal score_counted()
 
 func _ready():
+	saved_progress = LevelTransition.get_node("%saved_progress")
+	
 	set_process(false)
 	score_counted.connect(after_score_counted)
 	
@@ -80,35 +84,42 @@ var first_time_clear = false
 var topRankScore = 0
 
 func exit_reached():
-	topRankScore = Globals.current_topRankScore
-	%top_rank_label.text = "Top Rank: " + str(topRankScore)
-	print(LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)))
+	var level_saved_state = saved_progress.get("state_" + Globals.current_level_ID)
+	var level_saved_score = saved_progress.get("state_" + Globals.current_level_ID)
+	
+	var level_info = saved_progress.get("info_" + Globals.current_level_ID)
+	
 	level_score = Globals.level_score
+	topRankScore = level_info[2]
+	
+	%top_rank_label.text = "Top Rank: " + str(topRankScore)
+	print(level_saved_state)
 	
 	
 	if not Globals.mode_scoreAttack and not Globals.selected_episode == "Debug Levels":
-		if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 1:
+		if level_saved_state < 1:
 			first_time_clear = true
 		
 		if get_tree().get_nodes_in_group("Collectibles").size() == 0:
-			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 3:
-				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level_ID), 3)
-				
-		elif get_tree().get_nodes_in_group("specialCollectible").size() <= 0:
-			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 2:
-				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level_ID), 2)
-				
-		elif get_tree().get_nodes_in_group("Collectibles").size() >= 0:
-			if LevelTransition.get_node("%saved_progress").get("state_" + str(Globals.current_level_ID)) < 1:
-				LevelTransition.get_node("%saved_progress").set("state_" + str(Globals.current_level_ID), 1)
+			if level_saved_state < 3:
+				saved_progress.set("state_" + str(Globals.current_level_ID), 3)
 		
-		if LevelTransition.get_node("%saved_progress").get("score_" + str(Globals.current_level_ID)) < level_score:
-			LevelTransition.get_node("%saved_progress").set("score_" + str(Globals.current_level_ID), level_score)
+		elif get_tree().get_nodes_in_group("specialCollectible").size() <= 0:
+			if level_saved_state < 2:
+				saved_progress.set("state_" + str(Globals.current_level_ID), 2)
+		
+		elif get_tree().get_nodes_in_group("Collectibles").size() >= 0:
+			if level_saved_state < 1:
+				saved_progress.set("state_" + str(Globals.current_level_ID), 1)
+		
+		if level_saved_score < level_score:
+			saved_progress.set("score_" + str(Globals.current_level_ID), level_score)
 	
-		if Globals.selected_episode == "Additional Levels":
-			if Globals.current_level_number == LevelTransition.get_node("%saved_progress").next_level_RI1:
-				LevelTransition.get_node("%saved_progress").next_level_RI1 += 1
-				
+	
+		if Globals.selected_episode == "Bonus Levels":
+			if Globals.current_level_number == saved_progress.next_level_BONUS:
+				saved_progress.next_level_BONUS += 1
+	
 	
 		Globals.save_progress.emit()
 	
@@ -135,38 +146,16 @@ func exit_reached():
 	%ContinueBtn.grab_focus()
 	
 	set_process(true)
-	calculate_rating()
+	calculate_rank()
 
 
 var rank = "D" #possible ranks: D, C, B, A, S (no reward), S+ (no reward)
 var rank_value = -1
 
-func calculate_rating():
-	var rating_top = Globals.current_topRankScore
-	var rating_5 = rating_top * 0.8
-	var rating_4 = rating_top * 0.6
-	var rating_3 = rating_top * 0.4
-	var rating_2 = rating_top * 0.2
-	var rating_1 = 0
-	
-	if level_score >= rating_top:
-		rank = "S+"
-		rank_value = 6
-	elif level_score >= rating_5:
-		rank = "S"
-		rank_value = 5
-	elif level_score >= rating_4:
-		rank = "A"
-		rank_value = 4
-	elif level_score >= rating_3:
-		rank = "B"
-		rank_value = 3
-	elif level_score >= rating_2:
-		rank = "C"
-		rank_value = 2
-	elif level_score >= rating_1:
-		rank = "D"
-		rank_value = 1
+func calculate_rank():
+	var rank_info = saved_progress.calculate_rank(topRankScore, level_score)
+	rank = rank_info[0]
+	rank_value = rank_info[1]
 	
 	%achieved_rank_label.text = rank
 	
@@ -189,10 +178,10 @@ func calculate_rating():
 
 func after_score_counted():
 	if Globals.current_levelSet_ID == "MAIN":
-		LevelTransition.get_node("%saved_progress").count_total_score(Globals.current_levelSet_ID, 13)
+		saved_progress.count_total_score(Globals.current_levelSet_ID, 13)
 	
 	await get_tree().create_timer(1, true).timeout
-	displayed_totalScore = LevelTransition.get_node("%saved_progress").get("total_score_" + Globals.current_levelSet_ID)
+	displayed_totalScore = saved_progress.get("total_score_" + Globals.current_levelSet_ID)
 	#print(LevelTransition.get_node("%saved_progress").get("total_score_" + Globals.current_levelSet_ID))
 	#print(("total_score_" + Globals.current_levelSet_ID))
 	

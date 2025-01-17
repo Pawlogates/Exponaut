@@ -65,6 +65,7 @@ size = Vector2(60, 20)
 [node name="button_green_root" type="Node2D" groups=["Persist", "button", "resetButton_green"]]
 z_index = -1
 script = ExtResource("1_fp42k")
+pressed = true
 button_type = "reset_green"
 
 [node name="button_green" type="StaticBody2D" parent="." groups=["button", "resetButton_green"]]
@@ -90,6 +91,7 @@ shape = SubResource("RectangleShape2D_gk7p3")
 
 [node name="Area2D" type="Area2D" parent="button_green"]
 collision_layer = 0
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_green/Area2D"]
 shape = SubResource("RectangleShape2D_iushe")

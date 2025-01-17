@@ -193,7 +193,7 @@ scale = Vector2(3, 3)
 unique_name_in_owner = true
 position = Vector2(-3264, 1216)
 scale = Vector2(24, 2)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 1
 spawn_position = Vector2(-3072, 896)
 
@@ -201,14 +201,14 @@ spawn_position = Vector2(-3072, 896)
 unique_name_in_owner = true
 position = Vector2(-4512, 64)
 scale = Vector2(3, 10)
-target_area = "res://Levels/Ascent.tscn"
+target_area = "res://Levels/overworld_ascent.tscn"
 next_transition = 2
 
 [node name="areaTransition3" parent="." index="18" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(-1824, 1216)
 scale = Vector2(1, 2)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 3
 spawn_position = Vector2(-1984, 960)
 
@@ -216,7 +216,7 @@ spawn_position = Vector2(-1984, 960)
 unique_name_in_owner = true
 position = Vector2(-1248, 1216)
 scale = Vector2(1, 2)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 6
 spawn_position = Vector2(-1152, 960)
 
@@ -224,7 +224,7 @@ spawn_position = Vector2(-1152, 960)
 unique_name_in_owner = true
 position = Vector2(544, 1216)
 scale = Vector2(3, 2)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 7
 spawn_position = Vector2(448, 1024)
 
@@ -232,7 +232,7 @@ spawn_position = Vector2(448, 1024)
 unique_name_in_owner = true
 position = Vector2(3264, 1216)
 scale = Vector2(2, 2)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 8
 spawn_position = Vector2(3200, 832)
 
@@ -240,7 +240,7 @@ spawn_position = Vector2(3200, 832)
 unique_name_in_owner = true
 position = Vector2(4640, 1184)
 scale = Vector2(3, 3)
-target_area = "res://Levels/Overworld2.tscn"
+target_area = "res://Levels/overworld_glades.tscn"
 next_transition = 9
 spawn_position = Vector2(4672, 960)
 
@@ -259,3 +259,38 @@ scale = Vector2(4, 1)
 [node name="wind_area4" parent="." index="26" instance=ExtResource("14_xtj7n")]
 position = Vector2(2304, 336)
 scale = Vector2(2, 1)
+
+[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377748" to="tileset_objects/@Area2D@377748" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377749" to="tileset_objects/@Area2D@377749" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377750" to="tileset_objects/@Area2D@377750" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377751" to="tileset_objects/@Area2D@377751" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377767" to="tileset_objects/@Area2D@377767" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377782" to="tileset_objects/@Area2D@377782" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377783" to="tileset_objects/@Area2D@377783" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377784" to="tileset_objects/@Area2D@377784" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377798" to="tileset_objects/@Area2D@377798" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377918" to="tileset_objects/@Area2D@377918" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377926" to="tileset_objects/@Area2D@377926" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377930" to="tileset_objects/@Area2D@377930" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377933" to="tileset_objects/@Area2D@377933" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377994" to="tileset_objects/@Area2D@377994" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@377999" to="tileset_objects/@Area2D@377999" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378082" to="tileset_objects/@Area2D@378082" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378118" to="tileset_objects/@Area2D@378118" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378150" to="tileset_objects/@Area2D@378150" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378158" to="tileset_objects/@Area2D@378158" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378217" to="tileset_objects/@Area2D@378217" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378219" to="tileset_objects/@Area2D@378219" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378221" to="tileset_objects/@Area2D@378221" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378223" to="tileset_objects/@Area2D@378223" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378224" to="tileset_objects/@Area2D@378224" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378225" to="tileset_objects/@Area2D@378225" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378226" to="tileset_objects/@Area2D@378226" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378227" to="tileset_objects/@Area2D@378227" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378228" to="tileset_objects/@Area2D@378228" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378230" to="tileset_objects/@Area2D@378230" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378232" to="tileset_objects/@Area2D@378232" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378233" to="tileset_objects/@Area2D@378233" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@378235" to="tileset_objects/@Area2D@378235" method="_on_area_entered"]
