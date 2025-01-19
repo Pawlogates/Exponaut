@@ -70,7 +70,7 @@ func _physics_process(delta):
 	elif velocity.x != 0:
 		velocity_x_last = velocity.x
 	
-	if not destroyed and not floating:
+	if not destroyed and not floating or not onDeath_play_anim:
 		move_and_slide()
 
 

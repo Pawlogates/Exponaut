@@ -73,14 +73,14 @@ signal bgChange_entered
 signal bgMove_entered
 signal bgTransition_finished
 
-var bg_File_previous = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
-var bg_File_current = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
+var bg_File_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
+var bg_File_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
 
-var bg_a_File_previous = preload("res://Assets/Graphics/backgrounds/bg_a_fields.png")
-var bg_a_File_current = preload("res://Assets/Graphics/backgrounds/bg_a_fields.png")
+var bg_a_File_previous = "res://Assets/Graphics/backgrounds/bg_a_fields.png"
+var bg_a_File_current = "res://Assets/Graphics/backgrounds/bg_a_fields.png"
 
-var bg_b_File_previous = preload("res://Assets/Graphics/backgrounds/bg_b_fields.png")
-var bg_b_File_current = preload("res://Assets/Graphics/backgrounds/bg_b_fields.png")
+var bg_b_File_previous = "res://Assets/Graphics/backgrounds/bg_b_fields.png"
+var bg_b_File_current = "res://Assets/Graphics/backgrounds/bg_b_fields.png"
 
 var bgOffset_target_x = 0
 var bgOffset_target_y = 0

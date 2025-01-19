@@ -33,12 +33,15 @@ var can_turn = true
 @onready var dead_timer = $AnimatedSprite2D/DeadTimer
 
 @onready var particle_limiter = $particle_limiter
+@onready var jump_timer: Timer = $jumpTimer
 
 @onready var hit = $hit
 @onready var death = $death
 
 @onready var start_pos_x = global_position.x
 @onready var start_pos_y = global_position.y
+
+@onready var scanForLedge = $scanForLedge
 
 
 func _on_attacking_timer_timeout():
@@ -80,9 +83,12 @@ func basic_offScreen_unload():
 	$Area2D.set_monitorable(false)
 	
 	$CollisionShape2D.disabled = true
+	
 	$AnimatedSprite2D/AttackingTimer.set_paused(true)
 	$AnimatedSprite2D/AttackedTimer.set_paused(true)
 	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	
+	#$jumpTimer.set_paused(true)
 	
 	remove_if_corpse()
 
@@ -100,9 +106,12 @@ func basic_offScreen_load():
 	sprite.visible = true
 	
 	$CollisionShape2D.disabled = false
+	
 	$AnimatedSprite2D/AttackingTimer.set_paused(false)
 	$AnimatedSprite2D/AttackedTimer.set_paused(false)
 	$AnimatedSprite2D/DeadTimer.set_paused(false)
+	
+	#$jumpTimer.set_paused(false)
 	
 	
 	await get_tree().create_timer(0.25, false).timeout
@@ -124,9 +133,12 @@ func basic_onReady():
 	$Area2D.set_monitorable(false)
 	
 	$CollisionShape2D.disabled = true
+	
 	$AnimatedSprite2D/AttackingTimer.set_paused(true)
 	$AnimatedSprite2D/AttackedTimer.set_paused(true)
 	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	
+	#$jumpTimer.set_paused(false)
 	
 	remove_if_corpse()
 

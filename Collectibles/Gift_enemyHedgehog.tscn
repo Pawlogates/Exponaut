@@ -557,7 +557,7 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx8bp"]
 radius = 12.0
 
-[node name="gift" type="CharacterBody2D" groups=["Persist"]]
+[node name="gift" type="CharacterBody2D" groups=["Collectibles", "Persist"]]
 collision_layer = 0
 floor_max_angle = 1.0472
 floor_snap_length = 5.0
@@ -571,7 +571,7 @@ inventory_item_scene = ExtResource("2_17jbk")
 inventory_itemToSpawn = ExtResource("2_y2bfm")
 inventory_texture_region = Rect2(0, 692, 64, 64)
 
-[node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
+[node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
 monitoring = false

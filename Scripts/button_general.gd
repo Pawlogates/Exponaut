@@ -20,7 +20,7 @@ func _on_area_2d_area_entered(area):
 		button_pressed()
 	
 	elif not pressed and area.get_parent().is_in_group("special_block") and not area.get_parent().is_in_group("weightless"):
-		var block = area.get_parent()
+		#var block = area.get_parent()
 		button_pressed()
 
 

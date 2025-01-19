@@ -186,3 +186,7 @@ func water_effect():
 	var splashParticle = splashParticleScene.instantiate()
 	splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
 	get_parent().add_child(splashParticle)
+
+
+func reassign_player():
+	player = get_tree().get_first_node_in_group("player_root")

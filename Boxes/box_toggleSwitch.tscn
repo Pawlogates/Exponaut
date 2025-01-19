@@ -319,9 +319,9 @@ animations = [{
 "speed": 1.0
 }]
 
-[node name="toggleSwitch" type="CharacterBody2D" groups=["Persist", "toggleSwitch"]]
+[node name="toggleSwitch" type="CharacterBody2D" groups=["Persist", "bonusBox", "toggleSwitch"]]
 z_index = 1
-collision_layer = 0
+collision_layer = 8
 script = ExtResource("1_y1iop")
 onDeath_spawn_items = false
 onDeath_rotate_sprite = false

@@ -1111,7 +1111,7 @@ func handle_spawn_dust():
 
 @onready var timer_just_left_wind: Timer = $just_left_wind
 var just_left_wind = false
-var just_left_wind_active = false
+var just_left_wind_active = true
 
 #AREAS (water, wind, etc.)
 var inside_wind = 0 # If above 0, the player is affected by wind.

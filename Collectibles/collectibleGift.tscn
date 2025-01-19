@@ -555,7 +555,7 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx8bp"]
 radius = 12.0
 
-[node name="gift" type="CharacterBody2D" groups=["Persist"]]
+[node name="gift" type="CharacterBody2D" groups=["Collectibles", "Persist"]]
 texture_filter = 1
 collision_layer = 0
 floor_max_angle = 1.0472
@@ -568,7 +568,7 @@ floating = true
 is_gift = true
 inventory_texture_region = Rect2(96, 491, 48, 48)
 
-[node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
+[node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
 monitoring = false

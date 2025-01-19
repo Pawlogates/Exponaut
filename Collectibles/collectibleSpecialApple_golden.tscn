@@ -661,7 +661,7 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx8bp"]
 radius = 28.0
 
-[node name="specialApple_golden" type="CharacterBody2D" groups=["Persist", "specialCollectible"]]
+[node name="specialApple_golden" type="CharacterBody2D" groups=["Collectibles", "Persist", "specialCollectible"]]
 texture_filter = 1
 collision_layer = 0
 floor_max_angle = 1.0472
@@ -673,7 +673,7 @@ give_score = false
 loop_anim = "none"
 is_specialApple = "golden"
 
-[node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
+[node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
 monitoring = false
@@ -750,6 +750,7 @@ one_shot = true
 autostart = true
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_collectible_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_collectible_exited"]
 [connection signal="animation_finished" from="Area2D/AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="timeout" from="Area2D/Timer" to="." method="_on_timer_timeout"]
 [connection signal="animation_finished" from="collectedDisplayAnimAnchor/AnimationPlayer2" to="." method="_on_animation_player_2_animation_finished"]

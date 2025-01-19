@@ -275,6 +275,7 @@ movementType = "normal"
 scoreValue = 75
 turnOnWall = true
 floating = true
+onDeath_disappear_instantly = true
 enable_generalTimers = false
 enemy_type = "bat"
 
@@ -299,7 +300,7 @@ one_shot = true
 light_mask = 2
 visibility_layer = 2
 collision_layer = 6
-collision_mask = 2
+collision_mask = 10
 input_pickable = false
 monitoring = false
 monitorable = false

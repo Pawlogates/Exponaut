@@ -3,8 +3,6 @@ extends enemy_basic
 @onready var world = $/root/World
 @onready var player = $/root/World.player
 
-@onready var scanForLedge = $scanForLedge
-
 var on_floor = false
 var on_wall = false
 var on_wall_normal = Vector2(0, 0)
@@ -372,6 +370,7 @@ func _on_area_2d_area_entered(area):
 	
 	# HANDLE SPECIAL BLOCK ENTERED
 	if area.get_parent().is_in_group("special_block"):
+		scale += Vector2(0.1, 0.1)
 		var block = area.get_parent()
 		
 		# HANDLE BONUS BOX SPECIAL BLOCK BOUNCE
@@ -379,7 +378,7 @@ func _on_area_2d_area_entered(area):
 			if bonusBox_requiresVelocity and block.velocity[1] < bonusBox_minimalVelocity:
 				return
 			
-			block.get_parent().velocity.y = bonusBox_giveVelocity_jump
+			block.velocity.y = bonusBox_giveVelocity_jump
 			spawn_particles()
 			
 			handle_damage(area)
@@ -511,15 +510,6 @@ func handle_damage(area):
 				
 				%collectedDisplay.text = str(scoreValue * Globals.combo_tier)
 				%AnimationPlayer.play("score_value")
-			
-			
-			var star1 = starParticleScene.instantiate()
-			var star2 = starParticleScene.instantiate()
-			var star3 = starParticleScene.instantiate()
-			
-			add_child(star1)
-			add_child(star2)
-			add_child(star3)
 		
 		
 		death.play()
@@ -537,7 +527,10 @@ func handle_damage(area):
 		if toggle_toggleBlocks_onDeath:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 		if onDeath_disappear_instantly:
-			await get_tree().create_timer(1, false).timeout
+			hit_effect()
+			particles_stars()
+			modulate.a = 0
+			await get_tree().create_timer(2, false).timeout
 			queue_free()
 
 
@@ -1460,3 +1453,21 @@ func move_in_direction(delta):
 func move_toward_zero_velocity_x(delta):
 	if inside_wind : return
 	velocity.x = move_toward(velocity.x, 0 * SPEED, SPEED * SLOWDOWN * delta)
+
+
+func particles_stars():
+	var star1 = starParticleScene.instantiate()
+	star1.position = position
+	var star2 = starParticleScene.instantiate()
+	star2.position = position
+	var star3 = starParticleScene.instantiate()
+	star3.position = position
+	
+	world.add_child(star1)
+	world.add_child(star2)
+	world.add_child(star3)
+
+func hit_effect():
+	var hit_effect = hit_effectScene.instantiate()
+	hit_effect.position = position
+	world.add_child(hit_effect)

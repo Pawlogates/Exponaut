@@ -196,10 +196,31 @@ func _process(_delta):
 var bonus_material = preload("res://Other/Materials/bonus_material.tres")
 
 func _on_collectible_entered(body):
-	if not body.is_in_group("player") and not body.is_in_group("player_projectile") and not body.is_in_group("enemies") and not body.is_in_group("collectibles"):
+	#if not body.is_in_group("player") and not body.is_in_group("player_projectile") and not body.is_in_group("enemies") and not body.is_in_group("Collectibles"):
+		#return
+	
+	var entered_player = false
+	var entered_projectile = false
+	#var entered_enemy = false
+	#var entered_collectible = false
+	
+	if body.is_in_group("player"):
+		entered_player = true
+	elif body.is_in_group("player_projectile"):
+		entered_projectile = true
+	#elif body.is_in_group("enemies"):
+		#entered_enemy = true
+	#elif body.is_in_group("Collectibles"):
+		#entered_collectible = true
+	else:
 		return
 	
 	inside_check_enter(body)
+	
+	if entered_projectile and not floating and not is_shrineGem:
+		sfx_collect1.pitch_scale = 0.5
+		sfx_collect1.play()
+		return
 	
 	if is_gift and get_tree().get_nodes_in_group("in_inventory").size() >= 6:
 		return
@@ -237,13 +258,14 @@ func _on_collectible_entered(body):
 	
 	
 	if is_healthItem:
-		if body.is_in_group("player") and not collected:
+		if entered_player and not collected:
 			collected = true
 			
 			Globals.itemCollected.emit()
 			Globals.increaseHp1.emit()
 			
 			animation_player.play("remove")
+			sfx_collect1.pitch_scale = 1.0
 			sfx_collect1.play()
 			body.add_child(starParticleScene.instantiate())
 			body.add_child(starParticleScene.instantiate())
@@ -259,7 +281,7 @@ func _on_collectible_entered(body):
 			world.add_child(feathersParticle)
 	
 	
-	if is_gift and body.is_in_group("player") and not collected or is_gift and body.is_in_group("player_projectile") and body.can_collect and not collected:
+	if is_gift and entered_player and not collected or is_gift and entered_projectile and body.can_collect and not collected:
 		if get_tree().get_nodes_in_group("in_inventory").size() < 6:
 			var item = inventory_item_scene.instantiate()
 			world.get_node("HUD/Inventory/InventoryContainer").add_child(item)
@@ -273,11 +295,11 @@ func _on_collectible_entered(body):
 	
 	
 	if is_shrineGem:
-		if body.is_in_group("player"):
+		if entered_player:
 			%AnimatedSprite2D.modulate.r = 0.3
 			%AnimatedSprite2D.modulate.a = 0.5
 			
-		elif body.is_in_group("player_projectile") and not collected:
+		elif entered_projectile and not collected:
 			if not body.upward_shot:
 				velocity.y = -200
 				velocity.x = 400 * body.direction
@@ -329,7 +351,7 @@ func _on_collectible_entered(body):
 						Globals.save_progress.emit()
 	
 	
-	if collectable and not rotten and body.is_in_group("player") and not collected or collectable and not rotten and body.is_in_group("player_projectile") and body.can_collect and not collected:
+	if collectable and not rotten and entered_player and not collected or collectable and not rotten and entered_projectile and body.can_collect and not collected:
 		collected = true
 		
 		if give_score:
@@ -339,6 +361,7 @@ func _on_collectible_entered(body):
 		
 		if is_potion:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "Collectibles", "reassign_player")
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "zone", "reassign_player")
 			world.reassign_player()
 			
 			if transform_into == "rooster":
@@ -352,13 +375,17 @@ func _on_collectible_entered(body):
 			elif transform_into == "pig":
 				world.player.transformInto_pig()
 			
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "Collectibles", "reassign_player")
+			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "zone", "reassign_player")
+			world.reassign_player()
+			
 			Globals.player_transformed.emit()
 		
 		if is_key:
 			world.key_collected()
 			
 			add_child(orbParticleScene.instantiate())
-			
+		
 		
 		if is_weapon:
 			reassign_player()
@@ -445,6 +472,7 @@ func _physics_process(delta):
 			direction = Globals.direction
 		
 		velocity.x = player.velocity.x * 1.2
+		
 		if abs(velocity.x) <= 150:
 			velocity.x = 150 * direction
 	
@@ -458,11 +486,15 @@ func _physics_process(delta):
 				direction = enemy_last.direction
 			
 			velocity.x = enemy_last.velocity.x * 1.2
+			
 			if abs(velocity.x) <= 150:
 				velocity.x = 150 * direction
 	
 	
 	if projectile_inside:
+		if projectile_last == null:
+			return
+		
 		if collidable:
 			collidable = false
 			collisionCheck_delay.start()
@@ -471,6 +503,7 @@ func _physics_process(delta):
 				direction = projectile_last.direction
 			
 			velocity.x = projectile_last.velocity.x * 1.2
+			
 			if abs(velocity.x) <= 150:
 				velocity.x = 150 * direction
 	

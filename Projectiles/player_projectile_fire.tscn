@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cxfthwios5msq" path="res://Enemies/enemy_fireImp.tscn" id="2_6fxjl"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
-size = Vector2(48, 64)
+size = Vector2(48, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
 size = Vector2(48, 48)

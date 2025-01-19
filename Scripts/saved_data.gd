@@ -13,7 +13,8 @@ func _process(_delta):
 
 
 #saved properties (overworld):
-var saved_position = Vector2(0, 0) # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
+var saved_position_x = 0 # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
+var saved_position_y = 0
 var saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
 var saved_last_area_filePath = "res://Levels/empty.tscn"
 var saved_weapon = "none"
@@ -33,15 +34,15 @@ var saved_secondaryWeapon_basic = -1
 var saved_secondaryWeapon_fast = -1
 
 #other
-var saved_bg_File_current = CompressedTexture2D
-var saved_bg_a_File_current = CompressedTexture2D
-var saved_bg_b_File_current = CompressedTexture2D
+var saved_bg_File_current = "res://Assets/Graphics/backgrounds/bg_cosmos_yellow.png"
+var saved_bg_a_File_current = "res://Assets/Graphics/backgrounds/bg_a_jungle.png"
+var saved_bg_b_File_current = "res://Assets/Graphics/backgrounds/bg_a_clouds.png"
 
 var saved_bgOffset_target_x = 0
 var saved_bgOffset_target_y = 0
 
-var saved_music_file = AudioStreamMP3
-var saved_ambience_file = AudioStreamMP3
+var saved_music_file = "res://Assets/Sounds/music/ocean1.mp3"
+var saved_ambience_file = "res://Assets/Sounds/ambience/ambience12.mp3"
 
 var saved_music_isPlaying = false
 var saved_ambience_isPlaying = false
@@ -50,9 +51,11 @@ var saved_ambience_isPlaying = false
 func savedData_save(save_player_position):
 	if save_player_position:
 		if $/root/World.last_checkpoint_pos == Vector2(0, 0):
-			saved_position = $/root/World.player.position
+			saved_position_x = $/root/World.player.position[0]
+			saved_position_y = $/root/World.player.position[1]
 		else:
-			saved_position = $/root/World.last_checkpoint_pos
+			saved_position_x = $/root/World.last_checkpoint_pos[0]
+			saved_position_y = $/root/World.last_checkpoint_pos[1]
 	
 	saved_score = Globals.level_score
 	saved_weapon = $/root/World.player.weaponType
@@ -71,15 +74,15 @@ func savedData_save(save_player_position):
 	save_item_unlock_state("secondaryWeapon_basic")
 	save_item_unlock_state("secondaryWeapon_fast")
 	
-	saved_bg_File_current = Globals.bg_File_current
-	saved_bg_a_File_current = Globals.bg_a_File_current
-	saved_bg_b_File_current = Globals.bg_b_File_current
+	saved_bg_File_current = $/root/World/bg_previous/CanvasLayer/bg_main/bg_main/TextureRect.texture.resource_path
+	saved_bg_a_File_current = $/root/World/bg_previous/CanvasLayer/bg_b/bg_b/TextureRect.texture.resource_path
+	saved_bg_b_File_current = $/root/World/bg_previous/CanvasLayer/bg_a/bg_a/TextureRect.texture.resource_path
 	
 	saved_bgOffset_target_x = Globals.bgOffset_target_x
 	saved_bgOffset_target_y = Globals.bgOffset_target_y
 	
-	saved_music_file = $/root/World/"Music Controller"/music.stream
-	saved_ambience_file = $/root/World/"Ambience Controller"/ambience.stream
+	saved_music_file = $/root/World/"Music Controller"/music.stream.resource_path
+	saved_ambience_file = $/root/World/"Ambience Controller"/ambience.stream.resource_path
 	
 	saved_music_isPlaying = $/root/World/"Music Controller"/music.playing
 	saved_ambience_isPlaying = $/root/World/"Ambience Controller"/ambience.playing
@@ -95,7 +98,8 @@ func savedData_reset():
 	never_saved = true
 	
 	#saved properties (overworld):
-	saved_position = Vector2(0, 0) # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
+	saved_position_x = 0 # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
+	saved_position_y = 0
 	saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
 	saved_last_area_filePath = "res://Levels/empty.tscn"
 	
@@ -189,8 +193,8 @@ func savedData_load():
 		
 		saved_last_area_filePath = data["saved_last_area_filePath"]
 		
-		saved_position[0] = data["saved_position_x"]
-		saved_position[1] = data["saved_position_y"]
+		saved_position_x = data["saved_position_x"]
+		saved_position_y = data["saved_position_y"]
 		saved_score = data["saved_score"]
 		
 		saved_weapon = data["saved_weapon"]
@@ -208,6 +212,16 @@ func savedData_load():
 		saved_secondaryWeapon_basic = data["saved_secondaryWeapon_basic"]
 		saved_secondaryWeapon_fast = data["saved_secondaryWeapon_fast"]
 		
+		saved_bg_File_current = data["saved_bg_File_current"]
+		saved_bg_a_File_current = data["saved_bg_a_File_current"]
+		saved_bg_b_File_current = data["saved_bg_b_File_current"]
+		saved_bgOffset_target_x = data["saved_bgOffset_target_x"]
+		saved_bgOffset_target_y = data["saved_bgOffset_target_y"]
+		saved_music_file = data["saved_music_file"]
+		saved_ambience_file = data["saved_ambience_file"]
+		saved_music_isPlaying = data["saved_music_isPlaying"]
+		saved_ambience_isPlaying = data["saved_ambience_isPlaying"]
+		
 		#saved_propertyName = data["saved_propertyName"]
 		
 		never_saved = data["never_saved"]
@@ -223,8 +237,8 @@ func savedData_save_dictionary():
 		#saved properties
 		"saved_last_area_filePath" : saved_last_area_filePath,
 		
-		"saved_position_x" : saved_position[0],
-		"saved_position_y" : saved_position[1],
+		"saved_position_x" : saved_position_x,
+		"saved_position_y" : saved_position_y,
 		"saved_score" : saved_score,
 		
 		"saved_weapon" : saved_weapon,
@@ -241,6 +255,16 @@ func savedData_save_dictionary():
 		"saved_weapon_phaser" : saved_weapon_phaser,
 		"saved_secondaryWeapon_basic" : saved_secondaryWeapon_basic,
 		"saved_secondaryWeapon_fast" : saved_secondaryWeapon_fast,
+		
+		"saved_bg_File_current" : saved_bg_File_current,
+		"saved_bg_a_File_current" : saved_bg_a_File_current,
+		"saved_bg_b_File_current" : saved_bg_b_File_current,
+		"saved_bgOffset_target_x" : saved_bgOffset_target_x,
+		"saved_bgOffset_target_y" : saved_bgOffset_target_y,
+		"saved_music_file" : saved_music_file,
+		"saved_ambience_file" : saved_ambience_file,
+		"saved_music_isPlaying" : saved_music_isPlaying,
+		"saved_ambience_isPlaying" : saved_ambience_isPlaying,
 		
 		#"saved_propertyName" : saved_propertyName,
 		

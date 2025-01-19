@@ -21,6 +21,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	reassign_player()
+	
 	if not homing:
 		velocity.x = move_toward(velocity.x, 0, delta * 10)
 		velocity.y += 5
@@ -71,3 +73,7 @@ func _on_area_2d_body_entered(body):
 
 func _on_speed_change_timer_timeout():
 	SPEED = randi_range(250, 1000)
+
+
+func reassign_player():
+	player = get_tree().get_first_node_in_group("player_root")

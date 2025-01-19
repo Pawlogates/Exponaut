@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_wpdka"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jvbw3"]
-size = Vector2(48, 64)
+size = Vector2(48, 72)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ukwf1"]
 size = Vector2(48, 48)
@@ -45,6 +45,7 @@ shape = SubResource("RectangleShape2D_ukwf1")
 
 [node name="animation" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+scale = Vector2(1.2, 1.2)
 sprite_frames = SubResource("SpriteFrames_jfau3")
 animation = &"shoot"
 autoplay = "shoot"

@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_32ipw"]
 size = Vector2(64, 64)
 
-[node name="zone" type="Area2D"]
+[node name="zone" type="Area2D" groups=["zone"]]
 collision_layer = 0
 collision_mask = 15
 script = ExtResource("1_vdswl")

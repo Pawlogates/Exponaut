@@ -322,7 +322,7 @@ texture_filter = 1
 collision_layer = 2
 script = ExtResource("1_dafch")
 hp = 2
-JUMP_VELOCITY = -600.0
+JUMP_VELOCITY = -550.0
 movementType = "stationary"
 scoreValue = 50
 afterDelay_jump = true
@@ -361,7 +361,7 @@ monitorable = false
 position = Vector2(0, 10)
 shape = SubResource("RectangleShape2D_4klqh")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="jumpTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
@@ -393,11 +393,6 @@ autostart = true
 unique_name_in_owner = true
 wait_time = 0.2
 one_shot = true
-
-[node name="jumpTimer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 4.0
-autostart = true
 
 [node name="scanForPlayer" type="Area2D" parent="."]
 collision_layer = 0
@@ -469,7 +464,7 @@ libraries = {
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_jump_timer_timeout"]
+[connection signal="timeout" from="jumpTimer" to="." method="_on_jump_timer_timeout"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

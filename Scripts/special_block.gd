@@ -166,7 +166,6 @@ func _on_area_2d_area_entered(area):
 					queue_free()
 			
 			
-			
 			if toggles_toggleBlocks:
 				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 			

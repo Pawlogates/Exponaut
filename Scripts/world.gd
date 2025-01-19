@@ -149,8 +149,8 @@ func _ready():
 	Globals.exitReached.connect(exitReached_show_screen)
 	
 	
-	Globals.bg_File_previous = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
-	Globals.bg_File_current = preload("res://Assets/Graphics/backgrounds/bg_fields.png")
+	Globals.bg_File_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
+	Globals.bg_File_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
 	
 	Globals.bgChange_entered.connect(bg_change)
 	Globals.bgMove_entered.connect(bg_move)
@@ -303,8 +303,7 @@ func load_saved_progress_overworld():
 	
 	#load position
 	if not Globals.transitioned:
-		print(SavedData.saved_position)
-		player.position = SavedData.saved_position
+		player.position = Vector2(SavedData.saved_position_x, SavedData.saved_position_y)
 		print("The 'transitioned' (Globals) property is false, so player position is NOT skipped on this game load." + str(Globals.transitioned))
 	else:
 		print("The 'transitioned' (Globals) property is true, so player position is skipped on this game load (and the player is teleported to the (hopefully) correct area transition object). " + str(Globals.transitioned))
@@ -337,13 +336,13 @@ func load_saved_progress_overworld():
 		
 		#load last played music
 		if SavedData.saved_music_file:
-			%music.stream = SavedData.saved_music_file
+			%music.stream = load(SavedData.saved_music_file)
 		if SavedData.saved_music_isPlaying:
 			%music.play()
 		
 		#load last played ambience
 		if SavedData.saved_ambience_file:
-			%ambience.stream = SavedData.saved_ambience_file
+			%ambience.stream = load(SavedData.saved_ambience_file)
 		if SavedData.saved_ambience_isPlaying:
 			%ambience.play()
 
@@ -614,9 +613,9 @@ func bg_change():
 		%bg_previous/bg_a_transition.play("bg_a_hide")
 		%bg_previous/bg_b_transition.play("bg_b_hide")
 		
-		%bg_current/CanvasLayer/bg_main/bg_main/TextureRect.texture = Globals.bg_File_current
-		%bg_current/CanvasLayer/bg_a/bg_a/TextureRect.texture = Globals.bg_a_File_current
-		%bg_current/CanvasLayer/bg_b/bg_b/TextureRect.texture = Globals.bg_b_File_current
+		%bg_current/CanvasLayer/bg_main/bg_main/TextureRect.texture = load(Globals.bg_File_current)
+		%bg_current/CanvasLayer/bg_a/bg_a/TextureRect.texture = load(Globals.bg_a_File_current)
+		%bg_current/CanvasLayer/bg_b/bg_b/TextureRect.texture = load(Globals.bg_b_File_current)
 		
 		%bg_current/bg_transition.play("bg_show")
 		%bg_current/bg_a_transition.play("bg_a_show")
