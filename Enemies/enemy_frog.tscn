@@ -1,131 +1,12 @@
-[gd_scene load_steps=26 format=3 uid="uid://cjqinbb60vh6"]
+[gd_scene load_steps=14 format=3 uid="uid://cjqinbb60vh6"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_dafch"]
-[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_p5pto"]
 [ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="2_ydoov"]
+[ext_resource type="SpriteFrames" uid="uid://b1qdjut2q8ia1" path="res://Assets/Graphics/sprites/packed/enemies/enemy_frog.tres" id="3_a8ux4"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="3_cr62m"]
 [ext_resource type="AudioStream" uid="uid://0255vwcuk1kd" path="res://Assets/Sounds/sfx/frog_death.wav" id="4_nvevm"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_3tmgl"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_w12oc"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r68x5"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(680, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3jnxg"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(744, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_74bdg"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(808, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_kwxfe"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(680, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b145r"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(744, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_88tfq"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(872, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_oyjb7"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(360, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lfuj1"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(424, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_k477x"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(616, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_onrnv"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(552, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jbq6r"]
-atlas = ExtResource("2_p5pto")
-region = Rect2(488, 381, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r68x5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3jnxg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_74bdg")
-}],
-"loop": true,
-"name": &"attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_kwxfe")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b145r")
-}],
-"loop": true,
-"name": &"damage",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_88tfq")
-}],
-"loop": false,
-"name": &"dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_oyjb7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lfuj1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k477x")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_onrnv")
-}, {
-"duration": 50.0,
-"texture": SubResource("AtlasTexture_jbq6r")
-}],
-"loop": false,
-"name": &"jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_oyjb7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lfuj1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_k477x")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 5.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
 size = Vector2(24, 28)
@@ -329,11 +210,10 @@ afterDelay_jump = true
 onDeath_spawnObject = true
 onDeath_spawnObject_objectPath = ExtResource("2_ydoov")
 enable_generalTimers = false
-enemy_type = "frog"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
-sprite_frames = SubResource("SpriteFrames_5cx1g")
+sprite_frames = ExtResource("3_a8ux4")
 animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]

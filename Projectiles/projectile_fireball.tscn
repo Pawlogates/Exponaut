@@ -46,13 +46,14 @@ animations = [{
 "speed": 10.0
 }]
 
-[node name="projectile_pig" type="CharacterBody2D"]
+[node name="projectile_fireball" type="CharacterBody2D"]
 collision_layer = 2
 safe_margin = 5.0
 script = ExtResource("1_dtja5")
 
 [node name="scan" type="Area2D" parent="."]
 collision_layer = 0
+collision_mask = 10
 
 [node name="scan_collision" type="CollisionShape2D" parent="scan"]
 shape = SubResource("CircleShape2D_0xdgo")

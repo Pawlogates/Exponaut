@@ -1,193 +1,15 @@
-[gd_scene load_steps=37 format=3 uid="uid://bpnv0fs1eehsp"]
+[gd_scene load_steps=17 format=3 uid="uid://bpnv0fs1eehsp"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_ocdql"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_76pom"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://Projectiles/player_secondaryProjectile_bouncingBall.tscn" id="3_3teks"]
-[ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_jaq6s"]
-[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="5_76g8l"]
+[ext_resource type="SpriteFrames" uid="uid://2fpbg7mpwrn0" path="res://Assets/Graphics/sprites/packed/enemies/enemy_frogBlue.tres" id="4_4hddb"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="6_shhi8"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="7_vuw04"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="8_otsdg"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="9_us0cl"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="10_ustuj"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="11_j0dqa"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8374m"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(384, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_tsu13"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(448, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w5oln"]
-atlas = ExtResource("5_76g8l")
-region = Rect2(74, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wqy6g"]
-atlas = ExtResource("5_76g8l")
-region = Rect2(518, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_54nfh"]
-atlas = ExtResource("5_76g8l")
-region = Rect2(592, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_juy3x"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(320, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0fnpm"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(384, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bwno5"]
-atlas = ExtResource("5_76g8l")
-region = Rect2(1281, 1012, 148, 136)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8njuh"]
-atlas = ExtResource("5_76g8l")
-region = Rect2(0, 101, 74, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4kdkm"]
-atlas = ExtResource("5_76g8l")
-region = Rect2(74, 101, 74, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wl3gl"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(0, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vic5i"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(64, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_o3f58"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(256, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qguhu"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(192, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_78ic6"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(128, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s4utg"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(256, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f0h54"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(192, 1088, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3jkbw"]
-atlas = ExtResource("4_jaq6s")
-region = Rect2(128, 1088, 64, 64)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_7kfft"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8374m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_tsu13")
-}],
-"loop": true,
-"name": &"attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w5oln")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wqy6g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_54nfh")
-}],
-"loop": true,
-"name": &"crouch",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_juy3x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0fnpm")
-}],
-"loop": true,
-"name": &"damage",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"dead",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_bwno5")
-}],
-"loop": true,
-"name": &"falling",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8njuh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4kdkm")
-}],
-"loop": true,
-"name": &"flying",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wl3gl")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vic5i")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_o3f58")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qguhu")
-}, {
-"duration": 20.0,
-"texture": SubResource("AtlasTexture_78ic6")
-}],
-"loop": false,
-"name": &"jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s4utg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f0h54")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3jkbw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f0h54")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 10.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
 size = Vector2(32, 24)
@@ -388,7 +210,6 @@ floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_ocdql")
 hp = 2
-SPEED = 300
 JUMP_VELOCITY = -600.0
 movementType = "stationary"
 scoreValue = 125
@@ -402,10 +223,9 @@ generalTimer_max_cooldown = 2
 generalTimer_randomize_cooldown_onSpawn = true
 t_afterDelay_jumpAndMove = true
 t_afterDelay_jumpAndMove_timerID = 1
-enemy_type = "frog_blue"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_7kfft")
+sprite_frames = ExtResource("4_4hddb")
 animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]

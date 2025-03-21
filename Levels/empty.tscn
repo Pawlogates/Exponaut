@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dun5a8r7qx00f"]
+[gd_scene load_steps=12 format=3 uid="uid://dun5a8r7qx00f"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_vblad"]
 [ext_resource type="PackedScene" uid="uid://cccpw68bhryyg" path="res://Tilesets/decorations.tscn" id="2_wyjmk"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="4_x2u5u"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="5_vglj4"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="6_puow3"]
+[ext_resource type="AudioStream" uid="uid://cbyjrsdd1lf3w" path="res://Assets/Sounds/ambience/ambience_loop11.mp3" id="8_qt05x"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="8_tkrux"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="8_wsrry"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="9_wxu0a"]
@@ -71,6 +72,9 @@ z_index = -2
 
 [node name="decorations_bg3" parent="." index="13" instance=ExtResource("2_wyjmk")]
 z_index = -3
+
+[node name="music" parent="Music Controller" index="5"]
+stream = ExtResource("8_qt05x")
 
 [node name="kill_area" parent="." index="23" instance=ExtResource("8_tkrux")]
 position = Vector2(7168, 5184)

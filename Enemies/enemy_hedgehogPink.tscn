@@ -1,211 +1,15 @@
-[gd_scene load_steps=40 format=3 uid="uid://de5vp0v3tx1xt"]
+[gd_scene load_steps=17 format=3 uid="uid://de5vp0v3tx1xt"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_vkq5d"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_3ppxe"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://Projectiles/player_secondaryProjectile_bouncingBall.tscn" id="3_wbw2q"]
-[ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="4_nj3mw"]
-[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="5_mfadf"]
+[ext_resource type="SpriteFrames" uid="uid://bgfn75cett8p4" path="res://Assets/Graphics/sprites/packed/enemies/enemy_hedgehogPink.tres" id="4_byyt8"]
 [ext_resource type="AudioStream" uid="uid://d2w8jwk47ik8x" path="res://Assets/Sounds/sfx/projectile_eggHit.wav" id="6_w062j"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="7_7ywnn"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="8_xjomj"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="9_tf7ld"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="10_pf0g1"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="11_q8l6x"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qqfom"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1832, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pmxqm"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1760, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w5oln"]
-atlas = ExtResource("5_mfadf")
-region = Rect2(74, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wqy6g"]
-atlas = ExtResource("5_mfadf")
-region = Rect2(518, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_54nfh"]
-atlas = ExtResource("5_mfadf")
-region = Rect2(592, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_iljui"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1760, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6ew2a"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1832, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hj6eo"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1760, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_urtw4"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1832, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_regi2"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1976, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h8wxk"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1904, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_amul2"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1760, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hmvdj"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1832, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8njuh"]
-atlas = ExtResource("5_mfadf")
-region = Rect2(0, 101, 74, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4kdkm"]
-atlas = ExtResource("5_mfadf")
-region = Rect2(74, 101, 74, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5222m"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1976, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0bh6j"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1616, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h1ns5"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1688, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_to3o2"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1832, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0027s"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1616, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_npka1"]
-atlas = ExtResource("4_nj3mw")
-region = Rect2(1688, 0, 72, 72)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qqfom")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pmxqm")
-}],
-"loop": true,
-"name": &"attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w5oln")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wqy6g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_54nfh")
-}],
-"loop": true,
-"name": &"crouch",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_iljui")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6ew2a")
-}],
-"loop": true,
-"name": &"damage",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hj6eo")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_urtw4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_regi2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h8wxk")
-}],
-"loop": false,
-"name": &"dead",
-"speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_amul2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hmvdj")
-}],
-"loop": true,
-"name": &"falling",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8njuh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4kdkm")
-}],
-"loop": true,
-"name": &"flying",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5222m")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0bh6j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h1ns5")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_to3o2")
-}],
-"loop": false,
-"name": &"jump",
-"speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0027s")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_npka1")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 10.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
 size = Vector2(32, 24)
@@ -412,10 +216,9 @@ turnOnWall = true
 onDeath_spawnObject_objectPath = ExtResource("2_3ppxe")
 scene_shootProjectile = ExtResource("3_wbw2q")
 enable_generalTimers = false
-enemy_type = "hedgehog_pink"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = SubResource("SpriteFrames_5cx1g")
+sprite_frames = ExtResource("4_byyt8")
 animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]

@@ -1,0 +1,87 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://bixi26pqj0kom"]
+
+[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_ndqo0"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hok0w"]
+atlas = ExtResource("1_ndqo0")
+region = Rect2(307, 305, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3heeh"]
+atlas = ExtResource("1_ndqo0")
+region = Rect2(379, 305, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wy7mu"]
+atlas = ExtResource("1_ndqo0")
+region = Rect2(163, 305, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v0v88"]
+atlas = ExtResource("1_ndqo0")
+region = Rect2(235, 305, 72, 72)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hok0w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3heeh")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3heeh")
+}],
+"loop": true,
+"name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3heeh")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3heeh")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wy7mu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0v88")
+}],
+"loop": true,
+"name": &"flight",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wy7mu")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wy7mu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v0v88")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]

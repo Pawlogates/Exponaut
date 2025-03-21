@@ -9,7 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://ca4g5sy70xmju" path="res://Enemies/enemy_pig.tscn" id="7_rx04x"]
 [ext_resource type="PackedScene" uid="uid://cljye56wi53e8" path="res://Enemies/enemy_bat.tscn" id="8_uqref"]
 [ext_resource type="PackedScene" uid="uid://dbp42d4xr6p01" path="res://Enemies/enemy_bee.tscn" id="9_ol5mu"]
-[ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_yellow.tscn" id="10_6njlb"]
+[ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_red.tscn" id="10_6njlb"]
 [ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="11_e2ovm"]
 [ext_resource type="PackedScene" uid="uid://bvl2rlm1ym6vc" path="res://Enemies/enemy_rabbit.tscn" id="12_6cctr"]
 [ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="13_u0t81"]

@@ -1,175 +1,14 @@
-[gd_scene load_steps=33 format=3 uid="uid://do722l7wriwij"]
+[gd_scene load_steps=16 format=3 uid="uid://do722l7wriwij"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_m7ywr"]
-[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_23imq"]
 [ext_resource type="PackedScene" uid="uid://bua5yikrg26q0" path="res://Collectibles/collectibleGrape.tscn" id="2_wy87j"]
 [ext_resource type="PackedScene" uid="uid://ejquvj514e14" path="res://Projectiles/projectile_bullet.tscn" id="3_gb8nl"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_l21s5"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_jryoh"]
+[ext_resource type="SpriteFrames" uid="uid://duy25bi4iddng" path="res://Assets/Graphics/sprites/packed/enemies/enemy_tank.tres" id="4_rcfmu"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="7_pjngr"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="8_d7jyv"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="9_msniu"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1x48j"]
-atlas = ExtResource("2_23imq")
-region = Rect2(186, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vousf"]
-atlas = ExtResource("2_23imq")
-region = Rect2(93, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hgem7"]
-atlas = ExtResource("2_23imq")
-region = Rect2(0, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0rn30"]
-atlas = ExtResource("2_23imq")
-region = Rect2(93, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ejgos"]
-atlas = ExtResource("2_23imq")
-region = Rect2(186, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qj2nh"]
-atlas = ExtResource("2_23imq")
-region = Rect2(279, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_75ofb"]
-atlas = ExtResource("2_23imq")
-region = Rect2(372, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_03i5c"]
-atlas = ExtResource("2_23imq")
-region = Rect2(279, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4wv78"]
-atlas = ExtResource("2_23imq")
-region = Rect2(372, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_hlou5"]
-atlas = ExtResource("2_23imq")
-region = Rect2(465, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_00h7j"]
-atlas = ExtResource("2_23imq")
-region = Rect2(0, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rqhut"]
-atlas = ExtResource("2_23imq")
-region = Rect2(93, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_idpux"]
-atlas = ExtResource("2_23imq")
-region = Rect2(279, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ofag7"]
-atlas = ExtResource("2_23imq")
-region = Rect2(186, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2x0wb"]
-atlas = ExtResource("2_23imq")
-region = Rect2(0, 198, 93, 86)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mmlvf"]
-atlas = ExtResource("2_23imq")
-region = Rect2(93, 198, 93, 86)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1x48j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vousf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hgem7")
-}],
-"loop": true,
-"name": &"attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0rn30")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ejgos")
-}],
-"loop": false,
-"name": &"crouch",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qj2nh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_75ofb")
-}],
-"loop": true,
-"name": &"damage",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_03i5c")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4wv78")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hlou5")
-}],
-"loop": false,
-"name": &"dead",
-"speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_00h7j")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rqhut")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 3.0
-}, {
-"frames": [{
-"duration": 3.0,
-"texture": SubResource("AtlasTexture_idpux")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ofag7")
-}],
-"loop": false,
-"name": &"jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2x0wb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mmlvf")
-}],
-"loop": true,
-"name": &"move",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2x0wb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mmlvf")
-}],
-"loop": true,
-"name": &"walk",
-"speed": 10.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
 size = Vector2(32, 64)
@@ -382,11 +221,10 @@ scene_shootProjectile = ExtResource("3_gb8nl")
 shootProjectile_offset_X = 32
 shootProjectile_offset_Y = 12
 enable_generalTimers = false
-enemy_type = "tank"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 10)
-sprite_frames = SubResource("SpriteFrames_5cx1g")
+sprite_frames = ExtResource("4_rcfmu")
 animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]

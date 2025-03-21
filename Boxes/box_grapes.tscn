@@ -1,9 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://ckdwtubwnxp3h"]
+[gd_scene load_steps=9 format=3 uid="uid://ckdwtubwnxp3h"]
 
 [ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_fc3qi"]
-[ext_resource type="PackedScene" uid="uid://bua5yikrg26q0" path="res://Collectibles/collectibleGrape.tscn" id="2_u47m8"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_ri7gk"]
-[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="4_vtoh2"]
+[ext_resource type="SpriteFrames" uid="uid://fh2he737vq7" path="res://Assets/Graphics/sprites/packed/boxes/box_grapes.tres" id="4_yhng0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqmyr"]
 size = Vector2(64, 64)
@@ -223,28 +222,12 @@ _data = {
 "destroyed": SubResource("Animation_6nr0q")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_hpb6i"]
-atlas = ExtResource("4_vtoh2")
-region = Rect2(4, 494, 56, 84)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_bd3tn"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_hpb6i")
-}],
-"loop": false,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="BonusBox_grapes" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]
+[node name="Box Grapes" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_fc3qi")
 floating = true
-item_amount = 12
-item_scene = ExtResource("2_u47m8")
+type = "grapes"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
@@ -275,7 +258,7 @@ unique_name_in_owner = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="sprite_root"]
 unique_name_in_owner = true
-sprite_frames = SubResource("SpriteFrames_bd3tn")
+sprite_frames = ExtResource("4_yhng0")
 animation = &"idle"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

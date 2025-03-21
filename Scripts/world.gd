@@ -72,6 +72,9 @@ var whiteBlocks_toggle = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if random_music:
+		play_random_music()
+	
 	LevelTransition.blackScreen.color.a = 1.0
 	
 	
@@ -1118,3 +1121,40 @@ func debug_screen_delete():
 	
 	debug_screen.queue_free()
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+
+
+@export var random_music = false
+
+func play_random_music():
+	var music_dir_path = "res://Assets/Sounds/music"
+	var music_dir = DirAccess.open(music_dir_path)
+	var music_list = []
+	
+	if music_dir != null:
+		var filenames = music_dir.get_files()
+		
+		for filename in filenames:
+			if filename.ends_with(".mp3"):
+				music_list.append(filename)
+	
+	var rolled_music = music_list.pick_random()
+	print(rolled_music)
+	music.stream = load(music_dir_path + "/" + rolled_music)
+	music.play()
+
+
+var playing = false
+
+func screen_shake():
+	if playing : return
+	playing = true
+	
+	var tween = get_tree().create_tween()
+	var tween2 = get_tree().create_tween()
+	
+	tween.tween_property(camera, "position", Vector2(randi_range(-150, 150), randi_range(-150, 150)), 0.05)
+	tween.tween_property(camera, "position", Vector2(randi_range(-150, 150), randi_range(-150, 150)), 0.05)
+	tween.tween_property(camera, "position", Vector2(0, 0), 1)
+	tween2.tween_property(camera, "zoom", Vector2(1.1, 1.1), 0.1)
+	tween2.tween_property(camera, "zoom", Vector2(1, 1), 0.25)
+	tween2.tween_property(self, "playing", false, 0)

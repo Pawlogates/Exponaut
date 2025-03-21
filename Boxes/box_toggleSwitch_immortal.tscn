@@ -329,6 +329,7 @@ onDeath_rotate_sprite = false
 onDeath_play_anim = false
 onDeath_toggle_toggleBlocks = true
 hit_cooldown = true
+type = "toggleSwitch_immortal"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

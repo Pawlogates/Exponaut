@@ -11,3 +11,4 @@ playerStartHP = 9999
 selected_episode = "Debug Levels"
 level_ID = "DEBUG_0"
 level_number = -1
+random_music = true

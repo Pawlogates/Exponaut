@@ -40,6 +40,7 @@ SPEED = 600.0
 
 [node name="scan" type="Area2D" parent="."]
 collision_layer = 0
+collision_mask = 10
 
 [node name="scan_collision" type="CollisionShape2D" parent="scan"]
 shape = SubResource("CircleShape2D_0xdgo")
@@ -62,5 +63,5 @@ autostart = true
 stream = ExtResource("3_4emxq")
 autoplay = true
 
-[connection signal="area_entered" from="scan" to="." method="_on_scan_area_entered"]
+[connection signal="body_entered" from="scan" to="." method="_on_scan_body_entered"]
 [connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

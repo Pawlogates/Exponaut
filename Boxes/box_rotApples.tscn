@@ -1,9 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cxfc7xn7ysp63"]
+[gd_scene load_steps=10 format=3 uid="uid://cxfc7xn7ysp63"]
 
 [ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_qe1i0"]
-[ext_resource type="PackedScene" uid="uid://cgjmx5simfsns" path="res://Collectibles/collectibleRotApple.tscn" id="2_a883h"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_x76wj"]
-[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="4_mfg5v"]
+[ext_resource type="SpriteFrames" uid="uid://bk6i8kjys6o28" path="res://Assets/Graphics/sprites/packed/boxes/box_rotApples.tres" id="4_w7hli"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fqmyr"]
 size = Vector2(64, 64)
@@ -254,28 +253,12 @@ _data = {
 "shaking": SubResource("Animation_iwiqs")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j7dwn"]
-atlas = ExtResource("4_mfg5v")
-region = Rect2(0, 403, 84, 84)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_bd3tn"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_j7dwn")
-}],
-"loop": false,
-"name": &"idle",
-"speed": 5.0
-}]
-
-[node name="BonusBox_rotApples" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]
+[node name="Box rotApples" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]
 z_index = 1
 collision_layer = 8
 script = ExtResource("1_qe1i0")
 floating = true
-item_amount = 7
-item_scene = ExtResource("2_a883h")
+type = "rotApples"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
@@ -307,7 +290,7 @@ unique_name_in_owner = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="sprite_root"]
 unique_name_in_owner = true
-sprite_frames = SubResource("SpriteFrames_bd3tn")
+sprite_frames = ExtResource("4_w7hli")
 animation = &"idle"
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

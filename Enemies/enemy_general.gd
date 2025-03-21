@@ -3,6 +3,8 @@ extends enemy_basic
 @onready var world = $/root/World
 @onready var player = $/root/World.player
 
+@onready var main_collision = $CollisionShape2D
+
 var on_floor = false
 var on_wall = false
 var on_wall_normal = Vector2(0, 0)
@@ -27,7 +29,7 @@ var rng = RandomNumberGenerator.new()
 @export var wind_multiplier_x = 1.0
 @export var wind_multiplier_y = 1.0
 
-@export_enum("normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer", "chasePlayerXY_lookAtPlayer_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted") var movementType: String
+@export_enum("normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted") var movementType: String
 
 @export_group("otherBehaviour")
 @export var give_score_onDeath = true
@@ -93,6 +95,7 @@ var rng = RandomNumberGenerator.new()
 @export var force_static_H = false
 @export var force_static_V = false
 @export var onDeath_disappear_instantly = false
+@export var look_at_player = false
 
 #BONUS BOX (The player can bounce off of it, and gains greater height if the jump button is pressed during the bounce.)
 @export var is_bonusBox = true
@@ -246,7 +249,6 @@ func _physics_process(delta):
 		movement_followPlayerY(delta)
 	elif movementType == "followPlayerXY":
 		movement_followPlayerXY(delta)
-	
 	elif movementType == "followPlayerX_whenSpotted":
 		movement_followPlayerX_whenSpotted(delta)
 	elif movementType == "followPlayerY_whenSpotted":
@@ -254,14 +256,23 @@ func _physics_process(delta):
 	elif movementType == "followPlayerXY_whenSpotted":
 		movement_followPlayerXY_whenSpotted(delta)
 	
-	elif movementType == "chasePlayerXY_lookAtPlayer":
-		movement_chasePlayerXY_lookAtPlayer(delta)
-	elif movementType == "chasePlayerXY_lookAtPlayer_whenSpotted":
-		movement_chasePlayerXY_lookAtPlayer_whenSpotted(delta)
+	elif movementType == "chasePlayerX":
+		movement_chasePlayerX(delta)
+	elif movementType == "chasePlayerX_whenSpotted":
+		movement_chasePlayerX_whenSpotted(delta)
+	elif movementType == "chasePlayerY":
+		movement_chasePlayerY(delta)
+	elif movementType == "chasePlayerY_whenSpotted":
+		movement_chasePlayerY_whenSpotted(delta)
+	elif movementType == "chasePlayerXY":
+		movement_chasePlayerXY(delta)
+	elif movementType == "chasePlayerXY_whenSpotted":
+		movement_chasePlayerXY_whenSpotted(delta)
 	
 	
 	elif movementType == "stationary":
 		movement_stationary(delta)
+	
 	
 	elif movementType == "wave_H":
 		movement_wave_H(delta)
@@ -313,11 +324,9 @@ func _physics_process(delta):
 	
 	handle_inside_zone(delta)
 	
-	if force_static_H:
-		velocity.x = 0
-	if force_static_V:
-		velocity.y = 0
+	handle_force_static()
 	
+	handle_look_at_player()
 	basic_sprite_flipDirection()
 	stuck_inside_wall_check()
 	
@@ -447,7 +456,7 @@ func manage_animation():
 			sprite.play("jump")
 		
 		elif floating or ascending:
-			sprite.play("flying")
+			sprite.play("flight")
 		
 		
 		if attacking:
@@ -527,11 +536,7 @@ func handle_damage(area):
 		if toggle_toggleBlocks_onDeath:
 			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 		if onDeath_disappear_instantly:
-			hit_effect()
-			particles_stars()
-			modulate.a = 0
-			await get_tree().create_timer(2, false).timeout
-			queue_free()
+			disappear_instantly()
 
 
 func spawnObjects():
@@ -670,6 +675,7 @@ func movement_normal(delta):
 		move_toward_zero_velocity_x(delta)
 
 
+#FOLLOW PLAYER
 func movement_followPlayerX(delta):
 	if not dead:
 		if can_turn:
@@ -706,15 +712,6 @@ func movement_followPlayerXY(delta):
 		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
 
 
-func movement_chasePlayerXY_lookAtPlayer(delta):
-	if not dead:
-		look_at(Globals.player_pos)
-		self.position = lerp(self.position, Globals.player_pos, 0.01)
-	
-	elif not is_on_floor():
-		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
-
-
 func movement_followPlayerX_whenSpotted(delta):
 	if spottedPlayer:
 		movement_followPlayerX(delta)
@@ -733,12 +730,42 @@ func movement_followPlayerXY_whenSpotted(delta):
 		movement_followPlayerXY(delta)
 
 
-func movement_chasePlayerXY_lookAtPlayer_whenSpotted(delta):
+#CHASE PLAYER
+func movement_chasePlayerX(delta):
+	self.position.x = lerp(self.position.x, Globals.player_pos.x, 0.01)
+
+
+func movement_chasePlayerX_whenSpotted(delta):
 	if spottedPlayer:
-		movement_chasePlayerXY_lookAtPlayer(delta)
+		movement_chasePlayerX(delta)
 	
 	if dead and not is_on_floor():
 		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
+
+
+func movement_chasePlayerY(delta):
+	self.position.y = lerp(self.position.y, Globals.player_pos.y, 0.01)
+
+
+func movement_chasePlayerY_whenSpotted(delta):
+	if spottedPlayer:
+		movement_chasePlayerY(delta)
+	
+	if dead and not is_on_floor():
+		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
+
+
+func movement_chasePlayerXY(delta):
+	self.position = lerp(self.position, Globals.player_pos, 0.01)
+
+
+func movement_chasePlayerXY_whenSpotted(delta):
+	if spottedPlayer:
+		movement_chasePlayerXY(delta)
+	
+	if dead and not is_on_floor():
+		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
+
 
 
 func movement_stationary(delta):
@@ -1307,38 +1334,48 @@ func generalTimers_correct_cooldowns():
 		$timerGeneral6.wait_time = generalTimer6_cooldown
 
 
-func applyRandom_fromList(list_name, list_length):
-	var list = get(str(list_name))
-	var randomized_ID = randi_range(0, list_length)
-	var randomized_property = list[randomized_ID]
-	
-	return randomized_property
-
-
-func applyRandom_falseTrue(false_probability, true_probability):
-	var randomized_number = randi_range(-false_probability, true_probability)
-	if randomized_number <= 0:
-		var randomized_bool = false
-		return randomized_bool
-	else:
-		var randomized_bool = true
-		return randomized_bool
-
-
-@onready var list_movementType = ["normal", "followPlayerX", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted", "followPlayerY", "followPlayerXY", "chasePlayerXY_lookAtPlayer", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerXY_lookAtPlayer_whenSpotted"]
-@onready var list_itemToSpawn = [load("res://Collectibles/collectibleOrange.tscn"), load("res://Collectibles/collectibleGrape.tscn"), load("res://Boxes/box_oranges.tscn"), load("res://Boxes/box_grapes.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frogBlue.tscn"), load("res://Enemies/enemy_frog.tscn"), load("res://Collectibles/collectibleRotApple.tscn"), load("res://Boxes/box_rotApples.tscn"), load("res://Collectibles/collectibleWeapon_fire.tscn"), load("res://Collectibles/collectibleCarrot.tscn"), load("res://Collectibles/collectibleCheese.tscn"), load("res://Collectibles/collectiblePeach.tscn"), load("res://Collectibles/collectibleJewel_yellow.tscn"), load("res://Collectibles/collectibleSpecialApple_golden.tscn"), load("res://Enemies/enemy_chaos.tscn")]
-@onready var list_projectileToSpawn = [load("res://Projectiles/player_projectile_basic.tscn"), load("res://Projectiles/player_projectile_destructive_fast_speed.tscn"), load("res://Projectiles/player_projectile_fire.tscn"), load("res://Projectiles/player_projectile_ice.tscn"), load("res://Projectiles/player_projectile_short_shotDelay.tscn"), load("res://Projectiles/player_projectile_veryFast_speed.tscn"), load("res://Projectiles/projectile_bullet.tscn"), load("res://Projectiles/projectile_fireball.tscn")]
-@onready var list_secondaryProjectileToSpawn = [load("res://Projectiles/player_secondaryProjectile_basic.tscn"), load("res://Projectiles/player_secondaryProjectile_fast.tscn"), load("res://Projectiles/player_secondaryProjectile_bouncingBall.tscn")]
-
+#Randomization
 func randomize_everything():
-	SPEED = randi_range(0, 1200)
-	JUMP_VELOCITY = randi_range(0, -1200)
-	ACCELERATION = randi_range(0, 12)
-	movementType = applyRandom_fromList("list_movementType", 10) #14 for every type
+	#prepare lists
+	list_sprite = prepare_list_all("Assets/Graphics/sprites/packed/enemies", [])
+	list_collectible = prepare_list_all("Collectibles", [])
+	list_enemy = prepare_list_all("Enemies", [])
+	list_box = prepare_list_all("Boxes", [])
+	list_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
+	
+	var list_every_object = list_collectible + list_box + list_enemy
+	var list_without_enemies = list_collectible + list_box
+	
+	list_onDeath_item_scene = list_every_object
+	list_onDeath_item_blacklist_enemy_scene = list_without_enemies
+	list_onDeath_projectile_scene = list_projectile
+	list_onDeath_secondaryProjectile_scene = list_projectile
+	list_onHit_item_scene = list_every_object
+	list_onHit_item_blacklist_enemy_scene = list_without_enemies
+	list_onSpotted_item_scene = list_every_object
+	list_onSpotted_item_blacklist_enemy_scene = list_without_enemies
+	list_onSpotted_projectile_scene = list_projectile
+	list_onSpotted_secondaryProjectile_scene = list_projectile
+	list_onTimer_item_scene = list_every_object
+	list_onTimer_item_blacklist_enemy_scene = list_without_enemies
+	list_onTimer_projectile_scene = list_projectile
+	list_onTimer_secondaryProjectile_scene = list_projectile
+	list_bonusBox_item_scene = list_every_object
+	list_bonusBox_item_blacklist_enemy_scene = list_without_enemies
+	
+	#properties
+	hp = randi_range(1, 10)
+	if applyRandom_falseTrue(12, 1):
+		SPEED = randi_range(-800, 0)
+	else:
+		SPEED = randi_range(0, 1200)
+	JUMP_VELOCITY = randi_range(400, -1200)
+	ACCELERATION = randi_range(0, 3)
+	movementType = applyRandom_fromList("list_movementType", -1)
 	give_score_onDeath = applyRandom_falseTrue(1, 9)
 	scoreValue = randi_range(0, 100000)
-	turnOnLedge = applyRandom_falseTrue(1, 4)
-	turnOnWall = applyRandom_falseTrue(1, 12)
+	turnOnLedge = applyRandom_falseTrue(1, 2)
+	turnOnWall = applyRandom_falseTrue(1, 4)
 	floating = applyRandom_falseTrue(6, 1)
 	patroling = applyRandom_falseTrue(1,9)
 	afterDelay_changeDirection = applyRandom_falseTrue(3, 1)
@@ -1346,16 +1383,22 @@ func randomize_everything():
 	directionTimer_time = randf_range(0.5, 12)
 	jumpTimer_time = randf_range(0.5, 12)
 	onDeath_spawnObject = applyRandom_falseTrue(1, 6)
-	onDeath_spawnObject_objectPath = applyRandom_fromList("list_itemToSpawn", 15)
 	onDeath_spawnObject_objectAmount = randi_range(1, 8)
 	onDeath_spawnObject_throwAround = applyRandom_falseTrue(1, 3)
+	
+	if onDeath_spawnObject_objectAmount > 4:
+		onDeath_spawnObject_objectPath = load(applyRandom_fromList("list_onDeath_item_blacklist_enemy_scene", -1))
+	else:
+		onDeath_spawnObject_objectPath = load(applyRandom_fromList("list_onDeath_item_scene", -1))
+	
+	look_at_player = applyRandom_falseTrue(6,1)
 	immortal = applyRandom_falseTrue(9, 1)
 	shootProjectile_whenSpotted = applyRandom_falseTrue(1, 4)
 	dropProjectile_whenSpotted = applyRandom_falseTrue(1, 4)
 	shootProjectile_cooldown = randf_range(0.5, 6)
 	dropProjectile_cooldown = randf_range(0.5, 6)
-	scene_shootProjectile = applyRandom_fromList("list_projectileToSpawn", 7)
-	scene_dropProjectile = applyRandom_fromList("list_secondaryProjectileToSpawn", 2)
+	scene_shootProjectile = load(applyRandom_fromList("list_onSpotted_projectile_scene", -1))
+	scene_dropProjectile = load(applyRandom_fromList("list_onSpotted_secondaryProjectile_scene", -1))
 	altDropMethod = applyRandom_falseTrue(1, 2)
 	projectile_isBouncingBall = applyRandom_falseTrue(1, 2)
 	shootProjectile_offset_X = randi_range(-120, 120)
@@ -1365,8 +1408,8 @@ func randomize_everything():
 	toggle_toggleBlocks_onDeath = applyRandom_falseTrue(1, 3)
 	whenAt_startPosition_X_stop = applyRandom_falseTrue(1, 4)
 	whenAt_startPosition_Y_stop = applyRandom_falseTrue(1, 4)
-	start_pos_leniency_X = randi_range(4, 64)
-	start_pos_leniency_Y = randi_range(4, 64)
+	start_pos_leniency_X = randi_range(16, 128)
+	start_pos_leniency_Y = randi_range(16, 128)
 	onSpawn_offset_position = Vector2(randi_range(-64, 64), randi_range(-64, 64))
 	bouncy_Y = applyRandom_falseTrue(4, 1)
 	bouncy_X = applyRandom_falseTrue(1, 1)
@@ -1380,10 +1423,16 @@ func randomize_everything():
 	onDeath_disappear_instantly = applyRandom_falseTrue(6, 1)
 	is_bonusBox = applyRandom_falseTrue(1, 9)
 	bonusBox_spawn_item_onDeath = applyRandom_falseTrue(1, 4)
-	bonusBox_item_scene = applyRandom_fromList("list_itemToSpawn", 15)
 	bonusBox_collectibleAmount = randi_range(1, 8)
 	bonusBox_throw_around = applyRandom_falseTrue(1, 3)
 	bonusBox_spread_position = applyRandom_falseTrue(1, 3)
+	
+	if bonusBox_collectibleAmount > 4:
+		bonusBox_item_scene = load(applyRandom_fromList("list_bonusBox_item_blacklist_enemy_scene", -1))
+	
+	else:
+		bonusBox_item_scene = load(applyRandom_fromList("list_bonusBox_item_scene", -1))
+	
 	bonusBox_requiresVelocity = applyRandom_falseTrue(1, 1)
 	bonusBox_minimalVelocity = randi_range(50, 300)
 	particles_star = applyRandom_falseTrue(1, 2)
@@ -1398,10 +1447,15 @@ func randomize_everything():
 	generalTimer3_randomize_cooldown = applyRandom_falseTrue(1, 2)
 	generalTimer_min_cooldown = randf_range(0.5, 4)
 	generalTimer_max_cooldown = randf_range(4, 12)
-	t_item_scene = applyRandom_fromList("list_itemToSpawn", 14)
-	t_item_amount = randi_range(1, 8)
+	t_item_amount = randi_range(1, 4)
 	t_throw_around = applyRandom_falseTrue(1, 1)
 	t_spread_position = applyRandom_falseTrue(1, 1)
+	
+	if t_item_amount > 4:
+		t_item_scene = load(applyRandom_fromList("list_onTimer_item_blacklist_enemy_scene", -1))
+	else:
+		t_item_scene = load(applyRandom_fromList("list_onTimer_item_scene", -1))
+	
 	t_afterDelay_jump = applyRandom_falseTrue(1, 1)
 	t_afterDelay_jump_timerID = randi_range(0, 3)
 	t_afterDelay_jumpAndMove = applyRandom_falseTrue(1, 1)
@@ -1421,10 +1475,88 @@ func randomize_everything():
 	t_afterDelay_spawn_collectibles = applyRandom_falseTrue(1, 1)
 	t_afterDelay_spawn_collectibles_timerID = randi_range(0, 3)
 	
-	modulate.r = randf_range(0, 1)
-	modulate.g = randf_range(0, 1)
-	modulate.b = randf_range(0, 1)
-	modulate.a = randf_range(0.5, 1)
+	#modulate.r = randf_range(0, 1)
+	#modulate.g = randf_range(0, 1)
+	#modulate.b = randf_range(0, 1)
+	#modulate.a = randf_range(0.5, 1)
+	
+	sprite.sprite_frames = load(applyRandom_fromList("list_sprite", -1))
+	main_collision.get_shape().size = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
+	sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
+	if applyRandom_falseTrue(3, 1):
+		scale.x = randi_range(0.05, 2)
+		scale.y = scale.x
+	if applyRandom_falseTrue(4, 1) : sprite.material = null
+
+
+@onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
+
+@onready var list_sprite = []
+@onready var list_collectible = []
+@onready var list_enemy = []
+@onready var list_box = []
+@onready var list_projectile = []
+
+@onready var list_onDeath_item_scene = []
+@onready var list_onDeath_item_blacklist_enemy_scene = []
+@onready var list_onDeath_projectile_scene = []
+@onready var list_onDeath_secondaryProjectile_scene = []
+@onready var list_onHit_item_scene = []
+@onready var list_onHit_item_blacklist_enemy_scene = []
+@onready var list_onSpotted_item_scene = []
+@onready var list_onSpotted_item_blacklist_enemy_scene = []
+@onready var list_onSpotted_projectile_scene = []
+@onready var list_onSpotted_secondaryProjectile_scene = []
+@onready var list_onTimer_item_scene = []
+@onready var list_onTimer_item_blacklist_enemy_scene = []
+@onready var list_onTimer_projectile_scene = []
+@onready var list_onTimer_secondaryProjectile_scene = []
+@onready var list_bonusBox_item_scene = []
+@onready var list_bonusBox_item_blacklist_enemy_scene = []
+
+func prepare_list_all(directory_path : String, exclude : Array):
+	var dir_path = "res://" + directory_path
+	var dir = DirAccess.open(dir_path)
+	var list = []
+	
+	if dir != null:
+		var filenames = dir.get_files()
+		
+		for filename in filenames:
+			if not filename.ends_with(".import") and not filename.ends_with(".gd"):
+				list.append(dir_path + "/" + filename)
+		
+		var count = -1
+		for exclusion in exclude:
+			count += 1
+			for filename in list:
+				if filename.contains(exclude[count]):
+					list.erase(filename)
+	
+	return list
+
+
+func applyRandom_fromList(list_name, list_length): #list length of -1 will include everything.
+	var list = get(str(list_name))
+	var randomized_ID : int
+	
+	if list_length != -1:
+		randomized_ID = randi_range(0, list_length)
+	else:
+		randomized_ID = randi_range(0, len(list) - 1)
+	
+	var randomized_property = list[randomized_ID]
+	return randomized_property
+
+
+func applyRandom_falseTrue(false_probability, true_probability):
+	var randomized_number = randi_range(-false_probability, true_probability)
+	if randomized_number <= 0:
+		var randomized_bool = false
+		return randomized_bool
+	else:
+		var randomized_bool = true
+		return randomized_bool
 
 
 #AREAS (water, wind, etc.)
@@ -1467,7 +1599,27 @@ func particles_stars():
 	world.add_child(star2)
 	world.add_child(star3)
 
-func hit_effect():
+func onHit_effect():
 	var hit_effect = hit_effectScene.instantiate()
 	hit_effect.position = position
 	world.add_child(hit_effect)
+
+
+func disappear_instantly():
+	onHit_effect()
+	particles_stars()
+	modulate.a = 0
+	await get_tree().create_timer(2, false).timeout
+	queue_free()
+
+
+func handle_force_static():
+	if force_static_H:
+		velocity.x = 0
+	if force_static_V:
+		velocity.y = 0
+
+
+func handle_look_at_player():
+	if look_at_player:
+		look_at(Globals.player_pos)

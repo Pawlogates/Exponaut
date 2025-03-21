@@ -1,4 +1,4 @@
-[gd_scene load_steps=173 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=174 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_vmdr1"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_txmjs"]
@@ -60,7 +60,7 @@
 [ext_resource type="PackedScene" uid="uid://cv82fprvm4ckb" path="res://Collectibles/collectibleSecondaryWeapon_basic.tscn" id="59_kt1ba"]
 [ext_resource type="PackedScene" uid="uid://dalx4wtwfl351" path="res://Enemies/enemy_chaos.tscn" id="60_q6w6i"]
 [ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="61_enetp"]
-[ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_yellow.tscn" id="62_ovfj5"]
+[ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_red.tscn" id="62_ovfj5"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="63_2x7i4"]
 [ext_resource type="PackedScene" uid="uid://do722l7wriwij" path="res://Enemies/enemy_tank.tscn" id="64_kwkmi"]
 [ext_resource type="PackedScene" uid="uid://cq5setetvq764" path="res://Objects/one_way_left.tscn" id="65_ioi7l"]
@@ -154,6 +154,7 @@
 [ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="148_kbji4"]
 [ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="148_wbs4m"]
 [ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="149_kd78b"]
+[ext_resource type="PackedScene" uid="uid://cpa8eyt06ic8j" path="res://Boxes/box_chaos.tscn" id="150_a1h2o"]
 [ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://Objects/Decorations/glow_shadow_orb_soft.tscn" id="150_mnplm"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://Objects/Decorations/wavingDeco_grass.tscn" id="151_yjnnk"]
 [ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://Objects/Decorations/darkDecoParallax_grass.tscn" id="152_bkcyv"]
@@ -421,6 +422,7 @@ resource_name = "boxes"
 scenes/1/scene = ExtResource("54_l1itw")
 scenes/2/scene = ExtResource("56_7dep4")
 scenes/3/scene = ExtResource("100_l0cw8")
+scenes/4/scene = ExtResource("150_a1h2o")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_544ae"]
 resource_name = "decorations"

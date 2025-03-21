@@ -1,0 +1,167 @@
+[gd_resource type="SpriteFrames" load_steps=18 format=3 uid="uid://duy25bi4iddng"]
+
+[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_x5a6i"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1x48j"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(186, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vousf"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(93, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgem7"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(0, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rn30"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(93, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ejgos"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(186, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qj2nh"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(279, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_75ofb"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(372, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_03i5c"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(279, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wv78"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(372, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hlou5"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(465, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_00h7j"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(0, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rqhut"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(93, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_idpux"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(279, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ofag7"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(186, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2x0wb"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(0, 198, 93, 86)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmlvf"]
+atlas = ExtResource("1_x5a6i")
+region = Rect2(93, 198, 93, 86)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1x48j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vousf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgem7")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0rn30")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ejgos")
+}],
+"loop": false,
+"name": &"crouch",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qj2nh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_75ofb")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03i5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wv78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hlou5")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_03i5c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wv78")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hlou5")
+}],
+"loop": true,
+"name": &"flight",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_00h7j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rqhut")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 3.0,
+"texture": SubResource("AtlasTexture_idpux")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ofag7")
+}],
+"loop": false,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2x0wb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmlvf")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 10.0
+}]

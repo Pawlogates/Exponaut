@@ -28,6 +28,8 @@ var playerProjectile = true
 var upward_shot = false
 var downward_shot = false
 
+var bouncy = false
+
 func _ready():
 	set_name("player_projectile_phaser")
 

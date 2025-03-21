@@ -156,7 +156,6 @@ t_afterDelay_idleSound = true
 t_afterDelay_idleSound_timerID = 3
 t_afterDelay_randomize_speedAndJumpVelocity = true
 t_afterDelay_randomize_speedAndJumpVelocity_timerID = 4
-enemy_type = "hen"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -12)
@@ -222,9 +221,6 @@ one_shot = true
 [node name="directionChange_timer" type="Timer" parent="."]
 one_shot = true
 
-[node name="jump_timer" type="Timer" parent="."]
-one_shot = true
-
 [node name="Limit_turn" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.3
@@ -282,6 +278,11 @@ offset_top = -4.0
 offset_right = 320.0
 offset_bottom = 4.0
 
+[node name="jumpTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 4.0
+autostart = true
+
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
@@ -291,7 +292,6 @@ offset_bottom = 4.0
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]
 [connection signal="timeout" from="idleSound_timer" to="." method="_on_idle_sound_timer_timeout"]
 [connection signal="timeout" from="directionChange_timer" to="." method="_on_direction_change_timer_timeout"]
-[connection signal="timeout" from="jump_timer" to="." method="_on_jump_timer_timeout"]
 [connection signal="timeout" from="Limit_turn" to="." method="_on_limit_turn_timeout"]
 [connection signal="timeout" from="timerGeneral1" to="." method="_on_timer_general_1_timeout"]
 [connection signal="timeout" from="timerGeneral2" to="." method="_on_timer_general_2_timeout"]

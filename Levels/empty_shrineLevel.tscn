@@ -8,3 +8,4 @@ cameraLimit_right = 1e+06
 cameraLimit_bottom = 448.0
 cameraLimit_top = -1e+06
 shrine_level = true
+random_music = true

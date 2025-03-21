@@ -104,6 +104,8 @@ var collectible_last = Node
 @export var SLOWDOWN = 200.0
 @export var GRAVITY_SCALE = 1.0
 
+@export var type : String
+
 @export var debug = false
 #PROPERTIES END
 

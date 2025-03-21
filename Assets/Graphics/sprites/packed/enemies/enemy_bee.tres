@@ -1,0 +1,95 @@
+[gd_resource type="SpriteFrames" load_steps=8 format=3 uid="uid://bge27vrfsv4gg"]
+
+[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_nawhx"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eoglg"]
+atlas = ExtResource("1_nawhx")
+region = Rect2(52, 888, 26, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jr104"]
+atlas = ExtResource("1_nawhx")
+region = Rect2(78, 888, 26, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p88qa"]
+atlas = ExtResource("1_nawhx")
+region = Rect2(0, 888, 26, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p6es4"]
+atlas = ExtResource("1_nawhx")
+region = Rect2(26, 888, 26, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rkxs8"]
+atlas = ExtResource("1_nawhx")
+region = Rect2(0, 888, 26, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_spyga"]
+atlas = ExtResource("1_nawhx")
+region = Rect2(26, 888, 26, 24)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eoglg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jr104")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eoglg")
+}],
+"loop": true,
+"name": &"damage",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eoglg")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p88qa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p6es4")
+}],
+"loop": true,
+"name": &"flight",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rkxs8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_spyga")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eoglg")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eoglg")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]

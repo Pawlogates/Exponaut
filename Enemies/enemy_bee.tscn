@@ -1,87 +1,12 @@
-[gd_scene load_steps=21 format=3 uid="uid://dbp42d4xr6p01"]
+[gd_scene load_steps=14 format=3 uid="uid://dbp42d4xr6p01"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_jypmj"]
-[ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_c27yv"]
+[ext_resource type="SpriteFrames" uid="uid://bge27vrfsv4gg" path="res://Assets/Graphics/sprites/packed/enemies/enemy_bee.tres" id="2_76t2l"]
 [ext_resource type="AudioStream" uid="uid://1mv5m4gj4aco" path="res://Assets/Sounds/sfx/bee_idle.wav" id="3_rxrky"]
 [ext_resource type="AudioStream" uid="uid://dnxlofo4yg4ji" path="res://Assets/Sounds/sfx/bee_death.wav" id="4_6nlkh"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_7tj50"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_ie3dl"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_c8wt8"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_eoglg"]
-atlas = ExtResource("2_c27yv")
-region = Rect2(52, 888, 26, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jr104"]
-atlas = ExtResource("2_c27yv")
-region = Rect2(78, 888, 26, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p88qa"]
-atlas = ExtResource("2_c27yv")
-region = Rect2(0, 888, 26, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_p6es4"]
-atlas = ExtResource("2_c27yv")
-region = Rect2(26, 888, 26, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rkxs8"]
-atlas = ExtResource("2_c27yv")
-region = Rect2(0, 888, 26, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_spyga"]
-atlas = ExtResource("2_c27yv")
-region = Rect2(26, 888, 26, 24)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eoglg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jr104")
-}],
-"loop": true,
-"name": &"attack",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"damage",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": false,
-"name": &"dead",
-"speed": 7.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p88qa")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_p6es4")
-}],
-"loop": true,
-"name": &"flying",
-"speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rkxs8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_spyga")
-}],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"jump",
-"speed": 5.0
-}]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
 size = Vector2(16, 16)
@@ -279,7 +204,6 @@ collision_layer = 2
 safe_margin = 5.0
 script = ExtResource("1_jypmj")
 hp = 1
-SPEED = 250
 movementType = "moveAround_startPosition_XY_when_notSpotted"
 scoreValue = 1
 turnOnWall = true
@@ -288,11 +212,10 @@ patroling = true
 onSpawn_offset_position = Vector2(25, 25)
 onDeath_disappear_instantly = true
 enable_generalTimers = false
-enemy_type = "bee"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, 2)
-sprite_frames = SubResource("SpriteFrames_5cx1g")
+sprite_frames = ExtResource("2_76t2l")
 animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]

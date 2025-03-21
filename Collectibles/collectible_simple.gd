@@ -18,6 +18,8 @@ var removable = false
 
 @export var collectibleScoreValue = 0
 
+@export var type : String
+
 #OFFSCREEN START
 func _ready():
 	set_process(false)

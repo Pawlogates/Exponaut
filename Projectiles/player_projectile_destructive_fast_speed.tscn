@@ -42,8 +42,8 @@ script = ExtResource("1_edgvt")
 SPEED = 600.0
 
 [node name="scan" type="Area2D" parent="." groups=["destructive", "player_projectile"]]
-collision_layer = 2
-collision_mask = 4
+collision_layer = 0
+collision_mask = 10
 
 [node name="scan_collision" type="CollisionShape2D" parent="scan"]
 shape = SubResource("RectangleShape2D_jvbw3")
@@ -62,4 +62,5 @@ frame_progress = 0.599085
 wait_time = 0.75
 autostart = true
 
+[connection signal="body_entered" from="scan" to="." method="_on_scan_body_entered"]
 [connection signal="timeout" from="remove_delay" to="." method="_on_remove_delay_timeout"]

@@ -21,6 +21,8 @@ extends CharacterBody2D
 @export var momentum_x = 0.0
 @export var momentum_y = 0.0
 
+@export var type : String
+
 var starParticle_fastScene = preload("res://Particles/particles_special_multiple.tscn")
 var hit_effectScene = preload("res://Particles/hit_effect.tscn")
 var dead_effectScene = preload("res://Particles/dead_effect.tscn")

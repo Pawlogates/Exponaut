@@ -329,6 +329,7 @@ onDeath_play_anim = false
 onDeath_play_spriteAnim = true
 onDeath_spawn_deadEffect = true
 onDeath_toggle_toggleBlocks = true
+type = "toggleSwitch"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

@@ -520,6 +520,7 @@ _data = {
 texture_filter = 1
 script = ExtResource("1_yiy56")
 collectibleScoreValue = 10
+type = "apple"
 
 [node name="Area2D" type="Area2D" parent="." groups=["Collectibles"]]
 collision_layer = 0
