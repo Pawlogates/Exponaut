@@ -1,4 +1,4 @@
-[gd_scene load_steps=174 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=175 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_vmdr1"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_txmjs"]
@@ -138,6 +138,7 @@
 [ext_resource type="PackedScene" uid="uid://crr2fqhcvmv80" path="res://Blocks/special_block_spikes_UP.tscn" id="137_dqr1h"]
 [ext_resource type="PackedScene" uid="uid://c8nt24sv5y1kb" path="res://Blocks/special_block_spikes_DOWN.tscn" id="138_oxipy"]
 [ext_resource type="PackedScene" uid="uid://doof5g6lsehx4" path="res://Blocks/special_block_buttonSpikes_DOWN.tscn" id="139_68yi1"]
+[ext_resource type="PackedScene" uid="uid://dwll230hy7ny7" path="res://Collectibles/collectible_chaos.tscn" id="140_21ftw"]
 [ext_resource type="PackedScene" uid="uid://dpm11fdo256ld" path="res://Objects/Decorations/deco_toxicWaterfall.tscn" id="140_u8ykm"]
 [ext_resource type="PackedScene" uid="uid://cgjmx5simfsns" path="res://Collectibles/collectibleRotApple.tscn" id="141_6esji"]
 [ext_resource type="PackedScene" uid="uid://dieunvhai1sjq" path="res://Collectibles/collectible_apple_rainbow.tscn" id="142_8vuae"]
@@ -307,6 +308,7 @@ scenes/303/scene = ExtResource("67_r6an7")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_w16yt"]
 resource_name = "collectibles"
+scenes/1/scene = ExtResource("140_21ftw")
 scenes/4/scene = ExtResource("1_vmdr1")
 scenes/5/scene = ExtResource("52_uatvx")
 scenes/6/scene = ExtResource("63_2x7i4")

@@ -530,3 +530,20 @@ func check_if_buttons_blocked():
 func _on_buttons_blocked_timeout() -> void:
 	print("Button are no longer blocked.")
 	buttons_blocked = false
+
+
+func _unhandled_input(event):
+	if "Space" in event:
+		print(event)
+		Input.action_press("ui_accept")
+
+func _on_start_recording_pressed() -> void:
+	Globals.start_recording.emit()
+
+
+func _on_start_playback_pressed() -> void:
+	Globals.start_playback.emit()
+
+
+func _on_stop_recording_pressed() -> void:
+	Globals.stop_recording.emit()

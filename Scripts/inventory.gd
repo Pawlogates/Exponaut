@@ -53,9 +53,6 @@ func _process(_delta):
 		check_inventory()
 
 
-
-
-
 var inventory_opened = false
 var ID_assign = 0
 
@@ -75,9 +72,6 @@ func check_inventory():
 		
 		if ID_assign >= get_tree().get_nodes_in_group("in_inventory").size():
 			ID_assign = 0 
-
-
-
 
 
 func spawn_selected():

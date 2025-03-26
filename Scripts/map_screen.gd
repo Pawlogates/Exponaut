@@ -236,3 +236,7 @@ func check_if_buttons_blocked():
 func _on_buttons_blocked_timeout() -> void:
 	print("Button are no longer blocked.")
 	buttons_blocked = false
+
+
+func _unhandled_input(event):
+	return

@@ -68,6 +68,33 @@ func remove_if_corpse():
 		queue_free()
 
 
+
+func basic_onReady():
+	set_process(false)
+	set_physics_process(false)
+	
+	set_process_input(false)
+	set_process_internal(false)
+	set_process_unhandled_input(false)
+	set_process_unhandled_key_input(false)
+	
+	sprite.pause()
+	sprite.visible = false
+	
+	$Area2D.set_monitorable(false)
+	$Area2D.set_monitoring(false)
+	
+	$CollisionShape2D.disabled = true
+	
+	$AnimatedSprite2D/AttackingTimer.set_paused(true)
+	$AnimatedSprite2D/AttackedTimer.set_paused(true)
+	$AnimatedSprite2D/DeadTimer.set_paused(true)
+	
+	#$jumpTimer.set_paused(false)
+	
+	remove_if_corpse()
+
+
 #IS IN VISIBLE RANGE?
 func basic_offScreen_unload():
 	set_process(false)
@@ -80,7 +107,6 @@ func basic_offScreen_unload():
 	
 	sprite.pause()
 	sprite.visible = false
-	$Area2D.set_monitorable(false)
 	
 	$CollisionShape2D.disabled = true
 	
@@ -91,6 +117,9 @@ func basic_offScreen_unload():
 	#$jumpTimer.set_paused(true)
 	
 	remove_if_corpse()
+	
+	$Area2D.set_monitorable(false)
+	$Area2D.set_monitoring(false)
 
 
 func basic_offScreen_load():
@@ -114,33 +143,10 @@ func basic_offScreen_load():
 	#$jumpTimer.set_paused(false)
 	
 	
-	await get_tree().create_timer(0.25, false).timeout
+	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.set_monitorable(true)
 	$Area2D.set_monitoring(true)
 
-
-func basic_onReady():
-	set_process(false)
-	set_physics_process(false)
-	
-	set_process_input(false)
-	set_process_internal(false)
-	set_process_unhandled_input(false)
-	set_process_unhandled_key_input(false)
-	
-	sprite.pause()
-	sprite.visible = false
-	$Area2D.set_monitorable(false)
-	
-	$CollisionShape2D.disabled = true
-	
-	$AnimatedSprite2D/AttackingTimer.set_paused(true)
-	$AnimatedSprite2D/AttackedTimer.set_paused(true)
-	$AnimatedSprite2D/DeadTimer.set_paused(true)
-	
-	#$jumpTimer.set_paused(false)
-	
-	remove_if_corpse()
 
 
 func enemy_stunned():

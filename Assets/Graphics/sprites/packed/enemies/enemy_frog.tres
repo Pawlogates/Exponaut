@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=15 format=3 uid="uid://b1qdjut2q8ia1"]
+[gd_resource type="SpriteFrames" load_steps=13 format=3 uid="uid://b1qdjut2q8ia1"]
 
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_6u00y"]
 
@@ -26,13 +26,13 @@ region = Rect2(744, 381, 64, 64)
 atlas = ExtResource("1_6u00y")
 region = Rect2(872, 381, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wy7mu"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_onrnv"]
 atlas = ExtResource("1_6u00y")
-region = Rect2(163, 305, 72, 72)
+region = Rect2(552, 381, 64, 64)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_v0v88"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_jbq6r"]
 atlas = ExtResource("1_6u00y")
-region = Rect2(235, 305, 72, 72)
+region = Rect2(488, 381, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oyjb7"]
 atlas = ExtResource("1_6u00y")
@@ -45,14 +45,6 @@ region = Rect2(424, 381, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_k477x"]
 atlas = ExtResource("1_6u00y")
 region = Rect2(616, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_onrnv"]
-atlas = ExtResource("1_6u00y")
-region = Rect2(552, 381, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jbq6r"]
-atlas = ExtResource("1_6u00y")
-region = Rect2(488, 381, 64, 64)
 
 [resource]
 animations = [{
@@ -91,14 +83,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wy7mu")
+"texture": SubResource("AtlasTexture_onrnv")
 }, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_v0v88")
+"duration": 50.0,
+"texture": SubResource("AtlasTexture_jbq6r")
 }],
 "loop": true,
 "name": &"flight",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -115,6 +107,9 @@ animations = [{
 "speed": 5.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k477x")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_onrnv")
 }, {

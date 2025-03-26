@@ -39,6 +39,7 @@ var collectible_last = Node
 @onready var animation_player2 = %AnimationPlayer2
 @onready var sprite = %AnimatedSprite2D
 @onready var collisionCheck_delay = $collisionCheck_delay
+@onready var main_collision = %CollisionShape2D
 
 @onready var world = $/root/World
 @onready var player = $/root/World.player
@@ -104,14 +105,18 @@ var collectible_last = Node
 @export var SLOWDOWN = 200.0
 @export var GRAVITY_SCALE = 1.0
 
-@export var type : String
+@export var randomize_everything_onSpawn = false
 
+@export var type : String
 @export var debug = false
 #PROPERTIES END
 
 
 #OFFSCREEN START
 func _ready():
+	if randomize_everything_onSpawn:
+		randomize_everything()
+	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -139,7 +144,8 @@ func _ready():
 		animation_player.play("loop_scale")
 	
 	if rotting:
-		%rotDelay.start()
+		if get_node_or_null("$rotDelay"):
+			%rotDelay.start()
 	
 	if shrineGem_is_finalLevel:
 		modulate.g = 0.0
@@ -228,6 +234,9 @@ func _on_collectible_entered(body):
 		return
 	
 	if is_temporary_powerup:
+		reassign_player()
+		world.reassign_player()
+		
 		player.powerup_timer.wait_time = temporary_powerup_duration
 		player.powerup_timer.start()
 		
@@ -310,7 +319,7 @@ func _on_collectible_entered(body):
 				
 			stop_upDownLoopAnim = true
 			floating = false
-			%hit1.play()
+			if get_node_or_null("$hit1") : %hit1.play()
 			%AnimationPlayer2.stop()
 			if not shrineGem_is_finalLevel:
 				%AnimationPlayer2.play("hit")
@@ -392,6 +401,7 @@ func _on_collectible_entered(body):
 		if is_weapon:
 			reassign_player()
 			world.reassign_player()
+			
 			world.player.weaponType = weapon_type
 			world.player.get_node("%attack_cooldown").wait_time = attack_delay
 			
@@ -807,3 +817,167 @@ func save():
 	}
 	return save_dict
 #SAVE END
+
+
+#Randomization
+func randomize_everything():
+	#prepare lists
+	list_sprite = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
+	list_collectible = prepare_list_all("Collectibles", [])
+	list_enemy = prepare_list_all("Enemies", [])
+	list_box = prepare_list_all("Boxes", [])
+	list_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
+	
+	var list_every_object = list_collectible + list_box + list_enemy
+	var list_without_enemies = list_collectible + list_box
+	
+	list_onDeath_item_scene = list_every_object
+	list_onDeath_item_blacklist_enemy_scene = list_without_enemies
+	list_onDeath_projectile_scene = list_projectile
+	list_onDeath_secondaryProjectile_scene = list_projectile
+	list_onHit_item_scene = list_every_object
+	list_onHit_item_blacklist_enemy_scene = list_without_enemies
+	list_onSpotted_item_scene = list_every_object
+	list_onSpotted_item_blacklist_enemy_scene = list_without_enemies
+	list_onSpotted_projectile_scene = list_projectile
+	list_onSpotted_secondaryProjectile_scene = list_projectile
+	list_onTimer_item_scene = list_every_object
+	list_onTimer_item_blacklist_enemy_scene = list_without_enemies
+	list_onTimer_projectile_scene = list_projectile
+	list_onTimer_secondaryProjectile_scene = list_projectile
+	list_bonusBox_item_scene = list_every_object
+	list_bonusBox_item_blacklist_enemy_scene = list_without_enemies
+	
+	#properties
+	collectibleScoreValue = randi_range(0, 25000)
+	give_score = applyRandom_falseTrue(1, 6)
+	animation_always = applyRandom_falseTrue(1, 4)
+	floating = applyRandom_falseTrue(2, 1)
+	is_key = applyRandom_falseTrue(3, 1)
+	collectable = applyRandom_falseTrue(1, 9)
+	loop_anim = applyRandom_fromList("list_loop_anim", -1)
+	hp = randi_range(1, 5)
+	damageValue = randi_range(0, 3)
+	is_shrineGem = applyRandom_falseTrue(1, 4)
+	shrineGem_destructible = applyRandom_falseTrue(6, 1)
+	shrineGem_giveScore = applyRandom_falseTrue(1, 4)
+	shrineGem_spawnItems = applyRandom_falseTrue(1, 5)
+	shrineGem_openPortal = applyRandom_falseTrue(4, 1)
+	shrineGem_particle_amount = randi_range(0, 300)
+	shrineGem_portal_level_ID = applyRandom_fromList("list_level_ID", -1)
+	shrineGem_level_filePath = str("res://Levels/", shrineGem_portal_level_ID, ".tscn")
+	shrineGem_is_finalLevel = applyRandom_falseTrue(7, 1)
+	shrineGem_checkpoint_offset = Vector2(randi_range(-320, 320), randi_range(-320, 320))
+	is_specialApple = applyRandom_fromList("list_special_apple_type", -1)
+	is_temporary_powerup = applyRandom_falseTrue(5, 1)
+	temporary_powerup = applyRandom_fromList("list_temporary_powerup", -1)
+	temporary_powerup_duration = randf_range(0.5, 15)
+	spawnedAmount = randi_range(1, 12)
+	item_posSpread = randi_range(-200, 200)
+	item_velSpread = randi_range(-600, 600)
+	item_scene = load(applyRandom_fromList("list_bonusBox_item_scene", -1))
+	is_gift = applyRandom_falseTrue(6, 1)
+	inventory_item_scene = preload("res://Other/Scenes/User Interface/Inventory/inventoryItem.tscn")
+	inventory_itemToSpawn = load(applyRandom_fromList("list_bonusBox_item_scene", -1))
+	inventory_texture_region = Rect2(0, 0, 0, 0)
+	is_weapon = applyRandom_falseTrue(3, 1)
+	is_SecondaryWeapon = applyRandom_falseTrue(3, 1)
+	weapon_type = applyRandom_fromList("list_weapon", -1)
+	attack_delay = randf_range(0.1, 3)
+	secondaryWeapon_type = applyRandom_fromList("list_secondaryWeapon", -1)
+	secondaryAttack_delay = randf_range(0.1, 3)
+	is_healthItem = applyRandom_falseTrue(4, 1)
+	rotting = applyRandom_falseTrue(5, 1)
+	fall_when_button_pressed = applyRandom_falseTrue(6, 1)
+	is_potion = applyRandom_falseTrue(7, 1)
+	transform_into = applyRandom_fromList("list_potion", -1)
+	SPEED = randi_range(-200, 1600)
+	SLOWDOWN = randi_range(-100, 800)
+	GRAVITY_SCALE = randi_range(-2, 4)
+	
+	
+	modulate.r = randf_range(0, 1)
+	modulate.g = randf_range(0, 1)
+	modulate.b = randf_range(0, 1)
+	modulate.a = randf_range(0.75, 1)
+	
+	sprite.sprite_frames = load(applyRandom_fromList("list_sprite", -1))
+	main_collision.get_shape().radius = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size().y / 2
+	sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
+	if applyRandom_falseTrue(6, 1):
+		scale.x = randi_range(0.05, 2)
+		scale.y = scale.x
+	if applyRandom_falseTrue(4, 1) : sprite.material = null
+
+@onready var list_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
+@onready var list_level_ID = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
+@onready var list_special_apple_type = ["red", "blue", "golden"]
+@onready var list_temporary_powerup = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
+@onready var list_weapon = ["weapon_basic", "weapon_short_shotDelay", "weapon_ice", "weapon_fire", "weapon_destructive_fast_speed", "weapon_veryFast_speed", "weapon_phaser"]
+@onready var list_secondaryWeapon = ["secondaryWeapon_basic", "secondaryWeapon_fast"]
+@onready var list_potion = ["rooster", "bird", "chicken"]
+
+@onready var list_sprite = []
+@onready var list_collectible = []
+@onready var list_enemy = []
+@onready var list_box = []
+@onready var list_projectile = []
+
+@onready var list_onDeath_item_scene = []
+@onready var list_onDeath_item_blacklist_enemy_scene = []
+@onready var list_onDeath_projectile_scene = []
+@onready var list_onDeath_secondaryProjectile_scene = []
+@onready var list_onHit_item_scene = []
+@onready var list_onHit_item_blacklist_enemy_scene = []
+@onready var list_onSpotted_item_scene = []
+@onready var list_onSpotted_item_blacklist_enemy_scene = []
+@onready var list_onSpotted_projectile_scene = []
+@onready var list_onSpotted_secondaryProjectile_scene = []
+@onready var list_onTimer_item_scene = []
+@onready var list_onTimer_item_blacklist_enemy_scene = []
+@onready var list_onTimer_projectile_scene = []
+@onready var list_onTimer_secondaryProjectile_scene = []
+@onready var list_bonusBox_item_scene = []
+@onready var list_bonusBox_item_blacklist_enemy_scene = []
+
+func prepare_list_all(directory_path : String, exclude : Array):
+	var dir_path = "res://" + directory_path
+	var dir = DirAccess.open(dir_path)
+	var list = []
+	
+	if dir != null:
+		var filenames = dir.get_files()
+		
+		for filename in filenames:
+			if not filename.ends_with(".import") and not filename.ends_with(".gd"):
+				list.append(dir_path + "/" + filename)
+		
+		var count = -1
+		for exclusion in exclude:
+			count += 1
+			for filename in list:
+				if filename.contains(exclude[count]):
+					list.erase(filename)
+	
+	return list
+
+
+func applyRandom_fromList(list_name, list_length):
+	var list = get(str(list_name))
+	var randomized_ID : int
+	
+	if list_length != -1:
+		randomized_ID = randi_range(0, list_length)
+	else:
+		randomized_ID = randi_range(0, len(list) - 1)
+	
+	var randomized_property = list[randomized_ID]
+	return randomized_property
+
+
+func applyRandom_falseTrue(false_probability, true_probability):
+	var randomized_number = randi_range(-false_probability, true_probability)
+	if randomized_number <= 0:
+		return false
+	else:
+		return true

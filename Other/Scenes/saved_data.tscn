@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://dmmwxqh8chmiq"]
+[gd_scene load_steps=3 format=3 uid="uid://dmmwxqh8chmiq"]
 
 [ext_resource type="Script" path="res://Scripts/saved_data.gd" id="1_53vym"]
+[ext_resource type="PackedScene" uid="uid://d3wws0b2jjsyt" path="res://Other/Scenes/gameplay_recorder.tscn" id="2_1hnq6"]
 
 [node name="Saved Data" type="Node2D"]
 script = ExtResource("1_53vym")
+
+[node name="gameplay_recorder" parent="." instance=ExtResource("2_1hnq6")]

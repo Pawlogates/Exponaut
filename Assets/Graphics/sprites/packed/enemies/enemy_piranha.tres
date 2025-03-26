@@ -102,6 +102,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_2q8g8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d5rsi")
 }],
 "loop": true,
 "name": &"flight",

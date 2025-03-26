@@ -16,3 +16,5 @@ type = "chaos"
 [node name="AnimatedSprite2D" parent="sprite_root" index="0"]
 material = SubResource("ShaderMaterial_pxl5a")
 sprite_frames = ExtResource("3_gdc5n")
+
+[connection signal="timeout" from="active_cooldown" to="." method="_on_active_cooldown_timeout"]

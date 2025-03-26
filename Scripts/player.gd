@@ -750,7 +750,6 @@ func playSound_shoot():
 		$shoot4.play()
 
 
-
 func _on_attacked_timer_timeout():
 	attacked = false
 
@@ -764,6 +763,8 @@ func shoot_projectile(projectile_scene):
 	if weaponType == "basic" and Globals.collected_in_cycle >= 20:
 		if not dead and Input.is_action_just_pressed("attack_main"):
 			var projectile_phaser = scene_projectile_phaser.instantiate()
+			projectile_phaser.playerProjectile = true
+			projectile_phaser.enemyProjectile = false
 			add_child(projectile_phaser)
 			
 			#SHOOTING ANIMATION
@@ -784,6 +785,8 @@ func shoot_projectile(projectile_scene):
 		sprite.play("shoot")
 		
 		var projectile = projectile_scene.instantiate()
+		projectile.playerProjectile = true
+		projectile.enemyProjectile = false
 		projectile.position = position + Vector2(Globals.direction * 24, 0)
 		get_parent().add_child(projectile)
 		
@@ -1290,3 +1293,7 @@ func on_player_just_bounced():
 func _on_just_bounced_timeout() -> void:
 	just_bounced = false
 	sprite.modulate.g = 1.0
+
+
+func _unhandled_input(event):
+	return

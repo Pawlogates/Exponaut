@@ -146,11 +146,12 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 
 func reduce_hp(value):
+	print(value, hit_cooldown)
 	if hit_cooldown:
 		active = false
 		$active_cooldown.start()
 		
-		sprite.modulate.r = 0.5
+		sprite.modulate.a = 0.5
 	
 	if not immortal:
 		hp -= value
@@ -266,7 +267,9 @@ func offScreen_unload():
 	sprite.pause()
 	sprite.visible = false
 	animation_player.active = false
+	
 	$Area2D.set_monitorable(false)
+	$Area2D.set_monitoring(false)
 
 func offScreen_load():
 	set_process(true)
@@ -307,10 +310,11 @@ func _ready():
 	sprite.pause()
 	sprite.visible = false
 	animation_player.active = false
+	
 	$Area2D.set_monitorable(false)
+	$Area2D.set_monitoring(false)
 	
 	await get_tree().create_timer(0.2, false).timeout
-	
 	if destroyed:
 		queue_free()
 
@@ -379,6 +383,11 @@ func randomize_everything():
 	hp = randi_range(1, 5)
 	damageValue = randi_range(1, 5)
 	scoreValue = randi_range(0, 100000)
+	
+	modulate.r = randf_range(0, 1)
+	modulate.g = randf_range(0, 1)
+	modulate.b = randf_range(0, 1)
+	modulate.a = randf_range(0.75, 1)
 	
 	sprite.sprite_frames = load(applyRandom_fromList("list_sprite", -1))
 	sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
@@ -475,7 +484,7 @@ var active = true
 func _on_active_cooldown_timeout():
 	active = true
 	
-	sprite.modulate.r = 0
+	sprite.modulate.a = 1
 
 
 #AREAS (water, wind, etc.)

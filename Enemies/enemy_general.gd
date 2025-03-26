@@ -155,7 +155,7 @@ var rng = RandomNumberGenerator.new()
 @export var t_afterDelay_spawn_collectibles = false
 @export var t_afterDelay_spawn_collectibles_timerID = 0
 
-@export var randomize_everything_onSpawn = false #not included in randomizer (and shouldn't be)
+@export var randomize_everything_onSpawn = false
 
 @export_group("") #END OF SPECIFIC INFO
 #!Properties
@@ -1045,7 +1045,7 @@ func handle_dropProjectile_whenSpotted():
 				dropProjectile.velocity = Vector2(velocity.x * 1.2, -100)
 			else:
 				dropProjectile.velocity = Vector2(velocity.x * 1.2, 100)
-				
+			
 			dropProjectile.enemyProjectile = true
 			dropProjectile.playerProjectile = false
 			dropProjectile.bouncy = true
@@ -1088,7 +1088,8 @@ func handle_shootProjectile_whenSpotted():
 			else:
 				shootProjectile.enemyProjectile = false
 			
-			
+			shootProjectile.enemyProjectile = true
+			shootProjectile.playerProjectile = false
 			world.add_child(shootProjectile)
 			
 			$shootProjectile.play()
@@ -1371,7 +1372,10 @@ func randomize_everything():
 		SPEED = randi_range(0, 1200)
 	JUMP_VELOCITY = randi_range(400, -1200)
 	ACCELERATION = randi_range(0, 3)
-	movementType = applyRandom_fromList("list_movementType", -1)
+	if applyRandom_falseTrue(1,3):
+		movementType = applyRandom_fromList("list_movementType", -1)
+	else:
+		movementType = applyRandom_fromList("list_movementType_limited", -1)
 	give_score_onDeath = applyRandom_falseTrue(1, 9)
 	scoreValue = randi_range(0, 100000)
 	turnOnLedge = applyRandom_falseTrue(1, 2)
@@ -1457,39 +1461,43 @@ func randomize_everything():
 		t_item_scene = load(applyRandom_fromList("list_onTimer_item_scene", -1))
 	
 	t_afterDelay_jump = applyRandom_falseTrue(1, 1)
-	t_afterDelay_jump_timerID = randi_range(0, 3)
+	t_afterDelay_jump_timerID = randi_range(1, 6)
 	t_afterDelay_jumpAndMove = applyRandom_falseTrue(1, 1)
-	t_afterDelay_jumpAndMove_timerID = randi_range(0, 3)
+	t_afterDelay_jumpAndMove_timerID = randi_range(1, 6)
 	t_afterDelay_changeDirection = applyRandom_falseTrue(1, 1)
-	t_afterDelay_changeDirection_timerID = randi_range(0, 3)
+	t_afterDelay_changeDirection_timerID = randi_range(1, 6)
 	t_afterDelay_spawnObject = applyRandom_falseTrue(1, 1)
-	t_afterDelay_spawnObject_timerID = randi_range(0, 3)
+	t_afterDelay_spawnObject_timerID = randi_range(1, 6)
 	t_afterDelay_selfDestruct = applyRandom_falseTrue(1, 1)
-	t_afterDelay_selfDestruct_timerID = randi_range(0, 3)
+	t_afterDelay_selfDestruct_timerID = randi_range(1, 6)
 	t_afterDelay_selfDestructAndSpawnObject = applyRandom_falseTrue(1, 1)
-	t_afterDelay_selfDestructAndSpawnObject_timerID = randi_range(0, 3)
+	t_afterDelay_selfDestructAndSpawnObject_timerID = randi_range(1, 6)
 	t_afterDelay_idleSound = applyRandom_falseTrue(1, 1)
-	t_afterDelay_idleSound_timerID = randi_range(0, 3)
+	t_afterDelay_idleSound_timerID = randi_range(1, 6)
 	t_afterDelay_randomize_speedAndJumpVelocity = applyRandom_falseTrue(1, 1)
-	t_afterDelay_randomize_speedAndJumpVelocity_timerID = randi_range(0, 3)
+	t_afterDelay_randomize_speedAndJumpVelocity_timerID = randi_range(1, 6)
 	t_afterDelay_spawn_collectibles = applyRandom_falseTrue(1, 1)
-	t_afterDelay_spawn_collectibles_timerID = randi_range(0, 3)
+	t_afterDelay_spawn_collectibles_timerID = randi_range(1, 6)
 	
-	#modulate.r = randf_range(0, 1)
-	#modulate.g = randf_range(0, 1)
-	#modulate.b = randf_range(0, 1)
-	#modulate.a = randf_range(0.5, 1)
+	modulate.r = randf_range(0, 1)
+	modulate.g = randf_range(0, 1)
+	modulate.b = randf_range(0, 1)
+	modulate.a = randf_range(0.75, 1)
+	
+	await get_tree().create_timer(1, false).timeout
+	print(movementType)
 	
 	sprite.sprite_frames = load(applyRandom_fromList("list_sprite", -1))
 	main_collision.get_shape().size = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
 	sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
 	if applyRandom_falseTrue(3, 1):
-		scale.x = randi_range(0.05, 2)
+		scale.x = randi_range(0.1, 2)
 		scale.y = scale.x
 	if applyRandom_falseTrue(4, 1) : sprite.material = null
 
 
 @onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
+@onready var list_movementType_limited = ["normal", "followPlayerX", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted"]
 
 @onready var list_sprite = []
 @onready var list_collectible = []

@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=29 format=3 uid="uid://bau6lhr8h8wm6"]
+[gd_resource type="SpriteFrames" load_steps=27 format=3 uid="uid://bau6lhr8h8wm6"]
 
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_kyi4h"]
 
@@ -57,14 +57,6 @@ region = Rect2(1184, 17, 74, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_st5mm"]
 atlas = ExtResource("1_kyi4h")
 region = Rect2(1258, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wy7mu"]
-atlas = ExtResource("1_kyi4h")
-region = Rect2(163, 305, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v0v88"]
-atlas = ExtResource("1_kyi4h")
-region = Rect2(235, 305, 72, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hmphd"]
 atlas = ExtResource("1_kyi4h")
@@ -176,14 +168,20 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wy7mu")
+"texture": SubResource("AtlasTexture_bmg6k")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_v0v88")
+"texture": SubResource("AtlasTexture_ctobc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d3tx1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kf2kt")
 }],
 "loop": true,
 "name": &"flight",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 5.0,

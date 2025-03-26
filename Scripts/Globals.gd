@@ -141,3 +141,8 @@ signal scoreReset
 #world states
 var just_started_new_game = false
 var left_start_area = false
+
+
+signal start_recording
+signal start_playback
+signal stop_recording

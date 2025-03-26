@@ -609,6 +609,11 @@ unique_name_in_owner = true
 wait_time = 1.5
 one_shot = true
 
+[node name="secondaryAttack_cooldown" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 1.5
+one_shot = true
+
 [node name="justLanded_delay" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.2

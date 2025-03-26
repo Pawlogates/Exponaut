@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=11 format=3 uid="uid://b5iajv70nuehv"]
+[gd_resource type="SpriteFrames" load_steps=9 format=3 uid="uid://b5iajv70nuehv"]
 
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_mx324"]
 
@@ -17,14 +17,6 @@ region = Rect2(1778, 904, 82, 96)
 [sub_resource type="AtlasTexture" id="AtlasTexture_dlbck"]
 atlas = ExtResource("1_mx324")
 region = Rect2(1860, 904, 82, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wy7mu"]
-atlas = ExtResource("1_mx324")
-region = Rect2(163, 305, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_v0v88"]
-atlas = ExtResource("1_mx324")
-region = Rect2(235, 305, 72, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k5co0"]
 atlas = ExtResource("1_mx324")
@@ -89,14 +81,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_wy7mu")
+"texture": SubResource("AtlasTexture_yuwqv")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_v0v88")
+"texture": SubResource("AtlasTexture_x8h1h")
 }],
 "loop": true,
 "name": &"flight",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,

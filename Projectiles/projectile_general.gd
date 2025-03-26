@@ -35,7 +35,7 @@ var effect_dustScene = preload("res://Particles/effect_dust.tscn")
 var effect_dust_moveUpScene = preload("res://Particles/effect_dust_moveUp.tscn")
 
 var enemyProjectile = false
-var playerProjectile = true
+var playerProjectile = false
 
 var upward_shot = false
 var downward_shot = false

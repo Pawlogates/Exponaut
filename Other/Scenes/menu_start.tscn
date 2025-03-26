@@ -2061,6 +2061,28 @@ autostart = true
 wait_time = 5.0
 one_shot = true
 
+[node name="Control2" type="Control" parent="."]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control2"]
+layout_mode = 2
+offset_left = -832.0
+offset_top = -476.0
+offset_right = -704.0
+offset_bottom = -376.0
+
+[node name="start recording" type="Button" parent="Control2/VBoxContainer"]
+layout_mode = 2
+text = "start recording"
+
+[node name="start playback" type="Button" parent="Control2/VBoxContainer"]
+layout_mode = 2
+text = "start playback"
+
+[node name="stop recording" type="Button" parent="Control2/VBoxContainer"]
+layout_mode = 2
+text = "stop recording"
+
 [connection signal="focus_entered" from="main_menu/menu_container/Control/Continue" to="main_menu/menu_container/Control/Continue" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Control/Continue" to="main_menu/menu_container/Control/Continue" method="_on_focus_exited"]
 [connection signal="pressed" from="main_menu/menu_container/Control/Continue" to="." method="_on_continue_pressed"]
@@ -2169,3 +2191,6 @@ one_shot = true
 [connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]
 [connection signal="timeout" from="block_button_sounds" to="." method="_on_block_button_sounds_timeout"]
 [connection signal="timeout" from="buttons_blocked" to="." method="_on_buttons_blocked_timeout"]
+[connection signal="pressed" from="Control2/VBoxContainer/start recording" to="." method="_on_start_recording_pressed"]
+[connection signal="pressed" from="Control2/VBoxContainer/start playback" to="." method="_on_start_playback_pressed"]
+[connection signal="pressed" from="Control2/VBoxContainer/stop recording" to="." method="_on_stop_recording_pressed"]
