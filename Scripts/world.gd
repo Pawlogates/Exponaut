@@ -72,6 +72,8 @@ var whiteBlocks_toggle = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.gameplay_recorder_entered_level.emit()
+	
 	if random_music:
 		play_random_music()
 	

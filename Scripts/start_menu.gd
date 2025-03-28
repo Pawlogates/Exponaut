@@ -3,7 +3,11 @@ extends CenterContainer
 var startingArea = preload("res://Levels/overworld_factory.tscn")
 var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 
+var can_quit = true
+
 func _ready():
+	SavedData.gameplay_recorder.selected_playback_id = 0
+	
 	LevelTransition.get_node("%saved_progress").load_game()
 	last_area_filePath_load()
 	
@@ -30,8 +34,21 @@ func _ready():
 	await get_tree().create_timer(0.5, false).timeout
 	%fade_animation.play("fade_from_black")
 	correct_button_ordering()
-	await get_tree().create_timer(3, false).timeout
+	await get_tree().create_timer(2, false).timeout
 	%fade_animation.play("fade_to_black")
+	
+		#if Globals.recording_autostart:
+		#$Recording.queue_free()
+	
+	if SavedData.gameplay_recorder.recording_active:
+		can_quit = false
+		if Globals.recording_autostart:
+			Globals.stop_recording.emit()
+			Globals.start_recording.emit()
+	else:
+		can_quit = true
+		if Globals.recording_autostart:
+			Globals.start_recording.emit()
 
 
 var saved_level_filePath = "res://Levels/empty.tscn"
@@ -124,7 +141,11 @@ func _on_quit_pressed():
 	if check_if_buttons_blocked():
 		return
 	
-	get_tree().quit()
+	if can_quit:
+		get_tree().quit()
+	else:
+		can_quit = true
+		print("Pressed quit once. Next press will quit the game.")
 
 func _on_continue_pressed():
 	if check_if_buttons_blocked():
@@ -501,14 +522,8 @@ func deco_correct_polygons():
 
 
 func _process(_delta):
-	pass
-	
-	#if Input.is_action_just_pressed("show_debugInfo"):
-		#var x = 0
-		#for button in get_tree().get_nodes_in_group("buttons"):
-			#button.z_index = x
-			#print(button.z_index)
-			#x += 1
+	if Input.is_action_just_pressed("menu"):
+		Globals.stop_recording.emit()
 
 
 @onready var block_button_sounds_timer = $block_button_sounds
@@ -525,7 +540,6 @@ func check_if_buttons_blocked():
 	if buttons_blocked:
 		print("Buttons are blocked.")
 		return true
-	buttons_blocked = true
 
 func _on_buttons_blocked_timeout() -> void:
 	print("Button are no longer blocked.")
@@ -533,17 +547,55 @@ func _on_buttons_blocked_timeout() -> void:
 
 
 func _unhandled_input(event):
-	if "Space" in event:
-		print(event)
-		Input.action_press("ui_accept")
+	pass
+	#if "Space" in event:
+		#Input.action_press("ui_accept")
 
 func _on_start_recording_pressed() -> void:
 	Globals.start_recording.emit()
+	%StartGame.grab_focus()
+	
+	#$"Recording/VBoxContainer/Control/start recording".visible = false
 
 
 func _on_start_playback_pressed() -> void:
 	Globals.start_playback.emit()
+	%StartGame.grab_focus()
+	
+	#$"Recording/VBoxContainer/Control/start recording".visible = true
 
 
 func _on_stop_recording_pressed() -> void:
 	Globals.stop_recording.emit()
+	%StartGame.grab_focus()
+	
+	#$"Recording/VBoxContainer/Control/start recording".visible = true
+
+
+@onready var selected_playback_id_display = $"Recording/VBoxContainer/Control3/HBoxContainer/Control2/playback id"
+@onready var selected_playback_minus_display = $"Recording/VBoxContainer/Control3/HBoxContainer/Control/playback -"
+@onready var selected_playback_plus_display = $"Recording/VBoxContainer/Control3/HBoxContainer/Control3/playback +"
+
+var selected_playback_id = 0
+
+func _on_playback_id_pressed() -> void:
+	Globals.recording_autostart = false
+	playback_button_general()
+	LevelTransition.info_text_display.display_text = "Automatic recording is now DISABLED."
+	LevelTransition.info_text_display.display_size = 0
+	LevelTransition.info_text_display.display_show()
+
+func _on_playback_minus_pressed() -> void:
+	selected_playback_id -= 1
+	playback_button_general()
+
+func _on_playback_plus_pressed() -> void:
+	selected_playback_id += 1
+	playback_button_general()
+
+func playback_button_general():
+	if selected_playback_id <= -1:
+		selected_playback_id = 0
+	
+	selected_playback_id_display.text = str(selected_playback_id)
+	SavedData.gameplay_recorder.selected_playback_id = selected_playback_id

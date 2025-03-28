@@ -5,46 +5,181 @@ var input_log = []  # Stores all inputs
 var recording_active = false
 var playback_active = false
 
+var log_number = 0
+
+@onready var player = Node2D
+@onready var world = Node2D
+
+@onready var label: Label = $CanvasLayer/Label
+
 func start_recording():
 	set_process(true)
 	recording_timer = 0.0
 	print("Recording started.")
 	input_log = []
-	restart_game()
+	#restart_game()
 	playback_active = false
 	recording_active = true
+	label.visible = false
 
 func _input(event):
 	if not recording_active : return
-	if event is InputEventMouseButton or event is InputEventMouseMotion : return
-	#print(event)
-	# Store the input event along with a timestamp
-	input_log.append({
-	"event": event,
-	"timestamp": recording_timer
-	})
+	print(event)
+	if not event is InputEventMouseButton and not event is InputEventMouseMotion:
+		#print(event)
+		# Store the input event along with a timestamp
+		input_log.append({
+		"event": event,
+		"timestamp": recording_timer,
+		"player_posX": Globals.player_posX,
+		"player_posY": Globals.player_posY
+		})
+	
+	# Detect mouse click
+	elif event is InputEventMouseButton:
+		if event.pressed:
+			print("Mouse button ", event.button_index, " pressed at ", event.position)
+			input_log.append({
+			"event": event,
+			"timestamp": recording_timer,
+			"player_posX": Globals.player_posX,
+			"player_posY": Globals.player_posY,
+			"button_index": event.button_index,
+			"button_positionX": event.position.x,
+			"button_positionY": event.position.y
+			})
+		else:
+			print("Mouse button ", event.button_index, " released at ", event.position)
+
+	# Detect mouse movement
+	elif event is InputEventMouseMotion:
+		print("Mouse moved to: ", event.position)
+		input_log.append({
+			"event": event,
+			"timestamp": recording_timer,
+			"player_posX": Globals.player_posX,
+			"player_posY": Globals.player_posY,
+			"button_positionX": event.position.x,
+			"button_positionY": event.position.y
+			})
+
 
 func _notification(type):
 	# Save inputs to a file when the game stops
 	if type == NOTIFICATION_WM_CLOSE_REQUEST or type == NOTIFICATION_PREDELETE:
-		input_log_save()
+		stop_recording()
+
+
+func stop_recording():
+	set_process(false)
+	recording_active = false
+	playback_active = false
+	recording_timer = 0.0
+	playback_index = 0
+	input_log_save()
+	label.visible = false
 
 func input_log_save():
-	var file = FileAccess.open("user://input_log.json", FileAccess.WRITE)
-	file.store_string(JSON.stringify(input_log, "\t"))  # Pretty print
+	if input_log == []:
+		return
+	
+	if Globals.recording_autostart:
+		log_number = get_current_max_input_log_number() + 1
+	else:
+		log_number = selected_playback_id
+	
+	# Define the file path
+	var file_path = "user://input_log" + str(log_number) + ".json"
+	
+	print("user://input_log" + str(log_number) + ".json")
+	# Attempt to open the file for writing
+	var file = FileAccess.open(file_path, FileAccess.WRITE)
+	if file == null:
+		print("Failed to open file for writing: ", file_path)
+		return
+	
+	# Store the JSON data in the file with pretty print
+	file.store_string(JSON.stringify(input_log, "\t"))
 	file.close()
+	
 	print("Input log saved! ", len(input_log), " entries.")
+	
+	# Check if the file exists
+	if FileAccess.file_exists(file_path):
+		# Open the file for reading
+		file = FileAccess.open(file_path, FileAccess.READ)
+		if file == null:
+			print("Failed to open file for reading: ", file_path)
+			return
+		
+		
+		if file:
+			var file_data = file.get_buffer(file.get_length())
+			file.close()
+	
+	else:
+		print("input_log.json not found.")
+
+func get_current_max_input_log_number():
+	var folder_path = "user://"  # You can change this to the appropriate folder path
+	var max_file_number = 0
+
+	# Create a DirAccess object
+	var dir = DirAccess.open(folder_path)  # Use DirAccess to open the directory
+	
+	if dir != null:
+		dir.list_dir_begin()  # Start listing files (no arguments needed)
+		
+		var any_recording_exists = false
+		
+		var file_name = dir.get_next()  # Get the first file name
+		while file_name != "":
+			# Check if the file name matches the pattern "input_logX.json"
+			if file_name.begins_with("input_log") and file_name.ends_with(".json"):
+				any_recording_exists = true
+				# Extract the part of the filename after "input_log" and before ".json"
+				var number_str = file_name.substr(9, file_name.length() - 14)  # Start at index 9 to skip "input_log"
+				var file_number = int(number_str)  # Convert the string to an integer
+				
+				# Keep track of the highest number found
+				if file_number > max_file_number:
+					max_file_number = file_number
+			
+			# Get the next file
+			file_name = dir.get_next()
+		
+		dir.list_dir_end()  # End the listing
+		
+		if not any_recording_exists:
+			max_file_number = -1
+		
+		print("The highest file number is: ", max_file_number)
+		return max_file_number
+	else:
+		print("Failed to open directory.")
 
 
 var playback_index = 0
 var playback_timer = 0.0
 var recording_timer = 0.0
 
+var selected_playback_id = 0
+
 func start_playback():
-	input_log_save()
-	print("Playback started.")
-	input_log = JSON.parse_string(FileAccess.get_file_as_string("user://input_log.json"))
-	restart_game()
+	label.visible = true
+	label.text = str("Current playback filepath: " + "user://input_log" + str(selected_playback_id) + ".json")
+	
+	if recording_active:
+		stop_recording()
+	
+	if not FileAccess.file_exists("user://input_log" + str(selected_playback_id) + ".json"):
+		label.text = str("Recording file doesn't exist: " + "user://input_log" + str(selected_playback_id) + ".json")
+		return
+	
+	print("Playback started.", "user://input_log" + str(selected_playback_id) + ".json")
+	
+	input_log = JSON.parse_string(FileAccess.get_file_as_string("user://input_log" + str(selected_playback_id) + ".json"))
+	#restart_game()
 	recording_active = false
 	playback_active = true
 	
@@ -72,42 +207,75 @@ func _process(delta):
 	
 	#print(playback_timer, " ", event_time)
 	if playback_timer >= event_time:
-		#var action_name = ""
 		
-		var event_name = assign_event_name(event)
-		var event_pressed = assign_event_pressed(event)
+		if "Key" in event:
+			#print("KEY")
+			
+			var event_name = assign_event_name(event)[0]
+			var event_pressed = assign_event_pressed(event)
+			var event_name_menu = assign_event_name(event)[1]
+			
+			# Handle gameplay inputs.
+			if get_node_or_null("/root/World"): # If currently loaded into a level.
+				if event_pressed:
+					Input.action_press(event_name)
+				else:
+					Input.action_release(event_name)
+				
+				#print("Generating gameplay input: ", event_name)
+				
+				player.position = Vector2(event_data["player_posX"], event_data["player_posY"])
+			
+			# Handle menu inputs.
+			else:
+				var trigger_event = InputEventAction.new()
+				trigger_event.action = event_name_menu
+				trigger_event.pressed = event_pressed
+				Input.parse_input_event(trigger_event)
+				#print("Generating menu input: ", event_name_menu)
 		
-		#for action in InputMap.get_actions():
-			#if event_name.is_action(action):
-				#action_name = action
-		var trigger_event = InputEventAction.new()
-		#print(event)
-		trigger_event.action = event_name
-		trigger_event.pressed = event_pressed
-		Input.parse_input_event(trigger_event)
-		print("Generating input: ", trigger_event)
+		elif "MouseButton" in event:
+			#print("MB")
+			simulate_mouse_click(Vector2(event_data["button_positionX"], event_data["button_positionY"]), event_data["button_index"])
+		
+		elif "MouseMotion" in event:
+			#print("MM")
+			Input.warp_mouse(Vector2(event_data["button_positionX"], event_data["button_positionY"]))
+		
 		playback_index += 1
+
 
 func assign_event_name(event):
 	var return_name = ""
-	if "(Left)" in event:
+	var return_name_menu = ""
+	if "(Left)" in event or "(A)" in event:
 		return_name = "move_L"
-	elif "(Right)" in event:
+		#return_name_menu = "ui_left"
+	elif "(Right)" in event or "(D)" in event:
 		return_name = "move_R"
-	elif "(Up)" in event:
+		#return_name_menu = "ui_right"
+	elif "(Up)" in event or "(W)" in event:
 		return_name = "move_UP"
-	elif "(Down)" in event:
+		#return_name_menu = "ui_up"
+	elif "(Down)" in event or "(S)" in event:
 		return_name = "move_DOWN"
-	elif "(Space)" in event or "(Z)" in event:
+		#return_name_menu = "ui_down"
+	elif "(Z)" in event or "(Space)" in event:
 		return_name = "jump"
-	elif "(C)" in event:
+		#return_name_menu = "ui_accept"
+	elif "(C)" in event or "(Shift)" in event:
 		return_name = "dash"
-	elif "(X)" in event:
+	elif "(X)" in event or "(LMB)" in event:
 		return_name = "attack_main"
-	elif "(V)" in event:
+	elif "(V)" in event or "(RMB)" in event:
 		return_name = "attack_secondary"
+	elif "(Escape)" in event:
+		return_name = "menu"
+		#return_name_menu = "ui_cancel"
+	elif "(QuoteLeft)" in event:
+		return_name = "show_debugInfo"
 	
-	return return_name
+	return [return_name, return_name_menu]
 
 func assign_event_pressed(event):
 	var return_pressed = false
@@ -131,5 +299,25 @@ func restart_game():
 func _ready() -> void:
 	Globals.start_recording.connect(start_recording)
 	Globals.start_playback.connect(start_playback)
-	Globals.stop_recording.connect(input_log_save)
-	input_log = JSON.parse_string(FileAccess.get_file_as_string("user://input_log.json"))
+	Globals.stop_recording.connect(stop_recording)
+	Globals.gameplay_recorder_entered_level.connect(reassign_level_objects)
+	
+	await get_tree().create_timer(4, false).timeout
+
+
+func reassign_level_objects():
+	if get_node_or_null("/root/World") : world = $/root/World
+	if get_node_or_null("/root/World/Player") : player = $/root/World.player
+
+
+func simulate_mouse_click(position: Vector2, button_index: int):
+	var click_event = InputEventMouseButton.new()
+	click_event.button_index = button_index
+	click_event.position = position
+	click_event.pressed = true
+	Input.parse_input_event(click_event)  # Simulate button press
+	
+	# Simulate button release
+	var release_event = click_event.duplicate()
+	release_event.pressed = false
+	Input.parse_input_event(release_event)

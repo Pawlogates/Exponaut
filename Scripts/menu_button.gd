@@ -90,7 +90,7 @@ func _on_self_pressed():
 		Globals.selected_episode = episode_select
 
 
-func _physics_process(delta):
+func _process(delta):
 	if moving:
 		position = lerp(position, Vector2(0, 0), delta * 5)
 		rotation = lerp(rotation, 0.0, delta * 5)

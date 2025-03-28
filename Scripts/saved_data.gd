@@ -2,6 +2,8 @@ extends Node2D
 
 var never_saved = true
 
+@onready var gameplay_recorder = $gameplay_recorder
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	savedData_load()
