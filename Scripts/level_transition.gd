@@ -34,8 +34,27 @@ func fade_to_black_slow():
 
 func _ready():
 	blackScreen.color.a = 0.0
-	#%saved_progress.load_game()
 
 
-#func _unhandled_input(event):
-	#print(event)
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("pause"):
+		if get_tree().paused == false:
+			get_tree().paused = true
+		elif get_tree().paused == true:
+			get_tree().paused = false
+	
+	
+	elif Input.is_action_pressed("debug_mode"):
+		Globals.debug_mode = true
+		
+		if not get_node_or_null("/root/World"):
+			return
+		
+		Globals.playerHP = 99999
+		if get_node_or_null("/root/World/HUD/Debug Screen"):
+			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
+			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
+		
+		Globals.infoSign_current_text = str("Debug mode has been activated!")
+		Globals.infoSign_current_size = 0
+		Globals.info_sign_touched.emit()

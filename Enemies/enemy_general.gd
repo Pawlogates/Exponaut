@@ -1433,7 +1433,6 @@ func randomize_everything():
 	
 	if bonusBox_collectibleAmount > 4:
 		bonusBox_item_scene = load(applyRandom_fromList("list_bonusBox_item_blacklist_enemy_scene", -1))
-	
 	else:
 		bonusBox_item_scene = load(applyRandom_fromList("list_bonusBox_item_scene", -1))
 	
@@ -1444,11 +1443,11 @@ func randomize_everything():
 	particles_splash = applyRandom_falseTrue(1, 2)
 	enable_generalTimers = applyRandom_falseTrue(1, 6)
 	generalTimer1_cooldown = randf_range(0.5, 12)
-	generalTimer2_cooldown = randf_range(0.5, 12)
-	generalTimer3_cooldown = randf_range(0.5, 12)
-	generalTimer1_randomize_cooldown = applyRandom_falseTrue(1, 2)
-	generalTimer2_randomize_cooldown = applyRandom_falseTrue(1, 2)
-	generalTimer3_randomize_cooldown = applyRandom_falseTrue(1, 2)
+	generalTimer2_cooldown = randf_range(2, 12)
+	generalTimer3_cooldown = randf_range(4, 12)
+	generalTimer1_randomize_cooldown = applyRandom_falseTrue(5, 1)
+	generalTimer2_randomize_cooldown = applyRandom_falseTrue(5, 1)
+	generalTimer3_randomize_cooldown = applyRandom_falseTrue(5, 1)
 	generalTimer_min_cooldown = randf_range(0.5, 4)
 	generalTimer_max_cooldown = randf_range(4, 12)
 	t_item_amount = randi_range(1, 4)
@@ -1485,7 +1484,7 @@ func randomize_everything():
 	modulate.a = randf_range(0.75, 1)
 	
 	await get_tree().create_timer(1, false).timeout
-	print(movementType)
+	#print(movementType)
 	
 	sprite.sprite_frames = load(applyRandom_fromList("list_sprite", -1))
 	main_collision.get_shape().size = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
@@ -1558,7 +1557,7 @@ func applyRandom_fromList(list_name, list_length): #list length of -1 will inclu
 
 
 func applyRandom_falseTrue(false_probability, true_probability):
-	var randomized_number = randi_range(-false_probability, true_probability)
+	var randomized_number = randf_range(-false_probability, true_probability)
 	if randomized_number <= 0:
 		var randomized_bool = false
 		return randomized_bool

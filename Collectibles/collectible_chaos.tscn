@@ -13,3 +13,14 @@ randomize_everything_onSpawn = true
 
 [node name="AnimatedSprite2D" parent="Area2D" index="0"]
 material = SubResource("ShaderMaterial_gk8y3")
+
+[node name="Label" type="Label" parent="." index="5"]
+visible = false
+z_index = 100
+offset_right = 31.0
+offset_bottom = 23.0
+scale = Vector2(0.75, 0.75)
+text = "text
+f
+f
+f"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=24 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=23 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_j2qdm"]
 [ext_resource type="Script" path="res://Scripts/start_menu.gd" id="2_fbau1"]
@@ -6,34 +6,28 @@
 [ext_resource type="Script" path="res://Scripts/menu_button.gd" id="4_5ppq6"]
 [ext_resource type="Shader" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_g50ce"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="6_dumls"]
+[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="6_sbkd0"]
 [ext_resource type="Script" path="res://Scripts/menu_deco_bg.gd" id="6_wno4y"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="9_aijrc"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
-offsets = PackedFloat32Array(0, 0.5, 1)
-colors = PackedColorArray(0.227451, 0, 0.623529, 1, 0.110214, 0.000903703, 0.41854, 1, 0.227451, 0, 0.623529, 1)
-metadata/_snap_enabled = true
+offsets = PackedFloat32Array(0, 0.497797, 1)
+colors = PackedColorArray(0.61, 0.2928, 0.298087, 1, 0.27, 0, 0.00449993, 1, 0.57, 0, 0.00949986, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
 gradient = SubResource("Gradient_pk7t1")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0, 0)
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_x7ot7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_htqtk"]
 shader = ExtResource("5_g50ce")
 shader_parameter/disableProcessing = false
-shader_parameter/modulate = Color(1, 0, 0, 1)
+shader_parameter/modulate = Color(1, 1, 1, 1)
 shader_parameter/cycleMode = 2
-shader_parameter/cycleRate = 10.0
+shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
 shader_parameter/palette = SubResource("GradientTexture2D_ie5v4")
-
-[sub_resource type="Gradient" id="Gradient_6e8e5"]
-colors = PackedColorArray(0, 0, 0, 1, 1, 0, 0, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_8ibil"]
-gradient = SubResource("Gradient_6e8e5")
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
 length = 0.001
@@ -1138,7 +1132,7 @@ theme = ExtResource("1_j2qdm")
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 
-[node name="Additional Levels" type="Button" parent="episodeSelect_menu/menu_container/Control" groups=["group6"]]
+[node name="Debug Levels" type="Button" parent="episodeSelect_menu/menu_container/Control" groups=["group6"]]
 unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
@@ -1151,7 +1145,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 episode_select = "Debug Levels"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control/Additional Levels"]
+[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control/Debug Levels"]
 z_index = 125
 clip_contents = false
 layout_mode = 1
@@ -1160,9 +1154,9 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -408.0
+offset_left = -288.0
 offset_top = -24.0
-offset_right = 408.0
+offset_right = 288.0
 offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -1172,7 +1166,7 @@ theme_override_constants/shadow_offset_y = 3
 theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]Additional Levels[/wave]"
+text = "[wave amp=25 freq=5 connected=1]Debug Levels[/wave]"
 fit_content = true
 autowrap_mode = 0
 
@@ -1976,13 +1970,22 @@ autowrap_mode = 0
 
 [node name="background" type="TextureRect" parent="."]
 unique_name_in_owner = true
-z_index = -5
-material = SubResource("ShaderMaterial_x7ot7")
+material = SubResource("ShaderMaterial_htqtk")
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 mouse_filter = 2
-texture = SubResource("GradientTexture1D_8ibil")
+texture = ExtResource("6_sbkd0")
 expand_mode = 1
+
+[node name="Polygon2D" type="Polygon2D" parent="background"]
+z_index = 2
+color = Color(0, 0, 0, 1)
+polygon = PackedVector2Array(544, 248, 1512, 368, 1600, 712, 320, 872)
+
+[node name="Polygon2D2" type="Polygon2D" parent="background"]
+z_index = 1
+color = Color(0.242311, 2.19597e-07, 5.41471e-08, 1)
+polygon = PackedVector2Array(528, 224, 1520, 352, 1624, 728, 296, 888)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 unique_name_in_owner = true
@@ -2001,6 +2004,7 @@ libraries = {
 
 [node name="menu_deco_bg_root" type="Control" parent="."]
 unique_name_in_owner = true
+z_index = 10
 texture_filter = 1
 layout_mode = 2
 mouse_filter = 2
@@ -2062,6 +2066,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="Recording" type="Control" parent="."]
+z_index = 50
 layout_mode = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Recording"]
@@ -2070,7 +2075,7 @@ offset_left = -896.0
 offset_top = -476.0
 offset_right = -416.0
 offset_bottom = -188.0
-scale = Vector2(0.75, 0.75)
+scale = Vector2(0.65, 0.65)
 
 [node name="Control" type="Control" parent="Recording/VBoxContainer"]
 layout_mode = 2
@@ -2266,10 +2271,10 @@ text = "start playback"
 [connection signal="focus_entered" from="other_menu/menu_container/Control2/ReturnOther" to="other_menu/menu_container/Control2/ReturnOther" method="_on_focus_entered"]
 [connection signal="focus_exited" from="other_menu/menu_container/Control2/ReturnOther" to="other_menu/menu_container/Control2/ReturnOther" method="_on_focus_exited"]
 [connection signal="pressed" from="other_menu/menu_container/Control2/ReturnOther" to="." method="_on_return_other_pressed"]
-[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Control/Additional Levels" to="episodeSelect_menu/menu_container/Control/Additional Levels" method="_on_focus_entered"]
-[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Control/Additional Levels" to="episodeSelect_menu/menu_container/Control/Additional Levels" method="_on_focus_exited"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Additional Levels" to="." method="_on_episode_button_pressed"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Additional Levels" to="episodeSelect_menu/menu_container/Control/Additional Levels" method="_on_self_pressed"]
+[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="episodeSelect_menu/menu_container/Control/Debug Levels" method="_on_focus_entered"]
+[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="episodeSelect_menu/menu_container/Control/Debug Levels" method="_on_focus_exited"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="." method="_on_episode_button_pressed"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="episodeSelect_menu/menu_container/Control/Debug Levels" method="_on_self_pressed"]
 [connection signal="focus_entered" from="episodeSelect_menu/menu_container/Control2/Main Levels" to="episodeSelect_menu/menu_container/Control2/Main Levels" method="_on_focus_entered"]
 [connection signal="focus_exited" from="episodeSelect_menu/menu_container/Control2/Main Levels" to="episodeSelect_menu/menu_container/Control2/Main Levels" method="_on_focus_exited"]
 [connection signal="pressed" from="episodeSelect_menu/menu_container/Control2/Main Levels" to="." method="_on_episode_button_pressed"]

@@ -4,9 +4,10 @@
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
 offsets = PackedFloat32Array(0, 0.497797, 1)
-colors = PackedColorArray(1, 1, 0, 1, 1, 0.482353, 0, 1, 1, 0.619608, 0, 1)
+colors = PackedColorArray(0.61, 0.2928, 0.298087, 1, 0.27, 0, 0.00449993, 1, 0.57, 0, 0.00949986, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3xpna"]
+resource_local_to_scene = true
 gradient = SubResource("Gradient_pk7t1")
 fill_from = Vector2(1, 0)
 fill_to = Vector2(0, 0)
@@ -19,4 +20,4 @@ shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
-shader_parameter/palette = SubResource("GradientTexture2D_ie5v4")
+shader_parameter/palette = SubResource("GradientTexture2D_3xpna")

@@ -144,6 +144,7 @@ func _on_quit_pressed():
 	if can_quit:
 		get_tree().quit()
 	else:
+		LevelTransition.info_text_display.display_show("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!", 3)
 		can_quit = true
 		print("Pressed quit once. Next press will quit the game.")
 
@@ -174,7 +175,7 @@ func _on_levels_pressed():
 	deco_correct_polygons()
 	
 	await get_tree().create_timer(0.2, false).timeout
-	%"Additional Levels".grab_focus()
+	%"Debug Levels".grab_focus()
 
 func _on_options_pressed():
 	%main_menu.visible = false
@@ -540,6 +541,9 @@ func check_if_buttons_blocked():
 	if buttons_blocked:
 		print("Buttons are blocked.")
 		return true
+	
+	else:
+		return false
 
 func _on_buttons_blocked_timeout() -> void:
 	print("Button are no longer blocked.")
@@ -581,9 +585,7 @@ var selected_playback_id = 0
 func _on_playback_id_pressed() -> void:
 	Globals.recording_autostart = false
 	playback_button_general()
-	LevelTransition.info_text_display.display_text = "Automatic recording is now DISABLED."
-	LevelTransition.info_text_display.display_size = 0
-	LevelTransition.info_text_display.display_show()
+	LevelTransition.info_text_display.display_show("Automatic recording is now DISABLED.", 0)
 
 func _on_playback_minus_pressed() -> void:
 	selected_playback_id -= 1

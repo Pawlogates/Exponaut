@@ -369,6 +369,7 @@ func randomize_everything():
 	else:
 		onDeath_item_scene = load(applyRandom_fromList("list_onDeath_item_scene", -1))
 	
+	print(str(onDeath_item_scene) + str(onDeath_item_amount))
 	onDeath_rotate_sprite = applyRandom_falseTrue(1, 2)
 	onDeath_play_anim = applyRandom_falseTrue(1, 3)
 	onDeath_play_spriteAnim = applyRandom_falseTrue(1, 2)
@@ -456,7 +457,7 @@ func applyRandom_fromList(list_name, list_length):
 
 
 func applyRandom_falseTrue(false_probability, true_probability):
-	var randomized_number = randi_range(-false_probability, true_probability)
+	var randomized_number = randf_range(-false_probability, true_probability)
 	if randomized_number <= 0:
 		return false
 	else:

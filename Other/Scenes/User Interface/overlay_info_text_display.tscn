@@ -406,7 +406,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.588235, -0.25, 0, 0.25, 0, 0.196078, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.2, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5, 1)
 }
 tracks/10/type = "bezier"
@@ -553,7 +553,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.588235, -0.25, 0, 0.25, 0, 0.196078, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.2, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5, 1)
 }
 tracks/10/type = "bezier"
@@ -700,7 +700,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.588235, -0.25, 0, 0.25, 0, 0.196078, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0.2, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5, 1)
 }
 tracks/10/type = "bezier"
@@ -996,7 +996,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.196078, -0.25, 0, 0.25, 0, 0.196078, -0.25, 0, 0.25, 0, 0.588235, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5, 1)
 }
 tracks/10/type = "bezier"
@@ -1144,7 +1144,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.196078, -0.25, 0, 0.25, 0, 0.196078, -0.25, 0, 0.25, 0, 0.588235, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5, 1)
 }
 tracks/10/type = "bezier"
@@ -1292,7 +1292,7 @@ tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.196078, -0.25, 0, 0.25, 0, 0.196078, -0.25, 0, 0.25, 0, 0.588235, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0.2, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0, 0.5, 1)
 }
 tracks/10/type = "bezier"
@@ -1345,8 +1345,7 @@ _data = {
 
 [node name="info_text_display" type="Control"]
 process_mode = 3
-z_index = 300
-z_as_relative = false
+z_index = 250
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("2_8nfql")
@@ -1370,7 +1369,6 @@ expand_mode = 1
 
 [node name="bg_color" type="ColorRect" parent="Control/bg_texture"]
 z_index = 1
-z_as_relative = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1412,7 +1410,6 @@ libraries = {
 speed_scale = 3.0
 
 [node name="Timer" type="Timer" parent="Control"]
-process_mode = 3
 wait_time = 10.0
 one_shot = true
 

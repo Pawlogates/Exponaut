@@ -151,6 +151,25 @@ func _ready():
 		modulate.g = 0.0
 		modulate.b = 0.0
 	
+	
+	if get_node_or_null("Label") and debug:
+		var label_properties = $Label
+		label_properties.visible = true
+		
+		var list_properties = (get_script().get_script_property_list())
+		#print(list_properties)
+		var current_property_number = 0
+		while current_property_number <= list_properties.size() - 1:
+			var current_property = list_properties[current_property_number]
+			#print(current_property)
+			#print(current_property["name"])
+			#print(str(get(current_property["name"])))
+			if (current_property["usage"] & PROPERTY_USAGE_EDITOR) and not "list" in current_property["name"] and not get(current_property["name"]) is Node and not get(current_property["name"]) is PackedScene:
+				label_properties.text += "\n" + str(current_property["name"]) + " " + str(get(current_property["name"]))
+				label_properties.position.y -= 7
+			
+			current_property_number += 1
+	
 	await get_tree().create_timer(0.5, false).timeout
 	$Area2D.monitoring = true
 	
@@ -724,7 +743,13 @@ func spawn_collectibles():
 var rng = RandomNumberGenerator.new()
 
 func spawn_item():
-	var item = load(item_scene).instantiate()
+	var item
+	
+	if item_scene is String:
+		item = load(item_scene).instantiate()
+	else:
+		item = item_scene.instantiate()
+	
 	if "velocity" in item:
 		item.position = global_position
 		item.velocity.x = rng.randf_range(item_velSpread, -item_velSpread)
@@ -788,7 +813,6 @@ func reassign_player():
 #SAVE START
 func save():
 	var save_dict = {
-		#"loadingZone" : loadingZone,
 		"filename" : get_scene_file_path(),
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Vector2 is not supported by JSON
@@ -852,14 +876,14 @@ func randomize_everything():
 	collectibleScoreValue = randi_range(0, 25000)
 	give_score = applyRandom_falseTrue(1, 6)
 	animation_always = applyRandom_falseTrue(1, 4)
-	floating = applyRandom_falseTrue(2, 1)
+	floating = applyRandom_falseTrue(1, 4)
 	is_key = applyRandom_falseTrue(3, 1)
 	collectable = applyRandom_falseTrue(1, 9)
 	loop_anim = applyRandom_fromList("list_loop_anim", -1)
 	hp = randi_range(1, 5)
 	damageValue = randi_range(0, 3)
 	is_shrineGem = applyRandom_falseTrue(1, 4)
-	shrineGem_destructible = applyRandom_falseTrue(6, 1)
+	shrineGem_destructible = applyRandom_falseTrue(2, 1)
 	shrineGem_giveScore = applyRandom_falseTrue(1, 4)
 	shrineGem_spawnItems = applyRandom_falseTrue(1, 5)
 	shrineGem_openPortal = applyRandom_falseTrue(4, 1)
@@ -913,8 +937,8 @@ func randomize_everything():
 @onready var list_level_ID = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
 @onready var list_special_apple_type = ["red", "blue", "golden"]
 @onready var list_temporary_powerup = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
-@onready var list_weapon = ["weapon_basic", "weapon_short_shotDelay", "weapon_ice", "weapon_fire", "weapon_destructive_fast_speed", "weapon_veryFast_speed", "weapon_phaser"]
-@onready var list_secondaryWeapon = ["secondaryWeapon_basic", "secondaryWeapon_fast"]
+@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
+@onready var list_secondaryWeapon = ["basic", "fast"]
 @onready var list_potion = ["rooster", "bird", "chicken"]
 
 @onready var list_sprite = []
@@ -976,7 +1000,7 @@ func applyRandom_fromList(list_name, list_length):
 
 
 func applyRandom_falseTrue(false_probability, true_probability):
-	var randomized_number = randi_range(-false_probability, true_probability)
+	var randomized_number = randf_range(-false_probability, true_probability)
 	if randomized_number <= 0:
 		return false
 	else:

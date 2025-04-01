@@ -27,6 +27,8 @@ var levelTime_visible = 0
 @onready var music_controller = $"Music Controller"
 @onready var ambience_controller = $"Ambience Controller"
 
+var material_hueShift_neonBlock_material = preload("res://Other/Materials/hueShift_neonBlock.tres")
+
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = $tileset_objects
 @onready var tileset_objects_small = $tileset_objectsSmall
@@ -35,9 +37,6 @@ var levelTime_visible = 0
 @export var cameraLimit_right = 0.0
 @export var cameraLimit_bottom = 0.0
 @export var cameraLimit_top = 0.0
-
-var rain_scene = preload("res://Other/Scenes/Weather/weather_rain.tscn")
-var leaves_scene = preload("res://Other/Scenes/Weather/weather_leaves.tscn")
 
 @export var regular_level = true
 @export var shrine_level = false
@@ -54,6 +53,9 @@ var instant_background_transitions = true
 @export var night2 = false
 @export var night3 = false
 
+var rain_scene = preload("res://Other/Scenes/Weather/weather_rain.tscn")
+var leaves_scene = preload("res://Other/Scenes/Weather/weather_leaves.tscn")
+
 @export var rain = false
 @export var leaves = false
 
@@ -68,10 +70,17 @@ var instant_background_transitions = true
 @export var whiteBlocks_make_rainbow = false
 @export var whiteBlocks_toggleBetween = false
 @export var whiteBlocks_toggleBetween_delay = 45.0
+
 var whiteBlocks_toggle = false
+
+@export var neonBlocks_hueShift = 0.0
+
+@export var background_color : Color
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	material_hueShift_neonBlock_material.set_shader_parameter("Shift_Hue", neonBlocks_hueShift)
+	
 	Globals.gameplay_recorder_entered_level.emit()
 	
 	if random_music:
@@ -169,7 +178,7 @@ func _ready():
 	
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
-	RenderingServer.set_default_clear_color(Color.BLACK)
+	RenderingServer.set_default_clear_color(background_color)
 	
 	
 	if Globals.debug_mode:
