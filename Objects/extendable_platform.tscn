@@ -1,0 +1,38 @@
+[gd_scene load_steps=5 format=3 uid="uid://dtfia0jf8e1aq"]
+
+[ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="1_myooh"]
+[ext_resource type="Script" path="res://Objects/extendable_platform.gd" id="1_ruerp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fhdig"]
+size = Vector2(128, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4ouya"]
+size = Vector2(192, 80)
+
+[node name="extendable platform" type="Node2D"]
+script = ExtResource("1_ruerp")
+
+[node name="platform" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="platform"]
+shape = SubResource("RectangleShape2D_fhdig")
+
+[node name="deco_platform" type="Sprite2D" parent="platform"]
+texture = ExtResource("1_myooh")
+region_enabled = true
+region_rect = Rect2(704, 128, 256, 64)
+
+[node name="deco_floor" type="Sprite2D" parent="."]
+texture = ExtResource("1_myooh")
+region_enabled = true
+region_rect = Rect2(1024, 448, 256, 64)
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_4ouya")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

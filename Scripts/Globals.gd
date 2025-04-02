@@ -194,3 +194,6 @@ func handle_actions():
 		
 		#elif Input.is_action_just_pressed("move_DOWN"):
 			#pass
+
+
+signal switch_signal_activated(switch_signal_ID)

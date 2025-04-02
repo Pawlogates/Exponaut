@@ -58,6 +58,9 @@ var velocity_x_last = 0.0
 @export var hit_cooldown = false
 @export var hit_cooldown_time = 0.8
 
+@export var onDeath_activate_switch_signal = false
+@export var onDeath_switch_signal_ID = 0
+
 @export var randomize_everything_onSpawn = false
 
 @export var type : String
@@ -190,6 +193,9 @@ func destroy():
 	if onDeath_toggle_toggleBlocks:
 		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
 	
+	if onDeath_activate_switch_signal:
+		Globals.switch_signal_activated.emit(onDeath_switch_signal_ID)
+	
 	if onDeath_spawn_items:
 		call_deferred("spawn_items", onDeath_item_amount, onDeath_item_scene)
 	
@@ -298,6 +304,7 @@ func _ready():
 	
 	start_hp = hp
 	onDeath_start_item_amount = onDeath_item_amount
+	
 	
 	set_process(false)
 	set_physics_process(false)

@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=38 format=3 uid="uid://c04omo3n0mpkt"]
+[gd_resource type="TileSet" load_steps=42 format=3 uid="uid://c04omo3n0mpkt"]
 
 [ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="1_6lv1p"]
 [ext_resource type="Material" uid="uid://b8om373mq81pr" path="res://Other/Materials/water_effect.tres" id="2_unewq"]
@@ -2920,6 +2920,22 @@ shader_parameter/Shift_Hue = 0.3
 shader = ExtResource("8_wnv5j")
 shader_parameter/Shift_Hue = 0.4
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o10gl"]
+shader = ExtResource("8_wnv5j")
+shader_parameter/Shift_Hue = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_2nitv"]
+shader = ExtResource("8_wnv5j")
+shader_parameter/Shift_Hue = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3ry4i"]
+shader = ExtResource("8_wnv5j")
+shader_parameter/Shift_Hue = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r8elh"]
+shader = ExtResource("8_wnv5j")
+shader_parameter/Shift_Hue = 0.1
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ahahn"]
 resource_name = "decorations2"
 texture = ExtResource("8_yjspi")
@@ -3126,12 +3142,16 @@ texture_region_size = Vector2i(64, 64)
 8:3/0 = 0
 11:3/0 = 0
 11:2/0 = 0
-23:16/next_alternative_id = 2
+23:16/next_alternative_id = 3
 23:16/0 = 0
 23:16/1 = 1
-24:16/next_alternative_id = 2
+23:16/2 = 2
+23:16/2/material = SubResource("ShaderMaterial_o10gl")
+24:16/next_alternative_id = 3
 24:16/0 = 0
 24:16/1 = 1
+24:16/2 = 2
+24:16/2/material = SubResource("ShaderMaterial_3ry4i")
 25:16/0 = 0
 25:17/0 = 0
 26:17/0 = 0
@@ -3279,7 +3299,6 @@ texture_region_size = Vector2i(64, 64)
 12:17/0 = 0
 11:17/next_alternative_id = 2
 11:17/0 = 0
-14:15/0 = 0
 10:14/next_alternative_id = 3
 10:14/0 = 0
 11:14/next_alternative_id = 2
@@ -3296,26 +3315,28 @@ texture_region_size = Vector2i(64, 64)
 11:15/0 = 0
 10:15/next_alternative_id = 2
 10:15/0 = 0
-23:17/next_alternative_id = 2
+23:17/next_alternative_id = 3
 23:17/0 = 0
 23:17/1 = 1
-24:17/next_alternative_id = 2
+23:17/2 = 2
+23:17/2/material = SubResource("ShaderMaterial_2nitv")
+24:17/next_alternative_id = 3
 24:17/0 = 0
 24:17/1 = 1
+24:17/2 = 2
+24:17/2/material = SubResource("ShaderMaterial_r8elh")
 10:13/0 = 0
+10:13/0/modulate = Color(1, 1, 1, 0.392157)
+10:13/0/material = ExtResource("8_3bl2s")
 11:13/0 = 0
+11:13/0/modulate = Color(1, 1, 1, 0.392157)
+11:13/0/material = ExtResource("8_3bl2s")
 12:13/0 = 0
+12:13/0/modulate = Color(1, 1, 1, 0.392157)
+12:13/0/material = ExtResource("8_3bl2s")
 13:13/0 = 0
-14:13/0 = 0
-15:13/0 = 0
-16:13/0 = 0
-17:13/0 = 0
-18:13/0 = 0
-18:12/0 = 0
-17:12/0 = 0
-16:12/0 = 0
-15:12/0 = 0
-14:12/0 = 0
+13:13/0/modulate = Color(1, 1, 1, 0.392157)
+13:13/0/material = ExtResource("8_3bl2s")
 14:11/0 = 0
 14:10/0 = 0
 14:9/0 = 0
@@ -3370,6 +3391,43 @@ texture_region_size = Vector2i(64, 64)
 6:14/0 = 0
 6:14/0/material = ExtResource("8_3bl2s")
 6:14/0/physics_layer_0/polygon_0/points = PackedVector2Array(32, -32, 32, 32, -32, 32)
+10:12/0 = 0
+10:12/0/modulate = Color(1, 1, 1, 0.392157)
+10:12/0/material = ExtResource("8_3bl2s")
+11:12/0 = 0
+11:12/0/modulate = Color(1, 1, 1, 0.392157)
+11:12/0/material = ExtResource("8_3bl2s")
+12:12/0 = 0
+12:12/0/modulate = Color(1, 1, 1, 0.392157)
+12:12/0/material = ExtResource("8_3bl2s")
+13:12/0 = 0
+13:12/0/modulate = Color(1, 1, 1, 0.392157)
+13:12/0/material = ExtResource("8_3bl2s")
+13:11/0 = 0
+12:11/0 = 0
+11:11/0 = 0
+10:11/0 = 0
+15:11/0 = 0
+16:11/0 = 0
+17:11/0 = 0
+18:11/0 = 0
+18:10/0 = 0
+17:10/0 = 0
+16:10/0 = 0
+19:17/0 = 0
+20:17/0 = 0
+20:16/0 = 0
+19:16/0 = 0
+19:15/0 = 0
+20:15/0 = 0
+20:14/0 = 0
+25:14/0 = 0
+26:14/0 = 0
+26:15/0 = 0
+25:15/0 = 0
+24:13/0 = 0
+25:13/0 = 0
+26:13/0 = 0
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e2ido"]
 resource_name = "seamless"

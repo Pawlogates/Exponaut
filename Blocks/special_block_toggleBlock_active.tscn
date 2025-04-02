@@ -24,6 +24,7 @@ unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_xcl5b")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+modulate = Color(1, 1, 1, 0.0980392)
 position = Vector2(-4.57764e-05, -32)
 scale = Vector2(38.4, 35.2)
 

@@ -302,7 +302,7 @@ func _ready() -> void:
 	Globals.stop_recording.connect(stop_recording)
 	Globals.gameplay_recorder_entered_level.connect(reassign_level_objects)
 	
-	await get_tree().create_timer(4, false).timeout
+	#await get_tree().create_timer(4, false).timeout
 
 
 func reassign_level_objects():
