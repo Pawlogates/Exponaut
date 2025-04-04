@@ -1,4 +1,4 @@
-[gd_scene load_steps=175 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=178 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_vmdr1"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_txmjs"]
@@ -157,8 +157,11 @@
 [ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="149_kd78b"]
 [ext_resource type="PackedScene" uid="uid://cpa8eyt06ic8j" path="res://Boxes/box_chaos.tscn" id="150_a1h2o"]
 [ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://Objects/Decorations/glow_shadow_orb_soft.tscn" id="150_mnplm"]
+[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration.tscn" id="151_q3snj"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://Objects/Decorations/wavingDeco_grass.tscn" id="151_yjnnk"]
 [ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://Objects/Decorations/darkDecoParallax_grass.tscn" id="152_bkcyv"]
+[ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="152_lrygn"]
+[ext_resource type="PackedScene" uid="uid://csipyeliwxa3r" path="res://Blocks/random_decoration_block.tscn" id="152_r0oe8"]
 [ext_resource type="PackedScene" uid="uid://cmncqo0vv0lwj" path="res://Objects/Decorations/hanging_deco_vines.tscn" id="153_u1kb1"]
 [ext_resource type="PackedScene" uid="uid://flag654itsqj" path="res://Objects/Decorations/rect_gradient.tscn" id="154_y2fsk"]
 
@@ -393,6 +396,8 @@ scenes/6/scene = ExtResource("67_r6an7")
 scenes/7/scene = ExtResource("96_c2ug2")
 scenes/8/scene = ExtResource("99_6g1bf")
 scenes/9/scene = ExtResource("97_rgyok")
+scenes/10/scene = ExtResource("151_q3snj")
+scenes/11/scene = ExtResource("152_lrygn")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yfn55"]
 resource_name = "blocks"
@@ -409,6 +414,7 @@ scenes/10/scene = ExtResource("84_8kn5n")
 scenes/11/scene = ExtResource("89_83sfi")
 scenes/12/scene = ExtResource("71_oanq0")
 scenes/13/scene = ExtResource("72_rkowu")
+scenes/14/scene = ExtResource("152_r0oe8")
 scenes/17/scene = ExtResource("75_tuble")
 scenes/18/scene = ExtResource("77_hshw2")
 scenes/19/scene = ExtResource("78_k8c1n")

@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://csipyeliwxa3r"]
+
+[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration.tscn" id="1_c7wgx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mtdft"]
+size = Vector2(64, 64)
+
+[node name="random_decoration_block" type="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_mtdft")
+
+[node name="random_decoration" parent="." instance=ExtResource("1_c7wgx")]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+color = Color(0, 0, 0, 1)

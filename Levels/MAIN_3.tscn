@@ -17,7 +17,6 @@ playerStartHP = 3
 selected_episode = "Main Levels"
 level_ID = "MAIN_3"
 level_number = 3
-neonBlocks_hueShift = 0.6
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_o04mt")]
 unique_name_in_owner = true
@@ -78,42 +77,3 @@ is_gradient = true
 
 [node name="trigger_bgMove" parent="." index="16" instance=ExtResource("9_f30sq")]
 bgMove_y = -100
-
-[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87559" to="tileset_objects/@Area2D@87559" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87560" to="tileset_objects/@Area2D@87560" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87561" to="tileset_objects/@Area2D@87561" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87562" to="tileset_objects/@Area2D@87562" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87563" to="tileset_objects/@Area2D@87563" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87564" to="tileset_objects/@Area2D@87564" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87569" to="tileset_objects/@Area2D@87569" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87570" to="tileset_objects/@Area2D@87570" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87571" to="tileset_objects/@Area2D@87571" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87572" to="tileset_objects/@Area2D@87572" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87573" to="tileset_objects/@Area2D@87573" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87574" to="tileset_objects/@Area2D@87574" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87575" to="tileset_objects/@Area2D@87575" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87576" to="tileset_objects/@Area2D@87576" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87655" to="tileset_objects/@Area2D@87655" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87656" to="tileset_objects/@Area2D@87656" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87657" to="tileset_objects/@Area2D@87657" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87658" to="tileset_objects/@Area2D@87658" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87690" to="tileset_objects/@Area2D@87690" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87691" to="tileset_objects/@Area2D@87691" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87692" to="tileset_objects/@Area2D@87692" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87693" to="tileset_objects/@Area2D@87693" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87694" to="tileset_objects/@Area2D@87694" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87695" to="tileset_objects/@Area2D@87695" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@87696" to="tileset_objects/@Area2D@87696" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/spikes_UP" to="tileset_objectsSmall/spikes_UP" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87731" to="tileset_objectsSmall/@Area2D@87731" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87732" to="tileset_objectsSmall/@Area2D@87732" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87733" to="tileset_objectsSmall/@Area2D@87733" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87734" to="tileset_objectsSmall/@Area2D@87734" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87735" to="tileset_objectsSmall/@Area2D@87735" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87736" to="tileset_objectsSmall/@Area2D@87736" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87737" to="tileset_objectsSmall/@Area2D@87737" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87738" to="tileset_objectsSmall/@Area2D@87738" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87739" to="tileset_objectsSmall/@Area2D@87739" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objectsSmall/@Area2D@87740" to="tileset_objectsSmall/@Area2D@87740" method="_on_area_entered"]

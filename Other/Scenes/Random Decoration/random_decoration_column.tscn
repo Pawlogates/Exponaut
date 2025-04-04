@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsyt67dvo5nja"]
+
+[ext_resource type="Script" path="res://random_decoration.gd" id="1_ktoqw"]
+[ext_resource type="PackedScene" uid="uid://4bjhhmxc06tl" path="res://Other/Scenes/Random Decoration/random_decoration_part_column.tscn" id="2_gjjtx"]
+
+[node name="random_decoration_column" type="Node2D"]
+script = ExtResource("1_ktoqw")
+scene_deco_part = ExtResource("2_gjjtx")
+deco_amount = 16
+deco_spread = 32
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0

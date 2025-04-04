@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://c0qu8d3gh4i0p"]
+
+[ext_resource type="Script" path="res://random_decoration.gd" id="1_h76nm"]
+
+[node name="random_decoration" type="Node2D"]
+z_index = 5
+script = ExtResource("1_h76nm")
+deco_amount = 8
+deco_spread = 32
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0

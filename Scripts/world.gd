@@ -73,7 +73,7 @@ var leaves_scene = preload("res://Other/Scenes/Weather/weather_leaves.tscn")
 
 var whiteBlocks_toggle = false
 
-@export var neonBlocks_hueShift = 0.0
+@export var neonBlocks_hueShift = 0.6
 
 @export var background_color : Color
 

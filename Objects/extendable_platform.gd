@@ -1,6 +1,6 @@
 extends Node2D
 
-@onready var scene_extend_deco = preload("res://Collectibles/collectibleApple.tscn")
+@onready var scene_extend_deco = preload("res://Other/Scenes/Random Decoration/random_decoration_column.tscn")
 
 @onready var platform = $platform
 @onready var deco_platform = $platform/deco_platform
