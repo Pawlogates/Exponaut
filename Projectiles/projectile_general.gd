@@ -251,9 +251,10 @@ func straight_bounce():
 
 func _on_scan_body_entered(body):
 	if body.is_in_group("player"):
-		if damageValue == 1:
-			Globals.playerHit1.emit()
-		elif damageValue == 2:
-			Globals.playerHit2.emit()
-		elif damageValue == 3:
-			Globals.playerHit3.emit()
+		if enemyProjectile:
+			if damageValue == 1:
+				Globals.playerHit1.emit()
+			elif damageValue == 2:
+				Globals.playerHit2.emit()
+			elif damageValue == 3:
+				Globals.playerHit3.emit()

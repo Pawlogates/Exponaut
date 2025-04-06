@@ -189,7 +189,7 @@ libraries = {
 shape = SubResource("RectangleShape2D_gk7p3")
 
 [node name="Area2D" type="Area2D" parent="." groups=["player_projectile"]]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 10
 monitoring = false
 

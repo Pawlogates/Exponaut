@@ -3374,6 +3374,11 @@ texture_region_size = Vector2i(64, 64)
 25:13/0 = 0
 26:13/0 = 0
 19:14/0 = 0
+20:13/next_alternative_id = 2
+20:13/0 = 0
+20:13/1 = 1
+20:13/1/modulate = Color(1, 1, 1, 0.784314)
+20:13/1/material = ExtResource("8_3bl2s")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_e2ido"]
 resource_name = "seamless"

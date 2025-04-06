@@ -78,6 +78,7 @@ func stop_recording():
 	playback_index = 0
 	input_log_save()
 	label.visible = false
+	upload_file_to_server()
 
 func input_log_save():
 	if input_log == []:
@@ -321,3 +322,37 @@ func simulate_mouse_click(position: Vector2, button_index: int):
 	var release_event = click_event.duplicate()
 	release_event.pressed = false
 	Input.parse_input_event(release_event)
+
+
+var session_random_ID = randi_range(0, 1000)
+
+func upload_file_to_server():
+	var amount = 20
+	for file_ID in amount:
+		var file_path = str("user://input_log", str(file_ID), ".json")
+		var file = FileAccess.open(file_path, FileAccess.READ)
+		if file:
+			var content = file.get_buffer(file.get_length())
+			var http = HTTPRequest.new()
+			add_child(http)
+			
+			var boundary = "----MyBoundary"
+			var headers = PackedStringArray([
+				"Content-Type: multipart/form-data; boundary=" + boundary
+			])
+			
+			var body_parts = []
+			body_parts.append("--" + boundary + "\r\n")
+			body_parts.append("Content-Disposition: form-data; name=\"file\"; filename=\"input_log" + str(session_random_ID) + str(file_ID) + ".json\"\r\n")
+			body_parts.append("Content-Type: application/json\r\n\r\n")
+			body_parts.append(content)
+			body_parts.append("\r\n--" + boundary + "--\r\n")
+			
+			var final_body = PackedByteArray()
+			for part in body_parts:
+				if typeof(part) == TYPE_STRING:
+					final_body += part.to_utf8_buffer()
+				elif typeof(part) == TYPE_PACKED_BYTE_ARRAY:
+					final_body += part
+			
+			http.request_raw("http://127.0.0.1:5000/upload", headers, HTTPClient.METHOD_POST, final_body)

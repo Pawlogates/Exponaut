@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://bwgekhrjg7e48"]
+
+[ext_resource type="PackedScene" uid="uid://bvlq4mlnesa8a" path="res://Objects/Decorations/deco_black_gear.tscn" id="1_rw5b7"]
+
+[node name="black_circle_3_LEFT_UP" type="Node2D"]
+z_index = 5
+position = Vector2(28, -28)
+
+[node name="Container" type="Container" parent="."]
+z_index = 5
+clip_contents = true
+offset_left = -64.0
+offset_top = -84.0
+offset_bottom = 64.0
+
+[node name="gear" parent="Container" instance=ExtResource("1_rw5b7")]
+position = Vector2(88, 60)
+
+[node name="Container2" type="Container" parent="."]
+clip_contents = true
+offset_right = 84.0
+offset_bottom = 64.0
+
+[node name="gear2" parent="Container2" instance=ExtResource("1_rw5b7")]
+position = Vector2(24, -24)

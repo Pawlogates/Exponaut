@@ -760,7 +760,7 @@ collision_mask = 4
 shape = SubResource("CircleShape2D_0eahs")
 
 [node name="hitbox_left" type="Area2D" parent="." groups=["player_projectile"]]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 8
 monitoring = false
 
@@ -778,7 +778,7 @@ offset_bottom = 96.0
 color = Color(1, 0, 0, 1)
 
 [node name="hitbox_right" type="Area2D" parent="." groups=["player_projectile"]]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 8
 monitoring = false
 
@@ -796,7 +796,7 @@ offset_bottom = 96.0
 color = Color(1, 0, 0, 1)
 
 [node name="hitbox_down" type="Area2D" parent="." groups=["player_projectile"]]
-collision_layer = 0
+collision_layer = 2
 collision_mask = 8
 monitoring = false
 
