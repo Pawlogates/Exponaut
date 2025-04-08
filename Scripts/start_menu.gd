@@ -144,9 +144,9 @@ func _on_quit_pressed():
 	if can_quit:
 		get_tree().quit()
 	else:
+		$quit_delay.start()
 		LevelTransition.info_text_display.display_show("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!", 3)
-		can_quit = true
-		print("Pressed quit once. Next press will quit the game.")
+		print("Pressed quit once. Next press after 15 seconds will quit the game.")
 
 func _on_continue_pressed():
 	if check_if_buttons_blocked():
@@ -601,3 +601,7 @@ func playback_button_general():
 	
 	selected_playback_id_display.text = str(selected_playback_id)
 	SavedData.gameplay_recorder.selected_playback_id = selected_playback_id
+
+
+func _on_quit_delay_timeout() -> void:
+	can_quit = true

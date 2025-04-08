@@ -24,7 +24,7 @@ func start_recording():
 
 func _input(event):
 	if not recording_active : return
-	print(event)
+	
 	if not event is InputEventMouseButton and not event is InputEventMouseMotion:
 		#print(event)
 		# Store the input event along with a timestamp
@@ -210,8 +210,6 @@ func _process(delta):
 	if playback_timer >= event_time:
 		
 		if "Key" in event:
-			#print("KEY")
-			
 			var event_name = assign_event_name(event)[0]
 			var event_pressed = assign_event_pressed(event)
 			var event_name_menu = assign_event_name(event)[1]
@@ -223,7 +221,7 @@ func _process(delta):
 				else:
 					Input.action_release(event_name)
 				
-				#print("Generating gameplay input: ", event_name)
+				print("Generating gameplay input: ", event_name)
 				
 				player.position = Vector2(event_data["player_posX"], event_data["player_posY"])
 			
@@ -233,7 +231,7 @@ func _process(delta):
 				trigger_event.action = event_name_menu
 				trigger_event.pressed = event_pressed
 				Input.parse_input_event(trigger_event)
-				#print("Generating menu input: ", event_name_menu)
+				print("Generating menu input: ", event_name_menu)
 		
 		elif "MouseButton" in event:
 			#print("MB")
@@ -251,19 +249,19 @@ func assign_event_name(event):
 	var return_name_menu = ""
 	if "(Left)" in event or "(A)" in event:
 		return_name = "move_L"
-		#return_name_menu = "ui_left"
+		return_name_menu = "ui_left"
 	elif "(Right)" in event or "(D)" in event:
 		return_name = "move_R"
-		#return_name_menu = "ui_right"
+		return_name_menu = "ui_right"
 	elif "(Up)" in event or "(W)" in event:
 		return_name = "move_UP"
-		#return_name_menu = "ui_up"
+		return_name_menu = "ui_up"
 	elif "(Down)" in event or "(S)" in event:
 		return_name = "move_DOWN"
-		#return_name_menu = "ui_down"
-	elif "(Z)" in event or "(Space)" in event:
+		return_name_menu = "ui_down"
+	elif "(Z)" in event or "(Space)" in event or "(Enter)" in event:
 		return_name = "jump"
-		#return_name_menu = "ui_accept"
+		return_name_menu = "ui_accept"
 	elif "(C)" in event or "(Shift)" in event:
 		return_name = "dash"
 	elif "(X)" in event or "(LMB)" in event:
@@ -272,7 +270,7 @@ func assign_event_name(event):
 		return_name = "attack_secondary"
 	elif "(Escape)" in event:
 		return_name = "menu"
-		#return_name_menu = "ui_cancel"
+		return_name_menu = "ui_cancel"
 	elif "(QuoteLeft)" in event:
 		return_name = "show_debugInfo"
 	
@@ -324,35 +322,68 @@ func simulate_mouse_click(position: Vector2, button_index: int):
 	Input.parse_input_event(release_event)
 
 
-var session_random_ID = randi_range(0, 1000)
-
 func upload_file_to_server():
-	var amount = 20
+	var amount := 20
 	for file_ID in amount:
-		var file_path = str("user://input_log", str(file_ID), ".json")
-		var file = FileAccess.open(file_path, FileAccess.READ)
-		if file:
-			var content = file.get_buffer(file.get_length())
-			var http = HTTPRequest.new()
-			add_child(http)
+		var file_path := "user://input_log%d.json" % file_ID
+		if FileAccess.file_exists(file_path):
+			var file := FileAccess.open(file_path, FileAccess.READ)
+			var content := file.get_buffer(file.get_length())
 			
-			var boundary = "----MyBoundary"
-			var headers = PackedStringArray([
+			var http := HTTPRequest.new()
+			add_child(http)
+
+			var boundary := "----GodotBoundary123"
+			var headers := PackedStringArray([
 				"Content-Type: multipart/form-data; boundary=" + boundary
 			])
-			
-			var body_parts = []
+
+			var body_parts := []
 			body_parts.append("--" + boundary + "\r\n")
-			body_parts.append("Content-Disposition: form-data; name=\"file\"; filename=\"input_log" + str(session_random_ID) + str(file_ID) + ".json\"\r\n")
+			body_parts.append("Content-Disposition: form-data; name=\"file\"; filename=\"input_log%d.json\"\r\n" % file_ID)
 			body_parts.append("Content-Type: application/json\r\n\r\n")
 			body_parts.append(content)
 			body_parts.append("\r\n--" + boundary + "--\r\n")
-			
-			var final_body = PackedByteArray()
+
+			var final_body := PackedByteArray()
 			for part in body_parts:
 				if typeof(part) == TYPE_STRING:
 					final_body += part.to_utf8_buffer()
 				elif typeof(part) == TYPE_PACKED_BYTE_ARRAY:
 					final_body += part
-			
-			http.request_raw("http://127.0.0.1:5000/upload", headers, HTTPClient.METHOD_POST, final_body)
+
+			http.request_raw("https://gameplay-recording-downloader.onrender.com/upload", headers, HTTPClient.METHOD_POST, final_body)
+
+
+#var session_random_ID = randi_range(0, 1000)
+
+#func upload_file_to_server():
+	#var amount = 20
+	#for file_ID in amount:
+		#var file_path = str("user://input_log", str(file_ID), ".json")
+		#var file = FileAccess.open(file_path, FileAccess.READ)
+		#if file:
+			#var content = file.get_buffer(file.get_length())
+			#var http = HTTPRequest.new()
+			#add_child(http)
+			#
+			#var boundary = "----MyBoundary"
+			#var headers = PackedStringArray([
+				#"Content-Type: multipart/form-data; boundary=" + boundary
+			#])
+			#
+			#var body_parts = []
+			#body_parts.append("--" + boundary + "\r\n")
+			#body_parts.append("Content-Disposition: form-data; name=\"file\"; filename=\"input_log" + str(session_random_ID) + str(file_ID) + ".json\"\r\n")
+			#body_parts.append("Content-Type: application/json\r\n\r\n")
+			#body_parts.append(content)
+			#body_parts.append("\r\n--" + boundary + "--\r\n")
+			#
+			#var final_body = PackedByteArray()
+			#for part in body_parts:
+				#if typeof(part) == TYPE_STRING:
+					#final_body += part.to_utf8_buffer()
+				#elif typeof(part) == TYPE_PACKED_BYTE_ARRAY:
+					#final_body += part
+			#
+			#http.request_raw("https://gameplay-recording-downloader.onrender.com/upload", headers, HTTPClient.METHOD_POST, final_body)

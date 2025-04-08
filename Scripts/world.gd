@@ -177,7 +177,7 @@ func _ready():
 		#next_level = preload("res://VictoryScreen.tscn")
 	
 	
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	RenderingServer.set_default_clear_color(background_color)
 	
 	
@@ -1131,7 +1131,7 @@ func debug_screen_delete():
 		return
 	
 	debug_screen.queue_free()
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+	#Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 
 
 @export var random_music = false

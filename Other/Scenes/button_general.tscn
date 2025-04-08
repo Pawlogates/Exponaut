@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cw2j64pbmrk6p"]
+
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_qc5pf"]
+[ext_resource type="Script" path="res://menu_button_general.gd" id="2_iek26"]
+
+[node name="button_general" type="Button" groups=["button_general"]]
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+theme = ExtResource("1_qc5pf")
+script = ExtResource("2_iek26")
+
+[connection signal="button_down" from="." to="." method="_on_button_down"]
+[connection signal="button_up" from="." to="." method="_on_button_up"]
+[connection signal="focus_entered" from="." to="." method="_on_focus_entered"]
+[connection signal="focus_exited" from="." to="." method="_on_focus_exited"]

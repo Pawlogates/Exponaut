@@ -2215,6 +2215,10 @@ grow_vertical = 2
 theme_override_font_sizes/font_size = 24
 text = "start playback"
 
+[node name="quit_delay" type="Timer" parent="."]
+wait_time = 15.0
+one_shot = true
+
 [connection signal="focus_entered" from="main_menu/menu_container/Control/Continue" to="main_menu/menu_container/Control/Continue" method="_on_focus_entered"]
 [connection signal="focus_exited" from="main_menu/menu_container/Control/Continue" to="main_menu/menu_container/Control/Continue" method="_on_focus_exited"]
 [connection signal="pressed" from="main_menu/menu_container/Control/Continue" to="." method="_on_continue_pressed"]
@@ -2329,3 +2333,4 @@ text = "start playback"
 [connection signal="pressed" from="Recording/VBoxContainer/Control3/HBoxContainer/Control2/playback id" to="." method="_on_playback_id_pressed"]
 [connection signal="pressed" from="Recording/VBoxContainer/Control3/HBoxContainer/Control3/playback +" to="." method="_on_playback_plus_pressed"]
 [connection signal="pressed" from="Recording/VBoxContainer/Control4/start playback" to="." method="_on_start_playback_pressed"]
+[connection signal="timeout" from="quit_delay" to="." method="_on_quit_delay_timeout"]
