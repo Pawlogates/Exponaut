@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dqtpito0c3p7p"]
+[gd_scene load_steps=2 format=3 uid="uid://dqtpito0c3p7p"]
 
 [ext_resource type="PackedScene" uid="uid://dun5a8r7qx00f" path="res://Levels/empty.tscn" id="1_a2f6y"]
-[ext_resource type="PackedScene" uid="uid://di1xenyk82l12" path="res://Other/Scenes/touch_controls.tscn" id="2_f2bgu"]
 
 [node name="World" instance=ExtResource("1_a2f6y")]
 cameraLimit_left = -1152.0
@@ -13,5 +12,3 @@ selected_episode = "Debug Levels"
 level_ID = "DEBUG_0"
 level_number = -1
 random_music = true
-
-[node name="touch_controls" parent="HUD" index="13" instance=ExtResource("2_f2bgu")]

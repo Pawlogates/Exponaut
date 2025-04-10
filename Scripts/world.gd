@@ -1169,3 +1169,15 @@ func screen_shake():
 	tween2.tween_property(camera, "zoom", Vector2(1.1, 1.1), 0.1)
 	tween2.tween_property(camera, "zoom", Vector2(1, 1), 0.25)
 	tween2.tween_property(self, "playing", false, 0)
+
+
+func _input(event):
+	if get_node("HUD/touch_controls"):
+		return
+	
+	if "Screen" in str(event):
+		for present_touch_controls in get_tree().get_nodes_in_group("touch_controls"):
+			present_touch_controls.queue_free()
+		
+		var touch_controls = preload("res://Other/Scenes/touch_controls.tscn").instantiate()
+		hud.add_child(touch_controls)

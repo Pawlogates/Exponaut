@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://hkd5d5y1xtnl"]
 
 [ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_a7dum"]
-[ext_resource type="SpriteFrames" uid="uid://bau6lhr8h8wm6" path="res://Assets/Graphics/sprites/packed/enemies/enemy_pig.tres" id="2_1bh1u"]
+[ext_resource type="SpriteFrames" uid="uid://smbui2ukkxli" path="res://Assets/Graphics/sprites/packed/enemies/enemy_piranha.tres" id="2_6jl1g"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_xxmel"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_1bsf1"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_0ixlc"]
@@ -210,7 +210,7 @@ floating = true
 enable_generalTimers = false
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("2_1bh1u")
+sprite_frames = ExtResource("2_6jl1g")
 animation = &"jump"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]

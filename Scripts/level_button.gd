@@ -50,15 +50,18 @@ func _ready():
 	
 	if Globals.selected_episode == "Main Levels":
 		level_info = saved_progress.get(str("info_MAIN_", level_number))
-		topRankScore = level_info[2]
+		if not level_info == null:
+			topRankScore = level_info[4]
 	
 	elif Globals.selected_episode == "Bonus Levels":
 		level_info = saved_progress.get(str("info_BONUS_", level_number))
-		topRankScore = level_info[2]
+		if not level_info == null:
+			topRankScore = level_info[4]
 	
 	elif Globals.selected_episode == "Debug Levels":
 		level_info = saved_progress.get(str("info_DEBUG_", level_number))
-		topRankScore = level_info[2]
+		if not level_info == null:
+			topRankScore = level_info[4]
 	
 	%level_button.mouse_filter = 1
 
@@ -144,4 +147,4 @@ func update_level_info():
 	get_parent().get_node("%score").text = str(level_score)
 	get_parent().get_node("%name").text = str(level_info[0])
 	get_parent().get_node("%rank").text = str(rank)
-	get_parent().get_node("%top_rank_score").text = "Score target: " + str(level_info[2])
+	get_parent().get_node("%top_rank_score").text = "Score target: " + str(level_info[4])

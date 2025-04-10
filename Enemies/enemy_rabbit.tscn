@@ -204,6 +204,7 @@ collision_layer = 2
 floor_max_angle = 1.0472
 script = ExtResource("1_scv7c")
 SPEED = 300.0
+ACCELERATION = 0.5
 movementType = "followPlayerX_whenSpotted"
 scoreValue = 100
 turnOnWall = true

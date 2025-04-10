@@ -23,3 +23,14 @@ func _process(delta: float) -> void:
 		action.pressed = button.is_pressed
 		action.action = button.name
 		Input.parse_input_event(action)
+
+
+func _on_timer_timeout() -> void:
+	$AnimationPlayer.play("disappear")
+	await $AnimationPlayer.animation_finished
+	queue_free()
+
+
+func _input(event):
+	if "Screen" in str(event):
+		$Timer.start()
