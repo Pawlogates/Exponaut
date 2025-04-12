@@ -1,6 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://ckdwtubwnxp3h"]
+[gd_scene load_steps=10 format=3 uid="uid://ckdwtubwnxp3h"]
 
 [ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_fc3qi"]
+[ext_resource type="PackedScene" uid="uid://bua5yikrg26q0" path="res://Collectibles/collectibleGrape.tscn" id="2_iv0cn"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_ri7gk"]
 [ext_resource type="SpriteFrames" uid="uid://fh2he737vq7" path="res://Assets/Graphics/sprites/packed/boxes/box_grapes.tres" id="4_yhng0"]
 
@@ -226,7 +227,10 @@ _data = {
 z_index = 1
 collision_layer = 0
 script = ExtResource("1_fc3qi")
+scoreValue = 75
 floating = true
+onDeath_item_amount = 7
+onDeath_item_scene = ExtResource("2_iv0cn")
 type = "grapes"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
