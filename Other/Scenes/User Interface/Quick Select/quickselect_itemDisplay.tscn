@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dq355i6wf2cc8"]
 
-[ext_resource type="Script" path="res://Scripts/quickselect_itemDisplay.gd" id="1_77q47"]
+[ext_resource type="Script" uid="uid://dysluxytnb3ip" path="res://Scripts/quickselect_itemDisplay.gd" id="1_77q47"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="1_tp32n"]
 [ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/UI_theme.tres" id="2_5ukt5"]
-[ext_resource type="Script" path="res://Scripts/quickselect_button.gd" id="4_gyv02"]
+[ext_resource type="Script" uid="uid://pl5fw8cje6nc" path="res://Scripts/quickselect_button.gd" id="4_gyv02"]
 
 [node name="Item Display" type="Control" groups=["quickselect_itemDisplay"]]
 custom_minimum_size = Vector2(192, 112)

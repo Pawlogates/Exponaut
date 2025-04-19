@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://csc65a8jtyxx0"]
 
-[ext_resource type="Script" path="res://Meme Mode/memeMode_image.gd" id="1_77ay7"]
+[ext_resource type="Script" uid="uid://u230mwr0bbs" path="res://Meme Mode/memeMode_image.gd" id="1_77ay7"]
 [ext_resource type="Texture2D" uid="uid://670c4dds8bgr" path="res://Meme Mode/pictures/4.png" id="2_rsari"]
 
 [sub_resource type="Animation" id="Animation_15dh4"]
@@ -273,16 +273,16 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v7xt2"]
 _data = {
-"RESET": SubResource("Animation_15dh4"),
-"pulseLoop": SubResource("Animation_gm52f"),
-"rotateLoop_L": SubResource("Animation_yp8l1"),
-"rotateLoop_R": SubResource("Animation_6vgiv"),
-"scaleLoop": SubResource("Animation_pnyyu"),
-"scaleLoop2": SubResource("Animation_albhk"),
-"scale_reverse": SubResource("Animation_00160"),
-"scale_reverse2": SubResource("Animation_smnpe"),
-"scale_reverse_v": SubResource("Animation_2xk3a"),
-"scale_reverse_v2": SubResource("Animation_oje27")
+&"RESET": SubResource("Animation_15dh4"),
+&"pulseLoop": SubResource("Animation_gm52f"),
+&"rotateLoop_L": SubResource("Animation_yp8l1"),
+&"rotateLoop_R": SubResource("Animation_6vgiv"),
+&"scaleLoop": SubResource("Animation_pnyyu"),
+&"scaleLoop2": SubResource("Animation_albhk"),
+&"scale_reverse": SubResource("Animation_00160"),
+&"scale_reverse2": SubResource("Animation_smnpe"),
+&"scale_reverse_v": SubResource("Animation_2xk3a"),
+&"scale_reverse_v2": SubResource("Animation_oje27")
 }
 
 [node name="memeMode_image" type="CharacterBody2D" groups=["item_main"]]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cskb3d0dg2faj"]
 
-[ext_resource type="Script" path="res://Scripts/object_remover.gd" id="1_5x52y"]
+[ext_resource type="Script" uid="uid://bmakvcwg1rpn5" path="res://Scripts/object_remover.gd" id="1_5x52y"]
 
 [node name="Object Remover" type="Area2D"]
 collision_layer = 0

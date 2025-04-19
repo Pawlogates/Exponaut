@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bi5xs4kte6qai"]
 
-[ext_resource type="Script" path="res://Scripts/parallax_background_gradient.gd" id="1_joybx"]
+[ext_resource type="Script" uid="uid://cm4ywljqap4ee" path="res://Scripts/parallax_background_gradient.gd" id="1_joybx"]
 [ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/other/fg_gradient.png" id="2_nkdpl"]
 
 [node name="ParallaxBackgroundGradient" type="Node2D"]

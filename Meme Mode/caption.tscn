@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://c6wrx2w1me1p2"]
 
-[ext_resource type="Script" path="res://Meme Mode/caption.gd" id="1_n8qa5"]
+[ext_resource type="Script" uid="uid://bk3661asn1fsa" path="res://Meme Mode/caption.gd" id="1_n8qa5"]
 
 [node name="caption" type="Node2D"]
 z_index = 200

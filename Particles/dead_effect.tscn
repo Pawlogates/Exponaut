@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://to85611algdp"]
 
-[ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="1_8ur3g"]
-[ext_resource type="Script" path="res://Scripts/dead_effect.gd" id="1_l5rbg"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="1_8ur3g"]
+[ext_resource type="Script" uid="uid://duokl4of63mn0" path="res://Scripts/dead_effect.gd" id="1_l5rbg"]
 [ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/other/star.png" id="2_waovt"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jj8d4"]
@@ -241,8 +241,8 @@ tracks/9/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s4tu2"]
 _data = {
-"RESET": SubResource("Animation_bux54"),
-"loop": SubResource("Animation_kvyt3")
+&"RESET": SubResource("Animation_bux54"),
+&"loop": SubResource("Animation_kvyt3")
 }
 
 [node name="Node2D" type="Sprite2D"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://tolmaonlxbva"]
 
-[ext_resource type="Script" path="res://Scripts/quickselect_screen.gd" id="1_owl74"]
+[ext_resource type="Script" uid="uid://odgblhkpw3bh" path="res://Scripts/quickselect_screen.gd" id="1_owl74"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_mi3sp"]
 
 [node name="quickselect_screen" type="Control" groups=["quickselect_screen"]]

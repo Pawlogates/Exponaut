@@ -1,12 +1,11 @@
 [gd_scene load_steps=19 format=3 uid="uid://dxfav0g51rvb5"]
 
-[ext_resource type="Script" path="res://Scripts/remove_general.gd" id="1_gkdny"]
+[ext_resource type="Script" uid="uid://ccfnsh1jy4vri" path="res://Scripts/remove_general.gd" id="1_gkdny"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_s638s"]
-[ext_resource type="Script" path="res://Scripts/particleEmit_general.gd" id="3_37vkn"]
+[ext_resource type="Script" uid="uid://bcclqgg52nucd" path="res://Scripts/particleEmit_general.gd" id="3_37vkn"]
 
 [sub_resource type="Curve" id="Curve_d62vd"]
-min_value = -20.0
-max_value = 20.0
+_limits = [-20.0, 20.0, 0.0, 1.0]
 _data = [Vector2(0, -20), 0.0, 0.0, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -14,8 +13,7 @@ point_count = 2
 curve = SubResource("Curve_d62vd")
 
 [sub_resource type="Curve" id="Curve_qk6pp"]
-min_value = -20.0
-max_value = 20.0
+_limits = [-25.0, 25.0, 0.0, 1.0]
 _data = [Vector2(0, 25), 0.0, -20.0, 0, 0, Vector2(0.2, -5), -15.0, 0.0, 0, 0, Vector2(0.4, 20), 0.0, 0.0, 0, 0, Vector2(0.6, -10), 0.0, 0.0, 0, 0, Vector2(0.8, 10), 0.0, 0.0, 0, 0, Vector2(1, -25), 0.0, 0.0, 0, 0]
 point_count = 6
 
@@ -93,8 +91,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6uhyl"]
 _data = {
-"RESET": SubResource("Animation_e7ha0"),
-"fade_out": SubResource("Animation_navwh")
+&"RESET": SubResource("Animation_e7ha0"),
+&"fade_out": SubResource("Animation_navwh")
 }
 
 [node name="particles_feathers" type="Node2D"]

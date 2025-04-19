@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://bmnsg0hl7qcpu"]
 
 [ext_resource type="Texture2D" uid="uid://dd278jhul3ero" path="res://Assets/Graphics/other/score_gate.png" id="1_2fe0m"]
-[ext_resource type="Script" path="res://Scripts/score_gate.gd" id="2_gwd64"]
+[ext_resource type="Script" uid="uid://b2tyewrcmqcrn" path="res://Scripts/score_gate.gd" id="2_gwd64"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="3_rdcib"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isqap"]
@@ -54,9 +54,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_n7f7h"]
 _data = {
-"RESET": SubResource("Animation_6ojt0"),
-"locked": SubResource("Animation_cetvw"),
-"unlock": SubResource("Animation_2be07")
+&"RESET": SubResource("Animation_6ojt0"),
+&"locked": SubResource("Animation_cetvw"),
+&"unlock": SubResource("Animation_2be07")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xuirp"]

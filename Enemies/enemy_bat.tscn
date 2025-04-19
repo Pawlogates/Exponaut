@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://cljye56wi53e8"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_7ijuc"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_7ijuc"]
 [ext_resource type="SpriteFrames" uid="uid://dnk24klf8y4dl" path="res://Assets/Graphics/sprites/packed/enemies/enemy_bat.tres" id="2_oi2sr"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_db574"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_sq5xc"]
@@ -192,8 +192,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyBat" type="CharacterBody2D" groups=["Persist", "enemies"]]

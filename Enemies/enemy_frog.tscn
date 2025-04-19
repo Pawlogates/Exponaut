@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://cjqinbb60vh6"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_dafch"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_dafch"]
 [ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="2_ydoov"]
 [ext_resource type="SpriteFrames" uid="uid://b1qdjut2q8ia1" path="res://Assets/Graphics/sprites/packed/enemies/enemy_frog.tres" id="3_a8ux4"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="3_cr62m"]
@@ -193,8 +193,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyFrog" type="CharacterBody2D" groups=["Persist", "enemies"]]

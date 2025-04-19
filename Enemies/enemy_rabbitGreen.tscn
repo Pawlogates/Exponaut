@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://ci46huf1xa7gh"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_ndo11"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_ndo11"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_h7u05"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://Projectiles/player_secondaryProjectile_bouncingBall.tscn" id="3_74vld"]
 [ext_resource type="SpriteFrames" uid="uid://dvyr8rcwt11cf" path="res://Assets/Graphics/sprites/packed/enemies/enemy_rabbitGreen.tres" id="4_flohx"]
@@ -196,8 +196,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyRabbit_green" type="CharacterBody2D" groups=["Persist", "enemies"]]

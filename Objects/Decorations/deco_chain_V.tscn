@@ -71,8 +71,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tpxjg"]
 _data = {
-"RESET": SubResource("Animation_krq8p"),
-"loop": SubResource("Animation_d8vw1")
+&"RESET": SubResource("Animation_krq8p"),
+&"loop": SubResource("Animation_d8vw1")
 }
 
 [node name="deco_chain_V" type="Node2D"]

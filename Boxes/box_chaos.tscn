@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://cpa8eyt06ic8j"]
 
 [ext_resource type="PackedScene" uid="uid://dvxcwgk62uo08" path="res://Boxes/box_base.tscn" id="1_g7ovh"]
-[ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_3veia"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_3veia"]
 [ext_resource type="SpriteFrames" uid="uid://fh2he737vq7" path="res://Assets/Graphics/sprites/packed/boxes/box_grapes.tres" id="3_gdc5n"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_pxl5a"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://ejquvj514e14"]
 
-[ext_resource type="Script" path="res://Projectiles/projectile_general.gd" id="1_mqa4s"]
+[ext_resource type="Script" uid="uid://cx534fd032om2" path="res://Projectiles/projectile_general.gd" id="1_mqa4s"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_twh2u"]
 [ext_resource type="AudioStream" uid="uid://clfm3kx0huoh4" path="res://Assets/Sounds/sfx/projectile_shoot.wav" id="3_4emxq"]
 

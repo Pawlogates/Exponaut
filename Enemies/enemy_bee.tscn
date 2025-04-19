@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://dbp42d4xr6p01"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_jypmj"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_jypmj"]
 [ext_resource type="SpriteFrames" uid="uid://bge27vrfsv4gg" path="res://Assets/Graphics/sprites/packed/enemies/enemy_bee.tres" id="2_76t2l"]
 [ext_resource type="AudioStream" uid="uid://1mv5m4gj4aco" path="res://Assets/Sounds/sfx/bee_idle.wav" id="3_rxrky"]
 [ext_resource type="AudioStream" uid="uid://dnxlofo4yg4ji" path="res://Assets/Sounds/sfx/bee_death.wav" id="4_6nlkh"]
@@ -193,8 +193,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyBee" type="CharacterBody2D" groups=["Persist", "enemies"]]

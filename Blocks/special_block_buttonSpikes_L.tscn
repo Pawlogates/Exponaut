@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://cytasj1drtxdw"]
 
-[ext_resource type="Script" path="res://Scripts/special_block.gd" id="1_4ko6n"]
+[ext_resource type="Script" uid="uid://bymtshk0gkxih" path="res://Scripts/special_block.gd" id="1_4ko6n"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_vv6j4"]
 [ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="3_rsaod"]
 
@@ -59,8 +59,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1356v"]
 _data = {
-"RESET": SubResource("Animation_3507k"),
-"moveV_loop": SubResource("Animation_2p6nt")
+&"RESET": SubResource("Animation_3507k"),
+&"moveV_loop": SubResource("Animation_2p6nt")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]

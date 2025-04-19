@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dvxcwgk62uo08"]
 
-[ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_w6ns8"]
+[ext_resource type="Script" uid="uid://bjpp812q2377y" path="res://Boxes/box_general.gd" id="1_w6ns8"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_ugpmy"]
 [ext_resource type="Material" uid="uid://cx8ylybs2rnkg" path="res://Other/Materials/hueShift.tres" id="4_5yj6n"]
 [ext_resource type="SpriteFrames" uid="uid://chpvssjvdaec2" path="res://Assets/Graphics/sprites/packed/boxes/box_oranges.tres" id="4_y57cd"]
@@ -219,8 +219,8 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4wb"]
 _data = {
-"RESET": SubResource("Animation_fir26"),
-"destroyed": SubResource("Animation_6nr0q")
+&"RESET": SubResource("Animation_fir26"),
+&"destroyed": SubResource("Animation_6nr0q")
 }
 
 [node name="Box Base" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]

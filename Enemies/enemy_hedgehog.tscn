@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://6vpm41lnycqx"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_l5vdx"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_l5vdx"]
 [ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="2_shoiq"]
 [ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_hedgehog.tres" id="3_d0gpw"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_mc1wu"]
@@ -193,8 +193,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyHedgehog" type="CharacterBody2D" groups=["Persist", "enemies"]]

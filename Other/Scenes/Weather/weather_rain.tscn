@@ -1,15 +1,14 @@
 [gd_scene load_steps=6 format=3 uid="uid://bvkqgv3483gp7"]
 
-[ext_resource type="Script" path="res://Scripts/weather.gd" id="1_7oq6u"]
+[ext_resource type="Script" uid="uid://doyr8hprnolab" path="res://Scripts/weather.gd" id="1_7oq6u"]
 
 [sub_resource type="Curve" id="Curve_xxki0"]
-min_value = 0.5
+_limits = [0.5, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 0.5), 0.0, 0.0, 0, 0, Vector2(1, 0.5), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [sub_resource type="Curve" id="Curve_pscns"]
-min_value = 4.0
-max_value = 5.0
+_limits = [4.0, 5.0, 0.0, 1.0]
 _data = [Vector2(0, 5), 0.0, 0.0, 0, 0, Vector2(1, 5), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -17,7 +16,7 @@ point_count = 2
 colors = PackedColorArray(0.286275, 0, 1, 1, 0, 0.419608, 1, 1)
 
 [sub_resource type="Curve" id="Curve_qhknb"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 

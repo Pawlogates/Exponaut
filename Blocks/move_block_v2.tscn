@@ -125,8 +125,8 @@ tracks/3/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1356v"]
 _data = {
-"RESET": SubResource("Animation_3507k"),
-"moveV_loop": SubResource("Animation_2p6nt")
+&"RESET": SubResource("Animation_3507k"),
+&"moveV_loop": SubResource("Animation_2p6nt")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]

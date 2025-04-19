@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dwsils121eero"]
 
-[ext_resource type="Script" path="res://Scripts/water_top.gd" id="1_088tu"]
+[ext_resource type="Script" uid="uid://cdxwlbj17lu7k" path="res://Scripts/water_top.gd" id="1_088tu"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_hb6gw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0423n"]
@@ -51,8 +51,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4jlhx"]
 _data = {
-"RESET": SubResource("Animation_de8fa"),
-"loop": SubResource("Animation_nh02v")
+&"RESET": SubResource("Animation_de8fa"),
+&"loop": SubResource("Animation_nh02v")
 }
 
 [node name="toxicWater_top" type="Container"]

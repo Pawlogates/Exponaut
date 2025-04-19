@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://bedqky14s4a01"]
 
-[ext_resource type="Script" path="res://Scripts/button_block.gd" id="1_m2ldl"]
+[ext_resource type="Script" uid="uid://c3531le4dc665" path="res://Scripts/button_block.gd" id="1_m2ldl"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_r7i8p"]
 
 [sub_resource type="Animation" id="Animation_mgiq8"]
@@ -140,15 +140,15 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1356v"]
 _data = {
-"RESET": SubResource("Animation_mgiq8"),
-"blue_back_down": SubResource("Animation_26ocg"),
-"blue_back_up": SubResource("Animation_b601d"),
-"blue_move_down": SubResource("Animation_u5egp"),
-"blue_move_up": SubResource("Animation_ybs0j"),
-"green_back_left": SubResource("Animation_10tkf"),
-"green_back_right": SubResource("Animation_ho8nu"),
-"green_move_left": SubResource("Animation_a8sda"),
-"green_move_right": SubResource("Animation_bb2x6")
+&"RESET": SubResource("Animation_mgiq8"),
+&"blue_back_down": SubResource("Animation_26ocg"),
+&"blue_back_up": SubResource("Animation_b601d"),
+&"blue_move_down": SubResource("Animation_u5egp"),
+&"blue_move_up": SubResource("Animation_ybs0j"),
+&"green_back_left": SubResource("Animation_10tkf"),
+&"green_back_right": SubResource("Animation_ho8nu"),
+&"green_move_left": SubResource("Animation_a8sda"),
+&"green_move_right": SubResource("Animation_bb2x6")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=40 format=3 uid="uid://dsxyieuscvnvu"]
 
-[ext_resource type="Script" path="res://Scripts/player.gd" id="1_ijta4"]
+[ext_resource type="Script" uid="uid://bvqjdy74r3ptq" path="res://Scripts/player.gd" id="1_ijta4"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_cijwv"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="3_fylys"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="4_q66u7"]
@@ -271,8 +271,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wupbq"]
 _data = {
-"RESET": SubResource("Animation_n7rd3"),
-"shot_charged": SubResource("Animation_scdec")
+&"RESET": SubResource("Animation_n7rd3"),
+&"shot_charged": SubResource("Animation_scdec")
 }
 
 [sub_resource type="Animation" id="Animation_f7ykp"]
@@ -381,10 +381,10 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mcx4o"]
 _data = {
-"RESET": SubResource("Animation_f7ykp"),
-"max_score_multiplier_reached": SubResource("Animation_2c8md"),
-"shot_charged": SubResource("Animation_2a4pd"),
-"streak_reset": SubResource("Animation_a3nuy")
+&"RESET": SubResource("Animation_f7ykp"),
+&"max_score_multiplier_reached": SubResource("Animation_2c8md"),
+&"shot_charged": SubResource("Animation_2a4pd"),
+&"streak_reset": SubResource("Animation_a3nuy")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player", "player_root", "weightless"]]

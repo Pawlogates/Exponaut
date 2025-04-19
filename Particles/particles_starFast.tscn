@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://vfi7fplip3ph"]
 
 [ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/other/star.png" id="1_2cork"]
-[ext_resource type="Script" path="res://Scripts/particle_starFast.gd" id="2_lgd3i"]
+[ext_resource type="Script" uid="uid://dthpj6yhkwo46" path="res://Scripts/particle_starFast.gd" id="2_lgd3i"]
 
 [sub_resource type="Animation" id="Animation_e3hko"]
 length = 0.001
@@ -211,8 +211,8 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dduox"]
 _data = {
-"RESET": SubResource("Animation_e3hko"),
-"afterSpawn": SubResource("Animation_cag8v")
+&"RESET": SubResource("Animation_e3hko"),
+&"afterSpawn": SubResource("Animation_cag8v")
 }
 
 [node name="collectParticles" type="Node2D"]

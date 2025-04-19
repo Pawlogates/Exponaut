@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://d2mod4i4kclua"]
 
-[ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_supqp"]
+[ext_resource type="Script" uid="uid://omx34ludxcad" path="res://Collectibles/collectible_general.gd" id="1_supqp"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_v5lhu"]
 [ext_resource type="AudioStream" uid="uid://cwyd16lu3kan6" path="res://Assets/Sounds/sfx/collect_jewelSpecial.wav" id="3_262bv"]
 [ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/UI_theme.tres" id="4_fyx8g"]
@@ -472,10 +472,10 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yo3ck"]
 _data = {
-"RESET": SubResource("Animation_snhod"),
-"collect_special": SubResource("Animation_paods"),
-"loop_upDown": SubResource("Animation_6tpde"),
-"remove": SubResource("Animation_bjdi4")
+&"RESET": SubResource("Animation_snhod"),
+&"collect_special": SubResource("Animation_paods"),
+&"loop_upDown": SubResource("Animation_6tpde"),
+&"remove": SubResource("Animation_bjdi4")
 }
 
 [sub_resource type="Animation" id="Animation_u6l55"]
@@ -654,8 +654,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx8bp"]

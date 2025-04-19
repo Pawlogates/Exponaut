@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://66v3qhw2met4"]
 
-[ext_resource type="Script" path="res://Meme Mode/meme_mode_secondary.gd" id="1_iecmg"]
+[ext_resource type="Script" uid="uid://d3ymbiyqcgkeq" path="res://Meme Mode/meme_mode_secondary.gd" id="1_iecmg"]
 [ext_resource type="Texture2D" uid="uid://cnrhlpct2joeb" path="res://Meme Mode/pictures/secondary/c1.png" id="2_n0gjt"]
 [ext_resource type="Texture2D" uid="uid://7hq5ocdt6h51" path="res://Meme Mode/pictures/secondary/a1.png" id="3_g0hq3"]
 
@@ -130,9 +130,9 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v7xt2"]
 _data = {
-"RESET": SubResource("Animation_15dh4"),
-"opacityLoop": SubResource("Animation_5cpg6"),
-"scaleLoop": SubResource("Animation_pnyyu")
+&"RESET": SubResource("Animation_15dh4"),
+&"opacityLoop": SubResource("Animation_5cpg6"),
+&"scaleLoop": SubResource("Animation_pnyyu")
 }
 
 [sub_resource type="Animation" id="Animation_pxb8m"]
@@ -359,11 +359,11 @@ tracks/2/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_dgvui"]
 _data = {
-"RESET": SubResource("Animation_pxb8m"),
-"rotate_around": SubResource("Animation_5hp4c"),
-"rotate_around_2": SubResource("Animation_yby3d"),
-"rotate_around_2_loopBack": SubResource("Animation_5vhrt"),
-"rotate_around_loopBack": SubResource("Animation_wrywu")
+&"RESET": SubResource("Animation_pxb8m"),
+&"rotate_around": SubResource("Animation_5hp4c"),
+&"rotate_around_2": SubResource("Animation_yby3d"),
+&"rotate_around_2_loopBack": SubResource("Animation_5vhrt"),
+&"rotate_around_loopBack": SubResource("Animation_wrywu")
 }
 
 [node name="memeMode_secondary" type="CharacterBody2D" groups=["item_secondary"]]

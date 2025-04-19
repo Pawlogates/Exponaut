@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://cifrbm1vsrx4g"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_kv4gx"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_kv4gx"]
 [ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="2_2glpx"]
 [ext_resource type="Material" uid="uid://g07ca37hnt0w" path="res://Other/Materials/rainbow_material.tres" id="3_cnxds"]
 [ext_resource type="SpriteFrames" uid="uid://b3wg57dxdwqlk" path="res://Assets/Graphics/sprites/packed/enemies/enemy_bird.tres" id="4_2c2k8"]
@@ -194,8 +194,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyBird" type="CharacterBody2D" groups=["Persist", "enemies"]]

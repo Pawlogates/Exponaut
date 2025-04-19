@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://c0gwsftnbx0kh"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_2m4u5"]
-[ext_resource type="Script" path="res://Scripts/leaf.gd" id="2_ber6o"]
+[ext_resource type="Script" uid="uid://cu4icie6i5b5x" path="res://Scripts/leaf.gd" id="2_ber6o"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0npte"]
 atlas = ExtResource("1_2m4u5")
@@ -106,8 +106,8 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_40unu"]
 _data = {
-"RESET": SubResource("Animation_ihg6s"),
-"falling": SubResource("Animation_pp4ka")
+&"RESET": SubResource("Animation_ihg6s"),
+&"falling": SubResource("Animation_pp4ka")
 }
 
 [node name="leaf_root" type="Node2D"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=27 format=3 uid="uid://b2y5linmn0ira"]
 
-[ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_d8sol"]
+[ext_resource type="Script" uid="uid://omx34ludxcad" path="res://Collectibles/collectible_general.gd" id="1_d8sol"]
 [ext_resource type="PackedScene" uid="uid://eh1her6bw7cj" path="res://Boxes/box_oranges.tscn" id="2_b7dyb"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_fvt2n"]
 [ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_m0rrr"]
@@ -368,9 +368,9 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yo3ck"]
 _data = {
-"RESET": SubResource("Animation_snhod"),
-"loop_upDown": SubResource("Animation_kkmqa"),
-"remove": SubResource("Animation_bjdi4")
+&"RESET": SubResource("Animation_snhod"),
+&"loop_upDown": SubResource("Animation_kkmqa"),
+&"remove": SubResource("Animation_bjdi4")
 }
 
 [sub_resource type="Animation" id="Animation_u6l55"]
@@ -549,8 +549,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_mx8bp"]

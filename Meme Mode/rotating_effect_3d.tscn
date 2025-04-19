@@ -1,7 +1,22 @@
 [gd_scene load_steps=6 format=3 uid="uid://co8tabqo7s3md"]
 
 [ext_resource type="Texture2D" uid="uid://dm7jy3bitdee7" path="res://Meme Mode/pictures/common/7.jpg" id="1_64elw"]
-[ext_resource type="Script" path="res://Meme Mode/rotating_effect_3d.gd" id="1_drvj7"]
+[ext_resource type="Script" uid="uid://dov3xueudlpmq" path="res://Meme Mode/rotating_effect_3d.gd" id="1_drvj7"]
+
+[sub_resource type="Animation" id="Animation_g2cp7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_ohjc3"]
 resource_name = "rotate_3d"
@@ -20,25 +35,10 @@ tracks/0/keys = {
 "values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_g2cp7"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector3(0, 0, 0)]
-}
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lkf8d"]
 _data = {
-"RESET": SubResource("Animation_g2cp7"),
-"rotate_3d": SubResource("Animation_ohjc3")
+&"RESET": SubResource("Animation_g2cp7"),
+&"rotate_3d": SubResource("Animation_ohjc3")
 }
 
 [node name="rotating_effect_3d" type="Node3D"]

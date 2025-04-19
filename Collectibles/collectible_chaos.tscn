@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dwll230hy7ny7"]
 
 [ext_resource type="PackedScene" uid="uid://c2cm0aw561fcj" path="res://Collectibles/collectible_base.tscn" id="1_0fc12"]
-[ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_rk6oj"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_rk6oj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gk8y3"]
 resource_local_to_scene = true

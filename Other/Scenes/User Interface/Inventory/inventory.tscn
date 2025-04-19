@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://cd8smchd5b76m"]
 
-[ext_resource type="Script" path="res://Scripts/inventory.gd" id="1_u4eei"]
+[ext_resource type="Script" uid="uid://eax6077vvd2" path="res://Scripts/inventory.gd" id="1_u4eei"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_25euk"]
 
 [sub_resource type="Animation" id="Animation_ox5tj"]
@@ -50,9 +50,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_gna4q"]
 _data = {
-"RESET": SubResource("Animation_ox5tj"),
-"hide": SubResource("Animation_mi4mr"),
-"show": SubResource("Animation_o4nf1")
+&"RESET": SubResource("Animation_ox5tj"),
+&"hide": SubResource("Animation_mi4mr"),
+&"show": SubResource("Animation_o4nf1")
 }
 
 [node name="Inventory" type="Control"]

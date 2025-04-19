@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://e2x7x0glinh"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_blyq3"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_blyq3"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_khcyv"]
 [ext_resource type="PackedScene" uid="uid://dofb2sjouxgdr" path="res://Collectibles/collectibleFeather.tscn" id="2_v75f7"]
 [ext_resource type="AudioStream" uid="uid://c4abnorpa10f6" path="res://Assets/Sounds/sfx/rooster_damage.wav" id="3_hlxe7"]

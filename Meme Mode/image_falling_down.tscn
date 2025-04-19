@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3nl8lp7feb50"]
 
-[ext_resource type="Script" path="res://Meme Mode/image_falling_down.gd" id="1_5d3f4"]
+[ext_resource type="Script" uid="uid://cvekx3n6stbm6" path="res://Meme Mode/image_falling_down.gd" id="1_5d3f4"]
 [ext_resource type="Texture2D" uid="uid://buvayk1be3uby" path="res://Meme Mode/pictures/5.jpg" id="2_x8ewx"]
 
 [sub_resource type="Animation" id="Animation_k2ipf"]
@@ -172,9 +172,9 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_lxoqy"]
 _data = {
-"RESET": SubResource("Animation_k2ipf"),
-"falling_down": SubResource("Animation_7ih4e"),
-"rotate_and_disappear": SubResource("Animation_vwymt")
+&"RESET": SubResource("Animation_k2ipf"),
+&"falling_down": SubResource("Animation_7ih4e"),
+&"rotate_and_disappear": SubResource("Animation_vwymt")
 }
 
 [node name="image_falling_down" type="Node2D"]

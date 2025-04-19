@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://cv366qvwnjse0"]
 
 [ext_resource type="Texture2D" uid="uid://chl7u53kjionw" path="res://Assets/Graphics/sprites/sprites_bg.png" id="1_ns7c1"]
-[ext_resource type="Script" path="res://Scripts/hit_effect.gd" id="2_ja07t"]
+[ext_resource type="Script" uid="uid://v0ea2edfbowo" path="res://Scripts/hit_effect.gd" id="2_ja07t"]
 
 [sub_resource type="Shader" id="Shader_kwkb5"]
 code = "shader_type canvas_item;
@@ -179,8 +179,8 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_s4tu2"]
 _data = {
-"RESET": SubResource("Animation_bux54"),
-"appear": SubResource("Animation_kvyt3")
+&"RESET": SubResource("Animation_bux54"),
+&"appear": SubResource("Animation_kvyt3")
 }
 
 [node name="hit_effect" type="Node2D"]

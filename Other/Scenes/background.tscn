@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://qvxb24kyh4pu"]
 
-[ext_resource type="Script" path="res://Scripts/background.gd" id="1_buqj4"]
+[ext_resource type="Script" uid="uid://b01g011s3jleu" path="res://Scripts/background.gd" id="1_buqj4"]
 [ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/backgrounds/bg_fields.png" id="2_qome0"]
 [ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/backgrounds/bg_b_fields.png" id="3_6te8h"]
 [ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/backgrounds/bg_a_fields.png" id="4_xvuw8"]
@@ -142,13 +142,13 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_u4m3j"]
 _data = {
-"RESET": SubResource("Animation_03oew"),
-"bg_a_hide": SubResource("Animation_vh0kr"),
-"bg_a_show": SubResource("Animation_qlg7v"),
-"bg_b_hide": SubResource("Animation_rihoq"),
-"bg_b_show": SubResource("Animation_w6w7v"),
-"bg_hide": SubResource("Animation_70ixk"),
-"bg_show": SubResource("Animation_hukmv")
+&"RESET": SubResource("Animation_03oew"),
+&"bg_a_hide": SubResource("Animation_vh0kr"),
+&"bg_a_show": SubResource("Animation_qlg7v"),
+&"bg_b_hide": SubResource("Animation_rihoq"),
+&"bg_b_show": SubResource("Animation_w6w7v"),
+&"bg_hide": SubResource("Animation_70ixk"),
+&"bg_show": SubResource("Animation_hukmv")
 }
 
 [node name="background" type="Node2D"]

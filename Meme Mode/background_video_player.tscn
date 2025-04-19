@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://cupokd1r3227d"]
 
-[ext_resource type="VideoStream" path="res://Meme Mode/videos/background videos/1.ogv" id="1_8n6qu"]
-[ext_resource type="Script" path="res://Meme Mode/background_video_player.gd" id="2_7lahl"]
+[ext_resource type="VideoStream" uid="uid://1adilabo4os4" path="res://Meme Mode/videos/background videos/1.ogv" id="1_8n6qu"]
+[ext_resource type="Script" uid="uid://c1yd8nq3kipfx" path="res://Meme Mode/background_video_player.gd" id="2_7lahl"]
 
 [node name="background_video_player" type="VideoStreamPlayer"]
 z_index = -50

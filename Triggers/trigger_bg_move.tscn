@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://wq51rhe2d7iu"]
 
-[ext_resource type="Script" path="res://Scripts/trigger_bgMove.gd" id="1_gf4s4"]
+[ext_resource type="Script" uid="uid://dvvq0x8bkish4" path="res://Scripts/trigger_bgMove.gd" id="1_gf4s4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
 size = Vector2(64, 64)

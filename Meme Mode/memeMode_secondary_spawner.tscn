@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://da1kse1u8e6co"]
 
-[ext_resource type="Script" path="res://Meme Mode/meme_mode_secondary_spawner.gd" id="1_wcu61"]
+[ext_resource type="Script" uid="uid://dotqyldm6y2yq" path="res://Meme Mode/meme_mode_secondary_spawner.gd" id="1_wcu61"]
 [ext_resource type="AudioStream" uid="uid://bkk6dteci8psp" path="res://Meme Mode/audio/music/1.mp3" id="2_te5wp"]
 
 [node name="memeMode_secondary_spawner" type="Node2D" groups=["spawner_secondary"]]

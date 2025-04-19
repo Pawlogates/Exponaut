@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://3d3psnuuyfny"]
 
-[ext_resource type="Script" path="res://Projectiles/projectile_general.gd" id="1_t35fx"]
+[ext_resource type="Script" uid="uid://cx534fd032om2" path="res://Projectiles/projectile_general.gd" id="1_t35fx"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_0ec8w"]
 [ext_resource type="PackedScene" uid="uid://cxfthwios5msq" path="res://Enemies/enemy_fireImp.tscn" id="2_6fxjl"]
 

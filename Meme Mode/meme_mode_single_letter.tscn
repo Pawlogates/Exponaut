@@ -1,6 +1,6 @@
 [gd_scene load_steps=7 format=3 uid="uid://dq7c81oqwcm1c"]
 
-[ext_resource type="Script" path="res://Meme Mode/meme_mode_single_letter.gd" id="1_apo8m"]
+[ext_resource type="Script" uid="uid://rblhb1cyqmqc" path="res://Meme Mode/meme_mode_single_letter.gd" id="1_apo8m"]
 
 [sub_resource type="Animation" id="Animation_ibc6g"]
 length = 0.001
@@ -65,10 +65,10 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_xr030"]
 _data = {
-"RESET": SubResource("Animation_ibc6g"),
-"moveUp": SubResource("Animation_kq6ag"),
-"moveUp_2": SubResource("Animation_hnknr"),
-"moveUp_3": SubResource("Animation_b8t03")
+&"RESET": SubResource("Animation_ibc6g"),
+&"moveUp": SubResource("Animation_kq6ag"),
+&"moveUp_2": SubResource("Animation_hnknr"),
+&"moveUp_3": SubResource("Animation_b8t03")
 }
 
 [node name="memeMode_singleLetter" type="Label"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=30 format=3 uid="uid://dsn2i83vgnnpy"]
 
-[ext_resource type="Script" path="res://Collectibles/collectible_general.gd" id="1_b8e86"]
+[ext_resource type="Script" uid="uid://omx34ludxcad" path="res://Collectibles/collectible_general.gd" id="1_b8e86"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_tsp32"]
 [ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_2jbb0"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_yswqj"]
@@ -369,9 +369,9 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yo3ck"]
 _data = {
-"RESET": SubResource("Animation_snhod"),
-"loop_upDown": SubResource("Animation_2i83u"),
-"remove": SubResource("Animation_bjdi4")
+&"RESET": SubResource("Animation_snhod"),
+&"loop_upDown": SubResource("Animation_2i83u"),
+&"remove": SubResource("Animation_bjdi4")
 }
 
 [sub_resource type="Animation" id="Animation_u6l55"]
@@ -592,10 +592,10 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"hit": SubResource("Animation_b6f8u"),
-"hit_finalLevel": SubResource("Animation_4h6n2"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"hit": SubResource("Animation_b6f8u"),
+&"hit_finalLevel": SubResource("Animation_4h6n2"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gip66"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://doh5qck6pr2i7"]
 
-[ext_resource type="Script" path="res://Scripts/Shrine Portal Particle.gd" id="1_xnqb2"]
+[ext_resource type="Script" uid="uid://b00c5iot7tfej" path="res://Scripts/Shrine Portal Particle.gd" id="1_xnqb2"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_67su7"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gr5qc"]

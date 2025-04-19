@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://c1k7nrn7y624x"]
 
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="1_rgfer"]
-[ext_resource type="Script" path="res://Scripts/info_text_display.gd" id="2_d4ljp"]
+[ext_resource type="Script" uid="uid://bgivwbaf6ik1f" path="res://Scripts/info_text_display.gd" id="2_d4ljp"]
 [ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/UI_theme.tres" id="2_g0a1u"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nwurg"]
@@ -1338,15 +1338,15 @@ tracks/12/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_suae3"]
 _data = {
-"RESET": SubResource("Animation_gonmr"),
-"hide_0": SubResource("Animation_2m7la"),
-"hide_1": SubResource("Animation_gfkbu"),
-"hide_2": SubResource("Animation_phpiy"),
-"hide_3": SubResource("Animation_0eyxn"),
-"show_0": SubResource("Animation_x8isx"),
-"show_1": SubResource("Animation_p0t6h"),
-"show_2": SubResource("Animation_lvbv3"),
-"show_3": SubResource("Animation_y3qsj")
+&"RESET": SubResource("Animation_gonmr"),
+&"hide_0": SubResource("Animation_2m7la"),
+&"hide_1": SubResource("Animation_gfkbu"),
+&"hide_2": SubResource("Animation_phpiy"),
+&"hide_3": SubResource("Animation_0eyxn"),
+&"show_0": SubResource("Animation_x8isx"),
+&"show_1": SubResource("Animation_p0t6h"),
+&"show_2": SubResource("Animation_lvbv3"),
+&"show_3": SubResource("Animation_y3qsj")
 }
 
 [node name="info_textDisplay_root" type="Control"]

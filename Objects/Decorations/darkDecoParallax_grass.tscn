@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://d3nhc5l53cc5a"]
 
 [ext_resource type="PackedScene" uid="uid://hatulh20a5hg" path="res://Objects/Decorations/dark_deco_grass.tscn" id="1_a0vxp"]
-[ext_resource type="Script" path="res://Scripts/darkDecoParallax.gd" id="1_ksr3l"]
+[ext_resource type="Script" uid="uid://65xdk0a7j4my" path="res://Scripts/darkDecoParallax.gd" id="1_ksr3l"]
 
 [node name="darkDecoParallax_grass" type="Node2D"]
 script = ExtResource("1_ksr3l")

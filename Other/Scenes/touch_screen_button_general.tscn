@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://blbk2lbmdmhcp"]
 
-[ext_resource type="Script" path="res://Other/Scenes/touch_screen_button_general.gd" id="1_jwklh"]
+[ext_resource type="Script" uid="uid://drn21o3l7ombh" path="res://Other/Scenes/touch_screen_button_general.gd" id="1_jwklh"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ahu1"]
 size = Vector2(64, 64)

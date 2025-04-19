@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://be5betbo0y7lc"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_ojusb"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_ojusb"]
 [ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="2_mfl4b"]
 [ext_resource type="SpriteFrames" uid="uid://bixi26pqj0kom" path="res://Assets/Graphics/sprites/packed/enemies/enemy_ghost.tres" id="3_pb2jv"]
 [ext_resource type="AudioStream" uid="uid://1ghx8flvsx4o" path="res://Assets/Sounds/sfx/pig_damage.wav" id="4_wjry0"]
@@ -193,8 +193,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyGhost" type="CharacterBody2D" groups=["Persist", "enemies"]]

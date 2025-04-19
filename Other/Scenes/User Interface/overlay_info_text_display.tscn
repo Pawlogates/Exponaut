@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bx8nd251l8ow"]
 
-[ext_resource type="Script" path="res://Other/Scenes/User Interface/overlay_info_text_display.gd" id="2_8nfql"]
+[ext_resource type="Script" uid="uid://dhvqc4y6xid8m" path="res://Other/Scenes/User Interface/overlay_info_text_display.gd" id="2_8nfql"]
 
 [sub_resource type="Animation" id="Animation_gonmr"]
 length = 0.001
@@ -1332,15 +1332,15 @@ tracks/12/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_suae3"]
 _data = {
-"RESET": SubResource("Animation_gonmr"),
-"hide_0": SubResource("Animation_2m7la"),
-"hide_1": SubResource("Animation_gfkbu"),
-"hide_2": SubResource("Animation_phpiy"),
-"hide_3": SubResource("Animation_0eyxn"),
-"show_0": SubResource("Animation_x8isx"),
-"show_1": SubResource("Animation_p0t6h"),
-"show_2": SubResource("Animation_lvbv3"),
-"show_3": SubResource("Animation_y3qsj")
+&"RESET": SubResource("Animation_gonmr"),
+&"hide_0": SubResource("Animation_2m7la"),
+&"hide_1": SubResource("Animation_gfkbu"),
+&"hide_2": SubResource("Animation_phpiy"),
+&"hide_3": SubResource("Animation_0eyxn"),
+&"show_0": SubResource("Animation_x8isx"),
+&"show_1": SubResource("Animation_p0t6h"),
+&"show_2": SubResource("Animation_lvbv3"),
+&"show_3": SubResource("Animation_y3qsj")
 }
 
 [node name="info_text_display" type="Control"]

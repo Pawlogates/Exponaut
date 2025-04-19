@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://b6c1cgvvuwx78"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_x6sxi"]
-[ext_resource type="Shader" path="res://Other/Shaders/rainbow_effect.gdshader" id="2_l78xp"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_x6sxi"]
+[ext_resource type="Shader" uid="uid://i6nspplc7urd" path="res://Other/Shaders/rainbow_effect.gdshader" id="2_l78xp"]
 [ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="3_xf860"]
 [ext_resource type="SpriteFrames" uid="uid://cem520dxph8vh" path="res://Assets/Graphics/sprites/packed/enemies/enemy_rabbit.tres" id="3_yp32i"]
 [ext_resource type="AudioStream" uid="uid://d0q7oj4n6rdh1" path="res://Assets/Sounds/sfx/rabbit_death.wav" id="4_fewmo"]
@@ -199,8 +199,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyRabbit" type="CharacterBody2D" groups=["Persist", "enemies"]]

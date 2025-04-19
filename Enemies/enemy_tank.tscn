@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://do722l7wriwij"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_m7ywr"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_m7ywr"]
 [ext_resource type="PackedScene" uid="uid://bua5yikrg26q0" path="res://Collectibles/collectibleGrape.tscn" id="2_wy87j"]
 [ext_resource type="PackedScene" uid="uid://ejquvj514e14" path="res://Projectiles/projectile_bullet.tscn" id="3_gb8nl"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_l21s5"]
@@ -195,8 +195,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyTank" type="CharacterBody2D" groups=["Persist", "enemies"]]

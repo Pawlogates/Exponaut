@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d3wws0b2jjsyt"]
 
-[ext_resource type="Script" path="res://gameplay_recorder.gd" id="1_esys6"]
+[ext_resource type="Script" uid="uid://ckfwa3k0hsyg4" path="res://gameplay_recorder.gd" id="1_esys6"]
 
 [node name="gameplay_recorder" type="Node2D"]
 script = ExtResource("1_esys6")

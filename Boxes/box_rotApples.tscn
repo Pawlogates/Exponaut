@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://cxfc7xn7ysp63"]
 
-[ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_qe1i0"]
+[ext_resource type="Script" uid="uid://bjpp812q2377y" path="res://Boxes/box_general.gd" id="1_qe1i0"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_x76wj"]
 [ext_resource type="SpriteFrames" uid="uid://bk6i8kjys6o28" path="res://Assets/Graphics/sprites/packed/boxes/box_rotApples.tres" id="4_w7hli"]
 
@@ -248,9 +248,9 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4wb"]
 _data = {
-"RESET": SubResource("Animation_fir26"),
-"destroyed": SubResource("Animation_6nr0q"),
-"shaking": SubResource("Animation_iwiqs")
+&"RESET": SubResource("Animation_fir26"),
+&"destroyed": SubResource("Animation_6nr0q"),
+&"shaking": SubResource("Animation_iwiqs")
 }
 
 [node name="Box rotApples" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]

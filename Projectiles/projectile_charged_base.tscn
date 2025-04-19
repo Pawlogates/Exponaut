@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://iy5bwsigf434"]
 
-[ext_resource type="Script" path="res://Projectiles/projectile_charged_general.gd" id="1_b5m6w"]
+[ext_resource type="Script" uid="uid://l5hke2t3k8fs" path="res://Projectiles/projectile_charged_general.gd" id="1_b5m6w"]
 [ext_resource type="Texture2D" uid="uid://bhcgyl112uc1i" path="res://Assets/Graphics/other/basic_projectile.png" id="2_3f861"]
 [ext_resource type="Material" uid="uid://b7voscs0a3njp" path="res://Other/Materials/screenTextureEffect.tres" id="3_6gsbe"]
 [ext_resource type="Texture2D" uid="uid://cqilw70a4xuvb" path="res://Assets/Graphics/other/testShader.png" id="4_rh6k4"]
@@ -945,14 +945,14 @@ tracks/10/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_25126"]
 _data = {
-"RESET": SubResource("Animation_hnopc"),
-"charge_grow": SubResource("Animation_hj3kk"),
-"shot_animDOWN": SubResource("Animation_08vei"),
-"shot_animL": SubResource("Animation_gttlr"),
-"shot_animR": SubResource("Animation_fo3a2"),
-"shot_anim_CHARGED_DOWN": SubResource("Animation_tglmq"),
-"shot_anim_CHARGED_L": SubResource("Animation_qtgx2"),
-"shot_anim_CHARGED_R": SubResource("Animation_q8vbr")
+&"RESET": SubResource("Animation_hnopc"),
+&"charge_grow": SubResource("Animation_hj3kk"),
+&"shot_animDOWN": SubResource("Animation_08vei"),
+&"shot_animL": SubResource("Animation_gttlr"),
+&"shot_animR": SubResource("Animation_fo3a2"),
+&"shot_anim_CHARGED_DOWN": SubResource("Animation_tglmq"),
+&"shot_anim_CHARGED_L": SubResource("Animation_qtgx2"),
+&"shot_anim_CHARGED_R": SubResource("Animation_q8vbr")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fxgxn"]

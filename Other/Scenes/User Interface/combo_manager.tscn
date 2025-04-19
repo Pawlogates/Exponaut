@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhjuxvebimqov"]
 
-[ext_resource type="Script" path="res://Scripts/ComboManager.gd" id="1_bhqmy"]
+[ext_resource type="Script" uid="uid://coupdpnhilc0d" path="res://Scripts/ComboManager.gd" id="1_bhqmy"]
 [ext_resource type="AudioStream" uid="uid://vn2emi73bj4f" path="res://Assets/Sounds/sfx/combo_reset.wav" id="2_h4ctp"]
 
 [node name="ComboManager" type="Node2D"]

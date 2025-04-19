@@ -1,14 +1,14 @@
 [gd_scene load_steps=5 format=3 uid="uid://4rdhbwr8gea4"]
 
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="1_i4dtr"]
-[ext_resource type="Script" path="res://Scripts/score_display.gd" id="2_y2l1u"]
+[ext_resource type="Script" uid="uid://cla8cu6o1fwtt" path="res://Scripts/score_display.gd" id="2_y2l1u"]
 
 [sub_resource type="Animation" id="Animation_k00jd"]
 resource_name = "comboScore_show"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4g1wx"]
 _data = {
-"comboScore_show": SubResource("Animation_k00jd")
+&"comboScore_show": SubResource("Animation_k00jd")
 }
 
 [node name="ScoreDisplay" type="Node2D"]

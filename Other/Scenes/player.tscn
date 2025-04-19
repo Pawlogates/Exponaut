@@ -1,6 +1,6 @@
 [gd_scene load_steps=57 format=3 uid="uid://q4y4u3wm2et6"]
 
-[ext_resource type="Script" path="res://Scripts/player.gd" id="1_gy5p5"]
+[ext_resource type="Script" uid="uid://bvqjdy74r3ptq" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="2_vnlwi"]
 [ext_resource type="AudioStream" uid="uid://bypu2n6tdxni4" path="res://Assets/Sounds/sfx/collect_secret2.wav" id="3_3ak63"]
 [ext_resource type="AudioStream" uid="uid://dlvig2qlrk412" path="res://Assets/Sounds/sfx/player_attack.wav" id="4_ibr3r"]
@@ -443,12 +443,12 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_wupbq"]
 _data = {
-"RESET": SubResource("Animation_n7rd3"),
-"air_jumped": SubResource("Animation_cn6g4"),
-"jumped": SubResource("Animation_i10x8"),
-"rotate_left": SubResource("Animation_p3da0"),
-"rotate_right": SubResource("Animation_1hfo2"),
-"scale_downUp": SubResource("Animation_kkrtk")
+&"RESET": SubResource("Animation_n7rd3"),
+&"air_jumped": SubResource("Animation_cn6g4"),
+&"jumped": SubResource("Animation_i10x8"),
+&"rotate_left": SubResource("Animation_p3da0"),
+&"rotate_right": SubResource("Animation_1hfo2"),
+&"scale_downUp": SubResource("Animation_kkrtk")
 }
 
 [sub_resource type="Animation" id="Animation_f7ykp"]
@@ -557,10 +557,10 @@ tracks/1/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mcx4o"]
 _data = {
-"RESET": SubResource("Animation_f7ykp"),
-"max_score_multiplier_reached": SubResource("Animation_2c8md"),
-"shot_charged": SubResource("Animation_2a4pd"),
-"streak_reset": SubResource("Animation_a3nuy")
+&"RESET": SubResource("Animation_f7ykp"),
+&"max_score_multiplier_reached": SubResource("Animation_2c8md"),
+&"shot_charged": SubResource("Animation_2a4pd"),
+&"streak_reset": SubResource("Animation_a3nuy")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["player", "player_root"]]

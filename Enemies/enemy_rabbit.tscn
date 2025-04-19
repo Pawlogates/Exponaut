@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://bvl2rlm1ym6vc"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_scv7c"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_scv7c"]
 [ext_resource type="SpriteFrames" uid="uid://cem520dxph8vh" path="res://Assets/Graphics/sprites/packed/enemies/enemy_rabbit.tres" id="2_hwu1c"]
 [ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="3_858qk"]
 [ext_resource type="AudioStream" uid="uid://d0q7oj4n6rdh1" path="res://Assets/Sounds/sfx/rabbit_death.wav" id="4_ptd0t"]
@@ -192,8 +192,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyRabbit" type="CharacterBody2D" groups=["Persist", "enemies"]]

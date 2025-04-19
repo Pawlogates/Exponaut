@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://dvebgwnbhrul3"]
 
-[ext_resource type="Script" path="res://Meme Mode/image_pulse_spawner.gd" id="1_f3fin"]
+[ext_resource type="Script" uid="uid://ckvnerluhswut" path="res://Meme Mode/image_pulse_spawner.gd" id="1_f3fin"]
 
 [node name="image_pulse_spawner" type="Node2D"]
 script = ExtResource("1_f3fin")

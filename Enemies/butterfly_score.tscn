@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://rl2pxvlbj6gb"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_4ji4u"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_4ji4u"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="3_ab8i0"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_q7a7g"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="5_0iobu"]
@@ -236,8 +236,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_upxjq"]

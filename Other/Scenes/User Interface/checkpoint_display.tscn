@@ -35,8 +35,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_5xbdw"]
 _data = {
-"RESET": SubResource("Animation_j24ar"),
-"on_justQuicksaved": SubResource("Animation_j4s7u")
+&"RESET": SubResource("Animation_j24ar"),
+&"on_justQuicksaved": SubResource("Animation_j4s7u")
 }
 
 [node name="quicksavedDisplay" type="Node2D"]

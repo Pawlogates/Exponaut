@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://biea3w7ii0w6k"]
 
-[ext_resource type="Script" path="res://Scripts/inventoryItem.gd" id="1_d7i5t"]
+[ext_resource type="Script" uid="uid://dhdm2c5p0ahaq" path="res://Scripts/inventoryItem.gd" id="1_d7i5t"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_jempq"]
 
 [node name="inventoryItem" type="Control" groups=["in_inventory"]]

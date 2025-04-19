@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://di3x57nniyukj"]
 
-[ext_resource type="Script" path="res://Scripts/particles_special_multiple.gd" id="1_a6evj"]
+[ext_resource type="Script" uid="uid://d3vcybacof1m8" path="res://Scripts/particles_special_multiple.gd" id="1_a6evj"]
 [ext_resource type="PackedScene" uid="uid://b4ub21kqvsg2a" path="res://Particles/particles_special2.tscn" id="2_erpuv"]
 
 [node name="particles_special2_multiple" type="Node2D"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dg0wrskruwis0"]
 
-[ext_resource type="Script" path="res://Scripts/deco_waterfall.gd" id="1_4admy"]
+[ext_resource type="Script" uid="uid://hyt7g7hh0wov" path="res://Scripts/deco_waterfall.gd" id="1_4admy"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_80ipb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_77bbj"]
@@ -99,8 +99,8 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tpxjg"]
 _data = {
-"RESET": SubResource("Animation_krq8p"),
-"loop": SubResource("Animation_d8vw1")
+&"RESET": SubResource("Animation_krq8p"),
+&"loop": SubResource("Animation_d8vw1")
 }
 
 [node name="deco_waterfall" type="Container"]

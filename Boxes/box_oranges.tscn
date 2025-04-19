@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://eh1her6bw7cj"]
 
-[ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_722wu"]
+[ext_resource type="Script" uid="uid://bjpp812q2377y" path="res://Boxes/box_general.gd" id="1_722wu"]
 [ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="2_1l7n1"]
 [ext_resource type="SpriteFrames" uid="uid://chpvssjvdaec2" path="res://Assets/Graphics/sprites/packed/boxes/box_oranges.tres" id="3_3ydwe"]
 
@@ -218,8 +218,8 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4wb"]
 _data = {
-"RESET": SubResource("Animation_fir26"),
-"destroyed": SubResource("Animation_6nr0q")
+&"RESET": SubResource("Animation_fir26"),
+&"destroyed": SubResource("Animation_6nr0q")
 }
 
 [node name="Box Oranges" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://defq0xnr3tmi6"]
 
-[ext_resource type="Script" path="res://Meme Mode/meme_mode_controller.gd" id="1_i552x"]
-[ext_resource type="Script" path="res://Meme Mode/manual_spawner.gd" id="2_svqem"]
+[ext_resource type="Script" uid="uid://byvwgk7genqg8" path="res://Meme Mode/meme_mode_controller.gd" id="1_i552x"]
+[ext_resource type="Script" uid="uid://c3tdqq8dqoxkt" path="res://Meme Mode/manual_spawner.gd" id="2_svqem"]
 [ext_resource type="PackedScene" uid="uid://bj88bgbmum6t" path="res://Meme Mode/settings.tscn" id="3_02dgn"]
 
 [node name="meme_mode_controller" type="Node2D"]

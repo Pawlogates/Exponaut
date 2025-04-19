@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://dalx4wtwfl351"]
 
 [ext_resource type="PackedScene" uid="uid://bryuyj06lbaxi" path="res://Enemies/enemy_base.tscn" id="1_re81w"]
-[ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_q6xct"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_q6xct"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_elfi6"]
 resource_local_to_scene = true

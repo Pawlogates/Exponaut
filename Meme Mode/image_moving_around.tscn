@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://2ba0kapj1xky"]
 
-[ext_resource type="Script" path="res://Meme Mode/image_moving_around.gd" id="1_kqqcv"]
+[ext_resource type="Script" uid="uid://bxu01ltmcqrik" path="res://Meme Mode/image_moving_around.gd" id="1_kqqcv"]
 [ext_resource type="Texture2D" uid="uid://bf23md3pwfkyq" path="res://Meme Mode/pictures/common/4.png" id="2_wk4xf"]
 
 [node name="image_moving_around" type="Node2D"]

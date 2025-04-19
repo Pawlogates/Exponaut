@@ -34,8 +34,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1usls"]
 _data = {
-"RESET": SubResource("Animation_8cw5w"),
-"rotation": SubResource("Animation_3iid1")
+&"RESET": SubResource("Animation_8cw5w"),
+&"rotation": SubResource("Animation_3iid1")
 }
 
 [node name="circle" type="Node2D"]

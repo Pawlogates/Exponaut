@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://d2xjhu1myvqf5"]
 
-[ext_resource type="Script" path="res://Scripts/ambience_controller.gd" id="1_bbqoc"]
+[ext_resource type="Script" uid="uid://chdfiuqd1ox33" path="res://Scripts/ambience_controller.gd" id="1_bbqoc"]
 [ext_resource type="AudioStream" uid="uid://bx33dihtu8sf7" path="res://Assets/Sounds/ambience/ambience11.mp3" id="2_edpwh"]
 [ext_resource type="AudioStream" uid="uid://bcyxihkghvglr" path="res://Assets/Sounds/ambience/ambience12.mp3" id="3_pxqo3"]
 [ext_resource type="AudioStream" uid="uid://8624o4hxrywd" path="res://Assets/Sounds/ambience/ambience_mysterious1.mp3" id="4_pqbrp"]

@@ -1,9 +1,9 @@
 [gd_scene load_steps=30 format=3 uid="uid://d0vqhficbarvl"]
 
-[ext_resource type="Script" path="res://Scripts/debug_screen.gd" id="1_40r4v"]
+[ext_resource type="Script" uid="uid://bm7aahpmh666p" path="res://Scripts/debug_screen.gd" id="1_40r4v"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_rmjkc"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="3_85xa0"]
-[ext_resource type="Script" path="res://Scripts/menu_button.gd" id="4_skuwq"]
+[ext_resource type="Script" uid="uid://dyg342n2aof80" path="res://Scripts/menu_button.gd" id="4_skuwq"]
 [ext_resource type="PackedScene" uid="uid://cg5jpj6df864v" path="res://Other/Scenes/User Interface/Debug/shortcut_list.tscn" id="5_lmtmj"]
 
 [sub_resource type="Shader" id="Shader_mtegs"]
@@ -118,11 +118,11 @@ gradient = SubResource("Gradient_ymvqi")
 shader = SubResource("Shader_mtegs")
 shader_parameter/disableProcessing = false
 shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_qss5a")
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
-shader_parameter/palette = SubResource("GradientTexture2D_qss5a")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1rw7s"]
 atlas = ExtResource("2_rmjkc")
@@ -240,11 +240,11 @@ gradient = SubResource("Gradient_lm5el")
 shader = SubResource("Shader_h4ft5")
 shader_parameter/disableProcessing = false
 shader_parameter/modulate = Color(1, 0, 0, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_78pc8")
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
-shader_parameter/palette = SubResource("GradientTexture2D_78pc8")
 
 [sub_resource type="Gradient" id="Gradient_038n8"]
 colors = PackedColorArray(1, 0.541176, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
@@ -256,11 +256,11 @@ gradient = SubResource("Gradient_038n8")
 shader = SubResource("Shader_h4ft5")
 shader_parameter/disableProcessing = false
 shader_parameter/modulate = Color(1, 0.588235, 0, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_ixonm")
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
-shader_parameter/palette = SubResource("GradientTexture2D_ixonm")
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_t515y"]
 load_path = "res://.godot/imported/sprites_general.png-62da394d719687c5fbfc20a486270e96.ctex"
@@ -307,11 +307,11 @@ gradient = SubResource("Gradient_oxbnt")
 shader = SubResource("Shader_h4ft5")
 shader_parameter/disableProcessing = false
 shader_parameter/modulate = Color(1, 1, 0, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_uf8fu")
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
-shader_parameter/palette = SubResource("GradientTexture2D_uf8fu")
 
 [node name="Debug Screen" type="Control"]
 layout_mode = 3

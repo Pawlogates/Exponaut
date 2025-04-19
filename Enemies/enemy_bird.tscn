@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://c34n5unc83pa1"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_2rxo3"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_2rxo3"]
 [ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="2_ucraf"]
 [ext_resource type="PackedScene" uid="uid://tg5egmu1bte0" path="res://Projectiles/player_secondaryProjectile_basic.tscn" id="3_ev41r"]
 [ext_resource type="AudioStream" uid="uid://06mnrt474pfx" path="res://Assets/Sounds/sfx/bird_idle.wav" id="4_822xa"]
@@ -194,8 +194,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyBird" type="CharacterBody2D" groups=["Persist", "enemies"]]

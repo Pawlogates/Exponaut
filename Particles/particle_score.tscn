@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://db7rckec3oge7"]
 
-[ext_resource type="Script" path="res://Particles/particle_score.gd" id="1_8r0v8"]
+[ext_resource type="Script" uid="uid://c5meu4ox38s5s" path="res://Particles/particle_score.gd" id="1_8r0v8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4tpxp"]
 size = Vector2(10, 10)

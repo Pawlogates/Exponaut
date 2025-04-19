@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://ckdwtubwnxp3h"]
 
-[ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_fc3qi"]
+[ext_resource type="Script" uid="uid://bjpp812q2377y" path="res://Boxes/box_general.gd" id="1_fc3qi"]
 [ext_resource type="PackedScene" uid="uid://bua5yikrg26q0" path="res://Collectibles/collectibleGrape.tscn" id="2_iv0cn"]
 [ext_resource type="AudioStream" uid="uid://b1u7ukk2eoeb5" path="res://Assets/Sounds/sfx/effect_damage.wav" id="3_ri7gk"]
 [ext_resource type="SpriteFrames" uid="uid://fh2he737vq7" path="res://Assets/Graphics/sprites/packed/boxes/box_grapes.tres" id="4_yhng0"]
@@ -219,8 +219,8 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4wb"]
 _data = {
-"RESET": SubResource("Animation_fir26"),
-"destroyed": SubResource("Animation_6nr0q")
+&"RESET": SubResource("Animation_fir26"),
+&"destroyed": SubResource("Animation_6nr0q")
 }
 
 [node name="Box Grapes" type="CharacterBody2D" groups=["Collectibles", "bonusBox"]]

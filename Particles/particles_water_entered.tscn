@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://dyfacu7kmv2uk"]
 
-[ext_resource type="Script" path="res://Scripts/particles_special_multiple.gd" id="1_gq7qu"]
+[ext_resource type="Script" uid="uid://d3vcybacof1m8" path="res://Scripts/particles_special_multiple.gd" id="1_gq7qu"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_qbsk8"]
-[ext_resource type="Script" path="res://Scripts/particles_special.gd" id="3_t6r2l"]
+[ext_resource type="Script" uid="uid://bgxmjlyd0mrg5" path="res://Scripts/particles_special.gd" id="3_t6r2l"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_i0ktt"]
 atlas = ExtResource("2_qbsk8")
@@ -16,7 +16,7 @@ point_count = 2
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
 
 [sub_resource type="Curve" id="Curve_40qe5"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 

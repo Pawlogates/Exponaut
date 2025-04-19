@@ -1,9 +1,9 @@
 [gd_scene load_steps=19 format=3 uid="uid://b3wqhtl77hany"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_bn0ff"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_bn0ff"]
 [ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="2_q3w20"]
 [ext_resource type="PackedScene" uid="uid://bpusy523xij41" path="res://Projectiles/player_secondaryProjectile_bouncingBall.tscn" id="3_clw6e"]
-[ext_resource type="Shader" path="res://Other/Shaders/rainbow_effect.gdshader" id="4_w2sop"]
+[ext_resource type="Shader" uid="uid://i6nspplc7urd" path="res://Other/Shaders/rainbow_effect.gdshader" id="4_w2sop"]
 [ext_resource type="SpriteFrames" uid="uid://dvyr8rcwt11cf" path="res://Assets/Graphics/sprites/packed/enemies/enemy_rabbitGreen.tres" id="5_603ag"]
 [ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="6_06kxv"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="7_45oi0"]
@@ -203,8 +203,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyRabbit_green" type="CharacterBody2D" groups=["Persist", "enemies"]]

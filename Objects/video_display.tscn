@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dssex4c1v434v"]
 
-[ext_resource type="Script" path="res://Scripts/video_display.gd" id="1_3x6i3"]
+[ext_resource type="Script" uid="uid://7i6bqh88w6q1" path="res://Scripts/video_display.gd" id="1_3x6i3"]
 
 [sub_resource type="VideoStreamTheora" id="VideoStreamTheora_rogi7"]
 file = "res://Assets/Videos/tutorial1.ogv"
@@ -37,8 +37,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_msh6l"]
 _data = {
-"RESET": SubResource("Animation_glwdq"),
-"fade_in": SubResource("Animation_2pyap")
+&"RESET": SubResource("Animation_glwdq"),
+&"fade_in": SubResource("Animation_2pyap")
 }
 
 [node name="Video Display" type="Area2D"]

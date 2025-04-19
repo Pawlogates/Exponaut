@@ -1,11 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://bdp8sfkqlaxla"]
 
 [ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/other/star.png" id="1_vo6vc"]
-[ext_resource type="Script" path="res://Scripts/particles_special.gd" id="2_jfcg5"]
+[ext_resource type="Script" uid="uid://bgxmjlyd0mrg5" path="res://Scripts/particles_special.gd" id="2_jfcg5"]
 
 [sub_resource type="Curve" id="Curve_4cgjw"]
-min_value = -360.0
-max_value = 360.0
+_limits = [-360.0, 360.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.25), 0.0, 0.0, 0, 0]
 point_count = 2
 
@@ -13,7 +12,7 @@ point_count = 2
 colors = PackedColorArray(1, 1, 1, 1, 1, 0, 0, 0)
 
 [sub_resource type="Curve" id="Curve_064i6"]
-min_value = -1.0
+_limits = [-1.0, 1.0, 0.0, 1.0]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 

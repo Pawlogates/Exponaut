@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://c5we8ft88dt1o"]
 
-[ext_resource type="Script" path="res://Scripts/Shrine Portal.gd" id="1_i8dxa"]
+[ext_resource type="Script" uid="uid://bpf67lmadgljy" path="res://Scripts/Shrine Portal.gd" id="1_i8dxa"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_lvofv"]
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="3_di4y8"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="4_n748y"]
@@ -462,9 +462,9 @@ tracks/5/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_brnp0"]
 _data = {
-"RESET": SubResource("Animation_ela7i"),
-"fadeIn_info": SubResource("Animation_jt36m"),
-"portal_open": SubResource("Animation_3d3ut")
+&"RESET": SubResource("Animation_ela7i"),
+&"fadeIn_info": SubResource("Animation_jt36m"),
+&"portal_open": SubResource("Animation_3d3ut")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y1nwp"]

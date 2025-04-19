@@ -1,6 +1,6 @@
 [gd_scene load_steps=22 format=3 uid="uid://cfybjdad00fro"]
 
-[ext_resource type="Script" path="res://Boxes/box_general.gd" id="1_wsjfk"]
+[ext_resource type="Script" uid="uid://bjpp812q2377y" path="res://Boxes/box_general.gd" id="1_wsjfk"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="2_v8cai"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="3_eead2"]
 
@@ -218,8 +218,8 @@ tracks/8/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_eo4wb"]
 _data = {
-"RESET": SubResource("Animation_fir26"),
-"destroyed": SubResource("Animation_6nr0q")
+&"RESET": SubResource("Animation_fir26"),
+&"destroyed": SubResource("Animation_6nr0q")
 }
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lygqk"]

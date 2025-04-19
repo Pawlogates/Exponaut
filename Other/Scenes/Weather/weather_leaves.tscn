@@ -1,10 +1,9 @@
 [gd_scene load_steps=12 format=3 uid="uid://clq84usohsuk8"]
 
-[ext_resource type="Script" path="res://Scripts/weather.gd" id="1_rmu0k"]
+[ext_resource type="Script" uid="uid://doyr8hprnolab" path="res://Scripts/weather.gd" id="1_rmu0k"]
 
 [sub_resource type="Curve" id="Curve_qk6pp"]
-min_value = -20.0
-max_value = 20.0
+_limits = [-25.0, 25.0, 0.0, 1.0]
 _data = [Vector2(0, 25), 0.0, -20.0, 0, 0, Vector2(0.2, -5), -15.0, 0.0, 0, 0, Vector2(0.4, 20), 0.0, 0.0, 0, 0, Vector2(0.6, -10), 0.0, 0.0, 0, 0, Vector2(0.8, 10), 0.0, 0.0, 0, 0, Vector2(1, -25), 0.0, 0.0, 0, 0]
 point_count = 6
 

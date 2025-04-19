@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://p6w30a7qc1t1"]
 
 [ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="1_tmvwb"]
-[ext_resource type="Script" path="res://Other/Scenes/Random Decoration/random_decoration_part.gd" id="2_pe2uk"]
+[ext_resource type="Script" uid="uid://bt33eekbl7oo5" path="res://Other/Scenes/Random Decoration/random_decoration_part.gd" id="2_pe2uk"]
 
 [node name="random_decoration_part" type="Sprite2D"]
 texture = ExtResource("1_tmvwb")

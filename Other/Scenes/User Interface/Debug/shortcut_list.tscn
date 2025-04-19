@@ -116,11 +116,11 @@ gradient = SubResource("Gradient_ymvqi")
 shader = SubResource("Shader_mtegs")
 shader_parameter/disableProcessing = false
 shader_parameter/modulate = Color(0, 0, 1, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_m6xgq")
 shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 10.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
-shader_parameter/palette = SubResource("GradientTexture2D_m6xgq")
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1rw7s"]
 atlas = ExtResource("1_u3eol")

@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://capn1k1755ueq"]
 
-[ext_resource type="Script" path="res://Collectibles/collectible_simple.gd" id="1_3sf2k"]
+[ext_resource type="Script" uid="uid://ckmhobgkosjly" path="res://Collectibles/collectible_simple.gd" id="1_3sf2k"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_necg6"]
 [ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_81ksg"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="4_3parq"]
@@ -282,9 +282,9 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_yo3ck"]
 _data = {
-"RESET": SubResource("Animation_snhod"),
-"loop": SubResource("Animation_wwvab"),
-"remove": SubResource("Animation_bjdi4")
+&"RESET": SubResource("Animation_snhod"),
+&"loop": SubResource("Animation_wwvab"),
+&"remove": SubResource("Animation_bjdi4")
 }
 
 [sub_resource type="Animation" id="Animation_u6l55"]
@@ -463,8 +463,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="grapefruit" type="Node2D" groups=["Persist"]]

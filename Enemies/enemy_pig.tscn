@@ -1,6 +1,6 @@
 [gd_scene load_steps=15 format=3 uid="uid://ca4g5sy70xmju"]
 
-[ext_resource type="Script" path="res://Enemies/enemy_general.gd" id="1_iou5s"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_iou5s"]
 [ext_resource type="PackedScene" uid="uid://cgygc2y12hn6l" path="res://Projectiles/projectile_fireball.tscn" id="2_1ojr8"]
 [ext_resource type="AudioStream" uid="uid://1ghx8flvsx4o" path="res://Assets/Sounds/sfx/pig_damage.wav" id="3_jla2o"]
 [ext_resource type="SpriteFrames" uid="uid://bau6lhr8h8wm6" path="res://Assets/Graphics/sprites/packed/enemies/enemy_pig.tres" id="3_udv8k"]
@@ -194,8 +194,8 @@ tracks/6/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ihjei"]
 _data = {
-"RESET": SubResource("Animation_u6l55"),
-"score_value": SubResource("Animation_gitew")
+&"RESET": SubResource("Animation_u6l55"),
+&"score_value": SubResource("Animation_gitew")
 }
 
 [node name="enemyPig" type="CharacterBody2D" groups=["Persist", "enemies"]]
