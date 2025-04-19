@@ -1,0 +1,163 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj88bgbmum6t"]
+
+[ext_resource type="Script" path="res://Meme Mode/settings.gd" id="1_0ivyk"]
+
+[sub_resource type="Animation" id="Animation_pcqh2"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible_characters")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [22]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label2:visible_characters")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [27]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Label3:visible_characters")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [29]
+}
+
+[sub_resource type="Animation" id="Animation_axqeg"]
+resource_name = "fade_out"
+length = 2.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 2)
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Label:visible_characters")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [22]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Label2:visible_characters")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [27]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Label3:visible_characters")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [29]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l61ko"]
+_data = {
+"RESET": SubResource("Animation_pcqh2"),
+"fade_out": SubResource("Animation_axqeg")
+}
+
+[node name="Settings" type="Node2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 500
+scale = Vector2(2, 2)
+script = ExtResource("1_0ivyk")
+
+[node name="Label" type="Label" parent="."]
+modulate = Color(1, 0, 0, 1)
+offset_left = -160.0
+offset_top = -64.0
+offset_right = 160.0
+offset_bottom = -32.0
+text = "Main spawn delay: 1"
+horizontal_alignment = 2
+visible_characters = 22
+visible_ratio = 1.15789
+
+[node name="Label2" type="Label" parent="."]
+modulate = Color(1, 0, 0, 1)
+offset_left = -160.0
+offset_top = -16.0
+offset_right = 160.0
+offset_bottom = 16.0
+text = "Secondary spawn delay: 1"
+horizontal_alignment = 2
+visible_characters = 27
+visible_ratio = 1.125
+
+[node name="Label3" type="Label" parent="."]
+modulate = Color(1, 0, 0, 1)
+offset_left = -160.0
+offset_top = 32.0
+offset_right = 160.0
+offset_bottom = 64.0
+text = "Greenscreen spawn delay: 1"
+horizontal_alignment = 2
+visible_characters = 29
+visible_ratio = 1.11538
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_l61ko")
+}
+
+[node name="Label4" type="Label" parent="."]
+offset_left = -160.0
+offset_top = 64.0
+offset_right = 267.0
+offset_bottom = 107.0
+scale = Vector2(0.75, 0.75)
+text = "Higher value = longer average delay"
+horizontal_alignment = 1

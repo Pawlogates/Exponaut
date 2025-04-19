@@ -1,8 +1,26 @@
-[gd_scene load_steps=8 format=3 uid="uid://di1xenyk82l12"]
+[gd_scene load_steps=14 format=3 uid="uid://di1xenyk82l12"]
 
 [ext_resource type="Script" path="res://touch_controls.gd" id="1_t1308"]
-[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/button_general.tscn" id="2_l45cv"]
+[ext_resource type="PackedScene" uid="uid://blbk2lbmdmhcp" path="res://Other/Scenes/touch_screen_button_general.tscn" id="2_o5wd6"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="3_mpqjb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mjlqn"]
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bv16c"]
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uxov6"]
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_uglj8"]
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6rvx2"]
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gwtqe"]
+size = Vector2(96, 96)
 
 [sub_resource type="Animation" id="Animation_ivajr"]
 length = 0.001
@@ -58,83 +76,166 @@ _data = {
 
 [node name="touch_controls" type="Control" groups=["touch_controls"]]
 modulate = Color(1, 1, 1, 0)
+z_index = 50
 layout_mode = 3
 anchors_preset = 0
 script = ExtResource("1_t1308")
 
 [node name="root" type="Node2D" parent="."]
+scale = Vector2(1.5, 1.5)
 
-[node name="jump" parent="root" instance=ExtResource("2_l45cv")]
-offset_left = 1584.0
-offset_top = 880.0
-offset_right = 1648.0
-offset_bottom = 944.0
+[node name="jump" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(1173.33, 629.333)
+shape = SubResource("RectangleShape2D_mjlqn")
+action = "jump"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/jump"]
-position = Vector2(32, 32)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(128, 576, 64, 64)
 
-[node name="dash" parent="root" instance=ExtResource("2_l45cv")]
-offset_left = 1680.0
-offset_top = 880.0
-offset_right = 1744.0
-offset_bottom = 944.0
+[node name="Sprite2D" type="Sprite2D" parent="root/jump/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
+
+[node name="dash" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(1077.33, 629.333)
+shape = SubResource("RectangleShape2D_bv16c")
+action = "dash"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/dash"]
-position = Vector2(32, 32)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(128, 576, 64, 64)
 
-[node name="move_L" parent="root" instance=ExtResource("2_l45cv")]
-offset_left = 144.0
-offset_top = 944.0
-offset_right = 208.0
-offset_bottom = 1008.0
+[node name="Sprite2D" type="Sprite2D" parent="root/dash/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
+
+[node name="move_L" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(117.333, 629.333)
+shape = SubResource("RectangleShape2D_uxov6")
+action = "move_L"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_L"]
-position = Vector2(32, 32)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(128, 384, 64, 64)
 
-[node name="move_DOWN" parent="root" instance=ExtResource("2_l45cv")]
-offset_left = 240.0
-offset_top = 944.0
-offset_right = 304.0
-offset_bottom = 1008.0
-
-[node name="Sprite2D" type="Sprite2D" parent="root/move_DOWN"]
-position = Vector2(32, 32)
+[node name="Sprite2D" type="Sprite2D" parent="root/move_L/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(0, 384, 64, 64)
 
-[node name="move_R" parent="root" instance=ExtResource("2_l45cv")]
-offset_left = 336.0
-offset_top = 944.0
-offset_right = 400.0
-offset_bottom = 1008.0
+[node name="move_R" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(309.333, 629.333)
+shape = SubResource("RectangleShape2D_uglj8")
+action = "move_R"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_R"]
-position = Vector2(32, 32)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(64, 384, 64, 64)
 
-[node name="move_UP" parent="root" instance=ExtResource("2_l45cv")]
-offset_left = 240.0
-offset_top = 848.0
-offset_right = 304.0
-offset_bottom = 912.0
+[node name="Sprite2D" type="Sprite2D" parent="root/move_R/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
+
+[node name="move_UP" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(213.333, 533.333)
+shape = SubResource("RectangleShape2D_6rvx2")
+action = "move_UP"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_UP"]
-position = Vector2(32, 32)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(128, 576, 64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="root/move_UP/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
+
+[node name="move_DOWN" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(213.333, 629.333)
+shape = SubResource("RectangleShape2D_gwtqe")
+action = "move_DOWN"
+
+[node name="Sprite2D" type="Sprite2D" parent="root/move_DOWN"]
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(128, 576, 64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="root/move_DOWN/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
+
+[node name="attack_main" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(1173.33, 533.333)
+shape = SubResource("RectangleShape2D_gwtqe")
+action = "attack_main"
+
+[node name="Sprite2D" type="Sprite2D" parent="root/attack_main"]
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 512, 64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="root/attack_main/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
+
+[node name="attack_secondary" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(1077.33, 533.333)
+shape = SubResource("RectangleShape2D_gwtqe")
+action = "attack_secondary"
+
+[node name="Sprite2D" type="Sprite2D" parent="root/attack_secondary"]
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(128, 576, 64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="root/attack_secondary/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
+
+[node name="menu" parent="root" instance=ExtResource("2_o5wd6")]
+position = Vector2(1194.67, 85.3333)
+shape = SubResource("RectangleShape2D_gwtqe")
+action = "menu"
+
+[node name="Sprite2D" type="Sprite2D" parent="root/menu"]
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(64, 448, 64, 64)
+
+[node name="Sprite2D" type="Sprite2D" parent="root/menu/Sprite2D"]
+z_index = -1
+scale = Vector2(1.25, 1.25)
+texture = ExtResource("3_mpqjb")
+region_enabled = true
+region_rect = Rect2(0, 384, 64, 64)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

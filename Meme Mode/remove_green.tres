@@ -1,0 +1,10 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cmnncgk7qn78a"]
+
+[ext_resource type="Shader" path="res://Meme Mode/remove_green.gdshader" id="1_sbcu6"]
+
+[resource]
+shader = ExtResource("1_sbcu6")
+shader_parameter/key_color = Color(0, 1, 0, 1)
+shader_parameter/similarity = 0.4
+shader_parameter/smoothness = 0.08
+shader_parameter/spill = 0.1

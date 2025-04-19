@@ -238,14 +238,24 @@ func _ready():
 	
 	player.camera.position_smoothing_enabled = false
 	
+	
 	if meme_mode:
-		$meme_mode_timer.start()
 		$/root/World/HUD.visible = false
 		
-		var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
-		meme_spawner.randomize_all = true
-		meme_spawner.position = Vector2(player.position.x + randi_range(-800, 800), player.position.y + randi_range(-500, 500))
-		add_child(meme_spawner)
+		var meme_mode_SubViewportContainer = SubViewportContainer
+		var meme_mode_SubViewportContainer_spawned = meme_mode_SubViewportContainer.new()
+		meme_mode_SubViewportContainer_spawned.name = "SubViewportContainer"
+		meme_mode_SubViewportContainer_spawned.size = Vector2(1920, 1080)
+		var meme_mode_SubViewport = SubViewport
+		var meme_mode_SubViewport_spawned = meme_mode_SubViewport.new()
+		meme_mode_SubViewport_spawned.name = "SubViewport"
+		meme_mode_SubViewport_spawned.size = Vector2(1920, 1080)
+		meme_mode_SubViewportContainer_spawned.add_child(meme_mode_SubViewport_spawned)
+		add_child(meme_mode_SubViewportContainer_spawned)
+		
+		var meme_mode_controller = preload("res://Meme Mode/meme_mode_controller.tscn").instantiate()
+		add_child(meme_mode_controller)
+	
 	
 	if whiteBlocks_make_rainbow:
 		if whiteBlocks_toggleBetween:
@@ -275,6 +285,11 @@ func _ready():
 		%bg_current.queue_free()
 		%bg_previous.queue_free()
 		$ParallaxBackgroundGradient.queue_free()
+	
+	if meme_mode:
+		var meme_mode_background_video_player = preload("res://Meme Mode/background_video_player.tscn").instantiate()
+		meme_mode_background_video_player.position = player.position + Vector2(-960, -540)
+		add_child(meme_mode_background_video_player)
 	
 	await LevelTransition.fade_from_black_slow()
 	
@@ -1102,17 +1117,6 @@ func reassign_player():
 		get_tree().get_first_node_in_group("quickselect_screen").reassign_player()
 
 
-func _on_meme_mode_timer_timeout():
-	if meme_mode:
-		var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
-		meme_spawner.randomize_all = true
-		meme_spawner.position = Vector2(player.position.x + randi_range(-800, 800), player.position.y + randi_range(-500, 500))
-		add_child(meme_spawner)
-		
-		$meme_mode_timer.wait_time = randf_range(0.5, 6)
-		$meme_mode_timer.start()
-
-
 func _on_timer_timeout() -> void:
 	if whiteBlocks_toggle:
 		whiteBlocks_toggle = false
@@ -1172,7 +1176,7 @@ func screen_shake():
 
 
 func _input(event):
-	if get_node("HUD/touch_controls"):
+	if get_node_or_null("HUD/touch_controls"):
 		return
 	
 	if "Screen" in str(event):

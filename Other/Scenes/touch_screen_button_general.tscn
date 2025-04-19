@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://blbk2lbmdmhcp"]
+
+[ext_resource type="Script" path="res://Other/Scenes/touch_screen_button_general.gd" id="1_jwklh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8ahu1"]
+size = Vector2(64, 64)
+
+[node name="touch_screen_button_general" type="TouchScreenButton" groups=["touch_screen_button_general"]]
+shape = SubResource("RectangleShape2D_8ahu1")
+script = ExtResource("1_jwklh")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]
+[connection signal="released" from="." to="." method="_on_released"]

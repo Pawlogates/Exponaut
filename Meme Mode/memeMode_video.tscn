@@ -1,11 +1,16 @@
 [gd_scene load_steps=2 format=3 uid="uid://tmkkck1b5efd"]
 
-[ext_resource type="VideoStream" path="res://Assets/Videos/tutorial1.ogv" id="1_apank"]
+[ext_resource type="Script" path="res://Meme Mode/meme_mode_video.gd" id="1_qyt0l"]
 
 [node name="memeMode_video" type="VideoStreamPlayer"]
-z_index = 100
-offset_right = 40.0
-offset_bottom = 40.0
-stream = ExtResource("1_apank")
+process_mode = 1
+z_index = 50
+offset_left = -320.0
+offset_top = -192.0
+offset_right = 320.0
+offset_bottom = 192.0
 autoplay = true
-loop = true
+expand = true
+script = ExtResource("1_qyt0l")
+
+[connection signal="finished" from="." to="." method="_on_finished"]

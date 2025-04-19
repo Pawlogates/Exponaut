@@ -307,10 +307,6 @@ one_shot = true
 wait_time = 2.0
 autostart = true
 
-[node name="meme_mode_timer" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-
 [node name="whiteBlocks_make_rainbow" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_tyqb8")
@@ -325,4 +321,3 @@ wait_time = 45.0
 [connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
 [connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]
 [connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]
-[connection signal="timeout" from="meme_mode_timer" to="." method="_on_meme_mode_timer_timeout"]

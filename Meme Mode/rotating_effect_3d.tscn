@@ -1,0 +1,94 @@
+[gd_scene load_steps=6 format=3 uid="uid://co8tabqo7s3md"]
+
+[ext_resource type="Texture2D" uid="uid://dm7jy3bitdee7" path="res://Meme Mode/pictures/common/7.jpg" id="1_64elw"]
+[ext_resource type="Script" path="res://Meme Mode/rotating_effect_3d.gd" id="1_drvj7"]
+
+[sub_resource type="Animation" id="Animation_ohjc3"]
+resource_name = "rotate_3d"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector3(0, 0, 0), Vector3(0, 6.28319, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_g2cp7"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector3(0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lkf8d"]
+_data = {
+"RESET": SubResource("Animation_g2cp7"),
+"rotate_3d": SubResource("Animation_ohjc3")
+}
+
+[node name="rotating_effect_3d" type="Node3D"]
+script = ExtResource("1_drvj7")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 16.2546)
+current = true
+
+[node name="images" type="Node3D" parent="."]
+
+[node name="image" type="Sprite3D" parent="images"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -7.5825)
+texture = ExtResource("1_64elw")
+
+[node name="image2" type="Sprite3D" parent="images"]
+transform = Transform3D(0.666142, 0, 0.745825, 0, 1, 0, -0.745825, 0, 0.666142, -5.86966, 0.000932693, -5.96294)
+texture = ExtResource("1_64elw")
+
+[node name="image3" type="Sprite3D" parent="images"]
+transform = Transform3D(-0.0101577, 0, 0.999948, 0, 1, 0, -0.999948, 0, -0.0101577, -8.24793, 0.000333786, -0.10397)
+texture = ExtResource("1_64elw")
+
+[node name="image4" type="Sprite3D" parent="images"]
+transform = Transform3D(-0.702774, 0, -0.711413, 0, 1, 0, 0.711413, 0, -0.702774, 5.97134, 0, 5.89581)
+texture = ExtResource("1_64elw")
+
+[node name="image5" type="Sprite3D" parent="images"]
+transform = Transform3D(0.0130025, 0, -0.999916, 0, 1, 0, 0.999916, 0, 0.0130025, 8.051, 0, 0.163926)
+texture = ExtResource("1_64elw")
+
+[node name="image7" type="Sprite3D" parent="images"]
+transform = Transform3D(-0.692458, 0, 0.721458, 0, 1, 0, -0.721458, 0, -0.692458, -6.15606, 0.000282288, 5.66418)
+texture = ExtResource("1_64elw")
+
+[node name="image8" type="Sprite3D" parent="images"]
+transform = Transform3D(-0.999086, 0, 0.0427473, 0, 1, 0, -0.0427473, 0, -0.999086, -0.0786242, 0, 8.47513)
+texture = ExtResource("1_64elw")
+
+[node name="image6" type="Sprite3D" parent="images"]
+transform = Transform3D(0.756014, 0, -0.654556, 0, 1, 0, 0.654556, 0, 0.756014, 5.71396, 0.000932693, -5.77664)
+texture = ExtResource("1_64elw")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../images")
+libraries = {
+"": SubResource("AnimationLibrary_lkf8d")
+}
+autoplay = "rotate_3d"
+
+[node name="Timer" type="Timer" parent="."]
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

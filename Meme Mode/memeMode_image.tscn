@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://csc65a8jtyxx0"]
+[gd_scene load_steps=14 format=3 uid="uid://csc65a8jtyxx0"]
 
 [ext_resource type="Script" path="res://Meme Mode/memeMode_image.gd" id="1_77ay7"]
 [ext_resource type="Texture2D" uid="uid://670c4dds8bgr" path="res://Meme Mode/pictures/4.png" id="2_rsari"]
@@ -71,6 +71,85 @@ tracks/5/keys = {
 "points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("image:rotation")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("image:scale")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_gm52f"]
+resource_name = "pulseLoop"
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("image:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0.5, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5, 1)
+}
+
+[sub_resource type="Animation" id="Animation_yp8l1"]
+resource_name = "rotateLoop_L"
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, 0, 0, 0, 0, -6.28319, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_6vgiv"]
+resource_name = "rotateLoop_R"
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, 0, 0, 0, 0, 6.28319, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 1)
+}
 
 [sub_resource type="Animation" id="Animation_pnyyu"]
 resource_name = "scaleLoop"
@@ -99,13 +178,114 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0, 1, 2, 2.5)
 }
 
+[sub_resource type="Animation" id="Animation_albhk"]
+resource_name = "scaleLoop2"
+length = 2.5
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(1.2, -0.5, 0, 1, 0, 0.8, -0.5, 0, 0.5, 0, 1.2, -0.5, 0, 0.5, 0),
+"times": PackedFloat32Array(0, 1.5, 2.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("image:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0.9, -0.5, 0, 0.1, 0, 0.75, -0.5, 0, 0.5, 0, 1, -0.5, 0, 0.25, 0, 0.9, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 1, 2, 2.5)
+}
+
+[sub_resource type="Animation" id="Animation_00160"]
+resource_name = "scale_reverse"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(-1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_smnpe"]
+resource_name = "scale_reverse2"
+length = 4.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(4, 1), Vector2(-4, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_2xk3a"]
+resource_name = "scale_reverse_v"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1, -1)]
+}
+
+[sub_resource type="Animation" id="Animation_oje27"]
+resource_name = "scale_reverse_v2"
+length = 4.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("image:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 4), Vector2(1, -4)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_v7xt2"]
 _data = {
 "RESET": SubResource("Animation_15dh4"),
-"scaleLoop": SubResource("Animation_pnyyu")
+"pulseLoop": SubResource("Animation_gm52f"),
+"rotateLoop_L": SubResource("Animation_yp8l1"),
+"rotateLoop_R": SubResource("Animation_6vgiv"),
+"scaleLoop": SubResource("Animation_pnyyu"),
+"scaleLoop2": SubResource("Animation_albhk"),
+"scale_reverse": SubResource("Animation_00160"),
+"scale_reverse2": SubResource("Animation_smnpe"),
+"scale_reverse_v": SubResource("Animation_2xk3a"),
+"scale_reverse_v2": SubResource("Animation_oje27")
 }
 
-[node name="memeMode_image" type="CharacterBody2D"]
+[node name="memeMode_image" type="CharacterBody2D" groups=["item_main"]]
 z_index = 50
 script = ExtResource("1_77ay7")
 

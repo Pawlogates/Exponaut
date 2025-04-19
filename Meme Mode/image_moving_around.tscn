@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://2ba0kapj1xky"]
+
+[ext_resource type="Script" path="res://Meme Mode/image_moving_around.gd" id="1_kqqcv"]
+[ext_resource type="Texture2D" uid="uid://bf23md3pwfkyq" path="res://Meme Mode/pictures/common/4.png" id="2_wk4xf"]
+
+[node name="image_moving_around" type="Node2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 150
+script = ExtResource("1_kqqcv")
+
+[node name="image" type="Sprite2D" parent="."]
+texture = ExtResource("2_wk4xf")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Timer2" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]
