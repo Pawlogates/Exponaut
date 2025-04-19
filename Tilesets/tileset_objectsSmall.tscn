@@ -1,4 +1,4 @@
-[gd_scene load_steps=55 format=3 uid="uid://fcq2c3tx5v67"]
+[gd_scene load_steps=57 format=3 uid="uid://fcq2c3tx5v67"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_t05vy"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_oe0v7"]
@@ -52,6 +52,8 @@
 [ext_resource type="PackedScene" uid="uid://c6a6e6sqb52cr" path="res://Blocks/move_block_v2.tscn" id="46_dnx4w"]
 [ext_resource type="PackedScene" uid="uid://bdjd80p8f5n7h" path="res://Blocks/move_block_h_pause.tscn" id="47_cltvn"]
 [ext_resource type="PackedScene" uid="uid://do4845rlxd1y4" path="res://Blocks/move_block_v_pause.tscn" id="48_hbcu2"]
+[ext_resource type="PackedScene" uid="uid://n0ybyxp34qxe" path="res://Objects/Decorations/deco_chain_H.tscn" id="49_uev67"]
+[ext_resource type="PackedScene" uid="uid://bpnieumlyk7ix" path="res://Objects/Decorations/deco_chain_V.tscn" id="50_vfc00"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "objects"
@@ -108,13 +110,15 @@ scenes/50/scene = ExtResource("46_dnx4w")
 scenes/51/scene = ExtResource("47_cltvn")
 scenes/52/scene = ExtResource("48_hbcu2")
 scenes/53/scene = ExtResource("41_4r6nw")
+scenes/54/scene = ExtResource("49_uev67")
+scenes/55/scene = ExtResource("50_vfc00")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(32, 32)
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetScenesCollectionSource_kxjp3")
 
-[node name="tileset_objectsSmall" type="TileMap"]
+[node name="tileset_objects_precise" type="TileMap"]
 visibility_layer = 2
 z_index = -1
 texture_filter = 1
@@ -124,10 +128,6 @@ rendering_quadrant_size = 32
 format = 2
 layer_0/name = "main"
 layer_1/name = "main_a"
-layer_1/tile_data = PackedInt32Array()
 layer_2/name = "main_b"
-layer_2/tile_data = PackedInt32Array()
 layer_3/name = "main_c"
-layer_3/tile_data = PackedInt32Array()
 layer_4/name = "main_d"
-layer_4/tile_data = PackedInt32Array()

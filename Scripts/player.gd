@@ -888,7 +888,7 @@ func _on_stuck_check_confirm_timeout():
 
 
 #Debug movement type that lets you freely move in any direction. Press CTRL + C to activate it. (needs Globals.debug_mode to be true)
-#Hold CTRL to move a lot slower. Hold SHIFT to move very fast.
+#Hold RMB to move a lot slower. Hold SHIFT to move very fast.
 func handle_debugMovement(delta):
 	if Input.is_action_pressed("move_R"):
 		if Input.is_action_pressed("attack_secondary"):

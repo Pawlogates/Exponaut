@@ -90,10 +90,9 @@ func exit_reached():
 	var level_info = saved_progress.get("info_" + Globals.current_level_ID)
 	
 	level_score = Globals.level_score
-	topRankScore = level_info[2]
+	topRankScore = level_info[4]
 	
 	%top_rank_label.text = "Top Rank: " + str(topRankScore)
-	print(level_saved_state)
 	
 	
 	if not Globals.mode_scoreAttack and not Globals.selected_episode == "Debug Levels":

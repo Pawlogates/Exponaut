@@ -63,7 +63,7 @@ var total_score_BONUS = 0
 var next_level_BONUS = 1
 
 
-# Level info (static). - [level name, icon id, max rank score, time target]
+# Level info (static). - [level name, icon id, levelSet pos x, levelSet pos y, max rank score, time target]
 
 # Main Levels
 var info_MAIN_1 = ["Desert Dash", 0, -460, 40, 180000, 60]
@@ -170,6 +170,68 @@ func calculate_rank(topRankScore, level_score):
 	return [rank, rank_value]
 
 
+func saved_progress_reset():
+	# Main levels
+	state_MAIN_1 = 0
+	state_MAIN_2 = 0
+	state_MAIN_3 = 0
+	state_MAIN_4 = 0
+	state_MAIN_5 = 0
+	state_MAIN_6 = 0
+	state_MAIN_7 = 0
+	state_MAIN_8 = 0
+	state_MAIN_9 = 0
+	state_MAIN_10 = 0
+	state_MAIN_11 = 0
+	state_MAIN_12 = 0
+	state_MAIN_13 = 0
+
+	score_MAIN_1 = 0
+	score_MAIN_2 = 0
+	score_MAIN_3 = 0
+	score_MAIN_4 = 0
+	score_MAIN_5 = 0
+	score_MAIN_6 = 0
+	score_MAIN_7 = 0
+	score_MAIN_8 = 0
+	score_MAIN_9 = 0
+	score_MAIN_10 = 0
+	score_MAIN_11 = 0
+	score_MAIN_12 = 0
+	score_MAIN_13 = 0
+
+	total_score_MAIN = 0
+	next_level_MAIN = -1
+
+	# Bonus levels
+	state_BONUS_1 = 0
+	state_BONUS_2 = 0
+	state_BONUS_3 = 0
+	state_BONUS_4 = 0
+	state_BONUS_5 = 0
+	state_BONUS_6 = 0
+	state_BONUS_7 = 0
+	state_BONUS_8 = 0
+	state_BONUS_9 = 0
+	state_BONUS_10 = 0
+	state_BONUS_11 = 0
+
+	score_BONUS_1 = 0
+	score_BONUS_2 = 0
+	score_BONUS_3 = 0
+	score_BONUS_4 = 0
+	score_BONUS_5 = 0
+	score_BONUS_6 = 0
+	score_BONUS_7 = 0
+	score_BONUS_8 = 0
+	score_BONUS_9 = 0
+	score_BONUS_10 = 0
+	score_BONUS_11 = 0
+
+	total_score_BONUS = 0
+	next_level_BONUS = 1
+
+
 #Save progress
 
 func save_game():
@@ -203,61 +265,61 @@ func load_game():
 		#LOAD PROGRESS
 		
 		#BONUS
-		state_BONUS_1 = data["state_BONUS_1"]
-		state_BONUS_2 = data["state_BONUS_2"]
-		state_BONUS_3 = data["state_BONUS_3"]
-		state_BONUS_4 = data["state_BONUS_4"]
-		state_BONUS_5 = data["state_BONUS_5"]
-		state_BONUS_6 = data["state_BONUS_6"]
-		state_BONUS_7 = data["state_BONUS_7"]
-		state_BONUS_8 = data["state_BONUS_8"]
-		state_BONUS_9 = data["state_BONUS_9"]
-		state_BONUS_10 = data["state_BONUS_10"]
-		state_BONUS_11 = data["state_BONUS_11"]
+		state_BONUS_1 = int(data["state_BONUS_1"])
+		state_BONUS_2 = int(data["state_BONUS_2"])
+		state_BONUS_3 = int(data["state_BONUS_3"])
+		state_BONUS_4 = int(data["state_BONUS_4"])
+		state_BONUS_5 = int(data["state_BONUS_5"])
+		state_BONUS_6 = int(data["state_BONUS_6"])
+		state_BONUS_7 = int(data["state_BONUS_7"])
+		state_BONUS_8 = int(data["state_BONUS_8"])
+		state_BONUS_9 = int(data["state_BONUS_9"])
+		state_BONUS_10 = int(data["state_BONUS_10"])
+		state_BONUS_11 = int(data["state_BONUS_11"])
 		
-		score_BONUS_1 = data["score_BONUS_1"]
-		score_BONUS_2 = data["score_BONUS_2"]
-		score_BONUS_3 = data["score_BONUS_3"]
-		score_BONUS_4 = data["score_BONUS_4"]
-		score_BONUS_5 = data["score_BONUS_5"]
-		score_BONUS_6 = data["score_BONUS_6"]
-		score_BONUS_7 = data["score_BONUS_7"]
-		score_BONUS_8 = data["score_BONUS_8"]
-		score_BONUS_9 = data["score_BONUS_9"]
-		score_BONUS_10 = data["score_BONUS_10"]
-		score_BONUS_11 = data["score_BONUS_11"]
+		score_BONUS_1 = int(data["score_BONUS_1"])
+		score_BONUS_2 = int(data["score_BONUS_2"])
+		score_BONUS_3 = int(data["score_BONUS_3"])
+		score_BONUS_4 = int(data["score_BONUS_4"])
+		score_BONUS_5 = int(data["score_BONUS_5"])
+		score_BONUS_6 = int(data["score_BONUS_6"])
+		score_BONUS_7 = int(data["score_BONUS_7"])
+		score_BONUS_8 = int(data["score_BONUS_8"])
+		score_BONUS_9 = int(data["score_BONUS_9"])
+		score_BONUS_10 = int(data["score_BONUS_10"])
+		score_BONUS_11 = int(data["score_BONUS_11"])
 		
-		next_level_BONUS = data["next_level_BONUS"]
+		next_level_BONUS = int(data["next_level_BONUS"])
 		
 		
 		#MAIN
-		state_MAIN_1 = data["state_MAIN_1"]
-		state_MAIN_2 = data["state_MAIN_2"]
-		state_MAIN_3 = data["state_MAIN_3"]
-		state_MAIN_4 = data["state_MAIN_4"]
-		state_MAIN_5 = data["state_MAIN_5"]
-		state_MAIN_6 = data["state_MAIN_6"]
-		state_MAIN_7 = data["state_MAIN_7"]
-		state_MAIN_8 = data["state_MAIN_8"]
-		state_MAIN_9 = data["state_MAIN_9"]
-		state_MAIN_10 = data["state_MAIN_10"]
-		state_MAIN_11 = data["state_MAIN_11"]
-		state_MAIN_12 = data["state_MAIN_12"]
-		state_MAIN_13 = data["state_MAIN_13"]
+		state_MAIN_1 = int(data["state_MAIN_1"])
+		state_MAIN_2 = int(data["state_MAIN_2"])
+		state_MAIN_3 = int(data["state_MAIN_3"])
+		state_MAIN_4 = int(data["state_MAIN_4"])
+		state_MAIN_5 = int(data["state_MAIN_5"])
+		state_MAIN_6 = int(data["state_MAIN_6"])
+		state_MAIN_7 = int(data["state_MAIN_7"])
+		state_MAIN_8 = int(data["state_MAIN_8"])
+		state_MAIN_9 = int(data["state_MAIN_9"])
+		state_MAIN_10 = int(data["state_MAIN_10"])
+		state_MAIN_11 = int(data["state_MAIN_11"])
+		state_MAIN_12 = int(data["state_MAIN_12"])
+		state_MAIN_13 = int(data["state_MAIN_13"])
 		
-		score_MAIN_1 = data["score_MAIN_1"]
-		score_MAIN_2 = data["score_MAIN_2"]
-		score_MAIN_3 = data["score_MAIN_3"]
-		score_MAIN_4 = data["score_MAIN_4"]
-		score_MAIN_5 = data["score_MAIN_5"]
-		score_MAIN_6 = data["score_MAIN_6"]
-		score_MAIN_7 = data["score_MAIN_7"]
-		score_MAIN_8 = data["score_MAIN_8"]
-		score_MAIN_9 = data["score_MAIN_9"]
-		score_MAIN_10 = data["score_MAIN_10"]
-		score_MAIN_11 = data["score_MAIN_11"]
-		score_MAIN_12 = data["score_MAIN_12"]
-		score_MAIN_13 = data["score_MAIN_13"]
+		score_MAIN_1 = int(data["score_MAIN_1"])
+		score_MAIN_2 = int(data["score_MAIN_2"])
+		score_MAIN_3 = int(data["score_MAIN_3"])
+		score_MAIN_4 = int(data["score_MAIN_4"])
+		score_MAIN_5 = int(data["score_MAIN_5"])
+		score_MAIN_6 = int(data["score_MAIN_6"])
+		score_MAIN_7 = int(data["score_MAIN_7"])
+		score_MAIN_8 = int(data["score_MAIN_8"])
+		score_MAIN_9 = int(data["score_MAIN_9"])
+		score_MAIN_10 = int(data["score_MAIN_10"])
+		score_MAIN_11 = int(data["score_MAIN_11"])
+		score_MAIN_12 = int(data["score_MAIN_12"])
+		score_MAIN_13 = int(data["score_MAIN_13"])
 		
 		#next_level_MAIN = data["next_level_MAIN"]
 		

@@ -142,7 +142,7 @@ region_rect = Rect2(0, 448, 64, 64)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="level_button"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_qgowu")
+&"": SubResource("AnimationLibrary_qgowu")
 }
 autoplay = "idle_glow"
 

@@ -55,8 +55,9 @@ var saved_level_filePath = "res://Levels/empty.tscn"
 var saved_level = load("res://Levels/empty.tscn")
 
 func start_game(): #starts a brand new playthrough and deletes save files
-	SavedData.delete_area_states()
+	SavedData.delete_progress()
 	SavedData.savedData_reset()
+	LevelTransition.get_node("%saved_progress").saved_progress_reset()
 	
 	Globals.transitioned = false
 	Globals.next_transition = 0

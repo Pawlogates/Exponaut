@@ -15,7 +15,7 @@
 shrine_level = true
 playerStartHP = 5
 selected_episode = "Main Levels"
-level_ID = "MAIN_4"
+level_ID = "MAIN_1"
 level_number = 4
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_2wc6y")]

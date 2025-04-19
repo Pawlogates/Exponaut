@@ -29,7 +29,7 @@ func _ready():
 	
 	shrineGem_portal_level_number = int(level_ID.split("_")[-1])
 	level_displayedName = level_info[0]
-	topRankScore = level_info[2]
+	topRankScore = level_info[4]
 	level_completionState = saved_progress.get("state_"+str(level_ID))
 	level_score = saved_progress.get("score_"+str(level_ID))
 	

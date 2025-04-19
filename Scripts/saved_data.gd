@@ -130,7 +130,7 @@ func savedData_reset():
 	saved_ambience_file = AudioStreamMP3
 
 
-func delete_area_states():
+func delete_progress():
 	var dir = DirAccess.open("user://")
 	
 	#general player progress
@@ -199,7 +199,7 @@ func savedData_load():
 		
 		saved_position_x = data["saved_position_x"]
 		saved_position_y = data["saved_position_y"]
-		saved_score = data["saved_score"]
+		saved_score = int(data["saved_score"])
 		
 		saved_weapon = data["saved_weapon"]
 		saved_weapon_delay = data["saved_weapon_delay"]

@@ -44,16 +44,17 @@ func _physics_process(_delta: float) -> void:
 			get_tree().paused = false
 	
 	
-	elif Input.is_action_pressed("debug_mode"):
+	elif Input.is_action_just_pressed("debug_mode"):
 		Globals.debug_mode = true
 		
 		if not get_node_or_null("/root/World"):
 			return
 		
 		Globals.playerHP = 99999
-		if get_node_or_null("/root/World/HUD/Debug Screen"):
-			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
-			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
+		
+		#if get_node_or_null("/root/World/HUD/Debug Screen"):
+			#$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
+			#$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
 		
 		Globals.infoSign_current_text = str("Debug mode has been activated!")
 		Globals.infoSign_current_size = 0

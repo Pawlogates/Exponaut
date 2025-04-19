@@ -539,12 +539,12 @@ script = ExtResource("1_i8dxa")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_brnp0")
+&"": SubResource("AnimationLibrary_brnp0")
 }
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_brnp0")
+&"": SubResource("AnimationLibrary_brnp0")
 }
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

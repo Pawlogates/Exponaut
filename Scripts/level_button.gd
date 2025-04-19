@@ -15,7 +15,7 @@ var is_main_level = false
 
 var saved_progress = LevelTransition.get_node("%saved_progress")
 
-var level_info = ["error", -1, -1, -1]
+var level_info = ["error", -1, -1, -1, -1, -1]
 
 func _ready():
 	%level_icon.region_rect = Rect2(64 * icon_ID, 448, 64, 64)
@@ -142,7 +142,6 @@ func _on_mouse_exited():
 func update_level_info():
 	var rank_info = saved_progress.calculate_rank(topRankScore, level_score)
 	var rank = rank_info[0]
-	#var rank_value = rank_info[1]
 	
 	get_parent().get_node("%score").text = str(level_score)
 	get_parent().get_node("%name").text = str(level_info[0])

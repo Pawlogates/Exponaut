@@ -234,7 +234,7 @@ color = Color(0, 0, 0, 1)
 [node name="fade_animation" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_j83ll")
+&"": SubResource("AnimationLibrary_j83ll")
 }
 speed_scale = 5.0
 

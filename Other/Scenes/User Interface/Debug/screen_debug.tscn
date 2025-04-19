@@ -503,15 +503,21 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Debug Buttons Button" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
-custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="set_night" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -533,6 +539,7 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 16
 text = "set night"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Debug Buttons Button4" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
 custom_minimum_size = Vector2(0, 64)
@@ -540,10 +547,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="set_night2" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -565,6 +579,7 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 14
 text = "set night 2"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Debug Buttons Button5" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
 custom_minimum_size = Vector2(0, 64)
@@ -572,10 +587,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="set_night3" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -597,6 +619,7 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 14
 text = "set night 3"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
 custom_minimum_size = Vector2(0, 64)
@@ -604,10 +627,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="set_day" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -629,16 +659,24 @@ theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 14
 text = "set day"
 horizontal_alignment = 1
+autowrap_mode = 2
 
 [node name="Debug Buttons Button2" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="delete_all_save_files" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -667,10 +705,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="delete_background_layers" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -718,15 +763,22 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Debug Buttons Button" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="weapon_basic" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -734,6 +786,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -772,10 +825,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="weapon_veryFast_speed" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -783,6 +843,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -821,10 +882,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="weapon_ice" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -832,6 +900,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -870,10 +939,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="weapon_fire" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -881,6 +957,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -919,10 +996,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="weapon_destructive_fast_speed" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -930,6 +1014,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -968,10 +1053,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="weapon_short_shotDelay" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -979,6 +1071,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -1017,10 +1110,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="secondaryWeapon_basic" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1028,6 +1128,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -1066,10 +1167,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="secondaryWeapon_fast" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1077,6 +1185,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -1115,10 +1224,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="weapon_notSet" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1126,6 +1242,7 @@ script = ExtResource("4_skuwq")
 enable_deco = false
 
 [node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet"]
+z_index = 1
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -1182,14 +1299,22 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="reset_currently_selected_inventory_item" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1218,10 +1343,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="set_short_shotDelay" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1250,10 +1382,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="set_long_shotDelay" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1282,10 +1421,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="toggle_debug_mode" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1314,10 +1460,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="set_immortal" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1346,10 +1499,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="toggle_magic_projectiles" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1397,14 +1557,22 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="reset_button_blue" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1423,9 +1591,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "reset button blue"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button7" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
@@ -1433,10 +1602,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="reset_button_green" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1455,9 +1631,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "reset button green"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button8" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
@@ -1465,10 +1642,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="reset_button_red" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1487,9 +1671,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "reset button red"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button9" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
@@ -1497,10 +1682,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="activate_button_blue" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1519,9 +1711,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "activate button blue"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button10" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
@@ -1529,10 +1722,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="activate_button_green" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1551,9 +1751,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "activate button green"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button11" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
@@ -1561,10 +1762,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="activate_button_red" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1583,9 +1791,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "activate button red"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button12" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
@@ -1593,10 +1802,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="toggle_toggleBlocks" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1615,9 +1831,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "toggle toggleBlocks"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button13" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
@@ -1625,10 +1842,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="open_keyBlocks" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1647,9 +1871,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 12
 text = "toggle toggleBlocks"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Screen Root5" type="TextureRect" parent="."]
@@ -1676,14 +1901,22 @@ grow_horizontal = 2
 grow_vertical = 2
 
 [node name="Debug Buttons Button" type="Control" parent="Debug Buttons Screen Root5/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 80)
 layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="toggle_music" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1702,9 +1935,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 16
 text = "mute music"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button2" type="Control" parent="Debug Buttons Screen Root5/Debug Buttons Screen"]
@@ -1712,10 +1946,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="toggle_ambience" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1734,9 +1975,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 16
 text = "mute ambience"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Buttons Button3" type="Control" parent="Debug Buttons Screen Root5/Debug Buttons Screen"]
@@ -1744,10 +1986,17 @@ layout_mode = 2
 size_flags_horizontal = 3
 
 [node name="toggle_hud" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3"]
+z_index = 1
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("3_85xa0")
@@ -1766,9 +2015,10 @@ theme = ExtResource("3_85xa0")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
-theme_override_font_sizes/font_size = 10
+theme_override_font_sizes/font_size = 16
 text = "toggle hud"
 horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="Debug Shortcut List Root" parent="." instance=ExtResource("5_lmtmj")]

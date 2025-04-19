@@ -66,6 +66,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
+disabled = true
 script = ExtResource("3_v287l")
 menu_name = "none"
 enable_deco = false
@@ -88,6 +89,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
+disabled = true
 script = ExtResource("3_v287l")
 menu_name = "none"
 enable_deco = false
@@ -178,6 +180,7 @@ offset_top = 228.0
 offset_right = 960.0
 offset_bottom = 324.0
 size_flags_horizontal = 4
+disabled = true
 script = ExtResource("3_v287l")
 menu_name = "none"
 enable_deco = false
@@ -201,6 +204,7 @@ offset_top = 292.0
 offset_right = 960.0
 offset_bottom = 388.0
 size_flags_horizontal = 4
+disabled = true
 script = ExtResource("3_v287l")
 menu_name = "none"
 enable_deco = false
@@ -240,6 +244,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
+disabled = true
 script = ExtResource("3_v287l")
 menu_name = "none"
 enable_deco = false
@@ -257,6 +262,7 @@ z_index = 1
 custom_minimum_size = Vector2(640, 64)
 layout_mode = 2
 size_flags_horizontal = 4
+disabled = true
 script = ExtResource("3_v287l")
 menu_name = "none"
 enable_deco = false
@@ -278,7 +284,6 @@ mouse_filter = 2
 
 [node name="Button Container" type="HBoxContainer" parent="CenterContainer/VBoxContainer/Control"]
 unique_name_in_owner = true
-visible = false
 layout_mode = 2
 offset_left = -832.0
 offset_top = 388.0
@@ -286,24 +291,39 @@ offset_right = -92.0
 offset_bottom = 468.0
 mouse_filter = 2
 
-[node name="LevelSelectBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 16)
+[node name="Control" type="Control" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+custom_minimum_size = Vector2(480, 0)
 layout_mode = 2
+
+[node name="LevelSelectBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container/Control"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 408.0
+offset_bottom = 80.0
 mouse_filter = 1
 text = "Level Select"
 
-[node name="RetryBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 16)
+[node name="Control2" type="Control" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
+
+[node name="RetryBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container/Control2"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 184.0
+offset_bottom = 80.0
 mouse_filter = 1
 text = "Retry"
 
-[node name="ContinueBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(64, 16)
+[node name="Control3" type="Control" parent="CenterContainer/VBoxContainer/Control/Button Container"]
+custom_minimum_size = Vector2(320, 0)
 layout_mode = 2
+
+[node name="ContinueBtn" type="Button" parent="CenterContainer/VBoxContainer/Control/Button Container/Control3"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 280.0
+offset_bottom = 80.0
 mouse_filter = 1
 text = "Continue"
 
@@ -349,7 +369,7 @@ autostart = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_febto")
+&"": SubResource("AnimationLibrary_febto")
 }
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
@@ -367,6 +387,6 @@ stream = ExtResource("4_in6rq")
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Level Score" to="CenterContainer/End Screen Values/end_screen_container/Level Score" method="_on_focus_exited"]
 [connection signal="focus_entered" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_entered"]
 [connection signal="focus_exited" from="CenterContainer/End Screen Values/end_screen_container/Total Score" to="CenterContainer/End Screen Values/end_screen_container/Total Score" method="_on_focus_exited"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/LevelSelectBtn" to="." method="_on_level_select_btn_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/RetryBtn" to="." method="_on_retry_btn_pressed"]
-[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/ContinueBtn" to="." method="_on_continue_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/Control/LevelSelectBtn" to="." method="_on_level_select_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/Control2/RetryBtn" to="." method="_on_retry_btn_pressed"]
+[connection signal="pressed" from="CenterContainer/VBoxContainer/Control/Button Container/Control3/ContinueBtn" to="." method="_on_continue_btn_pressed"]
