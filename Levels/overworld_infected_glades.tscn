@@ -111,9 +111,6 @@ layer_0/tile_data = PackedInt32Array(-1245199, 0, 65536, -1835016, 0, 196608, -1
 stream = null
 autoplay = false
 
-[node name="ambience" parent="Ambience Controller" index="4"]
-stream = null
-
 [node name="Player" parent="." index="11"]
 position = Vector2(-5936, -2072)
 
@@ -829,15 +826,15 @@ displayedText = "Golden apple gates will open if you collect the required amount
 displayedText_size = 1
 
 [connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22143" to="tileset_objects/@Area2D@22143" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22151" to="tileset_objects/@Area2D@22151" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22185" to="tileset_objects/@Area2D@22185" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22186" to="tileset_objects/@Area2D@22186" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22442" to="tileset_objects/@Area2D@22442" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22443" to="tileset_objects/@Area2D@22443" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43377" to="tileset_objects/@Area2D@43377" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43385" to="tileset_objects/@Area2D@43385" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43419" to="tileset_objects/@Area2D@43419" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43420" to="tileset_objects/@Area2D@43420" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43676" to="tileset_objects/@Area2D@43676" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43677" to="tileset_objects/@Area2D@43677" method="_on_area_entered"]
 [connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22663" to="tileset_objects/@Area2D@22663" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22664" to="tileset_objects/@Area2D@22664" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22665" to="tileset_objects/@Area2D@22665" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22666" to="tileset_objects/@Area2D@22666" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@22667" to="tileset_objects/@Area2D@22667" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43897" to="tileset_objects/@Area2D@43897" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43898" to="tileset_objects/@Area2D@43898" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43899" to="tileset_objects/@Area2D@43899" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43900" to="tileset_objects/@Area2D@43900" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@43901" to="tileset_objects/@Area2D@43901" method="_on_area_entered"]

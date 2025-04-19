@@ -20,5 +20,5 @@ func _ready() -> void:
 	if randomize_scale : scale = Vector2(randf_range(0.5, 1.5), randf_range(-1.5, 1.5))
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	pass

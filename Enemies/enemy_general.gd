@@ -731,7 +731,7 @@ func movement_followPlayerXY_whenSpotted(delta):
 
 
 #CHASE PLAYER
-func movement_chasePlayerX(delta):
+func movement_chasePlayerX(_delta):
 	self.position.x = lerp(self.position.x, Globals.player_pos.x, 0.01)
 
 
@@ -743,7 +743,7 @@ func movement_chasePlayerX_whenSpotted(delta):
 		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
 
 
-func movement_chasePlayerY(delta):
+func movement_chasePlayerY(_delta):
 	self.position.y = lerp(self.position.y, Globals.player_pos.y, 0.01)
 
 
@@ -755,7 +755,7 @@ func movement_chasePlayerY_whenSpotted(delta):
 		velocity.y = move_toward(velocity.y, SPEED, SPEED * delta)
 
 
-func movement_chasePlayerXY(delta):
+func movement_chasePlayerXY(_delta):
 	self.position = lerp(self.position, Globals.player_pos, 0.01)
 
 
@@ -1490,7 +1490,7 @@ func randomize_everything():
 	main_collision.get_shape().size = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
 	sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
 	if applyRandom_falseTrue(3, 1):
-		scale.x = randi_range(0.1, 2)
+		scale.x = randf_range(0.1, 2)
 		scale.y = scale.x
 	if applyRandom_falseTrue(4, 1) : sprite.material = null
 

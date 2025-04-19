@@ -550,11 +550,6 @@ func _on_buttons_blocked_timeout() -> void:
 	buttons_blocked = false
 
 
-func _unhandled_input(event):
-	pass
-	#if "Space" in event:
-		#Input.action_press("ui_accept")
-
 func _on_start_recording_pressed() -> void:
 	Globals.start_recording.emit()
 	%StartGame.grab_focus()

@@ -11,7 +11,10 @@ func _ready():
 var display_text = "empty"
 var display_size = 0
 
-func display_show(display_text, display_size):
+func display_message(used_text, used_display_size):
+	display_text = used_text
+	display_size = used_display_size
+	
 	%info_text.text = str(display_text)
 	
 	if display_size == 0:

@@ -116,8 +116,7 @@ func _on_meme_mode_timer_3_timeout() -> void:
 
 func _on_restart_timer_timeout() -> void:
 	return
-	
-	get_tree().reload_current_scene()
+	#get_tree().reload_current_scene()
 
 func _on_delete_items_timer_timeout() -> void:
 	for item in get_tree().get_nodes_in_group("spawner_main") + get_tree().get_nodes_in_group("spawner_secondary") + get_tree().get_nodes_in_group("item_main") + get_tree().get_nodes_in_group("item_secondary"):

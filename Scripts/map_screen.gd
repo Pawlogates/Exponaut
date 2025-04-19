@@ -21,7 +21,6 @@ func _ready():
 	
 	if Globals.selected_episode == "Main Levels":
 		%background.texture = load("res://Assets/Graphics/other/levelSelect_screen.png")
-		var highest_level_number = 0
 		place_levelSet_icons("MAIN")
 		
 	#EPISODE END
@@ -31,7 +30,6 @@ func _ready():
 	
 	if Globals.selected_episode == "Debug Levels":
 		#%background.texture = load("res://Assets/Graphics/other/levelSelect_screen.png")
-		var highest_level_number = 0
 		place_levelSet_icons("DEBUG")
 		
 		# DEBUG - OVERWORLD AREAS

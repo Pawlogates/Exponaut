@@ -83,8 +83,10 @@ func savedData_save(save_player_position):
 	saved_bgOffset_target_x = Globals.bgOffset_target_x
 	saved_bgOffset_target_y = Globals.bgOffset_target_y
 	
-	saved_music_file = $/root/World/"Music Controller"/music.stream.resource_path
-	saved_ambience_file = $/root/World/"Ambience Controller"/ambience.stream.resource_path
+	if $/root/World/"Music Controller"/music.stream != null:
+		saved_music_file = $/root/World/"Music Controller"/music.stream.resource_path
+	if $/root/World/"Ambience Controller"/ambience.stream != null:
+		saved_ambience_file = $/root/World/"Ambience Controller"/ambience.stream.resource_path
 	
 	saved_music_isPlaying = $/root/World/"Music Controller"/music.playing
 	saved_ambience_isPlaying = $/root/World/"Ambience Controller"/ambience.playing

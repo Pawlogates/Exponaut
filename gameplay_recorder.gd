@@ -115,7 +115,7 @@ func input_log_save():
 		
 		
 		if file:
-			var file_data = file.get_buffer(file.get_length())
+			var _file_data = file.get_buffer(file.get_length())
 			file.close()
 	
 	else:
@@ -309,10 +309,10 @@ func reassign_level_objects():
 	if get_node_or_null("/root/World/Player") : player = $/root/World.player
 
 
-func simulate_mouse_click(position: Vector2, button_index: int):
+func simulate_mouse_click(mouse_position: Vector2, button_index: int):
 	var click_event = InputEventMouseButton.new()
 	click_event.button_index = button_index
-	click_event.position = position
+	click_event.position = mouse_position
 	click_event.pressed = true
 	Input.parse_input_event(click_event)  # Simulate button press
 	

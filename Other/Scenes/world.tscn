@@ -309,7 +309,7 @@ autostart = true
 
 [node name="whiteBlocks_make_rainbow" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_tyqb8")
+&"": SubResource("AnimationLibrary_tyqb8")
 }
 
 [node name="Node2D" type="Node2D" parent="whiteBlocks_make_rainbow"]

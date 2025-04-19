@@ -36,7 +36,7 @@ func _ready():
 	blackScreen.color.a = 0.0
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused == false:
 			get_tree().paused = true

@@ -400,7 +400,7 @@ func randomize_everything():
 	sprite.sprite_frames = load(applyRandom_fromList("list_sprite", -1))
 	sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
 	if applyRandom_falseTrue(6, 1):
-		scale.x = randi_range(0.05, 2)
+		scale.x = randf_range(0.05, 2)
 		scale.y = scale.x
 	if applyRandom_falseTrue(4, 1) : sprite.material = null
 
