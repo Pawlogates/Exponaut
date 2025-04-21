@@ -1,4 +1,4 @@
-[gd_scene load_steps=184 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=188 format=3 uid="uid://cdppta5y51e08"]
 
 [ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_vmdr1"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_txmjs"]
@@ -167,9 +167,13 @@
 [ext_resource type="PackedScene" uid="uid://cmncqo0vv0lwj" path="res://Objects/Decorations/hanging_deco_vines.tscn" id="153_u1kb1"]
 [ext_resource type="PackedScene" uid="uid://flag654itsqj" path="res://Objects/Decorations/rect_gradient.tscn" id="154_y2fsk"]
 [ext_resource type="PackedScene" uid="uid://byymdvbfugma2" path="res://Objects/Decorations/deco_clipped_black_gear_2_RIGHT.tscn" id="157_g81ps"]
-[ext_resource type="PackedScene" uid="uid://bwgekhrjg7e48" path="res://Objects/Decorations/deco_clipped_black_gear_3_LEFT_UP.tscn" id="158_vamur"]
-[ext_resource type="PackedScene" uid="uid://te8fh170lfh3" path="res://Objects/Decorations/deco_clipped_black_circle_3_LEFT_UP.tscn" id="160_a5615"]
+[ext_resource type="PackedScene" uid="uid://bwgekhrjg7e48" path="res://Objects/Decorations/deco_clipped_black_gear_3_LEFT_DOWN.tscn" id="158_vamur"]
+[ext_resource type="PackedScene" uid="uid://te8fh170lfh3" path="res://Objects/Decorations/deco_clipped_black_circle_3_LEFT_DOWN.tscn" id="160_a5615"]
+[ext_resource type="PackedScene" uid="uid://d3rvirb8422f7" path="res://Objects/Decorations/deco_clipped_black_circle_2_LEFT.tscn" id="167_g2j8b"]
+[ext_resource type="PackedScene" uid="uid://dvnkjcyuugq3n" path="res://Objects/Decorations/deco_clipped_black_circle_3_RIGHT_UP.tscn" id="169_w8w3x"]
 [ext_resource type="PackedScene" uid="uid://bvlq4mlnesa8a" path="res://Objects/Decorations/deco_black_gear.tscn" id="170_far67"]
+[ext_resource type="PackedScene" uid="uid://cvsvcd3o2wh6y" path="res://Objects/Decorations/deco_clipped_black_gear_2_LEFT.tscn" id="171_j000c"]
+[ext_resource type="PackedScene" uid="uid://2y43xaryl123" path="res://Objects/Decorations/deco_clipped_black_gear_3_RIGHT_UP.tscn" id="174_sdirt"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "everything"
@@ -442,10 +446,6 @@ scenes/4/scene = ExtResource("150_a1h2o")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_544ae"]
 resource_name = "decorations"
-scenes/1/scene = ExtResource("49_vifsa")
-scenes/2/scene = ExtResource("47_lwdwi")
-scenes/3/scene = ExtResource("160_a5615")
-scenes/4/scene = ExtResource("170_far67")
 scenes/5/scene = ExtResource("28_c6mcq")
 scenes/6/scene = ExtResource("29_dq7lu")
 scenes/7/scene = ExtResource("127_mpmb0")
@@ -458,7 +458,6 @@ scenes/13/scene = ExtResource("47_jsjd7")
 scenes/14/scene = ExtResource("116_ovl72")
 scenes/15/scene = ExtResource("16_rur8g")
 scenes/16/scene = ExtResource("120_ovdt1")
-scenes/17/scene = ExtResource("157_g81ps")
 scenes/18/scene = ExtResource("33_ymd24")
 scenes/19/scene = ExtResource("30_kyswp")
 scenes/20/scene = ExtResource("121_oisx6")
@@ -466,7 +465,6 @@ scenes/21/scene = ExtResource("119_af2dq")
 scenes/22/scene = ExtResource("117_vnjlg")
 scenes/23/scene = ExtResource("118_i6d0r")
 scenes/24/scene = ExtResource("140_u8ykm")
-scenes/25/scene = ExtResource("158_vamur")
 scenes/26/scene = ExtResource("123_c6a0b")
 scenes/27/scene = ExtResource("145_s14ug")
 scenes/28/scene = ExtResource("146_kgoyt")
@@ -479,6 +477,16 @@ scenes/34/scene = ExtResource("152_bkcyv")
 scenes/35/scene = ExtResource("153_u1kb1")
 scenes/36/scene = ExtResource("26_tnddf")
 scenes/37/scene = ExtResource("154_y2fsk")
+scenes/50/scene = ExtResource("49_vifsa")
+scenes/51/scene = ExtResource("167_g2j8b")
+scenes/52/scene = ExtResource("47_lwdwi")
+scenes/53/scene = ExtResource("160_a5615")
+scenes/54/scene = ExtResource("169_w8w3x")
+scenes/55/scene = ExtResource("170_far67")
+scenes/56/scene = ExtResource("171_j000c")
+scenes/57/scene = ExtResource("157_g81ps")
+scenes/58/scene = ExtResource("158_vamur")
+scenes/59/scene = ExtResource("174_sdirt")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_puexm"]
 resource_name = "weapons"

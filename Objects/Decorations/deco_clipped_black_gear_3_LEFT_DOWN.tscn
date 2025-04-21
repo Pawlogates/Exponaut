@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bvlq4mlnesa8a" path="res://Objects/Decorations/deco_black_gear.tscn" id="1_rw5b7"]
 
-[node name="black_circle_3_LEFT_UP" type="Node2D"]
+[node name="gear_clipped" type="Node2D"]
 z_index = 5
 position = Vector2(28, -28)
 

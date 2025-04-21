@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3 uid="uid://dvnkjcyuugq3n"]
+
+[ext_resource type="PackedScene" uid="uid://bkt7biape2erx" path="res://Objects/Decorations/deco_black_circle.tscn" id="1_vr25s"]
+
+[node name="circle_clipped" type="Node2D"]
+z_index = 5
+position = Vector2(36, -36)
+scale = Vector2(-1, -1)
+
+[node name="clipped" type="Container" parent="."]
+z_index = 5
+clip_contents = true
+offset_left = -64.0
+offset_top = -84.0
+offset_bottom = 64.0
+
+[node name="circle" parent="clipped" instance=ExtResource("1_vr25s")]
+position = Vector2(88, 60)
+
+[node name="clipped2" type="Container" parent="."]
+clip_contents = true
+offset_right = 84.0
+offset_bottom = 64.0
+
+[node name="circle" parent="clipped2" instance=ExtResource("1_vr25s")]
+position = Vector2(24, -24)

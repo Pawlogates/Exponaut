@@ -2,24 +2,24 @@
 
 [ext_resource type="PackedScene" uid="uid://bkt7biape2erx" path="res://Objects/Decorations/deco_black_circle.tscn" id="1_84g0a"]
 
-[node name="black_circle_3_LEFT_UP" type="Node2D"]
+[node name="circle_clipped" type="Node2D"]
 z_index = 5
 position = Vector2(28, -28)
 
-[node name="Container" type="Container" parent="."]
+[node name="clipped" type="Container" parent="."]
 z_index = 5
 clip_contents = true
 offset_left = -64.0
 offset_top = -84.0
 offset_bottom = 64.0
 
-[node name="circle" parent="Container" instance=ExtResource("1_84g0a")]
+[node name="circle" parent="clipped" instance=ExtResource("1_84g0a")]
 position = Vector2(88, 60)
 
-[node name="Container2" type="Container" parent="."]
+[node name="clipped2" type="Container" parent="."]
 clip_contents = true
 offset_right = 84.0
 offset_bottom = 64.0
 
-[node name="circle" parent="Container2" instance=ExtResource("1_84g0a")]
+[node name="circle" parent="clipped2" instance=ExtResource("1_84g0a")]
 position = Vector2(24, -24)
