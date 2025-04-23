@@ -98,7 +98,7 @@ z_index = 1
 collision_layer = 3
 script = ExtResource("1_yass0")
 remove_after_delay = true
-remove_delay = 2.0
+remove_delay = 4.0
 block_movement_onSpawn = false
 movement_type = "iceCube"
 
@@ -109,7 +109,7 @@ region_rect = Rect2(321, 193, 38, 38)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
-"": SubResource("AnimationLibrary_1356v")
+&"": SubResource("AnimationLibrary_1356v")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

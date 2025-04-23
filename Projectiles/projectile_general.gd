@@ -140,20 +140,16 @@ func _process(delta):
 		position.y = start_pos[1]
 
 
-#func _on_hitbox_body_entered(body: Node2D) -> void:
-	#pass # Replace with function body.
-
-
 func _on_remove_delay_timeout():
 	if spawn_on_death:
 		var item = item_scene.instantiate()
 		item.position = position
 		
-		if give_momentum and not downward_shot:
+		if give_momentum and not direction_V == -1:
 			item.velocity.x = momentum_x * direction
 			item.velocity.y = momentum_y
 		
-		elif downward_shot:
+		elif downward_shot or direction_V == -1:
 			item.velocity.y = -300
 		
 		

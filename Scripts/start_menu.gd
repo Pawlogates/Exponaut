@@ -146,7 +146,7 @@ func _on_quit_pressed():
 		get_tree().quit()
 	else:
 		$quit_delay.start()
-		LevelTransition.info_text_display.display_show("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!", 3)
+		LevelTransition.info_text_display.display_message("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!", 3)
 		print("Pressed quit once. Next press after 15 seconds will quit the game.")
 
 func _on_continue_pressed():

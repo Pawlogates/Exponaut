@@ -10,12 +10,6 @@ var state_MAIN_4 = 0
 var state_MAIN_5 = 0
 var state_MAIN_6 = 0
 var state_MAIN_7 = 0
-var state_MAIN_8 = 0
-var state_MAIN_9 = 0
-var state_MAIN_10 = 0
-var state_MAIN_11 = 0
-var state_MAIN_12 = 0
-var state_MAIN_13 = 0
 
 var score_MAIN_1 = 0
 var score_MAIN_2 = 0
@@ -24,12 +18,6 @@ var score_MAIN_4 = 0
 var score_MAIN_5 = 0
 var score_MAIN_6 = 0
 var score_MAIN_7 = 0
-var score_MAIN_8 = 0
-var score_MAIN_9 = 0
-var score_MAIN_10 = 0
-var score_MAIN_11 = 0
-var score_MAIN_12 = 0
-var score_MAIN_13 = 0
 
 var total_score_MAIN = 0
 var next_level_MAIN = -1
@@ -42,10 +30,6 @@ var state_BONUS_4 = 0
 var state_BONUS_5 = 0
 var state_BONUS_6 = 0
 var state_BONUS_7 = 0
-var state_BONUS_8 = 0
-var state_BONUS_9 = 0
-var state_BONUS_10 = 0
-var state_BONUS_11 = 0
 
 var score_BONUS_1 = 0
 var score_BONUS_2 = 0
@@ -54,10 +38,6 @@ var score_BONUS_4 = 0
 var score_BONUS_5 = 0
 var score_BONUS_6 = 0
 var score_BONUS_7 = 0
-var score_BONUS_8 = 0
-var score_BONUS_9 = 0
-var score_BONUS_10 = 0
-var score_BONUS_11 = 0
 
 var total_score_BONUS = 0
 var next_level_BONUS = 1
@@ -66,16 +46,13 @@ var next_level_BONUS = 1
 # Level info (static). - [level name, icon id, levelSet pos x, levelSet pos y, max rank score, time target]
 
 # Main Levels
-var info_MAIN_1 = ["Desert Dash", 0, -460, 40, 180000, 60]
+var info_MAIN_1 = ["Training Tunnel", 0, -460, 40, 180000, 60]
 var info_MAIN_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60]
 var info_MAIN_3 = ["Toggle Land", 1, 280, 60, 250000, 60]
-var info_MAIN_4 = ["Drawing Board", 1, 180, 40, 80000, 60]
+var info_MAIN_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60]
 var info_MAIN_5 = ["Chilling Exercise", 1, -120, -100, 4000, 60]
-var info_MAIN_6 = ["Dash Practice", 1, 700, 80, 25000, 60]
+var info_MAIN_6 = ["Daring Dash", 1, 700, 80, 25000, 60]
 var info_MAIN_7 = ["Puzzlin' Around", 1, 200, -40, 15000, 60]
-var info_MAIN_8 = ["Bogaloo Banger", 1, 350, -120, 100000, 60]
-var info_MAIN_9 = ["Mistymaze Mountain", 1, 500, 0, 100000, 60]
-var info_MAIN_10 = ["Unnamed", 1, 500, 100, 100000, 60]
 
 # Bonus Levels
 var info_BONUS_1 = ["Unnamed", 1, 100000, 60]
@@ -85,10 +62,6 @@ var info_BONUS_4 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_5 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_6 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_7 = ["Unnamed", 1, 100000, 60]
-var info_BONUS_8 = ["Unnamed", 1, 100000, 60]
-var info_BONUS_9 = ["Unnamed", 1, 100000, 60]
-var info_BONUS_10 = ["Unnamed", 1, 100000, 60]
-var info_BONUS_11 = ["Unnamed", 1, 100000, 60]
 
 # Debug Levels
 var info_DEBUG_1 = ["test_collectibles", 1, -400, 64, -1, 60]
@@ -179,12 +152,6 @@ func saved_progress_reset():
 	state_MAIN_5 = 0
 	state_MAIN_6 = 0
 	state_MAIN_7 = 0
-	state_MAIN_8 = 0
-	state_MAIN_9 = 0
-	state_MAIN_10 = 0
-	state_MAIN_11 = 0
-	state_MAIN_12 = 0
-	state_MAIN_13 = 0
 
 	score_MAIN_1 = 0
 	score_MAIN_2 = 0
@@ -193,12 +160,6 @@ func saved_progress_reset():
 	score_MAIN_5 = 0
 	score_MAIN_6 = 0
 	score_MAIN_7 = 0
-	score_MAIN_8 = 0
-	score_MAIN_9 = 0
-	score_MAIN_10 = 0
-	score_MAIN_11 = 0
-	score_MAIN_12 = 0
-	score_MAIN_13 = 0
 
 	total_score_MAIN = 0
 	next_level_MAIN = -1
@@ -211,10 +172,6 @@ func saved_progress_reset():
 	state_BONUS_5 = 0
 	state_BONUS_6 = 0
 	state_BONUS_7 = 0
-	state_BONUS_8 = 0
-	state_BONUS_9 = 0
-	state_BONUS_10 = 0
-	state_BONUS_11 = 0
 
 	score_BONUS_1 = 0
 	score_BONUS_2 = 0
@@ -223,10 +180,6 @@ func saved_progress_reset():
 	score_BONUS_5 = 0
 	score_BONUS_6 = 0
 	score_BONUS_7 = 0
-	score_BONUS_8 = 0
-	score_BONUS_9 = 0
-	score_BONUS_10 = 0
-	score_BONUS_11 = 0
 
 	total_score_BONUS = 0
 	next_level_BONUS = 1
@@ -272,10 +225,6 @@ func load_game():
 		state_BONUS_5 = int(data["state_BONUS_5"])
 		state_BONUS_6 = int(data["state_BONUS_6"])
 		state_BONUS_7 = int(data["state_BONUS_7"])
-		state_BONUS_8 = int(data["state_BONUS_8"])
-		state_BONUS_9 = int(data["state_BONUS_9"])
-		state_BONUS_10 = int(data["state_BONUS_10"])
-		state_BONUS_11 = int(data["state_BONUS_11"])
 		
 		score_BONUS_1 = int(data["score_BONUS_1"])
 		score_BONUS_2 = int(data["score_BONUS_2"])
@@ -284,10 +233,6 @@ func load_game():
 		score_BONUS_5 = int(data["score_BONUS_5"])
 		score_BONUS_6 = int(data["score_BONUS_6"])
 		score_BONUS_7 = int(data["score_BONUS_7"])
-		score_BONUS_8 = int(data["score_BONUS_8"])
-		score_BONUS_9 = int(data["score_BONUS_9"])
-		score_BONUS_10 = int(data["score_BONUS_10"])
-		score_BONUS_11 = int(data["score_BONUS_11"])
 		
 		next_level_BONUS = int(data["next_level_BONUS"])
 		
@@ -300,12 +245,6 @@ func load_game():
 		state_MAIN_5 = int(data["state_MAIN_5"])
 		state_MAIN_6 = int(data["state_MAIN_6"])
 		state_MAIN_7 = int(data["state_MAIN_7"])
-		state_MAIN_8 = int(data["state_MAIN_8"])
-		state_MAIN_9 = int(data["state_MAIN_9"])
-		state_MAIN_10 = int(data["state_MAIN_10"])
-		state_MAIN_11 = int(data["state_MAIN_11"])
-		state_MAIN_12 = int(data["state_MAIN_12"])
-		state_MAIN_13 = int(data["state_MAIN_13"])
 		
 		score_MAIN_1 = int(data["score_MAIN_1"])
 		score_MAIN_2 = int(data["score_MAIN_2"])
@@ -314,12 +253,6 @@ func load_game():
 		score_MAIN_5 = int(data["score_MAIN_5"])
 		score_MAIN_6 = int(data["score_MAIN_6"])
 		score_MAIN_7 = int(data["score_MAIN_7"])
-		score_MAIN_8 = int(data["score_MAIN_8"])
-		score_MAIN_9 = int(data["score_MAIN_9"])
-		score_MAIN_10 = int(data["score_MAIN_10"])
-		score_MAIN_11 = int(data["score_MAIN_11"])
-		score_MAIN_12 = int(data["score_MAIN_12"])
-		score_MAIN_13 = int(data["score_MAIN_13"])
 		
 		#next_level_MAIN = data["next_level_MAIN"]
 		
@@ -339,10 +272,6 @@ func save():
 		"state_BONUS_5" : state_BONUS_5,
 		"state_BONUS_6" : state_BONUS_6,
 		"state_BONUS_7" : state_BONUS_7,
-		"state_BONUS_8" : state_BONUS_8,
-		"state_BONUS_9" : state_BONUS_9,
-		"state_BONUS_10" : state_BONUS_10,
-		"state_BONUS_11" : state_BONUS_11,
 		
 		"score_BONUS_1" : score_BONUS_1,
 		"score_BONUS_2" : score_BONUS_2,
@@ -351,10 +280,6 @@ func save():
 		"score_BONUS_5" : score_BONUS_5,
 		"score_BONUS_6" : score_BONUS_6,
 		"score_BONUS_7" : score_BONUS_7,
-		"score_BONUS_8" : score_BONUS_8,
-		"score_BONUS_9" : score_BONUS_9,
-		"score_BONUS_10" : score_BONUS_10,
-		"score_BONUS_11" : score_BONUS_11,
 		
 		"next_level_BONUS" : next_level_BONUS,
 		
@@ -367,12 +292,6 @@ func save():
 		"state_MAIN_5" : state_MAIN_5,
 		"state_MAIN_6" : state_MAIN_6,
 		"state_MAIN_7" : state_MAIN_7,
-		"state_MAIN_8" : state_MAIN_8,
-		"state_MAIN_9" : state_MAIN_9,
-		"state_MAIN_10" : state_MAIN_10,
-		"state_MAIN_11" : state_MAIN_11,
-		"state_MAIN_12" : state_MAIN_12,
-		"state_MAIN_13" : state_MAIN_13,
 		
 		"score_MAIN_1" : score_MAIN_1,
 		"score_MAIN_2" : score_MAIN_2,
@@ -381,12 +300,6 @@ func save():
 		"score_MAIN_5" : score_MAIN_5,
 		"score_MAIN_6" : score_MAIN_6,
 		"score_MAIN_7" : score_MAIN_7,
-		"score_MAIN_8" : score_MAIN_8,
-		"score_MAIN_9" : score_MAIN_9,
-		"score_MAIN_10" : score_MAIN_10,
-		"score_MAIN_11" : score_MAIN_11,
-		"score_MAIN_12" : score_MAIN_12,
-		"score_MAIN_13" : score_MAIN_13,
 		
 		#"next_level_MAIN" : next_level_MAIN,
 		

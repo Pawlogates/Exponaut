@@ -48,6 +48,7 @@ func _physics_process(_delta: float) -> void:
 		Globals.debug_mode = true
 		
 		if not get_node_or_null("/root/World"):
+			LevelTransition.info_text_display.display_message("Debug mode has been activated!", 0)
 			return
 		
 		Globals.playerHP = 99999

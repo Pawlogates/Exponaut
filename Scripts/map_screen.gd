@@ -58,7 +58,7 @@ func _ready():
 			icon.is_main_level = true
 		
 		
-		saved_progress.count_total_score(Globals.current_levelSet_ID, 13)
+		saved_progress.count_total_score(Globals.current_levelSet_ID, 7)
 		total_score = saved_progress.get("total_score")
 		
 		#Globals.next_level = LevelTransition.get_node("%saved_progress").get("next_level_MAIN")
@@ -75,7 +75,7 @@ func _ready():
 			icon.level_score = level_saved_score
 			#print("Saved level completion state: ", icon.level_state)
 		
-		saved_progress.count_total_score(Globals.current_levelSet_ID, 13)
+		saved_progress.count_total_score(Globals.current_levelSet_ID, 7)
 		total_score = saved_progress.get("total_score")
 		
 		Globals.next_level = saved_progress.get("next_level_BONUS")

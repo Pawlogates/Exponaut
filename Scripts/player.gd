@@ -377,7 +377,7 @@ func handle_jump(delta):
 			
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
-				velocity.x += 300 * direction
+				velocity.x += 500 * direction
 			
 			return true
 	
@@ -789,7 +789,7 @@ func shoot_projectile(projectile_scene):
 		var projectile = projectile_scene.instantiate()
 		projectile.playerProjectile = true
 		projectile.enemyProjectile = false
-		projectile.position = position + Vector2(Globals.direction * 24, 0)
+		projectile.position = position + Vector2(Globals.direction * 24, -10)
 		get_parent().add_child(projectile)
 		
 		playSound_shoot()

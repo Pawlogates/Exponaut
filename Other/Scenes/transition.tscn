@@ -134,7 +134,7 @@ metadata/_edit_horizontal_guides_ = []
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 process_mode = 3
 libraries = {
-"": SubResource("AnimationLibrary_olarl")
+&"": SubResource("AnimationLibrary_olarl")
 }
 
 [node name="ColorRect" type="ColorRect" parent="."]
