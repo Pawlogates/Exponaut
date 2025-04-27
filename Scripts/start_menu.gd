@@ -246,29 +246,29 @@ func _on_refreshrate_pressed():
 	await get_tree().create_timer(0.2, false).timeout
 	%AutoRefreshrate.grab_focus()
 
-func _on_audio_pressed():
-	%options_menu.visible = false
-	%options_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	%audio_menu.visible = true
-	%audio_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-	
-	%menu_deco_bg_root.multiplier_W = 1.1
-	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-375, -200)
-	
-	menu_appearance(4, 0, true, 2000)
-	deco_correct_polygons()
-	
-	await get_tree().create_timer(0.2, false).timeout
-	%"Music +".grab_focus()
+#func _on_audio_pressed():
+	#%options_menu.visible = false
+	#%options_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	#
+	#%audio_menu.visible = true
+	#%audio_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	#
+	#%menu_deco_bg_root.multiplier_W = 1.1
+	#%menu_deco_bg_root.multiplier_H = 1
+	#%menu_deco_bg_root.position_target = Vector2(-375, -200)
+	#
+	#menu_appearance(4, 0, true, 2000)
+	#deco_correct_polygons()
+	#
+	#await get_tree().create_timer(0.2, false).timeout
+	#%"Music +".grab_focus()
 
-func _on_cheats_pressed():
+func _on_accessibility_pressed():
 	%options_menu.visible = false
 	%options_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
-	%cheats_menu.visible = true
-	%cheats_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	%accessibility_menu.visible = true
+	%accessibility_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	%menu_deco_bg_root.multiplier_W = 0.9
 	%menu_deco_bg_root.multiplier_H = 0.7
@@ -279,24 +279,6 @@ func _on_cheats_pressed():
 	
 	await get_tree().create_timer(0.2, false).timeout
 	%"Toggle Quicksaves".grab_focus()
-
-func _on_other_pressed():
-	%options_menu.visible = false
-	%options_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	%other_menu.visible = true
-	%other_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-	
-	%menu_deco_bg_root.multiplier_W = 1.2
-	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(-400, -350)
-	
-	menu_appearance(5, 0, true, 2000)
-	deco_correct_polygons()
-	
-	await get_tree().create_timer(0.2, false).timeout
-	%"User Interface Type".grab_focus()
-
 
 
 #RETURN BUTTONS
@@ -367,28 +349,28 @@ func _on_return_refreshrate_pressed():
 	await get_tree().create_timer(0.2, false).timeout
 	%Refreshrate.grab_focus()
 
-func _on_return_audio_pressed():
-	%options_menu.visible = true
-	%options_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-	
-	%audio_menu.visible = false
-	%audio_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	%menu_deco_bg_root.multiplier_W = 1
-	%menu_deco_bg_root.multiplier_H = 1.6
-	%menu_deco_bg_root.position_target = Vector2(-350, -350)
-	
-	menu_appearance(2, 0, true, 2000)
-	
-	await get_tree().create_timer(0.2, false).timeout
-	%Audio.grab_focus()
+#func _on_return_audio_pressed():
+	#%options_menu.visible = true
+	#%options_menu.process_mode = Node.PROCESS_MODE_ALWAYS
+	#
+	#%audio_menu.visible = false
+	#%audio_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	#
+	#%menu_deco_bg_root.multiplier_W = 1
+	#%menu_deco_bg_root.multiplier_H = 1.6
+	#%menu_deco_bg_root.position_target = Vector2(-350, -350)
+	#
+	#menu_appearance(2, 0, true, 2000)
+	#
+	#await get_tree().create_timer(0.2, false).timeout
+	#%Audio.grab_focus()
 
-func _on_return_other_pressed():
+func _on_return_accessibility_pressed():
 	%options_menu.visible = true
 	%options_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	
-	%other_menu.visible = false
-	%other_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%accessibility_menu.visible = false
+	%accessibility_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	%menu_deco_bg_root.multiplier_W = 0.6
 	%menu_deco_bg_root.multiplier_H = 1.4
@@ -397,23 +379,7 @@ func _on_return_other_pressed():
 	menu_appearance(2, 0, true, 2000)
 	
 	await get_tree().create_timer(0.2, false).timeout
-	%Cheats.grab_focus()
-
-func _on_return_cheats_pressed():
-	%options_menu.visible = true
-	%options_menu.process_mode = Node.PROCESS_MODE_ALWAYS
-	
-	%cheats_menu.visible = false
-	%cheats_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	%menu_deco_bg_root.multiplier_W = 0.8
-	%menu_deco_bg_root.multiplier_H = 1
-	%menu_deco_bg_root.position_target = Vector2(0, -348)
-	
-	menu_appearance(2, 0, true, 2000)
-	
-	await get_tree().create_timer(0.2, false).timeout
-	%Cheats.grab_focus()
+	%Accessibility.grab_focus()
 
 
 func _on_toggle_quicksaves_pressed():
@@ -428,10 +394,12 @@ func _on_toggle_quicksaves_pressed():
 
 func display_stretch_viewport_on():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
+	print(get_window().content_scale_mode)
 
 
 func display_stretch_viewport_off():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	print(get_window().content_scale_mode)
 
 
 func last_area_filePath_load():
@@ -486,12 +454,12 @@ func hide_everything():
 	%resolution_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	%refreshrate_menu.visible = false
 	%refreshrate_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%audio_menu.visible = false
-	%audio_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%cheats_menu.visible = false
-	%cheats_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	%other_menu.visible = false
-	%other_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	#%audio_menu.visible = false
+	#%audio_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%accessibility_menu.visible = false
+	%accessibility_menu.process_mode = Node.PROCESS_MODE_DISABLED
+	%accessibility_menu.visible = false
+	%accessibility_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	
 	%ColorRect.visible = true
 	
@@ -505,10 +473,6 @@ func correct_toggle_buttons():
 	
 	elif Globals.quicksaves_enabled == false:
 		%"Toggle Quicksaves"/RichTextLabel.text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
-
-
-func _on_user_interface_type_pressed():
-	pass # Replace with function body.
 
 
 func correct_button_ordering():
@@ -601,3 +565,38 @@ func playback_button_general():
 
 func _on_quit_delay_timeout() -> void:
 	can_quit = true
+
+
+
+#framerate
+func set_maximum_framerate(fps : int, vsync : int):
+	DisplayServer.window_set_vsync_mode(vsync)
+	Engine.max_fps = fps
+
+
+func display_framerate_unlocked() -> void:
+	set_maximum_framerate(0, 1)
+
+
+func display_framerate_30() -> void:
+	set_maximum_framerate(30, 0)
+
+
+func display_framerate_60() -> void:
+	set_maximum_framerate(60, 0)
+
+
+func display_framerate_75() -> void:
+	set_maximum_framerate(75, 0)
+
+
+func display_framerate_100() -> void:
+	set_maximum_framerate(100, 0)
+
+
+func display_framerate_120() -> void:
+	set_maximum_framerate(120, 0)
+
+
+func display_framerate_144() -> void:
+	set_maximum_framerate(144, 0)

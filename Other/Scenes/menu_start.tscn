@@ -455,91 +455,11 @@ text = "[wave amp=25 freq=5 connected=1]Graphics[/wave]"
 fit_content = true
 autowrap_mode = 0
 
-[node name="Control2" type="Control" parent="options_menu/menu_container"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-
-[node name="Audio" type="Button" parent="options_menu/menu_container/Control2" groups=["group2"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("4_5ppq6")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control2/Audio"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -24.0
-offset_right = 120.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]Audio[/wave]"
-fit_content = true
-autowrap_mode = 0
-
-[node name="Control3" type="Control" parent="options_menu/menu_container"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-
-[node name="Other" type="Button" parent="options_menu/menu_container/Control3" groups=["group2"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("4_5ppq6")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control3/Other"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -120.0
-offset_top = -24.0
-offset_right = 120.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]Other[/wave]"
-fit_content = true
-autowrap_mode = 0
-
 [node name="Control4" type="Control" parent="options_menu/menu_container"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 
-[node name="Cheats" type="Button" parent="options_menu/menu_container/Control4" groups=["group2"]]
+[node name="Accessibility" type="Button" parent="options_menu/menu_container/Control4" groups=["group2"]]
 unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
@@ -550,7 +470,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("4_5ppq6")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control4/Cheats"]
+[node name="RichTextLabel" type="RichTextLabel" parent="options_menu/menu_container/Control4/Accessibility"]
 z_index = 125
 clip_contents = false
 layout_mode = 1
@@ -571,7 +491,7 @@ theme_override_constants/shadow_offset_y = 3
 theme_override_constants/shadow_offset_x = 3
 theme_override_font_sizes/normal_font_size = 48
 bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]Cheats[/wave]"
+text = "[wave amp=25 freq=5 connected=1]Accessibility[/wave]"
 fit_content = true
 autowrap_mode = 0
 
@@ -759,354 +679,6 @@ text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
 fit_content = true
 autowrap_mode = 0
 
-[node name="audio_menu" type="Control" parent="."]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="menu_container" type="VBoxContainer" parent="audio_menu"]
-z_index = 5
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -480.0
-offset_top = -148.0
-offset_right = 480.0
-offset_bottom = 148.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_j2qdm")
-
-[node name="Music" type="HBoxContainer" parent="audio_menu/menu_container"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="Control" type="Control" parent="audio_menu/menu_container/Music"]
-custom_minimum_size = Vector2(128, 96)
-layout_mode = 2
-
-[node name="Music +" type="Button" parent="audio_menu/menu_container/Music/Control" groups=["group4"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-polygon1_position = Vector2(-350, -40)
-polygon2_position = Vector2(-350, 40)
-polygon3_position = Vector2(-500, 40)
-polygon4_position = Vector2(-500, -40)
-
-[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Music/Control/Music +"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]P[/wave]"
-fit_content = true
-autowrap_mode = 0
-
-[node name="Control2" type="Control" parent="audio_menu/menu_container/Music"]
-custom_minimum_size = Vector2(128, 96)
-layout_mode = 2
-
-[node name="Music -" type="Button" parent="audio_menu/menu_container/Music/Control2" groups=["group4"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-polygon1_position = Vector2(-350, -40)
-polygon2_position = Vector2(-350, 40)
-polygon3_position = Vector2(-500, 40)
-polygon4_position = Vector2(-500, -40)
-
-[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Music/Control2/Music -"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]-[/wave]"
-fit_content = true
-autowrap_mode = 0
-
-[node name="Effects" type="HBoxContainer" parent="audio_menu/menu_container"]
-layout_mode = 2
-size_flags_horizontal = 8
-
-[node name="Control" type="Control" parent="audio_menu/menu_container/Effects"]
-custom_minimum_size = Vector2(128, 96)
-layout_mode = 2
-
-[node name="Effects +" type="Button" parent="audio_menu/menu_container/Effects/Control" groups=["group4"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-polygon1_position = Vector2(-350, -40)
-polygon2_position = Vector2(-350, 40)
-polygon3_position = Vector2(-500, 40)
-polygon4_position = Vector2(-500, -40)
-
-[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Effects/Control/Effects +"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]P[/wave]"
-fit_content = true
-autowrap_mode = 0
-
-[node name="Control2" type="Control" parent="audio_menu/menu_container/Effects"]
-custom_minimum_size = Vector2(128, 96)
-layout_mode = 2
-
-[node name="Effects -" type="Button" parent="audio_menu/menu_container/Effects/Control2" groups=["group4"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-polygon1_position = Vector2(-350, -40)
-polygon2_position = Vector2(-350, 40)
-polygon3_position = Vector2(-500, 40)
-polygon4_position = Vector2(-500, -40)
-
-[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Effects/Control2/Effects -"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]-[/wave]"
-fit_content = true
-autowrap_mode = 0
-
-[node name="Control" type="Control" parent="audio_menu/menu_container"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-
-[node name="ReturnAudio" type="Button" parent="audio_menu/menu_container/Control" groups=["group4"]]
-unique_name_in_owner = true
-z_index = 1
-custom_minimum_size = Vector2(960, 96)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-polygon1_position = Vector2(400, -40)
-polygon2_position = Vector2(400, 40)
-
-[node name="RichTextLabel" type="RichTextLabel" parent="audio_menu/menu_container/Control/ReturnAudio"]
-z_index = 125
-clip_contents = false
-layout_mode = 0
-offset_left = 24.0
-offset_top = 24.0
-offset_right = 984.0
-offset_bottom = 88.0
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
-autowrap_mode = 0
-
-[node name="other_menu" type="Control" parent="."]
-unique_name_in_owner = true
-visible = false
-layout_mode = 2
-
-[node name="menu_container" type="VBoxContainer" parent="other_menu"]
-z_index = 5
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -480.0
-offset_top = -248.0
-offset_right = 480.0
-offset_bottom = 248.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_j2qdm")
-
-[node name="Control" type="Control" parent="other_menu/menu_container"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-
-[node name="User Interface Type" type="Button" parent="other_menu/menu_container/Control" groups=["group5"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="other_menu/menu_container/Control/User Interface Type"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -456.0
-offset_top = -24.0
-offset_right = 456.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]User Interface Type[/wave]"
-fit_content = true
-autowrap_mode = 0
-
-[node name="Control2" type="Control" parent="other_menu/menu_container"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-
-[node name="ReturnOther" type="Button" parent="other_menu/menu_container/Control2" groups=["group5"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="other_menu/menu_container/Control2/ReturnOther"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -144.0
-offset_top = -24.0
-offset_right = 144.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]Return[/wave]"
-fit_content = true
-autowrap_mode = 0
-
 [node name="episodeSelect_menu" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
@@ -1132,49 +704,7 @@ theme = ExtResource("1_j2qdm")
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 
-[node name="Debug Levels" type="Button" parent="episodeSelect_menu/menu_container/Control" groups=["group6"]]
-unique_name_in_owner = true
-z_index = 1
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 4
-script = ExtResource("4_5ppq6")
-episode_select = "Debug Levels"
-
-[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control/Debug Levels"]
-z_index = 125
-clip_contents = false
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -288.0
-offset_top = -24.0
-offset_right = 288.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
-theme_override_constants/shadow_offset_y = 3
-theme_override_constants/shadow_offset_x = 3
-theme_override_font_sizes/normal_font_size = 48
-bbcode_enabled = true
-text = "[wave amp=25 freq=5 connected=1]Debug Levels[/wave]"
-fit_content = true
-autowrap_mode = 0
-
-[node name="Control2" type="Control" parent="episodeSelect_menu/menu_container"]
-custom_minimum_size = Vector2(0, 96)
-layout_mode = 2
-
-[node name="Main Levels" type="Button" parent="episodeSelect_menu/menu_container/Control2" groups=["group6"]]
+[node name="Main Levels" type="Button" parent="episodeSelect_menu/menu_container/Control" groups=["group6"]]
 unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
@@ -1187,7 +717,7 @@ size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 episode_select = "Main Levels"
 
-[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control2/Main Levels"]
+[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control/Main Levels"]
 z_index = 125
 clip_contents = false
 layout_mode = 1
@@ -1212,12 +742,54 @@ text = "[wave amp=25 freq=5 connected=1]Main Levels[/wave]"
 fit_content = true
 autowrap_mode = 0
 
-[node name="cheats_menu" type="Control" parent="."]
+[node name="Control2" type="Control" parent="episodeSelect_menu/menu_container"]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+
+[node name="Debug Levels" type="Button" parent="episodeSelect_menu/menu_container/Control2" groups=["group6"]]
+unique_name_in_owner = true
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+script = ExtResource("4_5ppq6")
+episode_select = "Debug Levels"
+
+[node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control2/Debug Levels"]
+z_index = 125
+clip_contents = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -288.0
+offset_top = -24.0
+offset_right = 288.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_y = 3
+theme_override_constants/shadow_offset_x = 3
+theme_override_font_sizes/normal_font_size = 48
+bbcode_enabled = true
+text = "[wave amp=25 freq=5 connected=1]Debug Levels[/wave]"
+fit_content = true
+autowrap_mode = 0
+
+[node name="accessibility_menu" type="Control" parent="."]
 unique_name_in_owner = true
 visible = false
 layout_mode = 2
 
-[node name="menu_container" type="VBoxContainer" parent="cheats_menu"]
+[node name="menu_container" type="VBoxContainer" parent="accessibility_menu"]
 z_index = 5
 layout_mode = 1
 anchors_preset = 8
@@ -1233,11 +805,11 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_j2qdm")
 
-[node name="Control2" type="Control" parent="cheats_menu/menu_container"]
+[node name="Control2" type="Control" parent="accessibility_menu/menu_container"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 
-[node name="Toggle Quicksaves" type="Button" parent="cheats_menu/menu_container/Control2" groups=["group7"]]
+[node name="Toggle Quicksaves" type="Button" parent="accessibility_menu/menu_container/Control2" groups=["group7"]]
 unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
@@ -1249,7 +821,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="cheats_menu/menu_container/Control2/Toggle Quicksaves"]
+[node name="RichTextLabel" type="RichTextLabel" parent="accessibility_menu/menu_container/Control2/Toggle Quicksaves"]
 z_index = 125
 clip_contents = false
 layout_mode = 1
@@ -1274,11 +846,11 @@ text = "[wave amp=25 freq=5 connected=1]Enable Quicksaves[/wave]"
 fit_content = true
 autowrap_mode = 0
 
-[node name="Control3" type="Control" parent="cheats_menu/menu_container"]
+[node name="Control3" type="Control" parent="accessibility_menu/menu_container"]
 custom_minimum_size = Vector2(0, 96)
 layout_mode = 2
 
-[node name="ReturnCheats" type="Button" parent="cheats_menu/menu_container/Control3" groups=["group7"]]
+[node name="ReturnAccessibility" type="Button" parent="accessibility_menu/menu_container/Control3" groups=["group7"]]
 unique_name_in_owner = true
 z_index = 1
 layout_mode = 1
@@ -1290,7 +862,7 @@ grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="cheats_menu/menu_container/Control3/ReturnCheats"]
+[node name="RichTextLabel" type="RichTextLabel" parent="accessibility_menu/menu_container/Control3/ReturnAccessibility"]
 z_index = 125
 clip_contents = false
 layout_mode = 1
@@ -2216,7 +1788,7 @@ theme_override_font_sizes/font_size = 24
 text = "start playback"
 
 [node name="quit_delay" type="Timer" parent="."]
-wait_time = 15.0
+wait_time = 5.0
 one_shot = true
 
 [connection signal="focus_entered" from="main_menu/menu_container/Control/Continue" to="main_menu/menu_container/Control/Continue" method="_on_focus_entered"]
@@ -2237,15 +1809,9 @@ one_shot = true
 [connection signal="focus_entered" from="options_menu/menu_container/Control/Graphics" to="options_menu/menu_container/Control/Graphics" method="_on_focus_entered"]
 [connection signal="focus_exited" from="options_menu/menu_container/Control/Graphics" to="options_menu/menu_container/Control/Graphics" method="_on_focus_exited"]
 [connection signal="pressed" from="options_menu/menu_container/Control/Graphics" to="." method="_on_graphics_pressed"]
-[connection signal="focus_entered" from="options_menu/menu_container/Control2/Audio" to="options_menu/menu_container/Control2/Audio" method="_on_focus_entered"]
-[connection signal="focus_exited" from="options_menu/menu_container/Control2/Audio" to="options_menu/menu_container/Control2/Audio" method="_on_focus_exited"]
-[connection signal="pressed" from="options_menu/menu_container/Control2/Audio" to="." method="_on_audio_pressed"]
-[connection signal="focus_entered" from="options_menu/menu_container/Control3/Other" to="options_menu/menu_container/Control3/Other" method="_on_focus_entered"]
-[connection signal="focus_exited" from="options_menu/menu_container/Control3/Other" to="options_menu/menu_container/Control3/Other" method="_on_focus_exited"]
-[connection signal="pressed" from="options_menu/menu_container/Control3/Other" to="." method="_on_other_pressed"]
-[connection signal="focus_entered" from="options_menu/menu_container/Control4/Cheats" to="options_menu/menu_container/Control4/Cheats" method="_on_focus_entered"]
-[connection signal="focus_exited" from="options_menu/menu_container/Control4/Cheats" to="options_menu/menu_container/Control4/Cheats" method="_on_focus_exited"]
-[connection signal="pressed" from="options_menu/menu_container/Control4/Cheats" to="." method="_on_cheats_pressed"]
+[connection signal="focus_entered" from="options_menu/menu_container/Control4/Accessibility" to="options_menu/menu_container/Control4/Accessibility" method="_on_focus_entered"]
+[connection signal="focus_exited" from="options_menu/menu_container/Control4/Accessibility" to="options_menu/menu_container/Control4/Accessibility" method="_on_focus_exited"]
+[connection signal="pressed" from="options_menu/menu_container/Control4/Accessibility" to="." method="_on_accessibility_pressed"]
 [connection signal="focus_entered" from="options_menu/menu_container/Control5/ReturnOptions" to="options_menu/menu_container/Control5/ReturnOptions" method="_on_focus_entered"]
 [connection signal="focus_exited" from="options_menu/menu_container/Control5/ReturnOptions" to="options_menu/menu_container/Control5/ReturnOptions" method="_on_focus_exited"]
 [connection signal="pressed" from="options_menu/menu_container/Control5/ReturnOptions" to="." method="_on_returnOptions_pressed"]
@@ -2258,37 +1824,20 @@ one_shot = true
 [connection signal="focus_entered" from="graphics_menu/menu_container/Control3/ReturnGraphics" to="graphics_menu/menu_container/Control3/ReturnGraphics" method="_on_focus_entered"]
 [connection signal="focus_exited" from="graphics_menu/menu_container/Control3/ReturnGraphics" to="graphics_menu/menu_container/Control3/ReturnGraphics" method="_on_focus_exited"]
 [connection signal="pressed" from="graphics_menu/menu_container/Control3/ReturnGraphics" to="." method="_on_returnGraphics_pressed"]
-[connection signal="focus_entered" from="audio_menu/menu_container/Music/Control/Music +" to="audio_menu/menu_container/Music/Control/Music +" method="_on_focus_entered"]
-[connection signal="focus_exited" from="audio_menu/menu_container/Music/Control/Music +" to="audio_menu/menu_container/Music/Control/Music +" method="_on_focus_exited"]
-[connection signal="focus_entered" from="audio_menu/menu_container/Music/Control2/Music -" to="audio_menu/menu_container/Music/Control2/Music -" method="_on_focus_entered"]
-[connection signal="focus_exited" from="audio_menu/menu_container/Music/Control2/Music -" to="audio_menu/menu_container/Music/Control2/Music -" method="_on_focus_exited"]
-[connection signal="focus_entered" from="audio_menu/menu_container/Effects/Control/Effects +" to="audio_menu/menu_container/Effects/Control/Effects +" method="_on_focus_entered"]
-[connection signal="focus_exited" from="audio_menu/menu_container/Effects/Control/Effects +" to="audio_menu/menu_container/Effects/Control/Effects +" method="_on_focus_exited"]
-[connection signal="focus_entered" from="audio_menu/menu_container/Effects/Control2/Effects -" to="audio_menu/menu_container/Effects/Control2/Effects -" method="_on_focus_entered"]
-[connection signal="focus_exited" from="audio_menu/menu_container/Effects/Control2/Effects -" to="audio_menu/menu_container/Effects/Control2/Effects -" method="_on_focus_exited"]
-[connection signal="focus_entered" from="audio_menu/menu_container/Control/ReturnAudio" to="audio_menu/menu_container/Control/ReturnAudio" method="_on_focus_entered"]
-[connection signal="focus_exited" from="audio_menu/menu_container/Control/ReturnAudio" to="audio_menu/menu_container/Control/ReturnAudio" method="_on_focus_exited"]
-[connection signal="pressed" from="audio_menu/menu_container/Control/ReturnAudio" to="." method="_on_return_audio_pressed"]
-[connection signal="focus_entered" from="other_menu/menu_container/Control/User Interface Type" to="other_menu/menu_container/Control/User Interface Type" method="_on_focus_entered"]
-[connection signal="focus_exited" from="other_menu/menu_container/Control/User Interface Type" to="other_menu/menu_container/Control/User Interface Type" method="_on_focus_exited"]
-[connection signal="pressed" from="other_menu/menu_container/Control/User Interface Type" to="." method="_on_user_interface_type_pressed"]
-[connection signal="focus_entered" from="other_menu/menu_container/Control2/ReturnOther" to="other_menu/menu_container/Control2/ReturnOther" method="_on_focus_entered"]
-[connection signal="focus_exited" from="other_menu/menu_container/Control2/ReturnOther" to="other_menu/menu_container/Control2/ReturnOther" method="_on_focus_exited"]
-[connection signal="pressed" from="other_menu/menu_container/Control2/ReturnOther" to="." method="_on_return_other_pressed"]
-[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="episodeSelect_menu/menu_container/Control/Debug Levels" method="_on_focus_entered"]
-[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="episodeSelect_menu/menu_container/Control/Debug Levels" method="_on_focus_exited"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="." method="_on_episode_button_pressed"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Debug Levels" to="episodeSelect_menu/menu_container/Control/Debug Levels" method="_on_self_pressed"]
-[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Control2/Main Levels" to="episodeSelect_menu/menu_container/Control2/Main Levels" method="_on_focus_entered"]
-[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Control2/Main Levels" to="episodeSelect_menu/menu_container/Control2/Main Levels" method="_on_focus_exited"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Control2/Main Levels" to="." method="_on_episode_button_pressed"]
-[connection signal="pressed" from="episodeSelect_menu/menu_container/Control2/Main Levels" to="episodeSelect_menu/menu_container/Control2/Main Levels" method="_on_self_pressed"]
-[connection signal="focus_entered" from="cheats_menu/menu_container/Control2/Toggle Quicksaves" to="cheats_menu/menu_container/Control2/Toggle Quicksaves" method="_on_focus_entered"]
-[connection signal="focus_exited" from="cheats_menu/menu_container/Control2/Toggle Quicksaves" to="cheats_menu/menu_container/Control2/Toggle Quicksaves" method="_on_focus_exited"]
-[connection signal="pressed" from="cheats_menu/menu_container/Control2/Toggle Quicksaves" to="." method="_on_toggle_quicksaves_pressed"]
-[connection signal="focus_entered" from="cheats_menu/menu_container/Control3/ReturnCheats" to="cheats_menu/menu_container/Control3/ReturnCheats" method="_on_focus_entered"]
-[connection signal="focus_exited" from="cheats_menu/menu_container/Control3/ReturnCheats" to="cheats_menu/menu_container/Control3/ReturnCheats" method="_on_focus_exited"]
-[connection signal="pressed" from="cheats_menu/menu_container/Control3/ReturnCheats" to="." method="_on_return_cheats_pressed"]
+[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Control/Main Levels" to="episodeSelect_menu/menu_container/Control/Main Levels" method="_on_focus_entered"]
+[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Control/Main Levels" to="episodeSelect_menu/menu_container/Control/Main Levels" method="_on_focus_exited"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Main Levels" to="." method="_on_episode_button_pressed"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Control/Main Levels" to="episodeSelect_menu/menu_container/Control/Main Levels" method="_on_self_pressed"]
+[connection signal="focus_entered" from="episodeSelect_menu/menu_container/Control2/Debug Levels" to="episodeSelect_menu/menu_container/Control2/Debug Levels" method="_on_focus_entered"]
+[connection signal="focus_exited" from="episodeSelect_menu/menu_container/Control2/Debug Levels" to="episodeSelect_menu/menu_container/Control2/Debug Levels" method="_on_focus_exited"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Control2/Debug Levels" to="." method="_on_episode_button_pressed"]
+[connection signal="pressed" from="episodeSelect_menu/menu_container/Control2/Debug Levels" to="episodeSelect_menu/menu_container/Control2/Debug Levels" method="_on_self_pressed"]
+[connection signal="focus_entered" from="accessibility_menu/menu_container/Control2/Toggle Quicksaves" to="accessibility_menu/menu_container/Control2/Toggle Quicksaves" method="_on_focus_entered"]
+[connection signal="focus_exited" from="accessibility_menu/menu_container/Control2/Toggle Quicksaves" to="accessibility_menu/menu_container/Control2/Toggle Quicksaves" method="_on_focus_exited"]
+[connection signal="pressed" from="accessibility_menu/menu_container/Control2/Toggle Quicksaves" to="." method="_on_toggle_quicksaves_pressed"]
+[connection signal="focus_entered" from="accessibility_menu/menu_container/Control3/ReturnAccessibility" to="accessibility_menu/menu_container/Control3/ReturnAccessibility" method="_on_focus_entered"]
+[connection signal="focus_exited" from="accessibility_menu/menu_container/Control3/ReturnAccessibility" to="accessibility_menu/menu_container/Control3/ReturnAccessibility" method="_on_focus_exited"]
+[connection signal="pressed" from="accessibility_menu/menu_container/Control3/ReturnAccessibility" to="." method="_on_return_accessibility_pressed"]
 [connection signal="focus_entered" from="resolution_menu/menu_container/Control/AutoResolution" to="resolution_menu/menu_container/Control/AutoResolution" method="_on_focus_entered"]
 [connection signal="focus_exited" from="resolution_menu/menu_container/Control/AutoResolution" to="resolution_menu/menu_container/Control/AutoResolution" method="_on_focus_exited"]
 [connection signal="pressed" from="resolution_menu/menu_container/Control/AutoResolution" to="." method="display_stretch_viewport_on"]
@@ -2309,18 +1858,25 @@ one_shot = true
 [connection signal="pressed" from="resolution_menu/menu_container/Control6/ReturnResolution" to="." method="_on_return_resolution_pressed"]
 [connection signal="focus_entered" from="refreshrate_menu/menu_container/Control/AutoRefreshrate" to="refreshrate_menu/menu_container/Control/AutoRefreshrate" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/menu_container/Control/AutoRefreshrate" to="refreshrate_menu/menu_container/Control/AutoRefreshrate" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/Control/AutoRefreshrate" to="." method="display_framerate_unlocked"]
 [connection signal="focus_entered" from="refreshrate_menu/menu_container/Control2/30hz" to="refreshrate_menu/menu_container/Control2/30hz" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/menu_container/Control2/30hz" to="refreshrate_menu/menu_container/Control2/30hz" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/Control2/30hz" to="." method="display_framerate_30"]
 [connection signal="focus_entered" from="refreshrate_menu/menu_container/Control3/60hz" to="refreshrate_menu/menu_container/Control3/60hz" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/menu_container/Control3/60hz" to="refreshrate_menu/menu_container/Control3/60hz" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/Control3/60hz" to="." method="display_framerate_60"]
 [connection signal="focus_entered" from="refreshrate_menu/menu_container/Control4/75hz" to="refreshrate_menu/menu_container/Control4/75hz" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/menu_container/Control4/75hz" to="refreshrate_menu/menu_container/Control4/75hz" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/Control4/75hz" to="." method="display_framerate_75"]
 [connection signal="focus_entered" from="refreshrate_menu/menu_container/Control5/100hz" to="refreshrate_menu/menu_container/Control5/100hz" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/menu_container/Control5/100hz" to="refreshrate_menu/menu_container/Control5/100hz" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/Control5/100hz" to="." method="display_framerate_100"]
 [connection signal="focus_entered" from="refreshrate_menu/menu_container/Control6/120hz" to="refreshrate_menu/menu_container/Control6/120hz" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/menu_container/Control6/120hz" to="refreshrate_menu/menu_container/Control6/120hz" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/Control6/120hz" to="." method="display_framerate_120"]
 [connection signal="focus_entered" from="refreshrate_menu/menu_container/Control7/144hz" to="refreshrate_menu/menu_container/Control7/144hz" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/menu_container/Control7/144hz" to="refreshrate_menu/menu_container/Control7/144hz" method="_on_focus_exited"]
+[connection signal="pressed" from="refreshrate_menu/menu_container/Control7/144hz" to="." method="display_framerate_144"]
 [connection signal="focus_entered" from="refreshrate_menu/Control/ReturnRefreshrate" to="refreshrate_menu/Control/ReturnRefreshrate" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/Control/ReturnRefreshrate" to="refreshrate_menu/Control/ReturnRefreshrate" method="_on_focus_exited"]
 [connection signal="pressed" from="refreshrate_menu/Control/ReturnRefreshrate" to="." method="_on_return_refreshrate_pressed"]
