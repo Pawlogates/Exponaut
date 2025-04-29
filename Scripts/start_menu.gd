@@ -63,7 +63,7 @@ func start_game(): #starts a brand new playthrough and deletes save files
 	Globals.next_transition = 0
 	Globals.just_started_new_game = true
 	
-	await LevelTransition.fade_to_black()
+	await LevelTransition.fade_to_black_slow()
 	get_tree().change_scene_to_packed(startingArea)
 
 
@@ -545,7 +545,7 @@ var selected_playback_id = 0
 func _on_playback_id_pressed() -> void:
 	Globals.recording_autostart = false
 	playback_button_general()
-	LevelTransition.info_text_display.display_show("Automatic recording is now DISABLED.", 0)
+	LevelTransition.info_text_display.display_message("Automatic recording is now DISABLED.", 0)
 
 func _on_playback_minus_pressed() -> void:
 	selected_playback_id -= 1

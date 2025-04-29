@@ -1,58 +1,17 @@
-[gd_scene load_steps=16 format=3 uid="uid://d0734vb1p0a4l"]
+[gd_scene load_steps=16 format=3 uid="uid://bopqi6gxm65nb"]
 
-[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_j0qia"]
-[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_7og7f"]
-[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_vl5l7"]
-[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_fip6c"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_pwnso"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="6_nct61"]
+[ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_fhm4w"]
+[ext_resource type="PackedScene" uid="uid://don6gojhtapa8" path="res://Collectibles/collectibleKey_opener.tscn" id="2_2i8nx"]
+[ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_3r2jw"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="3_4766s"]
+[ext_resource type="SpriteFrames" uid="uid://is2w5wmf8tpv" path="res://Assets/Graphics/sprites/packed/enemies/friendly_butterfly.tres" id="4_8uiku"]
+[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_m0icw"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_dvk3g"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_nwwd6"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_g078y"]
-atlas = ExtResource("2_7og7f")
-region = Rect2(0, 1128, 24, 24)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5q0ck"]
-atlas = ExtResource("2_7og7f")
-region = Rect2(24, 1128, 24, 24)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_5cx1g"]
-animations = [{
-"frames": [],
-"loop": true,
-"name": &"attack",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"damage",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": false,
-"name": &"dead",
-"speed": 7.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"falling",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g078y")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5q0ck")
-}],
-"loop": true,
-"name": &"flying",
-"speed": 3.0
-}, {
-"frames": [],
-"loop": true,
-"name": &"idle",
-"speed": 5.0
-}]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ulukq"]
+shader = ExtResource("3_4766s")
+shader_parameter/Shift_Hue = 0.6
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
 size = Vector2(48, 24)
@@ -240,30 +199,32 @@ _data = {
 &"score_value": SubResource("Animation_gitew")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhg72"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qkgxw"]
 size = Vector2(640, 24)
 
-[node name="butterfly" type="CharacterBody2D" groups=["Collectibles", "Persist", "enemies"]]
+[node name="butterfly_key" type="CharacterBody2D" groups=["Collectibles", "Persist", "enemies"]]
 z_index = 1
 collision_layer = 0
-script = ExtResource("1_j0qia")
-hp = 1
+script = ExtResource("1_fhm4w")
+hp = 2
 movementType = "wave_V"
 give_score_onDeath = false
 turnOnWall = true
 floating = true
 damageTo_player = false
 bonusBox_spawn_item_onDeath = true
+bonusBox_item_scene = ExtResource("2_2i8nx")
+bonusBox_collectibleAmount = 1
+bonusBox_throw_around = true
+bonusBox_spread_position = false
 particles_golden = false
-particles_splash = false
 enable_generalTimers = false
-enemy_type = "butterfly"
+enemy_type = "butterfly_key"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, 2)
-sprite_frames = SubResource("SpriteFrames_5cx1g")
-animation = &"flying"
-frame_progress = 0.933994
+material = SubResource("ShaderMaterial_ulukq")
+sprite_frames = ExtResource("4_8uiku")
+animation = &"attack"
 
 [node name="AttackingTimer" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.75
@@ -297,10 +258,10 @@ wait_time = 0.5
 one_shot = true
 
 [node name="hit" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_vl5l7")
+stream = ExtResource("3_3r2jw")
 
 [node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_fip6c")
+stream = ExtResource("4_m0icw")
 volume_db = 5.0
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
@@ -318,11 +279,11 @@ color = Color(1, 1, 1, 0)
 [node name="collectedDisplay" type="Label" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 z_index = 25
-material = ExtResource("5_pwnso")
+material = ExtResource("6_dvk3g")
 layout_mode = 0
 offset_right = 440.0
 offset_bottom = 160.0
-theme = ExtResource("6_nct61")
+theme = ExtResource("7_nwwd6")
 theme_override_font_sizes/font_size = 0
 text = "test"
 horizontal_alignment = 1
@@ -330,13 +291,8 @@ horizontal_alignment = 1
 [node name="AnimationPlayer" type="AnimationPlayer" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_ihjei")
+&"": SubResource("AnimationLibrary_ihjei")
 }
-
-[node name="Limit_turn" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 0.3
-one_shot = true
 
 [node name="patrolDirectionTimer" type="Timer" parent="."]
 unique_name_in_owner = true
@@ -356,7 +312,12 @@ input_pickable = false
 [node name="scanForPlayer_CollisionShape2D" type="CollisionShape2D" parent="scanForPlayer"]
 unique_name_in_owner = true
 position = Vector2(-320, 36)
-shape = SubResource("RectangleShape2D_vhg72")
+shape = SubResource("RectangleShape2D_qkgxw")
+
+[node name="Limit_turn" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.3
+one_shot = true
 
 [node name="scanForLedge" type="RayCast2D" parent="."]
 unique_name_in_owner = true
@@ -376,8 +337,7 @@ autostart = true
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_player_entered"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_enemy_entered"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

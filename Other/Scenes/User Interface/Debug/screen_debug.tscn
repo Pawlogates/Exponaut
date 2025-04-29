@@ -426,7 +426,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
-text = "debug 3"
+text = "debug 4"
 
 [node name="CenterContainerTest5" type="Control" parent="Debug Info Root/Debug Info"]
 layout_mode = 2
@@ -443,7 +443,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
-text = "debug 3"
+text = "debug 5"
 
 [node name="CenterContainerTest6" type="Control" parent="Debug Info Root/Debug Info"]
 layout_mode = 2
@@ -460,7 +460,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
-text = "debug 3"
+text = "debug 6"
 
 [node name="CenterContainerTest7" type="Control" parent="Debug Info Root/Debug Info"]
 layout_mode = 2
@@ -477,7 +477,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
 theme_override_font_sizes/font_size = 24
-text = "debug 3"
+text = "debug 7"
 
 [node name="Debug Buttons Screen Root" type="TextureRect" parent="."]
 unique_name_in_owner = true
@@ -1985,7 +1985,7 @@ autowrap_mode = 2
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="toggle_hud" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3"]
+[node name="disable_hud" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3"]
 z_index = 1
 layout_mode = 1
 anchors_preset = 8
@@ -2003,7 +2003,7 @@ theme = ExtResource("3_85xa0")
 script = ExtResource("4_skuwq")
 enable_deco = false
 
-[node name="toggle_hud" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud"]
+[node name="disable_hud" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud"]
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 1
 anchors_preset = 10
@@ -2016,7 +2016,7 @@ theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 2
 theme_override_constants/shadow_offset_y = 2
 theme_override_font_sizes/font_size = 16
-text = "toggle hud"
+text = "disable hud"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -2300,10 +2300,10 @@ color = Color(0, 0, 0, 1)
 [connection signal="mouse_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" method="_on_mouse_exited"]
 [connection signal="pressed" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="." method="_on_toggle_ambience_pressed"]
-[connection signal="focus_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" method="_on_focus_entered"]
-[connection signal="focus_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" method="_on_focus_exited"]
-[connection signal="mouse_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" method="_on_mouse_exited"]
-[connection signal="pressed" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/toggle_hud" to="." method="_on_toggle_hud_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="." method="_on_disable_hud_pressed"]
 [connection signal="timeout" from="refresh_debugInfo" to="." method="refresh_debugInfo"]
 [connection signal="timeout" from="refresh_debugInfo_values" to="." method="refresh_debugInfo_values"]

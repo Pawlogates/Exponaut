@@ -9,6 +9,3 @@ cameraLimit_bottom = 448.0
 cameraLimit_top = -1e+06
 shrine_level = true
 random_music = true
-
-[node name="HUD" parent="." index="20"]
-visible = true

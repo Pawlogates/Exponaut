@@ -10,12 +10,9 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="8_43u20"]
 
 [node name="World" instance=ExtResource("1_as27u")]
-shrine_level = true
-final_level = true
+regular_level = false
 playerStartHP = 100
 selected_episode = "Main Levels"
-level_ID = "MAIN_5"
-level_number = 5
 
 [node name="music" parent="Music Controller" index="5"]
 stream = ExtResource("2_gfudb")
@@ -66,3 +63,5 @@ scale = Vector2(8, 8)
 [node name="info_sign" parent="." index="18" instance=ExtResource("8_43u20")]
 position = Vector2(3488, -2144)
 displayedText = "Hold DOWN direction while shooting, to perform a downward shot."
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

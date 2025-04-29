@@ -16,6 +16,8 @@ var toggle_debug_magic_projectiles = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$/root/World/HUD.visible = true
+	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	visible = false
 
@@ -369,8 +371,5 @@ func _on_set_day_pressed():
 	night_modifications()
 
 
-func _on_toggle_hud_pressed():
-	if $/root/World/HUD.visible:
-		$/root/World/HUD.visible = false
-	else:
-		$/root/World/HUD.visible = true
+func _on_disable_hud_pressed():
+	$/root/World/HUD.visible = false

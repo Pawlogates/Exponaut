@@ -159,7 +159,7 @@ b_a = 0.25
 [node name="bg_transition" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_u4m3j")
+&"": SubResource("AnimationLibrary_u4m3j")
 }
 
 [node name="bg_transition_buffer_delay" type="Timer" parent="bg_transition"]
@@ -169,18 +169,19 @@ one_shot = true
 [node name="bg_a_transition" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_u4m3j")
+&"": SubResource("AnimationLibrary_u4m3j")
 }
 
 [node name="bg_b_transition" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_u4m3j")
+&"": SubResource("AnimationLibrary_u4m3j")
 }
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="bg_main" type="ParallaxBackground" parent="CanvasLayer"]
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="bg_main" type="ParallaxLayer" parent="CanvasLayer/bg_main"]
@@ -196,6 +197,7 @@ texture = ExtResource("2_qome0")
 stretch_mode = 4
 
 [node name="bg_b" type="ParallaxBackground" parent="CanvasLayer"]
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="bg_b" type="ParallaxLayer" parent="CanvasLayer/bg_b"]
@@ -211,6 +213,7 @@ offset_bottom = 1180.0
 texture = ExtResource("3_6te8h")
 
 [node name="bg_a" type="ParallaxBackground" parent="CanvasLayer"]
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="bg_a" type="ParallaxLayer" parent="CanvasLayer/bg_a"]

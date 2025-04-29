@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://5h7bdd7d5xnh"]
 
 [ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_0ivkn"]
-[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/butterfly.tscn" id="2_1bxei"]
+[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/friendly_butterfly_apples.tscn" id="2_1bxei"]
 [ext_resource type="SpriteFrames" uid="uid://dt11pevkatl50" path="res://Assets/Graphics/sprites/packed/enemies/enemy_frogRed.tres" id="3_smbwe"]
 [ext_resource type="AudioStream" uid="uid://c540h7dwrtb25" path="res://Assets/Sounds/sfx/frog_damage.wav" id="6_r5tes"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="6_vh3qf"]
@@ -11,7 +11,7 @@
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="11_wtpb5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
-size = Vector2(32, 24)
+size = Vector2(32, 40)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7kt5p"]
 size = Vector2(48, 40)
@@ -221,6 +221,7 @@ generalTimer_max_cooldown = 2
 generalTimer_randomize_cooldown_onSpawn = true
 t_afterDelay_jump = true
 t_afterDelay_jump_timerID = 1
+enemy_type = "frog_red"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = ExtResource("3_smbwe")
@@ -248,7 +249,7 @@ monitoring = false
 monitorable = false
 
 [node name="main_collision" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(0, 12)
+position = Vector2(0, 4)
 shape = SubResource("RectangleShape2D_4klqh")
 
 [node name="patrolDirectionTimer" type="Timer" parent="."]
@@ -379,13 +380,13 @@ horizontal_alignment = 1
 [node name="AnimationPlayer" type="AnimationPlayer" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_ihjei")
+&"": SubResource("AnimationLibrary_ihjei")
 }
 
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_enemy_entered"]
 [connection signal="timeout" from="patrolDirectionTimer" to="." method="_on_patrol_direction_timer_timeout"]
 [connection signal="timeout" from="patrolDirectionTimer/followDelay" to="." method="_on_follow_delay_timeout"]
 [connection signal="timeout" from="jumpTimer" to="." method="_on_jump_timer_timeout"]

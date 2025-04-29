@@ -17,8 +17,5 @@ layer_0/tile_data = PackedInt32Array(65555, 2, 262144, -262107, 2, 262144, -3931
 [node name="music" parent="Music Controller" index="5"]
 stream = ExtResource("2_ub1eo")
 
-[node name="HUD" parent="." index="20"]
-visible = false
-
 [node name="trigger_bgChange" parent="." index="24"]
 is_gradient = true

@@ -208,6 +208,7 @@ damageTo_enemies = true
 familyID = 1
 t_afterDelay_selfDestruct = true
 t_afterDelay_selfDestruct_timerID = 1
+enemy_type = "imp_fire"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
@@ -348,13 +349,13 @@ horizontal_alignment = 1
 [node name="AnimationPlayer" type="AnimationPlayer" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_ihjei")
+&"": SubResource("AnimationLibrary_ihjei")
 }
 
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_enemy_entered"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

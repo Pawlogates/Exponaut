@@ -21,6 +21,10 @@ var changing_color = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	$CanvasLayer/bg_main.visible = true
+	$CanvasLayer/bg_b.visible = true
+	$CanvasLayer/bg_a.visible = true
+	
 	$CanvasLayer/bg_main/bg_main/TextureRect.modulate.r = main_r
 	$CanvasLayer/bg_main/bg_main/TextureRect.modulate.g = main_g
 	$CanvasLayer/bg_main/bg_main/TextureRect.modulate.b = main_b

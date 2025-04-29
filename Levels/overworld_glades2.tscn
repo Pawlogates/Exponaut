@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bay2cb2mbpfjy"]
+[gd_scene load_steps=11 format=3 uid="uid://bay2cb2mbpfjy"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_uxcd1"]
 [ext_resource type="AudioStream" uid="uid://cn0nrp3mqpb0g" path="res://Assets/Sounds/music/plains6.mp3" id="2_6h4ts"]
@@ -9,13 +9,12 @@
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="7_kaxye"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="8_m1ei6"]
 [ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://Objects/Decorations/deco_cloud.tscn" id="9_1ptj4"]
+[ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="10_ys34a"]
 
 [node name="World" instance=ExtResource("1_uxcd1")]
-shrine_level = true
+regular_level = false
 playerStartHP = 3
 selected_episode = "Main Levels"
-level_ID = "MAIN_2"
-level_number = 2
 
 [node name="music" parent="Music Controller" index="5"]
 stream = ExtResource("2_6h4ts")
@@ -79,3 +78,16 @@ transform = Transform2D(1, 0, 0, 1, 800, -200)
 [node name="deco_cloud2" parent="." index="20" instance=ExtResource("9_1ptj4")]
 offset = Vector2(2400, -400)
 transform = Transform2D(1, 0, 0, 1, 2400, -400)
+
+[node name="areaTransition3" parent="." index="21" instance=ExtResource("10_ys34a")]
+unique_name_in_owner = true
+position = Vector2(1408, -2944)
+target_area = "uid://c7ie388q2umtx"
+next_transition = 3
+
+[node name="areaTransition4" parent="." index="22" instance=ExtResource("10_ys34a")]
+unique_name_in_owner = true
+position = Vector2(4896, -736)
+scale = Vector2(5, 5)
+target_area = "uid://c7ie388q2umtx"
+next_transition = 3

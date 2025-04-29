@@ -26,7 +26,7 @@ func display_message(used_text, used_display_size):
 	elif display_size == 3:
 		animation_player.play("show_3")
 	
-	$Control/Timer.wait_time = 7.5 * display_size + 2
+	$Control/Timer.wait_time = 4 * display_size + 2
 	$Control/Timer.start()
 	
 	print("Showing debug display. " + str(display_size) + " " + str(display_text))

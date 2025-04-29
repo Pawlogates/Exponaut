@@ -31,6 +31,7 @@ var checkpoint_active = false
 var enemy_last = Node
 var projectile_last = Node
 var collectible_last = Node
+var box_last = Node
 
 
 @onready var sfx_collect1 = %collect1
@@ -226,25 +227,9 @@ func _on_collectible_entered(body):
 	#if not body.is_in_group("player") and not body.is_in_group("player_projectile") and not body.is_in_group("enemies") and not body.is_in_group("Collectibles"):
 		#return
 	
-	var entered_player = false
-	var entered_projectile = false
-	#var entered_enemy = false
-	#var entered_collectible = false
-	
-	if body.is_in_group("player"):
-		entered_player = true
-	elif body.is_in_group("player_projectile"):
-		entered_projectile = true
-	#elif body.is_in_group("enemies"):
-		#entered_enemy = true
-	#elif body.is_in_group("Collectibles"):
-		#entered_collectible = true
-	else:
-		return
-	
 	inside_check_enter(body)
 	
-	if entered_projectile and not floating and not is_shrineGem:
+	if inside_projectile and not floating and not is_shrineGem:
 		sfx_collect1.pitch_scale = 0.5
 		sfx_collect1.play()
 		return
@@ -288,7 +273,7 @@ func _on_collectible_entered(body):
 	
 	
 	if is_healthItem:
-		if entered_player and not collected:
+		if inside_player and not collected:
 			collected = true
 			
 			Globals.itemCollected.emit()
@@ -311,7 +296,7 @@ func _on_collectible_entered(body):
 			world.add_child(feathersParticle)
 	
 	
-	if is_gift and entered_player and not collected or is_gift and entered_projectile and body.can_collect and not collected:
+	if is_gift and inside_player and not collected or is_gift and inside_projectile and body.can_collect and not collected:
 		if get_tree().get_nodes_in_group("in_inventory").size() < 6:
 			var item = inventory_item_scene.instantiate()
 			world.get_node("HUD/Inventory/InventoryContainer").add_child(item)
@@ -325,11 +310,11 @@ func _on_collectible_entered(body):
 	
 	
 	if is_shrineGem:
-		if entered_player:
+		if inside_player:
 			%AnimatedSprite2D.modulate.r = 0.3
 			%AnimatedSprite2D.modulate.a = 0.5
 			
-		elif entered_projectile and not collected:
+		elif inside_projectile and not collected:
 			if not body.upward_shot:
 				velocity.y = -200
 				velocity.x = 400 * body.direction
@@ -381,7 +366,7 @@ func _on_collectible_entered(body):
 						Globals.save_progress.emit()
 	
 	
-	if collectable and not rotten and entered_player and not collected or collectable and not rotten and entered_projectile and body.can_collect and not collected:
+	if collectable and not rotten and inside_player and not collected or collectable and not rotten and inside_projectile and body.can_collect and not collected:
 		collected = true
 		
 		if give_score:
@@ -493,7 +478,7 @@ func _physics_process(delta):
 			else:
 				velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN / 2 * delta)
 	
-	if player_inside:
+	if inside_player:
 		collidable = false
 		collisionCheck_delay.start()
 		
@@ -508,7 +493,7 @@ func _physics_process(delta):
 			velocity.x = 150 * direction
 	
 	
-	if enemy_inside:
+	if inside_enemy:
 		if collidable:
 			collidable = false
 			collisionCheck_delay.start()
@@ -522,7 +507,7 @@ func _physics_process(delta):
 				velocity.x = 150 * direction
 	
 	
-	if projectile_inside:
+	if inside_projectile:
 		if projectile_last == null:
 			return
 		
@@ -597,38 +582,60 @@ func _on_rot_delay_timeout():
 	%AnimatedSprite2D.material = preload("res://Other/Materials/rotten_material.tres")
 
 
-var player_inside = false
-var enemy_inside = false
-var projectile_inside = false
+var inside_player = 0
+var inside_projectile = 0
+var inside_enemy = 0
+var inside_collectible = 0
+var inside_box = 0
 
 var collidable = true
 
 
 func inside_check_enter(body):
 	if body.is_in_group("player"):
-		player_inside = true
-		print("Player entered this collectible.")
+		inside_player += 1
 		if collidable:
+			print("Player entered this collectible.")
 			collidable = false
 			collisionCheck_delay.start()
 			
 			#direction = body.direction
-		
-	elif body.is_in_group("enemies"):
-		enemy_last = body
-		enemy_inside = true
-		print("Enemy entered this collectible.")
-		if collidable:
-			collidable = false
-			collisionCheck_delay.start()
-			
-			#direction = body.direction
-		
+	
 	elif body.is_in_group("player_projectile"):
 		projectile_last = body
-		projectile_inside = true
-		print("Collectible entered this collectible.")
+		inside_projectile += 1
 		if collidable:
+			print("Projectile entered this collectible.")
+			collidable = false
+			collisionCheck_delay.start()
+			
+			#direction = body.direction
+	
+	elif body.is_in_group("enemies"):
+		enemy_last = body
+		inside_enemy += 1
+		if collidable:
+			print("Enemy entered this collectible.")
+			collidable = false
+			collisionCheck_delay.start()
+			
+			#direction = body.direction
+	
+	elif body.is_in_group("Collectibles"):
+		collectible_last = body
+		inside_collectible += 1
+		if collidable:
+			print("Collectible entered this collectible.")
+			collidable = false
+			collisionCheck_delay.start()
+			
+			#direction = body.direction
+	
+	elif body.is_in_group("bonuxBox"):
+		box_last = body
+		inside_box += 1
+		if collidable:
+			print("Box entered this collectible.")
 			collidable = false
 			collisionCheck_delay.start()
 			
@@ -636,23 +643,31 @@ func inside_check_enter(body):
 
 
 func inside_check_exit(body):
-	if body.is_in_group("player") or body.is_in_group("player_projectile") or body.is_in_group("enemies"):
+	if body.is_in_group("player") or body.is_in_group("player_projectile") or body.is_in_group("enemies") or body.is_in_group("Collectibles") or body.is_in_group("bonusBox"):
 		
 		if body.is_in_group("player"):
-			player_inside = false
+			inside_player -= 1
 			#direction = body.direction
-			print("Player exitted.")
+			print("Player exitted this collectible.")
 		
-		if body.is_in_group("player_projectile"):
-			projectile_inside = false
-			#direction = body.direction
-		
-		if body.is_in_group("enemies"):
-			enemy_inside = false
+		elif body.is_in_group("player_projectile"):
+			inside_projectile -= 1
 			#direction = body.direction
 		
+		elif body.is_in_group("enemies"):
+			inside_enemy -= 1
+			#direction = body.direction
 		
-		if not player_inside and not projectile_inside and not enemy_inside:
+		elif body.is_in_group("Collectibles"):
+			inside_collectible -= 1
+			#direction = body.direction
+		
+		elif body.is_in_group("bonusBox"):
+			inside_box -= 1
+			#direction = body.direction
+		
+		
+		if not inside_player and not inside_projectile and not inside_enemy:
 			direction = 0
 
 

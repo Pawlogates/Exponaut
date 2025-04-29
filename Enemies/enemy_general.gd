@@ -346,9 +346,9 @@ func _physics_process(delta):
 			#print(info)
 
 
-func _on_area_2d_area_entered(area):
+func _on_enemy_entered(body):
 	#HANDLE ATTACK PLAYER
-	if area.is_in_group("player") and not dead:
+	if body.is_in_group("player") and not dead:
 		if damageTo_player:
 			attacking = true
 			attacking_timer.start()
@@ -363,24 +363,24 @@ func _on_area_2d_area_entered(area):
 				return
 			
 			if Input.is_action_pressed("jump"): #the velocity value here is effectively worth more, because of the building velocity mechanic that is active while you are holding the JUMP button.
-				area.get_parent().velocity.y = bonusBox_giveVelocity_jump
+				body.velocity.y = bonusBox_giveVelocity_jump
 				spawn_particles()
 				world.player.air_jump = true
 				world.player.wall_jump = true
 			
 			else:
-				area.get_parent().velocity.y = bonusBox_giveVelocity
+				body.velocity.y = bonusBox_giveVelocity
 				spawn_particles()
 				world.player.air_jump = true
 				world.player.wall_jump = true
 			
-			handle_damage(area)
+			handle_damage(body)
 	
 	
 	# HANDLE SPECIAL BLOCK ENTERED
-	if area.get_parent().is_in_group("special_block"):
+	if body.is_in_group("special_block"):
 		scale += Vector2(0.1, 0.1)
-		var block = area.get_parent()
+		var block = body
 		
 		# HANDLE BONUS BOX SPECIAL BLOCK BOUNCE
 		if is_bonusBox:
@@ -390,32 +390,42 @@ func _on_area_2d_area_entered(area):
 			block.velocity.y = bonusBox_giveVelocity_jump
 			spawn_particles()
 			
-			handle_damage(area)
+			handle_damage(body)
 	
 	
 	#HANDLE IMMORTAL
-	elif immortal and area.is_in_group("player_projectile") and not area.get_parent().enemyProjectile:
+	elif immortal and body.is_in_group("player_projectile") and not body.enemyProjectile:
 		attacking = true
 		attacking_timer.start()
 		return
 	
 	#HANDLE DAMAGE
-	elif area.is_in_group("player_projectile") and area.get_parent().playerProjectile or area.is_in_group("fire"):
+	elif body.is_in_group("player_projectile") and body.playerProjectile or body.is_in_group("fire"):
+		#LevelTransition.info_text_display.display_message("entered", 0)
 		if not dead:
-			handle_damage(area)
+			handle_damage(body)
 			call_deferred("enemy_stunned")
 	
 	#HANDLE ENEMY ENTERED
-	elif area.get_parent().is_in_group("enemies"):
-		if familyID != 0 and area.get_parent().familyID == familyID:
+	elif body.is_in_group("enemies"):
+		if familyID != 0 and body.familyID == familyID:
 			return
 		
-		if not dead and area.get_parent().damageTo_enemies:
-			handle_damage(area)
+		if not dead and body != self:
+			if not body.dead and body.enemy_type == enemy_type:
+				#LevelTransition.info_text_display.display_message("enemies collided", 0)
+				var star_same_type_collision = starParticle2Scene.instantiate()
+				add_child(star_same_type_collision)
+				
+				body.velocity.x = -body.velocity_last_X
+				body.direction *= -1
+		
+		if not dead and body.damageTo_enemies:
+			handle_damage(body)
 			call_deferred("enemy_stunned")
 	
 	#HANDLE FRIENDLY ENTERED
-	elif area.get_parent().is_in_group("friendly") and not dead:
+	elif body.is_in_group("friendly") and not dead:
 		attacking = true
 		attacking_timer.start()
 
@@ -481,7 +491,7 @@ func manage_animation():
 				particle_buffer = true
 
 
-func handle_damage(area):
+func handle_damage(body):
 	if immortal:
 		return
 	
@@ -490,10 +500,10 @@ func handle_damage(area):
 	hit.play()
 	var hit_effect = hit_effectScene.instantiate()
 	add_child(hit_effect)
-	if not area.is_in_group("fire"):
-		hp -= area.get_parent().damageValue
+	if not body.is_in_group("fire"):
+		hp -= body.damageValue
 	else:
-		hp -= area.damageValue
+		hp -= body.damageValue
 	
 	if not hp <= 0:
 		Globals.enemyHit.emit()
@@ -502,7 +512,6 @@ func handle_damage(area):
 		dead = true
 		
 		Globals.specialAction.emit()
-		direction = 0
 		sprite.play("dead")
 		if direction == 1:
 			sprite.flip_h = false
@@ -679,14 +688,16 @@ func movement_normal(delta):
 func movement_followPlayerX(delta):
 	if not dead:
 		if can_turn:
+			#LevelTransition.info_text_display.display_message(str(can_turn), 0)
 			if global_position.x > Globals.player_posX:
 				direction = -1
 				
 			elif global_position.x < Globals.player_posX:
 				direction = 1
 		
-		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 3 * delta * ACCELERATION)
 		
+		velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * 3 * delta * ACCELERATION)
+	
 	else:
 		move_toward_zero_velocity_x(delta)
 

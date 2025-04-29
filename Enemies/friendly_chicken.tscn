@@ -126,11 +126,11 @@ floor_max_angle = 1.0472
 floor_snap_length = 15.0
 script = ExtResource("1_07ea1")
 hp = 1
-SPEED = 200
 movementType = "followPlayerX"
 give_score_onDeath = false
 turnOnWall = true
 damageTo_player = false
+familyID = 1
 generalTimer1_cooldown = 1.0
 generalTimer2_cooldown = 2.0
 generalTimer4_cooldown = 4.0
@@ -146,6 +146,7 @@ t_afterDelay_idleSound = true
 t_afterDelay_idleSound_timerID = 3
 t_afterDelay_randomize_speedAndJumpVelocity = true
 t_afterDelay_randomize_speedAndJumpVelocity_timerID = 4
+enemy_type = "chicken"
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -8)
@@ -278,7 +279,7 @@ autostart = true
 [connection signal="timeout" from="AnimatedSprite2D/AttackingTimer" to="." method="_on_attacking_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/AttackedTimer" to="." method="_on_attacked_timer_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/DeadTimer" to="." method="_on_dead_timer_timeout"]
-[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_enemy_entered"]
 [connection signal="timeout" from="particle_limiter" to="." method="_on_particle_limiter_timeout"]
 [connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="offScreen_load"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="offScreen_unload"]

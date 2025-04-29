@@ -14,7 +14,7 @@ shader_parameter/Shift_Hue = 0.0
 
 [node name="Enemy Chaos" instance=ExtResource("1_re81w")]
 randomize_everything_onSpawn = true
-type = "chaos"
+enemy_type = "chaos"
 
 [node name="CollisionShape2D" parent="." index="0"]
 shape = SubResource("RectangleShape2D_elfi6")

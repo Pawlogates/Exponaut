@@ -21,7 +21,7 @@ var dead = false;
 var direction = -1
 var direction_v = 1
 
-@export var type : String
+@export var enemy_type : String = "none"
 @export var debug = false
 
 var can_turn = true
