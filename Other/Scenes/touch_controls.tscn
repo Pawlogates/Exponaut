@@ -1,6 +1,6 @@
 [gd_scene load_steps=14 format=3 uid="uid://di1xenyk82l12"]
 
-[ext_resource type="Script" uid="uid://dr17mjjcmn50h" path="res://touch_controls.gd" id="1_t1308"]
+[ext_resource type="Script" uid="uid://dr17mjjcmn50h" path="res://Scripts/touch_controls.gd" id="1_t1308"]
 [ext_resource type="PackedScene" uid="uid://blbk2lbmdmhcp" path="res://Other/Scenes/touch_screen_button_general.tscn" id="2_o5wd6"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="3_mpqjb"]
 

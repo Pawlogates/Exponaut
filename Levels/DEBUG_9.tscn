@@ -13,7 +13,7 @@
 [node name="World" instance=ExtResource("1_ts1ui")]
 playerStartHP = 999
 selected_episode = "Debug Levels"
-level_ID = "DEBUG_8"
+level_ID = "DEBUG_9"
 meme_mode = true
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_liinw")]

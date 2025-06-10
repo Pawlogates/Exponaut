@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://d08v41wia0koe"]
 
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="1_6182f"]
-[ext_resource type="Script" uid="uid://ba02blea8illp" path="res://Other/Scenes/score_value.gd" id="1_sj14u"]
+[ext_resource type="Script" uid="uid://ba02blea8illp" path="res://Scripts/score_value.gd" id="1_sj14u"]
 [ext_resource type="Material" uid="uid://g07ca37hnt0w" path="res://Other/Materials/rainbow_material.tres" id="2_qw4nc"]
 
 [sub_resource type="Animation" id="Animation_h8fwk"]

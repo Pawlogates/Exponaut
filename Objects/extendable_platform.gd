@@ -10,7 +10,7 @@ extends Node2D
 @onready var player = $/root/World.player
 
 @export var extend_on_hit = true
-@export var extend_height = 256
+@export var extend_height = 256.0
 @export var extend_on_switch_signal = false
 @export var switch_signal_await = -1
 
@@ -20,8 +20,8 @@ func _ready() -> void:
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+#func _process(delta: float) -> void:
+	#pass
 
 
 func extend_platform():

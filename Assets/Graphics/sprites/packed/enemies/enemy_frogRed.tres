@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=20 format=3 uid="uid://dt11pevkatl50"]
+[gd_resource type="SpriteFrames" load_steps=17 format=3 uid="uid://dt11pevkatl50"]
 
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="1_dcwco"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_k6vq2"]
@@ -10,18 +10,6 @@ region = Rect2(384, 1024, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_qvwae"]
 atlas = ExtResource("1_dcwco")
 region = Rect2(448, 1024, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w5oln"]
-atlas = ExtResource("2_k6vq2")
-region = Rect2(74, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wqy6g"]
-atlas = ExtResource("2_k6vq2")
-region = Rect2(518, 17, 74, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_54nfh"]
-atlas = ExtResource("2_k6vq2")
-region = Rect2(592, 17, 74, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_36x2f"]
 atlas = ExtResource("1_dcwco")
@@ -82,20 +70,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w5oln")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wqy6g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_54nfh")
-}],
-"loop": true,
-"name": &"crouch",
 "speed": 5.0
 }, {
 "frames": [{

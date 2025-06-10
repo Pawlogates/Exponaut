@@ -102,7 +102,9 @@ var double_score = false
 
 var lethalBall_released = false
 
-#ACTIVATES WHEN PLAYER LANDS ON THE GROUND
+var can_collect = true
+
+# ACTIVATES WHEN PLAYER LANDS ON THE GROUND
 signal player_just_landed
 
 func _ready():

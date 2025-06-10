@@ -10,14 +10,6 @@ region = Rect2(1281, 1012, 148, 136)
 atlas = ExtResource("1_q48cm")
 region = Rect2(1429, 1012, 148, 136)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8od1f"]
-atlas = ExtResource("1_q48cm")
-region = Rect2(1577, 1012, 148, 136)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ynm8g"]
-atlas = ExtResource("1_q48cm")
-region = Rect2(1873, 1012, 148, 136)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_3a0x4"]
 atlas = ExtResource("1_q48cm")
 region = Rect2(1577, 1012, 148, 136)
@@ -26,9 +18,17 @@ region = Rect2(1577, 1012, 148, 136)
 atlas = ExtResource("1_q48cm")
 region = Rect2(1725, 1012, 148, 136)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_8od1f"]
+atlas = ExtResource("1_q48cm")
+region = Rect2(1577, 1012, 148, 136)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_dblvj"]
 atlas = ExtResource("1_q48cm")
 region = Rect2(1725, 1012, 148, 136)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ynm8g"]
+atlas = ExtResource("1_q48cm")
+region = Rect2(1873, 1012, 148, 136)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b5tf8"]
 atlas = ExtResource("1_q48cm")
@@ -54,17 +54,6 @@ animations = [{
 "loop": false,
 "name": &"attack",
 "speed": 10.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8od1f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ynm8g")
-}],
-"loop": true,
-"name": &"crouch",
-"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,

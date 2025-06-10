@@ -36,14 +36,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_3heeh")
 }],
 "loop": true,
-"name": &"crouch",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3heeh")
-}],
-"loop": true,
 "name": &"damage",
 "speed": 5.0
 }, {
@@ -72,6 +64,14 @@ animations = [{
 }],
 "loop": true,
 "name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wy7mu")
+}],
+"loop": true,
+"name": &"jump",
 "speed": 5.0
 }, {
 "frames": [{

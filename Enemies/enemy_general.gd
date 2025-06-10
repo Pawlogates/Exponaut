@@ -1541,7 +1541,7 @@ func prepare_list_all(directory_path : String, exclude : Array):
 		var filenames = dir.get_files()
 		
 		for filename in filenames:
-			if not filename.ends_with(".import") and not filename.ends_with(".gd"):
+			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".uid"):
 				list.append(dir_path + "/" + filename)
 		
 		var count = -1

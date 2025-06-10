@@ -11,7 +11,7 @@ cameraLimit_bottom = 1e+06
 cameraLimit_top = -1e+06
 playerStartHP = 9999
 selected_episode = "Debug Levels"
-level_ID = "DEBUG_0"
+level_ID = "DEBUG_4"
 level_number = -1
 delete_background_layers = true
 random_music = true
@@ -25,18 +25,18 @@ layer_0/tile_data = PackedInt32Array(-393227, 4, 1376256, -393223, 4, 1441792, -
 [node name="Player" parent="." index="16"]
 position = Vector2(-5232, -4880)
 
-[node name="info_sign" parent="." index="29" instance=ExtResource("2_1glgj")]
+[node name="info_sign" parent="." index="28" instance=ExtResource("2_1glgj")]
 position = Vector2(-2624, -2464)
 displayedText = "CTRL + R to restart."
 
-[node name="chaos" parent="." index="30" instance=ExtResource("3_7eady")]
+[node name="chaos" parent="." index="29" instance=ExtResource("3_7eady")]
 position = Vector2(-672, -3168)
 debug = true
 
-[node name="chaos2" parent="." index="31" instance=ExtResource("3_7eady")]
+[node name="chaos2" parent="." index="30" instance=ExtResource("3_7eady")]
 position = Vector2(-1344, -2672)
 debug = true
 
-[node name="chaos3" parent="." index="32" instance=ExtResource("3_7eady")]
+[node name="chaos3" parent="." index="31" instance=ExtResource("3_7eady")]
 position = Vector2(496, -2848)
 debug = true

@@ -13,7 +13,7 @@ savedProgress_level_filePath = "res://Levels/overworld_test.tscn"
 regular_level = false
 playerStartHP = 3
 selected_episode = "Debug Levels"
-level_ID = "DEBUG_9"
+level_ID = "DEBUG_10"
 area_ID = "test"
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("2_xl6ef")]

@@ -28,14 +28,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_5q0ck")
 }],
 "loop": true,
-"name": &"crouch",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5q0ck")
-}],
-"loop": true,
 "name": &"damage",
 "speed": 5.0
 }, {

@@ -81,11 +81,9 @@ position = Vector2(-776, 432)
 
 [node name="enemyBee" parent="." index="20" instance=ExtResource("9_ol5mu")]
 position = Vector2(1048, 408)
-SPEED = 100.0
 
 [node name="enemyPiranha_a" parent="." index="21" instance=ExtResource("10_6njlb")]
 position = Vector2(-5200, -120)
-SPEED = 100.0
 
 [node name="enemyPiranha" parent="." index="22" instance=ExtResource("11_e2ovm")]
 position = Vector2(-4296, -336)

@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=28 format=3 uid="uid://dvyr8rcwt11cf"]
+[gd_resource type="SpriteFrames" load_steps=23 format=3 uid="uid://dvyr8rcwt11cf"]
 
 [ext_resource type="Texture2D" uid="uid://cl8xfsbne5s2v" path="res://Assets/Graphics/sprites/sprites_enemies_alt.png" id="1_ljtfs"]
 
@@ -9,26 +9,6 @@ region = Rect2(792, 960, 72, 96)
 [sub_resource type="AtlasTexture" id="AtlasTexture_eibrl"]
 atlas = ExtResource("1_ljtfs")
 region = Rect2(864, 960, 72, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f27jr"]
-atlas = ExtResource("1_ljtfs")
-region = Rect2(648, 960, 72, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sf0da"]
-atlas = ExtResource("1_ljtfs")
-region = Rect2(792, 960, 72, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ip5k7"]
-atlas = ExtResource("1_ljtfs")
-region = Rect2(864, 960, 72, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_a8l5i"]
-atlas = ExtResource("1_ljtfs")
-region = Rect2(1080, 960, 72, 96)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8mwow"]
-atlas = ExtResource("1_ljtfs")
-region = Rect2(1944, 960, 72, 96)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w3nfs"]
 atlas = ExtResource("1_ljtfs")
@@ -117,26 +97,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f27jr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sf0da")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ip5k7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_a8l5i")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8mwow")
-}],
-"loop": true,
-"name": &"crouch",
 "speed": 5.0
 }, {
 "frames": [{

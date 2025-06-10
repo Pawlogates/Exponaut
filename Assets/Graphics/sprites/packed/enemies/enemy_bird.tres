@@ -75,17 +75,6 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_3d74w")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3d74w")
-}],
-"loop": true,
-"name": &"crouch",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
 "texture": SubResource("AtlasTexture_c24u5")
 }, {
 "duration": 1.0,

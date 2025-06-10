@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsyt67dvo5nja"]
 
-[ext_resource type="Script" uid="uid://beytu5l283ya8" path="res://random_decoration.gd" id="1_ktoqw"]
+[ext_resource type="Script" uid="uid://beytu5l283ya8" path="res://Scripts/random_decoration.gd" id="1_ktoqw"]
 [ext_resource type="PackedScene" uid="uid://4bjhhmxc06tl" path="res://Other/Scenes/Random Decoration/random_decoration_part_column.tscn" id="2_gjjtx"]
 
 [node name="random_decoration_column" type="Node2D"]

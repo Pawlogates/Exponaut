@@ -14,7 +14,7 @@
 [node name="World" instance=ExtResource("1_yrrvv")]
 playerStartHP = 999
 selected_episode = "Debug Levels"
-level_ID = "DEBUG_3"
+level_ID = "DEBUG_5"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_yqsff")]
 unique_name_in_owner = true
@@ -64,11 +64,11 @@ scale = Vector2(8, 8)
 [node name="trigger_bgMove" parent="." index="18" instance=ExtResource("9_k45q4")]
 scale = Vector2(4, 4)
 
-[node name="weapon_lethalBall" parent="." index="22" instance=ExtResource("10_3idhb")]
+[node name="weapon_lethalBall" parent="." index="21" instance=ExtResource("10_3idhb")]
 position = Vector2(1312, -144)
 
-[node name="weapon_lethalBall2" parent="." index="23" instance=ExtResource("10_3idhb")]
+[node name="weapon_lethalBall2" parent="." index="22" instance=ExtResource("10_3idhb")]
 position = Vector2(2296, 632)
 
-[node name="weapon_lethalBall3" parent="." index="24" instance=ExtResource("10_3idhb")]
+[node name="weapon_lethalBall3" parent="." index="23" instance=ExtResource("10_3idhb")]
 position = Vector2(3776, 8)

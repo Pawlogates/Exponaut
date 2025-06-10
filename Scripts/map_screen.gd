@@ -162,7 +162,7 @@ func _on_buttons_blocked_timeout() -> void:
 	buttons_blocked = false
 
 
-func place_levelSet_icons(ID):	
+func place_levelSet_icons(ID):
 	var level_number_max = 99
 	for level_number in range(1, level_number_max):
 		var level_info_ID = "info_" + str(ID) + "_" + str(level_number)
@@ -170,9 +170,10 @@ func place_levelSet_icons(ID):
 		print(level_number)
 		print(level_info_ID)
 		print(saved_progress.get(level_info_ID))
+		
 		if saved_progress.get(level_info_ID) == null:
 			break
-		if load("res://Levels/" + str(ID) + "_" + str(level_number) + ".tscn") == null:
+		if not FileAccess.file_exists("res://Levels/" + str(ID) + "_" + str(level_number) + ".tscn"):
 			break
 		
 		var info_MAIN = saved_progress.get(level_info_ID)

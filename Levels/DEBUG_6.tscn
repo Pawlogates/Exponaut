@@ -9,7 +9,7 @@ cameraLimit_bottom = 448.0
 cameraLimit_top = -1e+06
 playerStartHP = 9999
 selected_episode = "Debug Levels"
-level_ID = "DEBUG_4"
+level_ID = "DEBUG_6"
 level_number = -1
 
 [node name="tileset_main" parent="." index="0"]
@@ -20,3 +20,7 @@ layer_0/tile_data = PackedInt32Array(4, 10, 196608, 9, 10, 262144, 14, 10, 32768
 
 [node name="ParallaxBackgroundGradient" parent="." index="17"]
 unique_name_in_owner = false
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70500" to="tileset_objects/@Area2D@70500" method="_on_area_entered"]

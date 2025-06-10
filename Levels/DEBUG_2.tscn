@@ -29,11 +29,11 @@ stream = ExtResource("2_lqw2k")
 [node name="kill_area" parent="." index="23"]
 collision_mask = 7
 
-[node name="bouncy" parent="." index="29" instance=ExtResource("2_e5dr5")]
+[node name="bouncy" parent="." index="28" instance=ExtResource("2_e5dr5")]
 position = Vector2(-480, -160)
 bouncy_velocity_X = 300
 
-[node name="bouncy2" parent="." index="30" instance=ExtResource("2_e5dr5")]
+[node name="bouncy2" parent="." index="29" instance=ExtResource("2_e5dr5")]
 position = Vector2(-224, -160)
 bouncy_velocity_X = -300
 bouncy_velocity_Y = -600

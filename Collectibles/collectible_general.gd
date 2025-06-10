@@ -498,10 +498,12 @@ func _physics_process(delta):
 			collidable = false
 			collisionCheck_delay.start()
 			
-			if enemy_last.direction != 0:
-				direction = enemy_last.direction
+			if is_instance_valid(enemy_last):
+				if enemy_last.direction != 0:
+					direction = enemy_last.direction
 			
-			velocity.x = enemy_last.velocity.x * 1.2
+			if is_instance_valid(enemy_last):
+				velocity.x = enemy_last.velocity.x * 1.2
 			
 			if abs(velocity.x) <= 150:
 				velocity.x = 150 * direction
@@ -988,7 +990,7 @@ func prepare_list_all(directory_path : String, exclude : Array):
 		var filenames = dir.get_files()
 		
 		for filename in filenames:
-			if not filename.ends_with(".import") and not filename.ends_with(".gd"):
+			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".uid"):
 				list.append(dir_path + "/" + filename)
 		
 		var count = -1

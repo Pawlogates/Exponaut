@@ -10,18 +10,6 @@ region = Rect2(1832, 0, 72, 72)
 atlas = ExtResource("1_oytri")
 region = Rect2(1760, 0, 72, 72)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_urtw4"]
-atlas = ExtResource("1_oytri")
-region = Rect2(1832, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_regi2"]
-atlas = ExtResource("1_oytri")
-region = Rect2(1976, 0, 72, 72)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_h8wxk"]
-atlas = ExtResource("1_oytri")
-region = Rect2(1904, 0, 72, 72)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_iljui"]
 atlas = ExtResource("1_oytri")
 region = Rect2(1760, 0, 72, 72)
@@ -33,6 +21,18 @@ region = Rect2(1832, 0, 72, 72)
 [sub_resource type="AtlasTexture" id="AtlasTexture_hj6eo"]
 atlas = ExtResource("1_oytri")
 region = Rect2(1760, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_urtw4"]
+atlas = ExtResource("1_oytri")
+region = Rect2(1832, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_regi2"]
+atlas = ExtResource("1_oytri")
+region = Rect2(1976, 0, 72, 72)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8wxk"]
+atlas = ExtResource("1_oytri")
+region = Rect2(1904, 0, 72, 72)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_to3o2"]
 atlas = ExtResource("1_oytri")
@@ -69,20 +69,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"attack",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_urtw4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_regi2")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_h8wxk")
-}],
-"loop": true,
-"name": &"crouch",
 "speed": 5.0
 }, {
 "frames": [{

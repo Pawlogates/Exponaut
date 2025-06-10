@@ -92,10 +92,17 @@ func _ready():
 	if area_ID != "overworld_factory":
 		Globals.left_start_area = true
 	
-	if shrine_level or regular_level:
-		Globals.selected_episode = selected_episode #normal/shrine_selected_episode
-		Globals.current_level_ID = level_ID #normal/shrine_level_ID
-		Globals.current_level_number = level_number #normal/shrine_level_number
+	#if shrine_level or regular_level:
+	Globals.selected_episode = selected_episode
+	Globals.current_level_ID = level_ID
+	Globals.current_level_number = level_number
+	
+	if selected_episode == "Main Levels":
+		Globals.current_levelSet_ID = "MAIN"
+	elif selected_episode == "Bonus Levels":
+		Globals.current_levelSet_ID = "BONUS"
+	elif selected_episode == "Debug Levels":
+		Globals.current_levelSet_ID = "DEBUG"
 	
 	last_area_filePath_save()
 	

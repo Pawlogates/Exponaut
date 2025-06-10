@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bx8nd251l8ow"]
 
-[ext_resource type="Script" uid="uid://dhvqc4y6xid8m" path="res://Other/Scenes/User Interface/overlay_info_text_display.gd" id="2_8nfql"]
+[ext_resource type="Script" uid="uid://dhvqc4y6xid8m" path="res://Scripts/overlay_info_text_display.gd" id="2_8nfql"]
 
 [sub_resource type="Animation" id="Animation_gonmr"]
 length = 0.001

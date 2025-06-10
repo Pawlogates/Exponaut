@@ -177,10 +177,14 @@ func calculate_rank():
 
 func after_score_counted():
 	if Globals.current_levelSet_ID == "MAIN":
-		saved_progress.count_total_score(Globals.current_levelSet_ID, 13)
+		saved_progress.count_total_score(Globals.current_levelSet_ID, 7)
+	elif Globals.current_levelSet_ID == "BONUS":
+		saved_progress.count_total_score(Globals.current_levelSet_ID, 99)
 	
 	await get_tree().create_timer(1, true).timeout
-	displayed_totalScore = saved_progress.get("total_score_" + Globals.current_levelSet_ID)
+	if Globals.current_levelSet_ID != "DEBUG":
+		displayed_totalScore = saved_progress.get("total_score_" + Globals.current_levelSet_ID)
+	
 	#print(LevelTransition.get_node("%saved_progress").get("total_score_" + Globals.current_levelSet_ID))
 	#print(("total_score_" + Globals.current_levelSet_ID))
 	
