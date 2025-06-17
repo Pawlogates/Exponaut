@@ -637,8 +637,8 @@ func _on_dash_end_slowdown_active_timeout():
 
 func _on_player_hitbox_main_area_entered(area):
 	if area.is_in_group("loadingZone_area"):
-			Globals.save.emit()
-			
+		Globals.save.emit()
+	
 	#SAVE END
 	
 	
@@ -1303,12 +1303,18 @@ var menu_levelSelect = preload("res://Other/Scenes/Level Select/screen_levelSele
 var menu_start = preload("res://Other/Scenes/menu_start.tscn")
 
 func handle_actions():
-	if Input.is_action_just_pressed("menu"):
-		await LevelTransition.fade_to_black()
-		get_tree().change_scene_to_packed(menu_levelSelect)
-		await LevelTransition.fade_from_black_slow()
+	if Input.is_action_just_pressed("menu_start"):
+		if menu_start == null:
+			return
 		
-	elif Input.is_action_just_pressed("menu_start"):
 		await LevelTransition.fade_to_black()
 		get_tree().change_scene_to_packed(menu_start)
+		await LevelTransition.fade_from_black_slow()
+	
+	elif Input.is_action_just_pressed("menu"):
+		if menu_levelSelect == null:
+			return
+		
+		await LevelTransition.fade_to_black()
+		get_tree().change_scene_to_packed(menu_levelSelect)
 		await LevelTransition.fade_from_black_slow()

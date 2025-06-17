@@ -64,10 +64,10 @@ func _input(event):
 			})
 
 
-func _notification(type):
-	# Save inputs to a file when the game stops
-	if type == NOTIFICATION_WM_CLOSE_REQUEST or type == NOTIFICATION_PREDELETE:
-		stop_recording()
+#func _notification(type):
+	## Send recordings to a server when the game stops.
+	#if type == NOTIFICATION_WM_CLOSE_REQUEST or type == NOTIFICATION_PREDELETE:
+		#upload_files_to_server()
 
 
 func stop_recording():
@@ -78,7 +78,7 @@ func stop_recording():
 	playback_index = 0
 	input_log_save()
 	label.visible = false
-	upload_file_to_server()
+	upload_files_to_server()
 
 func input_log_save():
 	if input_log == []:
@@ -300,6 +300,7 @@ func _ready() -> void:
 	Globals.start_playback.connect(start_playback)
 	Globals.stop_recording.connect(stop_recording)
 	Globals.gameplay_recorder_entered_level.connect(reassign_level_objects)
+	Globals.checkpoint_activated.connect(upload_files_to_server)
 	
 	#await get_tree().create_timer(4, false).timeout
 
@@ -322,7 +323,8 @@ func simulate_mouse_click(mouse_position: Vector2, button_index: int):
 	Input.parse_input_event(release_event)
 
 
-func upload_file_to_server():
+func upload_files_to_server():
+	print("UPLOADING GAMEPLAY RECORDINGS TO SERVER")
 	var amount := 20
 	for file_ID in amount:
 		var file_path := "user://input_log%d.json" % file_ID

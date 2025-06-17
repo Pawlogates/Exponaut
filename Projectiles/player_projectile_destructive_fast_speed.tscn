@@ -40,6 +40,8 @@ floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_edgvt")
 SPEED = 600.0
+SPEED_V = -150.0
+vertical_movement = true
 
 [node name="scan" type="Area2D" parent="." groups=["destructive", "player_projectile"]]
 collision_layer = 2

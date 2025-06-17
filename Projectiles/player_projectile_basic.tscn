@@ -32,6 +32,11 @@ floor_constant_speed = true
 floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_8lmer")
+remove_delay = 4.5
+falling = true
+falling_delay = 1.0
+bouncy_y = true
+bouncy_x = true
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 2

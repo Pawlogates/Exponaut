@@ -12,6 +12,7 @@ func _on_area_2d_area_entered(area):
 			active = false
 			#await get_tree().create_timer(1, false).timeout
 			checkpoint_activated()
+			Globals.checkpoint_activated.emit()
 
 
 func reset_all_checkpoints():

@@ -61,6 +61,8 @@ var velocity_x_last = 0.0
 @export var onDeath_activate_switch_signal = false
 @export var onDeath_switch_signal_ID = 0
 
+@export var can_collect = false
+
 @export var randomize_everything_onSpawn = false
 
 @export var type : String

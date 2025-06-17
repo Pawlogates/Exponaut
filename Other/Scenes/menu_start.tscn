@@ -1,4 +1,4 @@
-[gd_scene load_steps=23 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=27 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_j2qdm"]
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_menu.gd" id="2_fbau1"]
@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="6_dumls"]
 [ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="6_sbkd0"]
 [ext_resource type="Script" uid="uid://bt1hsr8ak5gi0" path="res://Scripts/menu_deco_bg.gd" id="6_wno4y"]
+[ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/other/fg_gradient.png" id="7_0ny47"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="9_aijrc"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
@@ -28,6 +29,131 @@ shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
+
+[sub_resource type="Animation" id="Animation_dsk64"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-960, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-540, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_3own7"]
+resource_name = "loop"
+length = 10.0
+loop_mode = 1
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3, 6, 10)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3, 6, 10)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-960, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-540, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 4.18879, -0.25, 0, 0.25, 0, -3.66519, -0.25, 0, 0.25, 0, 0.523599, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 3, 5, 8, 10)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_l6r7w"]
+_data = {
+&"RESET": SubResource("Animation_dsk64"),
+&"loop": SubResource("Animation_3own7")
+}
 
 [sub_resource type="Animation" id="Animation_v8wcq"]
 length = 0.001
@@ -1542,6 +1668,7 @@ autowrap_mode = 0
 
 [node name="background" type="TextureRect" parent="."]
 unique_name_in_owner = true
+z_index = -2
 material = SubResource("ShaderMaterial_htqtk")
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
@@ -1559,10 +1686,32 @@ z_index = 1
 color = Color(0.242311, 2.19597e-07, 5.41471e-08, 1)
 polygon = PackedVector2Array(528, 224, 1520, 352, 1624, 728, 296, 888)
 
+[node name="background2_root" type="Control" parent="."]
+z_index = -1
+layout_mode = 2
+mouse_filter = 2
+
+[node name="background2" type="TextureRect" parent="background2_root"]
+layout_mode = 2
+offset_left = -960.0
+offset_top = -540.0
+offset_right = 960.0
+offset_bottom = 540.0
+pivot_offset = Vector2(960, 540)
+mouse_filter = 2
+texture = ExtResource("7_0ny47")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="background2_root/background2"]
+libraries = {
+&"": SubResource("AnimationLibrary_l6r7w")
+}
+autoplay = "loop"
+speed_scale = 0.1
+
 [node name="ColorRect" type="ColorRect" parent="."]
 unique_name_in_owner = true
 visible = false
-z_index = 25
+z_index = 250
 custom_minimum_size = Vector2(1920, 1080)
 layout_mode = 2
 mouse_filter = 2

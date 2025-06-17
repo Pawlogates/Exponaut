@@ -55,6 +55,7 @@ var box_last = Node
 @export_enum("none", "loop_upDown", "loop_upDown_slight", "loop_scale") var loop_anim = "loop_upDown"
 @export var hp = 5
 @export var damageValue = 1
+@export var can_collect = false
 
 @export var is_shrineGem = false
 @export var shrineGem_destructible = false

@@ -39,9 +39,13 @@ motion_mode = 1
 floor_max_angle = 1.22173
 safe_margin = 1.0
 script = ExtResource("1_t35fx")
+SPEED = 800.0
+vertical_movement = true
+onDeath_shrink = false
 spawn_on_death = true
 item_scene = ExtResource("2_6fxjl")
 give_momentum = true
+momentum_x = 450.0
 momentum_y = 150.0
 
 [node name="scan" type="Area2D" parent="." groups=["player_projectile"]]

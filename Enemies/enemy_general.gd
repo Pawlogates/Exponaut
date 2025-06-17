@@ -89,6 +89,7 @@ var rng = RandomNumberGenerator.new()
 @export var damageTo_enemies = false
 @export var familyID = 0 #will not be damaged by entities with the same familyID
 @export var can_affect_player = true
+@export var can_collect = false
 
 @export var stationary_disable_jump_anim = false
 @export var patrolRectStatic = false

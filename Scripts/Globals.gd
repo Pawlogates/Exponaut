@@ -197,3 +197,5 @@ func handle_actions():
 
 
 signal switch_signal_activated(switch_signal_ID)
+
+signal checkpoint_activated

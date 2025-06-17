@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://dun5a8r7qx00f"]
+[gd_scene load_steps=11 format=3 uid="uid://dun5a8r7qx00f"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_vblad"]
-[ext_resource type="PackedScene" uid="uid://cccpw68bhryyg" path="res://Tilesets/decorations.tscn" id="2_wyjmk"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="3_68c3k"]
 [ext_resource type="PackedScene" uid="uid://b4rgndv0cew0" path="res://Tilesets/tileset_main_veryPrecise.tscn" id="4_igqdp"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="4_x2u5u"]
@@ -53,36 +52,16 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="decorations_fg3" parent="." index="7" instance=ExtResource("2_wyjmk")]
-z_index = 3
-
-[node name="decorations_fg2" parent="." index="8" instance=ExtResource("2_wyjmk")]
-z_index = 2
-
-[node name="decorations_fg" parent="." index="9" instance=ExtResource("2_wyjmk")]
-z_index = 1
-
-[node name="decorations_main" parent="." index="10" instance=ExtResource("2_wyjmk")]
-
-[node name="decorations_bg" parent="." index="11" instance=ExtResource("2_wyjmk")]
-z_index = -1
-
-[node name="decorations_bg2" parent="." index="12" instance=ExtResource("2_wyjmk")]
-z_index = -2
-
-[node name="decorations_bg3" parent="." index="13" instance=ExtResource("2_wyjmk")]
-z_index = -3
-
 [node name="music" parent="Music Controller" index="5"]
 stream = ExtResource("8_qt05x")
 
-[node name="kill_area" parent="." index="23" instance=ExtResource("8_tkrux")]
+[node name="kill_area" parent="." index="16" instance=ExtResource("8_tkrux")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
 
-[node name="trigger_bgChange" parent="." index="24" instance=ExtResource("9_wxu0a")]
+[node name="trigger_bgChange" parent="." index="17" instance=ExtResource("9_wxu0a")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
 
-[node name="trigger_bgMove" parent="." index="25" instance=ExtResource("8_wsrry")]
+[node name="trigger_bgMove" parent="." index="18" instance=ExtResource("8_wsrry")]
 scale = Vector2(4, 4)
