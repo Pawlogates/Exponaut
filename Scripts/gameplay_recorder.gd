@@ -64,10 +64,13 @@ func _input(event):
 			})
 
 
-#func _notification(type):
-	## Send recordings to a server when the game stops.
-	#if type == NOTIFICATION_WM_CLOSE_REQUEST or type == NOTIFICATION_PREDELETE:
-		#upload_files_to_server()
+func _notification(type):
+	# Send recordings to a server when the game stops.
+	if type == NOTIFICATION_WM_CLOSE_REQUEST or type == NOTIFICATION_PREDELETE:
+		if recording_active:
+			stop_recording()
+		
+		upload_files_to_server()
 
 
 func stop_recording():
