@@ -140,12 +140,15 @@ func _on_quit_pressed():
 	if check_if_buttons_blocked():
 		return
 	
-	if can_quit:
-		get_tree().quit()
+	if Globals.recording_autostart:
+		if can_quit:
+			get_tree().quit()
+		else:
+			$quit_delay.start()
+			LevelTransition.info_text_display.display_message("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!", 3)
+			print("Pressed quit once. Next press after 5 seconds will quit the game.")
 	else:
-		$quit_delay.start()
-		LevelTransition.info_text_display.display_message("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!", 3)
-		print("Pressed quit once. Next press after 15 seconds will quit the game.")
+		get_tree().quit()
 
 func _on_continue_pressed():
 	if check_if_buttons_blocked():
@@ -486,8 +489,11 @@ func deco_correct_polygons():
 
 
 func _process(_delta):
-	if Input.is_action_just_pressed("menu"):
-		Globals.stop_recording.emit()
+	if Input.is_action_just_pressed("back"):
+		if not $Recording.visible:
+			$Recording.visible = true
+		else:
+			$Recording.visible = false
 
 
 @onready var block_button_sounds_timer = $block_button_sounds
@@ -541,9 +547,10 @@ func _on_stop_recording_pressed() -> void:
 var selected_playback_id = 0
 
 func _on_playback_id_pressed() -> void:
-	Globals.recording_autostart = false
+	Globals.recording_autostart = true
+	_on_start_recording_pressed()
 	playback_button_general()
-	LevelTransition.info_text_display.display_message("Automatic recording is now DISABLED.", 0)
+	LevelTransition.info_text_display.display_message("Automatic recording is now ENABLED.", 0)
 
 func _on_playback_minus_pressed() -> void:
 	selected_playback_id -= 1
@@ -565,7 +572,6 @@ func _on_quit_delay_timeout() -> void:
 	can_quit = true
 
 
-
 #framerate
 func set_maximum_framerate(fps : int, vsync : int):
 	DisplayServer.window_set_vsync_mode(vsync)
@@ -575,26 +581,20 @@ func set_maximum_framerate(fps : int, vsync : int):
 func display_framerate_unlocked() -> void:
 	set_maximum_framerate(0, 1)
 
-
 func display_framerate_30() -> void:
 	set_maximum_framerate(30, 0)
-
 
 func display_framerate_60() -> void:
 	set_maximum_framerate(60, 0)
 
-
 func display_framerate_75() -> void:
 	set_maximum_framerate(75, 0)
-
 
 func display_framerate_100() -> void:
 	set_maximum_framerate(100, 0)
 
-
 func display_framerate_120() -> void:
 	set_maximum_framerate(120, 0)
-
 
 func display_framerate_144() -> void:
 	set_maximum_framerate(144, 0)

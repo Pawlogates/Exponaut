@@ -1787,6 +1787,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="Recording" type="Control" parent="."]
+visible = false
 z_index = 50
 layout_mode = 2
 

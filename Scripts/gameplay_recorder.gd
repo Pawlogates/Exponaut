@@ -167,11 +167,11 @@ var recording_timer = 0.0
 var selected_playback_id = 0
 
 func start_playback():
-	label.visible = true
-	label.text = str("Current playback filepath: " + "user://input_log" + str(selected_playback_id) + ".json")
-	
 	if recording_active:
 		stop_recording()
+	
+	label.visible = true
+	label.text = str("Current playback filepath: " + "user://input_log" + str(selected_playback_id) + ".json")
 	
 	if not FileAccess.file_exists("user://input_log" + str(selected_playback_id) + ".json"):
 		label.text = str("Recording file doesn't exist: " + "user://input_log" + str(selected_playback_id) + ".json")
@@ -286,12 +286,12 @@ func assign_event_pressed(event):
 	return return_pressed
 
 
-var next_scene = preload("res://Levels/MAIN_1.tscn")
+#var next_scene = preload("res://Levels/MAIN_1.tscn")
 
-func restart_game():
-	await LevelTransition.fade_to_black()
-	get_tree().change_scene_to_packed(next_scene)
-	await LevelTransition.fade_from_black_slow()
+#func restart_game():
+	#await LevelTransition.fade_to_black()
+	#get_tree().change_scene_to_packed(next_scene)
+	#await LevelTransition.fade_from_black_slow()
 
 
 # Called when the node enters the scene tree for the first time.
