@@ -148,7 +148,7 @@ signal start_playback
 signal stop_recording
 signal gameplay_recorder_entered_level
 
-var recording_autostart = true
+var recording_autostart = false
 
 
 var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")

@@ -151,7 +151,6 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 
 
 func reduce_hp(value):
-	print(value, hit_cooldown)
 	if hit_cooldown:
 		active = false
 		$active_cooldown.start()
@@ -378,7 +377,6 @@ func randomize_everything():
 	else:
 		onDeath_item_scene = load(applyRandom_fromList("list_onDeath_item_scene", -1))
 	
-	print(str(onDeath_item_scene) + str(onDeath_item_amount))
 	onDeath_rotate_sprite = applyRandom_falseTrue(1, 2)
 	onDeath_play_anim = applyRandom_falseTrue(1, 3)
 	onDeath_play_spriteAnim = applyRandom_falseTrue(1, 2)
@@ -534,7 +532,6 @@ func onBounce_effect():
 
 
 func disappear_instantly():
-	print("HEY")
 	onHit_effect()
 	particles_stars()
 	modulate.a = 0

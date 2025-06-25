@@ -683,7 +683,7 @@ volume_db = 5.0
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Area2D"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_yo3ck")
+&"": SubResource("AnimationLibrary_yo3ck")
 }
 
 [node name="Timer" type="Timer" parent="Area2D"]
@@ -715,7 +715,7 @@ horizontal_alignment = 1
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="collectedDisplayAnimAnchor"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_ihjei")
+&"": SubResource("AnimationLibrary_ihjei")
 }
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]

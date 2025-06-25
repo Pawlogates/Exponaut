@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://dpapniygewcpe"]
+
+[ext_resource type="PackedScene" uid="uid://c2cm0aw561fcj" path="res://Collectibles/collectible_base.tscn" id="1_ia2it"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_ia2it"]
+[ext_resource type="AudioStream" uid="uid://co5hmcavxpvpa" path="res://Assets/Sounds/sfx/effect_count.wav" id="3_s3yhb"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_s3yhb"]
+shader = ExtResource("2_ia2it")
+shader_parameter/Shift_Hue = 0.75
+
+[node name="base" instance=ExtResource("1_ia2it")]
+collectibleScoreValue = 0
+animation_always = true
+
+[node name="AnimatedSprite2D" parent="Area2D" index="0"]
+material = SubResource("ShaderMaterial_s3yhb")
+
+[node name="collect1" parent="Area2D" index="2"]
+stream = ExtResource("3_s3yhb")

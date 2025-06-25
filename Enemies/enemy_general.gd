@@ -1060,7 +1060,6 @@ func handle_dropProjectile_whenSpotted():
 			
 			dropProjectile.enemyProjectile = true
 			dropProjectile.playerProjectile = false
-			dropProjectile.bouncy = true
 			world.add_child(dropProjectile)
 			
 			$dropProjectile.play()

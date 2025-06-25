@@ -93,7 +93,7 @@ func save_progress():
 var current_level = 0
 
 func count_total_score(current_levelSet, level_count):
-	print(current_levelSet)
+	print("Counting total score for " + current_levelSet)
 	var total_score = 0
 	current_level = 0
 	

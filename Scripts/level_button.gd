@@ -67,7 +67,7 @@ func _ready():
 
 
 func _on_pressed():
-	if unlocked or Globals.debug_mode or Globals.selected_episode == "Debug Levels" or Globals.recording_autostart:
+	if unlocked or Globals.debug_mode or Globals.selected_episode == "Debug Levels":
 		Globals.next_transition = 0
 		Globals.load_saved_position = false
 		%level_start.play()

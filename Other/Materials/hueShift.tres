@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://cx8ylybs2rnkg"]
 
-[ext_resource type="Shader" path="res://Other/Shaders/hueShift_effect.gdshader" id="1_h3y3r"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="1_h3y3r"]
 
 [resource]
 shader = ExtResource("1_h3y3r")

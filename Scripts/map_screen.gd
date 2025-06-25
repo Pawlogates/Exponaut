@@ -53,7 +53,6 @@ func _ready():
 			var level_saved_score = saved_progress.get(str("score_", Globals.current_levelSet_ID, "_", icon.level_number))
 			icon.level_state = level_saved_state
 			icon.level_score = level_saved_score
-			print("Saved level completion state: ", icon.level_state)
 			
 			icon.is_main_level = true
 		
@@ -73,7 +72,6 @@ func _ready():
 			var level_saved_score = saved_progress.get(str("score_", Globals.current_levelSet_ID, "_", icon.level_number))
 			icon.level_state = level_saved_state
 			icon.level_score = level_saved_score
-			#print("Saved level completion state: ", icon.level_state)
 		
 		saved_progress.count_total_score(Globals.current_levelSet_ID, 7)
 		total_score = saved_progress.get("total_score")
@@ -171,12 +169,16 @@ func place_levelSet_icons(ID):
 		print(level_info_ID)
 		print(saved_progress.get(level_info_ID))
 		
-		if saved_progress.get(level_info_ID) == null:
-			break
-		if not FileAccess.file_exists("res://Levels/" + str(ID) + "_" + str(level_number) + ".tscn"):
+		#if saved_progress.get(level_info_ID) == null:
+			#break
+		
+		if not level_info_ID in saved_progress:
 			break
 		
-		var info_MAIN = saved_progress.get(level_info_ID)
-		place_level_icon(info_MAIN[1], Vector2(info_MAIN[2], info_MAIN[3]), load("res://Levels/" + str(ID) + "_" + str(level_number) + ".tscn"))
+		if not ResourceLoader.exists("res://Levels/" + str(ID) + "_" + str(level_number) + ".tscn"):
+			break
+		
+		var level_info = saved_progress.get(level_info_ID)
+		place_level_icon(level_info[1], Vector2(level_info[2], level_info[3]), load("res://Levels/" + str(ID) + "_" + str(level_number) + ".tscn"))
 		
 		highest_level_number = level_number

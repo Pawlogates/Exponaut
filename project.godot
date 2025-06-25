@@ -33,6 +33,10 @@ window/size/viewport_height=1080
 window/size/mode=3
 window/stretch/mode="viewport"
 
+[editor]
+
+export/convert_text_resources_to_binary=false
+
 [importer_defaults]
 
 texture={
