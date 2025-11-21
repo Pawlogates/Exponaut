@@ -348,7 +348,7 @@ shape = SubResource("RectangleShape2D_1u4re")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_eo4wb")
+&"": SubResource("AnimationLibrary_eo4wb")
 }
 
 [node name="break_bonusBox" type="AudioStreamPlayer2D" parent="."]

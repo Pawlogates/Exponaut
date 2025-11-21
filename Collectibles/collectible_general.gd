@@ -172,7 +172,7 @@ func _ready():
 			
 			current_property_number += 1
 	
-	await get_tree().create_timer(0.5, false).timeout
+	await get_tree().create_timer(0.25, false).timeout
 	$Area2D.monitoring = true
 	
 	if global_position != Vector2(0, 0):

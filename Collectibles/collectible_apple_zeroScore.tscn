@@ -8,7 +8,7 @@
 shader = ExtResource("2_ia2it")
 shader_parameter/Shift_Hue = 0.75
 
-[node name="base" instance=ExtResource("1_ia2it")]
+[node name="apple_zeroScore" instance=ExtResource("1_ia2it")]
 collectibleScoreValue = 0
 animation_always = true
 

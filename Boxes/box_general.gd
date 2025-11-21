@@ -21,6 +21,8 @@ var scene_particles_water_entered = preload("res://Particles/particles_water_ent
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var destroyed = false
+var state_loaded = false
+
 var start_hp = 1
 var onDeath_start_item_amount = 3
 
@@ -239,6 +241,7 @@ func other_bounce(body):
 func spawn_items(item_amount, item_scene):
 	while item_amount > 0:
 		item_amount -= 1
+		onDeath_item_amount -= 1
 		spawn_item(item_scene)
 
 
@@ -303,8 +306,9 @@ func _ready():
 	if hit_cooldown:
 		$active_cooldown.wait_time = hit_cooldown_time
 	
-	start_hp = hp
-	onDeath_start_item_amount = onDeath_item_amount
+	if not state_loaded:
+		start_hp = hp
+		onDeath_start_item_amount = onDeath_item_amount
 	
 	
 	set_process(false)
@@ -322,9 +326,12 @@ func _ready():
 	$Area2D.set_monitorable(false)
 	$Area2D.set_monitoring(false)
 	
+	
 	await get_tree().create_timer(0.2, false).timeout
 	if destroyed:
 		queue_free()
+	
+	state_loaded = true
 
 
 #Randomization
@@ -481,6 +488,9 @@ func save():
 		"destroyed" : destroyed,
 		"hp" : hp,
 		"start_hp" : start_hp,
+		"onDeath_start_item_amount" : onDeath_start_item_amount,
+		"onDeath_item_amount" : onDeath_item_amount,
+		"state_loaded" : state_loaded,
 	
 	}
 	return save_dict

@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://dieunvhai1sjq"]
+[gd_scene load_steps=3 format=3 uid="uid://dieunvhai1sjq"]
 
 [ext_resource type="PackedScene" uid="uid://c2cm0aw561fcj" path="res://Collectibles/collectible_base.tscn" id="1_4b2xy"]
 [ext_resource type="Material" uid="uid://dok04t87cr154" path="res://Other/Materials/golden_effect.tres" id="2_ei0lv"]
-[ext_resource type="SpriteFrames" uid="uid://dxklhfxjvxsjo" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_apple.tres" id="3_y86px"]
 
 [node name="apple_rainbow" instance=ExtResource("1_4b2xy")]
 loop_anim = "loop_scale"
@@ -10,4 +9,3 @@ is_temporary_powerup = true
 
 [node name="AnimatedSprite2D" parent="Area2D" index="0"]
 material = ExtResource("2_ei0lv")
-sprite_frames = ExtResource("3_y86px")
