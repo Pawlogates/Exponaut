@@ -633,18 +633,8 @@ func _on_dash_end_slowdown_active_timeout():
 	animation_player2.play("streak_reset")
 
 
-#SAVE START
-
 func _on_player_hitbox_main_area_entered(area):
-	if area.is_in_group("loadingZone_area"):
-		Globals.save.emit()
-	
-	#SAVE END
-	
-	
-	elif area.is_in_group("bgMove_area"):
-		if not get_parent().regular_level:
-			get_parent().bgMove_growthSpeed = 1
+	pass
 
 
 func saveState_loaded():

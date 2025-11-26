@@ -118,6 +118,8 @@ var current_level_number = -1
 
 var current_topRankScore = 100000
 
+signal scoreReset
+
 
 signal save_progress
 signal progress_loadingFinished
@@ -129,20 +131,19 @@ var transitioned = false
 var next_transition = 0
 var load_saved_position = true
 
+#debug
+var gameState_debug = true
 
 var debug_mode = false
 var debug_magic_projectiles = false
 
 var delete_saves = false
 
-signal scoreReset
-
-
-#world states
+# world state
 var just_started_new_game = false
 var left_start_area = false
 
-
+# recording
 signal start_recording
 signal start_playback
 signal stop_recording

@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://c7ie388q2umtx"]
+[gd_scene load_steps=24 format=3 uid="uid://c7ie388q2umtx"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_4gxuf"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_pwrbj"]
@@ -11,7 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="9_joi6n"]
 [ext_resource type="AudioStream" uid="uid://kyur60gxpgj3" path="res://Assets/Sounds/music/music_castle.mp3" id="10_rfn43"]
 [ext_resource type="AudioStream" uid="uid://dxc7o04h736f3" path="res://Assets/Sounds/music/ruins3.mp3" id="11_xucx7"]
-[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="12_01sn2"]
 [ext_resource type="AudioStream" uid="uid://jrrdb7mdfafc" path="res://Assets/Sounds/music/plains3.mp3" id="13_gj00c"]
 [ext_resource type="AudioStream" uid="uid://ymeawbacseox" path="res://Assets/Sounds/music/music_plains4.mp3" id="14_k3mos"]
 [ext_resource type="Texture2D" uid="uid://8h4y75y71fj4" path="res://Assets/Graphics/backgrounds/bg_lake_mountains.png" id="15_tu0mf"]
@@ -97,191 +96,155 @@ position = Vector2(2016, 160)
 scale = Vector2(1, 3)
 music_file = ExtResource("11_xucx7")
 
-[node name="trigger_bgMoveRESET2" parent="Triggers" index="4" instance=ExtResource("12_01sn2")]
-position = Vector2(320, 704)
-scale = Vector2(11, 1)
-
-[node name="trigger_musicChange10" parent="Triggers" index="5" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange10" parent="Triggers" index="4" instance=ExtResource("9_joi6n")]
 position = Vector2(5664, -416)
 scale = Vector2(1, 3)
 music_file = ExtResource("13_gj00c")
 
-[node name="trigger_musicChange12" parent="Triggers" index="6" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange12" parent="Triggers" index="5" instance=ExtResource("9_joi6n")]
 position = Vector2(8064, 1760)
 scale = Vector2(4, 1)
 music_file = ExtResource("13_gj00c")
 
-[node name="trigger_musicChange14" parent="Triggers" index="7" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange14" parent="Triggers" index="6" instance=ExtResource("9_joi6n")]
 position = Vector2(-1472, 1504)
 scale = Vector2(6, 1)
 music_file = ExtResource("14_k3mos")
 
-[node name="trigger_bgChange12" parent="Triggers" index="8" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange12" parent="Triggers" index="7" instance=ExtResource("6_tdarp")]
 position = Vector2(1888, 64)
 scale = Vector2(1, 24)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange15" parent="Triggers" index="9" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange15" parent="Triggers" index="8" instance=ExtResource("9_joi6n")]
 position = Vector2(1824, 64)
 scale = Vector2(1, 24)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgMove3" parent="Triggers" index="10" instance=ExtResource("12_01sn2")]
-position = Vector2(-1344, 2208)
-scale = Vector2(4, 1)
-bgMove_y = 800
-
-[node name="trigger_bgMove4" parent="Triggers" index="11" instance=ExtResource("12_01sn2")]
-position = Vector2(-992, 1056)
-bgMove_y = 200
-
-[node name="trigger_bgMove5" parent="Triggers" index="12" instance=ExtResource("12_01sn2")]
-position = Vector2(5888, 1440)
-scale = Vector2(12, 1)
-bgMove_y = 200
-
-[node name="trigger_bgMove6" parent="Triggers" index="13" instance=ExtResource("12_01sn2")]
-position = Vector2(5696, 1632)
-scale = Vector2(16, 1)
-bgMove_y = 800
-
-[node name="trigger_bgMove7" parent="Triggers" index="14" instance=ExtResource("12_01sn2")]
-position = Vector2(6336, 0)
-scale = Vector2(12, 1)
-
-[node name="trigger_bgChange2" parent="Triggers" index="15" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange2" parent="Triggers" index="9" instance=ExtResource("6_tdarp")]
 position = Vector2(-1408, 1760)
 scale = Vector2(18, 1)
 Background_filePath = ExtResource("18_f8lca")
 Background_a_filePath = ExtResource("19_0ueja")
 
-[node name="trigger_musicChange16" parent="Triggers" index="16" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange16" parent="Triggers" index="10" instance=ExtResource("9_joi6n")]
 position = Vector2(-6336, 3904)
 scale = Vector2(2, 8)
 music_file = ExtResource("14_k3mos")
 
-[node name="trigger_bgMove8" parent="Triggers" index="17" instance=ExtResource("12_01sn2")]
-position = Vector2(-6336, 3904)
-scale = Vector2(2, 8)
-bgMove_y = 800
-
-[node name="trigger_bgMove9" parent="Triggers" index="18" instance=ExtResource("12_01sn2")]
-position = Vector2(-6336, 3904)
-bgMove_y = 200
-
-[node name="trigger_bgChange3" parent="Triggers" index="19" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange3" parent="Triggers" index="11" instance=ExtResource("6_tdarp")]
 position = Vector2(-6336, 3904)
 scale = Vector2(2, 8)
 Background_filePath = ExtResource("18_f8lca")
 Background_a_filePath = ExtResource("19_0ueja")
 
-[node name="trigger_bgChange10" parent="Triggers" index="20" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange10" parent="Triggers" index="12" instance=ExtResource("6_tdarp")]
 position = Vector2(-5408, -256)
 scale = Vector2(1, 14)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange11" parent="Triggers" index="21" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange11" parent="Triggers" index="13" instance=ExtResource("9_joi6n")]
 position = Vector2(-5920, -128)
 scale = Vector2(1, 10)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange11" parent="Triggers" index="22" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange11" parent="Triggers" index="14" instance=ExtResource("6_tdarp")]
 position = Vector2(-6336, -1216)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange13" parent="Triggers" index="23" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange13" parent="Triggers" index="15" instance=ExtResource("9_joi6n")]
 position = Vector2(-6288, -1264)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange14" parent="Triggers" index="24" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange14" parent="Triggers" index="16" instance=ExtResource("6_tdarp")]
 position = Vector2(-4448, -3520)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange17" parent="Triggers" index="25" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange17" parent="Triggers" index="17" instance=ExtResource("9_joi6n")]
 position = Vector2(-4400, -3568)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange15" parent="Triggers" index="26" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange15" parent="Triggers" index="18" instance=ExtResource("6_tdarp")]
 position = Vector2(-1760, -3520)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange18" parent="Triggers" index="27" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange18" parent="Triggers" index="19" instance=ExtResource("9_joi6n")]
 position = Vector2(-1712, -3568)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange16" parent="Triggers" index="28" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange16" parent="Triggers" index="20" instance=ExtResource("6_tdarp")]
 position = Vector2(768, -3520)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange19" parent="Triggers" index="29" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange19" parent="Triggers" index="21" instance=ExtResource("9_joi6n")]
 position = Vector2(816, -3568)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange17" parent="Triggers" index="30" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange17" parent="Triggers" index="22" instance=ExtResource("6_tdarp")]
 position = Vector2(2208, -3520)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange20" parent="Triggers" index="31" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange20" parent="Triggers" index="23" instance=ExtResource("9_joi6n")]
 position = Vector2(2256, -3568)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange18" parent="Triggers" index="32" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange18" parent="Triggers" index="24" instance=ExtResource("6_tdarp")]
 position = Vector2(2784, -3520)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange21" parent="Triggers" index="33" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange21" parent="Triggers" index="25" instance=ExtResource("9_joi6n")]
 position = Vector2(2832, -3568)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange19" parent="Triggers" index="34" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange19" parent="Triggers" index="26" instance=ExtResource("6_tdarp")]
 position = Vector2(4576, -3456)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange22" parent="Triggers" index="35" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange22" parent="Triggers" index="27" instance=ExtResource("9_joi6n")]
 position = Vector2(4624, -3504)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange20" parent="Triggers" index="36" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange20" parent="Triggers" index="28" instance=ExtResource("6_tdarp")]
 position = Vector2(7232, -3520)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange23" parent="Triggers" index="37" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange23" parent="Triggers" index="29" instance=ExtResource("9_joi6n")]
 position = Vector2(7280, -3568)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
 
-[node name="trigger_bgChange21" parent="Triggers" index="38" instance=ExtResource("6_tdarp")]
+[node name="trigger_bgChange21" parent="Triggers" index="30" instance=ExtResource("6_tdarp")]
 position = Vector2(8672, -3488)
 scale = Vector2(3, 3)
 Background_filePath = ExtResource("15_tu0mf")
 Background_a_filePath = ExtResource("16_4b1qb")
 
-[node name="trigger_musicChange24" parent="Triggers" index="39" instance=ExtResource("9_joi6n")]
+[node name="trigger_musicChange24" parent="Triggers" index="31" instance=ExtResource("9_joi6n")]
 position = Vector2(8720, -3536)
 scale = Vector2(3, 3)
 music_file = ExtResource("17_4swh5")
@@ -427,59 +390,7 @@ scale = Vector2(23, 2)
 target_area = "res://Levels/overworld_ascent.tscn"
 next_transition = 11
 
-[node name="trigger_bgMove" parent="." index="31" instance=ExtResource("12_01sn2")]
-position = Vector2(-6272, -96)
-scale = Vector2(1, 14)
-bgMove_y = -400
-bg_a_Move_y = -400
-bg_b_Move_y = -400
-
-[node name="trigger_bgMove2" parent="." index="32" instance=ExtResource("12_01sn2")]
-position = Vector2(-6384, -1168)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove3" parent="." index="33" instance=ExtResource("12_01sn2")]
-position = Vector2(-4496, -3472)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove4" parent="." index="34" instance=ExtResource("12_01sn2")]
-position = Vector2(-1808, -3472)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove5" parent="." index="35" instance=ExtResource("12_01sn2")]
-position = Vector2(720, -3472)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove6" parent="." index="36" instance=ExtResource("12_01sn2")]
-position = Vector2(2160, -3472)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove7" parent="." index="37" instance=ExtResource("12_01sn2")]
-position = Vector2(2736, -3472)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove8" parent="." index="38" instance=ExtResource("12_01sn2")]
-position = Vector2(4528, -3408)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove9" parent="." index="39" instance=ExtResource("12_01sn2")]
-position = Vector2(7184, -3472)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="trigger_bgMove10" parent="." index="40" instance=ExtResource("12_01sn2")]
-position = Vector2(8624, -3440)
-scale = Vector2(3, 3)
-bgMove_y = -400
-
-[node name="Shrine Gem6" parent="." index="41" instance=ExtResource("24_jqrfx")]
+[node name="Shrine Gem6" parent="." index="31" instance=ExtResource("24_jqrfx")]
 position = Vector2(-960, -1760)
 hp = 10
 shrineGem_openPortal = true
@@ -487,74 +398,74 @@ shrineGem_particle_amount = 100
 shrineGem_portal_level_ID = "MAIN_6"
 shrineGem_level_filePath = "res://Levels/MAIN_6.tscn"
 
-[node name="Shrine Gem7" parent="." index="42" instance=ExtResource("24_jqrfx")]
+[node name="Shrine Gem7" parent="." index="32" instance=ExtResource("24_jqrfx")]
 position = Vector2(512, 1056)
 hp = 3
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_7"
 shrineGem_level_filePath = "res://Levels/MAIN_7.tscn"
 
-[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112716" to="tileset_objects/@Area2D@112716" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112720" to="tileset_objects/@Area2D@112720" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112730" to="tileset_objects/@Area2D@112730" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112734" to="tileset_objects/@Area2D@112734" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112738" to="tileset_objects/@Area2D@112738" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112740" to="tileset_objects/@Area2D@112740" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112744" to="tileset_objects/@Area2D@112744" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112746" to="tileset_objects/@Area2D@112746" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112752" to="tileset_objects/@Area2D@112752" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112758" to="tileset_objects/@Area2D@112758" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112764" to="tileset_objects/@Area2D@112764" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112777" to="tileset_objects/@Area2D@112777" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112786" to="tileset_objects/@Area2D@112786" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112793" to="tileset_objects/@Area2D@112793" method="_on_area_entered"]
 [connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112796" to="tileset_objects/@Area2D@112796" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112802" to="tileset_objects/@Area2D@112802" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112811" to="tileset_objects/@Area2D@112811" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112817" to="tileset_objects/@Area2D@112817" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112823" to="tileset_objects/@Area2D@112823" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112825" to="tileset_objects/@Area2D@112825" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112827" to="tileset_objects/@Area2D@112827" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112829" to="tileset_objects/@Area2D@112829" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112830" to="tileset_objects/@Area2D@112830" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112834" to="tileset_objects/@Area2D@112834" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112836" to="tileset_objects/@Area2D@112836" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112842" to="tileset_objects/@Area2D@112842" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112845" to="tileset_objects/@Area2D@112845" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112849" to="tileset_objects/@Area2D@112849" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112854" to="tileset_objects/@Area2D@112854" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112861" to="tileset_objects/@Area2D@112861" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112864" to="tileset_objects/@Area2D@112864" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112872" to="tileset_objects/@Area2D@112872" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@112879" to="tileset_objects/@Area2D@112879" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113013" to="tileset_objects/@Area2D@113013" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113160" to="tileset_objects/@Area2D@113160" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113169" to="tileset_objects/@Area2D@113169" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113175" to="tileset_objects/@Area2D@113175" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113186" to="tileset_objects/@Area2D@113186" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113192" to="tileset_objects/@Area2D@113192" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113239" to="tileset_objects/@Area2D@113239" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113251" to="tileset_objects/@Area2D@113251" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113252" to="tileset_objects/@Area2D@113252" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113271" to="tileset_objects/@Area2D@113271" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113457" to="tileset_objects/@Area2D@113457" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113471" to="tileset_objects/@Area2D@113471" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113482" to="tileset_objects/@Area2D@113482" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113503" to="tileset_objects/@Area2D@113503" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113532" to="tileset_objects/@Area2D@113532" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113555" to="tileset_objects/@Area2D@113555" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113570" to="tileset_objects/@Area2D@113570" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@113732" to="tileset_objects/@Area2D@113732" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114108" to="tileset_objects/@Area2D@114108" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114123" to="tileset_objects/@Area2D@114123" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114139" to="tileset_objects/@Area2D@114139" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114153" to="tileset_objects/@Area2D@114153" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114167" to="tileset_objects/@Area2D@114167" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114309" to="tileset_objects/@Area2D@114309" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114323" to="tileset_objects/@Area2D@114323" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114384" to="tileset_objects/@Area2D@114384" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114472" to="tileset_objects/@Area2D@114472" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114478" to="tileset_objects/@Area2D@114478" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@114542" to="tileset_objects/@Area2D@114542" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@32856" to="tileset_objects/@Area2D@32856" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@32862" to="tileset_objects/@Area2D@32862" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33009" to="tileset_objects/@Area2D@33009" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33023" to="tileset_objects/@Area2D@33023" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33164" to="tileset_objects/@Area2D@33164" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33179" to="tileset_objects/@Area2D@33179" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33193" to="tileset_objects/@Area2D@33193" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33209" to="tileset_objects/@Area2D@33209" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33224" to="tileset_objects/@Area2D@33224" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33605" to="tileset_objects/@Area2D@33605" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33769" to="tileset_objects/@Area2D@33769" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33784" to="tileset_objects/@Area2D@33784" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33807" to="tileset_objects/@Area2D@33807" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33836" to="tileset_objects/@Area2D@33836" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33857" to="tileset_objects/@Area2D@33857" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33869" to="tileset_objects/@Area2D@33869" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@33883" to="tileset_objects/@Area2D@33883" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34070" to="tileset_objects/@Area2D@34070" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34089" to="tileset_objects/@Area2D@34089" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34090" to="tileset_objects/@Area2D@34090" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34103" to="tileset_objects/@Area2D@34103" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34153" to="tileset_objects/@Area2D@34153" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34159" to="tileset_objects/@Area2D@34159" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34170" to="tileset_objects/@Area2D@34170" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34176" to="tileset_objects/@Area2D@34176" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34185" to="tileset_objects/@Area2D@34185" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34340" to="tileset_objects/@Area2D@34340" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34486" to="tileset_objects/@Area2D@34486" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34493" to="tileset_objects/@Area2D@34493" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34501" to="tileset_objects/@Area2D@34501" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34504" to="tileset_objects/@Area2D@34504" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34511" to="tileset_objects/@Area2D@34511" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34516" to="tileset_objects/@Area2D@34516" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34520" to="tileset_objects/@Area2D@34520" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34523" to="tileset_objects/@Area2D@34523" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34529" to="tileset_objects/@Area2D@34529" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34531" to="tileset_objects/@Area2D@34531" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34536" to="tileset_objects/@Area2D@34536" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34537" to="tileset_objects/@Area2D@34537" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34539" to="tileset_objects/@Area2D@34539" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34541" to="tileset_objects/@Area2D@34541" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34544" to="tileset_objects/@Area2D@34544" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34550" to="tileset_objects/@Area2D@34550" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34556" to="tileset_objects/@Area2D@34556" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34565" to="tileset_objects/@Area2D@34565" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34572" to="tileset_objects/@Area2D@34572" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34576" to="tileset_objects/@Area2D@34576" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34578" to="tileset_objects/@Area2D@34578" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34585" to="tileset_objects/@Area2D@34585" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34594" to="tileset_objects/@Area2D@34594" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34607" to="tileset_objects/@Area2D@34607" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34613" to="tileset_objects/@Area2D@34613" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34619" to="tileset_objects/@Area2D@34619" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34625" to="tileset_objects/@Area2D@34625" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34628" to="tileset_objects/@Area2D@34628" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34634" to="tileset_objects/@Area2D@34634" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34636" to="tileset_objects/@Area2D@34636" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34641" to="tileset_objects/@Area2D@34641" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34645" to="tileset_objects/@Area2D@34645" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34655" to="tileset_objects/@Area2D@34655" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34659" to="tileset_objects/@Area2D@34659" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@34663" to="tileset_objects/@Area2D@34663" method="_on_area_entered"]

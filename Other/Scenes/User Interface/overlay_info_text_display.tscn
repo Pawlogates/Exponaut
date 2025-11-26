@@ -1405,7 +1405,7 @@ autowrap_mode = 2
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Control"]
 root_node = NodePath("../bg_texture")
 libraries = {
-"": SubResource("AnimationLibrary_suae3")
+&"": SubResource("AnimationLibrary_suae3")
 }
 speed_scale = 3.0
 

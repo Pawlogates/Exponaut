@@ -7,7 +7,7 @@ extends Node2D
 @onready var player = %Player
 
 @onready var hud = %HUD
-var debug_screen: Control #Added and deleted on demand.
+var debug_screen: Control # Added and deleted on demand.
 
 @onready var level_finished = %"Level Finished"
 
@@ -79,6 +79,11 @@ var whiteBlocks_toggle = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Globals.gameState_debug: # False if the game is currently being worked on.
+		SavedData.delete_progress()
+		LevelTransition.info_text_display.display_message("Deleted all save files on entering a level.", 1)
+	
+	
 	material_hueShift_neonBlock_material.set_shader_parameter("Shift_Hue", neonBlocks_hueShift)
 	
 	Globals.gameplay_recorder_entered_level.emit()

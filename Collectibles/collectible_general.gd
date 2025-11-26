@@ -15,8 +15,9 @@ var direction = 0
 var start_pos = global_position
 
 var collected = false
-var removable = false
 var rotten = false
+var only_visual = false
+var removable = false
 
 var playerProjectile = true
 var enemyProjectile = true
@@ -45,7 +46,7 @@ var box_last = Node
 @onready var world = $/root/World
 @onready var player = $/root/World.player
 
-#PROPERTIES
+# PROPERTIES
 @export var collectibleScoreValue = 50
 @export var give_score = true
 @export var animation_always = false
@@ -68,7 +69,7 @@ var box_last = Node
 @export var shrineGem_is_finalLevel = false
 @export var shrineGem_checkpoint_offset = Vector2(320, -64)
 
-@export var is_specialApple = "none" #options: "red", "blue", "golden"
+@export var is_specialApple = "none" # options: "red", "blue", "golden"
 
 @export var is_temporary_powerup = false
 @export_enum("none", "higher_jump", "increased_speed", "teleport_forward_on_airJump") var temporary_powerup = "none"
@@ -79,14 +80,14 @@ var box_last = Node
 @export var item_posSpread = 100
 @export var item_velSpread = 300
 
-#GIFT
+# GIFT
 @export var is_gift = false
 @export var inventory_item_scene = preload("res://Other/Scenes/User Interface/Inventory/inventoryItem.tscn")
 @export var inventory_itemToSpawn = preload("res://Collectibles/collectibleApple.tscn")
 @export var inventory_texture_region = Rect2(0, 0, 0, 0)
-#GIFT END
+# GIFT END
 
-#WEAPONS
+# WEAPONS
 @export var is_weapon = false
 @export var is_SecondaryWeapon = false
 
@@ -94,7 +95,7 @@ var box_last = Node
 @export var attack_delay = 1.0
 @export var secondaryWeapon_type = "none"
 @export var secondaryAttack_delay = 1.0
-#WEAPONS END
+# WEAPONS END
 
 @export var is_healthItem = false
 @export var rotting = false
@@ -109,9 +110,9 @@ var box_last = Node
 
 @export var randomize_everything_onSpawn = false
 
-@export var type : String
+@export var type : String = "None"
 @export var debug = false
-#PROPERTIES END
+# PROPERTIES END
 
 
 #OFFSCREEN START
@@ -213,11 +214,17 @@ func offScreen_load():
 	animation_player.active = true
 	animation_player2.active = true
 	$Area2D.set_monitorable(true)
+	
+	animation_player.advance(abs(start_pos[0]) / 100)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	if removable or collected and not animation_player2.current_animation == "score_value" and not animation_player.current_animation == "remove":
+func _physics_process(_delta):
+	if not onCollected_effect_thrownAway:
+		if not animation_player2.current_animation == "score_value" and not animation_player.current_animation == "fadeOut_up":
+			removable = true
+	
+	if removable:
 		print("Removed already collected entity.")
 		queue_free()
 
@@ -280,7 +287,7 @@ func _on_collectible_entered(body):
 			Globals.itemCollected.emit()
 			Globals.increaseHp1.emit()
 			
-			animation_player.play("remove")
+			animation_player.play("fadeOut_up")
 			sfx_collect1.pitch_scale = 1.0
 			sfx_collect1.play()
 			body.add_child(starParticleScene.instantiate())
@@ -367,66 +374,9 @@ func _on_collectible_entered(body):
 						Globals.save_progress.emit()
 	
 	
+	# Tries to COLLECT the collectible.
 	if collectable and not rotten and inside_player and not collected or collectable and not rotten and inside_projectile and body.can_collect and not collected:
-		collected = true
-		
-		if give_score:
-			award_score()
-		
-		Globals.itemCollected.emit()
-		
-		if is_potion:
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "Collectibles", "reassign_player")
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "zone", "reassign_player")
-			world.reassign_player()
-			
-			if transform_into == "rooster":
-				world.player.transformInto_rooster()
-			elif transform_into == "bird":
-				world.player.transformInto_bird()
-			elif transform_into == "chicken":
-				world.player.transformInto_chicken()
-			elif transform_into == "frog":
-				world.player.transformInto_frog()
-			elif transform_into == "pig":
-				world.player.transformInto_pig()
-			
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "Collectibles", "reassign_player")
-			get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "zone", "reassign_player")
-			world.reassign_player()
-			
-			Globals.player_transformed.emit()
-		
-		if is_key:
-			world.key_collected()
-			
-			add_child(orbParticleScene.instantiate())
-		
-		
-		if is_weapon:
-			reassign_player()
-			world.reassign_player()
-			
-			world.player.weaponType = weapon_type
-			world.player.get_node("%attack_cooldown").wait_time = attack_delay
-			
-			add_child(orbParticleScene.instantiate())
-			add_child(splashParticleScene.instantiate())
-			add_child(effect_dustScene.instantiate())
-			
-			Globals.weapon_collected.emit()
-		
-		if is_SecondaryWeapon:
-			reassign_player()
-			world.reassign_player()
-			world.player.secondaryWeaponType = secondaryWeapon_type
-			world.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
-			
-			add_child(orbParticleScene.instantiate())
-			add_child(splashParticleScene.instantiate())
-			add_child(effect_dustScene.instantiate())
-			
-			Globals.secondaryWeapon_collected.emit()
+		_on_collected()
 
 
 func _on_collectible_exited(body):
@@ -440,6 +390,71 @@ func _on_collectible_exited(body):
 			
 		elif body.is_in_group("player_projectile"):
 			pass
+
+
+func _on_collected():
+	collected = true
+		
+	if give_score:
+		award_score()
+	
+	Globals.itemCollected.emit()
+	
+	if onCollected_effect_thrownAway:
+		effect_thrownAway_active = true
+	
+	if is_potion:
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "Collectibles", "reassign_player")
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "zone", "reassign_player")
+		world.reassign_player()
+		
+		if transform_into == "rooster":
+			world.player.transformInto_rooster()
+		elif transform_into == "bird":
+			world.player.transformInto_bird()
+		elif transform_into == "chicken":
+			world.player.transformInto_chicken()
+		elif transform_into == "frog":
+			world.player.transformInto_frog()
+		elif transform_into == "pig":
+			world.player.transformInto_pig()
+		
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "Collectibles", "reassign_player")
+		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "zone", "reassign_player")
+		world.reassign_player()
+		
+		Globals.player_transformed.emit()
+	
+	if is_key:
+		world.key_collected()
+		
+		add_child(orbParticleScene.instantiate())
+	
+	
+	if is_weapon:
+		reassign_player()
+		world.reassign_player()
+		
+		world.player.weaponType = weapon_type
+		world.player.get_node("%attack_cooldown").wait_time = attack_delay
+		
+		add_child(orbParticleScene.instantiate())
+		add_child(splashParticleScene.instantiate())
+		add_child(effect_dustScene.instantiate())
+		
+		Globals.weapon_collected.emit()
+	
+	if is_SecondaryWeapon:
+		reassign_player()
+		world.reassign_player()
+		world.player.secondaryWeaponType = secondaryWeapon_type
+		world.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
+		
+		add_child(orbParticleScene.instantiate())
+		add_child(splashParticleScene.instantiate())
+		add_child(effect_dustScene.instantiate())
+		
+		Globals.secondaryWeapon_collected.emit()
 
 
 func _on_timer_timeout():
@@ -460,9 +475,14 @@ var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 var random_position_offset = Vector2(randf_range(0, 250), randf_range(0, 250)) 
 
-func _physics_process(delta):
+func _process(delta):
 	if collected_special:
 		position = lerp(position, world.player.position + random_position_offset, delta)
+	
+	
+	if onCollected_effect_thrownAway:
+		if effect_thrownAway_active:
+			effect_thrownAway(delta)
 	
 	
 	if stop_upDownLoopAnim:
@@ -479,67 +499,69 @@ func _physics_process(delta):
 			else:
 				velocity.x = move_toward(velocity.x, SPEED * direction, SLOWDOWN / 2 * delta)
 	
-	if inside_player:
-		collidable = false
-		collisionCheck_delay.start()
-		
-		reassign_player() # Remove this line as soon as all collectibles have their root node in the "Collectibles" group (and remove their Area2D's from that group).
-		
-		if player.direction == 0:
-			direction = Globals.direction
-		
-		velocity.x = player.velocity.x * 1.2
-		
-		if abs(velocity.x) <= 150:
-			velocity.x = 150 * direction
 	
-	
-	if inside_enemy:
-		if collidable:
+	if not only_visual:
+		if inside_player:
 			collidable = false
 			collisionCheck_delay.start()
 			
-			if is_instance_valid(enemy_last):
-				if enemy_last.direction != 0:
-					direction = enemy_last.direction
+			reassign_player() # Remove this line as soon as all collectibles have their root node in the "Collectibles" group (and remove their Area2D's from that group).
 			
-			if is_instance_valid(enemy_last):
-				velocity.x = enemy_last.velocity.x * 1.2
+			if player.direction == 0:
+				direction = Globals.direction
+			
+			velocity.x = player.velocity.x * 1.2
 			
 			if abs(velocity.x) <= 150:
 				velocity.x = 150 * direction
-	
-	
-	if inside_projectile:
-		if projectile_last == null:
-			return
 		
-		if collidable:
+		
+		if inside_enemy:
+			if collidable:
+				collidable = false
+				collisionCheck_delay.start()
+				
+				if is_instance_valid(enemy_last):
+					if enemy_last.direction != 0:
+						direction = enemy_last.direction
+					
+					velocity.x = enemy_last.velocity.x * 1.2
+				
+				if abs(velocity.x) <= 150:
+					velocity.x = 150 * direction
+		
+		
+		if inside_projectile:
+			if projectile_last == null:
+				return
+			
+			if collidable:
+				collidable = false
+				collisionCheck_delay.start()
+				
+				if projectile_last.direction != 0:
+					direction = projectile_last.direction
+				
+				velocity.x = projectile_last.velocity.x * 1.2
+				
+				if abs(velocity.x) <= 150:
+					velocity.x = 150 * direction
+	
+	
+		handle_inside_zone(delta)
+	
+	
+		if is_on_wall():
+			velocity.x = -velocity_x_last / 2
 			collidable = false
 			collisionCheck_delay.start()
-			
-			if projectile_last.direction != 0:
-				direction = projectile_last.direction
-			
-			velocity.x = projectile_last.velocity.x * 1.2
-			
-			if abs(velocity.x) <= 150:
-				velocity.x = 150 * direction
+		
+		elif velocity.x != 0:
+			velocity_x_last = velocity.x
 	
 	
-	handle_inside_zone(delta)
 	
-	
-	if is_on_wall():
-		velocity.x = -velocity_x_last / 2
-		collidable = false
-		collisionCheck_delay.start()
-	
-	elif velocity.x != 0:
-		velocity_x_last = velocity.x
-	
-	
-	if not collected and not floating and not collected_special or button_pressed:
+	if not floating and not collected_special:
 		move_and_slide()
 	
 	
@@ -691,6 +713,8 @@ func award_score():
 	if Globals.collected_in_cycle > 1:
 		Globals.combo_score += collectibleScoreValue * Globals.combo_tier
 	
+	add_child(orbParticleScene.instantiate())
+	
 	add_child(starParticleScene.instantiate())
 	if Globals.combo_tier > 1:
 		add_child(starParticleScene.instantiate())
@@ -715,7 +739,7 @@ func award_score():
 	%collectedDisplay.text = str(collectibleScoreValue * Globals.combo_tier)
 	%collectedDisplay.position += Vector2(randi_range(-50, 50), randi_range(-50, 50))
 	
-	animation_player.play("remove")
+	animation_player.play("fadeOut_up")
 	animation_player2.play("score_value")
 	
 	#Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier).
@@ -828,7 +852,35 @@ func reassign_player():
 	player = get_tree().get_first_node_in_group("player_root")
 
 
-#SAVE START
+@export var onCollected_effect_thrownAway = false
+var effect_thrownAway_active = false
+var rolled_effect_thrownAway_scale = randf_range(0.1, 10)
+var effect_thrownAway_scale = Vector2(rolled_effect_thrownAway_scale, rolled_effect_thrownAway_scale)
+var effect_thrownAway_rotation = randi_range(-720, 720)
+@export var effect_thrownAway_randomize_velocity = true
+@export var effect_thrownAway_randomize_velocity_multiplier_x = 1
+@export var effect_thrownAway_randomize_velocity_multiplier_y = 1
+var effect_thrownAway_velocity = Vector2(randi_range(-1000 * effect_thrownAway_randomize_velocity_multiplier_x, 1000 * effect_thrownAway_randomize_velocity_multiplier_x), randi_range(-500 * effect_thrownAway_randomize_velocity_multiplier_y, -1000 * effect_thrownAway_randomize_velocity_multiplier_y))
+var effect_thrownAway_applied_velocity = false
+
+func effect_thrownAway(delta):
+	if not effect_thrownAway_active : return
+	if not effect_thrownAway_applied_velocity:
+		effect_thrownAway_applied_velocity = true
+		floating = false
+		velocity = Vector2(effect_thrownAway_velocity)
+		only_visual = true
+		z_index += 10
+		$CollisionShape2D.disabled = true
+		if Globals.gameState_debug:
+			LevelTransition.info_text_display.display_message("Applying velocity to collected entity.", 1)
+	
+	sprite.scale.x = lerp(sprite.scale.x, effect_thrownAway_scale[0], delta / 2)
+	sprite.scale.y = lerp(sprite.scale.y, effect_thrownAway_scale[1], delta / 2)
+	sprite.rotation_degrees = lerp(float(sprite.rotation_degrees), float(effect_thrownAway_rotation), delta)
+
+
+# SAVE START
 func save():
 	var save_dict = {
 		"filename" : get_scene_file_path(),
@@ -858,12 +910,12 @@ func save():
 		
 	}
 	return save_dict
-#SAVE END
+# SAVE END
 
 
-#Randomization
+# Randomization
 func randomize_everything():
-	#prepare lists
+	# prepare lists
 	list_sprite = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
 	list_collectible = prepare_list_all("Collectibles", [])
 	list_enemy = prepare_list_all("Enemies", [])
@@ -890,7 +942,7 @@ func randomize_everything():
 	list_bonusBox_item_scene = list_every_object
 	list_bonusBox_item_blacklist_enemy_scene = list_without_enemies
 	
-	#properties
+	# properties
 	collectibleScoreValue = randi_range(0, 25000)
 	give_score = applyRandom_falseTrue(1, 6)
 	animation_always = applyRandom_falseTrue(1, 4)

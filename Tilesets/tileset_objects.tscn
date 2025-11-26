@@ -48,7 +48,7 @@
 [ext_resource type="PackedScene" uid="uid://nyr7qjtu4enc" path="res://Objects/Decorations/water_top.tscn" id="46_4d2dr"]
 [ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://Objects/Decorations/deco_waterfall.tscn" id="47_jsjd7"]
 [ext_resource type="PackedScene" uid="uid://cfyac88tfnna7" path="res://Objects/Decorations/deco_clipped_black_circle_2_RIGHT.tscn" id="47_lwdwi"]
-[ext_resource type="PackedScene" uid="uid://dpapniygewcpe" path="res://Collectibles/collectible_apple_zeroScore.tscn" id="48_w8w3x"]
+[ext_resource type="PackedScene" uid="uid://dpapniygewcpe" path="res://Collectibles/collectible_orb_zeroScore.tscn" id="48_w8w3x"]
 [ext_resource type="PackedScene" uid="uid://bvl2rlm1ym6vc" path="res://Enemies/enemy_rabbit.tscn" id="49_u8f4j"]
 [ext_resource type="PackedScene" uid="uid://bkt7biape2erx" path="res://Objects/Decorations/deco_black_circle.tscn" id="49_vifsa"]
 [ext_resource type="PackedScene" uid="uid://cljye56wi53e8" path="res://Enemies/enemy_bat.tscn" id="50_1e1n1"]

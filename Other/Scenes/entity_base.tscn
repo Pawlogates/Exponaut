@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://wgtcgh1uo037"]
+
+[ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://entity.gd" id="1_wx0ek"]
+[ext_resource type="SpriteFrames" uid="uid://dxklhfxjvxsjo" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_apple.tres" id="2_ep4j2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
+size = Vector2(64, 64)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
+size = Vector2(32, 32)
+
+[node name="entity_base" type="CharacterBody2D"]
+script = ExtResource("1_wx0ek")
+
+[node name="collision_main" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_ep4j2")
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="collision_hitbox" type="CollisionShape2D" parent="hitbox"]
+shape = SubResource("RectangleShape2D_c3p0q")
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_ep4j2")
+animation = &"idle"
+
+[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
+[connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
