@@ -1,7 +1,0 @@
-[gd_resource type="Theme" load_steps=2 format=3 uid="uid://bmcsdh4vnkrw3"]
-
-[ext_resource type="FontFile" uid="uid://bxebncx20vx5q" path="res://Other/Fonts/font_main.png" id="1_o7u77"]
-
-[resource]
-default_font = ExtResource("1_o7u77")
-default_font_size = 24

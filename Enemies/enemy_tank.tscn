@@ -8,7 +8,7 @@
 [ext_resource type="SpriteFrames" uid="uid://duy25bi4iddng" path="res://Assets/Graphics/sprites/packed/enemies/enemy_tank.tres" id="4_rcfmu"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="7_pjngr"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="8_d7jyv"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="9_msniu"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="9_msniu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]
 size = Vector2(32, 64)

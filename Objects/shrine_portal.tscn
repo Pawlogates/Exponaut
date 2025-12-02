@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bpf67lmadgljy" path="res://Scripts/Shrine Portal.gd" id="1_i8dxa"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_lvofv"]
-[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="3_di4y8"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="3_di4y8"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="4_n748y"]
 
 [sub_resource type="Animation" id="Animation_ela7i"]

@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_vokj5"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_g6dxm"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_atwxk"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="8_43u20"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="8_43u20"]
 
 [node name="World" instance=ExtResource("1_as27u")]
 regular_level = false

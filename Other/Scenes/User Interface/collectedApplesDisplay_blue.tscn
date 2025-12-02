@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ckjtwnuafi36u" path="res://Scripts/collectedApplesDisplay_golden.gd" id="1_34ngd"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_x2c6j"]
-[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/UI_theme.tres" id="3_vme5u"]
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/text_ui.tres" id="3_vme5u"]
 
 [node name="collectedApplesDisplay_golden" type="Control"]
 custom_minimum_size = Vector2(64, 96)

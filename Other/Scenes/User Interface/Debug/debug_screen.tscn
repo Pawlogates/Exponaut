@@ -1,0 +1,2309 @@
+[gd_scene load_steps=30 format=3 uid="uid://d0vqhficbarvl"]
+
+[ext_resource type="Script" uid="uid://bm7aahpmh666p" path="res://Scripts/debug_screen.gd" id="1_40r4v"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_rmjkc"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_85xa0"]
+[ext_resource type="Script" uid="uid://dyg342n2aof80" path="res://Scripts/menu_button.gd" id="4_skuwq"]
+[ext_resource type="PackedScene" uid="uid://cg5jpj6df864v" path="res://Other/Scenes/User Interface/Debug/debug_shortcutList.tscn" id="5_lmtmj"]
+
+[sub_resource type="Shader" id="Shader_mtegs"]
+code = "shader_type canvas_item;
+#pragma disable_preprocessor
+
+uniform bool		disableProcessing;
+uniform vec4		modulate: source_color = vec4(1.0);
+
+group_uniforms		palette;
+uniform sampler2D	palette: filter_nearest;
+
+group_uniforms		cycling;
+uniform int			cycleMode: hint_range(0, 2, 1);
+uniform float		cycleRate: hint_range(-120, 120, 1);
+uniform float		cycleOffset: hint_range(0, 256, 0.1);
+uniform bool		colorBlending;
+
+vec4 applyPalette(vec4 sprTex)
+{	// Palette data
+	ivec2	palSize	 = textureSize(palette, 0);
+	int		palCount = palSize.x * palSize.y;
+	
+	// Color channel data
+	float idxPalette = floor(sprTex.r * 256.00);	// Color index
+	float idxCycEnds = floor(sprTex.g * 256.00);	// Color cycle end index
+	float idxCycLeng = floor(sprTex.b * 256.00);	// Color cycle length
+	
+	// Cycling
+	float idxCycle	 = cycleOffset + TIME * cycleRate;	// Cycle frame
+	float idxCycNext = idxPalette;
+	
+	// Ignore index #0
+	if (idxPalette > 0.0)
+	{
+		switch (cycleMode)
+		{
+			case 1:		// Localized color cycling
+				if (idxCycEnds * idxCycLeng > 0.0)
+				{
+					idxPalette = floor(idxPalette + mod(idxCycle, idxCycLeng));
+					idxCycNext = idxPalette + 1.0;
+					
+					// Wrap indices around if they exceed end of cycle
+					if (idxPalette > idxCycEnds)
+						idxPalette -= idxCycLeng;
+
+					if (idxCycNext > idxCycEnds)
+						idxCycNext -= idxCycLeng;
+				}
+				break;
+
+			case 2:		// Palette-wide color cycling
+				idxPalette = floor(idxPalette + idxCycle);
+				idxCycNext = idxPalette + 1.0;
+				break;
+		}
+		// Wrap indices back within palette bounds, skipping index 0
+		idxPalette = mod(idxPalette - 1.0, float(palCount - 1)) + 1.0;
+		idxCycNext = mod(idxCycNext - 1.0, float(palCount - 1)) + 1.0;
+	}
+	
+	// Palette sampler UV
+	float yxUV = idxPalette / float(palSize.x);
+	
+	// Sample palette from center of pixel (maximum result accuracy)
+	float xUV = fract(yxUV) + (0.5 / float(palSize.x));
+	float yUV = floor(yxUV) / float(palSize.y) + (0.5 / float(palSize.y));
+	vec2 palUV = vec2(xUV, yUV);
+	
+	if (!colorBlending)
+	{
+		// Unblended result
+		return texture(palette, palUV);
+	}
+	else
+	{
+		// Next cycle step sampler UV
+		float nyxUV = idxCycNext / float(palSize.x);
+		
+		// Center next index sampler
+		float nxUV = fract(nyxUV) + (0.5 / float(palSize.x));
+		float nyUV = floor(nyxUV) / float(palSize.y) + (0.5 / float(palSize.y));
+		vec2 nxtUV = vec2(nxUV, nyUV);
+		
+		// Blend result
+		vec4 pixel	= texture(palette, palUV);
+		vec4 next	= texture(palette, nxtUV);
+		return mix(pixel, next, fract(idxCycle));
+	}
+}
+
+void fragment()
+{
+	if (!disableProcessing)
+	{
+		COLOR = applyPalette(texture(TEXTURE, UV)) * modulate * COLOR.a;
+		
+	}
+
+}
+
+"
+
+[sub_resource type="Gradient" id="Gradient_ymvqi"]
+colors = PackedColorArray(0.572549, 0, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qss5a"]
+gradient = SubResource("Gradient_ymvqi")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_r5vru"]
+shader = SubResource("Shader_mtegs")
+shader_parameter/disableProcessing = false
+shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_qss5a")
+shader_parameter/cycleMode = 2
+shader_parameter/cycleRate = 30.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rw7s"]
+atlas = ExtResource("2_rmjkc")
+region = Rect2(320, 128, 192, 192)
+
+[sub_resource type="Shader" id="Shader_h4ft5"]
+code = "shader_type canvas_item;
+#pragma disable_preprocessor
+
+uniform bool		disableProcessing;
+uniform vec4		modulate: source_color = vec4(1.0);
+
+group_uniforms		palette;
+uniform sampler2D	palette: filter_nearest;
+
+group_uniforms		cycling;
+uniform int			cycleMode: hint_range(0, 2, 1);
+uniform float		cycleRate: hint_range(-120, 120, 1);
+uniform float		cycleOffset: hint_range(0, 256, 0.1);
+uniform bool		colorBlending;
+
+vec4 applyPalette(vec4 sprTex)
+{	// Palette data
+	ivec2	palSize	 = textureSize(palette, 0);
+	int		palCount = palSize.x * palSize.y;
+	
+	// Color channel data
+	float idxPalette = floor(sprTex.r * 256.00);	// Color index
+	float idxCycEnds = floor(sprTex.g * 256.00);	// Color cycle end index
+	float idxCycLeng = floor(sprTex.b * 256.00);	// Color cycle length
+	
+	// Cycling
+	float idxCycle	 = cycleOffset + TIME * cycleRate;	// Cycle frame
+	float idxCycNext = idxPalette;
+	
+	// Ignore index #0
+	if (idxPalette > 0.0)
+	{
+		switch (cycleMode)
+		{
+			case 1:		// Localized color cycling
+				if (idxCycEnds * idxCycLeng > 0.0)
+				{
+					idxPalette = floor(idxPalette + mod(idxCycle, idxCycLeng));
+					idxCycNext = idxPalette + 1.0;
+					
+					// Wrap indices around if they exceed end of cycle
+					if (idxPalette > idxCycEnds)
+						idxPalette -= idxCycLeng;
+
+					if (idxCycNext > idxCycEnds)
+						idxCycNext -= idxCycLeng;
+				}
+				break;
+
+			case 2:		// Palette-wide color cycling
+				idxPalette = floor(idxPalette + idxCycle);
+				idxCycNext = idxPalette + 1.0;
+				break;
+		}
+		// Wrap indices back within palette bounds, skipping index 0
+		idxPalette = mod(idxPalette - 1.0, float(palCount - 1)) + 1.0;
+		idxCycNext = mod(idxCycNext - 1.0, float(palCount - 1)) + 1.0;
+	}
+	
+	// Palette sampler UV
+	float yxUV = idxPalette / float(palSize.x);
+	
+	// Sample palette from center of pixel (maximum result accuracy)
+	float xUV = fract(yxUV) + (0.5 / float(palSize.x));
+	float yUV = floor(yxUV) / float(palSize.y) + (0.5 / float(palSize.y));
+	vec2 palUV = vec2(xUV, yUV);
+	
+	if (!colorBlending)
+	{
+		// Unblended result
+		return texture(palette, palUV);
+	}
+	else
+	{
+		// Next cycle step sampler UV
+		float nyxUV = idxCycNext / float(palSize.x);
+		
+		// Center next index sampler
+		float nxUV = fract(nyxUV) + (0.5 / float(palSize.x));
+		float nyUV = floor(nyxUV) / float(palSize.y) + (0.5 / float(palSize.y));
+		vec2 nxtUV = vec2(nxUV, nyUV);
+		
+		// Blend result
+		vec4 pixel	= texture(palette, palUV);
+		vec4 next	= texture(palette, nxtUV);
+		return mix(pixel, next, fract(idxCycle));
+	}
+}
+
+void fragment()
+{
+	if (!disableProcessing)
+	{
+		COLOR = applyPalette(texture(TEXTURE, UV)) * modulate * COLOR.a;
+		
+	}
+
+}
+
+"
+
+[sub_resource type="Gradient" id="Gradient_lm5el"]
+colors = PackedColorArray(1, 0.203922, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_78pc8"]
+gradient = SubResource("Gradient_lm5el")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_tpp3l"]
+shader = SubResource("Shader_h4ft5")
+shader_parameter/disableProcessing = false
+shader_parameter/modulate = Color(1, 0, 0, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_78pc8")
+shader_parameter/cycleMode = 2
+shader_parameter/cycleRate = 30.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true
+
+[sub_resource type="Gradient" id="Gradient_038n8"]
+colors = PackedColorArray(1, 0.541176, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ixonm"]
+gradient = SubResource("Gradient_038n8")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nd6gq"]
+shader = SubResource("Shader_h4ft5")
+shader_parameter/disableProcessing = false
+shader_parameter/modulate = Color(1, 0.588235, 0, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_ixonm")
+shader_parameter/cycleMode = 2
+shader_parameter/cycleRate = 30.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_t515y"]
+load_path = "res://.godot/imported/sprites_general.png-62da394d719687c5fbfc20a486270e96.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t12sk"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(448, 696, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xia6e"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(256, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wxf41"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(192, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a5ite"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(64, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2f535"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(0, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1io8t"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(128, 640, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_snx8k"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(432, 768, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pxf0p"]
+atlas = SubResource("CompressedTexture2D_t515y")
+region = Rect2(720, 768, 48, 48)
+
+[sub_resource type="Gradient" id="Gradient_oxbnt"]
+colors = PackedColorArray(1, 0.854902, 0, 1, 0.231421, 0.0194118, 1.8049e-08, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_uf8fu"]
+gradient = SubResource("Gradient_oxbnt")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_p305y"]
+shader = SubResource("Shader_h4ft5")
+shader_parameter/disableProcessing = false
+shader_parameter/modulate = Color(1, 1, 0, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_uf8fu")
+shader_parameter/cycleMode = 2
+shader_parameter/cycleRate = 30.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true
+
+[node name="Debug Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_40r4v")
+
+[node name="Debug Info Root" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.588235)
+material = SubResource("ShaderMaterial_r5vru")
+layout_mode = 0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 936.0
+offset_bottom = 1056.0
+texture = SubResource("AtlasTexture_1rw7s")
+
+[node name="Debug Info" type="BoxContainer" parent="Debug Info Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 24.0
+offset_top = 24.0
+offset_right = 24.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+vertical = true
+
+[node name="CenterContainerFps" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="fps" type="Label" parent="Debug Info Root/Debug Info/CenterContainerFps"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 128.0
+offset_bottom = 32.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+text = "fps"
+
+[node name="CenterContainerTest" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="test" type="Label" parent="Debug Info Root/Debug Info/CenterContainerTest"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 168.0
+offset_bottom = 24.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 24
+text = "debug 1"
+
+[node name="CenterContainerTest2" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="test2" type="Label" parent="Debug Info Root/Debug Info/CenterContainerTest2"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 168.0
+offset_bottom = 24.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 24
+text = "debug 2"
+
+[node name="CenterContainerTest3" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="test3" type="Label" parent="Debug Info Root/Debug Info/CenterContainerTest3"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 168.0
+offset_bottom = 24.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 24
+text = "debug 3"
+
+[node name="CenterContainerTest4" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="test4" type="Label" parent="Debug Info Root/Debug Info/CenterContainerTest4"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 168.0
+offset_bottom = 24.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 24
+text = "debug 4"
+
+[node name="CenterContainerTest5" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="test5" type="Label" parent="Debug Info Root/Debug Info/CenterContainerTest5"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 168.0
+offset_bottom = 24.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 24
+text = "debug 5"
+
+[node name="CenterContainerTest6" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="test6" type="Label" parent="Debug Info Root/Debug Info/CenterContainerTest6"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 168.0
+offset_bottom = 24.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 24
+text = "debug 6"
+
+[node name="CenterContainerTest7" type="Control" parent="Debug Info Root/Debug Info"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="test7" type="Label" parent="Debug Info Root/Debug Info/CenterContainerTest7"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 2
+offset_right = 168.0
+offset_bottom = 24.0
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 3
+theme_override_constants/shadow_offset_y = 3
+theme_override_font_sizes/font_size = 24
+text = "debug 7"
+
+[node name="Debug Buttons Screen Root" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.588235)
+material = SubResource("ShaderMaterial_tpp3l")
+layout_mode = 0
+offset_left = 984.0
+offset_top = 24.0
+offset_right = 1896.0
+offset_bottom = 120.0
+texture = SubResource("AtlasTexture_1rw7s")
+expand_mode = 1
+
+[node name="Debug Buttons Screen" type="FlowContainer" parent="Debug Buttons Screen Root"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug Buttons Button" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_night" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="set_night" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 52.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 16
+text = "set night"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button4" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_night2" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="set_night2" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 52.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "set night 2"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button5" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_night3" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="set_night3" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 52.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "set night 3"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_day" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="set_day" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 20.0
+offset_bottom = 52.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "set day"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button2" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="delete_all_save_files" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="delete_all_save_files" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 12.0
+offset_bottom = 79.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 16
+text = "delete all save files"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button3" type="Control" parent="Debug Buttons Screen Root/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="delete_background_layers" type="Button" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="delete_background_layers" type="Label" parent="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "delete background layers"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Screen Root2" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.588235)
+material = SubResource("ShaderMaterial_nd6gq")
+layout_mode = 0
+offset_left = 984.0
+offset_top = 120.0
+offset_right = 1896.0
+offset_bottom = 216.0
+texture = SubResource("AtlasTexture_1rw7s")
+expand_mode = 1
+
+[node name="Debug Buttons Screen" type="FlowContainer" parent="Debug Buttons Screen Root2"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug Buttons Button" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="weapon_basic" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "basic"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_t12sk")
+
+[node name="Debug Buttons Button2" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="weapon_veryFast_speed" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "veryFast speed"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_xia6e")
+
+[node name="Debug Buttons Button3" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="weapon_ice" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "ice"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_wxf41")
+
+[node name="Debug Buttons Button4" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="weapon_fire" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "fire"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_a5ite")
+
+[node name="Debug Buttons Button5" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="weapon_destructive_fast_speed" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 8
+text = "destructive fast speed"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_2f535")
+
+[node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="weapon_short_shotDelay" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "short shotDelay"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_1io8t")
+
+[node name="Debug Buttons Button7" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="secondaryWeapon_basic" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "secondary basic"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_snx8k")
+
+[node name="Debug Buttons Button8" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="secondaryWeapon_fast" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "secondary fast"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_pxf0p")
+
+[node name="Debug Buttons Button9" type="Control" parent="Debug Buttons Screen Root2/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="weapon_notSet" type="Button" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="weapon_label" type="Label" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet"]
+z_index = 1
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 48.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 10
+text = "not set"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="weapon_image" type="TextureRect" parent="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+texture = SubResource("AtlasTexture_t12sk")
+
+[node name="Debug Buttons Screen Root3" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.588235)
+material = SubResource("ShaderMaterial_p305y")
+layout_mode = 0
+offset_left = 984.0
+offset_top = 216.0
+offset_right = 1896.0
+offset_bottom = 312.0
+texture = SubResource("AtlasTexture_1rw7s")
+expand_mode = 1
+
+[node name="Debug Buttons Screen" type="FlowContainer" parent="Debug Buttons Screen Root3"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reset_currently_selected_inventory_item" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="reset_currently_selected_inventory_item" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "reset currently selected inventory item"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button7" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_short_shotDelay" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="set_short_shotDelay" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "set short shot delay"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button8" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_long_shotDelay" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="set_long_shotDelay" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "set long shot delay"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button9" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_debug_mode" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="toggle_debug_mode" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "toggle debug mode"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button10" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="set_immortal" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="set_immortal" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "set immortal"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button11" type="Control" parent="Debug Buttons Screen Root3/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_magic_projectiles" type="Button" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="toggle_magic_projectiles" type="Label" parent="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 14.0
+offset_bottom = 81.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 14
+text = "toggle magic projectiles"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Screen Root4" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.588235)
+material = SubResource("ShaderMaterial_p305y")
+layout_mode = 0
+offset_left = 984.0
+offset_top = 312.0
+offset_right = 1896.0
+offset_bottom = 408.0
+texture = SubResource("AtlasTexture_1rw7s")
+expand_mode = 1
+
+[node name="Debug Buttons Screen" type="FlowContainer" parent="Debug Buttons Screen Root4"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug Buttons Button6" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reset_button_blue" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="reset_button_blue" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "reset button blue"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button7" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reset_button_green" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="reset_button_green" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "reset button green"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button8" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="reset_button_red" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="reset_button_red" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "reset button red"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button9" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="activate_button_blue" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="activate_button_blue" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "activate button blue"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button10" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="activate_button_green" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="activate_button_green" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "activate button green"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button11" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="activate_button_red" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="activate_button_red" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "activate button red"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button12" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_toggleBlocks" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="toggle_toggleBlocks" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "toggle toggleBlocks"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button13" type="Control" parent="Debug Buttons Screen Root4/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="open_keyBlocks" type="Button" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="open_keyBlocks" type="Label" parent="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 12
+text = "toggle toggleBlocks"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Screen Root5" type="TextureRect" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0.588235)
+material = SubResource("ShaderMaterial_p305y")
+layout_mode = 0
+offset_left = 984.0
+offset_top = 408.0
+offset_right = 1896.0
+offset_bottom = 504.0
+texture = SubResource("AtlasTexture_1rw7s")
+expand_mode = 1
+
+[node name="Debug Buttons Screen" type="FlowContainer" parent="Debug Buttons Screen Root5"]
+layout_mode = 1
+anchors_preset = 14
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_top = -4.0
+offset_bottom = 4.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Debug Buttons Button" type="Control" parent="Debug Buttons Screen Root5/Debug Buttons Screen"]
+custom_minimum_size = Vector2(0, 80)
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_music" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="toggle_music" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 16
+text = "mute music"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button2" type="Control" parent="Debug Buttons Screen Root5/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="toggle_ambience" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="toggle_ambience" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 16
+text = "mute ambience"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Buttons Button3" type="Control" parent="Debug Buttons Screen Root5/Debug Buttons Screen"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="disable_hud" type="Button" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 84.0
+offset_bottom = 60.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_85xa0")
+script = ExtResource("4_skuwq")
+enable_deco = false
+
+[node name="disable_hud" type="Label" parent="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud"]
+custom_minimum_size = Vector2(128, 0)
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = 8.0
+offset_bottom = 75.0
+grow_horizontal = 2
+theme = ExtResource("3_85xa0")
+theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
+theme_override_constants/shadow_offset_x = 2
+theme_override_constants/shadow_offset_y = 2
+theme_override_font_sizes/font_size = 16
+text = "disable hud"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Debug Shortcut List Root" parent="." instance=ExtResource("5_lmtmj")]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 984.0
+offset_top = 568.0
+offset_right = 1896.0
+offset_bottom = 1056.0
+
+[node name="refresh_debugInfo" type="Timer" parent="."]
+wait_time = 0.4
+autostart = true
+
+[node name="refresh_debugInfo_values" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 944.0
+offset_bottom = 32.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 32.0
+offset_bottom = 1064.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 16.0
+offset_top = 1048.0
+offset_right = 944.0
+offset_bottom = 1064.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 928.0
+offset_top = 16.0
+offset_right = 944.0
+offset_bottom = 1064.0
+color = Color(1, 0, 0, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 32.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 1888.0
+offset_top = 16.0
+offset_right = 1904.0
+offset_bottom = 320.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect7" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 16.0
+offset_right = 992.0
+offset_bottom = 320.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect8" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 304.0
+offset_right = 1904.0
+offset_bottom = 320.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect9" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 560.0
+offset_right = 1904.0
+offset_bottom = 576.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect10" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 560.0
+offset_right = 992.0
+offset_bottom = 1064.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect11" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 976.0
+offset_top = 1048.0
+offset_right = 1904.0
+offset_bottom = 1064.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect12" type="ColorRect" parent="."]
+z_index = -5
+layout_mode = 0
+offset_left = 1888.0
+offset_top = 560.0
+offset_right = 1904.0
+offset_bottom = 1064.0
+color = Color(0, 0, 0, 1)
+
+[connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button/set_night" to="." method="_on_set_night_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button4/set_night2" to="." method="_on_set_night2_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button5/set_night3" to="." method="_on_set_night3_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button6/set_day" to="." method="_on_set_day_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button2/delete_all_save_files" to="." method="_on_delete_all_save_files_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" to="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root/Debug Buttons Screen/Debug Buttons Button3/delete_background_layers" to="." method="_on_delete_background_layers_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button/weapon_basic" to="." method="_on_weapon_basic_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button2/weapon_veryFast_speed" to="." method="_on_weapon_veryFast_speed_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button3/weapon_ice" to="." method="_on_weapon_ice_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button4/weapon_fire" to="." method="_on_weapon_fire_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button5/weapon_destructive_fast_speed" to="." method="_on_weapon_destructive_fast_speed_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button6/weapon_short_shotDelay" to="." method="_on_weapon_short_shotDelay_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button7/secondaryWeapon_basic" to="." method="_on_secondaryWeapon_basic_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button8/secondaryWeapon_fast" to="." method="_on_secondaryWeapon_fast_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" to="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root2/Debug Buttons Screen/Debug Buttons Button9/weapon_notSet" to="." method="_on_weapon_basic_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button6/reset_currently_selected_inventory_item" to="." method="_on_reset_currently_selected_inventory_item_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button7/set_short_shotDelay" to="." method="_on_set_short_shot_delay_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button8/set_long_shotDelay" to="." method="_on_set_long_shot_delay_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button9/toggle_debug_mode" to="." method="_on_toggle_debug_mode_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button10/set_immortal" to="." method="_on_set_immortal_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root3/Debug Buttons Screen/Debug Buttons Button11/toggle_magic_projectiles" to="." method="_on_toggle_magic_projectiles_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button6/reset_button_blue" to="." method="_on_reset_button_blue_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button7/reset_button_green" to="." method="_on_reset_button_green_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button8/reset_button_red" to="." method="_on_reset_button_red_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button9/activate_button_blue" to="." method="_on_activate_button_blue_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button10/activate_button_green" to="." method="_on_activate_button_green_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button11/activate_button_red" to="." method="_on_activate_button_red_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button12/toggle_toggleBlocks" to="." method="_on_toggle_toggle_blocks_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root4/Debug Buttons Screen/Debug Buttons Button13/open_keyBlocks" to="." method="_on_open_key_blocks_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button/toggle_music" to="." method="_on_toggle_music_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button2/toggle_ambience" to="." method="_on_toggle_ambience_pressed"]
+[connection signal="focus_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_focus_entered"]
+[connection signal="focus_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_focus_exited"]
+[connection signal="mouse_entered" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" method="_on_mouse_exited"]
+[connection signal="pressed" from="Debug Buttons Screen Root5/Debug Buttons Screen/Debug Buttons Button3/disable_hud" to="." method="_on_disable_hud_pressed"]
+[connection signal="timeout" from="refresh_debugInfo" to="." method="refresh_debugInfo"]
+[connection signal="timeout" from="refresh_debugInfo_values" to="." method="refresh_debugInfo_values"]

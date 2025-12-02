@@ -1,22 +1,11 @@
 extends CenterContainer
 
 var startingArea = preload("res://Levels/overworld_factory.tscn")
-var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
+var levelSelect = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
 
 var can_quit = true
 
 func _ready():
-	if SavedData.gameplay_recorder.recording_active:
-		can_quit = false
-		if Globals.recording_autostart:
-			Globals.stop_recording.emit()
-			Globals.start_recording.emit()
-	else:
-		can_quit = true
-		if Globals.recording_autostart:
-			Globals.start_recording.emit()
-	
-	
 	SavedData.gameplay_recorder.selected_playback_id = 0
 	
 	LevelTransition.get_node("%saved_progress").load_game()

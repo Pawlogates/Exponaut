@@ -20,7 +20,7 @@
 [ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/backgrounds/bg_empty_a.png" id="19_0ueja"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="20_s05mh"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="21_b4y0d"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="22_6skfn"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="22_6skfn"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="23_q56dm"]
 [ext_resource type="PackedScene" uid="uid://dsn2i83vgnnpy" path="res://Collectibles/collectibleShrineGem.tscn" id="24_jqrfx"]
 

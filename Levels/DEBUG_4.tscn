@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://qggu1dxjfplv"]
 
 [ext_resource type="PackedScene" uid="uid://dun5a8r7qx00f" path="res://Levels/empty.tscn" id="1_olixj"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="2_1glgj"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="2_1glgj"]
 [ext_resource type="PackedScene" uid="uid://dwll230hy7ny7" path="res://Collectibles/collectible_chaos.tscn" id="3_7eady"]
 
 [node name="World" instance=ExtResource("1_olixj")]

@@ -1,0 +1,6 @@
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://cfdyinxw562my"]
+
+[ext_resource type="FontFile" uid="uid://bxebncx20vx5q" path="res://Other/Fonts/font_main.png" id="1_w85yr"]
+
+[resource]
+Label/fonts/font = ExtResource("1_w85yr")

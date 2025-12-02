@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=3 uid="uid://l83a5sjf2kck"]
+
+[ext_resource type="Script" uid="uid://bgivwbaf6ik1f" path="res://Scripts/display_message.gd" id="1_2jl23"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_i808q"]
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/text_ui.tres" id="3_1wtwk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n8gmq"]
+atlas = ExtResource("2_i808q")
+region = Rect2(512, 128, 384, 192)
+
+[node name="display_message" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -400.0
+offset_top = -100.0
+offset_right = -400.0
+offset_bottom = -100.0
+script = ExtResource("1_2jl23")
+
+[node name="bg" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.588235)
+z_index = 25
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = 32.0
+offset_right = 400.0
+offset_bottom = 224.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1, 0.4)
+pivot_offset = Vector2(400, 0)
+texture = SubResource("AtlasTexture_n8gmq")
+
+[node name="bg" type="ColorRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 4.0
+offset_right = -8.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.109804, 0, 0.372549, 1)
+
+[node name="text" type="Label" parent="."]
+unique_name_in_owner = true
+z_index = 50
+custom_minimum_size = Vector2(716, 0)
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = 40.0
+offset_top = 12.0
+offset_right = 756.0
+offset_bottom = 30.0
+grow_horizontal = 2
+theme = ExtResource("3_1wtwk")
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_constants/line_spacing = 16
+theme_override_font_sizes/font_size = 18
+text = "press the jump key to jump real
+l
+l
+l
+l"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="timer_hide" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
+[connection signal="timeout" from="timer_hide" to="." method="_on_timer_hide_timeout"]

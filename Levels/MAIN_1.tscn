@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="5_6yky3"]
 [ext_resource type="AudioStream" uid="uid://do14rg1o1weqn" path="res://Assets/Sounds/music/plains5.mp3" id="6_d7kuy"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_y4yhd"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="10_iu6i2"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="10_iu6i2"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="10_mcw21"]
 
 [node name="World" instance=ExtResource("1_631pt")]

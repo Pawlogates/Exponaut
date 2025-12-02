@@ -12,13 +12,13 @@
 [ext_resource type="Texture2D" uid="uid://dxgcrho6dais6" path="res://Assets/Graphics/backgrounds/bg_empty_b.png" id="10_ue0al"]
 [ext_resource type="PackedScene" uid="uid://bmnsg0hl7qcpu" path="res://Objects/gate_score.tscn" id="11_y58wk"]
 [ext_resource type="PackedScene" uid="uid://bsesa2c0faeh6" path="res://Triggers/trigger_reset_score.tscn" id="12_q7px5"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="13_a6ra1"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="13_a6ra1"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="14_b80mc"]
 [ext_resource type="AudioStream" uid="uid://cbm5sgx3jfj23" path="res://Assets/Sounds/music/factory1.mp3" id="15_vk2la"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="16_osfq0"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="17_6ar0g"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="18_e7jam"]
-[ext_resource type="PackedScene" uid="uid://dssex4c1v434v" path="res://Objects/video_display.tscn" id="19_cn48a"]
+[ext_resource type="PackedScene" uid="uid://dssex4c1v434v" path="res://Objects/display_video.tscn" id="19_cn48a"]
 [ext_resource type="VideoStream" uid="uid://cc7awv2pwp1xr" path="res://Assets/Videos/tutorial1.ogv" id="20_qfp08"]
 [ext_resource type="VideoStream" uid="uid://c7frwt7yuek4d" path="res://Assets/Videos/tutorial2.ogv" id="21_vy30k"]
 [ext_resource type="VideoStream" uid="uid://l0lsln217m08" path="res://Assets/Videos/tutorial3.ogv" id="22_0hbh7"]
@@ -59,13 +59,13 @@ size = Vector2(64, 512)
 size = Vector2(64, 192)
 
 [node name="World" instance=ExtResource("1_bhkyt")]
+playerStartHP = 5
 savedProgress_level_filePath = "res://Levels/overworld_factory.tscn"
 cameraLimit_left = -1e+07
 cameraLimit_right = 10432.0
 cameraLimit_bottom = 640.0
 cameraLimit_top = -1e+07
 regular_level = false
-playerStartHP = 5
 selected_episode = "Main Levels"
 area_ID = "overworld_factory"
 

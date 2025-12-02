@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://wgtcgh1uo037"]
 
-[ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://entity.gd" id="1_wx0ek"]
+[ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://Scripts/entity.gd" id="1_wx0ek"]
 [ext_resource type="SpriteFrames" uid="uid://dxklhfxjvxsjo" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_apple.tres" id="2_ep4j2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
@@ -9,8 +9,138 @@ size = Vector2(64, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
 size = Vector2(32, 32)
 
-[node name="entity_base" type="CharacterBody2D"]
+[node name="base" type="CharacterBody2D"]
 script = ExtResource("1_wx0ek")
+collectable = null
+hittable = null
+collidable = null
+health = null
+damage = null
+score_value = null
+movement_type = null
+speed = null
+jump_velocity = null
+gravity = null
+acceleration = null
+friction = null
+speed_multiplier_x = null
+speed_multiplier_y = null
+acceleration_multiplier_x = null
+acceleration_multiplier_y = null
+friction_multiplier_x = null
+friction_multiplier_y = null
+gravity_multiplier_x = null
+gravity_multiplier_y = null
+can_move = null
+can_move_x = null
+can_move_y = null
+gravity_value = null
+entity_name = null
+movementType = null
+give_score_onDeath = null
+scoreValue = null
+turnOnLedge = null
+turnOnWall = null
+slowDown_onDirectionChange = null
+floating = null
+patroling = null
+afterDelay_changeDirection = null
+afterDelay_jump = null
+directionTimer_time = null
+jumpTimer_time = null
+onDeath_spawnObject = null
+onDeath_spawnObject_objectPath = null
+onDeath_spawnObject_objectAmount = null
+onDeath_spawnObject_throwAround = null
+immortal = null
+shootProjectile_whenSpotted = null
+dropProjectile_whenSpotted = null
+shootProjectile_cooldown = null
+dropProjectile_cooldown = null
+altDropMethod = null
+projectile_isBouncingBall = null
+shootProjectile_offset_X = null
+shootProjectile_offset_Y = null
+shootProjectile_player = null
+shootProjectile_enemy = null
+toggle_toggleBlocks_onDeath = null
+whenAt_startPosition_X_stop = null
+whenAt_startPosition_Y_stop = null
+start_pos_leniency_X = null
+start_pos_leniency_Y = null
+onSpawn_offset_position = null
+bouncy_Y = null
+bouncy_X = null
+ascending = null
+damageTo_player = null
+damageTo_enemies = null
+familyID = null
+can_affect_player = null
+can_collect = null
+stationary_disable_jump_anim = null
+patrolRectStatic = null
+force_static_H = null
+force_static_V = null
+onDeath_disappear_instantly = null
+look_at_player = null
+is_bonusBox = null
+bonusBox_spawn_item_onDeath = null
+bonusBox_item_scene = null
+bonusBox_collectibleAmount = null
+bonusBox_throw_around = null
+bonusBox_spread_position = null
+bonusBox_requiresVelocity = null
+bonusBox_minimalVelocity = null
+bonusBox_giveVelocity = null
+bonusBox_giveVelocity_jump = null
+particles_star = null
+particles_golden = null
+particles_splash = null
+enable_generalTimers = null
+generalTimer1_cooldown = null
+generalTimer2_cooldown = null
+generalTimer3_cooldown = null
+generalTimer4_cooldown = null
+generalTimer5_cooldown = null
+generalTimer6_cooldown = null
+generalTimer1_randomize_cooldown = null
+generalTimer2_randomize_cooldown = null
+generalTimer3_randomize_cooldown = null
+generalTimer4_randomize_cooldown = null
+generalTimer5_randomize_cooldown = null
+generalTimer6_randomize_cooldown = null
+generalTimer_min_cooldown = null
+generalTimer_max_cooldown = null
+generalTimer_randomize_cooldown_onSpawn = null
+t_item_scene = null
+t_item_amount = null
+t_throw_around = null
+t_spread_position = null
+t_afterDelay_jump = null
+t_afterDelay_jump_timerID = null
+t_afterDelay_jumpAndMove = null
+t_afterDelay_jumpAndMove_timerID = null
+t_afterDelay_changeDirection = null
+t_afterDelay_changeDirection_timerID = null
+t_afterDelay_spawnObject = null
+t_afterDelay_spawnObject_timerID = null
+t_afterDelay_selfDestruct = null
+t_afterDelay_selfDestruct_timerID = null
+t_afterDelay_selfDestructAndSpawnObject = null
+t_afterDelay_selfDestructAndSpawnObject_timerID = null
+t_afterDelay_idleSound = null
+t_afterDelay_idleSound_timerID = null
+t_afterDelay_randomize_speedAndJumpVelocity = null
+t_afterDelay_randomize_speedAndJumpVelocity_timerID = null
+t_afterDelay_spawn_collectibles = null
+t_afterDelay_spawn_collectibles_timerID = null
+randomize_everything_onSpawn = null
+enemy_type = null
+debug = null
+
+[node name="sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = ExtResource("2_ep4j2")
+animation = &"idle"
 
 [node name="collision_main" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ep4j2")
@@ -20,9 +150,7 @@ shape = SubResource("RectangleShape2D_ep4j2")
 [node name="collision_hitbox" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("RectangleShape2D_c3p0q")
 
-[node name="sprite" type="AnimatedSprite2D" parent="."]
-sprite_frames = ExtResource("2_ep4j2")
-animation = &"idle"
-
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
 [connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]

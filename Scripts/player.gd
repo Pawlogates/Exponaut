@@ -40,8 +40,8 @@ var base_GRAVITY_SCALE = GRAVITY_SCALE
 @onready var sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
 
-@onready var player_collision = $CollisionShape2D
-@onready var player_hitbox = $Player_hitbox_main/CollisionShape2D
+@onready var collision = $collision_main
+@onready var hitbox = $hitbox_main/CollisionShape2D
 
 @onready var timer_attack_cooldown: Timer = %attack_cooldown
 @onready var timer_secondary_attack_cooldown: Timer = %secondaryAttack_cooldown
@@ -117,14 +117,19 @@ func _ready():
 	world.reassign_player()
 	
 	Globals.player_pos = get_global_position()
-	Globals.player_posX = get_global_position()[0]
-	Globals.player_posY = get_global_position()[1]
+	Globals.player_pos_x = get_global_position()[0]
+	Globals.player_pos_y = get_global_position()[1]
 	
-	Globals.saveState_loaded.connect(saveState_loaded)
+	Globals.save_levelState_saved.connect(on_levelState_saved)
+	Globals.save_levelState_loaded.connect(on_levelState_loaded)
+	Globals.save_saveData_saved.connect(on_saveData_saved)
+	Globals.save_saveData_loaded.connect(on_saveData_loaded)
+	Globals.save_levelSelect_saved.connect(on_levelSelect_saved)
+	Globals.save_levelSelect_loaded.connect(on_levelSelect_loaded)
 	
-	Globals.playerHit1.connect(reduceHp1)
-	Globals.playerHit2.connect(reduceHp2)
-	Globals.playerHit3.connect(reduceHp3)
+	Globals.player_damage.connect(reduce_health)
+	Globals.player_kill.connect(kill)
+	Globals.player_heal.connect(heal)
 	
 	Globals.shot_charged.connect(charged_effect)
 	Globals.shot.connect(cancel_effect)
@@ -540,21 +545,11 @@ func _on_dash_timer_timeout():
 	raycast_top.enabled = true
 
 
-#PLAYER DAMAGE EFFECTS
-func reduceHp1():
-	if not dead:
-		sfx_damage.play()
-		attacked = true
-		$attackedTimer.start()
+# Player damage (Received by player).
+var invulnerable = false
 
-func reduceHp2():
-	if not dead:
-		sfx_damage.play()
-		attacked = true
-		$attackedTimer.start()
-
-func reduceHp3():
-	if not dead:
+func health_decrease(value):
+	if not invulnerable and not dead:
 		sfx_damage.play()
 		attacked = true
 		$attackedTimer.start()
@@ -1243,17 +1238,17 @@ func _on_block_movement_full_timeout() -> void:
 	velocity = Vector2(0, 0)
 
 
-var debugToggle = false
-var scene_debug_screen = preload("res://Other/Scenes/User Interface/Debug/screen_debug.tscn")
+var debug_toggle = false
+var scene_debug_screen = preload("res://Other/Scenes/User Interface/Debug/debug_screen.tscn")
 func handle_debug_screen():
 	if Input.is_action_just_pressed("show_debugInfo"):
-		if not debugToggle:
+		if not debug_toggle:
 			#$/root/World.player.block_movement = true
 			var debug_screen = scene_debug_screen.instantiate()
 			world.hud.add_child(debug_screen)
 			
 			debug_screen.debugToggle = true
-			debugToggle = true
+			debug_toggle = true
 			debug_screen.visible = true
 			
 			get_tree().set_debug_collisions_hint(true)
@@ -1289,7 +1284,7 @@ func _on_just_bounced_timeout() -> void:
 	sprite.modulate.g = 1.0
 
 
-var menu_levelSelect = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
+var levelSelect_screen = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
 var menu_start = preload("res://Other/Scenes/menu_start.tscn")
 
 func handle_actions():
@@ -1297,14 +1292,54 @@ func handle_actions():
 		if menu_start == null:
 			return
 		
-		await LevelTransition.fade_to_black()
+		Overlay.animation("fade_black", false, true, 1)
 		get_tree().change_scene_to_packed(menu_start)
-		await LevelTransition.fade_from_black_slow()
+		#Overlay.animation("fade_black", true, true, 1)
 	
 	elif Input.is_action_just_pressed("menu"):
 		if menu_levelSelect == null:
 			return
 		
-		await LevelTransition.fade_to_black()
+		Overlay.animation("fade_black", false, true, 1)
 		get_tree().change_scene_to_packed(menu_levelSelect)
-		await LevelTransition.fade_from_black_slow()
+		#Overlay.animation("fade_black", true, true, 1)
+
+
+func on_levelState_saved():
+	pass
+
+func on_levelState_loaded():
+	pass
+
+func on_saveData_saved():
+	pass
+
+func on_saveData_loaded():
+	pass
+
+func on_levelSelect_saved():
+	pass
+
+func on_levelSelect_loaded():
+	pass
+
+
+func reduce_health(value):
+	health -= value
+	invincible = true
+	timer_invincible.start()
+	sfx.stream = preload("res://Assets/Sounds/sfx/robot_damage.wav")
+	sfx.play()
+
+
+func heal(value):
+	health += value
+	invincible = true
+	timer_invincible.start()
+	sfx.stream = preload("res://Assets/Sounds/sfx/collect_hp.wav")
+	sfx.play()
+
+
+func kill():
+	health = 0
+	dead = true

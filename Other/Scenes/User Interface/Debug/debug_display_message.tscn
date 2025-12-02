@@ -1,0 +1,116 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx8nd251l8ow"]
+
+[ext_resource type="Script" uid="uid://dhp5l6ys2rn0j" path="res://Scripts/debug_display_message.gd" id="1_yidiu"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_e4ulb"]
+
+[sub_resource type="Animation" id="Animation_qkkfh"]
+resource_name = "display_show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_why7p"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_15thv"]
+resource_name = "display_hide"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mhb8t"]
+_data = {
+&"RESET": SubResource("Animation_why7p"),
+&"display_hide": SubResource("Animation_15thv"),
+&"display_show": SubResource("Animation_qkkfh")
+}
+
+[node name="debug_display_message" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+scale = Vector2(1, 0.95)
+script = ExtResource("1_yidiu")
+
+[node name="text_container" type="Label" parent="."]
+z_index = 10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -768.0
+offset_top = -16.0
+offset_right = 768.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/line_spacing = 16
+theme_override_font_sizes/font_size = 23
+text = "text"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bg" type="ColorRect" parent="."]
+z_index = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -768.0
+offset_top = -16.0
+offset_right = 768.0
+offset_bottom = 16.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.392157)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mhb8t")
+}
+
+[node name="close" type="Button" parent="."]
+z_index = 25
+layout_mode = 0
+offset_left = 736.0
+offset_top = -48.0
+offset_right = 768.0
+offset_bottom = -16.0
+theme = ExtResource("2_e4ulb")
+theme_override_font_sizes/font_size = 20
+text = "X"
+
+[connection signal="pressed" from="close" to="." method="_on_close_pressed"]

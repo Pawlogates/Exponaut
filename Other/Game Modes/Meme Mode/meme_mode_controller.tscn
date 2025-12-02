@@ -1,0 +1,76 @@
+[gd_scene load_steps=4 format=3 uid="uid://defq0xnr3tmi6"]
+
+[ext_resource type="Script" uid="uid://byvwgk7genqg8" path="res://Other/Game Modes/Meme Mode/meme_mode_controller.gd" id="1_i552x"]
+[ext_resource type="Script" uid="uid://c3tdqq8dqoxkt" path="res://Other/Game Modes/Meme Mode/manual_spawner.gd" id="2_svqem"]
+[ext_resource type="PackedScene" uid="uid://bj88bgbmum6t" path="res://Other/Game Modes/Meme Mode/settings.tscn" id="3_02dgn"]
+
+[node name="meme_mode_controller" type="Node2D"]
+process_mode = 1
+script = ExtResource("1_i552x")
+
+[node name="meme_mode_timer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="meme_mode_timer2" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="meme_mode_timer3" type="Timer" parent="."]
+wait_time = 12.0
+one_shot = true
+
+[node name="image_static" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="manual_spawner" type="Node2D" parent="."]
+process_mode = 3
+script = ExtResource("2_svqem")
+
+[node name="restart_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="delete_items_timer" type="Timer" parent="."]
+one_shot = true
+
+[node name="Settings" parent="." instance=ExtResource("3_02dgn")]
+
+[node name="rotating_effect_3d" type="Timer" parent="."]
+one_shot = true
+
+[node name="image_falling_down" type="Timer" parent="."]
+one_shot = true
+
+[node name="caption" type="Timer" parent="."]
+one_shot = true
+
+[node name="camera_zoom" type="Timer" parent="."]
+one_shot = true
+
+[node name="camera_zoom_reset" type="Timer" parent="."]
+one_shot = true
+
+[node name="randomize_rates" type="Timer" parent="."]
+one_shot = true
+
+[node name="image_moving_around" type="Timer" parent="."]
+one_shot = true
+
+[node name="image_pulse" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="meme_mode_timer" to="." method="_on_meme_mode_timer_timeout"]
+[connection signal="timeout" from="meme_mode_timer2" to="." method="_on_meme_mode_timer_2_timeout"]
+[connection signal="timeout" from="meme_mode_timer3" to="." method="_on_meme_mode_timer_3_timeout"]
+[connection signal="timeout" from="image_static" to="." method="_on_image_static_timeout"]
+[connection signal="timeout" from="restart_timer" to="." method="_on_restart_timer_timeout"]
+[connection signal="timeout" from="delete_items_timer" to="." method="_on_delete_items_timer_timeout"]
+[connection signal="timeout" from="rotating_effect_3d" to="." method="_on_rotating_effect_3d_timeout"]
+[connection signal="timeout" from="image_falling_down" to="." method="_on_image_falling_down_timeout"]
+[connection signal="timeout" from="caption" to="." method="_on_caption_timeout"]
+[connection signal="timeout" from="camera_zoom" to="." method="_on_camera_zoom_timeout"]
+[connection signal="timeout" from="camera_zoom_reset" to="." method="_on_camera_zoom_reset_timeout"]
+[connection signal="timeout" from="randomize_rates" to="." method="_on_randomize_rates_timeout"]
+[connection signal="timeout" from="image_moving_around" to="." method="_on_image_moving_around_timeout"]
+[connection signal="timeout" from="image_pulse" to="." method="_on_image_pulse_timeout"]

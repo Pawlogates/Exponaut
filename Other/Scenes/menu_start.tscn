@@ -1,15 +1,13 @@
-[gd_scene load_steps=27 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=12 format=3 uid="uid://c370w0v3janyp"]
 
-[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/displays_theme.tres" id="1_j2qdm"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_j2qdm"]
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_menu.gd" id="2_fbau1"]
 [ext_resource type="AudioStream" uid="uid://dfoqdahqfeem3" path="res://Assets/Sounds/music/factory3.mp3" id="3_27u0b"]
 [ext_resource type="Script" uid="uid://dyg342n2aof80" path="res://Scripts/menu_button.gd" id="4_5ppq6"]
 [ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_g50ce"]
-[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="6_dumls"]
 [ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="6_sbkd0"]
-[ext_resource type="Script" uid="uid://bt1hsr8ak5gi0" path="res://Scripts/menu_deco_bg.gd" id="6_wno4y"]
-[ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/other/fg_gradient.png" id="7_0ny47"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="9_aijrc"]
+[ext_resource type="PackedScene" uid="uid://dg1su3riwland" path="res://Other/Scenes/decoration_moving.tscn" id="7_xc7nq"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="9_aijrc"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
 offsets = PackedFloat32Array(0, 0.497797, 1)
@@ -29,259 +27,6 @@ shader_parameter/cycleMode = 2
 shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
-
-[sub_resource type="Animation" id="Animation_dsk64"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:position:x")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-960, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:position:y")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-540, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/4/type = "bezier"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:rotation")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
-[sub_resource type="Animation" id="Animation_3own7"]
-resource_name = "loop"
-length = 10.0
-loop_mode = 1
-step = 0.1
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 3, 6, 10)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:scale:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0),
-"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1.5, -0.25, 0, 0.25, 0, 0.75, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 3, 6, 10)
-}
-tracks/2/type = "bezier"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath(".:position:x")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-960, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/3/type = "bezier"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:position:y")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-540, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/4/type = "bezier"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath(".:rotation")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 4.18879, -0.25, 0, 0.25, 0, -3.66519, -0.25, 0, 0.25, 0, 0.523599, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 3, 5, 8, 10)
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_l6r7w"]
-_data = {
-&"RESET": SubResource("Animation_dsk64"),
-&"loop": SubResource("Animation_3own7")
-}
-
-[sub_resource type="Animation" id="Animation_v8wcq"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_f1f2o"]
-resource_name = "fade_from_black"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_7qc2w"]
-resource_name = "fade_to_black"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("ColorRect:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_j83ll"]
-_data = {
-&"RESET": SubResource("Animation_v8wcq"),
-&"fade_from_black": SubResource("Animation_f1f2o"),
-&"fade_to_black": SubResource("Animation_7qc2w")
-}
-
-[sub_resource type="Shader" id="Shader_o6u4a"]
-code = "shader_type canvas_item;
-
-uniform float strength: hint_range(0., 1.) = 0.5;
-uniform float speed: hint_range(0., 10.) = 0.5;
-uniform float angle: hint_range(0., 360.) = 0.;
-
-void fragment() {
-    float hue = UV.x * cos(radians(angle)) - UV.y * sin(radians(angle));
-    hue = fract(hue + fract(TIME  * speed));
-    float x = 1. - abs(mod(hue / (1./ 6.), 2.) - 1.);
-    vec3 rainbow;
-    if(hue < 1./6.){
-        rainbow = vec3(1., x, 0.);
-    } else if (hue < 1./3.) {
-        rainbow = vec3(x, 1., 0);
-    } else if (hue < 0.5) {
-        rainbow = vec3(0, 1., x);
-    } else if (hue < 2./3.) {
-        rainbow = vec3(0., x, 1.);
-    } else if (hue < 5./6.) {
-        rainbow = vec3(x, 0., 1.);
-    } else {
-        rainbow = vec3(1., 0., x);
-    }
-    vec4 color = texture(TEXTURE, UV);
-    COLOR = mix(color, vec4(rainbow, color.a), strength) * COLOR.a;
-}"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_qht5b"]
-shader = SubResource("Shader_o6u4a")
-shader_parameter/strength = 0.5
-shader_parameter/speed = 0.5
-shader_parameter/angle = 320.0
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7vxly"]
-atlas = ExtResource("6_dumls")
-region = Rect2(896, 128, 328, 136)
-
-[sub_resource type="Animation" id="Animation_d4oei"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Node2D:skew")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-0.261799, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
-[sub_resource type="Animation" id="Animation_ap78o"]
-resource_name = "skew_loop"
-length = 2.0
-loop_mode = 2
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Node2D:skew")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(-0.261799, -0.25, 0, 1, 0, 0.261799, -1, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2)
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_ounmy"]
-_data = {
-&"RESET": SubResource("Animation_d4oei"),
-&"skew_loop": SubResource("Animation_ap78o")
-}
 
 [node name="StartMenu" type="CenterContainer"]
 anchors_preset = 15
@@ -1686,79 +1431,14 @@ z_index = 1
 color = Color(0.242311, 2.19597e-07, 5.41471e-08, 1)
 polygon = PackedVector2Array(528, 224, 1520, 352, 1624, 728, 296, 888)
 
-[node name="background2_root" type="Control" parent="."]
-z_index = -1
-layout_mode = 2
-mouse_filter = 2
-
-[node name="background2" type="TextureRect" parent="background2_root"]
-layout_mode = 2
-offset_left = -960.0
-offset_top = -540.0
-offset_right = 960.0
-offset_bottom = 540.0
-pivot_offset = Vector2(960, 540)
-mouse_filter = 2
-texture = ExtResource("7_0ny47")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="background2_root/background2"]
-libraries = {
-&"": SubResource("AnimationLibrary_l6r7w")
-}
-autoplay = "loop"
-speed_scale = 0.1
-
-[node name="ColorRect" type="ColorRect" parent="."]
-unique_name_in_owner = true
-visible = false
-z_index = 250
-custom_minimum_size = Vector2(1920, 1080)
-layout_mode = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="fade_animation" type="AnimationPlayer" parent="."]
-unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_j83ll")
-}
-
-[node name="menu_deco_bg_root" type="Control" parent="."]
+[node name="decoration_moving" type="Control" parent="."]
 unique_name_in_owner = true
 z_index = 10
 texture_filter = 1
 layout_mode = 2
 mouse_filter = 2
-script = ExtResource("6_wno4y")
 
-[node name="Node2D" type="Node2D" parent="menu_deco_bg_root"]
-skew = -0.261799
-
-[node name="menu_deco_bg" type="TextureRect" parent="menu_deco_bg_root/Node2D"]
-unique_name_in_owner = true
-z_index = -4
-material = SubResource("ShaderMaterial_qht5b")
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -500.0
-offset_top = -250.0
-offset_right = 500.0
-offset_bottom = 250.0
-grow_horizontal = 2
-grow_vertical = 2
-pivot_offset = Vector2(1000, 500)
-mouse_filter = 2
-texture = SubResource("AtlasTexture_7vxly")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="menu_deco_bg_root"]
-libraries = {
-&"": SubResource("AnimationLibrary_ounmy")
-}
-autoplay = "skew_loop"
-speed_scale = 0.2
+[node name="decoration_moving" parent="decoration_moving" instance=ExtResource("7_xc7nq")]
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
@@ -1776,166 +1456,15 @@ By: Pawlogates
 Thanks for playing!
 BETA-v0.9"
 
-[node name="block_button_sounds" type="Timer" parent="."]
+[node name="block_buttonSounds" type="Timer" parent="."]
 process_mode = 3
 wait_time = 0.25
 one_shot = true
 autostart = true
 
-[node name="buttons_blocked" type="Timer" parent="."]
+[node name="block_buttons" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
-
-[node name="Recording" type="Control" parent="."]
-visible = false
-z_index = 50
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="Recording"]
-layout_mode = 0
-offset_left = -896.0
-offset_top = -476.0
-offset_right = -416.0
-offset_bottom = -188.0
-scale = Vector2(0.65, 0.65)
-
-[node name="Control" type="Control" parent="Recording/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="start recording" type="Button" parent="Recording/VBoxContainer/Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -192.0
-offset_top = -24.0
-offset_right = 192.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-text = "start recording"
-
-[node name="Control2" type="Control" parent="Recording/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="stop recording" type="Button" parent="Recording/VBoxContainer/Control2"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -24.0
-offset_right = 180.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-text = "stop recording"
-
-[node name="Control3" type="Control" parent="Recording/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Recording/VBoxContainer/Control3"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -76.0
-offset_top = -24.0
-offset_right = 76.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="Control" type="Control" parent="Recording/VBoxContainer/Control3/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="playback -" type="Button" parent="Recording/VBoxContainer/Control3/HBoxContainer/Control"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-text = "-"
-
-[node name="Control2" type="Control" parent="Recording/VBoxContainer/Control3/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="playback id" type="Button" parent="Recording/VBoxContainer/Control3/HBoxContainer/Control2"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-text = "0"
-
-[node name="Control3" type="Control" parent="Recording/VBoxContainer/Control3/HBoxContainer"]
-custom_minimum_size = Vector2(64, 64)
-layout_mode = 2
-
-[node name="playback +" type="Button" parent="Recording/VBoxContainer/Control3/HBoxContainer/Control3"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -24.0
-offset_top = -24.0
-offset_right = 24.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-text = "+"
-
-[node name="Control4" type="Control" parent="Recording/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="start playback" type="Button" parent="Recording/VBoxContainer/Control4"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -180.0
-offset_top = -24.0
-offset_right = 180.0
-offset_bottom = 24.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 24
-text = "start playback"
 
 [node name="quit_delay" type="Timer" parent="."]
 wait_time = 5.0
@@ -2030,13 +1559,6 @@ one_shot = true
 [connection signal="focus_entered" from="refreshrate_menu/Control/ReturnRefreshrate" to="refreshrate_menu/Control/ReturnRefreshrate" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/Control/ReturnRefreshrate" to="refreshrate_menu/Control/ReturnRefreshrate" method="_on_focus_exited"]
 [connection signal="pressed" from="refreshrate_menu/Control/ReturnRefreshrate" to="." method="_on_return_refreshrate_pressed"]
-[connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]
-[connection signal="timeout" from="block_button_sounds" to="." method="_on_block_button_sounds_timeout"]
-[connection signal="timeout" from="buttons_blocked" to="." method="_on_buttons_blocked_timeout"]
-[connection signal="pressed" from="Recording/VBoxContainer/Control/start recording" to="." method="_on_start_recording_pressed"]
-[connection signal="pressed" from="Recording/VBoxContainer/Control2/stop recording" to="." method="_on_stop_recording_pressed"]
-[connection signal="pressed" from="Recording/VBoxContainer/Control3/HBoxContainer/Control/playback -" to="." method="_on_playback_minus_pressed"]
-[connection signal="pressed" from="Recording/VBoxContainer/Control3/HBoxContainer/Control2/playback id" to="." method="_on_playback_id_pressed"]
-[connection signal="pressed" from="Recording/VBoxContainer/Control3/HBoxContainer/Control3/playback +" to="." method="_on_playback_plus_pressed"]
-[connection signal="pressed" from="Recording/VBoxContainer/Control4/start playback" to="." method="_on_start_playback_pressed"]
+[connection signal="timeout" from="block_buttonSounds" to="." method="_on_block_button_sounds_timeout"]
+[connection signal="timeout" from="block_buttons" to="." method="_on_buttons_blocked_timeout"]
 [connection signal="timeout" from="quit_delay" to="." method="_on_quit_delay_timeout"]

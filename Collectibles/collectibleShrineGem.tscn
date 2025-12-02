@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="4_yswqj"]
 [ext_resource type="AudioStream" uid="uid://x0febgodc1kg" path="res://Assets/Sounds/sfx/longer_effect1.wav" id="5_muvct"]
 [ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_ulaup"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/collectedScore_theme.tres" id="7_to8el"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="7_to8el"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_umx5j"]
 atlas = ExtResource("2_tsp32")

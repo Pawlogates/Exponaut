@@ -18,7 +18,7 @@
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="17_tqxbl"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="18_ng3ta"]
 [ext_resource type="Texture2D" uid="uid://bclbn3u7mm5c" path="res://Assets/Graphics/backgrounds/bg_autumn.png" id="19_6hwek"]
-[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/info_sign.tscn" id="20_ai846"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="20_ai846"]
 [ext_resource type="PackedScene" uid="uid://dl5i4pgp0735j" path="res://Objects/Decorations/godrays.tscn" id="21_e3x8y"]
 [ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://Objects/Decorations/darkDecoParallax_grass.tscn" id="22_s4u06"]
 [ext_resource type="PackedScene" uid="uid://dsn2i83vgnnpy" path="res://Collectibles/collectibleShrineGem.tscn" id="23_03lbc"]
@@ -39,13 +39,13 @@
 light_mask = 7
 visibility_layer = 7
 z_index = -5
+playerStartHP = 5
 savedProgress_level_filePath = "res://Levels/overworld_infected_glades.tscn"
 cameraLimit_left = -11584.0
 cameraLimit_right = 7232.0
 cameraLimit_bottom = 6336.0
 cameraLimit_top = -10752.0
 regular_level = false
-playerStartHP = 5
 rain = true
 leaves = true
 selected_episode = "Main Levels"
@@ -332,13 +332,13 @@ position = Vector2(-8416, -2784)
 
 [node name="Shrine Gem" parent="." index="48" instance=ExtResource("23_03lbc")]
 position = Vector2(-6752, -1952)
+spawnedAmount = 10
 hp = 1
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_1"
 shrineGem_level_filePath = "res://Levels/MAIN_1.tscn"
 shrineGem_checkpoint_offset = Vector2(448, -64)
 item_scene = "res://Collectibles/collectibleBlackBerry.tscn"
-spawnedAmount = 10
 item_posSpread = 50
 
 [node name="Shrine Gem2" parent="." index="49" instance=ExtResource("23_03lbc")]
@@ -351,20 +351,20 @@ item_scene = "res://Collectibles/collectibleRotApple.tscn"
 
 [node name="Shrine Gem3" parent="." index="50" instance=ExtResource("23_03lbc")]
 position = Vector2(1824, -2624)
+spawnedAmount = 10
 hp = 1
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_3"
 shrineGem_level_filePath = "res://Levels/MAIN_3.tscn"
 shrineGem_checkpoint_offset = Vector2(-240, -640)
 item_scene = "res://Enemies/enemy_fireImp.tscn"
-spawnedAmount = 10
 
 [node name="Shrine Gem4" parent="." index="51" instance=ExtResource("23_03lbc")]
 position = Vector2(-2304, -2112)
+spawnedAmount = 1
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_4"
 shrineGem_level_filePath = "res://Levels/MAIN_4.tscn"
-spawnedAmount = 1
 
 [node name="Shrine Gem5" parent="." index="52" instance=ExtResource("23_03lbc")]
 position = Vector2(2881, 4480)

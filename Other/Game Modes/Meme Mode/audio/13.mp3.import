@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dbimv0ud1cgpc"
+path="res://.godot/imported/13.mp3-16ce765f7c2f88395eb0aed12fab6753.mp3str"
+
+[deps]
+
+source_file="res://Other/Game Modes/Meme Mode/audio/13.mp3"
+dest_files=["res://.godot/imported/13.mp3-16ce765f7c2f88395eb0aed12fab6753.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

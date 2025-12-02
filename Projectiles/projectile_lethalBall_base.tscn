@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_enoct"]
 [ext_resource type="Texture2D" uid="uid://yt7eqh605dy3" path="res://Assets/Graphics/effects/projectile29.png" id="3_fbwym"]
 [ext_resource type="AudioStream" uid="uid://darbfxi2qbvny" path="res://Assets/Sounds/sfx/medium_effect1.wav" id="4_jhwbn"]
-[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/Score_theme.tres" id="6_lgpoo"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="6_lgpoo"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_0eahs"]
 radius = 32.0

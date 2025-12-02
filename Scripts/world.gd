@@ -7,16 +7,19 @@ extends Node2D
 @onready var player = %Player
 
 @onready var hud = %HUD
+
 var debug_screen: Control # Added and deleted on demand.
 
 @onready var level_finished = %"Level Finished"
 
-@onready var level_timeDisplay = %levelTime
-@onready var healthDisplay = %health
-@onready var keys_leftDisplay = %keysLeft
+@onready var hud_level_time = %levelTime
+@onready var hud_player_health = %health
+@onready var hud_keys = %keysLeft
 
-@export_file("*.tscn") var savedProgress_level_filePath: String
-var savedProgress_nextTransition = Globals.next_transition
+#@export_file("*.tscn") var level_filePath: String
+var level_filePath = scene_file_path
+
+var next_transition = Globals.next_transition
 
 var levelTime = 0
 var start_level_msec = 0.0
@@ -59,8 +62,7 @@ var leaves_scene = preload("res://Other/Scenes/Weather/weather_leaves.tscn")
 @export var rain = false
 @export var leaves = false
 
-@export var selected_episode = "none"
-@export var level_ID = "none"
+@export var levelSet_id = "none"
 @export var level_number = -1
 
 @export var meme_mode = false
@@ -80,8 +82,8 @@ var whiteBlocks_toggle = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if Globals.gameState_debug: # False if the game is currently being worked on.
-		SavedData.delete_progress()
-		LevelTransition.info_text_display.display_message("Deleted all save files on entering a level.", 1)
+		SaveData.delete_progress()
+		Globals.message_debug("Deleted all save files on entering a level.")
 	
 	
 	material_hueShift_neonBlock_material.set_shader_parameter("Shift_Hue", neonBlocks_hueShift)
@@ -91,23 +93,23 @@ func _ready():
 	if random_music:
 		play_random_music()
 	
-	LevelTransition.blackScreen.color.a = 1.0
+	levelSelect.blackScreen.color.a = 1.0
 	
 	
-	if area_ID != "overworld_factory":
+	if area_ID != "overworld_factory": # This should not be the main way to check whether the current game was started for the first time.
 		Globals.left_start_area = true
 	
-	#if shrine_level or regular_level:
-	Globals.selected_episode = selected_episode
-	Globals.current_level_ID = level_ID
-	Globals.current_level_number = level_number
+	Globals.levelSet_id = levelSet_id
+	Globals.level_number = level_number
+	Globals.level_id = levelSet_id + "_" + str(level_number)
+	Globals.level_name = SaveData.get("info" + Globals.level_id)
 	
-	if selected_episode == "Main Levels":
-		Globals.current_levelSet_ID = "MAIN"
-	elif selected_episode == "Bonus Levels":
-		Globals.current_levelSet_ID = "BONUS"
-	elif selected_episode == "Debug Levels":
-		Globals.current_levelSet_ID = "DEBUG"
+	if levelSet_id == "MAIN":
+		Globals.levelSet_name = "Main Levels"
+	elif levelSet_id == "BONUS":
+		Globals.levelSet_name = "Bonus Levels"
+	elif levelSet_id == "DEBUG":
+		Globals.levelSet_name = "Debug Levels"
 	
 	last_area_filePath_save()
 	
@@ -156,7 +158,7 @@ func _ready():
 	
 	
 	Globals.playerHP = playerStartHP
-	healthDisplay.text = str("HP:", Globals.playerHP)
+	hud_player_health.text = str("HP:", player.player_health)
 	
 	if not player.scale.x == 1 or not player.scale.y == 1:
 		player.scale.x = 1
@@ -165,18 +167,11 @@ func _ready():
 	
 	start_level_msec = Time.get_ticks_msec()
 	
-	Globals.playerHit1.connect(reduceHp1)
-	Globals.playerHit2.connect(reduceHp2)
-	Globals.playerHit3.connect(reduceHp3)
-	Globals.kill_player.connect(kill_player)
-	Globals.increaseHp1.connect(increaseHp1)
-	Globals.increaseHp2.connect(increaseHp2)
-	
 	Globals.exitReached.connect(exitReached_show_screen)
 	
 	
-	Globals.bg_File_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
-	Globals.bg_File_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
+	Globals.bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
+	Globals.bg_file_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
 	
 	Globals.bgChange_entered.connect(bg_change)
 	Globals.bgMove_entered.connect(bg_move)
@@ -233,7 +228,7 @@ func _ready():
 		bgMove_growthSpeed = 100
 	
 	
-	#REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.)
+	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
 	if not regular_level and Globals.transitioned and Globals.next_transition != 0:
 		var areaTransition = get_node("%areaTransition" + str(Globals.next_transition))
 		if areaTransition.spawn_position != Vector2(0, 0):
@@ -245,7 +240,7 @@ func _ready():
 	
 	
 	if not regular_level and not Globals.just_started_new_game and Globals.load_saved_position: 
-		load_saved_progress_overworld() #loads player related progress, doesn't conflict with load_game_area()
+		load_saved_playerData() # Loads player related progress, doesn't conflict with load_game_area()
 	
 	
 	player.camera.position_smoothing_enabled = false
@@ -285,8 +280,8 @@ func _ready():
 	Globals.transitioned = false
 	Globals.load_saved_position = true
 	
-	if area_ID != "area0":
-		load_game_area() # Loads states for all level objects, doesn't conflict with load_saved_progress_overworld().
+	if area_ID != "none":
+		load_saved_levelState() # Loads states for all level objects, doesn't conflict with load_saved_playerData().
 	
 	night_modifications()
 	
@@ -337,33 +332,33 @@ func _ready():
 		SavedData.never_saved = false
 
 
-#Apply saved player properties in the overworld.
-func load_saved_progress_overworld():
+# Apply saved player properties.
+func load_playerData():
 	if SavedData.never_saved:
 		return
 	
-	#load position
+	# load position
 	if not Globals.transitioned:
 		player.position = Vector2(SavedData.saved_position_x, SavedData.saved_position_y)
 		print("The 'transitioned' (Globals) property is false, so player position is NOT skipped on this game load." + str(Globals.transitioned))
 	else:
 		print("The 'transitioned' (Globals) property is true, so player position is skipped on this game load (and the player is teleported to the (hopefully) correct area transition object). " + str(Globals.transitioned))
 	
-	#load score
+	# load score
 	Globals.level_score = SavedData.saved_score
 	
-	#load equipped weapons
+	# load equipped weapons
 	player.weaponType = SavedData.saved_weapon
 	player.timer_attack_cooldown.wait_time = SavedData.saved_weapon_delay
 	player.secondaryWeaponType = SavedData.saved_secondaryWeapon
 	player.timer_secondary_attack_cooldown.wait_time = SavedData.saved_secondaryWeapon_delay
 	
 	
-	#load last used background texture
+	# load last used background texture
 	if not Globals.transitioned:
-		Globals.bg_File_current = SavedData.saved_bg_File_current
-		Globals.bg_a_File_current = SavedData.saved_bg_a_File_current
-		Globals.bg_b_File_current = SavedData.saved_bg_b_File_current
+		Globals.bg_file_current = SavedData.saved_bg_file_current
+		Globals.bg_a_file_current = SavedData.saved_bg_a_file_current
+		Globals.bg_b_file_current = SavedData.saved_bg_b_file_current
 		
 		Globals.bgOffset_target_x = SavedData.saved_bgOffset_target_x
 		Globals.bgOffset_target_y = SavedData.saved_bgOffset_target_y
@@ -375,13 +370,13 @@ func load_saved_progress_overworld():
 		bg_move()
 		#Globals.bgTransition_finished.emit()
 		
-		#load last played music
+		# load last played music
 		if SavedData.saved_music_file:
 			%music.stream = load(SavedData.saved_music_file)
 		if SavedData.saved_music_isPlaying:
 			%music.play()
 		
-		#load last played ambience
+		# load last played ambience
 		if SavedData.saved_ambience_file:
 			%ambience.stream = load(SavedData.saved_ambience_file)
 		if SavedData.saved_ambience_isPlaying:
@@ -483,51 +478,14 @@ func handle_player_death():
 		#if Globals.quicksaves_enabled:
 			#retry_loadSave(true)
 		if Globals.mode_scoreAttack:
-			retry_backToMap()
+			retry_backTo_levelSelect()
 		else:
 			retry_checkpoint()
 	else:
 		retry_checkpoint()
 
-func reduceHp1():
-	Globals.playerHP -= 1
-	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0 and not player.dead:
-		handle_player_death()
 
-func reduceHp2():
-	Globals.playerHP -= 2
-	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0 and not player.dead:
-		handle_player_death()
-
-func reduceHp3():
-	Globals.playerHP -= 3
-	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0 and not player.dead:
-		handle_player_death()
-
-func kill_player():
-	Globals.playerHP = 0
-	healthDisplay.text = str("HP:", Globals.playerHP)
-	if Globals.playerHP <= 0 and not player.dead:
-		handle_player_death()
-
-func increaseHp1():
-	Globals.playerHP += 1
-	healthDisplay.text = str("HP:", Globals.playerHP)
-
-func increaseHp2():
-	Globals.playerHP += 2
-	healthDisplay.text = str("HP:", Globals.playerHP)
-
-func increaseHp3():
-	Globals.playerHP += 3
-	healthDisplay.text = str("HP:", Globals.playerHP)
-
-
-#HANDLE LEVEL EXIT REACHED (unused?)
-
+# HANDLE LEVEL EXIT REACHED (unused?)
 func _on_exitReached_next_level():
 	#Globals.total_score = Globals.total_score + Globals.level_score
 	Globals.level_score = 0
@@ -640,7 +598,7 @@ func retry_loadSave(afterDelay):
 
 
 
-#Background change
+# Background change.
 var bg_free_to_change = true
 
 func bg_change():
@@ -654,9 +612,9 @@ func bg_change():
 		%bg_previous/bg_a_transition.play("bg_a_hide")
 		%bg_previous/bg_b_transition.play("bg_b_hide")
 		
-		%bg_current/CanvasLayer/bg_main/bg_main/TextureRect.texture = load(Globals.bg_File_current)
-		%bg_current/CanvasLayer/bg_a/bg_a/TextureRect.texture = load(Globals.bg_a_File_current)
-		%bg_current/CanvasLayer/bg_b/bg_b/TextureRect.texture = load(Globals.bg_b_File_current)
+		%bg_current/CanvasLayer/bg_main/bg_main/TextureRect.texture = load(Globals.bg_file_current)
+		%bg_current/CanvasLayer/bg_a/bg_a/TextureRect.texture = load(Globals.bg_a_file_current)
+		%bg_current/CanvasLayer/bg_b/bg_b/TextureRect.texture = load(Globals.bg_b_file_current)
 		
 		%bg_current/bg_transition.play("bg_show")
 		%bg_current/bg_a_transition.play("bg_a_show")
@@ -970,9 +928,9 @@ func teleporter_assign_ID():
 		teleporter_ID += 1
 
 
-var mapScreen = preload("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
+var levelSelect = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
 
-func retry_backToMap():
+func retry_backTo_levelSelect():
 	player.dead = true
 	%"Player Died".visible = true
 	
@@ -1110,15 +1068,15 @@ func load_game_area():
 	Globals.combo_tier = 1
 	Globals.collected_in_cycle = 0
 	
-	Globals.saveState_loaded.emit()
+	Globals.save_levelState_loaded.emit()
 
 
-#Save progress loaded from the main menu screen.
+# Save progress loaded from the main menu screen.
 func last_area_filePath_save():
 	if shrine_level or regular_level:
 		return
 	
-	SavedData.saved_last_area_filePath = savedProgress_level_filePath
+	SavedData.saved_last_area_filePath = level_filePath
 	print(SavedData.saved_last_area_filePath)
 
 
