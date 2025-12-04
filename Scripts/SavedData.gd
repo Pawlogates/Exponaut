@@ -213,35 +213,28 @@ func savedData_reset():
 	saved_ambience_file = AudioStreamMP3
 
 
-func delete_progress():
-	var dir = DirAccess.open("user://")
+# Functions that delete the game's save files.
+func delete_levelState(target : String):
+	var dir = DirAccess.open("user://levelState")
+
+func delete_playerData(target : String): # Target is a "SaveData" node's variable name (saved_position_x, saved_score, saved_health, etc.).
+	var dir = DirAccess.open("user://playerData")
+	var file = FileAccess.open("playerData.save", FileAccess.WRITE)
+
+func delete_levelSet(target : String): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
+	var dir = DirAccess.open("user://levelSet")
 	
-	#general player progress
-	if dir.file_exists("user://savedData.save"):
-		dir.remove("user://savedData.save")
+	if target == "all":
+		for filename in dir.get_files():
+			delete_file(filename, dir)
 	
-	#level select progress (top scores, level completion states, etc.)
-	if dir.file_exists("user://saved_levelSetProgress.save"):
-		dir.remove("user://saved_levelSetProgress.save")
+	else:
+		delete_file(target, dir)
+
+func delete_file(filename, dir):
+	if not dir.file_exists(filename) : return
 	
-	#quicksave (non-specific level state)
-	if dir.file_exists("user://savegame.save"):
-		dir.remove("user://savegame.save")
-	
-	#overworld area states
-	if dir.file_exists("user://savegame_overworld_factory.save"):
-		dir.remove("user://savegame_overworld_factory.save")
-	if dir.file_exists("user://savegame_overworld_infected_glades.save"):
-		dir.remove("user://savegame_overworld_infected_glades.save")
-	if dir.file_exists("user://savegame_overworld_glades.save"):
-		dir.remove("user://savegame_overworld_glades.save")
-	if dir.file_exists("user://savegame_overworld_castle.save"):
-		dir.remove("user://savegame_overworld_castle.save")
-	if dir.file_exists("user://savegame_overworld_ascent.save"):
-		dir.remove("user://savegame_overworld_ascent.save")
-	
-	if dir.file_exists("user://filename.save"):
-		dir.remove("user://filename.save")
+	dir.remove(filename)
 
 
 var item_unlock_state
@@ -249,14 +242,13 @@ func save_item_unlock_state(item):
 	item_unlock_state = $/root/World/HUD/quickselect_screen.get("unlock_state_" + item)
 	set("saved_" + item, item_unlock_state)
 
-func savedData_save_file():
-	var savedData_file = FileAccess.open("user://savedData.save", FileAccess.WRITE)
-	var savedData_data = call("savedData_save_dictionary")
+
+func save_file(filepath : String, data_function : String):
+	var file = FileAccess.open(filepath, FileAccess.WRITE)
+	var data = call(data_function)
+	var json_string = JSON.stringify(data)
 	
-	var json_string = JSON.stringify(savedData_data)
-	
-	# Store the save dictionary as a new line in the save file.
-	savedData_file.store_line(json_string)
+	file.store_line(json_string)
 
 
 func savedData_load():

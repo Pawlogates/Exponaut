@@ -156,8 +156,9 @@ func night_modifications():
 
 
 func delete_saves():
-	SavedData.delete_area_states()
-	SavedData.savedData_reset()
+	SaveData.delete_levelState("all")
+	SaveData.delete_playerData("all")
+	SaveData.delete_levelSet("all")
 
 
 #BUTTONS

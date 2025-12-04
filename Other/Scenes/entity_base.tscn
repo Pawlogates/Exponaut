@@ -142,6 +142,12 @@ debug = null
 sprite_frames = ExtResource("2_ep4j2")
 animation = &"idle"
 
+[node name="timer_attacking" type="Timer" parent="sprite"]
+
+[node name="timer_attacked" type="Timer" parent="sprite"]
+
+[node name="cooldown_particles" type="Timer" parent="sprite"]
+
 [node name="collision_main" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ep4j2")
 
@@ -149,6 +155,14 @@ shape = SubResource("RectangleShape2D_ep4j2")
 
 [node name="collision_hitbox" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("RectangleShape2D_c3p0q")
+
+[node name="cooldown_jump" type="Timer" parent="."]
+
+[node name="timer_invincible" type="Timer" parent="."]
+
+[node name="scan_ledge" type="RayCast2D" parent="."]
+
+[node name="scan_stuck" type="RayCast2D" parent="."]
 
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]

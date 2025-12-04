@@ -3,21 +3,6 @@
 [ext_resource type="Script" uid="uid://dhp5l6ys2rn0j" path="res://Scripts/debug_display_message.gd" id="1_yidiu"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_e4ulb"]
 
-[sub_resource type="Animation" id="Animation_qkkfh"]
-resource_name = "display_show"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_why7p"]
 length = 0.001
 tracks/0/type = "value"
@@ -46,6 +31,21 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_qkkfh"]
+resource_name = "display_show"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_mhb8t"]

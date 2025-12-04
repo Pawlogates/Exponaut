@@ -240,7 +240,7 @@ func _ready():
 	
 	
 	if not regular_level and not Globals.just_started_new_game and Globals.load_saved_position: 
-		load_saved_playerData() # Loads player related progress, doesn't conflict with load_game_area()
+		load_playerData() # Loads player related progress, doesn't conflict with load_levelState().
 	
 	
 	player.camera.position_smoothing_enabled = false
@@ -565,8 +565,6 @@ func retry():
 	Globals.playerHP = playerStartHP
 
 
-var starParticleScene = preload("res://Particles/particles_special_multiple.tscn")
-
 func retry_loadSave(afterDelay):
 	await get_tree().create_timer(0.1, false).timeout
 	Globals.playerHP = playerStartHP
@@ -576,7 +574,7 @@ func retry_loadSave(afterDelay):
 	if afterDelay:
 		player.dead = true
 		
-		var starParticle = starParticleScene.instantiate()
+		var starParticle = Globals.scene_particle_star.instantiate()
 		starParticle.position = Globals.player_pos
 		add_child(starParticle)
 		starParticle = starParticleScene.instantiate()

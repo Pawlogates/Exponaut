@@ -508,7 +508,7 @@ stream = ExtResource("3_fylys")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_wupbq")
+&"": SubResource("AnimationLibrary_wupbq")
 }
 
 [node name="DEBUG refresh" type="Timer" parent="."]
@@ -566,7 +566,7 @@ stream = ExtResource("6_xmvyl")
 
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_mcx4o")
+&"": SubResource("AnimationLibrary_mcx4o")
 }
 
 [node name="powerup_timer" type="Timer" parent="."]

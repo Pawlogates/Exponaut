@@ -65,7 +65,7 @@ signal player_heal(value)
 
 signal save_progress
 
-var quicksaves_enabled = false
+var quicksave_enabled = false
 
 var game_is_saving = false
 
@@ -99,16 +99,31 @@ var bg_b_offset_target_x = 0
 var bg_b_offset_target_y= 0
 
 
-# Debug values displayed on the debug screen.
-var test = 0
-var test2 = 0
-var test3 = 0
-var test4 = "none"
+# Main scene refers to the current root scene (the parent node at the top of the node tree).
+var mainScene = get_parent()
+var mainScene_name = mainScene.name
+var mainScene_filePath = mainScene.scene_file_path
+
+# World states:
+var worldState_justStartedNewGame = false
+var worldState_leftStartArea = false
+
+# Game states:
+var gameState_level = false
+var gameState_debug = true
+
+
+# Sound effects manager should be the main way used to play short sounds. Note that each entity has its own sound manager, and that the world node has a single music manager, as well as one ambience manager.
+# Use this signal to request a global sound effect to be played. For entities, call each entity's local "sfx_play(file, volume, pitch, fade)" function when you want it to play one or multiple sound effects.
+signal sfx(file, volume, pitch)
+signal sfx_combined(file1, volume1, pitch1, file2, volume2, pitch2, file3, volume3, pitch3, file4, volume4, pitch4) # Use this signal to create a global "combined" sound effect (see the sfx manager's "sfx_combined_play(file1, volume1, pitch1, fade1, file2, pitch2, etc.)" function to see how it's created.
 
 
 # Inventory appears in the bottom left corner of the screen on collecting an active item. Only one can be selected at a time.
-var inventory_selectedItem = 1
-var inventory_onSpawn_scene = null
+var inventory_selected = 1
+var inventory_item_scene = null
+var inventory_item_icon = null
+
 
 # Message sign is an entity that when touched, causes a message box to appear on the screen.
 signal sign_message_touched
@@ -120,31 +135,36 @@ var sign_message_size = Vector2(0, 0)
 var levelSet_name = "Main Levels"
 var levelSet_id = "MAIN"
 var levelSet_nextLevel = -1 # This should have a value of the FURTHEST level finished in a Level Set + 1, so the game knows which level is the latest unlocked by the player (All levels up to this one will be unlocked on the Level Set screen).
-var level_name = "error"
+var level_name = "none"
 var level_id = "MAIN_1" # Each level ID follows this naming method: [LEVEL SET ID]_[LEVEL_ID].
-var level_number = -1
+var level_number = 1
 var level_topRankScore = -1
 
 
+# Game modes:
 var mode_scoreAttack = false
 
-var transitioned = false # True if player has left a level through a level transition (overworld areas are connected through transitions). Is set back to False when starting a level, right after the level checks whether to spawn the player at a transition or a checkpoint/start point.
-var next_transition = 0
-var load_saved_position = true
 
-#debug
-var gameState_debug = true
+# Transition refers to a trigger that is usually placed at the borders of overworld levels to connect them. Note that the transition trigger needs to be named %"Transition[id]", and its id (int) has to match the id of the transition placed in another overworld level.
+var transition_triggered = false # True if player has just left a level through a level transition (overworld areas are connected through transitions). The value is set back to false when starting a level, right after the level checks whether to spawn the player at a transition or a checkpoint/start point.
+var transition_next = 0 # The player will be placed at the transition with this id (%"Transition[id]").
+var transition_offset = Vector2(0, 0) # Spawn position offset.
 
+
+# Debug:
 var debug_mode = false
-var debug_magic_projectiles = false
 
-var delete_saves = false
+var debug_magicProjectiles = false
+var debug_deleteSaves = false
 
-# world state
-var just_started_new_game = false
-var left_start_area = false
+# Debug values displayed on the debug screen.
+var test
+var test2
+var test3
+var test4
 
-# Recording
+
+# Recording:
 var recording_autostart = false
 
 signal start_recording
@@ -153,29 +173,42 @@ signal stop_recording
 signal stop_playback
 
 
-var levelSelect = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
-var startMenu = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
+# Effects and particles:
+var scene_particle_star = preload("res://Other/Particles/star.tscn")
+var scene_effect_hit_enemy = preload("res://Other/Effects/hit_enemy.tscn")
+var scene_effect_dead_enemy = preload("res://Other/Effects/dead_enemy.tscn")
+var scene_effect_oneShot_enemy = preload("res://Other/Effects/oneShot_enemy.tscn")
+var scene_particle_special = preload("res://Other/Particles/special.tscn")
+var scene_particle_special_multiple = preload("res://Other/Particles/special_multiple.tscn")
+var scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
+var scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
+var scene_particle_splash = preload("res://Other/Particles/splash.tscn")
+var scene_effect_dust = preload("res://Other/Effects/dust.tscn")
 
-func _process(_delta):
+# Main scenes:
+var scene_levelSelect_screen = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
+var scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
+
+# Handles global functions executed on triggering an action.
+func _physics_process(_delta):
 	handle_actions()
 
 func handle_actions():
-	if get_node_or_null("/root/World") : return
-	
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused == false:
 			get_tree().paused = true
 		elif get_tree().paused == true:
 			get_tree().paused = false
 	
+	
 	elif Input.is_action_just_pressed("menu_start"):
 		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(startMenu)
+		get_tree().change_scene_to_packed(scene_menu_start)
 		Overlay.animation("fade_black", true, true, 1)
 	
 	elif Input.is_action_just_pressed("menu"):
 		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(levelSelect)
+		get_tree().change_scene_to_packed(scene_levelSelect_screen)
 		Overlay.animation("fade_black", true, true, 1)
 	
 	

@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://dgb361xj37pqy"]
+
+[ext_resource type="Script" uid="uid://bb6irmi4dug71" path="res://Other/Scenes/sfx_manager.gd" id="1_o7gvx"]
+[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="2_82pqe"]
+
+[node name="sfx_manager" type="Node2D"]
+script = ExtResource("1_o7gvx")
+
+[node name="sfx" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_82pqe")
+
+[node name="sfx1" type="AudioStreamPlayer2D" parent="."]
+
+[node name="sfx2" type="AudioStreamPlayer2D" parent="."]
+
+[node name="sfx3" type="AudioStreamPlayer2D" parent="."]
+
+[node name="sfx4" type="AudioStreamPlayer2D" parent="."]

@@ -32,11 +32,12 @@ var can_turn = true
 @onready var scan_ledge = $scan_ledge
 
 # Sound effects.
-@onready var sfx = $sfx # The sound effects manager. When it is asked to play a sound ("play_sfx(file, loop, fade_in, fade_out, volume, pitch)")
-@onready var sfx1 = $sfx1 # If a sound effect is already being played, another sound player will play the next one. No more than 5 sounds at a time can be played by an entity.
-@onready var sfx2 = $sfx2
-@onready var sfx3 = $sfx3
-@onready var sfx4 = $sfx4
+@onready var sfx_manager = $sfx_manager # The sound effects manager. When it is asked to play a sound ("Globals.sfx.emit(file, volume, pitch, fade)")
+@onready var sfx = $sfx_manager/sfx # If a sound effect is already being played, another sound player will play the next one. No more than 5 sounds at a time can be played by an entity.
+@onready var sfx1 = $sfx_manager/sfx1
+@onready var sfx2 = $sfx_manager/sfx2
+@onready var sfx3 = $sfx_manager/sfx3
+@onready var sfx4 = $sfx_manager/sfx4
 
 var global_gravity = Globals.global_gravity
 
