@@ -1,83 +1,89 @@
 extends Node2D
 
-@onready var camera = %Player.camera
-
 @export var next_level: PackedScene
 
-@onready var player = %Player
-
-@onready var hud = %HUD
+@onready var Player = $Player
+@onready var camera = Player.camera
+@onready var hud = %hud
 
 var debug_screen: Control # Added and deleted on demand.
 
-@onready var level_finished = %"Level Finished"
+@onready var screen_levelFinished = %screen_levelFinished
 
-@onready var hud_level_time = %levelTime
-@onready var hud_player_health = %health
-@onready var hud_keys = %keysLeft
+@onready var hud_level_time = %level_time
+@onready var hud_player_health = %player_health
+@onready var hud_collected_keys = %collected_keys
+@onready var hud_total_keys = %total_keys
 
 #@export_file("*.tscn") var level_filePath: String
-var level_filePath = scene_file_path
+var level_filepath = scene_file_path
 
-var next_transition = Globals.next_transition
+var level_time = 0
+var level_time_displayed = 0
+var level_start_time = 0.0
 
-var levelTime = 0
-var start_level_msec = 0.0
-var levelTime_visible = 0
+@onready var music_controller = $"music_controller"
+@onready var ambience_controller = $"ambience_controller"
 
-@onready var music = $"Music Controller"/music
-@onready var ambience = $"Ambience Controller"/ambience
-@onready var music_controller = $"Music Controller"
-@onready var ambience_controller = $"Ambience Controller"
-
-var material_hueShift_neonBlock_material = preload("res://Other/Materials/hueShift_neonBlock.tres")
+var material_hueShift_neon = preload("res://Other/Materials/hueShift_neonBlock.tres")
 
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = $tileset_objects
-@onready var tileset_objects_small = $tileset_objectsSmall
+@onready var tileset_objects_precise = $tileset_objects_precise
 
 @export var cameraLimit_left = 0.0
 @export var cameraLimit_right = 0.0
 @export var cameraLimit_bottom = 0.0
 @export var cameraLimit_top = 0.0
 
-@export var regular_level = true
-@export var shrine_level = false
+@export var overworld_level = true
+@export var levelSet_level = false
 @export var final_level = false
+@export var debug_level = false
 
-@export var playerStartHP = 3
-var key_total = 50
+@export var player_start_health = 3
 
-@export var scoreAttack_collectibles = -1
+var total_keys = 0
+var total_collectibles = 0
+var total_majorCollectibles = 0
 
-var instant_background_transitions = true
+var collected_keys = 0
+var collected_collectibles = 0
+var collected_majorCollectibles = 0
 
-@export var night = false
-@export var night2 = false
-@export var night3 = false
+@export var scoreAttack_collected_collectibles = -1
 
-var rain_scene = preload("res://Other/Scenes/Weather/weather_rain.tscn")
-var leaves_scene = preload("res://Other/Scenes/Weather/weather_leaves.tscn")
+var bg_instant_transitions = true
+var bg_instant_offset = true
 
-@export var rain = false
-@export var leaves = false
+@export var night = 0.0 # This variable affects the day-night cycle's visual and gameplay effects.
 
+# Weather effects:
+var scene_rain = preload("res://Other/Scenes/Weather/rain.tscn")
+var scene_leaves = preload("res://Other/Scenes/Weather/leaves.tscn")
+
+@export var weather_rain = false
+@export var weather_leaves = false
+
+
+# Main level info:
 @export var levelSet_id = "none"
 @export var level_number = -1
 
-@export var meme_mode = false
+
+@export var force_mode_scoreAttack = false
+@export var force_mode_memeMode = false
 
 @export var delete_background_layers = false
 
-@export var whiteBlocks_make_rainbow = false
-@export var whiteBlocks_toggleBetween = false
-@export var whiteBlocks_toggleBetween_delay = 45.0
+@export var neon_hueShift = 0.6
+@export var neon_fade_between = false
+@export var neon_fade_between_delay = 15.0
+@export var neon_rainbow = false
 
-var whiteBlocks_toggle = false
+var neon_toggle = false
 
-@export var neonBlocks_hueShift = 0.6
-
-@export var background_color : Color
+@export var background_color : Color = Color(0, 0, 0, 0)# Note that this doesn't affect the image-based background layers.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -86,14 +92,14 @@ func _ready():
 		Globals.message_debug("Deleted all save files on entering a level.")
 	
 	
-	material_hueShift_neonBlock_material.set_shader_parameter("Shift_Hue", neonBlocks_hueShift)
+	material_hueShift_neon.set_shader_parameter("Shift_Hue", neon_hueShift)
 	
 	Globals.gameplay_recorder_entered_level.emit()
 	
 	if random_music:
 		play_random_music()
 	
-	levelSelect.blackScreen.color.a = 1.0
+	screen_levelSelect.blackScreen.color.a = 1.0
 	
 	
 	if area_ID != "overworld_factory": # This should not be the main way to check whether the current game was started for the first time.
@@ -926,10 +932,10 @@ func teleporter_assign_ID():
 		teleporter_ID += 1
 
 
-var levelSelect = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
+var screen_levelSet = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
 
 func retry_backTo_levelSelect():
-	player.dead = true
+	Globals.player.dead = true
 	%"Player Died".visible = true
 	
 	var starParticle = starParticleScene.instantiate()
@@ -977,7 +983,7 @@ func retry_scoreGate():
 
 
 #Save area state
-@export var area_ID = "area0"
+@export var level_overworld_id = "area0"
 
 func save_game_area():
 	if area_ID == "area0":
@@ -1025,8 +1031,8 @@ func save_game_area():
 	Globals.is_saving = false
 
 
-func load_game_area():
-	if SavedData.never_saved:
+func load_levelState():
+	if SaveData.never_saved:
 		return
 	
 	print("Loading area state for: " + str(area_ID))

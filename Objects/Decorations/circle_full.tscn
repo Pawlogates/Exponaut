@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://66m2wk380cys"]
+
+[ext_resource type="PackedScene" uid="uid://cj562br6gu31d" path="res://Objects/Decorations/circle_half.tscn" id="1_4kke3"]
+
+[node name="circle_full" type="Node2D"]
+
+[node name="circle_half" parent="." instance=ExtResource("1_4kke3")]
+
+[node name="circle_half2" parent="." instance=ExtResource("1_4kke3")]
+rotation = -3.14159

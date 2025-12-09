@@ -185,78 +185,7 @@ func saved_progress_reset():
 	next_level_BONUS = 1
 
 
-#Save progress
 
-func save_game():
-	var saved_progress_file = FileAccess.open("user://saved_levelSetProgress.save", FileAccess.WRITE)
-	var saved_progress_data = call("save")
-	
-	# JSON provides a static method to serialized JSON string.
-	var json_string = JSON.stringify(saved_progress_data)
-	
-	# Store the save dictionary as a new line in the save file.
-	saved_progress_file.store_line(json_string)
-
-
-func load_game():
-	if not FileAccess.file_exists("user://saved_levelSetProgress.save"):
-		print("Couldn't find the save file (saved_levelSetProgress - All of the LEVEL SET level completion states and scores).")
-		return # Error! We don't have a save to load.
-		
-	var saved_progress_file = FileAccess.open("user://saved_levelSetProgress.save", FileAccess.READ)
-	while saved_progress_file.get_position() < saved_progress_file.get_length():
-		var json_string = saved_progress_file.get_line()
-		var json = JSON.new()
-		var parse_result = json.parse(json_string)
-		
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-		
-		var data = json.get_data()
-		
-		#LOAD PROGRESS
-		
-		#BONUS
-		state_BONUS_1 = int(data["state_BONUS_1"])
-		state_BONUS_2 = int(data["state_BONUS_2"])
-		state_BONUS_3 = int(data["state_BONUS_3"])
-		state_BONUS_4 = int(data["state_BONUS_4"])
-		state_BONUS_5 = int(data["state_BONUS_5"])
-		state_BONUS_6 = int(data["state_BONUS_6"])
-		state_BONUS_7 = int(data["state_BONUS_7"])
-		
-		score_BONUS_1 = int(data["score_BONUS_1"])
-		score_BONUS_2 = int(data["score_BONUS_2"])
-		score_BONUS_3 = int(data["score_BONUS_3"])
-		score_BONUS_4 = int(data["score_BONUS_4"])
-		score_BONUS_5 = int(data["score_BONUS_5"])
-		score_BONUS_6 = int(data["score_BONUS_6"])
-		score_BONUS_7 = int(data["score_BONUS_7"])
-		
-		next_level_BONUS = int(data["next_level_BONUS"])
-		
-		
-		#MAIN
-		state_MAIN_1 = int(data["state_MAIN_1"])
-		state_MAIN_2 = int(data["state_MAIN_2"])
-		state_MAIN_3 = int(data["state_MAIN_3"])
-		state_MAIN_4 = int(data["state_MAIN_4"])
-		state_MAIN_5 = int(data["state_MAIN_5"])
-		state_MAIN_6 = int(data["state_MAIN_6"])
-		state_MAIN_7 = int(data["state_MAIN_7"])
-		
-		score_MAIN_1 = int(data["score_MAIN_1"])
-		score_MAIN_2 = int(data["score_MAIN_2"])
-		score_MAIN_3 = int(data["score_MAIN_3"])
-		score_MAIN_4 = int(data["score_MAIN_4"])
-		score_MAIN_5 = int(data["score_MAIN_5"])
-		score_MAIN_6 = int(data["score_MAIN_6"])
-		score_MAIN_7 = int(data["score_MAIN_7"])
-		
-		#next_level_MAIN = data["next_level_MAIN"]
-		
-		#LOAD PROGRESS END
 
 
 #SAVE START

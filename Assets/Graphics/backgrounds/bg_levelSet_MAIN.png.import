@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://l8pbv440x08w"
-path="res://.godot/imported/bg_cosmos_red2.png-64af78db0075af9eed6d6f94d1889ec2.ctex"
+path="res://.godot/imported/bg_levelSet_MAIN.png-3a897b415822844ac707f84610c69930.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/backgrounds/bg_cosmos_red2.png"
-dest_files=["res://.godot/imported/bg_cosmos_red2.png-64af78db0075af9eed6d6f94d1889ec2.ctex"]
+source_file="res://Assets/Graphics/backgrounds/bg_levelSet_MAIN.png"
+dest_files=["res://.godot/imported/bg_levelSet_MAIN.png-3a897b415822844ac707f84610c69930.ctex"]
 
 [params]
 

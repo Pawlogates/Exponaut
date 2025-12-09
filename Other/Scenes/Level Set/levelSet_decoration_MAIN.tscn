@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://bs1uryh81tn0f"]
+
+[ext_resource type="PackedScene" uid="uid://dx18msavpuef4" path="res://Objects/Decorations/gear.tscn" id="1_enbdo"]
+
+[node name="levelSet_decoration_MAIN" type="Node2D"]
+
+[node name="gear" parent="." instance=ExtResource("1_enbdo")]

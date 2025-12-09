@@ -35,7 +35,7 @@ var base_ACCELERATION = ACCELERATION
 var base_FRICTION = FRICTION
 var base_GRAVITY_SCALE = GRAVITY_SCALE
 
-@onready var world = $/root/World
+@onready var World = $/root/World
 
 @onready var sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D

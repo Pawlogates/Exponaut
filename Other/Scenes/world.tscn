@@ -75,16 +75,16 @@ texture_filter = 1
 script = ExtResource("1_25muh")
 playerStartHP = 15
 
-[node name="Music Controller" parent="." instance=ExtResource("2_1jcpx")]
+[node name="music_manager" parent="." instance=ExtResource("2_1jcpx")]
 
-[node name="music" type="AudioStreamPlayer" parent="Music Controller"]
+[node name="music" type="AudioStreamPlayer" parent="music_manager"]
 unique_name_in_owner = true
 stream = ExtResource("3_4yis1")
 autoplay = true
 
-[node name="Ambience Controller" parent="." instance=ExtResource("4_y15yt")]
+[node name="ambience_manager" parent="." instance=ExtResource("4_y15yt")]
 
-[node name="ambience" type="AudioStreamPlayer" parent="Ambience Controller"]
+[node name="ambience" type="AudioStreamPlayer" parent="ambience_manager"]
 unique_name_in_owner = true
 stream = ExtResource("5_3ydfu")
 volume_db = -10.0
@@ -118,7 +118,6 @@ offset_bottom = 1048.0
 grow_horizontal = 2
 
 [node name="info_textDisplay" parent="HUD/CenterContainer_info" instance=ExtResource("9_j05p1")]
-layout_mode = 2
 
 [node name="Player Died Root" type="Control" parent="HUD/CenterContainer_info"]
 layout_mode = 2
@@ -318,6 +317,5 @@ material = ExtResource("19_eepji")
 [node name="Timer" type="Timer" parent="whiteBlocks_make_rainbow"]
 wait_time = 45.0
 
-[connection signal="retry" from="HUD/Level Finished" to="." method="_on_exitReached_retry"]
 [connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]
 [connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]

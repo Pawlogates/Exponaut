@@ -1,12 +1,10 @@
 extends Node2D
 
-var never_saved = true
-
 # Level Info:
-# States 1: 0 - unfinished, 1 - finished, 2 - all big apples collected, 3 - all collectibles collected, -1 - unlocked (main game exclusive)
+# States: 0 - Unfinished. 1 - Finished. 2 - All major collectibles collected. 3 - All collectibles collected. -1 - Locked.
 
-# Main levels
-var state_MAIN_1 = 0
+# Main Levels.
+var state_MAIN_1 = [-1, 0, -1] # [state, score, time
 var state_MAIN_2 = 0
 var state_MAIN_3 = 0
 var state_MAIN_4 = 0
@@ -14,18 +12,17 @@ var state_MAIN_5 = 0
 var state_MAIN_6 = 0
 var state_MAIN_7 = 0
 
-var score_MAIN_1 = 0
-var score_MAIN_2 = 0
-var score_MAIN_3 = 0
-var score_MAIN_4 = 0
-var score_MAIN_5 = 0
-var score_MAIN_6 = 0
-var score_MAIN_7 = 0
+#var score_MAIN_1 = 0
+#var score_MAIN_2 = 0
+#var score_MAIN_3 = 0
+#var score_MAIN_4 = 0
+#var score_MAIN_5 = 0
+#var score_MAIN_6 = 0
+#var score_MAIN_7 = 0
 
-var total_score_MAIN = 0
-var next_level_MAIN = -1
+var state_MAIN = false
 
-# Bonus levels
+# Bonus Levels.
 var state_BONUS_1 = 0
 var state_BONUS_2 = 0
 var state_BONUS_3 = 0
@@ -43,21 +40,29 @@ var score_BONUS_6 = 0
 var score_BONUS_7 = 0
 
 var total_score_BONUS = 0
-var next_level_BONUS = 1
+var next_BONUS = 1
 
 
-# Level info (static). - [level name, icon id, levelSet pos x, levelSet pos y, max rank score, time target]
+# Level information (static):
 
-# Main Levels
-var info_MAIN_1 = ["Training Tunnel", 0, -460, 40, 180000, 60]
-var info_MAIN_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60]
-var info_MAIN_3 = ["Toggle Land", 1, 280, 60, 250000, 60]
-var info_MAIN_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60]
-var info_MAIN_5 = ["Chilling Exercise", 1, -120, -100, 4000, 60]
-var info_MAIN_6 = ["Daring Dash", 1, 700, 80, 25000, 60]
-var info_MAIN_7 = ["Puzzlin' Around", 1, 200, -40, 15000, 60]
+# info_[levelSet_id] : [levelSet_name, levelSet_background_filepath, level_quantity, level_author (set to "none" to ignore), levelSet_decoration_filepath (set to "none" to ignore)]
+# info_[levelSet_id]_[level_number] : [level_name, icon_id, icon_position_x, icon_position_y, level_score_target, level_time_target]
 
-# Bonus Levels
+# Main Levels.
+var info_MAIN = ["Main Levels", Globals.d_background + "/bg_levelSet_MAIN.png", 12, "Pawlogates", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
+
+var info_MAIN_1 = ["Training Tunnel", 0, -460, 40, 180000, 60, "Pawlogates", "beginner"]
+var info_MAIN_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "Pawlogates", "beginner"]
+var info_MAIN_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "Pawlogates", "beginner"]
+var info_MAIN_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "Pawlogates", "beginner"]
+var info_MAIN_5 = ["Chilling Exercise", 1, -120, -100, 4000, 60, "Pawlogates", "beginner"]
+var info_MAIN_6 = ["Daring Dash", 1, 700, 80, 25000, 60, "Pawlogates", "beginner"]
+var info_MAIN_7 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates", "intermediate"]
+var info_MAIN_8 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates", "intermediate"]
+var info_MAIN_9 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates"]
+var info_MAIN_10 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates"]
+
+# Bonus Levels.
 var info_BONUS_1 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_2 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_3 = ["Unnamed", 1, 100000, 60]
@@ -66,163 +71,324 @@ var info_BONUS_5 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_6 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_7 = ["Unnamed", 1, 100000, 60]
 
-# Debug Levels
-var info_DEBUG_1 = ["test_collectibles", 1, -400, 64, -1, 60]
-var info_DEBUG_2 = ["test_physics_objects", 1, -350, 64, -1, 60]
-var info_DEBUG_3 = ["test_zones", 1, -300, 64, -1, 60]
-var info_DEBUG_4 = ["test_random_objects", 1, -250, 64, -1, 60]
-var info_DEBUG_5 = ["test_weapons", 1, -200, 64, -1, 60]
-var info_DEBUG_6 = ["test_switches", 1, -150, 64, -1, 60]
-var info_DEBUG_7 = ["test_random_enemy", 1, -100, 64, -1, 60]
-var info_DEBUG_8 = ["test_lethalBall", 1, -50, 64, -1, 60]
-var info_DEBUG_9 = ["test_meme_mode", 1, 0, 64, -1, 60]
-var info_DEBUG_10 = ["test_object_saved_state", 1, 50, 64, -1, 60]
-var info_DEBUG_11 = ["test_random_decoration", 1, 100, 64, -1, 60]
-var info_DEBUG_12 = ["area_factory", 2, 0, 0, -1, 60]
-var info_DEBUG_13 = ["area_infected_glades", 2, 0, 0, -1, 60]
-var info_DEBUG_14 = ["area_glades", 2, 0, 0, -1, 60]
-var info_DEBUG_15 = ["area_castle", 2, 0, 0, -1, 60]
-var info_DEBUG_16 = ["area_ascent", 2, 0, 0, -1, 60]
+# Debug Levels.
+var info_DEBUG_1 = ["test_collectibles", 1, -400, 64, -1, -1]
+var info_DEBUG_2 = ["test_physics_objects", 1, -350, 64, -1, -1]
+var info_DEBUG_3 = ["test_zones", 1, -300, 64, -1, -1]
+var info_DEBUG_4 = ["test_random_objects", 1, -250, 64, -1, -1]
+var info_DEBUG_5 = ["test_weapons", 1, -200, 64, -1, -1]
+var info_DEBUG_6 = ["test_switches", 1, -150, 64, -1, -1]
+var info_DEBUG_7 = ["test_random_enemy", 1, -100, 64, -1, -1]
+var info_DEBUG_8 = ["test_lethalBall", 1, -50, 64, -1, -1]
+var info_DEBUG_9 = ["test_meme_mode", 1, 0, 64, -1, -1]
+var info_DEBUG_10 = ["test_object_saved_state", 1, 50, 64, -1, -1]
+var info_DEBUG_11 = ["test_random_decoration", 1, 100, 64, -1, -1]
+var info_DEBUG_12 = ["area_factory", 2, 0, 0, -1, -1]
+var info_DEBUG_13 = ["area_infected_glades", 2, 0, 0, -1, -1]
+var info_DEBUG_14 = ["area_glades", 2, 0, 0, -1, -1]
+var info_DEBUG_15 = ["area_castle", 2, 0, 0, -1, -1]
+var info_DEBUG_16 = ["area_ascent", 2, 0, 0, -1, -1]
 
 
-@onready var gameplay_recorder = $gameplay_recorder
-
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	savedData_load()
+#Called when the node enters the scene tree for the first time.
+#func _ready():
+	#pass
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	pass
+#Called every frame. 'delta' is the elapsed time since the previous frame.
+#func _process(_delta):
+	#pass
 
 
-#saved properties (overworld):
-var saved_position_x = 0 # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
+# Saved player-related properties (overworld):
+var saved_last_level_filepath = "none"
+
+var saved_position_x = 0 # Saved overworld player position, to be applied when loading back into any of the overworld-type levels.
 var saved_position_y = 0
-var saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
-var saved_last_area_filePath = "res://Levels/empty.tscn"
-var saved_weapon = "none"
-var saved_weapon_delay = 1.0
-var saved_secondaryWeapon = "none"
-var saved_secondaryWeapon_delay = 1.0
+var saved_health = 0
+var saved_score = 0 # Saved overworld score, to be restored when loading back into any of the overworld-type levels.
+var saved_module_points = 0
 
-#unlocked weapons
-var saved_weapon_basic = -1 # [0 if the weapon type was found in the world, making it available for purchase, 1 if purchased, making it permanently selectable using quickselect.]
-var saved_weapon_veryFast_speed = -1
-var saved_weapon_ice = -1
-var saved_weapon_fire = -1
-var saved_weapon_destructive_fast_speed = -1
-var saved_weapon_short_shotDelay = -1
-var saved_weapon_phaser = -1
-var saved_secondaryWeapon_basic = -1
-var saved_secondaryWeapon_fast = -1
+var saved_weapon = Array()
+var saved_secondaryWeapon = Array()
 
-#other
-var saved_bg_File_current = "res://Assets/Graphics/backgrounds/bg_cosmos_yellow.png"
-var saved_bg_a_File_current = "res://Assets/Graphics/backgrounds/bg_a_jungle.png"
-var saved_bg_b_File_current = "res://Assets/Graphics/backgrounds/bg_a_clouds.png"
+var saved_bg_current_filepath = "none"
+var saved_bg_a_current_filepath = "none"
+var saved_bg_b_current_filepath = "none"
 
-var saved_bgOffset_target_x = 0
-var saved_bgOffset_target_y = 0
+var saved_bg_previous_filepath = "none"
+var saved_bg_a_previous_filepath = "none"
+var saved_bg_b_previous_filepath = "none"
 
-var saved_music_file = "res://Assets/Sounds/music/ocean1.mp3"
-var saved_ambience_file = "res://Assets/Sounds/ambience/ambience12.mp3"
+var saved_bg_offset_target_x = 0
+var saved_bg_offset_target_y = 0
 
-var saved_music_isPlaying = false
-var saved_ambience_isPlaying = false
+var saved_music_filepath = "none"
+var saved_ambience_filepath = "none"
+
+var saved_music_active = false
+var saved_ambience_active = false
+
+# True if the player's progress has never been saved.
+var never_saved = true
 
 
-func savedData_save(save_player_position):
-	if save_player_position:
-		if $/root/World.last_checkpoint_pos == Vector2(0, 0):
-			saved_position_x = $/root/World.player.position[0]
-			saved_position_y = $/root/World.player.position[1]
+# Player-related information, mostly used in the overworld levels.
+func save_playerData(save_player_position):
+	Globals.reassign_general()
+	
+	if save_player_position: # Doesn't save current player position if a save is triggered by entering a portal.
+		if Globals.player.last_checkpoint_position == Vector2(0, 0):
+			saved_position_x = Globals.player.position[0]
+			saved_position_y = Globals.player.position[1]
 		else:
-			saved_position_x = $/root/World.last_checkpoint_pos[0]
-			saved_position_y = $/root/World.last_checkpoint_pos[1]
+			saved_position_x = Globals.player.last_checkpoint_position[0]
+			saved_position_y = Globals.player.last_checkpoint_position[1]
 	
+	saved_health = int(Globals.player_health)
 	saved_score = Globals.level_score
-	saved_weapon = $/root/World.player.weaponType
-	saved_weapon_delay = $/root/World.player.timer_attack_cooldown.wait_time
-	saved_weapon = $/root/World.player.weaponType
-	saved_secondaryWeapon_delay = $/root/World.player.timer_secondary_attack_cooldown.wait_time
+	saved_module_points = Globals.module_points
 	
-	#save item unlock states
-	save_item_unlock_state("weapon_basic")
-	save_item_unlock_state("weapon_veryFast_speed")
-	save_item_unlock_state("weapon_ice")
-	save_item_unlock_state("weapon_fire")
-	save_item_unlock_state("weapon_destructive_fast_speed")
-	save_item_unlock_state("weapon_short_shotDelay")
-	save_item_unlock_state("weapon_phaser")
-	save_item_unlock_state("secondaryWeapon_basic")
-	save_item_unlock_state("secondaryWeapon_fast")
+	saved_weapon = Globals.player.weapon
+	saved_secondaryWeapon = Globals.player.secondaryWeapon
 	
-	saved_bg_File_current = $/root/World/bg_previous/CanvasLayer/bg_main/bg_main/TextureRect.texture.resource_path
-	saved_bg_a_File_current = $/root/World/bg_previous/CanvasLayer/bg_b/bg_b/TextureRect.texture.resource_path
-	saved_bg_b_File_current = $/root/World/bg_previous/CanvasLayer/bg_a/bg_a/TextureRect.texture.resource_path
+	saved_bg_current_filepath = Globals.world.bg_current.texture.resource_path
+	saved_bg_a_current_filepath = Globals.world.bg_a_current.texture.resource_path
+	saved_bg_b_current_filepath = Globals.world.bg_b_current.texture.resource_path
 	
-	saved_bgOffset_target_x = Globals.bgOffset_target_x
-	saved_bgOffset_target_y = Globals.bgOffset_target_y
+	saved_bg_previous_filepath = Globals.world.bg_previous.texture.resource_path
+	saved_bg_a_previous_filepath = Globals.world.bg_a_previous.texture.resource_path
+	saved_bg_b_previous_filepath = Globals.world.bg_b_previous.texture.resource_path
 	
-	if $/root/World/"Music Controller"/music.stream != null:
-		saved_music_file = $/root/World/"Music Controller"/music.stream.resource_path
-	if $/root/World/"Ambience Controller"/ambience.stream != null:
-		saved_ambience_file = $/root/World/"Ambience Controller"/ambience.stream.resource_path
+	saved_bg_offset_target_x = Globals.World.bg_offset_target_x
+	saved_bg_offset_target_y = Globals.World.bg_offset_target_y
 	
-	saved_music_isPlaying = $/root/World/"Music Controller"/music.playing
-	saved_ambience_isPlaying = $/root/World/"Ambience Controller"/ambience.playing
+	if Globals.World.music.stream != null:
+		saved_music_filepath = Globals.World.music.stream.resource_path
+	else:
+		saved_music_filepath = "none"
+	
+	if Globals.World.ambience.stream != null:
+		saved_ambience_filepath = Globals.World.ambience.stream.stream.resource_path
+	else:
+		saved_music_filepath = "none"
+	
+	saved_music_active = Globals.World.music.playing
+	saved_ambience_active = Globals.World.ambience.playing
 	
 	
 	never_saved = false
 	
-	#save all previous properties to the save file
-	savedData_save_file()
+	# Save all above properties to the playerData.save file.
+	save_file("user://playerData.save", "data_playerData")
 
 
-func savedData_reset():
-	never_saved = true
+func load_playerData():
+	if not FileAccess.file_exists("user://saves/playerData/playerData.save"):
+		print("Couldn't find the playerData.save file.")
+		return
+		
+	var file = FileAccess.open("user://saves/playerData.save", FileAccess.READ)
+	while file.get_position() < file.get_length():
+		var json = JSON.new()
+		var json_line = file.get_line() # A "line" in this case refers to the entirety of json's contents.
+		var parse_result = json.parse(json_line)
+		
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_line, " at line ", json.get_error_line())
+			continue
+		
+		var data = json.get_data()
+		
+		# Apply the loaded property values.
+		saved_last_level_filepath = data["saved_last_level_filepath"]
+		
+		saved_position_x = data["saved_position_x"]
+		saved_position_y = data["saved_position_y"]
+		saved_health = data["saved_health"]
+		saved_score = data["saved_score"]
+		saved_module_points = data["saved_module_points"]
+		
+		saved_weapon = data["saved_weapon"]
+		saved_secondaryWeapon = data["saved_secondaryWeapon"]
+		
+		saved_bg_current_filepath = data["saved_bg_current_filepath"]
+		saved_bg_a_current_filepath = data["saved_bg_a_current_filepath"]
+		saved_bg_b_current_filepath = data["saved_bg_b_current_filepath"]
+		
+		saved_bg_previous_filepath = data["saved_bg_previous_filepath"]
+		saved_bg_a_previous_filepath = data["saved_bg_a_previous_filepath"]
+		saved_bg_b_previous_filepath = data["saved_bg_b_previous_filepath"]
+		
+		saved_bg_offset_target_x = data["saved_bg_offset_target_x"]
+		saved_bg_offset_target_y = data["saved_bg_offset_target_y"]
+		
+		saved_music_filepath = data["saved_music_filepath"]
+		saved_ambience_filepath = data["saved_ambience_filepath"]
+		
+		saved_music_active = data["saved_music_active"]
+		saved_ambience_active = data["saved_ambience_active"]
+		
+		#saved_propertyName = data["saved_propertyName"]
+		
+		never_saved = data["never_saved"]
+
+
+# Resets saved player-related properties (applied in overworld levels):
+func reset_playerData():
+	saved_last_level_filepath = "none"
 	
-	#saved properties (overworld):
-	saved_position_x = 0 # [saved overworld player position, to be applied when loading back into any of the overworld-type levels ("areas")]
+	saved_position_x = 0 # Saved overworld player position, to be applied when loading back into any of the overworld-type levels.
 	saved_position_y = 0
-	saved_score = 0 # [saved overworld score, to be restored when loading back into any of the overworld-type levels]
-	saved_last_area_filePath = "res://Levels/empty.tscn"
+	saved_health = 0
+	saved_score = 0 # Saved overworld score, to be restored when loading back into any of the overworld-type levels.
+	saved_module_points = 0
 	
-	#unlocked weapons
-	saved_weapon_basic = -1 # [0 if the weapon type was found in the world, making it available for purchase, 1 if purchased, making it permanently selectable using quickselect.]
-	saved_weapon_veryFast_speed = -1
-	saved_weapon_ice = -1
-	saved_weapon_fire = -1
-	saved_weapon_destructive_fast_speed = -1
-	saved_weapon_short_shotDelay = -1
-	saved_weapon_phaser = -1
-	saved_secondaryWeapon_basic = -1
-	saved_secondaryWeapon_fast = -1
+	saved_weapon = []
+	saved_secondaryWeapon = []
 	
-	#other
-	saved_bg_File_current = CompressedTexture2D
-	saved_bg_a_File_current = CompressedTexture2D
-	saved_bg_b_File_current = CompressedTexture2D
+	saved_bg_current_filepath = "none"
+	saved_bg_a_current_filepath = "none"
+	saved_bg_b_current_filepath = "none"
 	
-	saved_bgOffset_target_x = 0
-	saved_bgOffset_target_x = 0
+	saved_bg_previous_filepath = "none"
+	saved_bg_a_previous_filepath = "none"
+	saved_bg_b_previous_filepath = "none"
 	
-	saved_music_file = AudioStreamMP3
-	saved_ambience_file = AudioStreamMP3
+	saved_bg_offset_target_x = 0
+	saved_bg_offset_target_y = 0
+	
+	saved_music_filepath = AudioStreamMP3
+	saved_ambience_filepath = AudioStreamMP3
+	
+	saved_music_active = false
+	saved_ambience_active = false
+	
+	never_saved = true
+
+
+func delete_playerData(target : String):
+	var dir = DirAccess.open("user://saves/playerData")
+	
+	if target == "all":
+		for filename in dir.get_files():
+			delete_file(filename, dir)
+	
+	else:
+		delete_file(target, dir)
+
+
+# Data is what you get when opening a json. This function is called at the end of a main save/load function.
+func data_playerData():
+	var contents = {
+		# Saved player-related properties.
+		"saved_last_level_filepath" : saved_last_level_filepath,
+		
+		"saved_position_x" : saved_position_x,
+		"saved_position_y" : saved_position_y,
+		"saved_health" : saved_health,
+		"saved_score" : saved_score,
+		"saved_module_points" : saved_module_points,
+		
+		"saved_weapon" : saved_weapon,
+		"saved_secondaryWeapon" : saved_secondaryWeapon,
+		
+		"saved_bg_current_filepath" : saved_bg_current_filepath,
+		"saved_bg_a_current_filepath" : saved_bg_a_current_filepath,
+		"saved_bg_b_current_filepath" : saved_bg_b_current_filepath,
+		
+		"saved_bg_previous_filepath" : saved_bg_previous_filepath,
+		"saved_bg_a_previous_filepath" : saved_bg_a_previous_filepath,
+		"saved_bg_b_previous_filepath" : saved_bg_b_previous_filepath,
+		
+		"saved_bg_offset_target_x" : saved_bg_offset_target_x,
+		"saved_bg_offset_target_y" : saved_bg_offset_target_y,
+		
+		"saved_music_filepath" : saved_music_filepath,
+		"saved_ambience_filepath" : saved_ambience_filepath,
+		
+		"saved_music_active" : saved_music_active,
+		"saved_ambience_active" : saved_ambience_active,
+		
+		#"saved_propertyName" : saved_propertyName,
+		
+		"never_saved" : never_saved,
+	
+	}
+	return contents
+
+
+func save_levelSet(list_levelSet_id):
+	for levelSet_id in list_levelSet_id:
+		# Save all above properties to the "levelSet[id].save" file.
+		save_file(Globals.d_levelSet + "/levelSet_" + list_levelSet_id + ".save", "data_levelSet")
+
+
+func load_levelSet():
+	if not FileAccess.file_exists("user://levelSet.save"):
+		print("Couldn't find the save file (levelSet.save - All of the LEVEL SET level completion states and scores).")
+		return
+		
+	var saved_progress_file = FileAccess.open("user://saved_levelSetProgress.save", FileAccess.READ)
+	while saved_progress_file.get_position() < saved_progress_file.get_length():
+		var json_string = saved_progress_file.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			continue
+		
+		var data = json.get_data()
+		
+		# Main Levels:
+		state_MAIN = data["state_MAIN"]
+		state_MAIN_1 = data["state_MAIN_1"]
+		state_MAIN_2 = data["state_MAIN_2"]
+		state_MAIN_3 = data["state_MAIN_3"]
+		state_MAIN_4 = data["state_MAIN_4"]
+		state_MAIN_5 = data["state_MAIN_5"]
+		state_MAIN_6 = data["state_MAIN_6"]
+		
+		#state_MAIN_7 = int(data["state_MAIN_7"])
+
+
+func data_levelSet(id): # Example id: "MAIN, "BONUS", etc.
+	var contents : Dictionary = {}
+	
+	for level_number in info_MAIN[2]:
+		print(level_number)
+		contents.get_or_add({
+			# Saved states and scores of levels from various level sets.
+			"state_MAIN_" + str(level_number) : get("state_MAIN_" + str(level_number))
+		}) # !!! add "null" as first parameter if this doesnt work
+	
+	
+	
+	return contents
+
+
+func save_file(filepath : String, data_function : String):
+	var file = FileAccess.open(filepath, FileAccess.WRITE)
+	var data = call(data_function)
+	var json_contents = JSON.stringify(data)
+	
+	file.store_line(json_contents)
 
 
 # Functions that delete the game's save files.
-func delete_levelState(target : String):
+func delete_levelState(target : String): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
 	var dir = DirAccess.open("user://levelState")
+	
+	if target == "all":
+		for filename in dir.get_files():
+			delete_file(filename, dir)
+	
+	else:
+		delete_file(target, dir)
 
-func delete_playerData(target : String): # Target is a "SaveData" node's variable name (saved_position_x, saved_score, saved_health, etc.).
-	var dir = DirAccess.open("user://playerData")
-	var file = FileAccess.open("playerData.save", FileAccess.WRITE)
-
-func delete_levelSet(target : String): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
-	var dir = DirAccess.open("user://levelSet")
+func delete_levelSet(target : String):
+	var dir = DirAccess.open(Globals.d_levelSet)
 	
 	if target == "all":
 		for filename in dir.get_files():
@@ -235,121 +401,3 @@ func delete_file(filename, dir):
 	if not dir.file_exists(filename) : return
 	
 	dir.remove(filename)
-
-
-var item_unlock_state
-func save_item_unlock_state(item):
-	item_unlock_state = $/root/World/HUD/quickselect_screen.get("unlock_state_" + item)
-	set("saved_" + item, item_unlock_state)
-
-
-func save_file(filepath : String, data_function : String):
-	var file = FileAccess.open(filepath, FileAccess.WRITE)
-	var data = call(data_function)
-	var json_string = JSON.stringify(data)
-	
-	file.store_line(json_string)
-
-
-func savedData_load():
-	if not FileAccess.file_exists("user://savedData.save"):
-		print("Couldn't find the save file (savedData - All of the overworld progress).")
-		return # Error! We don't have a save to load.
-		
-	var savedData_file = FileAccess.open("user://savedData.save", FileAccess.READ)
-	while savedData_file.get_position() < savedData_file.get_length():
-		var json_string = savedData_file.get_line()
-		var json = JSON.new()
-		var parse_result = json.parse(json_string)
-		
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-			
-		var data = json.get_data()
-		
-		#LOAD SAVED PROPERTIES
-		
-		saved_last_area_filePath = data["saved_last_area_filePath"]
-		
-		saved_position_x = data["saved_position_x"]
-		saved_position_y = data["saved_position_y"]
-		saved_score = int(data["saved_score"])
-		
-		saved_weapon = data["saved_weapon"]
-		saved_weapon_delay = data["saved_weapon_delay"]
-		saved_secondaryWeapon = data["saved_secondaryWeapon"]
-		saved_secondaryWeapon_delay = data["saved_secondaryWeapon_delay"]
-		
-		saved_weapon_basic = data["saved_weapon_basic"]
-		saved_weapon_veryFast_speed = data["saved_weapon_veryFast_speed"]
-		saved_weapon_ice = data["saved_weapon_ice"]
-		saved_weapon_fire = data["saved_weapon_fire"]
-		saved_weapon_destructive_fast_speed = data["saved_weapon_destructive_fast_speed"]
-		saved_weapon_short_shotDelay = data["saved_weapon_short_shotDelay"]
-		saved_weapon_phaser = data["saved_weapon_phaser"]
-		saved_secondaryWeapon_basic = data["saved_secondaryWeapon_basic"]
-		saved_secondaryWeapon_fast = data["saved_secondaryWeapon_fast"]
-		
-		saved_bg_File_current = data["saved_bg_File_current"]
-		saved_bg_a_File_current = data["saved_bg_a_File_current"]
-		saved_bg_b_File_current = data["saved_bg_b_File_current"]
-		saved_bgOffset_target_x = data["saved_bgOffset_target_x"]
-		saved_bgOffset_target_y = data["saved_bgOffset_target_y"]
-		saved_music_file = data["saved_music_file"]
-		saved_ambience_file = data["saved_ambience_file"]
-		saved_music_isPlaying = data["saved_music_isPlaying"]
-		saved_ambience_isPlaying = data["saved_ambience_isPlaying"]
-		
-		#saved_propertyName = data["saved_propertyName"]
-		
-		never_saved = data["never_saved"]
-		
-		#LOAD SAVED PROPERTIES END
-
-
-
-#SAVE START
-
-func savedData_save_dictionary():
-	var save_dict = {
-		#saved properties
-		"saved_last_area_filePath" : saved_last_area_filePath,
-		
-		"saved_position_x" : saved_position_x,
-		"saved_position_y" : saved_position_y,
-		"saved_score" : saved_score,
-		
-		"saved_weapon" : saved_weapon,
-		"saved_weapon_delay" : saved_weapon_delay,
-		"saved_secondaryWeapon" : saved_secondaryWeapon,
-		"saved_secondaryWeapon_delay" : saved_secondaryWeapon_delay,
-		
-		"saved_weapon_basic" : saved_weapon_basic,
-		"saved_weapon_veryFast_speed" : saved_weapon_veryFast_speed,
-		"saved_weapon_ice" : saved_weapon_ice,
-		"saved_weapon_fire" : saved_weapon_fire,
-		"saved_weapon_destructive_fast_speed" : saved_weapon_destructive_fast_speed,
-		"saved_weapon_short_shotDelay" : saved_weapon_short_shotDelay,
-		"saved_weapon_phaser" : saved_weapon_phaser,
-		"saved_secondaryWeapon_basic" : saved_secondaryWeapon_basic,
-		"saved_secondaryWeapon_fast" : saved_secondaryWeapon_fast,
-		
-		"saved_bg_File_current" : saved_bg_File_current,
-		"saved_bg_a_File_current" : saved_bg_a_File_current,
-		"saved_bg_b_File_current" : saved_bg_b_File_current,
-		"saved_bgOffset_target_x" : saved_bgOffset_target_x,
-		"saved_bgOffset_target_y" : saved_bgOffset_target_y,
-		"saved_music_file" : saved_music_file,
-		"saved_ambience_file" : saved_ambience_file,
-		"saved_music_isPlaying" : saved_music_isPlaying,
-		"saved_ambience_isPlaying" : saved_ambience_isPlaying,
-		
-		#"saved_propertyName" : saved_propertyName,
-		
-		"never_saved" : never_saved,
-	
-	}
-	return save_dict
-
-#SAVE END

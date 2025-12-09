@@ -11,15 +11,14 @@ var total_score = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	saved_progress = SaveData.get_node("%levelSelect")
-	saved_progress.load_game()
+	SaveData.load_levelSet()
 	print(str(Globals.selected_episode) + " is the currently selected Level Set.")
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	
 	#EPISODE START
 	
-	if Globals.selected_episode == "Main Levels":
+	if Globals.selected_episode_id == "MAIN":
 		%background.texture = load("res://Assets/Graphics/other/levelSelect_screen.png")
 		place_levelSet_icons("MAIN")
 		
@@ -28,7 +27,7 @@ func _ready():
 	
 	#EPISODE START
 	
-	if Globals.selected_episode == "Debug Levels":
+	if Globals.selected_episode == "DEBUG":
 		#%background.texture = load("res://Assets/Graphics/other/levelSelect_screen.png")
 		place_levelSet_icons("DEBUG")
 		
@@ -45,7 +44,7 @@ func _ready():
 	# Load saved level states.
 	
 	# Main Levels
-	if Globals.selected_episode == "Main Levels":
+	if Globals.selected_episode == "MAIN":
 		Globals.current_levelSet_ID = "MAIN"
 		
 		for icon in get_tree().get_nodes_in_group("level_icon"):
@@ -84,7 +83,6 @@ func _ready():
 		pass
 	
 	
-	Globals.progress_loadingFinished.emit()
 	$level_icon_container/level_button_root/level_button.grab_focus()
 	%ColorRect.visible = true
 	%fade_animation.play("fade_from_black")
@@ -98,6 +96,9 @@ func _ready():
 	
 	for button in get_tree().get_nodes_in_group("buttons"):
 		button.moving = true
+	
+	
+	Globals.save_levelSet_loaded.emit()
 
 
 func place_level_icon(Icon_ID, Position, Level_FilePath):

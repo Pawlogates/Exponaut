@@ -1,34 +1,28 @@
 extends Node2D
 
-@export var icon_ID = 0
+@export var icon_image_id = 0
 @export var icon_position = Vector2(0, 0)
-@export var icon_level_filePath = preload("res://Levels/MAIN_1.tscn")
+@export var icon_level_filepath : String
 
 var level_number = 0
 
 var level_state = -1
 var level_score = -1
-var topRankScore = -1
+var level_score_target = -1
 
 var unlocked = false
-var is_main_level = false
 
-var saved_progress = LevelTransition.get_node("%saved_progress")
-
-var level_info = ["error", -1, -1, -1, -1, -1]
+var level_info = ["none", -1, -1, -1, -1, -1]
 
 func _ready():
-	%level_icon.region_rect = Rect2(64 * icon_ID, 448, 64, 64)
 	position = icon_position
-	
-	var xpos = self.global_position.x
-	%AnimationPlayer.advance(abs(xpos) / 200)
+	%level_icon.region_rect = Rect2(64 * icon_image_id, 448, 64, 64)
+	%AnimationPlayer.advance(abs(position) / 200)
 	
 	%icon_levelFinished.visible = false
 	
 	
-	#set level button state
-	await Globals.progress_loadingFinished
+	await Globals.save_levelSet_loaded
 	if not is_main_level and level_number <= Globals.next_level:
 		unlocked = true
 		
@@ -48,20 +42,17 @@ func _ready():
 		%icon_levelAllCollectiblesCollected.visible = true
 	
 	
-	if Globals.selected_episode == "Main Levels":
-		level_info = saved_progress.get(str("info_MAIN_", level_number))
-		if not level_info == null:
-			topRankScore = level_info[4]
+	if Globals.levelSet_id == "MAIN":
+		level_info = SaveData.get(str("info_MAIN_", level_number))
+		level_score_target = level_info[4]
 	
-	elif Globals.selected_episode == "Bonus Levels":
-		level_info = saved_progress.get(str("info_BONUS_", level_number))
-		if not level_info == null:
-			topRankScore = level_info[4]
+	elif Globals.levelSet_id == "BONUS":
+		level_info = SaveData.get(str("info_BONUS_", level_number))
+		level_score_target = level_info[4]
 	
-	elif Globals.selected_episode == "Debug Levels":
-		level_info = saved_progress.get(str("info_DEBUG_", level_number))
-		if not level_info == null:
-			topRankScore = level_info[4]
+	elif Globals.levelSet_id == "DEBUG":
+		level_info = SaveData.get(str("info_DEBUG_", level_number))
+		level_score_target = level_info[4]
 	
 	%level_button.mouse_filter = 1
 

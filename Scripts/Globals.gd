@@ -1,6 +1,136 @@
 extends Node
 
-var player_health = 5
+@onready var World = $/root/World
+@onready var Player = $/root/World/player
+
+# Folder paths (String) for better readability:
+var dirpath_saves = "user://saves"
+var d_playerData = dirpath_saves + "/playerData"
+var d_levelSet = dirpath_saves + "/levelSet"
+var d_levelState = dirpath_saves + "/levelState"
+
+var dirpath_assets = "res://Assets"
+var d_graphics = "res://Assets/Graphics"
+var d_backgrounds = "res://Assets/backgrounds"
+var d_sprites = "res://Assets/sprites"
+var d_tilesets = "res://Assets/tilesets"
+
+var d_sounds = "res://Assets/Sounds"
+var d_music = "res://Assets/music"
+var d_ambience = "res://Assets/ambience"
+
+
+# Various lists (String):
+var l_levelSet_id : Array = ["MAIN, BONUS, DEBUG"]
+var l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
+
+# Lists (Array) of various entity properties, used for randomization purposes.
+# These lists contain word based properties (String).
+@onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
+@onready var list_movementType_limited = ["normal", "followPlayerX", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted"]
+@onready var list_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
+@onready var list_level_ID = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
+@onready var list_special_apple_type = ["red", "blue", "golden"]
+@onready var list_temporary_powerup = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
+@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
+@onready var list_secondaryWeapon = ["basic", "fast"]
+@onready var list_potion = ["rooster", "bird", "chicken"]
+
+# These lists contain every single entity scene from their respective folders.
+# Scenes:
+@onready var list_collectible = []
+@onready var list_enemy = []
+@onready var list_box = []
+@onready var list_projectile = []
+# Packed animation sets:
+@onready var list_sprite_collectible = []
+@onready var list_sprite_enemy = []
+@onready var list_sprite_box = []
+@onready var list_sprite_projectile = []
+
+# Alternative lists with some types of entities excluded (Used when spawning large amounts of said entity type would otherwise cause issues).
+@onready var list_onDeath_item_scene = []
+@onready var list_onDeath_item_blacklist_enemy_scene = []
+@onready var list_onDeath_projectile_scene = []
+@onready var list_onDeath_secondaryProjectile_scene = []
+@onready var list_onHit_item_scene = []
+@onready var list_onHit_item_blacklist_enemy_scene = []
+@onready var list_onSpotted_item_scene = []
+@onready var list_onSpotted_item_blacklist_enemy_scene = []
+@onready var list_onSpotted_projectile_scene = []
+@onready var list_onSpotted_secondaryProjectile_scene = []
+@onready var list_onTimer_item_scene = []
+@onready var list_onTimer_item_blacklist_enemy_scene = []
+@onready var list_onTimer_projectile_scene = []
+@onready var list_onTimer_secondaryProjectile_scene = []
+@onready var list_bonusBox_item_scene = []
+@onready var list_bonusBox_item_blacklist_enemy_scene = []
+
+
+# Effects and particles:
+var scene_particle_star = preload("res://Other/Particles/star.tscn")
+var scene_effect_hit_enemy = preload("res://Other/Effects/hit_enemy.tscn")
+var scene_effect_dead_enemy = preload("res://Other/Effects/dead_enemy.tscn")
+var scene_effect_oneShot_enemy = preload("res://Other/Effects/oneShot_enemy.tscn")
+var scene_particle_special = preload("res://Other/Particles/special.tscn")
+var scene_particle_special_multiple = preload("res://Other/Particles/special_multiple.tscn")
+var scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
+var scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
+var scene_particle_splash = preload("res://Other/Particles/splash.tscn")
+var scene_effect_dust = preload("res://Other/Effects/dust.tscn")
+
+# Main scenes:
+var scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
+var scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
+
+
+func _ready() -> void:
+	reassign_nodes_general.connect(reassign_general)
+
+
+func _physics_process(_delta):
+	handle_actions() # Handles global functions executed on triggering an action.
+
+
+func handle_actions():
+	if Input.is_action_just_pressed("pause"):
+		if get_tree().paused == false:
+			get_tree().paused = true
+		elif get_tree().paused == true:
+			get_tree().paused = false
+	
+	
+	elif Input.is_action_just_pressed("menu_start"):
+		Overlay.animation("fade_black", false, true, 1)
+		get_tree().change_scene_to_packed(scene_menu_start)
+		Overlay.animation("fade_black", true, true, 1)
+	
+	elif Input.is_action_just_pressed("menu"):
+		Overlay.animation("fade_black", false, true, 1)
+		get_tree().change_scene_to_packed(scene_levelSet_screen)
+		Overlay.animation("fade_black", true, true, 1)
+	
+	
+	elif Input.is_action_pressed("debug_mode"):
+		Globals.debug_mode = true
+		
+		if not get_node_or_null("/root/World"):
+			return
+		
+		#world.player.player_health = 999
+		
+		if get_node_or_null("/root/World/HUD/Debug Screen"):
+			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
+			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
+
+
+func reassign_general():
+	World = $/root/World
+	Player = $/root/World/player
+
+
+# Important gameplay-related properties.
+var player_health = 10
 
 var player_position = Vector2(0, 0)
 var player_velocity = Vector2(0, 0)
@@ -55,20 +185,24 @@ signal save_levelState_saved # Only one level is saved here at a time. Level Sta
 signal save_levelState_loaded
 signal save_playerData_saved # Various otherworld player info like health, score, unlocks, etc.
 signal save_playerData_loaded
-signal save_levelSetProgress_saved # Information about every Level Set in the game.
-signal save_levelSetProgress_loaded
+signal save_levelSet_saved # Information about every Level Set in the game.
+signal save_levelSet_loaded
 
 # Emitting these signals from anywhere will cause the game to perform an action.
 signal player_damage(value)
 signal player_kill
 signal player_heal(value)
 
-signal save_progress
+signal save_playerData
+signal save_levelSet(levelSet_name)
+signal save_levelState(levelState_name)
 
-var quicksave_enabled = false
+signal quicksave(slot_number : int)
+signal quickload(slot_number : int)
 
-var game_is_saving = false
+signal reassign_nodes_general
 
+var settings_quicksaves = false
 
 var save_player_position_x = player_position[0]
 var save_player_position_y = player_position[1]
@@ -171,101 +305,6 @@ signal start_recording
 signal start_playback
 signal stop_recording
 signal stop_playback
-
-
-# Effects and particles:
-var scene_particle_star = preload("res://Other/Particles/star.tscn")
-var scene_effect_hit_enemy = preload("res://Other/Effects/hit_enemy.tscn")
-var scene_effect_dead_enemy = preload("res://Other/Effects/dead_enemy.tscn")
-var scene_effect_oneShot_enemy = preload("res://Other/Effects/oneShot_enemy.tscn")
-var scene_particle_special = preload("res://Other/Particles/special.tscn")
-var scene_particle_special_multiple = preload("res://Other/Particles/special_multiple.tscn")
-var scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
-var scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
-var scene_particle_splash = preload("res://Other/Particles/splash.tscn")
-var scene_effect_dust = preload("res://Other/Effects/dust.tscn")
-
-# Main scenes:
-var scene_levelSelect_screen = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
-var scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
-
-# Handles global functions executed on triggering an action.
-func _physics_process(_delta):
-	handle_actions()
-
-func handle_actions():
-	if Input.is_action_just_pressed("pause"):
-		if get_tree().paused == false:
-			get_tree().paused = true
-		elif get_tree().paused == true:
-			get_tree().paused = false
-	
-	
-	elif Input.is_action_just_pressed("menu_start"):
-		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(scene_menu_start)
-		Overlay.animation("fade_black", true, true, 1)
-	
-	elif Input.is_action_just_pressed("menu"):
-		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(scene_levelSelect_screen)
-		Overlay.animation("fade_black", true, true, 1)
-	
-	
-	elif Input.is_action_pressed("debug_mode"):
-		Globals.debug_mode = true
-		
-		if not get_node_or_null("/root/World"):
-			return
-		
-		#world.player.player_health = 999
-		
-		if get_node_or_null("/root/World/HUD/Debug Screen"):
-			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
-			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
-
-
-# Lists (Array) of various entity properties, used for randomization purposes.
-# These lists contain word based properties (String).
-@onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
-@onready var list_movementType_limited = ["normal", "followPlayerX", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted"]
-@onready var list_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
-@onready var list_level_ID = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
-@onready var list_special_apple_type = ["red", "blue", "golden"]
-@onready var list_temporary_powerup = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
-@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
-@onready var list_secondaryWeapon = ["basic", "fast"]
-@onready var list_potion = ["rooster", "bird", "chicken"]
-
-# These lists contain every single entity scene from their respective folders.
-# Scenes:
-@onready var list_collectible = []
-@onready var list_enemy = []
-@onready var list_box = []
-@onready var list_projectile = []
-# Packed animation sets:
-@onready var list_sprite_collectible = []
-@onready var list_sprite_enemy = []
-@onready var list_sprite_box = []
-@onready var list_sprite_projectile = []
-
-# Alternative lists with some types of entities excluded (Used when spawning large amounts of said entity type would otherwise cause issues).
-@onready var list_onDeath_item_scene = []
-@onready var list_onDeath_item_blacklist_enemy_scene = []
-@onready var list_onDeath_projectile_scene = []
-@onready var list_onDeath_secondaryProjectile_scene = []
-@onready var list_onHit_item_scene = []
-@onready var list_onHit_item_blacklist_enemy_scene = []
-@onready var list_onSpotted_item_scene = []
-@onready var list_onSpotted_item_blacklist_enemy_scene = []
-@onready var list_onSpotted_projectile_scene = []
-@onready var list_onSpotted_secondaryProjectile_scene = []
-@onready var list_onTimer_item_scene = []
-@onready var list_onTimer_item_blacklist_enemy_scene = []
-@onready var list_onTimer_projectile_scene = []
-@onready var list_onTimer_secondaryProjectile_scene = []
-@onready var list_bonusBox_item_scene = []
-@onready var list_bonusBox_item_blacklist_enemy_scene = []
 
 
 # Text displays:
