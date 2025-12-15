@@ -18,6 +18,9 @@ var debug_screen: Control # Added and deleted on demand.
 #@export_file("*.tscn") var level_filePath: String
 var level_filepath = scene_file_path
 
+# Change this value (String) only if its an overworld level.
+var level_overworld_id = "none" # Leave it unchanged if its a levelSet level, so that the name will be fetched from "SaveData".
+
 var level_time = 0
 var level_time_displayed = 0
 var level_start_time = 0.0
@@ -36,10 +39,9 @@ var material_hueShift_neon = preload("res://Other/Materials/hueShift_neonBlock.t
 @export var cameraLimit_bottom = 0.0
 @export var cameraLimit_top = 0.0
 
-@export var overworld_level = true
-@export var levelSet_level = false
+@export_enum("levelSet", "overworld", "debug") var level_type: String
+
 @export var final_level = false
-@export var debug_level = false
 
 @export var player_start_health = 3
 
@@ -50,8 +52,6 @@ var total_majorCollectibles = 0
 var collected_keys = 0
 var collected_collectibles = 0
 var collected_majorCollectibles = 0
-
-@export var scoreAttack_collected_collectibles = -1
 
 var bg_instant_transitions = true
 var bg_instant_offset = true
@@ -77,20 +77,44 @@ var scene_leaves = preload("res://Other/Scenes/Weather/leaves.tscn")
 @export var delete_background_layers = false
 
 @export var neon_hueShift = 0.6
-@export var neon_fade_between = false
-@export var neon_fade_between_delay = 15.0
+@export var neon_fade = false
+@export var neon_fade_cooldown = 15.0
 @export var neon_rainbow = false
 
-var neon_toggle = false
+var neon_fade_in = false # The value of "true" means that neon blocks are fading into their assigned color, while "false" means they are going back to normal.
 
-@export var background_color : Color = Color(0, 0, 0, 0)# Note that this doesn't affect the image-based background layers.
+@export var background_color : Color = Color(0, 0, 0, 0) # Note that this doesn't affect the image-based background layers.
+
+@export var scoreAttack_target_collectible_amount = -1
+@export var scoreAttack_target_time = -1
+
+var quickload_blocked = true
+var quicksave_blocked = true
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Globals.gameState_debug: # False if the game is currently being worked on.
-		SaveData.delete_progress()
-		Globals.message_debug("Deleted all save files on entering a level.")
+	#if Globals.gameState_debug: # False if the game is currently being worked on.
+		#SaveData.delete_progress()
+		#Globals.message_debug("Deleted all save files on entering a level.")
 	
+	if level_type == "levelSet":
+		Globals.levelSet_id = levelSet_id
+		Globals.level_number = level_number
+		Globals.level_id = levelSet_id + "_" + str(level_number)
+		Globals.level_name = SaveData.get("info" + Globals.level_id)
+	
+	elif level_type == "overworld":
+		Globals.levelSet_id = levelSet_id
+		Globals.level_number = -1 # Because its an overworld segment.
+		Globals.level_id = level_overworld_id # Because its an overworld segment.
+		Globals.level_name = "none" # Because its an overworld segment.
+	
+	elif level_type == "debug":
+		pass
+	
+	if level_overworld_id != "none":
+		Globals.level_id = level_overworld_id
 	
 	material_hueShift_neon.set_shader_parameter("Shift_Hue", neon_hueShift)
 	
@@ -99,23 +123,12 @@ func _ready():
 	if random_music:
 		play_random_music()
 	
-	screen_levelSelect.blackScreen.color.a = 1.0
+	Overlay.screen_black.color.a = 1.0
 	
 	
-	if area_ID != "overworld_factory": # This should not be the main way to check whether the current game was started for the first time.
-		Globals.left_start_area = true
+	if Globals.level_id != "factory_a_1": # This should not be the main way to check whether the current game was started for the first time.
+		Globals.worldState_leftStartArea = true
 	
-	Globals.levelSet_id = levelSet_id
-	Globals.level_number = level_number
-	Globals.level_id = levelSet_id + "_" + str(level_number)
-	Globals.level_name = SaveData.get("info" + Globals.level_id)
-	
-	if levelSet_id == "MAIN":
-		Globals.levelSet_name = "Main Levels"
-	elif levelSet_id == "BONUS":
-		Globals.levelSet_name = "Bonus Levels"
-	elif levelSet_id == "DEBUG":
-		Globals.levelSet_name = "Debug Levels"
 	
 	last_area_filePath_save()
 	
@@ -133,10 +146,10 @@ func _ready():
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	
 	if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
-		%Player/%Camera2D.limit_left = cameraLimit_left
-		%Player/%Camera2D.limit_right = cameraLimit_right
-		%Player/%Camera2D.limit_bottom = cameraLimit_bottom
-		%Player/%Camera2D.limit_top = cameraLimit_top
+		Player.camera.limit_left = cameraLimit_left
+		Player.camera.limit_right = cameraLimit_right
+		Player.cameraD.limit_bottom = cameraLimit_bottom
+		Player.camera.limit_top = cameraLimit_top
 	
 	
 	get_tree().paused = false
@@ -150,28 +163,27 @@ func _ready():
 	
 	%HUD.visible = true
 	
-	tileset_objects.set_layer_enabled(0, true)
-	tileset_objects.set_layer_enabled(1, true)
-	tileset_objects.set_layer_enabled(2, true)
-	tileset_objects.set_layer_enabled(3, true)
-	tileset_objects.set_layer_enabled(4, true)
+	#tileset_objects.set_layer_enabled(0, true)
+	#tileset_objects.set_layer_enabled(1, true)
+	#tileset_objects.set_layer_enabled(2, true)
+	#tileset_objects.set_layer_enabled(3, true)
+	#tileset_objects.set_layer_enabled(4, true)
 	
-	tileset_objects_small.set_layer_enabled(0, true)
-	tileset_objects_small.set_layer_enabled(1, true)
-	tileset_objects_small.set_layer_enabled(2, true)
-	tileset_objects_small.set_layer_enabled(3, true)
-	tileset_objects_small.set_layer_enabled(4, true)
+	#tileset_objects_precise.set_layer_enabled(0, true)
+	#tileset_objects_precise.set_layer_enabled(1, true)
+	#tileset_objects_precise.set_layer_enabled(2, true)
+	#tileset_objects_precise.set_layer_enabled(3, true)
+	#tileset_objects_precise.set_layer_enabled(4, true)
+	
+	Globals.player_health = player_start_health
+	Globals.update_player_health.emit()
+	
+	#if not Player.scale.x == 1 or not Player.scale.y == 1:
+		#Player.scale.x = 1
+		#Player.scale.y = 1
 	
 	
-	Globals.playerHP = playerStartHP
-	hud_player_health.text = str("HP:", player.player_health)
-	
-	if not player.scale.x == 1 or not player.scale.y == 1:
-		player.scale.x = 1
-		player.scale.y = 1
-	
-	
-	start_level_msec = Time.get_ticks_msec()
+	level_start_time = Time.get_ticks_msec()
 	
 	Globals.exitReached.connect(exitReached_show_screen)
 	
@@ -179,8 +191,8 @@ func _ready():
 	Globals.bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
 	Globals.bg_file_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
 	
-	Globals.bgChange_entered.connect(bg_change)
-	Globals.bgMove_entered.connect(bg_move)
+	Globals.trigger_bg_change_entered.connect(bg_change_check)
+	Globals.trigger_bg_move_entered.connect(bg_move_check)
 	
 	
 	Globals.player_transformed.connect(reassign_player)
@@ -197,32 +209,14 @@ func _ready():
 	if Globals.debug_mode:
 		Globals.playerHP = 250
 	
-	
-	if night3 == true:
-		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night3.png")
-		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night3.png")
-		
-	elif night2 == true:
-		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
-		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
-		
-	elif night == true:
-		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
-		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night.png")
-	
-	else:
-		%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
-		%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
-	
-	
-	if rain == true:
-		player.camera.add_child(rain_scene.instantiate())
-	if leaves == true:
-		player.camera.add_child(leaves_scene.instantiate())
+	if weather_rain == true:
+		Player.camera.add_child(scene_rain.instantiate())
+	if weather_leaves == true:
+		Player.camera.add_child(scene_leaves.instantiate())
 	
 	#Globals.cheated_state = false
 	
-	if instant_background_transitions:
+	if bg_instant_transitions:
 		%bg_previous/bg_transition.speed_scale = 20
 		%bg_previous/bg_a_transition.speed_scale = 20
 		%bg_previous/bg_b_transition.speed_scale = 20
@@ -230,29 +224,27 @@ func _ready():
 		%bg_current/bg_transition.speed_scale = 20
 		%bg_current/bg_a_transition.speed_scale = 20
 		%bg_current/bg_b_transition.speed_scale = 20
-		
-		bgMove_growthSpeed = 100
 	
 	
 	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
-	if not regular_level and Globals.transitioned and Globals.next_transition != 0:
+	if not level_type == "levelSet" and Globals.transitioned and Globals.next_transition != 0:
 		var areaTransition = get_node("%areaTransition" + str(Globals.next_transition))
 		if areaTransition.spawn_position != Vector2(0, 0):
 			print(areaTransition.spawn_position)
-			player.position = areaTransition.spawn_position
+			Player.position = areaTransition.spawn_position
 		else:
 			print(areaTransition.position)
-			player.position = areaTransition.position
+			Player.position = areaTransition.position
 	
 	
-	if not regular_level and not Globals.just_started_new_game and Globals.load_saved_position: 
-		load_playerData() # Loads player related progress, doesn't conflict with load_levelState().
+	if not level_type == "levelSet" and not Globals.worldState_justStartedNewGame: 
+		SaveData.load_playerData() # Loads player related progress, doesn't conflict with load_levelState().
 	
 	
-	player.camera.position_smoothing_enabled = false
+	Player.camera.position_smoothing_enabled = false
 	
 	
-	if meme_mode:
+	if force_mode_memeMode:
 		$/root/World/HUD.visible = false
 		
 		var meme_mode_SubViewportContainer = SubViewportContainer
@@ -266,14 +258,14 @@ func _ready():
 		meme_mode_SubViewportContainer_spawned.add_child(meme_mode_SubViewport_spawned)
 		add_child(meme_mode_SubViewportContainer_spawned)
 		
-		var meme_mode_controller = preload("res://Meme Mode/meme_mode_controller.tscn").instantiate()
-		add_child(meme_mode_controller)
+		var memeMode_controller = preload("res://Other/Game Modes/Meme Mode/meme_mode_controller.tscn").instantiate()
+		add_child(memeMode_controller)
 	
 	
-	if whiteBlocks_make_rainbow:
-		if whiteBlocks_toggleBetween:
+	if neon_rainbow:
+		if neon_fade_in:
 			$whiteBlocks_make_rainbow.play("fade_out")
-			$whiteBlocks_make_rainbow/Timer.wait_time = whiteBlocks_toggleBetween_delay
+			$whiteBlocks_make_rainbow/Timer.wait_time = neon_fade_cooldown
 			$whiteBlocks_make_rainbow/Timer.start()
 		else:
 			$whiteBlocks_make_rainbow.play("fade_in")
@@ -286,12 +278,12 @@ func _ready():
 	Globals.transitioned = false
 	Globals.load_saved_position = true
 	
-	if area_ID != "none":
-		load_saved_levelState() # Loads states for all level objects, doesn't conflict with load_saved_playerData().
+	if level_overworld_id != "none":
+		SaveData.load_levelState(level_overworld_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
 	
-	night_modifications()
+	handle_night()
 	
-	player.camera.position_smoothing_enabled = true
+	Player.camera.position_smoothing_enabled = true
 	
 	if delete_background_layers:
 		bg_deleted = true
@@ -299,20 +291,16 @@ func _ready():
 		%bg_previous.queue_free()
 		$ParallaxBackgroundGradient.queue_free()
 	
-	if meme_mode:
-		var meme_mode_background_video_player = preload("res://Meme Mode/background_video_player.tscn").instantiate()
-		meme_mode_background_video_player.position = player.position + Vector2(-960, -540)
-		add_child(meme_mode_background_video_player)
+	if force_mode_memeMode:
+		var memeMode_background_video_player = preload("res://Other/Game Modes/Meme Mode/background_video_Player.tscn").instantiate()
+		memeMode_background_video_player.position = Player.position + Vector2(-960, -540)
+		add_child(memeMode_background_video_player)
 	
-	await LevelTransition.fade_from_black_slow()
-	
-	key_total = get_tree().get_nodes_in_group("key").size()
-	keys_leftDisplay.text = str(key_total)
+	await Overlay.animation("fade_black", false, true, 1.0)
 	
 	teleporter_assign_ID()
 	
-	
-	instant_background_transitions = false
+	bg_instant_transitions = false
 	
 	if not bg_deleted:
 		%bg_previous/bg_transition.speed_scale = 1
@@ -325,94 +313,39 @@ func _ready():
 	
 	#await get_tree().create_timer(0.2, false).timeout
 	
-	if not regular_level and not shrine_level:
-		SavedData.savedData_save(true)
+	if level_type == "overworld":
+		SaveData.save_levelState("quicksave")
 	
-	quickLoad_blocked = false
+	quickload_blocked = false
 	$QuickloadLimiter.start()
-	Globals.is_saving = false
 	
-	Globals.just_started_new_game = false
+	Globals.worldState_justStartedNewGame = false
 	
-	if area_ID != "overworld_factory":
-		SavedData.never_saved = false
+	if level_overworld_id != "overworld_factory":
+		SaveData.never_saved = false
 
-
-# Apply saved player properties.
-func load_playerData():
-	if SavedData.never_saved:
-		return
-	
-	# load position
-	if not Globals.transitioned:
-		player.position = Vector2(SavedData.saved_position_x, SavedData.saved_position_y)
-		print("The 'transitioned' (Globals) property is false, so player position is NOT skipped on this game load." + str(Globals.transitioned))
-	else:
-		print("The 'transitioned' (Globals) property is true, so player position is skipped on this game load (and the player is teleported to the (hopefully) correct area transition object). " + str(Globals.transitioned))
-	
-	# load score
-	Globals.level_score = SavedData.saved_score
-	
-	# load equipped weapons
-	player.weaponType = SavedData.saved_weapon
-	player.timer_attack_cooldown.wait_time = SavedData.saved_weapon_delay
-	player.secondaryWeaponType = SavedData.saved_secondaryWeapon
-	player.timer_secondary_attack_cooldown.wait_time = SavedData.saved_secondaryWeapon_delay
-	
-	
-	# load last used background texture
-	if not Globals.transitioned:
-		Globals.bg_file_current = SavedData.saved_bg_file_current
-		Globals.bg_a_file_current = SavedData.saved_bg_a_file_current
-		Globals.bg_b_file_current = SavedData.saved_bg_b_file_current
-		
-		Globals.bgOffset_target_x = SavedData.saved_bgOffset_target_x
-		Globals.bgOffset_target_y = SavedData.saved_bgOffset_target_y
-		
-		bg_free_to_change = true
-		Globals.bgChange_entered.emit()
-		Globals.bgMove_entered.emit()
-		bg_change()
-		bg_move()
-		#Globals.bgTransition_finished.emit()
-		
-		# load last played music
-		if SavedData.saved_music_file:
-			%music.stream = load(SavedData.saved_music_file)
-		if SavedData.saved_music_isPlaying:
-			%music.play()
-		
-		# load last played ambience
-		if SavedData.saved_ambience_file:
-			%ambience.stream = load(SavedData.saved_ambience_file)
-		if SavedData.saved_ambience_isPlaying:
-			%ambience.play()
-
-
-var scoreAttack_timeLeft
-var quickLoad_blocked = true
 
 #MAIN START
 func _physics_process(delta):
 	#Current level's playtime
-	levelTime = Time.get_ticks_msec() - start_level_msec
-	levelTime_visible = levelTime / 1000.0
-	level_timeDisplay.text = str(levelTime_visible)
+	level_time = Time.get_ticks_msec() - level_start_time
+	level_time_displayed = level_time / 1000.0
+	Globals.level_time = level_time_displayed
 	
-	if levelTime_visible > 10000:
-		level_timeDisplay.visible_characters = 7
-	elif levelTime_visible > 1000:
-		level_timeDisplay.visible_characters = 6
-	elif levelTime_visible > 100:
-		level_timeDisplay.visible_characters = 5
-	elif levelTime_visible > 10:
-		level_timeDisplay.visible_characters = 4
-	else:
-		level_timeDisplay.visible_characters = 3
+	#if level_time_displayed > 10000:
+		#level_timeDisplay.visible_characters = 7
+	#elif level_time_displayed > 1000:
+		#level_timeDisplay.visible_characters = 6
+	#elif level_time_displayed > 100:
+		#level_timeDisplay.visible_characters = 5
+	#elif level_time_displayed > 10:
+		#level_timeDisplay.visible_characters = 4
+	#else:
+		#level_timeDisplay.visible_characters = 3
 	
 	
-	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickLoad_blocked:
-		quickLoad_blocked = true
+	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickload_blocked:
+		quickload_blocked = true
 		save_game()
 		$QuickloadLimiter.start()
 		Globals.is_saving = true
@@ -420,8 +353,8 @@ func _physics_process(delta):
 		await get_tree().create_timer(1.0, false).timeout
 		Globals.is_saving = false
 	
-	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickLoad_blocked:
-		quickLoad_blocked = true
+	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickload_blocked:
+		quickload_blocked = true
 		load_game()
 		$QuickloadLimiter.start()
 		Globals.is_saving = true
@@ -432,42 +365,7 @@ func _physics_process(delta):
 	
 	
 	#HANDLE BACKGROUND MOVEMENT
-	if not bg_position_set and not bg_deleted:
-		%bg_previous/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
-		
-		%bg_current/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, 250 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, 250 * bgMove_growthSpeed * delta)
-		
-		#bg_a
-		
-		%bg_previous/CanvasLayer/bg_a.offset.x = move_toward(%bg_previous/CanvasLayer/bg_a.offset.x, Globals.bg_a_Offset_target_x, 200 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg_a.offset.y = move_toward(%bg_previous/CanvasLayer/bg_a.offset.y, Globals.bg_a_Offset_target_y, 200 * bgMove_growthSpeed * delta)
-		
-		%bg_current/CanvasLayer/bg_a.offset.x = move_toward(%bg_previous/CanvasLayer/bg_a.offset.x, Globals.bg_a_Offset_target_x, 200 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg_a.offset.y = move_toward(%bg_previous/CanvasLayer/bg_a.offset.y, Globals.bg_a_Offset_target_y, 200 * bgMove_growthSpeed * delta)
-		
-		#bg_b
-		
-		%bg_previous/CanvasLayer/bg_b.offset.x = move_toward(%bg_previous/CanvasLayer/bg_b.offset.x, Globals.bg_b_Offset_target_x, 150 * bgMove_growthSpeed * delta)
-		%bg_previous/CanvasLayer/bg_b.offset.y = move_toward(%bg_previous/CanvasLayer/bg_b.offset.y, Globals.bg_b_Offset_target_y, 150 * bgMove_growthSpeed * delta)
-		
-		%bg_current/CanvasLayer/bg_b.offset.x = move_toward(%bg_previous/CanvasLayer/bg_b.offset.x, Globals.bg_b_Offset_target_x, 150 * bgMove_growthSpeed * delta)
-		%bg_current/CanvasLayer/bg_b.offset.y = move_toward(%bg_previous/CanvasLayer/bg_b.offset.y, Globals.bg_b_Offset_target_y, 150 * bgMove_growthSpeed * delta)
-		
-		
-		if not instant_background_transitions:
-			bgMove_growthSpeed *= 0.995
-			bgMove_growthSpeed = clamp(bgMove_growthSpeed, 0.1, 1)
-		
-		if not instant_background_transitions and bgMove_started and %bg_previous/CanvasLayer/bg_main.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_main.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_a.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_a.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_b.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_b.offset.y == Globals.bgOffset_target_y:
-			bg_position_set = true
-			bgMove_growthSpeed = 1
-			bgMove_started = false
-			
-		else:
-			bgMove_started = true
-	
+	bg_move(delta)
 	
 	if Input.is_action_just_pressed("restart"):
 		retry()
@@ -478,13 +376,13 @@ var bg_deleted = false
 
 #HANDLE REDUCE PLAYER HP
 func handle_player_death():
-	player.dead = true
-	player.sfx_death.play()
-	if regular_level:
+	Player.dead = true
+	Player.sfx_death.play()
+	if level_type == "levelSet":
 		#if Globals.quicksaves_enabled:
 			#retry_loadSave(true)
 		if Globals.mode_scoreAttack:
-			retry_backTo_levelSelect()
+			change_main_scene_levelSet()
 		else:
 			retry_checkpoint()
 	else:
@@ -509,18 +407,18 @@ func _on_exitReached_retry():
 func exitReached_show_screen():
 	
 	if not Globals.mode_scoreAttack:
-		level_finished.show()
-		level_finished.retry_btn.grab_focus()
+		screen_levelFinished.show()
+		screen_levelFinished.retry_btn.grab_focus()
 		%"Level Finished".exit_reached()
 		
 		get_tree().paused = true
 	
 	
 	elif Globals.mode_scoreAttack:
-		if scoreAttack_collectibles != -1:
-			if Globals.collected_collectibles >= scoreAttack_collectibles:
-				level_finished.show()
-				level_finished.retry_btn.grab_focus()
+		if scoreAttack_target_collectible_amount != -1:
+			if Globals.collected_collectibles >= scoreAttack_target_collectible_amount:
+				screen_levelFinished.show()
+				screen_levelFinished.retry_btn.grab_focus()
 				
 				get_tree().paused = true
 		
@@ -530,9 +428,9 @@ func exitReached_show_screen():
 				Globals.info_sign_touched.emit()
 		
 		
-		elif scoreAttack_collectibles == -1:
-			level_finished.show()
-			level_finished.retry_btn.grab_focus()
+		else:
+			screen_levelFinished.show()
+			screen_levelFinished.retry_btn.grab_focus()
 			%"Level Finished".exit_reached()
 			
 			get_tree().paused = true
@@ -542,7 +440,7 @@ func go_to_next_level(): #unused?
 	
 	if not next_level is PackedScene: return
 	
-	await LevelTransition.fade_to_black()
+	Overlay.animation("fade_black", true, 1.0, true)
 	get_tree().paused = false
 	get_tree().change_scene_to_packed(next_level)
 	
@@ -559,7 +457,7 @@ func retry():
 	get_tree().call_group("Persist", "queue_free")
 	
 	get_tree().paused = true
-	await LevelTransition.fade_to_black()
+	Overlay.animation("fade_black", true, 1.0, true)
 	get_tree().reload_current_scene()
 	#get_tree().change_scene_to_file(scene_file_path)
 	
@@ -568,45 +466,68 @@ func retry():
 	Globals.combo_tier = 1
 	Globals.collected_in_cycle = 0
 	
-	Globals.playerHP = playerStartHP
+	Globals.player_health = player_start_health
 
 
 func retry_loadSave(afterDelay):
 	await get_tree().create_timer(0.1, false).timeout
-	Globals.playerHP = playerStartHP
-	healthDisplay.text = str("HP:", Globals.playerHP)
+	Globals.player_health = player_start_health
 	
 	
 	if afterDelay:
-		player.dead = true
+		Player.dead = true
 		
-		var starParticle = Globals.scene_particle_star.instantiate()
-		starParticle.position = Globals.player_pos
-		add_child(starParticle)
-		starParticle = starParticleScene.instantiate()
-		starParticle.position = Globals.player_pos
-		add_child(starParticle)
-		starParticle = starParticleScene.instantiate()
-		starParticle.position = Globals.player_pos
-		add_child(starParticle)
+		var star = Globals.scene_particle_star.instantiate()
+		star.position = Globals.player_pos
+		add_child(star)
+		star = Globals.scene_particle_star.instantiate()
+		star.position = Globals.player_pos
+		add_child(star)
+		star = Globals.scene_particle_star.instantiate()
+		star.position = Globals.player_pos
+		add_child(star)
 		
 		await get_tree().create_timer(2, false).timeout
 	
 	
-	player.dead = false
+	Player.dead = false
 	
-	player.scale.x = 1
-	player.scale.y = 1
+	Player.scale.x = 1
+	Player.scale.y = 1
 	
 	load_game()
 
+
+func bg_move(delta):
+	if not bg_instant_transitions and bg_move_active and not bg_deleted:
+		%bg_previous/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, delta)
+		%bg_previous/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, delta)
+		
+		%bg_current/CanvasLayer/bg_main.offset.x = move_toward(%bg_previous/CanvasLayer/bg_main.offset.x, Globals.bgOffset_target_x, delta)
+		%bg_current/CanvasLayer/bg_main.offset.y = move_toward(%bg_previous/CanvasLayer/bg_main.offset.y, Globals.bgOffset_target_y, delta)
+		
+		#bg_a
+		
+		%bg_previous/CanvasLayer/bg_a.offset.x = move_toward(%bg_previous/CanvasLayer/bg_a.offset.x, Globals.bg_a_Offset_target_x, delta)
+		%bg_previous/CanvasLayer/bg_a.offset.y = move_toward(%bg_previous/CanvasLayer/bg_a.offset.y, Globals.bg_a_Offset_target_y, delta)
+		
+		%bg_current/CanvasLayer/bg_a.offset.x = move_toward(%bg_previous/CanvasLayer/bg_a.offset.x, Globals.bg_a_Offset_target_x, delta)
+		%bg_current/CanvasLayer/bg_a.offset.y = move_toward(%bg_previous/CanvasLayer/bg_a.offset.y, Globals.bg_a_Offset_target_y, delta)
+		
+		#bg_b
+		
+		%bg_previous/CanvasLayer/bg_b.offset.x = move_toward(%bg_previous/CanvasLayer/bg_b.offset.x, Globals.bg_b_Offset_target_x, delta)
+		%bg_previous/CanvasLayer/bg_b.offset.y = move_toward(%bg_previous/CanvasLayer/bg_b.offset.y, Globals.bg_b_Offset_target_y, delta)
+		
+		%bg_current/CanvasLayer/bg_b.offset.x = move_toward(%bg_previous/CanvasLayer/bg_b.offset.x, Globals.bg_b_Offset_target_x, delta)
+		%bg_current/CanvasLayer/bg_b.offset.y = move_toward(%bg_previous/CanvasLayer/bg_b.offset.y, Globals.bg_b_Offset_target_y, delta)
 
 
 # Background change.
 var bg_free_to_change = true
 
 func bg_change():
-	await Globals.bgTransition_finished
+	await Globals.bg_transition_finished
 	
 	if bg_free_to_change:
 		bg_free_to_change = false
@@ -633,13 +554,17 @@ func bg_change():
 		bg_free_to_change = true
 
 
+var bg_move_active = false
+var bg_change_active = false
 
-var bg_position_set = true
-var bgMove_growthSpeed = 1
-var bgMove_started = false
+func bg_move_check():
+	if %bg_previous/CanvasLayer/bg_main.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_main.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_a.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_a.offset.y == Globals.bgOffset_target_y and %bg_previous/CanvasLayer/bg_b.offset.x == Globals.bgOffset_target_x and %bg_previous/CanvasLayer/bg_b.offset.y == Globals.bgOffset_target_y:
+		bg_move_active = false
+	else:
+		bg_move_active = true
 
-func bg_move():
-	bg_position_set = false
+func bg_change_check():
+	bg_change_active = false
 
 
 var last_checkpoint_pos = Vector2(0, 0)
@@ -691,7 +616,7 @@ func save_game():
 
 
 func load_game():
-	if SavedData.never_saved:
+	if SaveData.never_saved:
 		return
 	
 	if not FileAccess.file_exists("user://savegame.save"):
@@ -729,12 +654,12 @@ func load_game():
 			#continue
 	
 	
-	#player.position.x = Globals.saved_player_posX
-	#player.position.y = Globals.saved_player_posY
+	#Player.position.x = Globals.saved_player_posX
+	#Player.position.y = Globals.saved_player_posY
 	#Globals.level_score = Globals.saved_level_score
 	
 	Globals.level_score = Globals.saved_level_score
-	player.position = Vector2(Globals.saved_player_posX, Globals.saved_player_posY)
+	Player.position = Vector2(Globals.saved_player_posX, Globals.saved_player_posY)
 	
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
@@ -744,10 +669,10 @@ func load_game():
 
 
 func _on_quickload_limiter_timeout():
-	quickLoad_blocked = false
+	quickload_blocked = false
 
 func saved_from_outside():
-	quickLoad_blocked = true
+	quickload_blocked = true
 	$QuickloadLimiter.stop()
 	await get_tree().create_timer(0.2, false).timeout
 	save_game()
@@ -760,17 +685,6 @@ func _on_debug_refresh_timeout():
 	
 	Globals.collected_collectibles = Globals.collectibles_in_this_level - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.collectibles_in_this_level)
-
-func key_collected():
-	key_total -= 1
-	keys_leftDisplay.text = str(key_total)
-	
-	if key_total <= 0:
-		get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "key_block", "key_block_destroy")
-	
-	await get_tree().create_timer(8, false).timeout
-	
-	keys_leftDisplay.text = str(get_tree().get_nodes_in_group("key").size())
 
 
 #NIGHT/DAY TIME
@@ -855,52 +769,52 @@ func set_night3():
 
 
 func set_day():
-	night_toggle = true
-	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
-	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 1.0
+	pass
+	#night_toggle = true
+	#%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
+	#%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
+	#for object in get_tree().get_nodes_in_group("Persist"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("player"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("button_block"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("button"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("bonusBox"):
+		#object.modulate.r = 1.0
 
 
-func night_modifications():
-	await get_tree().create_timer(0.1, false).timeout
+func handle_night():
+	pass
+	#await get_tree().create_timer(0.1, false).timeout
 	
-	if night3 or night2 or night:
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 0.8
-		
-		
-		$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.r = 0.1
-		$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.a = 0.2
-		
-		
-	else:
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("Persist"):
+		#object.modulate.r = 0.8
+	#for object in get_tree().get_nodes_in_group("player"):
+		#object.modulate.r = 0.8
+	#for object in get_tree().get_nodes_in_group("button_block"):
+		#object.modulate.r = 0.8
+	#for object in get_tree().get_nodes_in_group("button"):
+		#object.modulate.r = 0.8
+	#for object in get_tree().get_nodes_in_group("bonusBox"):
+		#object.modulate.r = 0.8
+	#
+	#
+	#$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.r = 0.1
+	#$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.a = 0.2
+	#
+	#
+	#for object in get_tree().get_nodes_in_group("Persist"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("player"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("button_block"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("button"):
+		#object.modulate.r = 1.0
+	#for object in get_tree().get_nodes_in_group("bonusBox"):
+		#object.modulate.r = 1.0
 
 
 func teleporter_assign_ID():
@@ -932,147 +846,44 @@ func teleporter_assign_ID():
 		teleporter_ID += 1
 
 
-var screen_levelSet = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
-
-func retry_backTo_levelSelect():
-	Globals.player.dead = true
-	%"Player Died".visible = true
-	
-	var starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	
+func change_main_scene_levelSet():
+	effect_stars()
 	await get_tree().create_timer(4, false).timeout
-	await LevelTransition.fade_to_black()
-	get_tree().change_scene_to_packed(mapScreen)
-	await LevelTransition.fade_from_black_slow()
+	Globals.change_main_scene(Globals.scene_levelSet_screen)
 
+func change_main_scene_menu_start():
+	effect_stars()
+	await get_tree().create_timer(4, false).timeout
+	Globals.change_main_scene(Globals.scene_menu_start)
 
 
 func retry_checkpoint():
-	var starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	starParticle.position = Globals.player_pos
-	add_child(starParticle)
-	
-	await get_tree().create_timer(2, false).timeout
-	await LevelTransition.fade_to_black_slow()
-	retry_loadSave(false)
-	player.dead = false
-	Globals.playerHP = playerStartHP
-	healthDisplay.text = str("HP:", Globals.playerHP)
+	Overlay.animation("fade_black", false, 1.0, true)
+	retry_load_levelState()
+	retry_load_playerData()
+	Globals.player_health = player_start_health
+	Player.dead = false
 
 
-func retry_scoreGate():
-	await LevelTransition.fade_to_black_slow()
-	retry_loadSave(false)
-	player.dead = false
-	Globals.playerHP = playerStartHP
-	healthDisplay.text = str("HP:", Globals.playerHP)
+func retry_load_levelState():
+	pass
+	#SaveData.load_levelState()
 
 
-#Save area state
-@export var level_overworld_id = "area0"
-
-func save_game_area():
-	if area_ID == "area0":
-		return
-	
-	var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.WRITE)
-	var save_nodes = get_tree().get_nodes_in_group("Persist")
-	for node in save_nodes:
-		# Check the node is an instanced scene so it can be instanced again during load.
-		if node.scene_file_path.is_empty():
-			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-			continue
-		# Check the node has a save function.
-		if !node.has_method("save"):
-			print("persistent node '%s' is missing a save() function, skipped" % node.name)
-			continue
-		# Call the node's save function.
-		var node_data = node.call("save")
-
-		# JSON provides a static method to serialized JSON string.
-		var json_string = JSON.stringify(node_data)
-
-		# Store the save dictionary as a new line in the save file.
-		save_gameFile.store_line(json_string)
-	
-	
-	Globals.saved_level_score = Globals.level_score
-	
-	reassign_player()
-	
-	if last_checkpoint_pos == Vector2(0, 0):
-		Globals.saved_player_posX = player.position.x
-		Globals.saved_player_posY = player.position.y
-	else:
-		Globals.saved_player_posX = last_checkpoint_pos[0]
-		Globals.saved_player_posY = last_checkpoint_pos[1]
-	
-	
-	%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
-	
-	Globals.saveState_saved.emit()
-	
-	
-	await get_tree().create_timer(0.1, false).timeout
-	Globals.is_saving = false
+func retry_load_playerData():
+	pass
 
 
-func load_levelState():
-	if SaveData.never_saved:
-		return
-	
-	print("Loading area state for: " + str(area_ID))
-	if not FileAccess.file_exists("user://savegame_" + area_ID + ".save"):
-		print("Area state file not found for: " + str(area_ID))
-		return # Error! We don't have a save to load.
-
-	var save_nodes = get_tree().get_nodes_in_group("Persist")
-	for i in save_nodes:
-		i.queue_free()
-
-	var save_gameFile = FileAccess.open("user://savegame_" + area_ID + ".save", FileAccess.READ)
-	while save_gameFile.get_position() < save_gameFile.get_length():
-		var json_string = save_gameFile.get_line()
-
-		var json = JSON.new()
-
-		var parse_result = json.parse(json_string)
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-		
-		var node_data = json.get_data()
-		
-		var new_object = load(node_data["filename"]).instantiate()
-		get_node(node_data["parent"]).add_child(new_object)
-		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
-
-		for i in node_data.keys():
-			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
-				continue
-			new_object.set(i, node_data[i])
-	
-	
-	#Globals.level_score = Globals.saved_level_score
-	Globals.combo_score = 0
-	Globals.combo_tier = 1
-	Globals.collected_in_cycle = 0
-	
-	Globals.save_levelState_loaded.emit()
+func effect_stars():
+	var star = Globals.scene_particle_star.instantiate()
+	star.position = Globals.player_pos
+	add_child(star)
+	star = Globals.scene_particle_star.instantiate()
+	star.position = Globals.player_pos
+	add_child(star)
+	star = Globals.scene_particle_star.instantiate()
+	star.position = Globals.player_pos
+	add_child(star)
 
 
 # Save progress loaded from the main menu screen.
@@ -1085,7 +896,7 @@ func last_area_filePath_save():
 
 
 func reassign_player():
-	player = get_tree().get_first_node_in_group("player_root")
+	Player = get_tree().get_first_node_in_group("player_root")
 	camera = get_tree().get_first_node_in_group("player_camera")
 	if not regular_level and not shrine_level:
 		get_tree().get_first_node_in_group("quickselect_screen").reassign_player()

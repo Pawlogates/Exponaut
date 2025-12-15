@@ -1,0 +1,208 @@
+[gd_scene load_steps=4 format=3 uid="uid://ckno8j7uupljt"]
+
+[ext_resource type="Script" uid="uid://cxil1avs8x8op" path="res://Other/Scenes/User Interface/HUD/health_manager.gd" id="1_3m55f"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="1_04vke"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3m55f"]
+atlas = ExtResource("1_04vke")
+region = Rect2(512, 0, 256, 64)
+
+[node name="player_health" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 800.0
+offset_bottom = 64.0
+script = ExtResource("1_3m55f")
+
+[node name="health_left" type="Control" parent="."]
+unique_name_in_owner = true
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="segment1" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 12.0
+offset_right = 12.0
+offset_bottom = 36.0
+
+[node name="segment2" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 14.0
+offset_bottom = 38.0
+
+[node name="segment3" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 16.0
+offset_bottom = 40.0
+
+[node name="segment4" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 18.0
+offset_bottom = 42.0
+
+[node name="segment5" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 18.0
+offset_top = 12.0
+offset_right = 20.0
+offset_bottom = 44.0
+
+[node name="segment6" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 20.0
+offset_top = 12.0
+offset_right = 22.0
+offset_bottom = 46.0
+
+[node name="segment7" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 12.0
+offset_right = 24.0
+offset_bottom = 46.0
+
+[node name="segment8" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 12.0
+offset_right = 26.0
+offset_bottom = 48.0
+
+[node name="segment9" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 12.0
+offset_right = 28.0
+offset_bottom = 48.0
+
+[node name="segment10" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 12.0
+offset_right = 30.0
+offset_bottom = 50.0
+
+[node name="segment11" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 12.0
+offset_right = 32.0
+offset_bottom = 50.0
+
+[node name="segment12" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 12.0
+offset_right = 34.0
+offset_bottom = 50.0
+
+[node name="segment13" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 12.0
+offset_right = 36.0
+offset_bottom = 52.0
+
+[node name="segment14" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 36.0
+offset_top = 12.0
+offset_right = 38.0
+offset_bottom = 52.0
+
+[node name="segment15" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 38.0
+offset_top = 12.0
+offset_right = 40.0
+offset_bottom = 52.0
+
+[node name="segment16" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 12.0
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="segment17" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 42.0
+offset_top = 12.0
+offset_right = 44.0
+offset_bottom = 52.0
+
+[node name="segment18" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 44.0
+offset_top = 12.0
+offset_right = 46.0
+offset_bottom = 54.0
+
+[node name="segment19" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 12.0
+offset_right = 48.0
+offset_bottom = 54.0
+
+[node name="segment20" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 48.0
+offset_top = 12.0
+offset_right = 50.0
+offset_bottom = 54.0
+
+[node name="segment21" type="ColorRect" parent="health_left"]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 12.0
+offset_right = 52.0
+offset_bottom = 54.0
+
+[node name="health_middle" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 52.0
+offset_top = 12.0
+offset_right = 56.0
+offset_bottom = 56.0
+
+[node name="health_right" type="ColorRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 52.0
+offset_top = 12.0
+offset_right = 56.0
+offset_bottom = 56.0
+
+[node name="decoration_main" type="TextureRect" parent="."]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 64.0
+texture = SubResource("AtlasTexture_3m55f")
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 84.0
+offset_top = -30.0
+offset_right = 92.0
+offset_bottom = -22.0
+
+[node name="Button2" type="Button" parent="."]
+layout_mode = 0
+offset_left = 166.0
+offset_top = -44.0
+offset_right = 210.0
+offset_bottom = -16.0
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

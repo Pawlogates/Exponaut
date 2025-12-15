@@ -4,7 +4,7 @@ extends Node2D
 
 var color_rect_visible = false #DEBUG
 
-var meme_scene = preload("res://Meme Mode/memeMode_secondary.tscn")
+var meme_scene = preload("res://Other/Game Modes/Meme Mode/memeMode_secondary.tscn")
 
 var randomize_all = false
 
@@ -14,8 +14,8 @@ var is_text = false
 var only_one = true
 var sfx_only_one = true
 
-var sound_filepath = preload("res://Meme Mode/audio/1.mp3")
-var music_filepath = preload("res://Meme Mode/audio/music/1.mp3")
+var sound_filepath = preload("res://Other/Game Modes/Meme Mode/audio/1.mp3")
+var music_filepath = preload("res://Other/Game Modes/Meme Mode/audio/music/1.mp3")
 
 var anim_scale_loop = false
 var anim_opacity_loop = true
@@ -174,7 +174,7 @@ func _process(_delta):
 
 func handle_text():
 	print("spawning text")
-	var text = preload("res://Meme Mode/meme_mode_text.tscn").instantiate()
+	var text = preload("res://Other/Game Modes/Meme Mode/meme_mode_text.tscn").instantiate()
 	text.position = position
 	get_parent().add_child(text)
 
@@ -204,7 +204,7 @@ func _on_timer_2_timeout():
 	queue_free()
 
 
-var sfx = preload("res://Meme Mode/memeMode_sfx.tscn")
+var sfx = preload("res://Other/Game Modes/Meme Mode/memeMode_sfx.tscn")
 
 func _on_timer_3_timeout():
 	var x = randi_range(0, 6)

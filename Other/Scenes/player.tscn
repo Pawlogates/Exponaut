@@ -1,13 +1,8 @@
-[gd_scene load_steps=57 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=52 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" uid="uid://bvqjdy74r3ptq" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="2_vnlwi"]
-[ext_resource type="AudioStream" uid="uid://bypu2n6tdxni4" path="res://Assets/Sounds/sfx/collect_secret2.wav" id="3_3ak63"]
-[ext_resource type="AudioStream" uid="uid://dlvig2qlrk412" path="res://Assets/Sounds/sfx/player_attack.wav" id="4_ibr3r"]
-[ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="5_mtou0"]
-[ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="6_vae5a"]
-[ext_resource type="AudioStream" uid="uid://kw6nmpm2u6yh" path="res://Assets/Sounds/sfx/effect_landed.wav" id="6_vehlj"]
-[ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="7_nf138"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_x8fgr"]
 [ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow_effect.tres" id="9_6epbf"]
 [ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/player_rainbowSlow_effect.tres" id="10_yfdc7"]
 
@@ -272,11 +267,11 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_q480c"]
-size = Vector2(40, 112)
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ct51a"]
 size = Vector2(32, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_q480c"]
+size = Vector2(40, 112)
 
 [sub_resource type="Animation" id="Animation_n7rd3"]
 length = 0.001
@@ -583,27 +578,19 @@ sprite_frames = SubResource("SpriteFrames_c8f3n")
 animation = &"idle"
 frame_progress = 0.924795
 
-[node name="shootAnimDelay" type="Timer" parent="AnimatedSprite2D"]
-wait_time = 0.75
-one_shot = true
-
-[node name="crouch_walkAnimDelay" type="Timer" parent="AnimatedSprite2D"]
+[node name="cooldown_crouch_walk" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.4
 one_shot = true
 
-[node name="crouch_walkCollisionSwitch" type="Timer" parent="AnimatedSprite2D"]
+[node name="cooldown_crouch_walk_correct_collision" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.1
 one_shot = true
 
-[node name="idle_timer" type="Timer" parent="."]
-wait_time = 0.25
-one_shot = true
-
-[node name="jump_leniency" type="Timer" parent="."]
+[node name="timer_leniency_jump" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
 
-[node name="wallJump_leniency" type="Timer" parent="."]
+[node name="timer_leniency_wall_jump" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
 
@@ -614,22 +601,23 @@ z_index = 1
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
 
-[node name="Player_hitbox_tileDetection" type="Area2D" parent="." groups=["player_exact"]]
-input_pickable = false
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_tileDetection"]
-shape = SubResource("RectangleShape2D_q480c")
-debug_color = Color(0.611765, 0.537255, 0, 0.419608)
-
-[node name="Player_hitbox_main" type="Area2D" parent="." groups=["player"]]
+[node name="hitbox_main" type="Area2D" parent="." groups=["player"]]
 position = Vector2(0, 8)
 collision_layer = 2
 collision_mask = 7
 input_pickable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player_hitbox_main"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_main"]
 shape = SubResource("RectangleShape2D_ct51a")
 debug_color = Color(0.984314, 0, 0.329412, 0.419608)
+
+[node name="hitbox_dash_scan_solid" type="Area2D" parent="hitbox_main" groups=["player_exact"]]
+position = Vector2(0, -8)
+input_pickable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_main/hitbox_dash_scan_solid"]
+shape = SubResource("RectangleShape2D_q480c")
+debug_color = Color(0.611765, 0.537255, 0, 0.419608)
 
 [node name="raycast_top" type="RayCast2D" parent="."]
 position = Vector2(0, -56)
@@ -645,60 +633,40 @@ hit_from_inside = true
 target_position = Vector2(40, 0)
 hit_from_inside = true
 
-[node name="stuckCheck" type="Timer" parent="."]
+[node name="stuck_check" type="Timer" parent="."]
 wait_time = 6.0
 autostart = true
 
-[node name="stuckCheck_confirm" type="Timer" parent="stuckCheck"]
+[node name="stuck_confirm" type="Timer" parent="stuck_check"]
 wait_time = 6.0
 one_shot = true
 
-[node name="dash_timer" type="Timer" parent="."]
+[node name="timer_dash" type="Timer" parent="."]
 wait_time = 0.5
 one_shot = true
 
-[node name="dash_speedBlock" type="Timer" parent="dash_timer"]
+[node name="timer_dash_speed_block" type="Timer" parent="timer_dash"]
 wait_time = 0.1
 one_shot = true
 
-[node name="dash_endSlowdown_delay" type="Timer" parent="dash_timer"]
+[node name="cooldown_dash_end_slowdown_enable" type="Timer" parent="timer_dash"]
 wait_time = 0.3
 one_shot = true
 
-[node name="dash_endSlowdown_active" type="Timer" parent="dash_timer"]
+[node name="cooldown_dash_end_slowdown_disable" type="Timer" parent="timer_dash"]
 wait_time = 0.1
 one_shot = true
 
-[node name="damage" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_3ak63")
-volume_db = 10.0
+[node name="timer_dash_await_jump" type="Timer" parent="timer_dash"]
+unique_name_in_owner = true
+wait_time = 0.66
+one_shot = true
 
-[node name="shoot" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_ibr3r")
+[node name="dash_check" type="Timer" parent="timer_dash"]
+wait_time = 0.2
+autostart = true
 
-[node name="shoot2" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_ibr3r")
-
-[node name="shoot3" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_ibr3r")
-
-[node name="shoot4" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("4_ibr3r")
-
-[node name="jump" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_mtou0")
-
-[node name="air_jump" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("5_mtou0")
-
-[node name="wall_jump" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_vae5a")
-
-[node name="landed" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_vehlj")
-
-[node name="death" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("7_nf138")
+[node name="sfx_manager" parent="." instance=ExtResource("3_x8fgr")]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
@@ -711,41 +679,37 @@ libraries = {
 &"": SubResource("AnimationLibrary_mcx4o")
 }
 
-[node name="jumpBuildVelocity" type="Timer" parent="."]
+[node name="timer_jump" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
 
-[node name="dust_effect" type="Timer" parent="."]
+[node name="cooldown_effect_dust" type="Timer" parent="."]
 wait_time = 2.0
 one_shot = true
 
-[node name="attack_cooldown" type="Timer" parent="."]
+[node name="cooldown_attack" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 1.5
 one_shot = true
 
-[node name="secondaryAttack_cooldown" type="Timer" parent="."]
+[node name="cooldown_secondaryAttack" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 1.5
 one_shot = true
 
-[node name="justLanded_delay" type="Timer" parent="."]
+[node name="timer_recently_landed" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.2
 one_shot = true
 
-[node name="awaitJump_timer" type="Timer" parent="."]
-unique_name_in_owner = true
-wait_time = 0.66
+[node name="timer_recently_bounced" type="Timer" parent="."]
+wait_time = 0.5
 one_shot = true
 
-[node name="attackedTimer" type="Timer" parent="."]
+[node name="timer_recently_left_wind" type="Timer" parent="."]
+wait_time = 1.2
 one_shot = true
-
-[node name="dashCheck" type="Timer" parent="."]
-wait_time = 0.2
-autostart = true
 
 [node name="powerup_timer" type="Timer" parent="."]
 wait_time = 5.0
@@ -755,36 +719,43 @@ one_shot = true
 wait_time = 0.5
 one_shot = true
 
-[node name="just_left_wind" type="Timer" parent="."]
-wait_time = 1.2
+[node name="timer_invincible" type="Timer" parent="."]
+
+[node name="timer_state_shooting" type="Timer" parent="."]
+wait_time = 0.75
 one_shot = true
 
-[node name="just_bounced" type="Timer" parent="."]
-wait_time = 0.5
+[node name="timer_state_damaged" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="AnimatedSprite2D/shootAnimDelay" to="." method="_on_shoot_anim_delay_timeout"]
-[connection signal="timeout" from="AnimatedSprite2D/crouch_walkAnimDelay" to="." method="_on_crouch_walk_anim_delay_timeout"]
-[connection signal="timeout" from="AnimatedSprite2D/crouch_walkCollisionSwitch" to="." method="_on_crouch_walk_collision_switch_timeout"]
-[connection signal="timeout" from="idle_timer" to="." method="_on_idle_timer_timeout"]
-[connection signal="body_entered" from="Player_hitbox_tileDetection" to="." method="_on_player_hitbox_tile_detection_body_entered"]
-[connection signal="body_exited" from="Player_hitbox_tileDetection" to="." method="_on_player_hitbox_tile_detection_body_exited"]
-[connection signal="area_entered" from="Player_hitbox_main" to="." method="_on_player_hitbox_main_area_entered"]
-[connection signal="timeout" from="stuckCheck" to="." method="_on_stuck_check_timeout"]
-[connection signal="timeout" from="stuckCheck/stuckCheck_confirm" to="." method="_on_stuck_check_confirm_timeout"]
-[connection signal="timeout" from="dash_timer" to="." method="_on_dash_timer_timeout"]
-[connection signal="timeout" from="dash_timer/dash_speedBlock" to="." method="_on_dash_speed_block_timeout"]
-[connection signal="timeout" from="dash_timer/dash_endSlowdown_delay" to="." method="_on_dash_end_slowdown_timeout"]
-[connection signal="timeout" from="dash_timer/dash_endSlowdown_active" to="." method="_on_dash_end_slowdown_active_timeout"]
-[connection signal="timeout" from="jumpBuildVelocity" to="." method="_on_jump_build_velocity_timeout"]
-[connection signal="timeout" from="dust_effect" to="." method="_on_dust_effect_timeout"]
-[connection signal="timeout" from="attack_cooldown" to="." method="_on_attack_cooldown_timeout"]
-[connection signal="timeout" from="secondaryAttack_cooldown" to="." method="_on_secondary_attack_cooldown_timeout"]
-[connection signal="timeout" from="justLanded_delay" to="." method="_on_just_landed_delay_timeout"]
-[connection signal="timeout" from="awaitJump_timer" to="." method="_on_await_jump_timer_timeout"]
-[connection signal="timeout" from="attackedTimer" to="." method="_on_attacked_timer_timeout"]
-[connection signal="timeout" from="dashCheck" to="." method="_on_dash_check_timeout"]
+[node name="cooldown_state_idle" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[connection signal="timeout" from="AnimatedSprite2D/cooldown_crouch_walk" to="." method="_on_cooldown_crouch_walk_timeout"]
+[connection signal="timeout" from="AnimatedSprite2D/cooldown_crouch_walk_correct_collision" to="." method="_on_cooldown_crouch_walk_correct_collision_timeout"]
+[connection signal="timeout" from="timer_leniency_jump" to="." method="_on_timer_leniency_jump_timeout"]
+[connection signal="timeout" from="timer_leniency_wall_jump" to="." method="_on_timer_leniency_wall_jump_timeout"]
+[connection signal="area_entered" from="hitbox_main" to="." method="_on_hitbox_main_area_entered"]
+[connection signal="body_entered" from="hitbox_main/hitbox_dash_scan_solid" to="." method="_on_hitbox_dash_scan_solid_body_entered"]
+[connection signal="body_exited" from="hitbox_main/hitbox_dash_scan_solid" to="." method="_on_hitbox_dash_scan_solid_body_exited"]
+[connection signal="timeout" from="stuck_check" to="." method="_on_stuck_check_timeout"]
+[connection signal="timeout" from="stuck_check/stuck_confirm" to="." method="_on_stuck_confirm_timeout"]
+[connection signal="timeout" from="timer_dash" to="." method="_on_timer_dash_timeout"]
+[connection signal="timeout" from="timer_dash/timer_dash_speed_block" to="." method="_on_timer_dash_speed_block_timeout"]
+[connection signal="timeout" from="timer_dash/cooldown_dash_end_slowdown_enable" to="." method="_on_cooldown_dash_end_slowdown_enable_timeout"]
+[connection signal="timeout" from="timer_dash/cooldown_dash_end_slowdown_disable" to="." method="_on_cooldown_dash_end_slowdown_disable_timeout"]
+[connection signal="timeout" from="timer_dash/timer_dash_await_jump" to="." method="_on_await_jump_timer_timeout"]
+[connection signal="timeout" from="timer_dash/dash_check" to="." method="_on_dash_check_timeout"]
+[connection signal="timeout" from="timer_jump" to="." method="_on_timer_jump_timeout"]
+[connection signal="timeout" from="cooldown_effect_dust" to="." method="_on_cooldown_effect_dust_timeout"]
+[connection signal="timeout" from="cooldown_attack" to="." method="_on_cooldown_attack_timeout"]
+[connection signal="timeout" from="cooldown_secondaryAttack" to="." method="_on_cooldown_secondaryAttack_timeout"]
+[connection signal="timeout" from="timer_recently_landed" to="." method="_on_timer_recently_landed_timeout"]
+[connection signal="timeout" from="timer_recently_bounced" to="." method="_on_timer_state_recently_bounced_timeout"]
+[connection signal="timeout" from="timer_recently_left_wind" to="." method="_on_just_left_wind_timeout"]
 [connection signal="timeout" from="powerup_timer" to="." method="_on_powerup_timer_timeout"]
 [connection signal="timeout" from="block_movement_full" to="." method="_on_block_movement_full_timeout"]
-[connection signal="timeout" from="just_left_wind" to="." method="_on_just_left_wind_timeout"]
-[connection signal="timeout" from="just_bounced" to="." method="_on_just_bounced_timeout"]
+[connection signal="timeout" from="timer_state_shooting" to="." method="_on_timer_anim_shooting_timeout"]
+[connection signal="timeout" from="timer_state_damaged" to="." method="_on_attacked_timer_timeout"]
+[connection signal="timeout" from="cooldown_state_idle" to="." method="_on_cooldown_anim_idle_timeout"]

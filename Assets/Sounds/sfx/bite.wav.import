@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://uls5epc3p068"
-path="res://.godot/imported/collect_apple2.wav-46c6f891c1c59353686a6f28956dce8c.sample"
+path="res://.godot/imported/bite.wav-2391447f96591b387ec5c2b584c6309a.sample"
 
 [deps]
 
-source_file="res://Assets/Sounds/sfx/collect_apple2.wav"
-dest_files=["res://.godot/imported/collect_apple2.wav-46c6f891c1c59353686a6f28956dce8c.sample"]
+source_file="res://Assets/Sounds/sfx/bite.wav"
+dest_files=["res://.godot/imported/bite.wav-2391447f96591b387ec5c2b584c6309a.sample"]
 
 [params]
 

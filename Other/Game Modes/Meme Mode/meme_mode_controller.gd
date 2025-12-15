@@ -60,7 +60,7 @@ func _process(_delta: float) -> void:
 
 #MAIN MEME SPAWNER, ALMOST EVERYTHING COMES FROM HERE.
 func _on_meme_mode_timer_timeout():
-	var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
+	var meme_spawner = preload("res://Other/Game Modes/Meme Mode/memeMode_image_spawner.tscn").instantiate()
 	meme_spawner.randomize_all = true
 	meme_spawner.position = Vector2(spawn_around_this_node.position.x + randi_range(-800, 800), spawn_around_this_node.position.y + randi_range(-500, 500))
 	#debug
@@ -73,7 +73,7 @@ func _on_meme_mode_timer_timeout():
 
 # SECONDARY MEME SPAWNER, WHICH SPAWNS RED CIRCLES AND ARROWS, AS WELL AS VARIOUS TEXT.
 func _on_meme_mode_timer_2_timeout() -> void:
-	var meme_spawner2 = preload("res://Meme Mode/memeMode_secondary_spawner.tscn").instantiate()
+	var meme_spawner2 = preload("res://Other/Game Modes/Meme Mode/memeMode_secondary_spawner.tscn").instantiate()
 	meme_spawner2.randomize_all = true
 	meme_spawner2.position = Vector2(spawn_around_this_node.position.x + randi_range(-800, 800), spawn_around_this_node.position.y + randi_range(-500, 500))
 	#debug
@@ -85,7 +85,7 @@ func _on_meme_mode_timer_2_timeout() -> void:
 	$meme_mode_timer2.start()
 
 
-var video_scene = preload("res://Meme Mode/memeMode_video.tscn")
+var video_scene = preload("res://Other/Game Modes/Meme Mode/memeMode_video.tscn")
 var video_filepath : String
 
 func _on_meme_mode_timer_3_timeout() -> void:
@@ -95,7 +95,7 @@ func _on_meme_mode_timer_3_timeout() -> void:
 	video.position = spawn_around_this_node.position
 	video.scale = Vector2(randf_range(0.8, 2), randf_range(0.8, 2))
 	video.volume_db = randi_range(-10, 20)
-	video.material = preload("res://Meme Mode/remove_green.tres")
+	video.material = preload("res://Other/Game Modes/Meme Mode/remove_green.tres")
 	video.scale += Vector2(2, 2)
 	
 	var rolled_is_position_offset = randi_range(0, 3)
@@ -128,7 +128,7 @@ func _on_delete_items_timer_timeout() -> void:
 
 
 func _on_image_static_timeout() -> void:
-	var meme_spawner = preload("res://Meme Mode/memeMode_image_spawner.tscn").instantiate()
+	var meme_spawner = preload("res://Other/Game Modes/Meme Mode/memeMode_image_spawner.tscn").instantiate()
 	meme_spawner.randomize_all = false
 	meme_spawner.position = Vector2(spawn_around_this_node.position.x + randi_range(-800, 800), spawn_around_this_node.position.y + randi_range(-500, 500))
 	meme_spawner.only_one = true
@@ -163,10 +163,10 @@ func _on_rotating_effect_3d_timeout() -> void:
 	$rotating_effect_3d.wait_time = randf_range(0.25, 12)
 	$rotating_effect_3d.start()
 	
-	var scene_rotating_effect_3d = preload("res://Meme Mode/rotating_effect_3d.tscn")
+	var scene_rotating_effect_3d = preload("res://Other/Game Modes/Meme Mode/rotating_effect_3d.tscn")
 	var rotating_effect_3d = scene_rotating_effect_3d.instantiate()
 	$"../SubViewportContainer".position = spawn_around_this_node.position
-	$"../SubViewportContainer".material = preload("res://Meme Mode/remove_black.tres")
+	$"../SubViewportContainer".material = preload("res://Other/Game Modes/Meme Mode/remove_black.tres")
 	$"../SubViewportContainer/SubViewport".add_child(rotating_effect_3d)
 
 
@@ -174,7 +174,7 @@ func _on_image_falling_down_timeout() -> void:
 	$image_falling_down.wait_time = randf_range(0.25, 16)
 	$image_falling_down.start()
 	
-	var scene_image_falling_down = preload("res://Meme Mode/image_falling_down.tscn")
+	var scene_image_falling_down = preload("res://Other/Game Modes/Meme Mode/image_falling_down.tscn")
 	var image_falling_down = scene_image_falling_down.instantiate()
 	image_falling_down.position += spawn_around_this_node.position
 	add_child(image_falling_down)
@@ -184,7 +184,7 @@ func _on_caption_timeout() -> void:
 	$caption.wait_time = randf_range(1, 90)
 	$caption.start()
 	
-	var scene_caption = preload("res://Meme Mode/caption.tscn")
+	var scene_caption = preload("res://Other/Game Modes/Meme Mode/caption.tscn")
 	var caption = scene_caption.instantiate()
 	caption.position += spawn_around_this_node.position
 	add_child(caption)
@@ -216,7 +216,7 @@ func _on_image_moving_around_timeout() -> void:
 	$image_moving_around.wait_time = randf_range(1, 30)
 	$image_moving_around.start()
 	
-	var scene_image_moving_around = preload("res://Meme Mode/image_moving_around.tscn")
+	var scene_image_moving_around = preload("res://Other/Game Modes/Meme Mode/image_moving_around.tscn")
 	var image_moving_around = scene_image_moving_around.instantiate()
 	image_moving_around.position += spawn_around_this_node.position
 	add_child(image_moving_around)
@@ -225,7 +225,7 @@ func _on_image_pulse_timeout() -> void:
 	$image_pulse.wait_time = randf_range(1, 30)
 	$image_pulse.start()
 	
-	var scene_image_pulse = preload("res://Meme Mode/image_pulse_spawner.tscn")
+	var scene_image_pulse = preload("res://Other/Game Modes/Meme Mode/image_pulse_spawner.tscn")
 	var image_pulse = scene_image_pulse.instantiate()
 	image_pulse.position += spawn_around_this_node.position
 	add_child(image_pulse)

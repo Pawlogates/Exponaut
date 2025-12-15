@@ -3,6 +3,7 @@ extends Node
 @onready var World = $/root/World
 @onready var Player = $/root/World/player
 
+
 # Folder paths (String) for better readability:
 var dirpath_saves = "user://saves"
 var d_playerData = dirpath_saves + "/playerData"
@@ -10,61 +11,31 @@ var d_levelSet = dirpath_saves + "/levelSet"
 var d_levelState = dirpath_saves + "/levelState"
 
 var dirpath_assets = "res://Assets"
-var d_graphics = "res://Assets/Graphics"
-var d_backgrounds = "res://Assets/backgrounds"
-var d_sprites = "res://Assets/sprites"
-var d_tilesets = "res://Assets/tilesets"
+var dirpath_graphics = dirpath_assets + "/Graphics"
+var d_backgrounds = dirpath_graphics + "/backgrounds"
+var d_sprites = dirpath_graphics + "/sprites"
+var d_tilesets = dirpath_graphics + "/tilesets"
 
-var d_sounds = "res://Assets/Sounds"
-var d_music = "res://Assets/music"
-var d_ambience = "res://Assets/ambience"
+var dirpath_sounds = dirpath_assets + "/Sounds"
+var d_music = dirpath_sounds + "/music"
+var d_ambience = dirpath_sounds + "/ambience"
 
 
 # Various lists (String):
 var l_levelSet_id : Array = ["MAIN, BONUS, DEBUG"]
 var l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
 
-# Lists (Array) of various entity properties, used for randomization purposes.
-# These lists contain word based properties (String).
-@onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
-@onready var list_movementType_limited = ["normal", "followPlayerX", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted"]
-@onready var list_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
-@onready var list_level_ID = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
-@onready var list_special_apple_type = ["red", "blue", "golden"]
-@onready var list_temporary_powerup = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
-@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
-@onready var list_secondaryWeapon = ["basic", "fast"]
-@onready var list_potion = ["rooster", "bird", "chicken"]
-
-# These lists contain every single entity scene from their respective folders.
-# Scenes:
-@onready var list_collectible = []
-@onready var list_enemy = []
-@onready var list_box = []
-@onready var list_projectile = []
-# Packed animation sets:
-@onready var list_sprite_collectible = []
-@onready var list_sprite_enemy = []
-@onready var list_sprite_box = []
-@onready var list_sprite_projectile = []
-
-# Alternative lists with some types of entities excluded (Used when spawning large amounts of said entity type would otherwise cause issues).
-@onready var list_onDeath_item_scene = []
-@onready var list_onDeath_item_blacklist_enemy_scene = []
-@onready var list_onDeath_projectile_scene = []
-@onready var list_onDeath_secondaryProjectile_scene = []
-@onready var list_onHit_item_scene = []
-@onready var list_onHit_item_blacklist_enemy_scene = []
-@onready var list_onSpotted_item_scene = []
-@onready var list_onSpotted_item_blacklist_enemy_scene = []
-@onready var list_onSpotted_projectile_scene = []
-@onready var list_onSpotted_secondaryProjectile_scene = []
-@onready var list_onTimer_item_scene = []
-@onready var list_onTimer_item_blacklist_enemy_scene = []
-@onready var list_onTimer_projectile_scene = []
-@onready var list_onTimer_secondaryProjectile_scene = []
-@onready var list_bonusBox_item_scene = []
-@onready var list_bonusBox_item_blacklist_enemy_scene = []
+# Reusable sentences (String):
+var s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
+var s_levelSet_unlockedBy_score = "Unlocked by achieving a score of "
+var s_levelSet_unlockedBy_level = "Unlocked by finishing "
+var s_levelSet_unlockedBy_portal_overworld = s_levelSet_unlockedBy_portal + "the Overworld's "
+var s_levelSet_unlockedBy_portal_level = s_levelSet_unlockedBy_portal + "a level called: "
+var s_levelSet_unlockedBy_score_overworld = " in the Overworld"
+var s_levelSet_unlockedBy_score_level = "in a level called: "
+var s_levelSet_unlockedBy_score_levelSet = " combined across all levels in a level set called: "
+var s_levelSet_unlockedBy_level_previous = "the previous level."
+var s_levelSet_unlockedBy_level_specific = "a level called: "
 
 
 # Effects and particles:
@@ -78,6 +49,17 @@ var scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
 var scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
 var scene_particle_splash = preload("res://Other/Particles/splash.tscn")
 var scene_effect_dust = preload("res://Other/Effects/dust.tscn")
+
+
+# Sound effects:
+var sfx_player_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
+var sfx_player_wall_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
+var sfx_player_shoot = preload("res://Assets/Sounds/sfx/projectile_shoot.wav")
+var sfx_player_hit = preload("res://Assets/Sounds/sfx/effect_slash.wav")
+var sfx_player_damage = preload("res://Assets/Sounds/sfx/robot_damage.wav")
+var sfx_player_death = preload("res://Assets/Sounds/sfx/rabbit_death.wav")
+var sfx_player_heal = preload("res://Assets/Sounds/sfx/heal.wav")
+
 
 # Main scenes:
 var scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
@@ -127,58 +109,78 @@ func handle_actions():
 func reassign_general():
 	World = $/root/World
 	Player = $/root/World/player
+	
+	return [World, Player]
+
+
+func change_main_scene(scene):
+	Overlay.animation("fade_black", false, 1.0, true)
+	get_tree().change_scene_to_packed(scene)
+	Overlay.animation("fade_black", true, 1.0, true)
 
 
 # Important gameplay-related properties.
-var player_health = 10
+
+# Player:
+var player_health = 100
 
 var player_position = Vector2(0, 0)
 var player_velocity = Vector2(0, 0)
 
-var player_direction = 0
-var player_direction_active = 1
+var player_direction = 0 # Only vertical.
+var player_direction_active = 1 # Can never be equal to 0 (standing still).
+var player_direction_full = Vector2(0, 0) # Both vertical and horizontal.
+var player_direction_full_active = Vector2(0, 0) # None of the values (x and y) can ever be equal to 0.
 
-var level_score = 0
+# Score:
+var level_score = 0 # Current level's score.
+var score_multiplier = 1 # Main score multiplier, increased by means other than the combo system. It affects both combo score as well as the actual score.
 var combo_score = 0
+var combo_collectibles = 0 # Combo starts on collecting a collectible, damaging an enemy or various other actions performed by the player. It lasts a different amount of time depending on the action that started/prolonged it. The combo can be prolonged if player performs another action while it's already active, resetting the combo timer.
 var combo_tier = 1
-var collected_in_cycle = 0 # Combo cycle starts on collecting a collectible, damaging an enemy or various other actions performed by the player. It lasts a different amount of time depending on the action that started/prolonged it. The cycle can be prolonged if player performs another action while it's already active, resetting the cycle timer.
+var combo_multiplier = 1 # Increases by 1 every 5 collectibles collected (or other specific actions performed) by the player during a combo, up to 10. (x1 during 1-5, x2 during 6-10, x3 during 11-15, x4 during 16-20, x5 during 21-25, x6 during 26-30, x7 during 31-35, x8 during 36-40, x9 during 41-45, and finally x10 during 46-50. The final - x11
 
-var total_score = 0
+var total_score = 0 # Current save slot's total score, combined across all overworld segments and all of the overworld's level set levels.
 
 var collected_collectibles = 0 # Collectibles collected in the current level.
-var collectibles_in_this_level = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (For instance, when destroying a box containing collectibles).
+var collected_majorCollectibles = 0
 
-var collected_goldenApples = 0
-var collected_blueApples = 0
-var collected_redApples = 0
+var total_collectibles_in_currentLevel = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var total_enemies_in_currentLevel = 0
+var total_majorCollectibles_in_currentLevel = 0
 
 var player_weaponType = "none"
+
+var gravity = 1.0
 
 
 # Signals:
 # Combo streak extenders:
-signal itemCollected
-signal enemyHit
-signal boxBroken
-signal specialAction
+signal combo_refreshed(time)
+
+signal entity_collected
+signal entity_hit
+signal entity_killed
 
 # These signals are emitted after an action related to the player is performed.
-signal shot
-signal shot_charged
-signal exitReached
-signal comboReset
-signal scoreReduced
-signal scoreReset
-signal canStandUp
-signal powerUpActivated
-signal playerTransformed
-signal maxScoreMultiplierReached
-signal level_entered
-signal level_finished
+signal projectile_shot
+signal projectile_charged
 signal checkpoint_activated
+signal exit_activated
+signal powerUp_activated
+signal transformation_activated
+signal combo_reset
+signal combo_reduced
+signal score_reset
+signal score_reduced
+signal can_standUp # Used in the player dash logic.
+signal max_scoreMultiplier_reached
+signal max_score_reached
+signal level_started
+signal level_finished
 
-signal weapon_collected
-signal secondaryWeapon_collected
+signal collected_weapon
+signal collected_secondary
 
 # These signals are emitted after an action is performed.
 signal save_levelState_saved # Only one level is saved here at a time. Level State refers to objects (and their state) inside of a level and other persistent aspects of it, to be restored when player comes back to an already visited overworld level, or loading a quicksave.
@@ -192,6 +194,7 @@ signal save_levelSet_loaded
 signal player_damage(value)
 signal player_kill
 signal player_heal(value)
+signal update_player_health
 
 signal save_playerData
 signal save_levelSet(levelSet_name)
@@ -322,3 +325,46 @@ var display_message_debug_textQueue : Array = ["Welcome to the debug display!", 
 func message_debug(text):
 	display_message_debug_textQueue.append(str(text))
 	Globals.refresh_info.emit()
+
+
+# Lists (Array) of various entity properties, used for randomization purposes.
+# These lists contain word based properties (String).
+@onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
+@onready var list_movementType_limited = ["normal", "followPlayerX", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted"]
+@onready var list_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
+@onready var list_level_ID = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
+@onready var list_special_apple_type = ["red", "blue", "golden"]
+@onready var list_temporary_powerup = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
+@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
+@onready var list_secondaryWeapon = ["basic", "fast"]
+@onready var list_potion = ["rooster", "bird", "chicken"]
+
+# These lists contain every single entity scene from their respective folders.
+# Scenes:
+@onready var l_collectible = []
+@onready var l_enemy = []
+@onready var l_box = []
+@onready var l_projectile = []
+# Packed animation sets:
+@onready var l_sprite_collectible = []
+@onready var l_sprite_enemy = []
+@onready var l_sprite_box = []
+@onready var l_sprite_projectile = []
+
+# Alternative lists with some types of entities excluded (Used when spawning large amounts of said entity type would otherwise cause issues).
+@onready var l_onDeath_item_scene = []
+@onready var l_onDeath_item_blacklist_enemy_scene = []
+@onready var l_onDeath_projectile_scene = []
+@onready var l_onDeath_secondaryProjectile_scene = []
+@onready var l_onHit_item_scene = []
+@onready var l_onHit_item_blacklist_enemy_scene = []
+@onready var l_onSpotted_item_scene = []
+@onready var l_onSpotted_item_blacklist_enemy_scene = []
+@onready var l_onSpotted_projectile_scene = []
+@onready var l_onSpotted_secondaryProjectile_scene = []
+@onready var l_onTimer_item_scene = []
+@onready var l_onTimer_item_blacklist_enemy_scene = []
+@onready var l_onTimer_projectile_scene = []
+@onready var l_onTimer_secondaryProjectile_scene = []
+@onready var l_bonusBox_item_scene = []
+@onready var l_bonusBox_item_blacklist_enemy_scene = []

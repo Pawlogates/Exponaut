@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://cvlxrixprvn3c"
-path="res://.godot/imported/collect_apple.wav-338ac8856aeef4d1e5fd216eea6465ef.sample"
+path="res://.godot/imported/crunch.wav-37f62edb07f2f28d561b6de63ca6c756.sample"
 
 [deps]
 
-source_file="res://Assets/Sounds/sfx/collect_apple.wav"
-dest_files=["res://.godot/imported/collect_apple.wav-338ac8856aeef4d1e5fd216eea6465ef.sample"]
+source_file="res://Assets/Sounds/sfx/crunch.wav"
+dest_files=["res://.godot/imported/crunch.wav-37f62edb07f2f28d561b6de63ca6c756.sample"]
 
 [params]
 

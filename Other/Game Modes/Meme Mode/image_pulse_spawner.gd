@@ -2,8 +2,8 @@ extends Node2D
 
 @onready var settings = $/root/World/meme_mode_controller/Settings
 
-var image_filepath = "res://Meme Mode/pictures/5.jpg"
-var scene_image_pulse = preload("res://Meme Mode/image_pulse.tscn")
+var image_filepath = "res://Other/Game Modes/Meme Mode/pictures/5.jpg"
+var scene_image_pulse = preload("res://Other/Game Modes/Meme Mode/image_pulse.tscn")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

@@ -1,9 +1,5 @@
 extends Node2D
 
-var starParticleScene = preload("res://Particles/particles_special.tscn")
-var starParticle2Scene = preload("res://Particles/particles_star.tscn")
-var particle_score_scene = preload("res://Particles/particle_score.tscn")
-
 var collected = false
 var removable = false
 
@@ -113,18 +109,18 @@ func _on_collectible_entered(body):
 	if Globals.collected_in_cycle > 1:
 		Globals.combo_score += collectibleScoreValue * Globals.combo_tier
 	
-	add_child(starParticleScene.instantiate())
+	add_child(Globals.scene_particle_star.instantiate())
 	if Globals.combo_tier > 1:
-		add_child(starParticleScene.instantiate())
+		add_child(Globals.scene_particle_star.instantiate())
 		%collect1.pitch_scale = 1.1
 		if Globals.combo_tier > 2:
-			add_child(starParticleScene.instantiate())
+			add_child(Globals.scene_particle_star.instantiate())
 			%collect1.pitch_scale = 1.2
 			if Globals.combo_tier > 3:
-				add_child(starParticleScene.instantiate())
+				add_child(Globals.scene_particle_star.instantiate())
 				%collect1.pitch_scale = 1.3
 				if Globals.combo_tier > 4:
-					add_child(starParticle2Scene.instantiate())
+					add_child(Globals.scene_particle_star.instantiate())
 					%collect1.pitch_scale = 1.4
 					bonus_material.set_shader_parameter("strength", 0.5)
 	
@@ -165,7 +161,7 @@ func _on_collectible_entered(body):
 			call_deferred("spawn_particle_score", 1)
 
 func spawn_particle_score(scale_multiplier : int):
-	var particle = particle_score_scene.instantiate()
+	var particle = Globals.scene_particle_star.instantiate()
 	particle.position = position
 	particle.scale = Vector2(scale_multiplier, scale_multiplier)
 	world.add_child(particle)

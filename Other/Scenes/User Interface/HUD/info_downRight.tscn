@@ -1,0 +1,82 @@
+[gd_scene load_steps=6 format=3 uid="uid://bgdbvshlvmes1"]
+
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/text_ui.tres" id="1_v6mw3"]
+
+[sub_resource type="Animation" id="Animation_j24ar"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_j4s7u"]
+resource_name = "on_justQuicksaved"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_ji51j"]
+resource_name = "fade_out"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5xbdw"]
+_data = {
+&"RESET": SubResource("Animation_j24ar"),
+&"fade_in": SubResource("Animation_j4s7u"),
+&"fade_out": SubResource("Animation_ji51j")
+}
+
+[node name="info_downRight" type="Label"]
+modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(800, 150)
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -800.0
+offset_top = -150.0
+grow_horizontal = 0
+grow_vertical = 0
+theme = ExtResource("1_v6mw3")
+theme_override_font_sizes/font_size = 48
+text = "Checkpoint..."
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_5xbdw")
+}
+
+[node name="info_downRight" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0

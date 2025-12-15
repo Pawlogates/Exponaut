@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=6 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
+[ext_resource type="PackedScene" uid="uid://venyptfcari1" path="res://Other/Scenes/User Interface/HUD/HUD.tscn" id="2_o857m"]
 
 [sub_resource type="Animation" id="Animation_g0n3s"]
 length = 0.001
@@ -57,3 +58,5 @@ libraries = {
 &"": SubResource("AnimationLibrary_olarl")
 }
 speed_scale = -2.0
+
+[node name="hud" parent="." instance=ExtResource("2_o857m")]

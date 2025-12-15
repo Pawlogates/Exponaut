@@ -1,16 +1,18 @@
 extends Node2D
 
+var state_empty = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
 # Level Info:
-# States: 0 - Unfinished. 1 - Finished. 2 - All major collectibles collected. 3 - All collectibles collected. -1 - Locked.
+# States: -1 - Locked. 0 - Unfinished. 1 - Finished. 2 - All major collectibles collected. 3 - All collectibles collected.
 
 # Main Levels.
-var state_MAIN_1 = [-1, 0, -1] # [state, score, time
-var state_MAIN_2 = 0
-var state_MAIN_3 = 0
-var state_MAIN_4 = 0
-var state_MAIN_5 = 0
-var state_MAIN_6 = 0
-var state_MAIN_7 = 0
+var state_MAIN_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] # [state, score, time, major_collectibles] Note: Values in major_collectibles represent: 0 - Not collected. 1 - Collected. / hopefully get_nodes_in_group() gets the nodes in a consistent order, otherwise this will be hard to get right without hardcoding... delete this _on_i_told_you_so() /
+var state_MAIN_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_MAIN_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_MAIN_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_MAIN_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_MAIN_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_MAIN_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 #var score_MAIN_1 = 0
 #var score_MAIN_2 = 0
@@ -20,24 +22,24 @@ var state_MAIN_7 = 0
 #var score_MAIN_6 = 0
 #var score_MAIN_7 = 0
 
-var state_MAIN = false
+var state_MAIN = [true] # [(-1 - locked, 0 - unfinished, 1 - finished, 2 - all major collectibles collected, 3 - all collectibles collected), (0 - some levels are not finished so no score rank, 1 - all levels are finished and the lowest possible overall score rank is: F-, 2 - overall score rank: F, 3 - osr: F+, 4 - E-, 5 - E, 6 - E+, 7 - D-, 8 - D, 9 - D+, 10 - C-, 11 - C, 12 - C+, 13 - B-, 14 - B, 15 - B+, 16 - A-, 17 - A, 18 - A+, 19 - S-, 20 - S, 21 - S+), (0 - some levels are not finished so no time rank, 1 - all levels are finished and the lowest possible overall time rank is: F-, 2 - overall time rank: F, 3 - otr: F+, 4 - E-, 5 - E, 6 - E+, 7 - D-, 8 - D, 9 - D+, 10 - C-, 11 - C, 12 - C+, 13 - B-, 14 - B, 15 - B+, 16 - A-, 17 - A, 18 - A+, 19 - S-, 20 - S, 21 - S+)]
 
 # Bonus Levels.
-var state_BONUS_1 = 0
-var state_BONUS_2 = 0
-var state_BONUS_3 = 0
-var state_BONUS_4 = 0
-var state_BONUS_5 = 0
-var state_BONUS_6 = 0
-var state_BONUS_7 = 0
+var state_BONUS_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_BONUS_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_BONUS_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_BONUS_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_BONUS_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_BONUS_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var state_BONUS_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-var score_BONUS_1 = 0
-var score_BONUS_2 = 0
-var score_BONUS_3 = 0
-var score_BONUS_4 = 0
-var score_BONUS_5 = 0
-var score_BONUS_6 = 0
-var score_BONUS_7 = 0
+#var score_BONUS_1 = 0
+#var score_BONUS_2 = 0
+#var score_BONUS_3 = 0
+#var score_BONUS_4 = 0
+#var score_BONUS_5 = 0
+#var score_BONUS_6 = 0
+#var score_BONUS_7 = 0
 
 var total_score_BONUS = 0
 var next_BONUS = 1
@@ -45,11 +47,13 @@ var next_BONUS = 1
 
 # Level information (static):
 
-# info_[levelSet_id] : [levelSet_name, levelSet_background_filepath, level_quantity, level_author (set to "none" to ignore), levelSet_decoration_filepath (set to "none" to ignore)]
-# info_[levelSet_id]_[level_number] : [level_name, icon_id, icon_position_x, icon_position_y, level_score_target, level_time_target]
+# info_[levelSet_id] : [levelSet_name, levelSet_background_filepath, levelSet_decoration_filepath, level_quantity, level_author, unlockMethod_levelSet_previous, unlockMethod_key_in_overworld, unlockMethod_key_in_level, unlockMethod_score_in_overworld, unlockMethod_score_in_level, unlockMethod_score_in_levelSet] Note: Set an unlock method to "none" if it should be ignored. If all are set to "none", the level set will be unlocked from the start.
+# info_[levelSet_id]_[level_number] : [name, icon_id, icon_position_x, icon_position_y, difficulty, author, score_target, time_target, unlockMethod_level_previous, unlockMethod_portal_in_overworld_level_id, unlockMethod_portal_in_level_level_id, unlockMethod_score_in_overworld_level_id, unlockMethod_score_in_level_level_id, unlockMethod_score_in_levelSet_levelSet_id, unlock_score_level, unlock_score_levelSet, unlock_time_level, unlock_time_levelSet]
+# Note that the values (int) in major_collectibles here represent: 0 - Leave this major collectible spot empty. 1 - Assign a major collectible to this spot of the level.
+
 
 # Main Levels.
-var info_MAIN = ["Main Levels", Globals.d_background + "/bg_levelSet_MAIN.png", 12, "Pawlogates", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
+var info_MAIN = ["Main Levels", Globals.d_background + "/bg_levelSet_MAIN.png", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn", 12, "none", "Pawlogates", false, false, false, false, false, false]
 
 var info_MAIN_1 = ["Training Tunnel", 0, -460, 40, 180000, 60, "Pawlogates", "beginner"]
 var info_MAIN_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "Pawlogates", "beginner"]
@@ -63,6 +67,8 @@ var info_MAIN_9 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates"]
 var info_MAIN_10 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates"]
 
 # Bonus Levels.
+var info_BONUS = ["Main Levels", Globals.d_background + "/bg_levelSet_MAIN.png", 12, true, "Pawlogates", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
+
 var info_BONUS_1 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_2 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_3 = ["Unnamed", 1, 100000, 60]
@@ -318,10 +324,12 @@ func data_playerData():
 	return contents
 
 
+# Level sets are collections of levels, shown together on their level set screen.
+# Each level set has its own save files ("levelSet.save") to store its level states (separate from the actual level's collectibles, enemies, etc. state files - "levelState.save"). Level set's level state refers to whether each level has been unlocked, finished, fully cleared, etc.
 func save_levelSet(list_levelSet_id):
 	for levelSet_id in list_levelSet_id:
 		# Save all above properties to the "levelSet[id].save" file.
-		save_file(Globals.d_levelSet + "/levelSet_" + list_levelSet_id + ".save", "data_levelSet")
+		save_file(Globals.d_levelSet + "/levelSet_" + levelSet_id + ".save", "data_levelSet")
 
 
 func load_levelSet():
@@ -353,19 +361,73 @@ func load_levelSet():
 		#state_MAIN_7 = int(data["state_MAIN_7"])
 
 
+func reset_levelSet(id):
+	for level_number in get("info_" + str(id)):
+		set("state_" + str(id) + "_" + str(level_number), state_empty)
+
+
 func data_levelSet(id): # Example id: "MAIN, "BONUS", etc.
 	var contents : Dictionary = {}
 	
 	for level_number in info_MAIN[2]:
-		print(level_number)
+		print("Saving levelSet state for " + str(id) + "_" + str(level_number))
 		contents.get_or_add({
 			# Saved states and scores of levels from various level sets.
-			"state_MAIN_" + str(level_number) : get("state_MAIN_" + str(level_number))
+			"state_" + str(id) + "_" + str(level_number) : get("state_" + str(id) + "_" + str(level_number))
 		}) # !!! add "null" as first parameter if this doesnt work
 	
 	
-	
 	return contents
+
+
+func save_levelState(level_id):
+	if Globals.World.level_overworld_id == "none" : return
+	
+	var file = FileAccess.open(Globals.d_levelState + "/levelState_" + level_id + ".save", FileAccess.WRITE)
+	var save_nodes = get_tree().get_nodes_in_group("Persist")
+	for node in save_nodes:
+		# Check the node is an instanced scene so it can be instanced again during load.
+		if node.scene_file_path.is_empty():
+			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			continue
+		# Check the node has a save function.
+		if !node.has_method("save"):
+			print("persistent node '%s' is missing a save() function, skipped" % node.name)
+			continue
+		# Call the node's save function.
+		var node_data = node.call("save")
+
+		# JSON provides a static method to serialized JSON string.
+		var json_string = JSON.stringify(node_data)
+
+		# Store the save dictionary as a new line in the save file.
+		file.store_line(json_string)
+	
+	
+	Globals.saved_level_score = Globals.level_score
+	
+	Globals.reassign_player()
+	
+	if Globals.World.last_checkpoint_pos == Vector2(0, 0):
+		Globals.saved_player_pos_x = Globals.Player.position.x
+		Globals.saved_player_pos_x = Globals.Player.position.y
+	else:
+		Globals.saved_player_pos_x = Globals.World.last_checkpoint_position[0]
+		Globals.saved_player_pos_y = Globals.World.last_checkpoint_pos[1]
+	
+	
+	%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
+	
+	Globals.saveState_saved.emit()
+	
+	
+	await get_tree().create_timer(0.1, false).timeout
+	Globals.is_saving = false
+
+
+# Set the "quicksave" property value to 0 for normal behaviour.
+func load_levelState(quicksave): # Value of "0" will cause it to load a state file matching the current level's overworld id, while values from 1 to 4 will cause it to load a matching quicksave file (levelState_quicksave1, levelState_quicksave2, etc.)
+	pass
 
 
 func save_file(filepath : String, data_function : String):
@@ -374,6 +436,10 @@ func save_file(filepath : String, data_function : String):
 	var json_contents = JSON.stringify(data)
 	
 	file.store_line(json_contents)
+
+
+func save_file_levelState(level_id):
+	pass
 
 
 # Functions that delete the game's save files.

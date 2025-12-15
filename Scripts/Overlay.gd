@@ -40,8 +40,8 @@ func _physics_process(_delta: float) -> void:
 		Globals.message_debug("Debug mode is active.")
 
 
-# Called from anywhere outside of this script.
-func animation(animation_name, play_backwards, await_finished, speed):
+# Called from anywhere outside of this script. Example: animation("fade_black", false, true, 1.0)
+func animation(animation_name, play_backwards, speed, await_finished):
 	if play_backwards:
 		animation_player.play_backwards(str(animation_name))
 	else:

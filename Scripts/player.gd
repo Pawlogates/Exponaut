@@ -1,41 +1,38 @@
 extends CharacterBody2D
 
+@onready var World = Globals.reassign_general()[0]
+@onready var Player = Globals.reassign_general()[1]
+
 @export var SPEED = 400.0
 @export var JUMP_VELOCITY = -500.0
 @export var ACCELERATION = 1200.0
 @export var FRICTION = 1200.0
-@export var GRAVITY_SCALE = 1.0
+@export var GRAVITY_MULTIPLIER = 1.0
 @export var AIR_SLOWDOWN = -400.0
 @export var AIR_ACCELERATION = 1400.0
 
-@export var can_jump = true
-@export var can_air_jump = true
-@export var can_wall_jump = true
-@export var can_crouch = true
-@export var can_crouch_walk = true
-@export var can_dash = true
+@export var ability_jump = true
+@export var ability_air_jump = true
+@export var ability_wall_jump = true
+@export var ability_crouch = true
+@export var ability_crouch_walk = true
+@export var ability_dash = true
 
 @export var flight = false
 
-var normal_jump = false
-var air_jump = false
+var can_jump = false
+var can_air_jump = false
+var can_wall_jump = false
+
 var on_wall_normal = Vector2.ZERO
 
-var starParticleScene = preload("res://Particles/particles_star.tscn")
-var effect_dustScene = preload("res://Particles/effect_dust.tscn")
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
-
-var start_pos = global_position
+var gravity = Globals.gravity
 
 var base_SPEED = SPEED
 var base_JUMP_VELOCITY = JUMP_VELOCITY
 var base_ACCELERATION = ACCELERATION
 var base_FRICTION = FRICTION
-var base_GRAVITY_SCALE = GRAVITY_SCALE
-
-@onready var World = $/root/World
+var base_GRAVITY_MULTIPLIER = GRAVITY_MULTIPLIER
 
 @onready var sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
@@ -43,38 +40,46 @@ var base_GRAVITY_SCALE = GRAVITY_SCALE
 @onready var collision = $collision_main
 @onready var hitbox = $hitbox_main/CollisionShape2D
 
-@onready var timer_attack_cooldown: Timer = %attack_cooldown
-@onready var timer_secondary_attack_cooldown: Timer = %secondaryAttack_cooldown
+@onready var sfx_manager = $sfx_manager
 
-@onready var jump_leniency = $jump_leniency
-@onready var wall_jump_leniency = $wallJump_leniency
-@onready var powerup_timer = $powerup_timer
-@onready var dash_timer = $dash_timer
-@onready var shoot_anim_delay = $AnimatedSprite2D/shootAnimDelay
-@onready var crouch_walk_anim_delay = $AnimatedSprite2D/crouch_walkAnimDelay
-@onready var crouch_walk_collision_switch = $AnimatedSprite2D/crouch_walkCollisionSwitch
-@onready var player_hitbox_tile_detection = $Player_hitbox_tileDetection
-@onready var jump_build_velocity = $jumpBuildVelocity
-@onready var dash_speed_block = $dash_timer/dash_speedBlock
-@onready var dash_end_slowdown_delay = $dash_timer/dash_endSlowdown_delay
-@onready var dash_end_slowdown_active = $dash_timer/dash_endSlowdown_active
-@onready var timer_block_movement_full: Timer = $block_movement_full
+@onready var c_attack: Timer = %cooldown_attack
+@onready var c_secondaryAttack: Timer = %cooldown_secondaryAttack
 
-@onready var sfx_damage = $damage
-@onready var sfx_death = $death
-@onready var sfx_jump = $jump
-@onready var sfx_air_jump = $air_jump
-@onready var sfx_wall_jump = $wall_jump
+@onready var t_leniency_jump = $timer_leniency_jump
+@onready var t_leniency_wall_jump = $timer_leniency_wall_jump
+@onready var t_powerup = $timer_powerup
+@onready var t_jump = $timer_jump
+@onready var t_dash = $timer_dash
+@onready var t_dash_speed_block = $dash_timer/timer_dash_speed_block
+@onready var c_dash_end_slowdown_enable = $dash_timer/cooldown_dash_end_slowdown_enable
+@onready var c_dash_end_slowdown_disable = $dash_timer/cooldown_dash_end_slowdown_disable
+@onready var t_dash_await_jump = $dash_timer/timer_dash_await_jump
+@onready var dash_check = $timer_dash/dash_check
+@onready var t_block_movement_full: Timer = $block_movement_full
+@onready var t_invincible = $timer_invincible
 
 @onready var animation_player = $AnimationPlayer
 @onready var animation_player2 = $AnimationPlayer2
 
-var crouch_walking = false
-var crouching = false
-var crouchTimer = false
-var crouchMultiplier = 1
+@onready var t_state_shooting = $timer_state_shooting
+@onready var t_state_damaged = $timer_state_damaged
+@onready var t_state_crouching = $timer_state_crouching
+@onready var t_state_walking = $timer_state_walking
 
-#if can_stand_up is equal to 0, there is nothing blocking the player
+@onready var c_crouch_walk = $cooldown_crouch_walk
+@onready var c_crouch_walk_correct_collision = $cooldown_crouch_walk_correct_collision
+
+@onready var hitbox_dash_scan_solid = $hitbox_main/hitbox_dash_scan_solid
+
+
+# Properties:
+var jump_active = false
+
+var crouch_active = false
+var crouch_walk_active = false
+var crouch_walk_multiplier = 1
+
+# If can_stand_up is equal to 0, there is nothing blocking the player
 var can_stand_up = 0
 
 var dash_end_slowdown = false
@@ -82,39 +87,51 @@ var dash_end_slowdown = false
 var rng = RandomNumberGenerator.new()
 var pitch_scale = 1.0
 
-var jumpBuildVelocity_active = false
-
 var dead = false
+var invulnerable = false # Used for the invulnerability period during which the player cannot be damaged.
+var invincible = false # Used for temporary powerups.
 
-var direction = 1
-var shooting = false
+var direction = 0 # Only vertical.
+var direction_active = 1 # Can never be equal to 0 (standing still).
+var direction_full = Vector2(0, 0) # Both vertical and horizontal.
+var direction_full_active = Vector2(0, 0) # None of the values (x and y) can ever be equal to 0.
 
-var debugMovement = false
+# Used mostly for sprite animations.
+var state_shooting = false
+var state_damaged = false
+var state_crouching = false
+var state_walking = false
+
+var dead_anim_active = false
+
+var debug_movement = false
 
 var spawn_dust_effect = true
 
-var block_movement = false
-var block_movement_full = false
-
-var damageValue = 1
+var block_movement = false # Blocks all inputs and makes the player stop smoothly.
+var block_movement_cutscene = false # Blocks all actual inputs but allows simulated inputs to still move the player.
+var block_movement_full = false # Blocks the move_and_slide() function.
 
 var double_score = false
 
 var lethalBall_released = false
 
-var can_collect = true
+var can_collect = true # Whether the entity (player in this case) can collect another entity.
 
-# ACTIVATES WHEN PLAYER LANDS ON THE GROUND
+# Emitted when player lands on the ground.
 signal player_just_landed
+# Emitted when player touches a zone of the "bouncy" type.
+signal player_just_bounced
+# Emitted when player exits a zone of the "wind" type (used mostly for conveyor belts).
+signal player_just_left_wind
+
 
 func _ready():
 	base_SPEED = SPEED
 	base_JUMP_VELOCITY = JUMP_VELOCITY
 	base_ACCELERATION = ACCELERATION
 	base_FRICTION = FRICTION
-	base_GRAVITY_SCALE = GRAVITY_SCALE
-	
-	world.reassign_player()
+	base_GRAVITY_MULTIPLIER = GRAVITY_MULTIPLIER
 	
 	Globals.player_pos = get_global_position()
 	Globals.player_pos_x = get_global_position()[0]
@@ -137,18 +154,18 @@ func _ready():
 	Globals.saved_player_posX = position.x
 	Globals.saved_player_posY = position.y
 	
-	player_just_landed.connect(on_player_landed)
+	player_just_landed.connect(_just_landed)
 	
-	Globals.powerup_activated.connect(on_powerup_activated)
-	Globals.max_score_multiplier_reached.connect(on_max_score_multiplier_reached)
-	Globals.comboReset.connect(on_comboReset)
+	Globals.powerup_activated.connect(_powerup_activated)
+	Globals.max_scoreMultiplier_reached.connect(_max_scoreMultiplier_reached)
+	Globals.combo_reset.connect(_combo_reset)
 	
 	
-	if world.cameraLimit_left != 0.0 or world.cameraLimit_right != 0.0 or world.cameraLimit_top != 0.0 or world.cameraLimit_bottom != 0.0:
-		%Camera2D.limit_left = world.cameraLimit_left
-		%Camera2D.limit_right = world.cameraLimit_right
-		%Camera2D.limit_bottom = world.cameraLimit_bottom
-		%Camera2D.limit_top = world.cameraLimit_top
+	if World.cameraLimit_left != 0.0 or World.cameraLimit_right != 0.0 or World.cameraLimit_top != 0.0 or World.cameraLimit_bottom != 0.0:
+		%Camera2D.limit_left = World.cameraLimit_left
+		%Camera2D.limit_right = World.cameraLimit_right
+		%Camera2D.limit_bottom = World.cameraLimit_bottom
+		%Camera2D.limit_top = World.cameraLimit_top
 	
 	
 	#total collectibles
@@ -161,11 +178,13 @@ func _ready():
 
 
 func _process(delta):
+	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
+	
 	handle_actions()
 	
 	get_basic_player_values()
 	
-	if debugMovement:
+	if debug_movement:
 		handle_debugMovement(delta)
 	
 	else:
@@ -182,17 +201,17 @@ func _process(delta):
 	#SHOOTING LOGIC
 	handle_shooting()
 	
-	if not debugMovement:
+	if not debug_movement:
 		#DASHING LOGIC
 		if can_dash:
 			handle_dash()
 		
 		#CROUCHING LOGIC
-		if can_crouch:
-			handle_crouching()
+		if ability_crouch:
+			handle_crouch()
 	
 	
-	if not debugMovement:
+	if not debug_movement:
 		if not stuck:
 			if flight:
 				handle_flight(delta)
@@ -207,7 +226,7 @@ func _process(delta):
 		
 		update_anim()
 	
-	if not attacked and not dead and velocity.y == 0 and is_on_floor() and not on_floor and not shooting and not crouch_walking and not crouching:
+	if not state_damaged and not dead and velocity.y == 0 and is_on_floor() and not on_floor and not state_shooting and not crouch_walk_active and not crouch_active:
 		sprite.play("idle")
 	
 	handle_spawn_dust()
@@ -223,99 +242,143 @@ func _process(delta):
 	
 	handle_gameMode_scoreAttack()
 	
-	handle_just_landed()
+	just_update() # The word "just" refers to something very specific. Check out the function for the explanation.
 
 #MAIN END
 
-
 var zoomValue = 1
 
-var is_dashing = false
-var started_dash = false
-var speedBlockActive = false
-var dash_slowdown = false
-var wall_jump = false
+# Ground dash logic:
+var dash_active = false
+var dash_speed_block_active = false
+var dash_end_slowdown_active = false
+var dash_end_slowdown_await_jump = false
+var dash_just_landed = false
+var dash_just_landed_queued = false
+var dash_end_slowdown_canceled = false
 
-var true_just_landed_queued = true
-var true_just_landed = false
+var can_dash = true
+
+signal safe_standUp
+
+func _on_timer_dash_timeout():
+	dash_active = false
+	
+	if can_stand_up == 0:
+		collision.shape.extents = Vector2(20, 56)
+		collision.position = Vector2(0, 0)
+		
+		hitbox.shape.extents = Vector2(16, 40)
+		hitbox.position = Vector2(0, 0)
+		
+		can_dash = true
+	
+	else:
+		await safe_standUp
+		collision.shape.extents = Vector2(20, 56)
+		collision.position = Vector2(0, 0)
+		
+		hitbox.shape.extents = Vector2(16, 40)
+		hitbox.position = Vector2(0, 0)
+		
+		can_dash = true
+	
+	raycast_top.enabled = true
+
+func _on_timer_dash_speed_block_timeout():
+	dash_speed_block_active = false
+	c_dash_end_slowdown_enable.start()
+
+func _on_cooldown_dash_end_slowdown_enable_timeout():
+	if not dash_end_slowdown_canceled:
+		c_dash_end_slowdown_disable.start()
+		dash_end_slowdown = true
+	else:
+		dash_end_slowdown_canceled = false
+		dash_just_landed_queued = false
+		dash_just_landed = false
+		dash_end_slowdown_await_jump = false
+
+func _on_cooldown_dash_end_slowdown_disable_timeout():
+	dash_end_slowdown = false
+	dash_end_slowdown_canceled = false
+	dash_just_landed_queued = false
+	dash_just_landed = false
+	dash_end_slowdown_await_jump = false
+	animation_player2.play("streak_reset")
+
+
+# Checks whether the player is stuck inside a solid tileset.
+func _on_hitbox_dash_scan_solid_body_entered(_body):
+	can_stand_up += 1
+
+func _on_hitbox_dash_scan_solid_body_exited(_body):
+	can_stand_up -= 1
+
 
 func apply_gravity(delta):
-	if not is_on_floor() and not is_dashing or dash_slowdown:
+	if not is_on_floor() and not dash_active or dash_end_slowdown_active:
 		if not flight:
 			if Input.is_action_pressed("jump"):
 				if inside_water:
-					velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE * insideWater_multiplier
+					velocity.y += gravity * 1.0 * delta * GRAVITY_MULTIPLIER * inside_water_multiplier
 				else:
-					velocity.y += gravity * 1.0 * delta * GRAVITY_SCALE
+					velocity.y += gravity * 1.0 * delta * GRAVITY_MULTIPLIER
 			
 			elif Input.is_action_pressed("move_DOWN"):
 				if inside_water:
-					velocity.y += gravity * 2.0 * delta * GRAVITY_SCALE * insideWater_multiplier
+					velocity.y += gravity * 2.0 * delta * GRAVITY_MULTIPLIER * inside_water_multiplier
 				else:
-					velocity.y += gravity * 4.0 * delta * GRAVITY_SCALE
+					velocity.y += gravity * 4.0 * delta * GRAVITY_MULTIPLIER
 			
 			else:
 				if inside_water:
-					velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE * insideWater_multiplier
+					velocity.y += gravity * 1.5 * delta * GRAVITY_MULTIPLIER * inside_water_multiplier
 				else:
-					velocity.y += gravity * 1.5 * delta * GRAVITY_SCALE
-			
+					velocity.y += gravity * 1.5 * delta * GRAVITY_MULTIPLIER
 	
-	if not dead and is_dashing:
-		if not speedBlockActive or dash_slowdown:
-			dash_speed_block.start()
+	
+	if not dead and dash_active:
+		if not dash_speed_block_active or dash_end_slowdown_active:
+			dash_speed_block_active.start()
 		
-		speedBlockActive = true
+		dash_speed_block_active = true
 		sprite.play("crouch")
 		
-		if started_dash == false or dash_slowdown:
-			velocity.x = 0
+		#if started_dash == false or dash_slowdown:
+			#velocity.x = 0
 		
+		if Input.is_action_pressed("move_DOWN"):
+			velocity.y += gravity * delta * 4 * GRAVITY_MULTIPLIER
+			velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
 		else:
-			if Input.is_action_pressed("move_DOWN"):
-				velocity.y += gravity * delta * 4 * GRAVITY_SCALE
-				velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
-			else:
-				velocity.y += gravity * delta * 2 * GRAVITY_SCALE
-				velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
+			velocity.y += gravity * delta * 2 * GRAVITY_MULTIPLIER
+			velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
 	
 	else:
-		started_dash = false
+		dash_active = false
 	
 	if dash_end_slowdown and not dash_end_slowdown_canceled:
 		velocity.x = move_toward(velocity.x, 0, 7000 * delta)
 	
 	#HANDLE JUST LANDED
-	if true_just_landed_queued and is_on_floor():
-		true_just_landed_queued = false
-		true_just_landed = true
+	if dash_just_landed_queued and is_on_floor():
+		dash_just_landed_queued = false
+		just_landed = true
 
-var count = 0
-var just_landed = false
-var just_landed_queued = false
-var dash_end_slowdown_await_jump = false
-var justLanded_delay_started = false
 
 func handle_jump(delta):
 	if dead:
 		return
 		
 	if is_on_floor():
-		normal_jump = true
-		air_jump = true
-		wall_jump = true
-		
-	elif not justLanded_delay_started:
-		justLanded_delay_started = true
-		%justLanded_delay.start()
+		can_jump = true
+		can_air_jump = true
+		can_wall_jump = true
 	
-	if just_landed_queued and is_on_floor():
-		just_landed_queued = false
-		just_landed = true
-		
 	if just_landed:
-		if is_dashing and not is_on_floor() and air_jump:
-			just_landed = false
+		if dash_active and not is_on_floor() and can_air_jump:
+			dash_just_landed = false
 			dash_end_slowdown_await_jump = true
 			%awaitJump_timer.start()
 	
@@ -325,17 +388,18 @@ func handle_jump(delta):
 		velocity.x = base_SPEED * 4.5 * direction
 	
 	
-	#NORMAL JUMP
-	if on_floor or normal_jump and jump_leniency.time_left > 0.0:
+	# Regular jump:
+	if can_jump and on_floor and t_leniency_jump.time_left > 0.0:
 		
 		if Input.is_action_just_pressed("jump"):
-			normal_jump = false
-			jump_build_velocity.start()
+			jump_active = true
+			can_jump = false
+			t_jump.start()
 			
-			sfx_jump.play()
+			sfx(Globals.sfx_jump_player, 1.0, 0.0)
 			
 			var x = randi_range(0, 1)
-			if not is_dashing and x or not is_dashing and not direction:
+			if not dash_active and x or not dash_active and not direction:
 				%AnimationPlayer.stop()
 				%AnimationPlayer.speed_scale = 2
 				%AnimationPlayer.play("jumped")
@@ -347,27 +411,26 @@ func handle_jump(delta):
 				if direction == -1:
 					%AnimationPlayer.play("rotate_left")
 			
-			jumpBuildVelocity_active = true
 			return true
 	
-	if jumpBuildVelocity_active and Input.is_action_pressed("jump"):
+	if jump_active and Input.is_action_pressed("jump"):
 		if inside_water:
-			velocity.y = move_toward(velocity.y, JUMP_VELOCITY, 8500 * insideWater_multiplier * delta)
+			velocity.y = move_toward(velocity.y, JUMP_VELOCITY, 8500 * inside_water_multiplier * delta)
 		else:
 			velocity.y = move_toward(velocity.y, JUMP_VELOCITY, 8500 * delta)
 		
-	elif not on_floor and not on_wall and not wall_jump_leniency.time_left > 0.0 or not on_floor and on_wall and not wall_jump and wall_jump_leniency.time_left > 0.0:
+	elif not on_floor and not on_wall and not t_leniency_wall_jump.time_left > 0.0 or not on_floor and on_wall and not can_wall_jump and t_leniency_wall_jump.time_left > 0.0:
 		if Input.is_action_just_released("jump") and velocity.y < JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
-		if can_air_jump and Input.is_action_just_pressed("jump") and air_jump and not Input.is_action_pressed("move_DOWN"):
+		if can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_DOWN"):
 			if inside_water:
-				velocity.y = JUMP_VELOCITY * 0.8 * insideWater_multiplier
+				velocity.y = JUMP_VELOCITY * 0.8 * inside_water_multiplier
 			else:
 				velocity.y = JUMP_VELOCITY * 0.8
-				
-			air_jump = false
 			
-			sfx_air_jump.play()
+			can_air_jump = false
+			
+			sfx(Globals.sfx_jump_player, 1.0, 0.0)
 			
 			var x = randi_range(0, 1)
 			if x or not direction:
@@ -392,18 +455,18 @@ func handle_jump(delta):
 
 
 func handle_wall_jump():
-	if not is_on_wall_only() and wall_jump_leniency.time_left <= 0.0: return
+	if not is_on_wall_only() and t_leniency_wall_jump.time_left <= 0.0: return
 	
-	if Input.is_action_just_pressed("jump") and wall_jump:
+	if Input.is_action_just_pressed("jump") and can_wall_jump:
 		velocity.x = on_wall_normal.x * SPEED
 		if inside_water:
-			velocity.y = JUMP_VELOCITY * 1 * insideWater_multiplier
+			velocity.y = JUMP_VELOCITY * 1 * inside_water_multiplier
 		else:
 			velocity.y = JUMP_VELOCITY * 1
 		
-		wall_jump = false
+		can_wall_jump = false
 		
-		sfx_wall_jump.play()
+		sfx(Globals.sfx_wall_jump_player, 1.0, 0.0)
 		
 		var x = randi_range(0, 1)
 		if x or not direction:
@@ -420,32 +483,29 @@ func handle_wall_jump():
 
 
 func apply_friction(delta):
-	if direction == 0 and not inside_wind and not just_bounced:
+	if direction == 0 and not inside_wind and not recently_bounced:
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 
 
 func handle_acceleration_direction(delta):
-	
-	if not is_on_floor() or just_bounced: return
+	if not is_on_floor() or recently_bounced: return
 	
 	# HANDLE WALKING
 	if direction != 0:
 		# Unlimited velocity buildup due to wind (conveyor belts).
-		if inside_wind and insideWind_direction_X == Globals.direction:
-			velocity.x = move_toward(velocity.x, direction * 10000, ACCELERATION * delta * crouchMultiplier * insideWater_multiplier)
+		if inside_wind and inside_wind_direction_x == Globals.direction:
+			velocity.x = move_toward(velocity.x, direction * 10000, ACCELERATION * delta * crouch_walk_multiplier * inside_water_multiplier)
 		# Normal
 		else:
-			velocity.x = move_toward(velocity.x, direction * SPEED, ACCELERATION * delta * crouchMultiplier * insideWater_multiplier)
+			velocity.x = move_toward(velocity.x, direction * SPEED, ACCELERATION * delta * crouch_walk_multiplier * inside_water_multiplier)
 	
-	if just_bounced:
-		return
-	
-	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
-		velocity.x *= 0.75
+	if not recently_bounced:
+		if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
+			velocity.x *= 0.75
 
 
 func handle_air_acceleration(delta):
-	if is_on_floor() or just_bounced: return
+	if is_on_floor() or recently_bounced: return
 	
 	if direction != 0:
 		# Reduce slowdown while under influence of heavy wind (conveyor belts).
@@ -455,15 +515,10 @@ func handle_air_acceleration(delta):
 		else:
 			velocity.x = move_toward(velocity.x, SPEED * direction, AIR_ACCELERATION * delta)
 	
-	if just_bounced:
-		return
-	
-	if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
-		velocity.x *= 0.75
+	if not recently_bounced:
+		if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
+			velocity.x *= 0.75
 
-
-var attacked = false
-var deathAnim_playing = false
 
 func update_anim():
 	if direction != 0 and not dead:
@@ -473,15 +528,15 @@ func update_anim():
 		if not is_on_floor():
 			$idle_timer.stop()
 	
-	if dead and not deathAnim_playing:
-		deathAnim_playing = true
+	if dead and not dead_anim_active:
+		dead_anim_active = true
 		sprite.play("death")
 		return
 	
 	if dead:
 		return
 	
-	if attacked:
+	if state_damaged:
 		sprite.play("damage")
 		return
 	
@@ -493,12 +548,12 @@ func update_anim():
 		
 		idle_after_delay()
 		
-		if not attacked and not dead and not is_dashing and direction != 0 and not shooting and not crouch_walking and not crouching:
+		if not state_damaged and not dead and not dash_active and direction != 0 and not state_shooting and not crouch_walk_active and not crouch_active:
 			sprite.play("walk")
 			sprite.flip_h = (direction < 0)
 			$idle_timer.stop()
 	
-	if not flight and not attacked and not dead and not is_dashing and not is_on_floor() and not shooting and not crouch_walking and not crouching:
+	if not flight and not state_damaged and not dead and not dash_active and not is_on_floor() and not state_shooting and not crouch_walk_active and not crouch_active:
 		sprite.play("jump")
 
 
@@ -507,8 +562,8 @@ func idle_after_delay():
 		$idle_timer.start()
 
 
-func _on_idle_timer_timeout():
-	if not attacked and not dead and not is_dashing and not shooting and not crouch_walking and not crouching:
+func _on_cooldown_anim_idle_timeout():
+	if not state_damaged and not dead and not dash_active and not state_shooting and not crouch_walk_active and not crouch_active:
 		sprite.play("idle")
 
 
@@ -517,118 +572,110 @@ func apply_air_slowdown(delta):
 		velocity.x = move_toward(velocity.x, 0, AIR_SLOWDOWN * delta)
 
 
-var dashReady = true
-signal dash_safe
-
-func _on_dash_timer_timeout():
-	is_dashing = false
-	
-	if can_stand_up == 0:
-		player_collision.shape.extents = Vector2(20, 56)
-		player_collision.position = Vector2(0, 0)
-		
-		player_hitbox.shape.extents = Vector2(16, 40)
-		player_hitbox.position = Vector2(0, 0)
-		
-		dashReady = true
-	
-	else:
-		await dash_safe
-		player_collision.shape.extents = Vector2(20, 56)
-		player_collision.position = Vector2(0, 0)
-		
-		player_hitbox.shape.extents = Vector2(16, 40)
-		player_hitbox.position = Vector2(0, 0)
-		
-		dashReady = true
-	
-	raycast_top.enabled = true
-
-
 # Player damage (Received by player).
-var invulnerable = false
-
 func health_decrease(value):
-	if not invulnerable and not dead:
-		sfx_damage.play()
-		attacked = true
-		$attackedTimer.start()
+	if invulnerable or invincible or dead:
+		sfx(Globals.sfx_player_damage, 1.0, 0.0)
+		state_damaged = true
+		t_state_damaged.start()
 
 
 func charged_effect():
 	animation_player2.play("shot_charged")
 	
-	var starParticle = starParticleScene.instantiate()
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	add_child(starParticle)
-	starParticle = starParticleScene.instantiate()
-	add_child(starParticle)
+	var star = Globals.scene_particle_star.instantiate()
+	add_child(star)
+	star = Globals.scene_particle_star.instantiate()
+	add_child(star)
+	star = Globals.scene_particle_star.instantiate()
+	add_child(star)
+	star = Globals.scene_particle_star.instantiate()
+	add_child(star)
 
 func cancel_effect():
 	animation_player2.stop()
 	animation_player2.play("RESET")
 
 
-func _on_shoot_anim_delay_timeout():
-	shooting = false
+func _on_timer_state_shooting():
+	state_shooting = false
 
 
-func _on_crouch_walk_anim_delay_timeout():
-	if can_crouch_walk:
-		crouch_walking = true
-		crouchTimer = false
+# Player crouch/dash logic:
+func handle_crouch():
+	if not can_dash and is_on_floor():
+		if can_dash and Input.is_action_pressed("move_DOWN") and not crouch_walk_active:
+			c_crouch_walk.start()
+			c_crouch_walk_correct_collision.start()
+			crouch_active = true
+			sprite.play("crouch")
+			
+			crouch_walk_multiplier = 0.6
+			if ability_crouch_walk:
+				SPEED = base_SPEED * crouch_walk_multiplier
+			else:
+				SPEED = 0
+			
+			raycast_top.enabled = false
+		
+		
+		if crouch_walk_active:
+			sprite.play("crouch_walk")
+			crouch_active = false
+			
+			crouch_walk_multiplier = 0.4
+			SPEED = base_SPEED * crouch_walk_multiplier
+			
+			raycast_top.enabled = false
+	
+	if not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_walk_active or not is_on_floor() and can_stand_up == 0 and crouch_walk_active:
+		collision.shape.extents = Vector2(20, 56)
+		collision.position = Vector2(0, 0)
+		
+		hitbox.shape.extents = Vector2(16, 40)
+		hitbox.position = Vector2(0, 0)
+		
+		
+		crouch_active = false
+		crouch_walk_active = false
+		c_crouch_walk.stop()
+		c_crouch_walk_correct_collision.stop()
+		SPEED = base_SPEED
+		crouch_walk_multiplier = 1
+		
+		raycast_top.enabled = true
 
-func _on_crouch_walk_collision_switch_timeout():
-	player_collision.shape.extents = Vector2(20, 20)
-	player_collision.position += Vector2(0, 36)
-	player_hitbox.shape.extents = Vector2(20, 20)
-	player_hitbox.position += Vector2(0, 28)
+func _on_cooldown_crouch_walk_timeout():
+	if ability_crouch_walk:
+		crouch_walk_active = true
 
+func _on_cooldown_crouch_walk_correct_collision_timeout():
+	collision.shape.extents = Vector2(20, 20)
+	collision.position += Vector2(0, 36)
+	hitbox.shape.extents = Vector2(20, 20)
+	hitbox.position += Vector2(0, 28)
 
-func _on_jump_build_velocity_timeout():
-	jumpBuildVelocity_active = false
-
-
-#CHECK IF INSIDE TILES
-func _on_player_hitbox_tile_detection_body_entered(_body):
-	can_stand_up += 1
-
-func _on_player_hitbox_tile_detection_body_exited(_body):
-	can_stand_up -= 1
-
-
-var dash_end_slowdown_canceled = false
-
-func _on_dash_speed_block_timeout():
-	started_dash = true
-	speedBlockActive = false
-	dash_end_slowdown_delay.start()
-
-
-func _on_dash_end_slowdown_timeout():
-	if not dash_end_slowdown_canceled:
-		dash_end_slowdown_active.start()
-		dash_end_slowdown = true
-	else:
+func handle_dash():
+	if can_dash and Input.is_action_just_pressed("dash") and is_on_floor() and dash_active == false and not crouch_walk_active and not crouch_active:
 		dash_end_slowdown_canceled = false
-		just_landed_queued = false
-		just_landed = false
-		dash_end_slowdown_await_jump = false
+		dash_active = true
+		can_dash = false
+		$dash_timer.start()
+		
+		collision.shape.extents = Vector2(20, 20)
+		collision.position += Vector2(0, 36)
+		
+		hitbox.shape.extents = Vector2(20, 20)
+		hitbox.position += Vector2(0, 28)
+		
+		raycast_top.enabled = false
 
 
-func _on_dash_end_slowdown_active_timeout():
-	dash_end_slowdown = false
-	dash_end_slowdown_canceled = false
-	just_landed_queued = false
-	just_landed = false
-	dash_end_slowdown_await_jump = false
-	animation_player2.play("streak_reset")
+func _on_timer_jump_timeout():
+	jump_active = false
 
 
-func _on_player_hitbox_main_area_entered(area):
+func _on_hitbox_main_area_entered(area):
 	pass
 
 
@@ -637,39 +684,39 @@ func saveState_loaded():
 	await get_tree().create_timer(0.1, false).timeout
 	$Camera2D.position_smoothing_enabled = true
 	
-	player_collision.shape.extents = Vector2(20, 56)
-	player_collision.position = Vector2(0, 0)
+	collision.shape.extents = Vector2(20, 56)
+	collision.position = Vector2(0, 0)
 	
-	player_hitbox.shape.extents = Vector2(16, 40)
-	player_hitbox.position = Vector2(0, 0)
+	hitbox.shape.extents = Vector2(16, 40)
+	hitbox.position = Vector2(0, 0)
 	
-	deathAnim_playing = false
+	dead_anim_active = false
 	
 	
-	LevelTransition.fade_from_black_slow()
+	Overlay.animation("fade_black", true, true, 1.0)
 
 
-func _on_dust_effect_timeout():
+func _on_cooldown_effect_dust_timeout():
 	spawn_dust_effect = true
 
 
-
-
-#ATTACK COOLDOWN
-func _on_attack_cooldown_timeout():
+# Attack Cooldown:
+# Main:
+func _on_cooldown_attack_timeout():
 	attack_cooldown = false
 	if Globals.direction != 0:
 		$AnimatedSprite2D.flip_h = (Globals.direction < 0)
 
-func _on_secondary_attack_cooldown_timeout():
+# Secondary:
+func _on_cooldown_secondaryAttack_timeout():
 	secondaryAttack_cooldown = false
 	if Globals.direction != 0:
 		$AnimatedSprite2D.flip_h = (Globals.direction < 0)
 
 
 func _on_just_landed_delay_timeout():
-	justLanded_delay_started = false
-	just_landed_queued = true
+	recently_landed = false
+	q_just_landed = true
 
 
 func _on_await_jump_timer_timeout():
@@ -700,7 +747,7 @@ func deferred_spawnRooster():
 	camera.remove_from_group("player_camera")
 	var player_rooster = player_rooster_scene.instantiate()
 	player_rooster.position = position
-	world.add_child(player_rooster)
+	World.add_child(player_rooster)
 
 func deferred_spawnBird():
 	remove_from_group("player")
@@ -708,7 +755,7 @@ func deferred_spawnBird():
 	camera.remove_from_group("player_camera")
 	var player_bird = player_bird_scene.instantiate()
 	player_bird.position = position
-	world.add_child(player_bird)
+	World.add_child(player_bird)
 
 func deferred_spawnChicken():
 	remove_from_group("player")
@@ -716,7 +763,7 @@ func deferred_spawnChicken():
 	camera.remove_from_group("player_camera")
 	var player_chicken = player_chicken_scene.instantiate()
 	player_chicken.position = position
-	world.add_child(player_chicken)
+	World.add_child(player_chicken)
 
 
 func delete():
@@ -740,12 +787,12 @@ func playSound_shoot():
 
 
 func _on_attacked_timer_timeout():
-	attacked = false
+	state_damaged = false
 
 
 func _on_dash_check_timeout():
 	if can_stand_up == 0:
-		dash_safe.emit()
+		safe_standUp.emit()
 
 
 func shoot_projectile(projectile_scene):
@@ -756,9 +803,8 @@ func shoot_projectile(projectile_scene):
 			projectile_phaser.enemyProjectile = false
 			add_child(projectile_phaser)
 			
-			#SHOOTING ANIMATION
-			shooting = true
-			shoot_anim_delay.start()
+			state_shooting = true
+			t_state_shooting.start()
 			sprite.play("shoot")
 			if direction != 0:
 				sprite.flip_h = (direction < 0)
@@ -769,8 +815,8 @@ func shoot_projectile(projectile_scene):
 		attack_cooldown = true
 		$attack_cooldown.start()
 		
-		shooting = true
-		shoot_anim_delay.start()
+		state_shooting = true
+		t_state_shooting.start()
 		sprite.play("shoot")
 		
 		var projectile = projectile_scene.instantiate()
@@ -790,8 +836,8 @@ func shoot_secondaryProjectile(secondaryProjectile_scene):
 		secondaryAttack_cooldown = true
 		$secondaryAttack_cooldown.start()
 		
-		shooting = true
-		shoot_anim_delay.start()
+		state_shooting = true
+		t_state_shooting.start()
 		sprite.play("secondaryShoot")
 		
 		var secondaryProjectile = secondaryProjectile_scene.instantiate()
@@ -858,7 +904,7 @@ func _on_stuck_check_timeout():
 		$stuckCheck/stuckCheck_confirm.start()
 		confirm_timer_isActive = true
 
-func _on_stuck_check_confirm_timeout():
+func _on_stuck_confirm_timeout():
 	if velocity.y == JUMP_VELOCITY or velocity[1] == 0:
 		stuck = true
 		print("The stuckCheck_confirm timer just went off while a rare stuck case is possible - [velocity.y = JUMP_VELOCITY] or [velocity = Vector2(0, 0)]. Now the 'stuck' variable becomes true and will be cancelled right after, unless any of the raycasts detect collision.") 
@@ -921,71 +967,8 @@ func handle_debugMovement(delta):
 			
 		global_position.y += 1000 * delta
 	
-	crouching = false
-	crouch_walking = false
-
-
-func handle_crouching():
-	if not dead and is_on_floor():
-		if direction != 0:
-			sprite.flip_h = (direction < 0)
-		if dashReady and Input.is_action_pressed("move_DOWN") and not crouch_walking and not crouchTimer:
-			crouch_walk_anim_delay.start()
-			crouch_walk_collision_switch.start()
-			crouching = true
-			crouchTimer = true
-			sprite.play("crouch")
-			
-			crouchMultiplier = 0.6
-			if can_crouch_walk:
-				SPEED = base_SPEED * crouchMultiplier
-			else:
-				SPEED = 0
-			
-			raycast_top.enabled = false
-		
-		
-		if crouch_walking:
-			sprite.play("crouch_walk")
-			crouching = false
-			
-			crouchMultiplier = 0.4
-			SPEED = base_SPEED * crouchMultiplier
-			
-			raycast_top.enabled = false
-	
-	if not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouching or not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_walking or not is_on_floor() and can_stand_up == 0 and crouch_walking:
-		player_collision.shape.extents = Vector2(20, 56)
-		player_collision.position = Vector2(0, 0)
-		
-		player_hitbox.shape.extents = Vector2(16, 40)
-		player_hitbox.position = Vector2(0, 0)
-		
-		
-		crouching = false
-		crouch_walking = false
-		crouch_walk_anim_delay.stop()
-		crouch_walk_collision_switch.stop()
-		SPEED = base_SPEED
-		crouchMultiplier = 1
-		crouchTimer = false
-		
-		raycast_top.enabled = true
-
-func handle_dash():
-	if dashReady and Input.is_action_just_pressed("dash") and is_on_floor() and is_dashing == false and not crouch_walking and not crouching:
-		dash_end_slowdown_canceled = false
-		is_dashing = true
-		dashReady = false
-		$dash_timer.start()
-		
-		player_collision.shape.extents = Vector2(20, 20)
-		player_collision.position += Vector2(0, 36)
-		
-		player_hitbox.shape.extents = Vector2(20, 20)
-		player_hitbox.position += Vector2(0, 28)
-		
-		raycast_top.enabled = false
+	crouch_active = false
+	crouch_walk_active = false
 
 
 var attack_cooldown = false
@@ -1017,8 +1000,8 @@ func handle_shooting():
 			add_child(projectile_phaser)
 			
 			#SHOOTING ANIMATION
-			shooting = true
-			shoot_anim_delay.start()
+			state_shooting = true
+			t_state_shooting.start()
 			sprite.play("shoot")
 			if direction != 0:
 				sprite.flip_h = (direction < 0)
@@ -1051,8 +1034,9 @@ func handle_shooting():
 			shoot_secondaryProjectile(scene_secondaryProjectile_fast)
 
 
-var on_floor = false #is_on_floor()
-var on_wall = false #is_on_wall_only()
+# True if player is currently touching the specified surface.
+var on_floor = false
+var on_wall = false
 
 func get_basic_player_values():
 	if not dead and not block_movement:
@@ -1071,16 +1055,18 @@ func get_basic_player_values():
 	else:
 		on_wall = false
 	
-	#Leniency timers
+	# Leniency timers:
 	if on_floor:
-		jump_leniency.start()
+		t_leniency_jump.start()
 	if on_wall:
-		wall_jump_leniency.start()
-	#Leniency timers
+		t_leniency_wall_jump.start()
 	
-	Globals.player_pos = get_global_position()
-	Globals.player_posX = get_global_position()[0]
-	Globals.player_posY = get_global_position()[1]
+	#Globals.player_pos = get_global_position()
+	#Globals.player_posX = get_global_position()[0]
+	#Globals.player_posY = get_global_position()[1]
+		#Globals.player_pos = get_global_position()
+	#Globals.player_posX = get_global_position()[0]
+	#Globals.player_posY = get_global_position()[1]
 	Globals.player_velocity = velocity
 	
 	if direction != 0:
@@ -1092,41 +1078,36 @@ func handle_spawn_dust():
 		spawn_dust_effect = false
 		$dust_effect.start()
 		
-		var effect_dust = effect_dustScene.instantiate()
-		effect_dust.position = Globals.player_pos - Vector2(0, -48)
-		get_parent().add_child(effect_dust)
+		var dust = Globals.scene_effect_dust.instantiate()
+		dust.position = Globals.player_pos - Vector2(0, -48)
+		get_parent().add_child(dust)
 		
 	elif not is_on_floor():
 		spawn_dust_effect = true
 		$dust_effect.stop()
 
 
-@onready var timer_just_left_wind: Timer = $just_left_wind
-var just_left_wind = false
-var just_left_wind_active = true
-
-#AREAS (water, wind, etc.)
+# Zones (water, wind, etc.)
 var inside_wind = 0 # If above 0, the player is affected by wind.
-var insideWind_direction_X = 0
-var insideWind_direction_Y = 0
-var insideWind_strength_X = 1.0
-var insideWind_strength_Y = 1.0
+var inside_wind_direction_x = 0
+var inside_wind_direction_y = 0
+var inside_wind_strength_x = 1.0
+var inside_wind_strength_y = 1.0
 
 var inside_water = 0
-var insideWater_multiplier = 1
+var inside_water_multiplier = 1
 
 func handle_inside_zone():
 	if inside_wind:
-		velocity.x += 10 * insideWind_direction_X * insideWind_strength_X
-		velocity.y += 10 * insideWind_direction_Y * insideWind_strength_Y
-		just_left_wind = false
-		just_left_wind_active = false
+		velocity.x += 10 * inside_wind_direction_x * inside_wind_strength_x
+		velocity.y += 10 * inside_wind_direction_y * inside_wind_strength_y
+		recently_left_wind = false
 	else:
-		if abs(velocity.x) > 1000 and not just_left_wind_active:
-			just_left_wind = true
-			timer_just_left_wind.start()
-			just_left_wind_active = true
-			print("just_left_wind is now true (player left a conveyor belt).")
+		if abs(velocity.x) > 1000 and not recently_left_wind:
+			recently_left_wind = true
+			t_recently_left_wind.start()
+			recently_left_wind = true
+			print("The player's 'just_left_wind' property is now true (because player left a conveyor belt).")
 
 
 func handle_zoom(delta):
@@ -1180,17 +1161,16 @@ func handle_zoom(delta):
 
 func handle_toggle_debugMovement():
 	if Globals.debug_mode:
-		if not debugMovement and Input.is_action_just_pressed("cheat"):
-			debugMovement = true
+		if not debug_movement and Input.is_action_just_pressed("cheat"):
+			debug_movement = true
 			
-		elif debugMovement and Input.is_action_just_pressed("cheat"):
-			debugMovement = false
+		elif debug_movement and Input.is_action_just_pressed("cheat"):
+			debug_movement = false
 
 
 func handle_manual_player_death():
 	if Input.is_action_just_pressed("back"):
-		Globals.playerHP = 100
-		world.kill_player()
+		Globals.player_kill.emit()
 
 
 func handle_flight(delta):
@@ -1202,21 +1182,7 @@ func handle_flight(delta):
 		velocity.y = move_toward(velocity.y, 0, delta * 600)
 
 
-func handle_just_landed():
-	if true_just_landed:
-		true_just_landed = false
-		print("Player landed.")
-		player_just_landed.emit()
-	if not is_on_floor():
-		true_just_landed_queued = true
-
-
-func on_player_landed():
-	%AnimationPlayer.play("RESET")
-	$landed.play()
-
-
-func on_powerup_activated():
+func _powerup_activated():
 	double_score = true
 	$powerup_timer.start()
 
@@ -1224,12 +1190,12 @@ func _on_powerup_timer_timeout():
 	double_score = false
 
 
-func on_max_score_multiplier_reached():
+func _max_scoreMultiplier_reached():
 	animation_player2.play("max_score_multiplier_reached")
-	air_jump = true
-	wall_jump = true
+	can_air_jump = true
+	can_wall_jump = true
 
-func on_comboReset():
+func _combo_reset():
 	animation_player2.play("streak_reset")
 
 
@@ -1245,7 +1211,7 @@ func handle_debug_screen():
 		if not debug_toggle:
 			#$/root/World.player.block_movement = true
 			var debug_screen = scene_debug_screen.instantiate()
-			world.hud.add_child(debug_screen)
+			World.hud.add_child(debug_screen)
 			
 			debug_screen.debugToggle = true
 			debug_toggle = true
@@ -1259,49 +1225,25 @@ func handle_debug_screen():
 			#$/root/World.player.block_movement = false
 			get_tree().set_debug_collisions_hint(false)
 			
-			world.debug_screen_delete()
-			debugToggle = false
+			World.debug_screen_delete()
+			debug_toggle = false
 
-
-func _on_just_left_wind_timeout() -> void:
-	just_left_wind = false
-	print("just_left_wind is now false (player left a conveyor belt for and a set time is up) so regular air acceleration is applied.")
-
-
-# If the player just bounced off a bounce-type zone.
-@onready var timer_just_bounced: Timer = $just_bounced
-var just_bounced = false
-
-func on_player_just_bounced():
-	just_bounced = true
-	timer_just_bounced.start()
-	air_jump = true
-	wall_jump = true
-	sprite.modulate.g = 0.8
-
-func _on_just_bounced_timeout() -> void:
-	just_bounced = false
-	sprite.modulate.g = 1.0
-
-
-var levelSelect_screen = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
-var menu_start = preload("res://Other/Scenes/menu_start.tscn")
 
 func handle_actions():
 	if Input.is_action_just_pressed("menu_start"):
-		if menu_start == null:
+		if Globals.scene_menu_start == null:
 			return
 		
 		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(menu_start)
+		get_tree().change_scene_to_packed(Globals.scene_menu_start)
 		#Overlay.animation("fade_black", true, true, 1)
 	
 	elif Input.is_action_just_pressed("menu"):
-		if menu_levelSelect == null:
+		if Globals.scene_levelSet_screen == null:
 			return
 		
 		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(menu_levelSelect)
+		get_tree().change_scene_to_packed(Globals.scene_levelSet_screen)
 		#Overlay.animation("fade_black", true, true, 1)
 
 
@@ -1325,21 +1267,91 @@ func on_levelSelect_loaded():
 
 
 func reduce_health(value):
-	health -= value
+	Globals.player_health -= value
 	invincible = true
-	timer_invincible.start()
-	sfx.stream = preload("res://Assets/Sounds/sfx/robot_damage.wav")
-	sfx.play()
+	t_invincible.start()
+	sfx(Globals.sfx_player_damage, 1.0, 0.0)
 
 
 func heal(value):
-	health += value
+	Globals.player_health += value
 	invincible = true
-	timer_invincible.start()
-	sfx.stream = preload("res://Assets/Sounds/sfx/collect_hp.wav")
-	sfx.play()
+	t_invincible.start()
+	sfx(Globals.sfx_player_heal, 1.0, 0.0)
 
 
 func kill():
-	health = 0
+	Globals.player_health = 0
 	dead = true
+	sfx(Globals.sfx_player_death, 1.0, 0.0)
+
+func sfx(file, volume, pitch):
+	sfx_manager.sfx_play(Globals.sfx_jump_player, 1.0, 0.0)
+
+
+func _on_timer_leniency_jump_timeout() -> void:
+	pass # Replace with function body.
+
+
+func _on_timer_leniency_wall_jump_timeout() -> void:
+	pass # Replace with function body.
+
+
+# The word "just" refers to something that happens for a single frame, like landing on the ground, or bouncing off something.
+# The word "recently" refers to a lingering state that starts on triggering a "just", and lasts for a specific amount of time.
+
+var just_landed = false
+var just_left_wind = false
+
+var q_just_landed = false
+var q_just_just_left_wind = false
+
+var recently_landed = false
+var recently_bounced = false
+var recently_left_wind = false
+
+# The "just" queues are conditions that must be "true" for the "just" to be able to have its value set to "true" for one frame, and then they (the queues) get set back to "false" immediately.
+# So basically, a queue represents whether, for example, the player was in the air on the previous frame, so that the game knows it can consider the player as having landed the next time it touched the ground.
+
+func just_queue():
+	if not on_floor:
+		q_just_landed = true
+
+func just_update():
+	if q_just_landed:
+		if is_on_floor():
+			just_landed = true
+			q_just_landed = false
+
+
+@onready var t_recently_landed: Timer = $timer_recently_landed
+@onready var t_recently_bounced: Timer = $timer_recently_bounced
+@onready var t_recently_left_wind: Timer = $timer_recently_left_win
+
+func _just_bounced():
+	recently_bounced = true
+	t_recently_bounced.start()
+	can_air_jump = true
+	can_wall_jump = true
+	sprite.modulate.g = 0.8
+	recently_bounced = false
+
+func _on_timer_recently_bounced_timeout() -> void:
+	recently_bounced = false
+	sprite.modulate.g = 1.0
+
+func _on_timer_recently_left_wind_timeout() -> void:
+	recently_left_wind = false
+	print("The 'just_left_wind' is now false (Player left a conveyor belt for and a set time is up) so regular air acceleration is applied.")
+
+
+# Player just landed on the ground (the "just" refers to something that just got set to true, and then immediately gets set back to false right after all relevant consequences are applied).
+func _just_landed():
+	print("Player landed.")
+	player_just_landed.emit()
+	%AnimationPlayer.play("RESET")
+	$landed.play()
+
+
+func _on_timer_recently_landed_timeout() -> void:
+	recently_landed = false

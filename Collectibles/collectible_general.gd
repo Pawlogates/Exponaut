@@ -1,15 +1,5 @@
 extends CharacterBody2D
 
-var starParticleScene = preload("res://Particles/particles_special.tscn")
-var starParticle2Scene = preload("res://Particles/particles_star.tscn")
-var orbParticleScene = preload("res://Particles/particles_special2_multiple.tscn")
-var hit_effectScene = preload("res://Particles/hit_effect.tscn")
-var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
-var effect_dustScene = preload("res://Particles/effect_dust.tscn")
-var feathersParticleScene = preload("res://Particles/particles_feathers.tscn")
-var particle_score_scene = preload("res://Particles/particle_score.tscn")
-
-
 var direction = 0
 
 var start_pos = global_position

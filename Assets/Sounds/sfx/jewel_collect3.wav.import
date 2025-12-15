@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://d13vvmdls37y7"
-path="res://.godot/imported/collect_jewel3.wav-ac62d84b7109738f6f62d02d8b730717.sample"
+path="res://.godot/imported/jewel_collect3.wav-1458585d08a67af15e965633db79c89e.sample"
 
 [deps]
 
-source_file="res://Assets/Sounds/sfx/collect_jewel3.wav"
-dest_files=["res://.godot/imported/collect_jewel3.wav-ac62d84b7109738f6f62d02d8b730717.sample"]
+source_file="res://Assets/Sounds/sfx/jewel_collect3.wav"
+dest_files=["res://.godot/imported/jewel_collect3.wav-1458585d08a67af15e965633db79c89e.sample"]
 
 [params]
 

@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_cijwv"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="3_fylys"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="4_q66u7"]
-[ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/collect6.wav" id="5_s3lob"]
+[ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/spring_collect.wav" id="5_s3lob"]
 [ext_resource type="AudioStream" uid="uid://kw6nmpm2u6yh" path="res://Assets/Sounds/sfx/effect_landed.wav" id="6_xmvyl"]
 [ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/player_rainbowSlow_effect.tres" id="7_pg4fo"]
 [ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow_effect.tres" id="8_r0gvf"]
@@ -396,11 +396,6 @@ floor_snap_length = 15.0
 safe_margin = 0.1
 script = ExtResource("1_ijta4")
 AIR_ACCELERATION = 600.0
-can_jump = false
-can_air_jump = false
-can_wall_jump = false
-can_crouch = false
-can_crouch_walk = false
 flight = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

@@ -1,10 +1,9 @@
-[gd_scene load_steps=37 format=3 uid="uid://1ahj48o4tkw0"]
+[gd_scene load_steps=36 format=3 uid="uid://1ahj48o4tkw0"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_bhkyt"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_7dfdb"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_36hu5"]
 [ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="4_6f002"]
-[ext_resource type="AudioStream" uid="uid://deusn07jywxka" path="res://Assets/Sounds/ambience/ambience_loop4.mp3" id="5_s8ewx"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_nae7b"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_nen1n"]
 [ext_resource type="Texture2D" uid="uid://o4c45t62y00t" path="res://Assets/Graphics/backgrounds/bg_factory.png" id="8_sdmyd"]
@@ -109,14 +108,17 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="music" parent="Music Controller" index="5"]
-autoplay = false
-
-[node name="ambience" parent="Ambience Controller" index="4"]
-stream = ExtResource("5_s8ewx")
-
 [node name="Player" parent="." index="7"]
 position = Vector2(-288, 64)
+SPEED = 400.0
+JUMP_VELOCITY = -500.0
+ACCELERATION = 1200.0
+FRICTION = 1200.0
+AIR_SLOWDOWN = -400.0
+AIR_ACCELERATION = 1400.0
+flight = false
+weaponType = "none"
+secondaryWeaponType = "none"
 
 [node name="kill_area" parent="." index="14" instance=ExtResource("6_nae7b")]
 position = Vector2(7168, 5184)
@@ -136,128 +138,128 @@ Background_filePath = ExtResource("8_sdmyd")
 Background_a_filePath = ExtResource("9_k2vp1")
 Background_b_filePath = ExtResource("10_ue0al")
 
-[node name="score_gate" parent="." index="19" instance=ExtResource("11_y58wk")]
+[node name="score_gate" parent="." index="18" instance=ExtResource("11_y58wk")]
 position = Vector2(2176, -2176)
 target_score = 30
 
-[node name="score_gate2" parent="." index="20" instance=ExtResource("11_y58wk")]
+[node name="score_gate2" parent="." index="19" instance=ExtResource("11_y58wk")]
 position = Vector2(384, -2176)
 target_score = 2010
 
-[node name="score_gate3" parent="." index="21" instance=ExtResource("11_y58wk")]
+[node name="score_gate3" parent="." index="20" instance=ExtResource("11_y58wk")]
 position = Vector2(-1408, -2176)
 target_score = 3090
 
-[node name="trigger_resetScore" parent="." index="22" instance=ExtResource("12_q7px5")]
+[node name="trigger_resetScore" parent="." index="21" instance=ExtResource("12_q7px5")]
 position = Vector2(1952, -2176)
 scale = Vector2(1, 8)
 
-[node name="trigger_resetScore4" parent="." index="23" instance=ExtResource("12_q7px5")]
+[node name="trigger_resetScore4" parent="." index="22" instance=ExtResource("12_q7px5")]
 position = Vector2(3424, -2176)
 scale = Vector2(1, 8)
 
-[node name="trigger_resetScore2" parent="." index="24" instance=ExtResource("12_q7px5")]
+[node name="trigger_resetScore2" parent="." index="23" instance=ExtResource("12_q7px5")]
 position = Vector2(160, -2176)
 scale = Vector2(1, 8)
 
-[node name="trigger_resetScore3" parent="." index="25" instance=ExtResource("12_q7px5")]
+[node name="trigger_resetScore3" parent="." index="24" instance=ExtResource("12_q7px5")]
 position = Vector2(-1632, -2176)
 scale = Vector2(1, 8)
 
-[node name="info_sign" parent="." index="26" instance=ExtResource("13_a6ra1")]
+[node name="info_sign" parent="." index="25" instance=ExtResource("13_a6ra1")]
 position = Vector2(480, 96)
 displayedText = "Press Z or Spacebar to jump. Hold for a higher jump."
 
-[node name="info_sign2" parent="." index="27" instance=ExtResource("13_a6ra1")]
+[node name="info_sign2" parent="." index="26" instance=ExtResource("13_a6ra1")]
 position = Vector2(1952, 32)
 displayedText = "You can bounce off a wall by jumping one time, before having to touch the ground again."
 displayedText_size = 1
 
-[node name="info_sign3" parent="." index="28" instance=ExtResource("13_a6ra1")]
+[node name="info_sign3" parent="." index="27" instance=ExtResource("13_a6ra1")]
 position = Vector2(1824, -352)
 displayedText = "You can also air-jump once before touching the ground."
 
-[node name="info_sign4" parent="." index="29" instance=ExtResource("13_a6ra1")]
+[node name="info_sign4" parent="." index="28" instance=ExtResource("13_a6ra1")]
 position = Vector2(2912, -992)
 displayedText = "Hold down arrow to crouch. You can also walk while crouching."
 
-[node name="info_sign14" parent="." index="30" instance=ExtResource("13_a6ra1")]
+[node name="info_sign14" parent="." index="29" instance=ExtResource("13_a6ra1")]
 position = Vector2(3168, -4896)
 displayedText = "Hold down arrow to crouch. You can also walk while crouching."
 
-[node name="info_sign13" parent="." index="31" instance=ExtResource("13_a6ra1")]
+[node name="info_sign13" parent="." index="30" instance=ExtResource("13_a6ra1")]
 position = Vector2(4224, -416)
 displayedText = "Remember to HOLD the jump button, to perform a higher jump."
 
-[node name="info_sign5" parent="." index="32" instance=ExtResource("13_a6ra1")]
+[node name="info_sign5" parent="." index="31" instance=ExtResource("13_a6ra1")]
 position = Vector2(192, -3552)
 displayedText = "Press X or left mouse button to use your projectile attack (if you have any)."
 displayedText_size = 1
 
-[node name="info_sign6" parent="." index="33" instance=ExtResource("13_a6ra1")]
+[node name="info_sign6" parent="." index="32" instance=ExtResource("13_a6ra1")]
 position = Vector2(-160, -1952)
 displayedText = "If your current collectible streak is a multiple of 5, the next collectible's score value will be multiplied by up to x5, at 25."
 displayedText_size = 2
 
-[node name="info_sign7" parent="." index="34" instance=ExtResource("13_a6ra1")]
+[node name="info_sign7" parent="." index="33" instance=ExtResource("13_a6ra1")]
 position = Vector2(1632, -1952)
 displayedText = "The first collectible in a streak will not grant any bonus score. It will only open the bonus score counter."
 displayedText_size = 1
 
-[node name="info_sign10" parent="." index="35" instance=ExtResource("13_a6ra1")]
+[node name="info_sign10" parent="." index="34" instance=ExtResource("13_a6ra1")]
 position = Vector2(736, -1952)
 displayedText = "When the bonus score counter is active, collected items will add score to it as well as to the overall score."
 displayedText_size = 1
 
-[node name="info_sign8" parent="." index="36" instance=ExtResource("13_a6ra1")]
+[node name="info_sign8" parent="." index="35" instance=ExtResource("13_a6ra1")]
 position = Vector2(2944, -1952)
 displayedText = "Collecting a score item will start a collectible streak."
 
-[node name="info_sign9" parent="." index="37" instance=ExtResource("13_a6ra1")]
+[node name="info_sign9" parent="." index="36" instance=ExtResource("13_a6ra1")]
 position = Vector2(2656, -2432)
 displayedText = "The more score items collected during a streak, the more points will get added to the bonus score. Collect these 2 apples in quick succession to end up with 30 score."
 displayedText_size = 3
 
-[node name="trigger_musicChange" parent="." index="38" instance=ExtResource("14_b80mc")]
+[node name="trigger_musicChange" parent="." index="37" instance=ExtResource("14_b80mc")]
 position = Vector2(3040, -2016)
 scale = Vector2(1, 3)
 
-[node name="trigger_musicChange2" parent="." index="39" instance=ExtResource("14_b80mc")]
+[node name="trigger_musicChange2" parent="." index="38" instance=ExtResource("14_b80mc")]
 position = Vector2(-96, -3600)
 music_file = ExtResource("15_vk2la")
 
-[node name="score_gate4" parent="." index="40" instance=ExtResource("11_y58wk")]
+[node name="score_gate4" parent="." index="39" instance=ExtResource("11_y58wk")]
 position = Vector2(8576, -5824)
 target_score = 30000
 
-[node name="areaTransition1" parent="." index="41" instance=ExtResource("16_osfq0")]
+[node name="areaTransition1" parent="." index="40" instance=ExtResource("16_osfq0")]
 unique_name_in_owner = true
 position = Vector2(10304, -3712)
 scale = Vector2(4, 6)
 target_area = "res://Levels/overworld_infected_glades.tscn"
 next_transition = 1
 
-[node name="wind_area" parent="." index="42" instance=ExtResource("17_6ar0g")]
+[node name="wind_area" parent="." index="41" instance=ExtResource("17_6ar0g")]
 position = Vector2(5600, -4464)
 scale = Vector2(5.5, 1)
 
-[node name="wind_area2" parent="." index="43" instance=ExtResource("17_6ar0g")]
+[node name="wind_area2" parent="." index="42" instance=ExtResource("17_6ar0g")]
 position = Vector2(5600, -4208)
 scale = Vector2(9.5, 1)
 
-[node name="water_area" parent="." index="44" instance=ExtResource("18_e7jam")]
+[node name="water_area" parent="." index="43" instance=ExtResource("18_e7jam")]
 position = Vector2(8416, -3392)
 scale = Vector2(19, 2)
 
-[node name="water_area2" parent="." index="45" instance=ExtResource("18_e7jam")]
+[node name="water_area2" parent="." index="44" instance=ExtResource("18_e7jam")]
 position = Vector2(5920, -3840)
 scale = Vector2(25, 2)
 
-[node name="info_sign11" parent="." index="46" instance=ExtResource("13_a6ra1")]
+[node name="info_sign11" parent="." index="45" instance=ExtResource("13_a6ra1")]
 position = Vector2(9312, -3552)
 displayedText = "Press SHIFT or C to perform a dash."
 
-[node name="Video Display" parent="." index="47" instance=ExtResource("19_cn48a")]
+[node name="Video Display" parent="." index="46" instance=ExtResource("19_cn48a")]
 position = Vector2(2368, -1840)
 delay = 60
 video_file = ExtResource("20_qfp08")
@@ -266,7 +268,7 @@ video_file = ExtResource("20_qfp08")
 position = Vector2(672, -176)
 shape = SubResource("RectangleShape2D_cl0fn")
 
-[node name="Video Display2" parent="." index="48" instance=ExtResource("19_cn48a")]
+[node name="Video Display2" parent="." index="47" instance=ExtResource("19_cn48a")]
 position = Vector2(800, -1888)
 delay = 30
 video_file = ExtResource("21_vy30k")
@@ -275,7 +277,7 @@ video_file = ExtResource("21_vy30k")
 position = Vector2(1024, -320)
 shape = SubResource("RectangleShape2D_g4cmy")
 
-[node name="Video Display3" parent="." index="49" instance=ExtResource("19_cn48a")]
+[node name="Video Display3" parent="." index="48" instance=ExtResource("19_cn48a")]
 position = Vector2(-1184, -1856)
 delay = 45
 video_file = ExtResource("22_0hbh7")
@@ -284,28 +286,28 @@ video_file = ExtResource("22_0hbh7")
 position = Vector2(1216, -160)
 shape = SubResource("RectangleShape2D_gpgs1")
 
-[node name="Object Remover" parent="." index="50" instance=ExtResource("23_4lb14")]
+[node name="Object Remover" parent="." index="49" instance=ExtResource("23_4lb14")]
 position = Vector2(2176, -2176)
 object_to_remove = "Video Display"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Object Remover" index="1"]
 shape = SubResource("RectangleShape2D_pr1k5")
 
-[node name="Object Remover2" parent="." index="51" instance=ExtResource("23_4lb14")]
+[node name="Object Remover2" parent="." index="50" instance=ExtResource("23_4lb14")]
 position = Vector2(384, -2176)
 object_to_remove = "Video Display2"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Object Remover2" index="1"]
 shape = SubResource("RectangleShape2D_qosry")
 
-[node name="Object Remover3" parent="." index="52" instance=ExtResource("23_4lb14")]
+[node name="Object Remover3" parent="." index="51" instance=ExtResource("23_4lb14")]
 position = Vector2(-1408, -2176)
 object_to_remove = "Video Display3"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Object Remover3" index="1"]
 shape = SubResource("RectangleShape2D_xfbey")
 
-[node name="checkpoint" type="StaticBody2D" parent="." index="53"]
+[node name="checkpoint" type="StaticBody2D" parent="." index="52"]
 position = Vector2(1840, -2016)
 script = ExtResource("24_7oae6")
 
@@ -319,7 +321,7 @@ texture = SubResource("AtlasTexture_2jjck")
 position = Vector2(0, -192)
 shape = SubResource("RectangleShape2D_mwk38")
 
-[node name="checkpoint2" type="StaticBody2D" parent="." index="54"]
+[node name="checkpoint2" type="StaticBody2D" parent="." index="53"]
 position = Vector2(3296, -2016)
 script = ExtResource("24_7oae6")
 
@@ -332,7 +334,7 @@ texture = SubResource("AtlasTexture_2jjck")
 position = Vector2(0, -160)
 shape = SubResource("RectangleShape2D_tm3t0")
 
-[node name="checkpoint3" type="StaticBody2D" parent="." index="55"]
+[node name="checkpoint3" type="StaticBody2D" parent="." index="54"]
 position = Vector2(32, -2016)
 script = ExtResource("24_7oae6")
 
@@ -344,7 +346,7 @@ texture = SubResource("AtlasTexture_2jjck")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="checkpoint3/checkpoint/Area2D" index="0"]
 shape = SubResource("RectangleShape2D_c7gs1")
 
-[node name="trigger_positional" parent="." index="56" instance=ExtResource("26_clhao")]
+[node name="trigger_positional" parent="." index="55" instance=ExtResource("26_clhao")]
 position = Vector2(-2816, -3104)
 scale = Vector2(4, 9)
 moveCamera = true
@@ -353,20 +355,20 @@ minOffset = 0
 maxOffset = 750
 minOffset_Y = 0
 
-[node name="trigger_positional2" parent="." index="57" instance=ExtResource("26_clhao")]
+[node name="trigger_positional2" parent="." index="56" instance=ExtResource("26_clhao")]
 position = Vector2(-2432, -2688)
 scale = Vector2(24, 2)
 right_to_left = true
 zoomCamera = true
 minZoom = 1.0
 
-[node name="trigger_positional3" parent="." index="58" instance=ExtResource("26_clhao")]
+[node name="trigger_positional3" parent="." index="57" instance=ExtResource("26_clhao")]
 position = Vector2(-240, -3680)
 scale = Vector2(19.5, 7)
 zoomCamera = true
 minZoom = 1.0
 
-[node name="trigger_positional4" parent="." index="59" instance=ExtResource("26_clhao")]
+[node name="trigger_positional4" parent="." index="58" instance=ExtResource("26_clhao")]
 position = Vector2(-1344, -3200)
 scale = Vector2(12, 8)
 horizontal = false
@@ -377,14 +379,14 @@ camera_baseOffset = 0
 minOffset_Y = -500
 maxOffset_Y = 0
 
-[node name="trigger_positional5" parent="." index="60" instance=ExtResource("26_clhao")]
+[node name="trigger_positional5" parent="." index="59" instance=ExtResource("26_clhao")]
 position = Vector2(1632, -128)
 scale = Vector2(9, 6)
 moveCamera = true
 camera_baseOffset = 0
 maxOffset_Y = 0
 
-[node name="trigger_positional6" parent="." index="61" instance=ExtResource("26_clhao")]
+[node name="trigger_positional6" parent="." index="60" instance=ExtResource("26_clhao")]
 position = Vector2(2432, -608)
 scale = Vector2(6, 3)
 right_to_left = true
@@ -392,14 +394,14 @@ moveCamera = true
 camera_baseOffset = 0
 maxOffset_Y = 0
 
-[node name="trigger_positional7" parent="." index="62" instance=ExtResource("26_clhao")]
+[node name="trigger_positional7" parent="." index="61" instance=ExtResource("26_clhao")]
 position = Vector2(2304, -832)
 scale = Vector2(24, 10)
 right_to_left = true
 zoomCamera = true
 minZoom = 1.0
 
-[node name="trigger_positional8" parent="." index="63" instance=ExtResource("26_clhao")]
+[node name="trigger_positional8" parent="." index="62" instance=ExtResource("26_clhao")]
 position = Vector2(3872, -704)
 scale = Vector2(15, 8)
 vertical = true
@@ -407,7 +409,7 @@ moveCamera = true
 zoomCamera = true
 minZoom = 1.0
 
-[node name="trigger_positional9" parent="." index="64" instance=ExtResource("26_clhao")]
+[node name="trigger_positional9" parent="." index="63" instance=ExtResource("26_clhao")]
 position = Vector2(3680, -1792)
 scale = Vector2(11, 4)
 horizontal = false
@@ -420,7 +422,7 @@ maxOffset_Y = 0
 zoomCamera = true
 minZoom = 1.0
 
-[node name="trigger_positional10" parent="." index="65" instance=ExtResource("26_clhao")]
+[node name="trigger_positional10" parent="." index="64" instance=ExtResource("26_clhao")]
 position = Vector2(3200, -2176)
 scale = Vector2(2, 8)
 RESET_OFFSET = true
@@ -435,7 +437,7 @@ maxOffset_Y = 0
 zoomCamera = true
 minZoom = 1.0
 
-[node name="trigger_positional11" parent="." index="66" instance=ExtResource("26_clhao")]
+[node name="trigger_positional11" parent="." index="65" instance=ExtResource("26_clhao")]
 position = Vector2(5376, -4320)
 scale = Vector2(14, 17)
 right_to_left = true
@@ -446,7 +448,7 @@ camera_baseOffset_Y = 400
 minOffset_Y = -400
 maxOffset_Y = 0
 
-[node name="trigger_positional12" parent="." index="67" instance=ExtResource("26_clhao")]
+[node name="trigger_positional12" parent="." index="66" instance=ExtResource("26_clhao")]
 position = Vector2(5600, -5024)
 scale = Vector2(5, 3)
 moveCamera = true
@@ -457,7 +459,7 @@ camera_baseOffset_Y = 500
 minOffset_Y = 500
 maxOffset_Y = 500
 
-[node name="trigger_positional13" parent="." index="68" instance=ExtResource("26_clhao")]
+[node name="trigger_positional13" parent="." index="67" instance=ExtResource("26_clhao")]
 position = Vector2(5344, -5184)
 scale = Vector2(1, 8)
 RESET_OFFSET = true
@@ -469,7 +471,7 @@ camera_baseOffset_Y = 500
 minOffset_Y = 500
 maxOffset_Y = 500
 
-[node name="trigger_positional14" parent="." index="69" instance=ExtResource("26_clhao")]
+[node name="trigger_positional14" parent="." index="68" instance=ExtResource("26_clhao")]
 position = Vector2(5856, -5184)
 scale = Vector2(1, 8)
 RESET_OFFSET = true
@@ -481,7 +483,7 @@ camera_baseOffset_Y = 500
 minOffset_Y = 500
 maxOffset_Y = 500
 
-[node name="info_sign12" parent="." index="70" instance=ExtResource("13_a6ra1")]
+[node name="info_sign12" parent="." index="69" instance=ExtResource("13_a6ra1")]
 position = Vector2(7424, -3680)
 displayedText = "Remember to come back here before the button timer runs out!"
 

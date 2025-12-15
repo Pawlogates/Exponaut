@@ -37,9 +37,39 @@ func sfx_fade(delta):
 			sfx.volume_linear = move_toward(sfx.volume_linear, 0, delta * -fade)
 
 func sfx_play(file, volume, pitch):
-	sfx.stream = sfx_file
-	sfx.play()
-
+	if not sfx.playing:
+		sfx.stream = sfx_file
+		sfx.volume_linear = volume
+		sfx.pitch_scale = volume
+		sfx.play()
+	
+	elif not sfx1.playing:
+		sfx1.stream = sfx_file
+		sfx1.volume_linear = volume
+		sfx1.pitch_scale = volume
+		sfx1.play()
+	
+	elif not sfx2.playing:
+		sfx2.stream = sfx_file
+		sfx2.volume_linear = volume
+		sfx2.pitch_scale = volume
+		sfx2.play()
+	
+	elif not sfx3.playing:
+		sfx3.stream = sfx_file
+		sfx3.volume_linear = volume
+		sfx3.pitch_scale = volume
+		sfx3.play()
+	
+	elif not sfx4.playing:
+		sfx4.stream = sfx_file
+		sfx4.volume_linear = volume
+		sfx4.pitch_scale = volume
+		sfx4.play()
+	
+	else:
+		pass
+		#print error to console
 
 # Combined sound effects.
 func sfx_combined_play():

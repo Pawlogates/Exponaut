@@ -24,7 +24,7 @@ var level_rank_value = 1
 func _ready():
 	await get_tree().create_timer(0,5, false).timeout
 	
-	saved_progress = LevelTransition.get_node("%saved_progress")
+	saved_progress = SaveData
 	level_info = saved_progress.get("info_"+str(level_ID))
 	
 	shrineGem_portal_level_number = int(level_ID.split("_")[-1])
@@ -61,7 +61,7 @@ func _ready():
 	
 	
 	for particles in particle_amount:
-		var portal_particle = preload("res://Particles/shrine_portal_particle.tscn").instantiate()
+		var portal_particle = Globals.portal_particle.instantiate()
 		portal_particle.position = Vector2(randf_range(-5000, 5000), randf_range(-5000, 5000))
 		#portal_particle.modulate.b = randf_range(0.1, 1)
 		add_child(portal_particle)
@@ -87,7 +87,7 @@ func _on_area_entered(area):
 			var next_area:PackedScene = load(level_filePath)
 			
 			checkpoint_activated(checkpoint_offset)
-			await LevelTransition.fade_to_black()
+			Overlay.animation("fade_black", false, 1.0, true)
 			get_tree().change_scene_to_packed(next_area)
 
 #func _physics_process(delta: float) -> void:
@@ -98,8 +98,8 @@ func checkpoint_activated(offset):
 	$/root/World.save_game()
 	$/root/World.save_game_area()
 	
-	if not $/root/World.regular_level and not $/root/World.shrine_level:
-		SavedData.savedData_save(true)
+	if Globals.World.level_type == "overworld":
+		SaveData.save_playerData(true)
 
 
 func _on_timer_timeout():

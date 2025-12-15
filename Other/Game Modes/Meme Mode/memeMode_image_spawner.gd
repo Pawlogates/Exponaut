@@ -4,7 +4,7 @@ extends Node2D
 
 var color_rect_visible = false #DEBUG
 
-var meme_scene = preload("res://Meme Mode/memeMode_image.tscn")
+var meme_scene = preload("res://Other/Game Modes/Meme Mode/memeMode_image.tscn")
 
 var randomize_all = false
 
@@ -289,7 +289,7 @@ func _on_timer_2_timeout():
 	queue_free()
 
 
-var sfx = preload("res://Meme Mode/memeMode_sfx.tscn")
+var sfx = preload("res://Other/Game Modes/Meme Mode/memeMode_sfx.tscn")
 
 func _on_timer_3_timeout():
 	if not randomize_all:
