@@ -1,9 +1,9 @@
 [gd_resource type="TileSet" load_steps=27 format=3 uid="uid://cvnxdkf18th3o"]
 
 [ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="1_ckp07"]
-[ext_resource type="Material" uid="uid://b8om373mq81pr" path="res://Other/Materials/water_effect.tres" id="2_x8brc"]
+[ext_resource type="Material" uid="uid://b8om373mq81pr" path="res://Other/Materials/cycle_darkBlue_purple.tres" id="2_x8brc"]
 [ext_resource type="Texture2D" uid="uid://h64dv8q08gkv" path="res://Assets/Graphics/tilesets/tileset_liquids.png" id="3_dfd6c"]
-[ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/rainbow_material2.tres" id="4_hi650"]
+[ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/neon_rainbow.tres" id="4_hi650"]
 [ext_resource type="Texture2D" uid="uid://bteqibfk4agqs" path="res://Assets/Graphics/tilesets/tileset2.png" id="5_jn5w7"]
 [ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="6_y3bvb"]
 [ext_resource type="Texture2D" uid="uid://b81cvrweekhps" path="res://Assets/Graphics/tilesets/tileset3.png" id="7_u8i7y"]

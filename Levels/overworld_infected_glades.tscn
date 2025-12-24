@@ -39,17 +39,10 @@
 light_mask = 7
 visibility_layer = 7
 z_index = -5
-playerStartHP = 5
-savedProgress_level_filePath = "res://Levels/overworld_infected_glades.tscn"
 cameraLimit_left = -11584.0
 cameraLimit_right = 7232.0
 cameraLimit_bottom = 6336.0
 cameraLimit_top = -10752.0
-regular_level = false
-rain = true
-leaves = true
-selected_episode = "Main Levels"
-area_ID = "overworld_infected_glades"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_g6gxa")]
 unique_name_in_owner = true
@@ -90,15 +83,6 @@ layer_0/tile_data = PackedInt32Array(-1245199, 0, 65536, -1835016, 0, 196608, -1
 
 [node name="Player" parent="." index="6"]
 position = Vector2(-5936, -2072)
-SPEED = 400.0
-JUMP_VELOCITY = -500.0
-ACCELERATION = 1200.0
-FRICTION = 1200.0
-AIR_SLOWDOWN = -400.0
-AIR_ACCELERATION = 1400.0
-flight = false
-weaponType = "none"
-secondaryWeaponType = "none"
 
 [node name="bg_previous" parent="." index="9"]
 z_index = -9
@@ -337,13 +321,13 @@ position = Vector2(-8416, -2784)
 
 [node name="Shrine Gem" parent="." index="47" instance=ExtResource("23_03lbc")]
 position = Vector2(-6752, -1952)
-spawnedAmount = 10
 hp = 1
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_1"
 shrineGem_level_filePath = "res://Levels/MAIN_1.tscn"
 shrineGem_checkpoint_offset = Vector2(448, -64)
 item_scene = "res://Collectibles/collectibleBlackBerry.tscn"
+spawnedAmount = 10
 item_posSpread = 50
 
 [node name="Shrine Gem2" parent="." index="48" instance=ExtResource("23_03lbc")]
@@ -356,20 +340,20 @@ item_scene = "res://Collectibles/collectibleRotApple.tscn"
 
 [node name="Shrine Gem3" parent="." index="49" instance=ExtResource("23_03lbc")]
 position = Vector2(1824, -2624)
-spawnedAmount = 10
 hp = 1
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_3"
 shrineGem_level_filePath = "res://Levels/MAIN_3.tscn"
 shrineGem_checkpoint_offset = Vector2(-240, -640)
 item_scene = "res://Enemies/enemy_fireImp.tscn"
+spawnedAmount = 10
 
 [node name="Shrine Gem4" parent="." index="50" instance=ExtResource("23_03lbc")]
 position = Vector2(-2304, -2112)
-spawnedAmount = 1
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_4"
 shrineGem_level_filePath = "res://Levels/MAIN_4.tscn"
+spawnedAmount = 1
 
 [node name="Shrine Gem5" parent="." index="51" instance=ExtResource("23_03lbc")]
 position = Vector2(2881, 4480)

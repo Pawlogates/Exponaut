@@ -4,8 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://ddmxj0bgdywed" path="res://Other/Scenes/User Interface/Inventory/inventoryItem_enemies.tscn" id="2_17jbk"]
 [ext_resource type="PackedScene" uid="uid://6vpm41lnycqx" path="res://Enemies/enemy_hedgehog.tscn" id="2_y2bfm"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="3_rr3vm"]
-[ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="4_24ha8"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_u6d4a"]
+[ext_resource type="AudioStream" path="res://Assets/Sounds/sfx/collect4.wav" id="4_24ha8"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="5_u6d4a"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="6_rnjoc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hyhuy"]

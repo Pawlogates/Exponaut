@@ -12,9 +12,6 @@ var removable = false
 var playerProjectile = true
 var enemyProjectile = true
 
-var button_pressed = false
-var stop_upDownLoopAnim = false
-
 var collected_special = false
 
 var checkpoint_active = false
@@ -71,7 +68,7 @@ var box_last = Node
 @export var item_velSpread = 300
 
 # GIFT
-@export var is_gift = false
+@export var gift = false
 @export var inventory_item_scene = preload("res://Other/Scenes/User Interface/Inventory/inventoryItem.tscn")
 @export var inventory_itemToSpawn = preload("res://Collectibles/collectibleApple.tscn")
 @export var inventory_texture_region = Rect2(0, 0, 0, 0)
@@ -270,7 +267,7 @@ func _on_collectible_entered(body):
 		collected_special = true
 	
 	
-	if is_healthItem:
+	if heal_player:
 		if inside_player and not collected:
 			collected = true
 			
@@ -280,18 +277,18 @@ func _on_collectible_entered(body):
 			animation_player.play("fadeOut_up")
 			sfx_collect1.pitch_scale = 1.0
 			sfx_collect1.play()
-			body.add_child(starParticleScene.instantiate())
-			body.add_child(starParticleScene.instantiate())
-			body.add_child(starParticleScene.instantiate())
-			body.add_child(starParticleScene.instantiate())
+			body.add_child(Globals.scene_particle_star.instantiate())
+			body.add_child(Globals.scene_particle_star.instantiate())
+			body.add_child(Globals.scene_particle_star.instantiate())
+			body.add_child(Globals.scene_particle_star.instantiate())
 			
-			var feathersParticle = feathersParticleScene.instantiate()
-			feathersParticle.position = position
-			world.add_child(feathersParticle)
+			var feathers = Globals.scene_particle_feather_multiple.instantiate()
+			feathers.position = position
+			world.add_child(feathers)
 			
-			feathersParticle = feathersParticleScene.instantiate()
-			feathersParticle.position = position
-			world.add_child(feathersParticle)
+			feathers = Globals.scene_particle_star.instantiate()
+			feathers.position = position
+			world.add_child(feathers)
 	
 	
 	if is_gift and inside_player and not collected or is_gift and inside_projectile and body.can_collect and not collected:
@@ -328,11 +325,11 @@ func _on_collectible_entered(body):
 			else:
 				%AnimationPlayer2.play("hit_finalLevel")
 			
-			var starParticle = starParticleScene.instantiate()
-			starParticle.position = position
-			world.add_child(starParticle)
+			var star = Globals.scene_particle_star.instantiate()
+			star.position = position
+			world.add_child(star)
 			
-			add_child(splashParticleScene.instantiate())
+			add_child(Globals.scene_particle_splash.instantiate())
 		
 			if shrineGem_destructible:
 				hp -= 1
@@ -340,10 +337,10 @@ func _on_collectible_entered(body):
 					collected = true
 					stop_upDownLoopAnim = false
 					
-					add_child(hit_effectScene.instantiate())
-					add_child(orbParticleScene.instantiate())
-					add_child(splashParticleScene.instantiate())
-					add_child(effect_dustScene.instantiate())
+					add_child(Globals.scene_effect_hit_enemy.instantiate())
+					add_child(Globals.scene_particle_star.instantiate())
+					add_child(Globals.scene_particle_splash.instantiate())
+					add_child(Globals.dust.instantiate())
 					
 					#await get_tree().create_timer(0.5, false).timeout
 					
@@ -359,8 +356,8 @@ func _on_collectible_entered(body):
 					if shrineGem_openPortal:
 						call_deferred("spawn_portal")
 					
-					if shrineGem_portal_level_ID != "none" and LevelTransition.get_node("%saved_progress").get("state_" + str(shrineGem_portal_level_ID)) == 0:
-						LevelTransition.get_node("%saved_progress").set(("state_" + str(shrineGem_portal_level_ID)), -1)
+					if shrineGem_portal_level_ID != "none" and SaveData.get("state_" + str(shrineGem_portal_level_ID)) == 0:
+						SaveData.set(("state_" + str(shrineGem_portal_level_ID)), -1)
 						Globals.save_progress.emit()
 	
 	
@@ -418,7 +415,7 @@ func _on_collected():
 	if is_key:
 		world.key_collected()
 		
-		add_child(orbParticleScene.instantiate())
+		add_child(Globals.scene_particle_splash.instantiate())
 	
 	
 	if is_weapon:
@@ -428,9 +425,9 @@ func _on_collected():
 		world.player.weaponType = weapon_type
 		world.player.get_node("%attack_cooldown").wait_time = attack_delay
 		
-		add_child(orbParticleScene.instantiate())
-		add_child(splashParticleScene.instantiate())
-		add_child(effect_dustScene.instantiate())
+		add_child(Globals.scene_particle_splash.instantiate())
+		add_child(Globals.scene_particle_splash.instantiate())
+		add_child(Globals.scene_effect_dust.instantiate())
 		
 		Globals.weapon_collected.emit()
 	
@@ -440,9 +437,9 @@ func _on_collected():
 		world.player.secondaryWeaponType = secondaryWeapon_type
 		world.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
 		
-		add_child(orbParticleScene.instantiate())
-		add_child(splashParticleScene.instantiate())
-		add_child(effect_dustScene.instantiate())
+		add_child(Globals.scene_particle_splash.instantiate())
+		add_child(Globals.scene_particle_splash.instantiate())
+		add_child(Globals.scene_effect_dust.instantiate())
 		
 		Globals.secondaryWeapon_collected.emit()
 
@@ -686,16 +683,6 @@ func inside_check_exit(body):
 			direction = 0
 
 
-func stop_upDownLoop():
-	animation_player.pause()
-	if %AnimatedSprite2D.position.y > 0:
-		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
-		%AnimatedSprite2D.position.y -= 1
-		
-	elif %AnimatedSprite2D.position.y < 0:
-		%AnimatedSprite2D.position.y = int(%AnimatedSprite2D.position.y)
-		%AnimatedSprite2D.position.y += 1
-
 
 func award_score():
 	Globals.level_score += collectibleScoreValue
@@ -703,20 +690,20 @@ func award_score():
 	if Globals.collected_in_cycle > 1:
 		Globals.combo_score += collectibleScoreValue * Globals.combo_tier
 	
-	add_child(orbParticleScene.instantiate())
+	add_child(Globals.scene_particle_splash.instantiate())
 	
-	add_child(starParticleScene.instantiate())
+	add_child(Globals.scene_particle_star.instantiate())
 	if Globals.combo_tier > 1:
-		add_child(starParticleScene.instantiate())
+		add_child(Globals.scene_particle_star.instantiate())
 		%collect1.pitch_scale = 1.1
 		if Globals.combo_tier > 2:
-			add_child(starParticleScene.instantiate())
+			add_child(Globals.scene_particle_star.instantiate())
 			%collect1.pitch_scale = 1.2
 			if Globals.combo_tier > 3:
-				add_child(starParticleScene.instantiate())
+				add_child(Globals.scene_particle_star.instantiate())
 				%collect1.pitch_scale = 1.3
 				if Globals.combo_tier > 4:
-					add_child(starParticle2Scene.instantiate())
+					add_child(Globals.scene_particle_star.instantiate())
 					%collect1.pitch_scale = 1.4
 					bonus_material.set_shader_parameter("strength", 0.5)
 	
@@ -757,7 +744,7 @@ func award_score():
 			call_deferred("spawn_particle_score", 1)
 
 func spawn_particle_score(scale_multiplier : int):
-	var particle = particle_score_scene.instantiate()
+	var particle = Globals.scene_particle_special_multiple.instantiate()
 	particle.position = position
 	particle.scale = Vector2(scale_multiplier, scale_multiplier)
 	world.add_child(particle)
@@ -768,7 +755,7 @@ func spawn_collectibles():
 		spawnedAmount -= 1
 		spawn_item()
 	
-	var hit_effect = hit_effectScene.instantiate()
+	var hit_effect = Globals.scene_effect_hit_enemy.instantiate()
 	add_child(hit_effect)
 
 
@@ -863,7 +850,7 @@ func effect_thrownAway(delta):
 		z_index += 10
 		$CollisionShape2D.disabled = true
 		if Globals.gameState_debug:
-			LevelTransition.info_text_display.display_message("Applying velocity to collected entity.", 1)
+			Globals.display_message("Applying velocity to collected entity.")
 	
 	sprite.scale.x = lerp(sprite.scale.x, effect_thrownAway_scale[0], delta / 2)
 	sprite.scale.y = lerp(sprite.scale.y, effect_thrownAway_scale[1], delta / 2)

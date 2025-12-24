@@ -1,7 +1,5 @@
 extends Area2D
 
-var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
-
 @onready var world = $/root/World
 @onready var player = $/root/World.player
 
@@ -183,7 +181,7 @@ func _on_body_exited(body: Node2D) -> void:
 
 func water_effect():
 	$AudioStreamPlayer2D.play()
-	var splashParticle = splashParticleScene.instantiate()
+	var splashParticle = Globals.scene_particle_splash.instantiate()
 	splashParticle.global_position = Globals.player_pos + Vector2(0, 48)
 	get_parent().add_child(splashParticle)
 

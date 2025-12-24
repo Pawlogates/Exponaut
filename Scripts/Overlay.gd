@@ -52,9 +52,9 @@ func animation(animation_name, play_backwards, speed, await_finished):
 
 func display_message_check():
 	if not Globals.display_message_textQueue.is_empty() and not get_node_or_null("$display_message"):
-		add_child(scene_display_message.instantiate())
-		display_message = $display_message
+		display_message = scene_display_message.instantiate()
+		add_child(display_message)
 	
 	if not Globals.display_debug_message_textQueue.is_empty() and not get_node_or_null("$debug_display_message"):
-		add_child(scene_debug_display_message.instantiate())
-		debug_display_message = $debug_display_message
+		debug_display_message = scene_debug_display_message.instantiate()
+		add_child(debug_display_message)

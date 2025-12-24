@@ -91,10 +91,12 @@ var dead = false
 var invulnerable = false # Used for the invulnerability period during which the player cannot be damaged.
 var invincible = false # Used for temporary powerups.
 
-var direction = 0 # Only vertical.
-var direction_active = 1 # Can never be equal to 0 (standing still).
-var direction_full = Vector2(0, 0) # Both vertical and horizontal.
-var direction_full_active = Vector2(0, 0) # None of the values (x and y) can ever be equal to 0.
+var direction_x = 0 # Only horizontal.
+var direction_y = 0 # Only vertical.
+var direction_x_active = 1 # Can never be equal to 0.
+var direction_y_active = -1 # Can never be equal to 0.
+var direction_full = Vector2(0, 0)
+var direction_full_active = Vector2(1, -1) # None of the values (x and y) can ever be equal to 0.
 
 # Used mostly for sprite animations.
 var state_shooting = false
@@ -195,7 +197,7 @@ func _process(delta):
 				if can_wall_jump:
 					handle_wall_jump()
 			
-		handle_acceleration_direction(delta)
+		handle_acceleration_direction_x(delta)
 		handle_air_acceleration(delta)
 	
 	#SHOOTING LOGIC
@@ -350,10 +352,10 @@ func apply_gravity(delta):
 		
 		if Input.is_action_pressed("move_DOWN"):
 			velocity.y += gravity * delta * 4 * GRAVITY_MULTIPLIER
-			velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
+			velocity.x = move_toward(velocity.x, 1000 * direction_x, 6000 * delta)
 		else:
 			velocity.y += gravity * delta * 2 * GRAVITY_MULTIPLIER
-			velocity.x = move_toward(velocity.x, 1000 * direction, 6000 * delta)
+			velocity.x = move_toward(velocity.x, 1000 * direction_x, 6000 * delta)
 	
 	else:
 		dash_active = false
@@ -385,7 +387,7 @@ func handle_jump(delta):
 	if dash_end_slowdown_await_jump and is_on_floor() and Input.is_action_just_pressed("jump"):
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
-		velocity.x = base_SPEED * 4.5 * direction
+		velocity.x = base_SPEED * 4.5 * direction_x
 	
 	
 	# Regular jump:
@@ -399,16 +401,16 @@ func handle_jump(delta):
 			sfx(Globals.sfx_jump_player, 1.0, 0.0)
 			
 			var x = randi_range(0, 1)
-			if not dash_active and x or not dash_active and not direction:
+			if not dash_active and x or not dash_active and not direction_x:
 				%AnimationPlayer.stop()
 				%AnimationPlayer.speed_scale = 2
 				%AnimationPlayer.play("jumped")
 			else:
 				%AnimationPlayer.stop()
 				%AnimationPlayer.speed_scale = 1.5
-				if direction == 1:
+				if direction_x == 1:
 					%AnimationPlayer.play("rotate_right")
-				if direction == -1:
+				if direction_x == -1:
 					%AnimationPlayer.play("rotate_left")
 			
 			return true
@@ -433,21 +435,21 @@ func handle_jump(delta):
 			sfx(Globals.sfx_jump_player, 1.0, 0.0)
 			
 			var x = randi_range(0, 1)
-			if x or not direction:
+			if x or not direction_x:
 				%AnimationPlayer.stop()
 				%AnimationPlayer.speed_scale = 3
 				%AnimationPlayer.play("air_jumped")
 			else:
 				%AnimationPlayer.stop()
 				%AnimationPlayer.speed_scale = 1
-				if direction == 1:
+				if direction_x == 1:
 					%AnimationPlayer.play("rotate_right")
-				if direction == -1:
+				if direction_x == -1:
 					%AnimationPlayer.play("rotate_left")
 			
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
-				velocity.x += 500 * direction
+				velocity.x += 500 * direction_x
 			
 			return true
 	
@@ -469,35 +471,35 @@ func handle_wall_jump():
 		sfx(Globals.sfx_wall_jump_player, 1.0, 0.0)
 		
 		var x = randi_range(0, 1)
-		if x or not direction:
+		if x or not direction_x:
 			%AnimationPlayer.stop()
 			%AnimationPlayer.speed_scale = 3
 			%AnimationPlayer.play("air_jumped")
 		else:
 			%AnimationPlayer.stop()
 			%AnimationPlayer.speed_scale = 1
-			if direction == -1:
+			if direction_x == -1:
 				%AnimationPlayer.play("rotate_right")
-			if direction == 1:
+			if direction_x == 1:
 				%AnimationPlayer.play("rotate_left")
 
 
 func apply_friction(delta):
-	if direction == 0 and not inside_wind and not recently_bounced:
+	if direction_x == 0 and not inside_wind and not recently_bounced:
 		velocity.x = move_toward(velocity.x, 0, FRICTION * delta)
 
 
-func handle_acceleration_direction(delta):
+func handle_acceleration_direction_x(delta):
 	if not is_on_floor() or recently_bounced: return
 	
 	# HANDLE WALKING
-	if direction != 0:
+	if direction_x != 0:
 		# Unlimited velocity buildup due to wind (conveyor belts).
-		if inside_wind and inside_wind_direction_x == Globals.direction:
-			velocity.x = move_toward(velocity.x, direction * 10000, ACCELERATION * delta * crouch_walk_multiplier * inside_water_multiplier)
+		if inside_wind and inside_wind_direction_x_x == Globals.direction_x:
+			velocity.x = move_toward(velocity.x, direction_x * 10000, ACCELERATION * delta * crouch_walk_multiplier * inside_water_multiplier)
 		# Normal
 		else:
-			velocity.x = move_toward(velocity.x, direction * SPEED, ACCELERATION * delta * crouch_walk_multiplier * inside_water_multiplier)
+			velocity.x = move_toward(velocity.x, direction_x * SPEED, ACCELERATION * delta * crouch_walk_multiplier * inside_water_multiplier)
 	
 	if not recently_bounced:
 		if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
@@ -507,13 +509,13 @@ func handle_acceleration_direction(delta):
 func handle_air_acceleration(delta):
 	if is_on_floor() or recently_bounced: return
 	
-	if direction != 0:
+	if direction_x != 0:
 		# Reduce slowdown while under influence of heavy wind (conveyor belts).
 		if just_left_wind:
-			velocity.x = move_toward(velocity.x, SPEED * 2 * direction, AIR_ACCELERATION / 3 * delta)
+			velocity.x = move_toward(velocity.x, SPEED * 2 * direction_x, AIR_ACCELERATION / 3 * delta)
 		# Normal
 		else:
-			velocity.x = move_toward(velocity.x, SPEED * direction, AIR_ACCELERATION * delta)
+			velocity.x = move_toward(velocity.x, SPEED * direction_x, AIR_ACCELERATION * delta)
 	
 	if not recently_bounced:
 		if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
@@ -521,8 +523,8 @@ func handle_air_acceleration(delta):
 
 
 func update_anim():
-	if direction != 0 and not dead:
-		sprite.flip_h = (direction < 0)
+	if direction_x != 0 and not dead:
+		sprite.flip_h = (direction_x < 0)
 	
 	if not flight:
 		if not is_on_floor():
@@ -548,9 +550,9 @@ func update_anim():
 		
 		idle_after_delay()
 		
-		if not state_damaged and not dead and not dash_active and direction != 0 and not state_shooting and not crouch_walk_active and not crouch_active:
+		if not state_damaged and not dead and not dash_active and direction_x != 0 and not state_shooting and not crouch_walk_active and not crouch_active:
 			sprite.play("walk")
-			sprite.flip_h = (direction < 0)
+			sprite.flip_h = (direction_x < 0)
 			$idle_timer.stop()
 	
 	if not flight and not state_damaged and not dead and not dash_active and not is_on_floor() and not state_shooting and not crouch_walk_active and not crouch_active:
@@ -568,7 +570,7 @@ func _on_cooldown_anim_idle_timeout():
 
 
 func apply_air_slowdown(delta):
-	if direction == 0 and not is_on_floor():
+	if direction_x == 0 and not is_on_floor():
 		velocity.x = move_toward(velocity.x, 0, AIR_SLOWDOWN * delta)
 
 
@@ -704,14 +706,14 @@ func _on_cooldown_effect_dust_timeout():
 # Main:
 func _on_cooldown_attack_timeout():
 	attack_cooldown = false
-	if Globals.direction != 0:
-		$AnimatedSprite2D.flip_h = (Globals.direction < 0)
+	if Globals.direction_x != 0:
+		$AnimatedSprite2D.flip_h = (Globals.direction_x < 0)
 
 # Secondary:
 func _on_cooldown_secondaryAttack_timeout():
 	secondaryAttack_cooldown = false
-	if Globals.direction != 0:
-		$AnimatedSprite2D.flip_h = (Globals.direction < 0)
+	if Globals.direction_x != 0:
+		$AnimatedSprite2D.flip_h = (Globals.direction_x < 0)
 
 
 func _on_just_landed_delay_timeout():
@@ -806,8 +808,8 @@ func shoot_projectile(projectile_scene):
 			state_shooting = true
 			t_state_shooting.start()
 			sprite.play("shoot")
-			if direction != 0:
-				sprite.flip_h = (direction < 0)
+			if direction_x != 0:
+				sprite.flip_h = (direction_x < 0)
 		
 		return
 	
@@ -822,13 +824,13 @@ func shoot_projectile(projectile_scene):
 		var projectile = projectile_scene.instantiate()
 		projectile.playerProjectile = true
 		projectile.enemyProjectile = false
-		projectile.position = position + Vector2(Globals.direction * 24, -10)
+		projectile.position = position + Vector2(Globals.direction_x * 24, -10)
 		get_parent().add_child(projectile)
 		
 		playSound_shoot()
 		
-	if direction != 0:
-		sprite.flip_h = (direction < 0)
+	if direction_x != 0:
+		sprite.flip_h = (direction_x < 0)
 
 
 func shoot_secondaryProjectile(secondaryProjectile_scene):
@@ -841,8 +843,8 @@ func shoot_secondaryProjectile(secondaryProjectile_scene):
 		sprite.play("secondaryShoot")
 		
 		var secondaryProjectile = secondaryProjectile_scene.instantiate()
-		secondaryProjectile.position = position + Vector2(Globals.direction * 0, 32)
-		secondaryProjectile.direction = direction
+		secondaryProjectile.position = position + Vector2(Globals.direction_x * 0, 32)
+		secondaryProjectile.direction_x = direction_x
 		if velocity.y <= -100 or velocity.y == 0:
 			secondaryProjectile.velocity = Vector2(velocity.x * 1.2, -100)
 		else:
@@ -850,8 +852,8 @@ func shoot_secondaryProjectile(secondaryProjectile_scene):
 		get_parent().add_child(secondaryProjectile)
 		playSound_shoot()
 		
-	if direction != 0:
-		sprite.flip_h = (direction < 0)
+	if direction_x != 0:
+		sprite.flip_h = (direction_x < 0)
 
 
 func handle_gameMode_scoreAttack():
@@ -872,9 +874,9 @@ var stuck = false
 
 func handle_stuck():
 	if stuck:
-		raycast_top.target_position.x = 16 * Globals.direction
-		raycast_bottom.target_position.x = 16 * Globals.direction
-		raycast_middle.target_position.x = 16 * Globals.direction
+		raycast_top.target_position.x = 16 * Globals.direction_x
+		raycast_bottom.target_position.x = 16 * Globals.direction_x
+		raycast_middle.target_position.x = 16 * Globals.direction_x
 		#raycast_top.enabled = true
 		#raycast_bottom.enabled = true
 		#raycast_middle.enabled = true
@@ -889,7 +891,7 @@ func handle_stuck():
 	
 	if stuck:
 		if raycast_top.get_collider() or raycast_bottom.get_collider() or raycast_middle.get_collider():
-			position += Vector2(4 * Globals.direction, -4)
+			position += Vector2(4 * Globals.direction_x, -4)
 			velocity = Vector2(0, 0)
 		else:
 			stuck = false
@@ -920,7 +922,7 @@ func _on_stuck_confirm_timeout():
 
 
 
-#Debug movement type that lets you freely move in any direction. Press CTRL + C to activate it. (needs Globals.debug_mode to be true)
+#Debug movement type that lets you freely move in any direction_x. Press CTRL + C to activate it. (needs Globals.debug_mode to be true)
 #Hold RMB to move a lot slower. Hold SHIFT to move very fast.
 func handle_debugMovement(delta):
 	if Input.is_action_pressed("move_R"):
@@ -1003,8 +1005,8 @@ func handle_shooting():
 			state_shooting = true
 			t_state_shooting.start()
 			sprite.play("shoot")
-			if direction != 0:
-				sprite.flip_h = (direction < 0)
+			if direction_x != 0:
+				sprite.flip_h = (direction_x < 0)
 			
 			return
 	
@@ -1040,9 +1042,9 @@ var on_wall = false
 
 func get_basic_player_values():
 	if not dead and not block_movement:
-		direction = Input.get_axis("move_L", "move_R")
+		direction_x = Input.get_axis("move_L", "move_R")
 	else:
-		direction = 0
+		direction_x = 0
 	
 	if is_on_floor():
 		on_floor = true
@@ -1069,12 +1071,12 @@ func get_basic_player_values():
 	#Globals.player_posY = get_global_position()[1]
 	Globals.player_velocity = velocity
 	
-	if direction != 0:
-		Globals.direction = direction
+	if direction_x != 0:
+		Globals.direction_x = direction_x
 
 
 func handle_spawn_dust():
-	if is_on_floor() and direction and spawn_dust_effect:
+	if is_on_floor() and direction_x and spawn_dust_effect:
 		spawn_dust_effect = false
 		$dust_effect.start()
 		
@@ -1089,8 +1091,8 @@ func handle_spawn_dust():
 
 # Zones (water, wind, etc.)
 var inside_wind = 0 # If above 0, the player is affected by wind.
-var inside_wind_direction_x = 0
-var inside_wind_direction_y = 0
+var inside_wind_direction_x_x = 0
+var inside_wind_direction_x_y = 0
 var inside_wind_strength_x = 1.0
 var inside_wind_strength_y = 1.0
 
@@ -1099,8 +1101,8 @@ var inside_water_multiplier = 1
 
 func handle_inside_zone():
 	if inside_wind:
-		velocity.x += 10 * inside_wind_direction_x * inside_wind_strength_x
-		velocity.y += 10 * inside_wind_direction_y * inside_wind_strength_y
+		velocity.x += 10 * inside_wind_direction_x_x * inside_wind_strength_x
+		velocity.y += 10 * inside_wind_direction_x_y * inside_wind_strength_y
 		recently_left_wind = false
 	else:
 		if abs(velocity.x) > 1000 and not recently_left_wind:

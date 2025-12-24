@@ -58,15 +58,10 @@ size = Vector2(64, 512)
 size = Vector2(64, 192)
 
 [node name="World" instance=ExtResource("1_bhkyt")]
-playerStartHP = 5
-savedProgress_level_filePath = "res://Levels/overworld_factory.tscn"
 cameraLimit_left = -1e+07
 cameraLimit_right = 10432.0
 cameraLimit_bottom = 640.0
 cameraLimit_top = -1e+07
-regular_level = false
-selected_episode = "Main Levels"
-area_ID = "overworld_factory"
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_7dfdb")]
 unique_name_in_owner = true
@@ -110,15 +105,6 @@ layer_4/enabled = false
 
 [node name="Player" parent="." index="7"]
 position = Vector2(-288, 64)
-SPEED = 400.0
-JUMP_VELOCITY = -500.0
-ACCELERATION = 1200.0
-FRICTION = 1200.0
-AIR_SLOWDOWN = -400.0
-AIR_ACCELERATION = 1400.0
-flight = false
-weaponType = "none"
-secondaryWeaponType = "none"
 
 [node name="kill_area" parent="." index="14" instance=ExtResource("6_nae7b")]
 position = Vector2(7168, 5184)

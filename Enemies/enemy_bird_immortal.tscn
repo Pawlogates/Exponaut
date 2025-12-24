@@ -2,11 +2,11 @@
 
 [ext_resource type="Script" uid="uid://b4s4pparoh34l" path="res://Enemies/enemy_general.gd" id="1_kv4gx"]
 [ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="2_2glpx"]
-[ext_resource type="Material" uid="uid://g07ca37hnt0w" path="res://Other/Materials/rainbow_material.tres" id="3_cnxds"]
+[ext_resource type="Material" uid="uid://g07ca37hnt0w" path="res://Other/Materials/rainbow2.tres" id="3_cnxds"]
 [ext_resource type="SpriteFrames" uid="uid://b3wg57dxdwqlk" path="res://Assets/Graphics/sprites/packed/enemies/enemy_bird.tres" id="4_2c2k8"]
 [ext_resource type="AudioStream" uid="uid://06mnrt474pfx" path="res://Assets/Sounds/sfx/bird_idle.wav" id="4_ebqpd"]
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="5_cylrg"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="6_4tjjq"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="6_4tjjq"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="7_pveig"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]

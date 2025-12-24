@@ -36,7 +36,7 @@ func sfx_fade(delta):
 		elif fade < 0: # Fade out.
 			sfx.volume_linear = move_toward(sfx.volume_linear, 0, delta * -fade)
 
-func sfx_play(file, volume, pitch):
+func sfx_play(file, volume, pitch): # Example: sfx_manager.sfx_play(Globals.sfx_player_jump, 1.0, 0.0)
 	if not sfx.playing:
 		sfx.stream = sfx_file
 		sfx.volume_linear = volume

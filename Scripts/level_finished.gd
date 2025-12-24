@@ -16,30 +16,30 @@ func _on_retry_btn_pressed():
 
 func _on_continue_btn_pressed():
 	if Globals.delete_saves:
-		SavedData.saved_last_area_filePath = "res://Levels/overworld_infected_glades.tscn"
+		SaveData.saved_last_area_filePath = "res://Levels/overworld_infected_glades.tscn"
 	
-	elif SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+	elif SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		_on_level_select_btn_pressed()
 		return
 	
-	var saved_level = load(SavedData.saved_last_area_filePath)
-	await LevelTransition.fade_to_black()
+	var saved_level = load(SaveData.saved_last_area_filePath)
+	Overlay.animation("fade_black", 0, 1.0, true)
 	Globals.transitioned = false
 	get_tree().change_scene_to_packed(saved_level)
 
 var mapScreen = load("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 func _on_level_select_btn_pressed():
-	await LevelTransition.fade_to_black()
+	Overlay.animation("fade_black", 0, 1.0, true)
 	get_tree().paused = false
 	get_tree().change_scene_to_packed(mapScreen)
-	await LevelTransition.fade_from_black_slow()
+	Overlay.animation("fade_black", 0, 1.0, true)
 
 
 var score_counted_emitted = false
 signal score_counted()
 
 func _ready():
-	saved_progress = LevelTransition.get_node("%saved_progress")
+	saved_progress = SaveData
 	
 	set_process(false)
 	score_counted.connect(after_score_counted)
@@ -125,7 +125,7 @@ func exit_reached():
 	
 	if $/root/World.final_level:
 		if first_time_clear:
-			await LevelTransition.fade_to_black_verySlow()
+			Overlay.animation("fade_black", 0, 1.0, true)
 			await get_tree().create_timer(2, true).timeout
 			var credits = load("res://Other/Scenes/screen_credits.tscn")
 			get_tree().change_scene_to_packed(credits)
@@ -135,13 +135,13 @@ func exit_reached():
 	$AudioStreamPlayer.play()
 	$level_finished_text_hide.start()
 	await $level_finished_text_hide.timeout
-	await LevelTransition.fade_to_black()
+	Overlay.animation("fade_black", 0, 1.0, true)
 	%"Level Finished Label".visible = false
 	%"Button Container".visible = true
 	%Background.visible = true
 	%"End Screen".visible = true
 	%"End Screen Values".visible = true
-	await LevelTransition.fade_from_black_slow()
+	Overlay.animation("fade_black", 0, 1.0, true)
 	%ContinueBtn.grab_focus()
 	
 	set_process(true)

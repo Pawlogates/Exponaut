@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://Other/Scenes/player.tscn" id="6_exop1"]
 [ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://Other/Scenes/parallax_background_gradient.tscn" id="7_3ull5"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://Other/Scenes/background.tscn" id="8_8ihao"]
-[ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/rainbow_material2.tres" id="19_eepji"]
+[ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/neon_rainbow.tres" id="19_eepji"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="20_fa23o"]
 
 [sub_resource type="Animation" id="Animation_aveud"]
@@ -65,7 +65,6 @@ _data = {
 [node name="World" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_25muh")
-playerStartHP = 15
 
 [node name="music_manager" parent="." instance=ExtResource("2_1jcpx")]
 
@@ -84,15 +83,6 @@ autoplay = true
 
 [node name="Player" parent="." instance=ExtResource("6_exop1")]
 unique_name_in_owner = true
-SPEED = 400.0
-JUMP_VELOCITY = -500.0
-ACCELERATION = 1200.0
-FRICTION = 1200.0
-AIR_SLOWDOWN = -400.0
-AIR_ACCELERATION = 1400.0
-flight = false
-weaponType = "none"
-secondaryWeaponType = "none"
 
 [node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("7_3ull5")]
 unique_name_in_owner = true

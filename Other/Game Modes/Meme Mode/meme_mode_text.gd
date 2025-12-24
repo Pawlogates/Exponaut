@@ -74,7 +74,7 @@ func handleText_simple():
 		var current_letter_reverse = letter_count - 1
 		
 		for character in text_main:
-			var letter = preload("res://Meme Mode/meme_mode_single_letter.tscn").instantiate()
+			var letter = preload("res://Other/Game Modes/Meme Mode/meme_mode_single_letter.tscn").instantiate()
 			
 			letter.text = text_main[current_letter]
 			letter.position.x = position_offset

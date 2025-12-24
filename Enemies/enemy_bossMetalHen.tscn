@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://du1wjbwmpjg21" path="res://Assets/Graphics/sprites/packed/enemies/enemy_bossMetalHen.tres" id="2_16woy"]
 [ext_resource type="AudioStream" uid="uid://dktvinfcsfjdf" path="res://Assets/Sounds/sfx/robot_damage.wav" id="3_tkw8o"]
 [ext_resource type="AudioStream" uid="uid://bh4ltljsggx0d" path="res://Assets/Sounds/sfx/effect_explosion2.wav" id="4_fmm6y"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_ceaj0"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="5_ceaj0"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="6_i7gnv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]

@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://omx34ludxcad" path="res://Collectibles/collectible_general.gd" id="1_4a78r"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_jacgk"]
 [ext_resource type="AudioStream" uid="uid://cukyty62jg85q" path="res://Assets/Sounds/sfx/collect_weapon.wav" id="3_nbscn"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="4_acunx"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="4_acunx"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="5_gxr3b"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xo0sp"]

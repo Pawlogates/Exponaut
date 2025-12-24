@@ -48,6 +48,7 @@ var scene_particle_special_multiple = preload("res://Other/Particles/special_mul
 var scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
 var scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
 var scene_particle_splash = preload("res://Other/Particles/splash.tscn")
+var scene_particle_feather_multiple = preload("res://Other/Particles/feather.tscn")
 var scene_effect_dust = preload("res://Other/Effects/dust.tscn")
 
 
@@ -61,9 +62,25 @@ var sfx_player_death = preload("res://Assets/Sounds/sfx/rabbit_death.wav")
 var sfx_player_heal = preload("res://Assets/Sounds/sfx/heal.wav")
 
 
+# Other files:
+var material_rainbow = preload("res://Other/Materials/rainbow.tres")
+var material_rainbow2 = preload("res://Other/Materials/rainbow2.tres")
+var material_rainbow2_slowSlight = preload("res://Other/Materials/rainbow2_slowSlight.tres")
+var material_player_rainbow = preload("res://Other/Materials/player_rainbow.tres")
+var material_wave1 = preload("res://Other/Materials/wave1.tres")
+var material_wave2 = preload("res://Other/Materials/wave2.tres")
+var material_wave3 = preload("res://Other/Materials/wave3.tres")
+var material_godrays = preload("res://Other/Materials/godrays.tres")
+var material_hueShift = preload("res://Other/Materials/hueShift.tres")
+var material_cycle_darkBlue_purple = preload("res://Other/Materials/cycle_darkBlue_purple.tres")
+var material_cycle_yellow_orange = preload("res://Other/Materials/cycle_yellow_orange.tres")
+
+
 # Main scenes:
 var scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
 var scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
+
+var scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
 
 func _ready() -> void:
@@ -143,11 +160,14 @@ var combo_multiplier = 1 # Increases by 1 every 5 collectibles collected (or oth
 var total_score = 0 # Current save slot's total score, combined across all overworld segments and all of the overworld's level set levels.
 
 var collected_collectibles = 0 # Collectibles collected in the current level.
-var collected_majorCollectibles = 0
+var collected_majorCollectibles_module = 0
+var collected_majorCollectibles_key = 0
+var killed_enemies = 0
 
 var total_collectibles_in_currentLevel = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var total_majorCollectibles_module_in_currentLevel = 0
+var total_majorCollectibles_key_in_currentLevel = 0
 var total_enemies_in_currentLevel = 0
-var total_majorCollectibles_in_currentLevel = 0
 
 var player_weaponType = "none"
 
@@ -158,9 +178,9 @@ var gravity = 1.0
 # Combo streak extenders:
 signal combo_refreshed(time)
 
-signal entity_collected
-signal entity_hit
-signal entity_killed
+signal entity_collected # 2 seconds.
+signal entity_hit # 0.5 seconds.
+signal entity_killed # 6 seconds. Should not apply if the death is a box being broken.
 
 # These signals are emitted after an action related to the player is performed.
 signal projectile_shot
@@ -315,8 +335,8 @@ signal stop_playback
 var display_message_textQueue : Array = []
 signal refresh_info
 
-func message(text, time):
-	display_message_textQueue.append([str(text), time])
+func message(text):
+	display_message_textQueue.append(str(text))
 	Globals.refresh_info.emit()
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.

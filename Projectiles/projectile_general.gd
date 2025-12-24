@@ -28,16 +28,6 @@ extends CharacterBody2D
 
 @export var type : String
 
-var starParticle_fastScene = preload("res://Particles/particles_special_multiple.tscn")
-var hit_effectScene = preload("res://Particles/hit_effect.tscn")
-var dead_effectScene = preload("res://Particles/dead_effect.tscn")
-var hitDeath_effectScene = preload("res://Particles/hitDeath_effect.tscn")
-var starParticleScene = preload("res://Particles/particles_special.tscn")
-var starParticle2Scene = preload("res://Particles/particles_star.tscn")
-var orbParticleScene = preload("res://Particles/particles_special2_multiple.tscn")
-var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
-var effect_dustScene = preload("res://Particles/effect_dust.tscn")
-var effect_dust_moveUpScene = preload("res://Particles/effect_dust_moveUp.tscn")
 
 var enemyProjectile = false
 var playerProjectile = false

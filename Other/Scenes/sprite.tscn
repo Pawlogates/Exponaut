@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://v151qvyxpbng"]
+
+[ext_resource type="SpriteFrames" uid="uid://dxklhfxjvxsjo" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_apple.tres" id="1_5a00w"]
+
+[node name="sprite" type="AnimatedSprite2D"]
+sprite_frames = ExtResource("1_5a00w")
+animation = &"idle"

@@ -33,32 +33,32 @@ func _process(delta):
 
 
 func load_saved_unlocked_weapons():
-	if SavedData.saved_weapon_basic >= 0:
+	if SaveData.saved_weapon_basic >= 0:
 		place_item_display("weapon_basic", 0)
 		
-	if SavedData.saved_weapon_short_shotDelay >= 0:
+	if SaveData.saved_weapon_short_shotDelay >= 0:
 		place_item_display("weapon_short_shotDelay", 0)
 		
-	if SavedData.saved_weapon_ice >= 0:
+	if SaveData.saved_weapon_ice >= 0:
 		place_item_display("weapon_ice", 0)
 	
-	if SavedData.saved_weapon_fire >= 0:
+	if SaveData.saved_weapon_fire >= 0:
 		place_item_display("weapon_fire", 0)
 	
-	if SavedData.saved_weapon_destructive_fast_speed >= 0:
+	if SaveData.saved_weapon_destructive_fast_speed >= 0:
 		place_item_display("weapon_destructive_fast_speed", 0)
 	
-	if SavedData.saved_weapon_veryFast_speed >= 0:
+	if SaveData.saved_weapon_veryFast_speed >= 0:
 		place_item_display("weapon_veryFast_speed", 0)
 	
-	if SavedData.saved_weapon_phaser >= 0:
+	if SaveData.saved_weapon_phaser >= 0:
 		place_item_display("weapon_phaser", 0)
 	
 	#secondary weapon types
-	if SavedData.saved_secondaryWeapon_basic >= 0:
+	if SaveData.saved_secondaryWeapon_basic >= 0:
 		place_item_display("secondaryWeapon_basic", 1)
 	
-	if SavedData.saved_secondaryWeapon_fast >= 0:
+	if SaveData.saved_secondaryWeapon_fast >= 0:
 		place_item_display("secondaryWeapon_fast", 1)
 
 
@@ -161,7 +161,7 @@ func place_item_display(item, weaponMode):
 	
 	if allowed:
 		item = itemDisplay.item
-		if SavedData.get("saved_" + item) == 1:
+		if SaveData.get("saved_" + item) == 1:
 			itemDisplay.unlocked = true
 			set("unlock_state_" + item, 1)
 			

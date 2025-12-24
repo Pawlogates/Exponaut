@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cy2j1txps8t0w" path="res://Assets/Sounds/sfx/chicken_death.wav" id="6_ketrq"]
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="7_uchbp"]
 [ext_resource type="AudioStream" uid="uid://b0etfmj2vqb4p" path="res://Assets/Sounds/sfx/crow_death.wav" id="8_1d7ek"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="9_helh4"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="9_helh4"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="10_bq5s7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]

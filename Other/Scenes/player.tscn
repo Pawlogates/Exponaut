@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://bvqjdy74r3ptq" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="2_vnlwi"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_x8fgr"]
-[ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow_effect.tres" id="9_6epbf"]
-[ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/player_rainbowSlow_effect.tres" id="10_yfdc7"]
+[ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow.tres" id="9_6epbf"]
+[ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/rainbow2_slowSlight.tres" id="10_yfdc7"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
 size = Vector2(40, 112)

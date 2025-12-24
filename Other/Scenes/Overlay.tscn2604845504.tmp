@@ -1,0 +1,62 @@
+[gd_scene load_steps=6 format=3 uid="uid://c72fsx7pp0uvj"]
+
+[ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
+[ext_resource type="PackedScene" uid="uid://venyptfcari1" path="res://Other/Scenes/User Interface/HUD/HUD.tscn" id="2_o857m"]
+
+[sub_resource type="Animation" id="Animation_g0n3s"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("screen_black:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_wyr23"]
+resource_name = "fade_to_black"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("screen_black:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_olarl"]
+_data = {
+&"RESET": SubResource("Animation_g0n3s"),
+&"fade_black": SubResource("Animation_wyr23")
+}
+
+[node name="Overlay" type="CanvasLayer"]
+process_mode = 3
+layer = 128
+script = ExtResource("1_xupot")
+metadata/_edit_horizontal_guides_ = []
+
+[node name="screen_black" type="ColorRect" parent="."]
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+process_mode = 3
+libraries = {
+&"": SubResource("AnimationLibrary_olarl")
+}
+speed_scale = -2.0
+
+[node name="hud" parent="." instance=ExtResource("2_o857m")]

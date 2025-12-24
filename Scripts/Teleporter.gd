@@ -29,9 +29,9 @@ func _on_area_2d_area_entered(area):
 			for teleporter in get_tree().get_nodes_in_group(str(str(teleporter_type), str(teleport_to_ID))):
 				#print(str(str(teleporter_type), str(teleport_to_ID)))
 				
-				await LevelTransition.fade_to_black_fast()
+				Overlay.animation("fade_black", false, 1.0, true)
 				area.get_parent().position = teleporter.global_position
-				LevelTransition.fade_from_black()
+				Overlay.animation("fade_black", true, 1.0, true)
 				
 			
 			await get_tree().create_timer(2, false).timeout

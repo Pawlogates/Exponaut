@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://ckmhobgkosjly" path="res://Collectibles/collectible_simple.gd" id="1_g15xf"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_mp6uy"]
-[ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="3_vormm"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="4_vq3se"]
+[ext_resource type="AudioStream" path="res://Assets/Sounds/sfx/collect4.wav" id="3_vormm"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="4_vq3se"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="5_nueq4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_swb8e"]

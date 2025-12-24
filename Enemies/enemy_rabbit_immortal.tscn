@@ -5,7 +5,7 @@
 [ext_resource type="AudioStream" uid="uid://hvxekmw1mw0x" path="res://Assets/Sounds/sfx/rabbit_damage.wav" id="3_xf860"]
 [ext_resource type="SpriteFrames" uid="uid://cem520dxph8vh" path="res://Assets/Graphics/sprites/packed/enemies/enemy_rabbit.tres" id="3_yp32i"]
 [ext_resource type="AudioStream" uid="uid://d0q7oj4n6rdh1" path="res://Assets/Sounds/sfx/rabbit_death.wav" id="4_fewmo"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_jvuke"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="5_jvuke"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="6_wmib0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xl0tp"]

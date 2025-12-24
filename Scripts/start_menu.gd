@@ -1,20 +1,17 @@
 extends CenterContainer
 
-var startingArea = preload("res://Levels/overworld_factory.tscn")
-var levelSelect = preload("res://Other/Scenes/Level Select/levelSelect_screen.tscn")
-
 var can_quit = true
 
 func _ready():
-	SavedData.gameplay_recorder.selected_playback_id = 0
+	SaveData.gameplay_recorder.selected_playback_id = 0
 	
-	LevelTransition.get_node("%saved_progress").load_game()
+	SaveData.load_game()
 	last_area_filePath_load()
 	
 	hide_everything()
 	correct_toggle_buttons()
 	
-	LevelTransition.fade_from_black()
+	Overlay.animation("fade_black", 0, 1.0, true)
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
@@ -23,7 +20,7 @@ func _ready():
 	%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	menu_appearance(1, 1, true, 2000)
 	
-	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+	if SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		%StartGame.grab_focus()
 	else:
 		%Continue.grab_focus()
@@ -42,16 +39,16 @@ var saved_level_filePath = "res://Levels/empty.tscn"
 var saved_level = load("res://Levels/empty.tscn")
 
 func start_game(): #starts a brand new playthrough and deletes save files
-	SavedData.delete_progress()
-	SavedData.savedData_reset()
-	LevelTransition.get_node("%saved_progress").saved_progress_reset()
+	SaveData.delete_progress()
+	SaveData.savedData_reset()
+	SaveData.saved_progress_reset()
 	
 	Globals.transitioned = false
 	Globals.next_transition = 0
 	Globals.just_started_new_game = true
 	
-	await LevelTransition.fade_to_black_slow()
-	get_tree().change_scene_to_packed(startingArea)
+	Overlay.animation("fade_black", 0, 1.0, true)
+	get_tree().change_scene_to_packed(Globals.scene_start_area)
 
 
 #SELECTED EPISODE
@@ -59,14 +56,14 @@ func _on_episode_button_pressed():
 	if check_if_buttons_blocked():
 		return
 	
-	await LevelTransition.fade_to_black()
-	get_tree().change_scene_to_packed(mapScreen)
-	LevelTransition.fade_from_black()
+	Overlay.animation("fade_black", 0, 1.0, true)
+	get_tree().change_scene_to_packed(Globals.scene_levelSet_screen)
+	Overlay.animation("fade_black", 0, 1.0, true)
 
 
 func _on_fade_animation_animation_finished(anim_name):
 	if anim_name == "fade_to_black":
-		SavedData.savedData_load()
+		SaveData.savedData_load()
 		
 		#%background.texture = preload("res://Assets/Graphics/backgrounds/bg_forest_dark.png")
 		
@@ -134,7 +131,7 @@ func _on_quit_pressed():
 			get_tree().quit()
 		else:
 			$quit_delay.start()
-			LevelTransition.info_text_display.display_message("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!", 3)
+			Globals.message("Please consider going to C:>Users>YOUR USER NAME>AppData>Roaming>Godot>app_userdata>Exponaut v0.9 and sending me all of the input_log.json files you find there through discord! My discord name is pawlogates, thanks!")
 			print("Pressed quit once. Next press after 5 seconds will quit the game.")
 	else:
 		get_tree().quit()
@@ -143,7 +140,7 @@ func _on_continue_pressed():
 	if check_if_buttons_blocked():
 		return
 	
-	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+	if SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		return
 	
 	print(str(saved_level) + " is the file path of the saved last area level that you are loading into.")
@@ -152,7 +149,7 @@ func _on_continue_pressed():
 	Globals.next_transition = 0
 	Globals.just_started_new_game = false
 	
-	await LevelTransition.fade_to_black()
+	Overlay.animation("fade_black", 0, 1.0, true)
 	get_tree().change_scene_to_packed(saved_level)
 
 func _on_levels_pressed():
@@ -286,7 +283,7 @@ func _on_returnOptions_pressed():
 	menu_appearance(1, 1, true, 2000)
 	
 	await get_tree().create_timer(0.2, false).timeout
-	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+	if SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		%StartGame.grab_focus()
 	else:
 		%Continue.grab_focus()
@@ -393,7 +390,7 @@ func display_stretch_viewport_off():
 
 
 func last_area_filePath_load():
-	if SavedData.saved_last_area_filePath == "res://Levels/empty.tscn":
+	if SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		print("The saved_last_area_filePath property is default (res://Levels/empty.tscn), so the Continue option is blocked.")
 		#%Continue.process_mode = Node.PROCESS_MODE_DISABLED
 		%Continue.disabled = true
@@ -403,7 +400,7 @@ func last_area_filePath_load():
 		
 		return
 	
-	saved_level_filePath = SavedData.saved_last_area_filePath
+	saved_level_filePath = SaveData.saved_last_area_filePath
 
 
 #func delete_saves():
@@ -539,7 +536,7 @@ func _on_playback_id_pressed() -> void:
 	Globals.recording_autostart = true
 	_on_start_recording_pressed()
 	playback_button_general()
-	LevelTransition.info_text_display.display_message("Automatic recording is now ENABLED.", 0)
+	Globals.message("Automatic recording is now ENABLED.")
 
 func _on_playback_minus_pressed() -> void:
 	selected_playback_id -= 1
@@ -554,7 +551,7 @@ func playback_button_general():
 		selected_playback_id = 0
 	
 	selected_playback_id_display.text = str(selected_playback_id)
-	SavedData.gameplay_recorder.selected_playback_id = selected_playback_id
+	SaveData.gameplay_recorder.selected_playback_id = selected_playback_id
 
 
 func _on_quit_delay_timeout() -> void:

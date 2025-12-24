@@ -4,7 +4,7 @@
 [ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_bqxh8"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_c32ft"]
 [ext_resource type="AudioStream" uid="uid://e4sfw1k3t8ac" path="res://Assets/Sounds/sfx/key_collect.wav" id="3_1wexe"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="4_8mhlh"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="4_8mhlh"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="5_6uv5g"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qsbh1"]

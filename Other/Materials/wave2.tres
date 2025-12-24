@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://5l7pqcgu3k1j"]
 
-[ext_resource type="Shader" path="res://Other/Shaders/wind_effect.gdshader" id="1_q0ta0"]
+[ext_resource type="Shader" uid="uid://ygcewiyhmhkr" path="res://Other/Shaders/wind_effect.gdshader" id="1_q0ta0"]
 
 [resource]
 shader = ExtResource("1_q0ta0")

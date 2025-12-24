@@ -7,15 +7,6 @@ extends CharacterBody2D
 @onready var animation_player = %AnimationPlayer
 @onready var sprite = %AnimatedSprite2D
 
-var scene_hit_effect = preload("res://Particles/hit_effect.tscn")
-var scene_dead_effect = preload("res://Particles/dead_effect.tscn")
-var scene_particles_star = preload("res://Particles/particles_star.tscn")
-var scene_particles_starFast = preload("res://Particles/particles_starFast.tscn")
-var scene_particles_special = preload("res://Particles/particles_special.tscn")
-var scene_particles_special_multiple = preload("res://Particles/particles_special_multiple.tscn")
-var scene_particles_special2_multiple = preload("res://Particles/particles_special2_multiple.tscn")
-var scene_particles_water_entered = preload("res://Particles/particles_water_entered.tscn")
-
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
 var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
@@ -185,7 +176,7 @@ func destroy():
 		if onDeath_rotate_sprite:
 			%sprite_root.rotation_degrees = rng.randf_range(-60.0, 30.0)
 		if onDeath_spawn_deadEffect:
-			var dead_effect = scene_dead_effect.instantiate()
+			var dead_effect = Globals.scene_effect_dead_enemy.instantiate()
 			add_child(dead_effect)
 	else:
 		hp = start_hp
@@ -205,11 +196,11 @@ func destroy():
 	break_bonusBox.play()
 	Globals.boxBroken.emit()
 	
-	var star = scene_particles_special.instantiate()
+	var star = Globals.scene_particle_special2.instantiate()
 	add_child(star)
-	var star2 = scene_particles_special.instantiate()
+	var star2 = Globals.scene_particle_special2.instantiate()
 	add_child(star2)
-	var star3 = scene_particles_special.instantiate()
+	var star3 = Globals.scene_particle_special2.instantiate()
 	add_child(star3)
 
 
@@ -521,11 +512,11 @@ func handle_inside_zone(delta):
 
 
 func particles_stars():
-	var star1 = scene_particles_special.instantiate()
+	var star1 = Globals.scene_particle_star.instantiate()
 	star1.position = position
-	var star2 = scene_particles_special.instantiate()
+	var star2 = Globals.scene_effect_dust.instantiate()
 	star2.position = position
-	var star3 = scene_particles_special.instantiate()
+	var star3 = Globals.scene_effect_dust.instantiate()
 	star3.position = position
 	
 	world.add_child(star1)
@@ -533,7 +524,7 @@ func particles_stars():
 	world.add_child(star3)
 
 func onHit_effect():
-	var hit_effect = scene_hit_effect.instantiate()
+	var hit_effect = Globals.scene_effect_hit_enemy.instantiate()
 	hit_effect.position = position
 	world.add_child(hit_effect)
 

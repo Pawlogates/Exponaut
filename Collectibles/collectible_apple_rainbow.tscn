@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dieunvhai1sjq"]
 
 [ext_resource type="PackedScene" uid="uid://c2cm0aw561fcj" path="res://Collectibles/collectible_base.tscn" id="1_4b2xy"]
-[ext_resource type="Material" uid="uid://dok04t87cr154" path="res://Other/Materials/golden_effect.tres" id="2_ei0lv"]
+[ext_resource type="Material" uid="uid://dok04t87cr154" path="res://Other/Materials/cycle_yellow_orange.tres" id="2_ei0lv"]
 
 [node name="apple_rainbow" instance=ExtResource("1_4b2xy")]
 loop_anim = "loop_scale"

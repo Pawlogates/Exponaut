@@ -26,4 +26,4 @@ func checkpoint_activated():
 	$/root/World.save_game_area()
 	
 	if not $/root/World.regular_level and not $/root/World.shrine_level:
-		SavedData.savedData_save(true)
+		SaveData.save_playerData(true)

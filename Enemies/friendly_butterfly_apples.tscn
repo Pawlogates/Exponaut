@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://is2w5wmf8tpv" path="res://Assets/Graphics/sprites/packed/enemies/friendly_butterfly.tres" id="2_cna6a"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_vl5l7"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_fip6c"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_pwnso"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="5_pwnso"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="6_nct61"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]

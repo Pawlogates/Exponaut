@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://cxx3le36efyw7" path="res://Assets/Graphics/sprites/packed/enemies/enemy_fireImp.tres" id="2_s5pi6"]
 [ext_resource type="AudioStream" uid="uid://b86wlkuhlqeoj" path="res://Assets/Sounds/sfx/effect_slash.wav" id="3_dlsxb"]
 [ext_resource type="AudioStream" uid="uid://c6iipfrjpw3bf" path="res://Assets/Sounds/sfx/effect_death.wav" id="4_q7y20"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_g2iyf"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="5_g2iyf"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="6_hekxd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_4klqh"]

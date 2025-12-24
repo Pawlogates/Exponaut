@@ -2,12 +2,6 @@ extends StaticBody2D
 
 var destroyed = false
 
-var effect_dustScene = preload("res://Particles/effect_dust.tscn")
-var effect_dust = effect_dustScene.instantiate()
-
-var starParticleScene = preload("res://Particles/particles_special_multiple.tscn")
-var starParticle = starParticleScene.instantiate()
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if not destroyed:
@@ -38,11 +32,11 @@ func deferred_key_block_destroy():
 		destroyed = true
 		
 		
-		var dust = effect_dustScene.instantiate()
+		var dust = Globals.scene_effect_dust.instantiate()
 		dust.anim_slow = true
 		add_child(dust)
 		
-		var stars = starParticleScene.instantiate()
+		var stars = Globals.scene_particle_star.instantiate()
 		add_child(stars)
 
 # DESTROY KEY BLOCK END

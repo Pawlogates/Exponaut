@@ -888,29 +888,29 @@ func effect_stars():
 
 # Save progress loaded from the main menu screen.
 func last_area_filePath_save():
-	if shrine_level or regular_level:
+	if level_type != "overworld":
 		return
 	
-	SavedData.saved_last_area_filePath = level_filePath
-	print(SavedData.saved_last_area_filePath)
+	SaveData.saved_last_area_filePath = level_filepath
+	Globals.message("Changing last overworld level filepath to " + str(SaveData.level_filepath))
 
 
 func reassign_player():
 	Player = get_tree().get_first_node_in_group("player_root")
 	camera = get_tree().get_first_node_in_group("player_camera")
-	if not regular_level and not shrine_level:
+	if level_type == "overworld":
 		get_tree().get_first_node_in_group("quickselect_screen").reassign_player()
 
 
 func _on_timer_timeout() -> void:
-	if whiteBlocks_toggle:
-		whiteBlocks_toggle = false
+	if neon_fade_in:
+		neon_fade_in = false
 		$whiteBlocks_make_rainbow.play("fade_out")
-		healthDisplay.text = "out"
+		Globals.message("Neon blocks are fading out.")
 	else:
-		whiteBlocks_toggle = true
+		neon_fade_in = true
 		$whiteBlocks_make_rainbow.play("fade_in")
-		healthDisplay.text = "in"
+		Globals.message("Neon blocks are fading in.")
 
 
 func debug_screen_delete():
@@ -939,8 +939,8 @@ func play_random_music():
 	
 	var rolled_music = music_list.pick_random()
 	print(rolled_music)
-	music.stream = load(music_dir_path + "/" + rolled_music)
-	music.play()
+	music_controller.stream = load(music_dir_path + "/" + rolled_music)
+	music_controller.play()
 
 
 var playing = false

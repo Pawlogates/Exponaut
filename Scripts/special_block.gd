@@ -7,17 +7,6 @@ var block_movement = true
 
 var velocity_x_last = 0.0
 
-var starParticleScene = preload("res://Particles/particles_star.tscn")
-var hit_effectScene = preload("res://Particles/hit_effect.tscn")
-var dead_effectScene = preload("res://Particles/dead_effect.tscn")
-var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
-var effect_dustScene = preload("res://Particles/effect_dust.tscn")
-var starParticleFastScene = preload("res://Particles/particles_starFast.tscn")
-var scene_particles_special2_multiple = preload("res://Particles/particles_special2_multiple.tscn")
-var scene_particles_special_multiple = preload("res://Particles/particles_special_multiple.tscn")
-var scene_particles_special = preload("res://Particles/particles_special.tscn")
-var scene_particles_water_entered = preload("res://Particles/particles_water_entered.tscn")
-
 
 #SPECIAL PROPERTIES
 @export var SPEED = 250.0
@@ -118,7 +107,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if breakable:
-				var effect_dust = effect_dustScene.instantiate()
+				var effect_dust = Globals.scene_effect_dust.instantiate()
 				effect_dust.global_position = global_position
 				get_parent().add_child(effect_dust)
 				
@@ -134,7 +123,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if not immortal:
-				var dead_effect = dead_effectScene
+				var dead_effect = Globals.scene_effect_dead_enemy
 				add_child(dead_effect)
 				%AnimatedSprite2D.play("destroyed")
 			
@@ -159,7 +148,7 @@ func _on_area_2d_area_entered(area):
 			
 			if destructible_weapon:
 				if area.is_in_group("destructive"):
-					var effect_dust = effect_dustScene.instantiate()
+					var effect_dust = Globals.scene_effect_dust.instantiate()
 					effect_dust.global_position = global_position
 					get_parent().add_child(effect_dust)
 					
@@ -171,7 +160,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if breakable:
-				var effect_dust = effect_dustScene.instantiate()
+				var effect_dust = Globals.dust.instantiate()
 				effect_dust.global_position = global_position
 				get_parent().add_child(effect_dust)
 				
@@ -186,7 +175,7 @@ func _on_area_2d_area_entered(area):
 			
 			
 			if not immortal and breakable:
-				var dead_effect = dead_effectScene
+				var dead_effect = Globals.scene_effect_dead_enemy
 				add_child(dead_effect)
 				%AnimatedSprite2D.play("destroyed")
 			
@@ -284,7 +273,7 @@ func spawn_collectibles():
 		collectibleAmount -= 1
 		spawn_item()
 	
-	var hit_effect = hit_effectScene.instantiate()
+	var hit_effect = Globals.hit.instantiate()
 	add_child(hit_effect)
 
 
@@ -300,7 +289,7 @@ func spawn_item():
 
 
 func _on_timer_timeout():
-	var effect_dust = effect_dustScene.instantiate()
+	var effect_dust = Globals.dust.instantiate()
 	effect_dust.global_position = global_position
 	get_parent().add_child(effect_dust)
 	
@@ -371,12 +360,12 @@ func toggleBlock_toggle():
 		#z_index -= 1
 	
 	if $VisibleOnScreenNotifier2D.is_on_screen():
-		var dust = effect_dustScene.instantiate()
+		var dust = Globals.dust.instantiate()
 		#dust.anim_slow = true
 		add_child(dust)
-		var stars = starParticleScene.instantiate()
+		var stars = Globals.scene_particle_star.instantiate()
 		add_child(stars)
-		var particles_special_multiple = scene_particles_special_multiple.instantiate()
+		var particles_special_multiple = Globals.scene_particle_special2_multiple.instantiate()
 		add_child(particles_special_multiple)
 
 

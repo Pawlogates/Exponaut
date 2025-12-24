@@ -6,8 +6,8 @@
 [ext_resource type="AudioStream" uid="uid://c6esa6bpc6d6r" path="res://Assets/Sounds/sfx/effect_jump.wav" id="4_q66u7"]
 [ext_resource type="AudioStream" uid="uid://ci8j4i2srfy2q" path="res://Assets/Sounds/sfx/spring_collect.wav" id="5_s3lob"]
 [ext_resource type="AudioStream" uid="uid://kw6nmpm2u6yh" path="res://Assets/Sounds/sfx/effect_landed.wav" id="6_xmvyl"]
-[ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/player_rainbowSlow_effect.tres" id="7_pg4fo"]
-[ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow_effect.tres" id="8_r0gvf"]
+[ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/rainbow2_slowSlight.tres" id="7_pg4fo"]
+[ext_resource type="Material" uid="uid://cd8wge0axq4tl" path="res://Other/Materials/player_rainbow.tres" id="8_r0gvf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
 size = Vector2(24, 16)

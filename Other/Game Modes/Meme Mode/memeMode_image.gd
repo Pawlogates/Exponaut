@@ -32,14 +32,14 @@ var frozen = false
 var anim_scale_loop = false
 
 var is_video = false
-var video_filepath = preload("res://Meme Mode/videos/1.ogv")
+var video_filepath = preload("res://Other/Game Modes/Meme Mode/videos/background videos/1.ogv")
 var is_video_quick = false
-var video_quick_filepath = preload("res://Meme Mode/videos/1.ogv")
+var video_quick_filepath = preload("res://Other/Game Modes/Meme Mode/videos/1.ogv")
 
 var video_randomize = true
 var video_foreground = true
 
-var video_scene = preload("res://Meme Mode/memeMode_video.tscn")
+var video_scene = preload("res://Other/Game Modes/Meme Mode/memeMode_video.tscn")
 
 var pivot_offset_rare = false
 
@@ -206,7 +206,7 @@ func _ready():
 		else:
 			video.z_index = randi_range(0, 25)
 		if video_filepath.contains("greenscreens"):
-			video.material = preload("res://Meme Mode/remove_green.tres")
+			video.material = preload("res://Other/Game Modes/Meme Mode/remove_green.tres")
 			video.scale += Vector2(2, 2)
 		$image.add_child(video)
 		$image.self_modulate.a = 0
@@ -263,7 +263,7 @@ func _ready():
 			video.volume_db = randi_range(-10, 20)
 			
 			if randi_range(0, 1) : video.z_index = randi_range(50, 125)
-			video.material = preload("res://Meme Mode/remove_green.tres")
+			video.material = preload("res://Other/Game Modes/Meme Mode/remove_green.tres")
 			
 			$image.add_child(video)
 			$image.self_modulate.a = 0

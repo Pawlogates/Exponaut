@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://omx34ludxcad" path="res://Collectibles/collectible_general.gd" id="1_xucai"]
 [ext_resource type="PackedScene" uid="uid://ckdwtubwnxp3h" path="res://Boxes/box_grapes.tscn" id="2_82tr7"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="3_kkvbs"]
-[ext_resource type="AudioStream" uid="uid://7qosqkhuroeh" path="res://Assets/Sounds/sfx/collect4.wav" id="4_oaeyj"]
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/bonus_material.tres" id="5_e3oga"]
+[ext_resource type="AudioStream" path="res://Assets/Sounds/sfx/collect4.wav" id="4_oaeyj"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="5_e3oga"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="6_6pvk0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hyhuy"]

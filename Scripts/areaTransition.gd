@@ -15,14 +15,14 @@ func _on_area_entered(area):
 	if not entered:
 		if area.is_in_group("player"):
 			Globals.transitioned = true
-			SavedData.saved_weapon = area.get_parent().weaponType
+			SaveData.saved_weapon = area.get_parent().weaponType
 			entered = true
 			var next_area:PackedScene = load(target_area)
 			
-			SavedData.savedData_save(false)
+			SaveData.save_playerData(false)
 			
 			get_parent().save_game_area()
-			await LevelTransition.fade_to_black()
+			Overlay.animation("fade_black", 0, 1.0, true)
 			get_tree().change_scene_to_packed(next_area)
 		else:
 			print("A non-player entity has entered an area transition.")

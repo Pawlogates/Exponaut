@@ -1,8 +1,0 @@
-[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://b5ws7ks5frcgv"]
-
-[ext_resource type="Shader" uid="uid://5wt7uyqwtbe" path="res://Other/Shaders/rainbow_effect2.gdshader" id="1_4u10y"]
-
-[resource]
-shader = ExtResource("1_4u10y")
-shader_parameter/strength = 0.0
-shader_parameter/speed = 0.5
