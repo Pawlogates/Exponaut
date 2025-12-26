@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://3y22eg1jp8np"]
+
+[ext_resource type="PackedScene" uid="uid://dqtpito0c3p7p" path="res://Levels/empty_testLevel.tscn" id="1_ohyyc"]
+[ext_resource type="PackedScene" uid="uid://hq4cxsvbv03l" path="res://Enemies/togglebot.tscn" id="2_sqcig"]
+
+[node name="World" instance=ExtResource("1_ohyyc")]
+
+[node name="tileset_main" parent="." index="0"]
+layer_0/tile_data = PackedInt32Array(131065, 196608, 9, 131066, 196608, 9, 131067, 65536, 8, 131068, 0, 8, 131069, 262144, 9, 131070, 0, 8, 131071, 65536, 8, 65536, 262144, 9, 65537, 262144, 9, 65538, 131072, 9, 65539, 262144, 9, 65540, 262144, 8, 65541, 327680, 8, 65542, 262144, 8, 65543, 65536, 9, 65544, 131072, 8, 65545, 262144, 9, 65546, 262144, 8, 65547, 65536, 9, 65548, 327680, 9, 65549, 327680, 8, 65550, 262144, 9, 65551, 262144, 8, 65552, 131072, 9, 65553, 0, 9, 65554, 131072, 8, 65555, 327680, 9, 65556, 65536, 8, 65557, 196608, 8, 65558, 0, 8, 65559, 131072, 9, 65560, 262144, 9, 65529, 65536, 8, -7, 65536, 8, -65543, 327680, 9, -262151, 327680, 8, -327687, 65536, 9, -393223, 0, 9, -458759, 262144, 9, -196615, 65536, 9, -131079, 131072, 8, -131048, 0, 8, -65512, 131072, 9, 24, 131072, 8)
+
+[node name="togglebot" parent="." index="20" instance=ExtResource("2_sqcig")]
+position = Vector2(497, -130)
+
+[node name="togglebot2" parent="." index="21" instance=ExtResource("2_sqcig")]
+position = Vector2(1282, -74)

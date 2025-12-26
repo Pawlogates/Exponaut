@@ -1,10 +1,16 @@
 extends Node2D
 
-@export var start_toggle_fade = true
-var disabled = false
+var enabled = false
+var start_toggle_fade = true
 
-@onready var music_player_main = $music
-
+@onready var music_1_delay: Timer = %music1_delay
+@onready var music_layer_2: AudioStreamPlayer = %music_layer2
+@onready var music_2_delay: Timer = %music2_delay
+@onready var music_layer_3: AudioStreamPlayer = %music_layer3
+@onready var music_3_delay: Timer = %music3_delay
+@onready var music_layer_4: AudioStreamPlayer = %music_layer4
+@onready var music_4_delay: Timer = %music4_delay
+@onready var toggle_fade_delay: Timer = $toggle_fade_delay
 
 var print_limit = 100
 var print_limit_edge = false
@@ -18,7 +24,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if disabled:
+	if enabled:
 		return
 	
 	var previous_volume = music_player_main.volume_db
@@ -52,7 +58,7 @@ func _process(delta):
 
 var fading = "none" # "in", "out", "none"
 func _on_toggle_fade_delay_timeout():
-	if disabled:
+	if enabled:
 		return
 	
 	if fading == "in":

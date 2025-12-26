@@ -25,10 +25,8 @@ var level_time = 0
 var level_time_displayed = 0
 var level_start_time = 0.0
 
-@onready var music_controller = $"music_controller"
-@onready var ambience_controller = $"ambience_controller"
-
-var material_hueShift_neon = preload("res://Other/Materials/hueShift_neonBlock.tres")
+@onready var music_manager = $"music_manager"
+@onready var ambience_manager = $"ambience_manager"
 
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = $tileset_objects
@@ -39,7 +37,7 @@ var material_hueShift_neon = preload("res://Other/Materials/hueShift_neonBlock.t
 @export var cameraLimit_bottom = 0.0
 @export var cameraLimit_top = 0.0
 
-@export_enum("levelSet", "overworld", "debug") var level_type: String
+@export_enum("levelSet", "overworld", "debug") var level_type : String = "levelSet"
 
 @export var final_level = false
 
@@ -94,6 +92,8 @@ var quicksave_blocked = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.level_started.emit()
+	
 	#if Globals.gameState_debug: # False if the game is currently being worked on.
 		#SaveData.delete_progress()
 		#Globals.message_debug("Deleted all save files on entering a level.")
@@ -116,9 +116,7 @@ func _ready():
 	if level_overworld_id != "none":
 		Globals.level_id = level_overworld_id
 	
-	material_hueShift_neon.set_shader_parameter("Shift_Hue", neon_hueShift)
-	
-	Globals.gameplay_recorder_entered_level.emit()
+	Globals.material_neon_hueShift.set_shader_parameter("Shift_Hue", neon_hueShift)
 	
 	if random_music:
 		play_random_music()
@@ -148,7 +146,7 @@ func _ready():
 	if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
 		Player.camera.limit_left = cameraLimit_left
 		Player.camera.limit_right = cameraLimit_right
-		Player.cameraD.limit_bottom = cameraLimit_bottom
+		Player.camera.limit_bottom = cameraLimit_bottom
 		Player.camera.limit_top = cameraLimit_top
 	
 	
@@ -327,7 +325,7 @@ func _ready():
 
 #MAIN START
 func _physics_process(delta):
-	#Current level's playtime
+	# Current level's playtime.
 	level_time = Time.get_ticks_msec() - level_start_time
 	level_time_displayed = level_time / 1000.0
 	Globals.level_time = level_time_displayed
@@ -344,7 +342,7 @@ func _physics_process(delta):
 		#level_timeDisplay.visible_characters = 3
 	
 	
-	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quicksave") and not quickload_blocked:
+	if Globals.settings_quicksaves and Input.is_action_just_pressed("quicksave") and not quickload_blocked:
 		quickload_blocked = true
 		save_game()
 		$QuickloadLimiter.start()
@@ -939,8 +937,8 @@ func play_random_music():
 	
 	var rolled_music = music_list.pick_random()
 	print(rolled_music)
-	music_controller.stream = load(music_dir_path + "/" + rolled_music)
-	music_controller.play()
+	music_manager.stream = load(music_dir_path + "/" + rolled_music)
+	music_manager.play()
 
 
 var playing = false

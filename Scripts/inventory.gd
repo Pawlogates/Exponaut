@@ -1,6 +1,6 @@
 extends Control
 
-@onready var onSpawn_item_scene = Globals.inventory_onSpawn_scene
+@onready var onSpawn_item_scene = load("res://Collectibles/apple.tscn")
 
 
 # Called when the node enters the scene tree for the first time.

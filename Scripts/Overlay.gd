@@ -1,7 +1,7 @@
 extends CanvasLayer
 
 @onready var animation_player = $AnimationPlayer
-@onready var screen_black = $blackScreen
+@onready var screen_black = $screen_black
 
 var scene_display_message = preload("res://Other/Scenes/User Interface/display_message.tscn")
 var scene_debug_display_message = preload("res://Other/Scenes/User Interface/Debug/debug_display_message.tscn")

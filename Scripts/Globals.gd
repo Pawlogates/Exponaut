@@ -50,6 +50,7 @@ var scene_particle_special2_multiple = preload("res://Other/Particles/special2_m
 var scene_particle_splash = preload("res://Other/Particles/splash.tscn")
 var scene_particle_feather_multiple = preload("res://Other/Particles/feather.tscn")
 var scene_effect_dust = preload("res://Other/Effects/dust.tscn")
+var scene_particle_score = preload("res://Other/Particles/score.tscn")
 
 
 # Sound effects:
@@ -60,6 +61,7 @@ var sfx_player_hit = preload("res://Assets/Sounds/sfx/effect_slash.wav")
 var sfx_player_damage = preload("res://Assets/Sounds/sfx/robot_damage.wav")
 var sfx_player_death = preload("res://Assets/Sounds/sfx/rabbit_death.wav")
 var sfx_player_heal = preload("res://Assets/Sounds/sfx/heal.wav")
+var sfx_collect = preload("res://Assets/Sounds/sfx/collect.wav")
 
 
 # Other files:
@@ -74,6 +76,7 @@ var material_godrays = preload("res://Other/Materials/godrays.tres")
 var material_hueShift = preload("res://Other/Materials/hueShift.tres")
 var material_cycle_darkBlue_purple = preload("res://Other/Materials/cycle_darkBlue_purple.tres")
 var material_cycle_yellow_orange = preload("res://Other/Materials/cycle_yellow_orange.tres")
+var material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres")
 
 
 # Main scenes:
@@ -81,6 +84,10 @@ var scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_scree
 var scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
 
 var scene_start_area = preload("res://Levels/overworld_factory.tscn")
+
+
+# Other scenes:
+var scene_portal = preload("res://Objects/shrine_portal.tscn")
 
 
 func _ready() -> void:
@@ -171,7 +178,9 @@ var total_enemies_in_currentLevel = 0
 
 var player_weaponType = "none"
 
-var gravity = 1.0
+var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+
+var level_time = 0.0
 
 
 # Signals:
@@ -203,12 +212,12 @@ signal collected_weapon
 signal collected_secondary
 
 # These signals are emitted after an action is performed.
-signal save_levelState_saved # Only one level is saved here at a time. Level State refers to objects (and their state) inside of a level and other persistent aspects of it, to be restored when player comes back to an already visited overworld level, or loading a quicksave.
-signal save_levelState_loaded
-signal save_playerData_saved # Various otherworld player info like health, score, unlocks, etc.
-signal save_playerData_loaded
-signal save_levelSet_saved # Information about every Level Set in the game.
-signal save_levelSet_loaded
+signal levelState_saved # Only one level is saved here at a time. Level State refers to objects (and their state) inside of a level and other persistent aspects of it, to be restored when player comes back to an already visited overworld level, or loading a quicksave.
+signal levelState_loaded
+signal playerData_saved # Various otherworld player info like health, score, unlocks, etc.
+signal playerData_loaded
+signal levelSet_saved # Information about every Level Set in the game.
+signal levelSet_loaded
 
 # Emitting these signals from anywhere will cause the game to perform an action.
 signal player_damage(value)
@@ -257,9 +266,9 @@ var bg_b_offset_target_y= 0
 
 
 # Main scene refers to the current root scene (the parent node at the top of the node tree).
-var mainScene = get_parent()
-var mainScene_name = mainScene.name
-var mainScene_filePath = mainScene.scene_file_path
+@onready var mainScene = get_parent()
+@onready var mainScene_name = mainScene.name
+@onready var mainScene_filePath = mainScene.scene_file_path
 
 # World states:
 var worldState_justStartedNewGame = false

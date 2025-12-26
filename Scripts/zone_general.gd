@@ -1,8 +1,5 @@
 extends Area2D
 
-@onready var world = $/root/World
-@onready var player = $/root/World.player
-
 #possible zone types: "wind", "water", "kill", "bouncy", "gravity".
 @export_enum("wind", "water", "kill", "bouncy", "gravity") var zone_type = "wind"
 
@@ -24,34 +21,34 @@ func _on_area_entered(area):
 	if area.is_in_group("player"):
 	
 		if zone_type == "wind":
-			player.inside_wind += 1
-			player.insideWind_direction_X = wind_direction_X
-			player.insideWind_direction_Y = wind_direction_Y
-			player.insideWind_strength_X = wind_strength_X
-			player.insideWind_strength_Y = wind_strength_Y
+			Globals.Player.inside_wind += 1
+			Globals.Player.insideWind_direction_X = wind_direction_X
+			Globals.Player.insideWind_direction_Y = wind_direction_Y
+			Globals.Player.insideWind_strength_X = wind_strength_X
+			Globals.Player.insideWind_strength_Y = wind_strength_Y
 		
 		
 		elif zone_type == "water":
-			player.inside_water += 1
-			if player.inside_water == 1:
+			Globals.Player.inside_water += 1
+			if Globals.Player.inside_water == 1:
 				water_effect()
-				player.insideWater_multiplier = water_strength
-				player.SPEED = player.base_SPEED * water_slowdown
-				player.velocity.y /= 3
-				player.get_node("jumpBuildVelocity").wait_time = 0.25
+				Globals.Player.insideWater_multiplier = water_strength
+				Globals.Player.SPEED = Globals.Player.base_SPEED * water_slowdown
+				Globals.Player.velocity.y /= 3
+				Globals.Player.get_node("jumpBuildVelocity").wait_time = 0.25
 		
 		
 		elif zone_type == "gravity":
-			player.GRAVITY_SCALE = gravity_value
+			Globals.Player.GRAVITY_SCALE = gravity_value
 		
 		
 		elif zone_type == "bouncy":
-			player.on_player_just_bounced()
+			Globals.Player.on_player_just_bounced()
 			
 			if bouncy_velocity_X != -1:
-				player.velocity.x = bouncy_velocity_X
+				Globals.Player.velocity.x = bouncy_velocity_X
 			if bouncy_velocity_Y != -1:
-				player.velocity.y = bouncy_velocity_Y
+				Globals.Player.velocity.y = bouncy_velocity_Y
 			
 			water_effect()
 		
@@ -96,19 +93,19 @@ func _on_area_exited(area):
 	if area.is_in_group("player"):
 	
 		if zone_type == "wind":
-			player.inside_wind -= 1
+			Globals.Player.inside_wind -= 1
 		
 		
 		elif zone_type == "water":
-			player.inside_water -= 1
-			if player.inside_water == 0:
+			Globals.Player.inside_water -= 1
+			if Globals.Player.inside_water == 0:
 				water_effect()
-				player.SPEED = player.base_SPEED
-				player.get_node("jumpBuildVelocity").wait_time = 0.1
+				Globals.Player.SPEED = Globals.Player.base_SPEED
+				Globals.Player.get_node("jumpBuildVelocity").wait_time = 0.1
 		
 		
 		elif zone_type == "gravity":
-			player.GRAVITY_SCALE = 1.0
+			Globals.Player.GRAVITY_SCALE = 1.0
 	
 	
 	
@@ -187,4 +184,4 @@ func water_effect():
 
 
 func reassign_player():
-	player = get_tree().get_first_node_in_group("player_root")
+	Globals.Player = get_tree().get_first_node_in_group("player_root")

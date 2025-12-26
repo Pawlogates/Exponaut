@@ -3,13 +3,10 @@ extends Control
 var itemDisplay_scene = preload("res://Other/Scenes/User Interface/Quick Select/quickselect_itemDisplay.tscn")
 var previous_state = -1
 
-@onready var player = $/root/World/Player
-@onready var world = $/root/World
-
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if world.regular_level or world.shrine_level:
+	if Globals.World.level_type != "overworld":
 		queue_free()
 	
 	Globals.weapon_collected.connect(show_weapon)
@@ -22,12 +19,12 @@ func _ready():
 func _process(delta):
 	#print("state:" + str(unlock_state_secondaryWeapon_basic))
 	if Input.is_action_pressed("quickselect"):
-		player.block_movement = true
+		Globals.Player.block_movement = true
 		position.y = lerp(position.y, 345.0, 5 * delta)
 		scale = lerp(scale, Vector2(1.0, 1.0), 5 * delta)
 	
 	else:
-		player.block_movement = false
+		Globals.Player.block_movement = false
 		position.y = lerp(position.y, 2000.0, delta)
 		scale = lerp(scale, Vector2(0.01, 0.01), 10 * delta)
 
@@ -175,4 +172,4 @@ func place_item_display(item, weaponMode):
 	get_tree().get_first_node_in_group("quickselect_itemDisplay").get_node("%Button").grab_focus()
 
 func reassign_player():
-	player = get_tree().get_first_node_in_group("player_root")
+	Globals.Player = get_tree().get_first_node_in_group("player_root")

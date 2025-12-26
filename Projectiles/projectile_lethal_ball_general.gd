@@ -27,16 +27,16 @@ extends CharacterBody2D
 @export var momentum_x = 0.0
 @export var momentum_y = 0.0
 
-var starParticle_fastScene = preload("res://Particles/particles_special_multiple.tscn")
-var hit_effectScene = preload("res://Particles/hit_effect.tscn")
-var dead_effectScene = preload("res://Particles/dead_effect.tscn")
-var hitDeath_effectScene = preload("res://Particles/hitDeath_effect.tscn")
-var starParticleScene = preload("res://Particles/particles_special.tscn")
-var starParticle2Scene = preload("res://Particles/particles_star.tscn")
-var orbParticleScene = preload("res://Particles/particles_special2_multiple.tscn")
-var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
-var effect_dustScene = preload("res://Particles/effect_dust.tscn")
-var effect_dust_moveUpScene = preload("res://Particles/effect_dust_moveUp.tscn")
+#var starParticle_fastScene = preload("res://Particles/particles_special_multiple.tscn")
+#var hit_effectScene = preload("res://Particles/hit_effect.tscn")
+#var dead_effectScene = preload("res://Particles/dead_effect.tscn")
+#var hitDeath_effectScene = preload("res://Particles/hitDeath_effect.tscn")
+#var starParticleScene = preload("res://Particles/particles_special.tscn")
+#var starParticle2Scene = preload("res://Particles/particles_star.tscn")
+#var orbParticleScene = preload("res://Particles/particles_special2_multiple.tscn")
+#var splashParticleScene = preload("res://Particles/particles_water_entered.tscn")
+#var effect_dustScene = preload("res://Particles/effect_dust.tscn")
+#var effect_dust_moveUpScene = preload("res://Particles/effect_dust_moveUp.tscn")
 
 var enemyProjectile = false
 var playerProjectile = true
@@ -135,13 +135,13 @@ func _process(delta):
 				if not $AnimationPlayer.is_playing():
 					$AnimationPlayer.play("hit_wall")
 				
-				var hit_effect = hit_effectScene.instantiate()
-				hit_effect.position = position
-				world.add_child(hit_effect)
-				
-				var star = starParticle_fastScene.instantiate()
-				star.position = position
-				world.add_child(star)
+				#var hit_effect = hit_effectScene.instantiate()
+				#hit_effect.position = position
+				#world.add_child(hit_effect)
+				#
+				#var star = starParticle_fastScene.instantiate()
+				#star.position = position
+				#world.add_child(star)
 	
 	if not is_lethalBall:
 		velocity = Vector2(0, 0)

@@ -53,7 +53,7 @@ var next_BONUS = 1
 
 
 # Main Levels.
-var info_MAIN = ["Main Levels", Globals.d_background + "/bg_levelSet_MAIN.png", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn", 12, "none", "Pawlogates", false, false, false, false, false, false]
+var info_MAIN = ["Main Levels", Globals.d_backgrounds + "/bg_levelSet_MAIN.png", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn", 12, "none", "Pawlogates", false, false, false, false, false, false]
 
 var info_MAIN_1 = ["Training Tunnel", 0, -460, 40, 180000, 60, "Pawlogates", "beginner"]
 var info_MAIN_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "Pawlogates", "beginner"]
@@ -67,7 +67,7 @@ var info_MAIN_9 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates"]
 var info_MAIN_10 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "Pawlogates"]
 
 # Bonus Levels.
-var info_BONUS = ["Main Levels", Globals.d_background + "/bg_levelSet_MAIN.png", 12, true, "Pawlogates", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
+var info_BONUS = ["Main Levels", Globals.d_backgrounds + "/bg_levelSet_MAIN.png", 12, true, "Pawlogates", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
 
 var info_BONUS_1 = ["Unnamed", 1, 100000, 60]
 var info_BONUS_2 = ["Unnamed", 1, 100000, 60]

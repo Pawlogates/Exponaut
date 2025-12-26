@@ -8,44 +8,41 @@
 
 [node name="Music Controller" type="Node2D"]
 script = ExtResource("1_5q24m")
+start_toggle_fade = null
 
-[node name="ambience_layer1" type="AudioStreamPlayer" parent="."]
+[node name="music_layer1" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_d2que")
 
-[node name="ambience1_delay" type="Timer" parent="ambience_layer1"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="music_layer1"]
 one_shot = true
 
-[node name="ambience_layer2" type="AudioStreamPlayer" parent="."]
+[node name="music_layer2" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_35147")
 
-[node name="ambience2_delay" type="Timer" parent="ambience_layer2"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="music_layer2"]
 one_shot = true
 
-[node name="ambience_layer3" type="AudioStreamPlayer" parent="."]
+[node name="music_layer3" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("4_q67ph")
 
-[node name="ambience3_delay" type="Timer" parent="ambience_layer3"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="music_layer3"]
 one_shot = true
 
-[node name="ambience_layer4" type="AudioStreamPlayer" parent="."]
+[node name="music_layer4" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_bjasv")
 
-[node name="ambience4_delay" type="Timer" parent="ambience_layer4"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="music_layer4"]
 one_shot = true
 
 [node name="toggle_fade_delay" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="ambience_layer1/ambience1_delay" to="." method="_on_ambience_1_delay_timeout"]
-[connection signal="timeout" from="ambience_layer2/ambience2_delay" to="." method="_on_ambience_2_delay_timeout"]
-[connection signal="timeout" from="ambience_layer3/ambience3_delay" to="." method="_on_ambience_3_delay_timeout"]
-[connection signal="timeout" from="ambience_layer4/ambience4_delay" to="." method="_on_ambience_4_delay_timeout"]
+[connection signal="timeout" from="music_layer1/cooldown" to="." method="_on_ambience_1_delay_timeout"]
+[connection signal="timeout" from="music_layer2/cooldown" to="." method="_on_ambience_2_delay_timeout"]
+[connection signal="timeout" from="music_layer3/cooldown" to="." method="_on_ambience_3_delay_timeout"]
+[connection signal="timeout" from="music_layer4/cooldown" to="." method="_on_ambience_4_delay_timeout"]
 [connection signal="timeout" from="toggle_fade_delay" to="." method="_on_toggle_fade_delay_timeout"]

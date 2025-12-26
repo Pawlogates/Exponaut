@@ -59,16 +59,15 @@ func count_score():
 
 
 func _ready():
-	Globals.saveState_loaded.connect(score_correct_saved)
+	Globals.levelState_loaded.connect(score_correct_saved)
 	
 	Globals.score_reduced.connect(score_correct)
-	Globals.scoreReset.connect(reset_displayScore)
+	Globals.score_reset.connect(reset_displayScore)
 	
-	Globals.itemCollected.connect(on_itemCollected)
-	Globals.enemyHit.connect(on_enemyHit)
-	Globals.boxBroken.connect(on_boxBroken)
-	
-	Globals.specialAction.connect(on_specialAction)
+	Globals.entity_collected.connect(on_entity_collected)
+	Globals.entity_hit.connect(on_entity_hit)
+	Globals.entity_killed.connect(on_entity_killed)
+	Globals.combo_refreshed.connect(on_combo_refreshed)
 
 
 func score_correct_saved():
@@ -88,14 +87,14 @@ func comboScore_updated(new_speed):
 	bg_comboScore.modulate.g = 0
 	bg_comboScore.modulate.b = 0
 
-func on_itemCollected():
+func on_entity_collected():
 	comboScore_updated(25)
 
-func on_enemyHit():
+func on_entity_hit():
 	comboScore_updated(25)
 
-func on_boxBroken():
+func on_entity_killed():
 	comboScore_updated(25)
 
-func on_specialAction():
+func on_combo_refreshed(time):
 	comboScore_updated(12.5)

@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://venyptfcari1"]
+[gd_scene load_steps=7 format=3 uid="uid://venyptfcari1"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_2eo37"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://Other/Scenes/screen_levelFinished.tscn" id="3_4125l"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://Other/Scenes/User Interface/score_display.tscn" id="4_yr68u"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://Other/Scenes/User Interface/HUD/info_downRight.tscn" id="5_7reqh"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://Other/Scenes/User Interface/Inventory/inventory.tscn" id="6_rtdal"]
-[ext_resource type="PackedScene" uid="uid://tolmaonlxbva" path="res://Other/Scenes/User Interface/Quick Select/quickselect_screen.tscn" id="7_bqv7r"]
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://Other/Scenes/User Interface/collectedApplesDisplay_golden.tscn" id="8_qos86"]
 
 [node name="HUD" type="CanvasLayer"]
@@ -161,8 +160,6 @@ offset_right = 1824.0
 offset_bottom = 1046.0
 
 [node name="Inventory" parent="." instance=ExtResource("6_rtdal")]
-
-[node name="quickselect_screen" parent="." instance=ExtResource("7_bqv7r")]
 
 [node name="collectedApples_display" type="Control" parent="."]
 custom_minimum_size = Vector2(160, 320)

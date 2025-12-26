@@ -9,232 +9,21 @@
 size = Vector2(64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
-size = Vector2(32, 32)
+size = Vector2(48, 48)
 
 [node name="base" type="CharacterBody2D"]
 script = ExtResource("1_wx0ek")
-collectable = null
-hittable = null
-collidable = null
-health = null
-damage = null
-score_value = null
-movement_type = null
-speed = null
-jump_velocity = null
-gravity = null
-acceleration = null
-friction = null
-family = null
-can_move = null
-can_move_x = null
-can_move_y = null
-speed_multiplier_x = null
-speed_multiplier_y = null
-acceleration_multiplier_x = null
-acceleration_multiplier_y = null
-friction_multiplier_x = null
-friction_multiplier_y = null
-gravity_multiplier_x = null
-gravity_multiplier_y = null
-on_wall_turn = null
-on_wall_speed_multiplier = null
-on_wall_float = null
-on_wall_death = null
-on_ledge_turn = null
-on_ledge_speed_multiplier = null
-on_ledge_death = null
-bouncy_y = null
-bouncy_x = null
-ascending = null
-on_timeout_change_direction = null
-on_timeout_change_direction_cooldown = null
-on_timeout_jump = null
-on_timeout_jump_cooldown = null
-collidable_cooldown = null
-on_death_spawn_entity = null
-on_death_spawn_entity_quantity = null
-on_death_spawn_entity_spreadPosition = null
-on_death_spawn_entity_spreadPosition_multiplier_x = null
-on_death_spawn_entity_spreadPosition_multiplier_y = null
-on_death_spawn_entity_throwAround = null
-on_death_spawn_entity_throwAround_multiplier_x = null
-on_death_spawn_entity_throwAround_multiplier_y = null
-on_death_toggle_toggleBlocks = null
-on_death_toggle_toggleBlocks_id = null
-on_death_disappearInstantly = null
-spotted_patrolling = null
-spotted_targets = null
-spotted_vision_size = null
-on_spotted_spawn_entity = null
-on_spotted_spawn_entity_cooldown = null
-on_spotted_spawn_entity2 = null
-on_spotted_spawn_entity2_cooldown = null
-on_spotted_spawn_entity3 = null
-on_spotted_spawn_entity3_cooldown = null
-on_spotted_spawn_entity_offset = null
-on_spotted_spawn_entity_family = null
-when_atStartPosition_x_stop = null
-when_atStartPosition_y_stop = null
-start_position_leniency_x = null
-start_position_leniency_y = null
-on_spawn_offset_position = null
-on_spawn_offset_position_random = null
-can_affect_player = null
-can_collect = null
-look_at_player_x = null
-look_at_player_y = null
-look_at_player_rotate = null
-look_at_player_rotate_offset = null
-on_entityEntered_change_direction_copyEntity = null
-on_entityEntered_change_direction_basedOnPosition = null
-enteredFromAboveAndNotMoving_enable = null
-enteredFromAboveAndNotMoving_velocity = null
-rng_custom = null
-disable_animations = null
-animation = null
-breakable = null
-breakable_on_death_spawn_entity = null
-breakable_on_death_spawn_entity_quantity = null
-breakable_on_death_spawn_entity_throwAround = null
-breakable_on_death_spawn_entity_throwAround_velocity = null
-breakable_on_death_spawn_entity_throwAround_random = null
-breakable_on_death_spawn_entity_throwAround_random_velocity_minimal = null
-breakable_on_death_spawn_entity_throwAround_random_velocity_maximum = null
-breakable_on_death_player_velocity = null
-breakable_on_death_player_velocity_jump = null
-breakable_on_death_spawn_entity_spread_position = null
-breakable_on_hit_spawn_entity = null
-breakable_on_hit_spawn_entity_quantity = null
-breakable_on_hit_spawn_entity_throwAround = null
-breakable_on_hit_spawn_entity_throwAround_velocity = null
-breakable_on_hit_spawn_entity_throwAround_random = null
-breakable_on_hit_spawn_entity_throwAround_random_velocity_minimal = null
-breakable_on_hit_spawn_entity_throwAround_random_velocity_maximum = null
-breakable_on_hit_player_velocity = null
-breakable_on_hit_player_velocity_jump = null
-breakable_on_hit_spawn_entity_spread_position = null
-breakable_requires_velocity_x = null
-breakable_requires_velocity_y = null
-breakable_requires_velocity_x_range = null
-breakable_requires_velocity_y_range = null
-breakable_requires_velocity_x_range2 = null
-breakable_requires_velocity_y_range2 = null
-breakable_advanced_on_hit_gain_movement = null
-breakable_advanced_on_death_gain_movement = null
-breakable_advanced_on_death_prevent_death = null
-breakable_advanced_on_death_prevent_score = null
-breakable_advanced_score_value = null
-breakable_advanced_on_death_spawn_entity = null
-breakable_advanced_on_death_spawn_entity_quantity = null
-breakable_advanced_on_death_spawn_entity_throwAround = null
-breakable_advanced_on_death_spawn_entity_throwAround_velocity = null
-breakable_advanced_on_death_spawn_entity_throwAround_random = null
-breakable_advanced_on_death_spawn_entity_throwAround_random_velocity_minimal = null
-breakable_advanced_on_death_spawn_entity_throwAround_random_velocity_maximum = null
-breakable_advanced_on_death_player_velocity = null
-breakable_advanced_on_death_player_velocity_jump = null
-breakable_advanced_on_death_spawn_entity_spread_position = null
-breakable_advanced_on_hit_spawn_entity = null
-breakable_advanced_on_hit_spawn_entity_quantity = null
-breakable_advanced_on_hit_spawn_entity_throwAround = null
-breakable_advanced_on_hit_spawn_entity_throwAround_velocity = null
-breakable_advanced_on_hit_spawn_entity_throwAround_random = null
-breakable_advanced_on_hit_spawn_entity_throwAround_random_velocity_minimal = null
-breakable_advanced_on_hit_spawn_entity_throwAround_random_velocity_maximum = null
-breakable_advanced_on_hit_player_velocity = null
-breakable_advanced_on_hit_player_velocity_jump = null
-breakable_advanced_on_hit_spawn_entity_spread_position = null
-breakable_advanced_portal_on_death_open = null
-breakable_advanced_portal_particle_amount = null
-breakable_advanced_portal_level_id = null
-breakable_advanced_portal_checkpoint_offset = null
-majorCollectible_module = null
-majorCollectible_key = null
-temporaryPowerup = null
-temporary_powerup = null
-temporary_powerup_duration = null
-gift = null
-gift_is_hidden = null
-is_healthItem = null
-rotting = null
-fall_when_button_pressed = null
-transform_player = null
-on_collected_effect_special = null
-general_timers_enabled = null
-t1_cooldown = null
-t2_cooldown = null
-t3_cooldown = null
-t4_cooldown = null
-t5_cooldown = null
-t6_cooldown = null
-t1_on_timeout_randomize_cooldown = null
-t2_on_timeout_randomize_cooldown = null
-t3_on_timeout_randomize_cooldown = null
-t4_on_timeout_randomize_cooldown = null
-t5_on_timeout_randomize_cooldown = null
-t6_on_timeout_randomize_cooldown = null
-t_randomize_cooldown_min = null
-t_randomize_cooldown_max = null
-t1_on_spawn_randomize = null
-t2_on_spawn_randomize = null
-t3_on_spawn_randomize = null
-t4_on_spawn_randomize = null
-t5_on_spawn_randomize = null
-t6_on_spawn_randomize = null
-t_trigger_jump = null
-t_trigger_jumpAndMove = null
-t_trigger_change_direction = null
-t_trigger_selfDestruct = null
-t_trigger_selfDestructAndSpawnEntity = null
-t_trigger_sfx = null
-t_trigger_randomize_speedAndJumpVelocity = null
-t_trigger_spawnEntity = null
-t_trigger_spawnEntity_quantity = null
-t_trigger_spawnEntity_velocity = null
-t_trigger_spawnEntity_velocity_random = null
-t_trigger_spawnEntity2 = null
-t_trigger_spawnEntity2_quantity = null
-t_trigger_spawnEntity2_velocity = null
-t_trigger_spawnEntity2_velocity_random = null
-t_trigger_spawnEntity3 = null
-t_trigger_spawnEntity3_quantity = null
-t_trigger_spawnEntity3_velocity = null
-t_trigger_spawnEntity3_velocity_random = null
-particle_star = null
-particle_orb = null
-particle_splash = null
-particle_leaf = null
-particle_star_fast = null
-effect_hit_enemy = null
-effect_kill_enemy = null
-effect_oneShot_enemy = null
-p_particle_star = null
-p_particle_orb = null
-p_particle_splash = null
-p_particle_leaf = null
-on_collected_effect_thrownAway = null
-onCollected_effect_thrownAway = null
-effect_thrownAway_randomize_velocity = null
-effect_thrownAway_randomize_velocity_multiplier_x = null
-effect_thrownAway_randomize_velocity_multiplier_y = null
-entity_name = null
-entity_type = null
-direction_x = null
-direction_y = null
-on_spawn_randomize_everything = null
-debug = null
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
 
 [node name="animation_general" parent="sprite" instance=ExtResource("3_1y7wk")]
 unique_name_in_owner = true
 
-[node name="timer_attacking" type="Timer" parent="."]
+[node name="timer_attacking" type="Timer" parent="sprite"]
 
-[node name="timer_attacked" type="Timer" parent="."]
+[node name="timer_attacked" type="Timer" parent="sprite"]
 
-[node name="cooldown_particles" type="Timer" parent="."]
+[node name="cooldown_particles" type="Timer" parent="sprite"]
 
 [node name="collision_main" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ep4j2")
@@ -249,8 +38,12 @@ shape = SubResource("RectangleShape2D_c3p0q")
 [node name="timer_invincible" type="Timer" parent="."]
 
 [node name="scan_ledge" type="RayCast2D" parent="."]
+position = Vector2(32, 0)
+target_position = Vector2(0, 64)
 
 [node name="scan_stuck" type="RayCast2D" parent="."]
+position = Vector2(0, -32)
+target_position = Vector2(0, 64)
 
 [node name="cooldown_collidable" type="Timer" parent="."]
 

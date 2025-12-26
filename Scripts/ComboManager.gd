@@ -4,11 +4,10 @@ extends Node2D
 @onready var streak_timer = $collectible_streak_timer
 
 func _ready():
-	Globals.itemCollected.connect(itemCollected_reset_combo_cycle)
-	Globals.enemyHit.connect(enemyHit_reset_combo_cycle)
-	Globals.boxBroken.connect(boxBroken_reset_combo_cycle)
-	
-	Globals.specialAction.connect(reset_combo_cycle_long)
+	Globals.entity_collected.connect(on_entity_collected)
+	Globals.entity_hit.connect(on_entity_hit)
+	Globals.entity_killed.connect(on_entity_killed)
+	Globals.combo_refreshed.connect(on_combo_refreshed)
 
 
 func check_combo_tier():
@@ -84,3 +83,16 @@ func _on_collectible_streak_timer_timeout():
 	
 	reset_combo_tier()
 	print("Collectible streak finished.")
+
+
+func on_entity_collected():
+	pass
+
+func on_entity_hit():
+	pass
+
+func on_entity_killed():
+	pass
+
+func on_combo_refreshed(time):
+	pass

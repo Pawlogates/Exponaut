@@ -135,32 +135,27 @@ func _ready():
 	base_FRICTION = FRICTION
 	base_GRAVITY_MULTIPLIER = GRAVITY_MULTIPLIER
 	
-	Globals.player_pos = get_global_position()
-	Globals.player_pos_x = get_global_position()[0]
-	Globals.player_pos_y = get_global_position()[1]
+	Globals.player_position = position
 	
-	Globals.save_levelState_saved.connect(on_levelState_saved)
-	Globals.save_levelState_loaded.connect(on_levelState_loaded)
-	Globals.save_saveData_saved.connect(on_saveData_saved)
-	Globals.save_saveData_loaded.connect(on_saveData_loaded)
-	Globals.save_levelSelect_saved.connect(on_levelSelect_saved)
-	Globals.save_levelSelect_loaded.connect(on_levelSelect_loaded)
+	Globals.levelState_saved.connect(on_levelState_saved)
+	Globals.levelState_loaded.connect(on_levelState_loaded)
+	Globals.playerData_saved.connect(on_playerData_saved)
+	Globals.playerData_loaded.connect(on_playerData_loaded)
+	Globals.levelSet_saved.connect(on_levelSet_saved)
+	Globals.levelSet_loaded.connect(on_levelSet_loaded)
 	
 	Globals.player_damage.connect(reduce_health)
 	Globals.player_kill.connect(kill)
 	Globals.player_heal.connect(heal)
 	
-	Globals.shot_charged.connect(charged_effect)
-	Globals.shot.connect(cancel_effect)
+	Globals.projectile_charged.connect(charged_effect)
+	Globals.projectile_shot.connect(cancel_effect)
 	
-	Globals.saved_player_posX = position.x
-	Globals.saved_player_posY = position.y
+	player_just_landed.connect(on_just_landed)
 	
-	player_just_landed.connect(_just_landed)
-	
-	Globals.powerup_activated.connect(_powerup_activated)
-	Globals.max_scoreMultiplier_reached.connect(_max_scoreMultiplier_reached)
-	Globals.combo_reset.connect(_combo_reset)
+	Globals.powerUp_activated.connect(on_powerUp_activated)
+	Globals.max_scoreMultiplier_reached.connect(on_max_scoreMultiplier_reached)
+	Globals.combo_reset.connect(on_combo_reset)
 	
 	
 	if World.cameraLimit_left != 0.0 or World.cameraLimit_right != 0.0 or World.cameraLimit_top != 0.0 or World.cameraLimit_bottom != 0.0:
@@ -1184,7 +1179,7 @@ func handle_flight(delta):
 		velocity.y = move_toward(velocity.y, 0, delta * 600)
 
 
-func _powerup_activated():
+func on_powerUp_activated():
 	double_score = true
 	$powerup_timer.start()
 
@@ -1192,16 +1187,16 @@ func _on_powerup_timer_timeout():
 	double_score = false
 
 
-func _max_scoreMultiplier_reached():
+func on_max_scoreMultiplier_reached():
 	animation_player2.play("max_score_multiplier_reached")
 	can_air_jump = true
 	can_wall_jump = true
 
-func _combo_reset():
+func on_combo_reset():
 	animation_player2.play("streak_reset")
 
 
-func _on_block_movement_full_timeout() -> void:
+func on_on_block_movement_full_timeout() -> void:
 	block_movement_full = false
 	velocity = Vector2(0, 0)
 
@@ -1255,16 +1250,16 @@ func on_levelState_saved():
 func on_levelState_loaded():
 	pass
 
-func on_saveData_saved():
+func on_playerData_saved():
 	pass
 
-func on_saveData_loaded():
+func on_playerData_loaded():
 	pass
 
-func on_levelSelect_saved():
+func on_levelSet_saved():
 	pass
 
-func on_levelSelect_loaded():
+func on_levelSet_loaded():
 	pass
 
 
@@ -1330,7 +1325,7 @@ func just_update():
 @onready var t_recently_bounced: Timer = $timer_recently_bounced
 @onready var t_recently_left_wind: Timer = $timer_recently_left_win
 
-func _just_bounced():
+func on_just_bounced():
 	recently_bounced = true
 	t_recently_bounced.start()
 	can_air_jump = true
@@ -1348,7 +1343,7 @@ func _on_timer_recently_left_wind_timeout() -> void:
 
 
 # Player just landed on the ground (the "just" refers to something that just got set to true, and then immediately gets set back to false right after all relevant consequences are applied).
-func _just_landed():
+func on_just_landed():
 	print("Player landed.")
 	player_just_landed.emit()
 	%AnimationPlayer.play("RESET")

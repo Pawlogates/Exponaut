@@ -9,39 +9,35 @@
 [node name="Ambience Controller" type="Node2D"]
 script = ExtResource("1_bbqoc")
 
-[node name="ambience_layer1" type="AudioStreamPlayer" parent="."]
+[node name="layer1" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_edpwh")
 
-[node name="ambience1_delay" type="Timer" parent="ambience_layer1"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="layer1"]
 one_shot = true
 
-[node name="ambience_layer2" type="AudioStreamPlayer" parent="."]
+[node name="layer2" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_pxqo3")
 
-[node name="ambience2_delay" type="Timer" parent="ambience_layer2"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="layer2"]
 one_shot = true
 
-[node name="ambience_layer3" type="AudioStreamPlayer" parent="."]
+[node name="layer3" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("4_pqbrp")
 
-[node name="ambience3_delay" type="Timer" parent="ambience_layer3"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="layer3"]
 one_shot = true
 
-[node name="ambience_layer4" type="AudioStreamPlayer" parent="."]
+[node name="layer4" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_kiwfk")
 
-[node name="ambience4_delay" type="Timer" parent="ambience_layer4"]
-unique_name_in_owner = true
+[node name="cooldown" type="Timer" parent="layer4"]
 one_shot = true
 
-[connection signal="timeout" from="ambience_layer1/ambience1_delay" to="." method="_on_ambience_1_delay_timeout"]
-[connection signal="timeout" from="ambience_layer2/ambience2_delay" to="." method="_on_ambience_2_delay_timeout"]
-[connection signal="timeout" from="ambience_layer3/ambience3_delay" to="." method="_on_ambience_3_delay_timeout"]
-[connection signal="timeout" from="ambience_layer4/ambience4_delay" to="." method="_on_ambience_4_delay_timeout"]
+[connection signal="timeout" from="layer1/cooldown" to="." method="_on_ambience_1_delay_timeout"]
+[connection signal="timeout" from="layer2/cooldown" to="." method="_on_ambience_2_delay_timeout"]
+[connection signal="timeout" from="layer3/cooldown" to="." method="_on_ambience_3_delay_timeout"]
+[connection signal="timeout" from="layer4/cooldown" to="." method="_on_ambience_4_delay_timeout"]

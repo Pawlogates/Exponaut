@@ -87,8 +87,6 @@ func _process(_delta):
 		queue_free()
 
 
-var bonus_material = preload("res://Other/Materials/bonus_material.tres")
-
 func _on_collectible_entered(body):
 	if not body.is_in_group("player") and not body.is_in_group("player_projectile"):
 		return
@@ -122,11 +120,11 @@ func _on_collectible_entered(body):
 				if Globals.combo_tier > 4:
 					add_child(Globals.scene_particle_star.instantiate())
 					%collect1.pitch_scale = 1.4
-					bonus_material.set_shader_parameter("strength", 0.5)
+					Globals.material_rainbow2_slowSlight.set_shader_parameter("strength", 0.5)
 	
 	else:
 		%collect1.pitch_scale = 1
-		bonus_material.set_shader_parameter("strength", 0.0)
+		Globals.material_rainbow2_slowSlight.set_shader_parameter("strength", 0.0)
 	
 	sfx_collect1.play()
 	
