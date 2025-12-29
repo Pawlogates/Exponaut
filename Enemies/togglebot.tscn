@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://hq4cxsvbv03l"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_5yskg"]
-[ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_hedgehog.tres" id="2_i7pjj"]
+[ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_togglebot.tres" id="2_i7pjj"]
 
 [node name="togglebot" instance=ExtResource("1_5yskg")]
 collectable = false

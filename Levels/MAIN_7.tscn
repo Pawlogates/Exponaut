@@ -1,20 +1,14 @@
-[gd_scene load_steps=10 format=3 uid="uid://bl3lbxr2tra35"]
+[gd_scene load_steps=8 format=3 uid="uid://bl3lbxr2tra35"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_xn17t"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_yo0ve"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="3_tqa2x"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_5ubuc"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_qb5ig"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_fe5tj"]
-[ext_resource type="AudioStream" uid="uid://do14rg1o1weqn" path="res://Assets/Sounds/music/plains5.mp3" id="6_gqmkp"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_rd5ey"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="8_ha6lb"]
 
 [node name="World" instance=ExtResource("1_xn17t")]
-shrine_level = true
-playerStartHP = 3
-selected_episode = "Main Levels"
-level_ID = "MAIN_7"
 level_number = 7
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_yo0ve")]
@@ -36,30 +30,56 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_qb5ig")]
+[node name="tileset_objectsSmall" parent="." index="3"]
+_import_path = NodePath("")
 unique_name_in_owner = true
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 layer_0/tile_data = PackedInt32Array(38, 0, 851968, -393168, 0, 1048576, -262078, 0, 851968, -1703876, 0, 262144, -1834948, 0, 262144, -1966020, 0, 262144, -2097092, 0, 262144, -1769412, 0, 262144, -1900484, 0, 262144, -2031556, 0, 262144, -786388, 0, 1376256, -655292, 0, 3211264)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("5_qb5ig")]
+[node name="tileset_objectsSmall_back" parent="." index="4"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = -5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("5_qb5ig")]
+[node name="tileset_objectsSmall_front" parent="." index="5"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = 5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
-
-[node name="music" parent="Music Controller" index="5"]
-stream = ExtResource("6_gqmkp")
+script = null
 
 [node name="kill_area" parent="." index="15" instance=ExtResource("6_fe5tj")]
 position = Vector2(7168, 5184)
@@ -72,3 +92,5 @@ is_gradient = true
 
 [node name="trigger_bgMove" parent="." index="17" instance=ExtResource("8_ha6lb")]
 scale = Vector2(4, 4)
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

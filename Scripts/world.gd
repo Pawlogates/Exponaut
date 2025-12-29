@@ -4,16 +4,16 @@ extends Node2D
 
 @onready var Player = $Player
 @onready var camera = Player.camera
-@onready var hud = %hud
+@onready var hud = Node
 
 var debug_screen: Control # Added and deleted on demand.
 
-@onready var screen_levelFinished = %screen_levelFinished
+@onready var screen_levelFinished = Node
 
-@onready var hud_level_time = %level_time
-@onready var hud_player_health = %player_health
-@onready var hud_collected_keys = %collected_keys
-@onready var hud_total_keys = %total_keys
+@onready var hud_level_time = Node
+@onready var hud_player_health = Node
+@onready var hud_collected_keys = Node
+@onready var hud_total_keys = Node
 
 #@export_file("*.tscn") var level_filePath: String
 var level_filepath = scene_file_path
@@ -29,13 +29,13 @@ var level_start_time = 0.0
 @onready var ambience_manager = $"ambience_manager"
 
 @onready var tileset_main = $tileset_main
-@onready var tileset_objects = $tileset_objects
-@onready var tileset_objects_precise = $tileset_objects_precise
+@onready var tileset_objects = Node
+@onready var tileset_objects_precise = Node
 
-@export var cameraLimit_left = 0.0
-@export var cameraLimit_right = 0.0
-@export var cameraLimit_bottom = 0.0
-@export var cameraLimit_top = 0.0
+@export var camera_boundary_left = 0.0
+@export var camera_boundary_right = 0.0
+@export var camera_boundary_bottom = 0.0
+@export var camera_boundary_top = 0.0
 
 @export_enum("levelSet", "overworld", "debug") var level_type : String = "levelSet"
 
@@ -119,7 +119,7 @@ func _ready():
 	Globals.material_neon_hueShift.set_shader_parameter("Shift_Hue", neon_hueShift)
 	
 	if random_music:
-		play_random_music()
+		play_music_random()
 	
 	Overlay.screen_black.color.a = 1.0
 	
@@ -143,23 +143,19 @@ func _ready():
 	#$tileset_objects.queue_free() #DEBUG
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	
-	if cameraLimit_left != 0.0 or cameraLimit_right != 0.0 or cameraLimit_top != 0.0 or cameraLimit_bottom != 0.0:
-		Player.camera.limit_left = cameraLimit_left
-		Player.camera.limit_right = cameraLimit_right
-		Player.camera.limit_bottom = cameraLimit_bottom
-		Player.camera.limit_top = cameraLimit_top
+	if camera_boundary_left != 0.0 or camera_boundary_right != 0.0 or camera_boundary_top != 0.0 or camera_boundary_bottom != 0.0:
+		Player.camera.limit_left = camera_boundary_left
+		Player.camera.limit_right = camera_boundary_right
+		Player.camera.limit_bottom = camera_boundary_bottom
+		Player.camera.limit_top = camera_boundary_top
 	
 	
 	get_tree().paused = false
 	
-	Globals.save.connect(saved_from_outside)
-	
 	Globals.level_score = 0
 	Globals.combo_score = 0
-	Globals.collected_in_cycle = 0
+	Globals.combo_streak = 0
 	Globals.combo_tier = 0
-	
-	%HUD.visible = true
 	
 	#tileset_objects.set_layer_enabled(0, true)
 	#tileset_objects.set_layer_enabled(1, true)
@@ -183,7 +179,7 @@ func _ready():
 	
 	level_start_time = Time.get_ticks_msec()
 	
-	Globals.exitReached.connect(exitReached_show_screen)
+	Globals.level_finished.connect(show_screen_levelFinished)
 	
 	
 	Globals.bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
@@ -193,7 +189,7 @@ func _ready():
 	Globals.trigger_bg_move_entered.connect(bg_move_check)
 	
 	
-	Globals.player_transformed.connect(reassign_player)
+	Globals.transformation_activated.connect(reassign_player)
 	
 	#if not next_level is PackedScene:
 		#level_finished.next_level_btn.text = "Results"
@@ -270,11 +266,10 @@ func _ready():
 	
 	await get_tree().create_timer(0.2, false).timeout
 	
-	if not Globals.transitioned:
+	if not Globals.transition_triggered:
 		save_game()
 	
-	Globals.transitioned = false
-	Globals.load_saved_position = true
+	Globals.transition_triggered = false
 	
 	if level_overworld_id != "none":
 		SaveData.load_levelState(level_overworld_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
@@ -325,6 +320,8 @@ func _ready():
 
 #MAIN START
 func _physics_process(delta):
+	get_tree().paused = false
+	
 	# Current level's playtime.
 	level_time = Time.get_ticks_msec() - level_start_time
 	level_time_displayed = level_time / 1000.0
@@ -351,7 +348,7 @@ func _physics_process(delta):
 		await get_tree().create_timer(1.0, false).timeout
 		Globals.is_saving = false
 	
-	if Globals.quicksaves_enabled and Input.is_action_just_pressed("quickload") and not quickload_blocked:
+	if Globals.settings_quicksaves and Input.is_action_just_pressed("quickload") and not quickload_blocked:
 		quickload_blocked = true
 		load_game()
 		$QuickloadLimiter.start()
@@ -402,7 +399,7 @@ func _on_exitReached_retry():
 	retry()
 
 
-func exitReached_show_screen():
+func show_screen_levelFinished():
 	
 	if not Globals.mode_scoreAttack:
 		screen_levelFinished.show()
@@ -462,7 +459,7 @@ func retry():
 	Globals.level_score = 0
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
-	Globals.collected_in_cycle = 0
+	Globals.combo_streak = 0
 	
 	Globals.player_health = player_start_health
 
@@ -569,48 +566,40 @@ var last_checkpoint_pos = Vector2(0, 0)
 
 #Save state
 func save_game():
-	if not Globals.is_saving:
-		Globals.is_saving = true
-		
-		#if Globals.combo_score != 0:
-			#await Globals.comboReset
-		
-		var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
-		var save_nodes = get_tree().get_nodes_in_group("Persist")
-		for node in save_nodes:
-			# Check the node is an instanced scene so it can be instanced again during load.
-			if node.scene_file_path.is_empty():
-				print("persistent node '%s' is not an instanced scene, skipped" % node.name)
-				continue
-			# Check the node has a save function.
-			if !node.has_method("save"):
-				print("persistent node '%s' is missing a save() function, skipped" % node.name)
-				continue
-			# Call the node's save function.
-			var node_data = node.call("save")
+	#if Globals.combo_score != 0:
+		#await Globals.comboReset
+	
+	var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.WRITE)
+	var save_nodes = get_tree().get_nodes_in_group("Persist")
+	for node in save_nodes:
+		# Check the node is an instanced scene so it can be instanced again during load.
+		if node.scene_file_path.is_empty():
+			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			continue
+		# Check the node has a save function.
+		if !node.has_method("save"):
+			print("persistent node '%s' is missing a save() function, skipped" % node.name)
+			continue
+		# Call the node's save function.
+		var node_data = node.call("save")
 
-			# JSON provides a static method to serialized JSON string.
-			var json_string = JSON.stringify(node_data)
+		# JSON provides a static method to serialized JSON string.
+		var json_string = JSON.stringify(node_data)
 
-			# Store the save dictionary as a new line in the save file.
-			save_gameFile.store_line(json_string)
-		
-		
-		await get_tree().create_timer(0.1, false).timeout
-		
-		Globals.saved_level_score = Globals.level_score
-		
-		if last_checkpoint_pos == Vector2(0, 0):
-			Globals.saved_player_posX = Globals.player_posX
-			Globals.saved_player_posY = Globals.player_posY
-		else:
-			Globals.saved_player_posX = last_checkpoint_pos[0]
-			Globals.saved_player_posY = last_checkpoint_pos[1]
-		
-		%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
-		
-		Globals.saveState_saved.emit()
-		Globals.is_saving = false
+		# Store the save dictionary as a new line in the save file.
+		save_gameFile.store_line(json_string)
+	
+	
+	await get_tree().create_timer(0.1, false).timeout
+	
+	if last_checkpoint_pos == Vector2(0, 0):
+		SaveData.saved_position_x = Globals.player_position.x
+		SaveData.saved_position_y = Globals.player_position.y
+	else:
+		SaveData.saved_position_x = last_checkpoint_pos[0]
+		SaveData.saved_position_y = last_checkpoint_pos[1]
+	
+	Globals.levelState_saved.emit()
 
 
 func load_game():
@@ -681,8 +670,8 @@ func _on_debug_refresh_timeout():
 	if get_node_or_null("HUD/Debug Screen"):
 		$"HUD/Debug Screen".refresh_debugInfo()
 	
-	Globals.collected_collectibles = Globals.collectibles_in_this_level - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
-	%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.collectibles_in_this_level)
+	Globals.combo_streak = Globals.total_collectibles_in_currentLevel - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
+	#%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.collectibles_in_this_level)
 
 
 #NIGHT/DAY TIME
@@ -923,22 +912,8 @@ func debug_screen_delete():
 
 @export var random_music = false
 
-func play_random_music():
-	var music_dir_path = "res://Assets/Sounds/music"
-	var music_dir = DirAccess.open(music_dir_path)
-	var music_list = []
-	
-	if music_dir != null:
-		var filenames = music_dir.get_files()
-		
-		for filename in filenames:
-			if filename.ends_with(".mp3"):
-				music_list.append(filename)
-	
-	var rolled_music = music_list.pick_random()
-	print(rolled_music)
-	music_manager.stream = load(music_dir_path + "/" + rolled_music)
-	music_manager.play()
+func play_music_random():
+	Globals.play_music_random.emit()
 
 
 var playing = false
@@ -967,4 +942,4 @@ func _input(event):
 			present_touch_controls.queue_free()
 		
 		var touch_controls = preload("res://Other/Scenes/touch_controls.tscn").instantiate()
-		hud.add_child(touch_controls)
+		#hud.add_child(touch_controls)

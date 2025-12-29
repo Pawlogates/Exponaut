@@ -1,21 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://cb645unlvywfx"]
+[gd_scene load_steps=7 format=3 uid="uid://cb645unlvywfx"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_as27u"]
-[ext_resource type="AudioStream" uid="uid://dgl0huovn44aa" path="res://Assets/Sounds/music/plains1.mp3" id="2_gfudb"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="3_36vbi"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_lrdak"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_vokj5"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_g6dxm"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_atwxk"]
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="8_43u20"]
 
 [node name="World" instance=ExtResource("1_as27u")]
-regular_level = false
-playerStartHP = 100
-selected_episode = "Main Levels"
-
-[node name="music" parent="Music Controller" index="5"]
-stream = ExtResource("2_gfudb")
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("3_36vbi")]
 unique_name_in_owner = true
@@ -31,26 +23,55 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_vokj5")]
+[node name="tileset_objectsSmall" parent="." index="3"]
+_import_path = NodePath("")
 unique_name_in_owner = true
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("5_vokj5")]
+[node name="tileset_objectsSmall_back" parent="." index="4"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = -5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("5_vokj5")]
+[node name="tileset_objectsSmall_front" parent="." index="5"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = 5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
 [node name="kill_area" parent="." index="14" instance=ExtResource("6_g6dxm")]
 position = Vector2(7168, 5184)
@@ -60,7 +81,7 @@ scale = Vector2(320, 1)
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
 
-[node name="info_sign" parent="." index="18" instance=ExtResource("8_43u20")]
+[node name="info_sign" parent="." index="17" instance=ExtResource("8_43u20")]
 position = Vector2(3488, -2144)
 displayedText = "Hold DOWN direction while shooting, to perform a downward shot."
 

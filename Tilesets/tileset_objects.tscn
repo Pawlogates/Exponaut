@@ -1,42 +1,20 @@
-[gd_scene load_steps=190 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=112 format=3 uid="uid://cdppta5y51e08"]
 
-[ext_resource type="PackedScene" uid="uid://r1lqi6osrrgp" path="res://Collectibles/collectibleApple.tscn" id="1_vmdr1"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="2_txmjs"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="3_puupa"]
 [ext_resource type="PackedScene" uid="uid://cytasj1drtxdw" path="res://Blocks/special_block_buttonSpikes_L.tscn" id="4_2r2c3"]
 [ext_resource type="PackedScene" uid="uid://b0hqcbo1da3sc" path="res://Blocks/special_block_buttonSpikes_R.tscn" id="5_h2khy"]
-[ext_resource type="PackedScene" uid="uid://c34n5unc83pa1" path="res://Enemies/enemy_bird.tscn" id="6_6kkhd"]
-[ext_resource type="PackedScene" uid="uid://be5betbo0y7lc" path="res://Enemies/enemy_ghost.tscn" id="7_fxkph"]
-[ext_resource type="PackedScene" uid="uid://3l57erne70am" path="res://Enemies/enemy_bossMouse.tscn" id="8_akvxr"]
-[ext_resource type="PackedScene" uid="uid://dceid0jpdo7tn" path="res://Enemies/enemy_crow.tscn" id="9_k30so"]
-[ext_resource type="PackedScene" uid="uid://5h7bdd7d5xnh" path="res://Enemies/enemy_frogRed.tscn" id="10_emsuo"]
-[ext_resource type="PackedScene" uid="uid://bpnv0fs1eehsp" path="res://Enemies/enemy_frogBlue.tscn" id="11_utlmm"]
-[ext_resource type="PackedScene" uid="uid://de5vp0v3tx1xt" path="res://Enemies/enemy_hedgehogPink.tscn" id="12_5ycph"]
 [ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Blocks/move_block_h.tscn" id="13_ioc07"]
-[ext_resource type="PackedScene" uid="uid://ci46huf1xa7gh" path="res://Enemies/enemy_rabbitGreen.tscn" id="14_ur1ly"]
-[ext_resource type="PackedScene" uid="uid://bdg815jatvl4" path="res://Collectibles/Gift_feather.tscn" id="15_c3g5j"]
 [ext_resource type="PackedScene" uid="uid://bc4lqr8ajy0k8" path="res://Objects/Decorations/deco_waterfall_bg.tscn" id="16_rur8g"]
-[ext_resource type="PackedScene" uid="uid://cjxqqelhb2v33" path="res://Collectibles/collectibleBlackBerry.tscn" id="17_h71vk"]
-[ext_resource type="PackedScene" uid="uid://decb7xohu0f5f" path="res://Collectibles/collectibleBanana.tscn" id="18_brirr"]
-[ext_resource type="PackedScene" uid="uid://cvk7js5te71q2" path="res://Collectibles/collectibleCherry.tscn" id="19_2037e"]
-[ext_resource type="PackedScene" uid="uid://ch6kqcs773jq0" path="res://Collectibles/collectibleLemon.tscn" id="20_6q0ie"]
-[ext_resource type="PackedScene" uid="uid://do31hya7lw3u3" path="res://Collectibles/collectiblePeach.tscn" id="21_y847k"]
-[ext_resource type="PackedScene" uid="uid://capn1k1755ueq" path="res://Collectibles/collectibleGrapefruit.tscn" id="22_k7bwn"]
-[ext_resource type="PackedScene" uid="uid://cvrjv3lh0qx0w" path="res://Collectibles/collectiblePear.tscn" id="23_vgvx5"]
 [ext_resource type="PackedScene" uid="uid://va38cadkefjo" path="res://Blocks/move_block_v.tscn" id="24_0ttmc"]
-[ext_resource type="PackedScene" uid="uid://bygyl36foeriy" path="res://Collectibles/collectibleJewel_yellow.tscn" id="25_0vpqj"]
 [ext_resource type="PackedScene" uid="uid://dwsils121eero" path="res://Objects/Decorations/toxicWater_top.tscn" id="26_tnddf"]
-[ext_resource type="PackedScene" uid="uid://dsn2i83vgnnpy" path="res://Collectibles/collectibleShrineGem.tscn" id="27_6dwxr"]
 [ext_resource type="PackedScene" uid="uid://n0ybyxp34qxe" path="res://Objects/Decorations/deco_chain_H.tscn" id="28_c6mcq"]
 [ext_resource type="PackedScene" uid="uid://bpnieumlyk7ix" path="res://Objects/Decorations/deco_chain_V.tscn" id="29_dq7lu"]
 [ext_resource type="PackedScene" uid="uid://bn7os2imtdij8" path="res://Objects/Decorations/deco_tile_chain_V.tscn" id="30_kyswp"]
 [ext_resource type="PackedScene" uid="uid://djxwn6oxqjm8o" path="res://Objects/Decorations/deco_chainLong_H_bg.tscn" id="31_1jcgj"]
 [ext_resource type="PackedScene" uid="uid://cicdmjrqn10qb" path="res://Objects/Decorations/deco_chainLong_V_bg.tscn" id="32_a3tbu"]
 [ext_resource type="PackedScene" uid="uid://c5otdvm7o5jdy" path="res://Objects/Decorations/deco_tile_chain_H.tscn" id="33_ymd24"]
-[ext_resource type="PackedScene" uid="uid://cifrbm1vsrx4g" path="res://Enemies/enemy_bird_immortal.tscn" id="34_81jth"]
 [ext_resource type="PackedScene" uid="uid://cwylhbfoqohrq" path="res://Objects/one_way_up.tscn" id="35_e6l11"]
-[ext_resource type="PackedScene" uid="uid://b6c1cgvvuwx78" path="res://Enemies/enemy_rabbit_immortal.tscn" id="36_80vdf"]
-[ext_resource type="PackedScene" uid="uid://b3wqhtl77hany" path="res://Enemies/enemy_rabbitGreen_immortal.tscn" id="37_1pedo"]
 [ext_resource type="PackedScene" uid="uid://do4845rlxd1y4" path="res://Blocks/move_block_v_pause.tscn" id="38_0tuyb"]
 [ext_resource type="PackedScene" uid="uid://bdjd80p8f5n7h" path="res://Blocks/move_block_h_pause.tscn" id="39_55tnj"]
 [ext_resource type="PackedScene" uid="uid://c6a6e6sqb52cr" path="res://Blocks/move_block_v2.tscn" id="40_6gedd"]
@@ -48,34 +26,12 @@
 [ext_resource type="PackedScene" uid="uid://nyr7qjtu4enc" path="res://Objects/Decorations/water_top.tscn" id="46_4d2dr"]
 [ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://Objects/Decorations/deco_waterfall.tscn" id="47_jsjd7"]
 [ext_resource type="PackedScene" uid="uid://cfyac88tfnna7" path="res://Objects/Decorations/deco_clipped_black_circle_2_RIGHT.tscn" id="47_lwdwi"]
-[ext_resource type="PackedScene" uid="uid://dpapniygewcpe" path="res://Collectibles/collectible_orb_zeroScore.tscn" id="48_w8w3x"]
-[ext_resource type="PackedScene" uid="uid://bvl2rlm1ym6vc" path="res://Enemies/enemy_rabbit.tscn" id="49_u8f4j"]
 [ext_resource type="PackedScene" uid="uid://bkt7biape2erx" path="res://Objects/Decorations/deco_black_circle.tscn" id="49_vifsa"]
-[ext_resource type="PackedScene" uid="uid://cljye56wi53e8" path="res://Enemies/enemy_bat.tscn" id="50_1e1n1"]
-[ext_resource type="PackedScene" uid="uid://ca4g5sy70xmju" path="res://Enemies/enemy_pig.tscn" id="51_ur7w6"]
-[ext_resource type="PackedScene" uid="uid://b3l8f8715wudj" path="res://Collectibles/collectibleCarrot.tscn" id="52_uatvx"]
-[ext_resource type="PackedScene" uid="uid://dd7i7iamvfsq5" path="res://Collectibles/collectibleOrange.tscn" id="53_rmtw8"]
-[ext_resource type="PackedScene" uid="uid://eh1her6bw7cj" path="res://Boxes/box_oranges.tscn" id="54_l1itw"]
-[ext_resource type="PackedScene" uid="uid://bua5yikrg26q0" path="res://Collectibles/collectibleGrape.tscn" id="55_ce8hr"]
-[ext_resource type="PackedScene" uid="uid://ckdwtubwnxp3h" path="res://Boxes/box_grapes.tscn" id="56_7dep4"]
-[ext_resource type="PackedScene" uid="uid://bfkqjfxri5w5m" path="res://Collectibles/collectibleGift.tscn" id="57_827oh"]
-[ext_resource type="PackedScene" uid="uid://dbp42d4xr6p01" path="res://Enemies/enemy_bee.tscn" id="58_0w56k"]
-[ext_resource type="PackedScene" uid="uid://cv82fprvm4ckb" path="res://Collectibles/collectibleSecondaryWeapon_basic.tscn" id="59_kt1ba"]
-[ext_resource type="PackedScene" uid="uid://dalx4wtwfl351" path="res://Enemies/enemy_chaos.tscn" id="60_q6w6i"]
-[ext_resource type="PackedScene" uid="uid://hkd5d5y1xtnl" path="res://Enemies/enemy_piranha.tscn" id="61_enetp"]
-[ext_resource type="PackedScene" uid="uid://b1554wlmeg7tk" path="res://Enemies/enemy_piranha_red.tscn" id="62_ovfj5"]
-[ext_resource type="PackedScene" uid="uid://cxf0o1vwjahvw" path="res://Collectibles/collectibleCheese.tscn" id="63_2x7i4"]
-[ext_resource type="PackedScene" uid="uid://do722l7wriwij" path="res://Enemies/enemy_tank.tscn" id="64_kwkmi"]
 [ext_resource type="PackedScene" uid="uid://cq5setetvq764" path="res://Objects/one_way_left.tscn" id="65_ioi7l"]
 [ext_resource type="PackedScene" uid="uid://d0l8ftjh4vi4l" path="res://Objects/one_way_right.tscn" id="66_jh1el"]
 [ext_resource type="PackedScene" uid="uid://do8d15pixb6ma" path="res://Objects/one_way_down.tscn" id="67_r6an7"]
-[ext_resource type="PackedScene" uid="uid://dp8i058tyn1ej" path="res://Collectibles/Gift_grapeBox.tscn" id="68_ugq88"]
-[ext_resource type="PackedScene" uid="uid://b2y5linmn0ira" path="res://Collectibles/Gift_orangeBox.tscn" id="69_t8vux"]
-[ext_resource type="PackedScene" uid="uid://b8qh6d27x6rbj" path="res://Collectibles/Gift_enemyHedgehog.tscn" id="70_ucsl7"]
 [ext_resource type="PackedScene" uid="uid://1vv072mxshuv" path="res://Blocks/special_block_toggleBlock_active.tscn" id="71_oanq0"]
 [ext_resource type="PackedScene" uid="uid://rbwrv3rfagoa" path="res://Blocks/special_block_toggleBlock_inactive.tscn" id="72_rkowu"]
-[ext_resource type="PackedScene" uid="uid://dunsjy0e6r37a" path="res://Boxes/box_toggleSwitch.tscn" id="73_jvhkc"]
-[ext_resource type="PackedScene" uid="uid://cfybjdad00fro" path="res://Boxes/box_toggleSwitch_immortal.tscn" id="74_wjqcl"]
 [ext_resource type="PackedScene" uid="uid://dokdy1bmohvt8" path="res://Blocks/conveyorBelt_L_start.tscn" id="75_tuble"]
 [ext_resource type="PackedScene" uid="uid://d4gmvberj3p4w" path="res://Objects/checkpoint.tscn" id="76_pbgi8"]
 [ext_resource type="PackedScene" uid="uid://dy5qma6ff8yd" path="res://Blocks/conveyorBelt_L_middle.tscn" id="77_hshw2"]
@@ -88,34 +44,12 @@
 [ext_resource type="PackedScene" uid="uid://lgxgdhmqe0mu" path="res://Blocks/button_block_blue_UP.tscn" id="84_8kn5n"]
 [ext_resource type="PackedScene" uid="uid://cry8t6ojcoabt" path="res://Blocks/button_block_blue_DOWN.tscn" id="85_ebq8h"]
 [ext_resource type="PackedScene" uid="uid://bedqky14s4a01" path="res://Blocks/button_block_green_LEFT.tscn" id="86_dvm4j"]
-[ext_resource type="PackedScene" uid="uid://6vpm41lnycqx" path="res://Enemies/enemy_hedgehog.tscn" id="87_asbjn"]
 [ext_resource type="PackedScene" uid="uid://cbw7wydf50ye3" path="res://Blocks/button_block_green_RIGHT.tscn" id="88_p26l7"]
 [ext_resource type="PackedScene" uid="uid://dgl6svqvfsnc0" path="res://Blocks/key_block.tscn" id="89_83sfi"]
-[ext_resource type="PackedScene" uid="uid://cvrb8bm4glbln" path="res://Collectibles/collectibleKey.tscn" id="90_54tgn"]
-[ext_resource type="PackedScene" uid="uid://itemg8vjnbw6" path="res://Collectibles/collectibleKey_floating.tscn" id="91_id56s"]
-[ext_resource type="PackedScene" uid="uid://don6gojhtapa8" path="res://Collectibles/collectibleKey_opener.tscn" id="92_yw5lj"]
-[ext_resource type="PackedScene" uid="uid://d2mod4i4kclua" path="res://Collectibles/collectibleSpecialApple_golden.tscn" id="93_yi7nq"]
-[ext_resource type="PackedScene" uid="uid://bh7i3yyfgbobi" path="res://Collectibles/collectibleBigApple.tscn" id="94_7o0pg"]
 [ext_resource type="PackedScene" uid="uid://bms6jdadro303" path="res://Blocks/special_block.tscn" id="95_w3o4c"]
 [ext_resource type="PackedScene" uid="uid://doe182qfejctt" path="res://Objects/Teleporter_blue.tscn" id="96_c2ug2"]
 [ext_resource type="PackedScene" uid="uid://qygd1xyixtnc" path="res://Objects/Teleporter_red.tscn" id="97_rgyok"]
-[ext_resource type="PackedScene" uid="uid://cjqinbb60vh6" path="res://Enemies/enemy_frog.tscn" id="98_8t224"]
 [ext_resource type="PackedScene" uid="uid://bx654itr3jjdo" path="res://Objects/Teleporter_green.tscn" id="99_6g1bf"]
-[ext_resource type="PackedScene" uid="uid://cxfc7xn7ysp63" path="res://Boxes/box_rotApples.tscn" id="100_l0cw8"]
-[ext_resource type="PackedScene" uid="uid://b1w4loat34xk7" path="res://Collectibles/collectibleWeapon_basic.tscn" id="101_6m3dc"]
-[ext_resource type="PackedScene" uid="uid://106ks5dpufn4" path="res://Collectibles/collectibleWeapon_short_shotDelay.tscn" id="102_04v4g"]
-[ext_resource type="PackedScene" uid="uid://bcjt0a5qlv4g8" path="res://Collectibles/collectibleWeapon_fire.tscn" id="103_1sm0s"]
-[ext_resource type="PackedScene" uid="uid://besfygg5x7036" path="res://Collectibles/collectibleWeapon_ice.tscn" id="104_dnnld"]
-[ext_resource type="PackedScene" uid="uid://bdocdar1b5hn6" path="res://Collectibles/collectibleWeapon_destructive_fast_speed.tscn" id="105_syd7c"]
-[ext_resource type="PackedScene" uid="uid://cig0exfa58bcq" path="res://Collectibles/collectibleWeapon_veryFast_speed.tscn" id="106_k72s2"]
-[ext_resource type="PackedScene" uid="uid://cqmq1vkpi7cop" path="res://Collectibles/collectibleWeapon_phaser.tscn" id="107_er0gu"]
-[ext_resource type="PackedScene" uid="uid://d0734vb1p0a4l" path="res://Enemies/friendly_butterfly_apples.tscn" id="108_4jhno"]
-[ext_resource type="PackedScene" uid="uid://c63l38ki43ymp" path="res://Enemies/enemy_bossMetalHen.tscn" id="109_a3oqw"]
-[ext_resource type="PackedScene" uid="uid://bopqi6gxm65nb" path="res://Enemies/friendly_butterfly_key.tscn" id="110_0sfdc"]
-[ext_resource type="PackedScene" uid="uid://rl2pxvlbj6gb" path="res://Enemies/friendly_butterfly_score.tscn" id="111_43dep"]
-[ext_resource type="PackedScene" uid="uid://e2x7x0glinh" path="res://Enemies/friendly_hen.tscn" id="112_fl0i6"]
-[ext_resource type="PackedScene" uid="uid://c6bowx3li0fvy" path="res://Enemies/friendly_chicken.tscn" id="113_d2122"]
-[ext_resource type="PackedScene" uid="uid://dofb2sjouxgdr" path="res://Collectibles/collectibleFeather.tscn" id="114_3s5l8"]
 [ext_resource type="PackedScene" uid="uid://b1vo4nnrb00mt" path="res://Objects/Decorations/water_top_dark.tscn" id="115_js1hy"]
 [ext_resource type="PackedScene" uid="uid://dg0wrskruwis0" path="res://Objects/Decorations/deco_waterfall_dark.tscn" id="116_ovl72"]
 [ext_resource type="PackedScene" uid="uid://cgto07gjwl6aq" path="res://Objects/Decorations/deco_tile_helicopter.tscn" id="117_vnjlg"]
@@ -129,27 +63,16 @@
 [ext_resource type="PackedScene" uid="uid://cs7hc4rry3lqm" path="res://Blocks/button_red.tscn" id="125_ig8xb"]
 [ext_resource type="PackedScene" uid="uid://drhvrsgn5k85d" path="res://Objects/Decorations/deco_chainLong_V.tscn" id="126_8i7h4"]
 [ext_resource type="PackedScene" uid="uid://b2r3wvp75fxdf" path="res://Objects/Decorations/deco_chainLong_H.tscn" id="127_mpmb0"]
-[ext_resource type="PackedScene" uid="uid://br430ejb5euv1" path="res://Collectibles/collectiblePotion_bird.tscn" id="128_8pvba"]
-[ext_resource type="PackedScene" uid="uid://chvut8ej5m5yk" path="res://Collectibles/collectiblePotion_rooster.tscn" id="129_qquoi"]
 [ext_resource type="PackedScene" uid="uid://tro6l8nm38dv" path="res://Blocks/special_block_destructibleCube.tscn" id="130_lb4o8"]
 [ext_resource type="PackedScene" uid="uid://dctah68au68co" path="res://Objects/level_exit.tscn" id="131_u0ifu"]
-[ext_resource type="PackedScene" uid="uid://qiawwg61fe0b" path="res://Blocks/special_block_iceCube.tscn" id="132_hh32d"]
-[ext_resource type="PackedScene" uid="uid://xoggurmcqwey" path="res://Collectibles/collectiblePotion_chicken.tscn" id="133_30bta"]
-[ext_resource type="PackedScene" uid="uid://c2uykrxhakqds" path="res://Collectibles/collectibleSecondaryWeapon_fast.tscn" id="134_j6oal"]
 [ext_resource type="PackedScene" uid="uid://drcp4ieuafadr" path="res://Blocks/special_block_spikes_L.tscn" id="135_7esxw"]
 [ext_resource type="PackedScene" uid="uid://gpqg0klvbb8f" path="res://Blocks/special_block_spikes_R.tscn" id="136_cnrch"]
 [ext_resource type="PackedScene" uid="uid://crr2fqhcvmv80" path="res://Blocks/special_block_spikes_UP.tscn" id="137_dqr1h"]
 [ext_resource type="PackedScene" uid="uid://c8nt24sv5y1kb" path="res://Blocks/special_block_spikes_DOWN.tscn" id="138_oxipy"]
 [ext_resource type="PackedScene" uid="uid://doof5g6lsehx4" path="res://Blocks/special_block_buttonSpikes_DOWN.tscn" id="139_68yi1"]
-[ext_resource type="PackedScene" uid="uid://dwll230hy7ny7" path="res://Collectibles/collectible_chaos.tscn" id="140_21ftw"]
 [ext_resource type="PackedScene" uid="uid://dpm11fdo256ld" path="res://Objects/Decorations/deco_toxicWaterfall.tscn" id="140_u8ykm"]
-[ext_resource type="PackedScene" uid="uid://cgjmx5simfsns" path="res://Collectibles/collectibleRotApple.tscn" id="141_6esji"]
-[ext_resource type="PackedScene" uid="uid://dieunvhai1sjq" path="res://Collectibles/collectible_apple_rainbow.tscn" id="142_8vuae"]
-[ext_resource type="PackedScene" uid="uid://bpappkkw82d6q" path="res://Collectibles/collectible_temporary_powerup_nothing.tscn" id="143_7f70a"]
-[ext_resource type="PackedScene" uid="uid://dc83q0ap75qf" path="res://Collectibles/collectibleLime.tscn" id="144_h7r1b"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="144_jia70"]
 [ext_resource type="PackedScene" uid="uid://da0htgtcareps" path="res://Triggers/zone_wind_L.tscn" id="145_4e37i"]
-[ext_resource type="PackedScene" uid="uid://cxfthwios5msq" path="res://Enemies/enemy_fireImp.tscn" id="145_jxcjw"]
 [ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://Objects/Decorations/glow_fog_gradient_colorful.tscn" id="145_s14ug"]
 [ext_resource type="PackedScene" uid="uid://fa1gibclq2wn" path="res://Objects/Decorations/glow_orb_heavy.tscn" id="146_kgoyt"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="146_txcht"]
@@ -158,7 +81,6 @@
 [ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="148_kbji4"]
 [ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="148_wbs4m"]
 [ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="149_kd78b"]
-[ext_resource type="PackedScene" uid="uid://cpa8eyt06ic8j" path="res://Boxes/box_chaos.tscn" id="150_a1h2o"]
 [ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://Objects/Decorations/glow_shadow_orb_soft.tscn" id="150_mnplm"]
 [ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration.tscn" id="151_q3snj"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://Objects/Decorations/wavingDeco_grass.tscn" id="151_yjnnk"]
@@ -178,13 +100,7 @@
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "everything"
-scenes/1/scene = ExtResource("1_vmdr1")
-scenes/2/scene = ExtResource("52_uatvx")
-scenes/3/scene = ExtResource("63_2x7i4")
 scenes/4/scene = ExtResource("76_pbgi8")
-scenes/5/scene = ExtResource("87_asbjn")
-scenes/6/scene = ExtResource("98_8t224")
-scenes/7/scene = ExtResource("109_a3oqw")
 scenes/8/scene = ExtResource("120_ovdt1")
 scenes/9/scene = ExtResource("131_u0ifu")
 scenes/10/scene = ExtResource("2_txmjs")
@@ -194,28 +110,8 @@ scenes/13/scene = ExtResource("35_e6l11")
 scenes/14/scene = ExtResource("46_4d2dr")
 scenes/15/scene = ExtResource("47_jsjd7")
 scenes/16/scene = ExtResource("49_vifsa")
-scenes/17/scene = ExtResource("49_u8f4j")
-scenes/18/scene = ExtResource("50_1e1n1")
-scenes/19/scene = ExtResource("51_ur7w6")
-scenes/20/scene = ExtResource("53_rmtw8")
-scenes/21/scene = ExtResource("54_l1itw")
-scenes/22/scene = ExtResource("55_ce8hr")
-scenes/23/scene = ExtResource("56_7dep4")
-scenes/24/scene = ExtResource("57_827oh")
-scenes/25/scene = ExtResource("58_0w56k")
-scenes/26/scene = ExtResource("59_kt1ba")
-scenes/27/scene = ExtResource("60_q6w6i")
-scenes/28/scene = ExtResource("61_enetp")
-scenes/29/scene = ExtResource("62_ovfj5")
-scenes/30/scene = ExtResource("64_kwkmi")
-scenes/31/scene = ExtResource("68_ugq88")
-scenes/32/scene = ExtResource("69_t8vux")
-scenes/33/scene = ExtResource("57_827oh")
-scenes/34/scene = ExtResource("70_ucsl7")
 scenes/35/scene = ExtResource("71_oanq0")
 scenes/36/scene = ExtResource("72_rkowu")
-scenes/37/scene = ExtResource("73_jvhkc")
-scenes/38/scene = ExtResource("74_wjqcl")
 scenes/39/scene = ExtResource("75_tuble")
 scenes/40/scene = ExtResource("77_hshw2")
 scenes/41/scene = ExtResource("78_k8c1n")
@@ -229,29 +125,10 @@ scenes/48/scene = ExtResource("85_ebq8h")
 scenes/49/scene = ExtResource("86_dvm4j")
 scenes/50/scene = ExtResource("88_p26l7")
 scenes/51/scene = ExtResource("89_83sfi")
-scenes/52/scene = ExtResource("90_54tgn")
-scenes/53/scene = ExtResource("91_id56s")
-scenes/54/scene = ExtResource("92_yw5lj")
-scenes/55/scene = ExtResource("93_yi7nq")
-scenes/56/scene = ExtResource("94_7o0pg")
 scenes/57/scene = ExtResource("95_w3o4c")
 scenes/58/scene = ExtResource("96_c2ug2")
 scenes/59/scene = ExtResource("97_rgyok")
 scenes/60/scene = ExtResource("99_6g1bf")
-scenes/61/scene = ExtResource("100_l0cw8")
-scenes/62/scene = ExtResource("101_6m3dc")
-scenes/63/scene = ExtResource("102_04v4g")
-scenes/64/scene = ExtResource("103_1sm0s")
-scenes/65/scene = ExtResource("104_dnnld")
-scenes/66/scene = ExtResource("105_syd7c")
-scenes/67/scene = ExtResource("106_k72s2")
-scenes/68/scene = ExtResource("107_er0gu")
-scenes/69/scene = ExtResource("108_4jhno")
-scenes/70/scene = ExtResource("110_0sfdc")
-scenes/71/scene = ExtResource("111_43dep")
-scenes/72/scene = ExtResource("112_fl0i6")
-scenes/73/scene = ExtResource("113_d2122")
-scenes/74/scene = ExtResource("114_3s5l8")
 scenes/75/scene = ExtResource("115_js1hy")
 scenes/76/scene = ExtResource("116_ovl72")
 scenes/77/scene = ExtResource("117_vnjlg")
@@ -264,13 +141,7 @@ scenes/83/scene = ExtResource("124_65osa")
 scenes/84/scene = ExtResource("125_ig8xb")
 scenes/85/scene = ExtResource("126_8i7h4")
 scenes/86/scene = ExtResource("127_mpmb0")
-scenes/87/scene = ExtResource("128_8pvba")
-scenes/88/scene = ExtResource("129_qquoi")
 scenes/89/scene = ExtResource("130_lb4o8")
-scenes/90/scene = ExtResource("132_hh32d")
-scenes/91/scene = ExtResource("133_30bta")
-scenes/92/scene = ExtResource("59_kt1ba")
-scenes/93/scene = ExtResource("134_j6oal")
 scenes/94/scene = ExtResource("135_7esxw")
 scenes/95/scene = ExtResource("136_cnrch")
 scenes/96/scene = ExtResource("137_dqr1h")
@@ -280,35 +151,14 @@ scenes/99/scene = ExtResource("140_u8ykm")
 scenes/100/scene = ExtResource("3_puupa")
 scenes/101/scene = ExtResource("4_2r2c3")
 scenes/102/scene = ExtResource("5_h2khy")
-scenes/103/scene = ExtResource("6_6kkhd")
-scenes/104/scene = ExtResource("7_fxkph")
-scenes/105/scene = ExtResource("8_akvxr")
-scenes/106/scene = ExtResource("9_k30so")
-scenes/107/scene = ExtResource("10_emsuo")
-scenes/108/scene = ExtResource("11_utlmm")
-scenes/109/scene = ExtResource("12_5ycph")
-scenes/110/scene = ExtResource("14_ur1ly")
-scenes/111/scene = ExtResource("15_c3g5j")
 scenes/112/scene = ExtResource("16_rur8g")
-scenes/113/scene = ExtResource("17_h71vk")
-scenes/114/scene = ExtResource("18_brirr")
-scenes/115/scene = ExtResource("19_2037e")
-scenes/116/scene = ExtResource("20_6q0ie")
-scenes/117/scene = ExtResource("21_y847k")
-scenes/118/scene = ExtResource("22_k7bwn")
-scenes/119/scene = ExtResource("23_vgvx5")
-scenes/120/scene = ExtResource("25_0vpqj")
 scenes/121/scene = ExtResource("26_tnddf")
-scenes/122/scene = ExtResource("27_6dwxr")
 scenes/123/scene = ExtResource("28_c6mcq")
 scenes/124/scene = ExtResource("29_dq7lu")
 scenes/125/scene = ExtResource("30_kyswp")
 scenes/126/scene = ExtResource("31_1jcgj")
 scenes/127/scene = ExtResource("32_a3tbu")
 scenes/128/scene = ExtResource("33_ymd24")
-scenes/129/scene = ExtResource("34_81jth")
-scenes/130/scene = ExtResource("36_80vdf")
-scenes/131/scene = ExtResource("37_1pedo")
 scenes/132/scene = ExtResource("38_0tuyb")
 scenes/133/scene = ExtResource("39_55tnj")
 scenes/134/scene = ExtResource("40_6gedd")
@@ -318,47 +168,15 @@ scenes/137/scene = ExtResource("43_ca28y")
 scenes/138/scene = ExtResource("44_fxgoh")
 scenes/139/scene = ExtResource("45_ubapq")
 scenes/140/scene = ExtResource("47_lwdwi")
-scenes/141/scene = ExtResource("48_w8w3x")
 scenes/301/scene = ExtResource("65_ioi7l")
 scenes/302/scene = ExtResource("66_jh1el")
 scenes/303/scene = ExtResource("67_r6an7")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_w16yt"]
 resource_name = "collectibles"
-scenes/1/scene = ExtResource("140_21ftw")
-scenes/2/scene = ExtResource("48_w8w3x")
-scenes/4/scene = ExtResource("1_vmdr1")
-scenes/5/scene = ExtResource("52_uatvx")
-scenes/6/scene = ExtResource("63_2x7i4")
-scenes/7/scene = ExtResource("25_0vpqj")
-scenes/8/scene = ExtResource("53_rmtw8")
-scenes/9/scene = ExtResource("144_h7r1b")
-scenes/10/scene = ExtResource("90_54tgn")
-scenes/11/scene = ExtResource("92_yw5lj")
-scenes/12/scene = ExtResource("91_id56s")
-scenes/13/scene = ExtResource("114_3s5l8")
-scenes/14/scene = ExtResource("128_8pvba")
-scenes/15/scene = ExtResource("133_30bta")
-scenes/16/scene = ExtResource("129_qquoi")
-scenes/17/scene = ExtResource("18_brirr")
-scenes/18/scene = ExtResource("94_7o0pg")
-scenes/19/scene = ExtResource("17_h71vk")
-scenes/20/scene = ExtResource("19_2037e")
-scenes/21/scene = ExtResource("55_ce8hr")
-scenes/22/scene = ExtResource("22_k7bwn")
-scenes/23/scene = ExtResource("20_6q0ie")
-scenes/24/scene = ExtResource("21_y847k")
-scenes/25/scene = ExtResource("23_vgvx5")
-scenes/26/scene = ExtResource("141_6esji")
-scenes/27/scene = ExtResource("27_6dwxr")
-scenes/28/scene = ExtResource("93_yi7nq")
-scenes/29/scene = ExtResource("142_8vuae")
-scenes/30/scene = ExtResource("143_7f70a")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bdx2g"]
 resource_name = "switches"
-scenes/1/scene = ExtResource("73_jvhkc")
-scenes/2/scene = ExtResource("74_wjqcl")
 scenes/3/scene = ExtResource("83_5ay7p")
 scenes/4/scene = ExtResource("82_cvt71")
 scenes/5/scene = ExtResource("125_ig8xb")
@@ -382,29 +200,6 @@ scenes/3/scene = ExtResource("45_ubapq")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_qgj2q"]
 resource_name = "enemies"
-scenes/1/scene = ExtResource("87_asbjn")
-scenes/2/scene = ExtResource("98_8t224")
-scenes/3/scene = ExtResource("50_1e1n1")
-scenes/4/scene = ExtResource("49_u8f4j")
-scenes/5/scene = ExtResource("6_6kkhd")
-scenes/6/scene = ExtResource("61_enetp")
-scenes/7/scene = ExtResource("62_ovfj5")
-scenes/8/scene = ExtResource("64_kwkmi")
-scenes/9/scene = ExtResource("51_ur7w6")
-scenes/15/scene = ExtResource("58_0w56k")
-scenes/16/scene = ExtResource("109_a3oqw")
-scenes/17/scene = ExtResource("8_akvxr")
-scenes/18/scene = ExtResource("9_k30so")
-scenes/19/scene = ExtResource("145_jxcjw")
-scenes/20/scene = ExtResource("11_utlmm")
-scenes/21/scene = ExtResource("10_emsuo")
-scenes/22/scene = ExtResource("7_fxkph")
-scenes/23/scene = ExtResource("14_ur1ly")
-scenes/24/scene = ExtResource("12_5ycph")
-scenes/25/scene = ExtResource("34_81jth")
-scenes/26/scene = ExtResource("36_80vdf")
-scenes/27/scene = ExtResource("37_1pedo")
-scenes/28/scene = ExtResource("60_q6w6i")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_slwwi"]
 resource_name = "objects"
@@ -444,14 +239,9 @@ scenes/21/scene = ExtResource("80_l8608")
 scenes/22/scene = ExtResource("81_g5l34")
 scenes/23/scene = ExtResource("95_w3o4c")
 scenes/24/scene = ExtResource("130_lb4o8")
-scenes/25/scene = ExtResource("132_hh32d")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_5yba0"]
 resource_name = "boxes"
-scenes/1/scene = ExtResource("54_l1itw")
-scenes/2/scene = ExtResource("56_7dep4")
-scenes/3/scene = ExtResource("100_l0cw8")
-scenes/4/scene = ExtResource("150_a1h2o")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_544ae"]
 resource_name = "decorations"
@@ -499,30 +289,12 @@ scenes/59/scene = ExtResource("174_sdirt")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_puexm"]
 resource_name = "weapons"
-scenes/1/scene = ExtResource("101_6m3dc")
-scenes/2/scene = ExtResource("105_syd7c")
-scenes/3/scene = ExtResource("103_1sm0s")
-scenes/4/scene = ExtResource("104_dnnld")
-scenes/5/scene = ExtResource("107_er0gu")
-scenes/6/scene = ExtResource("102_04v4g")
-scenes/7/scene = ExtResource("106_k72s2")
-scenes/8/scene = ExtResource("59_kt1ba")
-scenes/9/scene = ExtResource("134_j6oal")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ejx4g"]
 resource_name = "gifts"
-scenes/1/scene = ExtResource("69_t8vux")
-scenes/2/scene = ExtResource("68_ugq88")
-scenes/3/scene = ExtResource("15_c3g5j")
-scenes/4/scene = ExtResource("70_ucsl7")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_c1p70"]
 resource_name = "friendlies"
-scenes/1/scene = ExtResource("113_d2122")
-scenes/2/scene = ExtResource("112_fl0i6")
-scenes/3/scene = ExtResource("108_4jhno")
-scenes/4/scene = ExtResource("110_0sfdc")
-scenes/5/scene = ExtResource("111_43dep")
 
 [sub_resource type="TileSet" id="TileSet_bxi0m"]
 tile_size = Vector2i(64, 64)

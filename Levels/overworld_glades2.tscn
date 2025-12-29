@@ -1,23 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://bay2cb2mbpfjy"]
+[gd_scene load_steps=9 format=3 uid="uid://bay2cb2mbpfjy"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_uxcd1"]
-[ext_resource type="AudioStream" uid="uid://cn0nrp3mqpb0g" path="res://Assets/Sounds/music/plains6.mp3" id="2_6h4ts"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="3_7c8k1"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_wnltg"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="5_arwmp"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="6_yafio"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="7_kaxye"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="8_m1ei6"]
 [ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://Objects/Decorations/deco_cloud.tscn" id="9_1ptj4"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="10_ys34a"]
 
 [node name="World" instance=ExtResource("1_uxcd1")]
-regular_level = false
-playerStartHP = 3
-selected_episode = "Main Levels"
-
-[node name="music" parent="Music Controller" index="5"]
-stream = ExtResource("2_6h4ts")
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("3_7c8k1")]
 unique_name_in_owner = true
@@ -41,27 +33,56 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="4" instance=ExtResource("6_yafio")]
+[node name="tileset_objectsSmall" parent="." index="4"]
+_import_path = NodePath("")
 unique_name_in_owner = true
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 layer_0/tile_data = PackedInt32Array(393324, 0, 655360, 393326, 0, 655360, 262252, 0, 65536, -262010, 0, 65536, -917378, 0, 65536, -917376, 0, 65536, -1179534, 0, 65536, -1834886, 0, 65536, -1834884, 0, 65536, -1965942, 0, 65536, -1834870, 0, 786432, -2359173, 0, 393216, 131153, 0, 3014656, 393346, 0, 851968, 393348, 0, 851968, 65524, 0, 262144, -65547, 0, 262144, 65526, 0, 262144, -65545, 0, 262144, 65528, 0, 262144, -196618, 0, 262144)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_back" parent="." index="5" instance=ExtResource("6_yafio")]
+[node name="tileset_objectsSmall_back" parent="." index="5"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = -5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_front" parent="." index="6" instance=ExtResource("6_yafio")]
+[node name="tileset_objectsSmall_front" parent="." index="6"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = 5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
 [node name="kill_area" parent="." index="15" instance=ExtResource("7_kaxye")]
 position = Vector2(7168, 5184)
@@ -71,23 +92,37 @@ scale = Vector2(320, 1)
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
 
-[node name="deco_cloud" parent="." index="19" instance=ExtResource("9_1ptj4")]
+[node name="deco_cloud" parent="." index="18" instance=ExtResource("9_1ptj4")]
 offset = Vector2(800, -200)
 transform = Transform2D(1, 0, 0, 1, 800, -200)
 
-[node name="deco_cloud2" parent="." index="20" instance=ExtResource("9_1ptj4")]
+[node name="deco_cloud2" parent="." index="19" instance=ExtResource("9_1ptj4")]
 offset = Vector2(2400, -400)
 transform = Transform2D(1, 0, 0, 1, 2400, -400)
 
-[node name="areaTransition3" parent="." index="21" instance=ExtResource("10_ys34a")]
+[node name="areaTransition3" parent="." index="20" instance=ExtResource("10_ys34a")]
 unique_name_in_owner = true
 position = Vector2(1408, -2944)
 target_area = "uid://c7ie388q2umtx"
 next_transition = 3
 
-[node name="areaTransition4" parent="." index="22" instance=ExtResource("10_ys34a")]
+[node name="areaTransition4" parent="." index="21" instance=ExtResource("10_ys34a")]
 unique_name_in_owner = true
 position = Vector2(4896, -736)
 scale = Vector2(5, 5)
 target_area = "uid://c7ie388q2umtx"
 next_transition = 3
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121184" to="tileset_objects/@Area2D@121184" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121185" to="tileset_objects/@Area2D@121185" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121186" to="tileset_objects/@Area2D@121186" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121187" to="tileset_objects/@Area2D@121187" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121188" to="tileset_objects/@Area2D@121188" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121189" to="tileset_objects/@Area2D@121189" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121190" to="tileset_objects/@Area2D@121190" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121191" to="tileset_objects/@Area2D@121191" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121192" to="tileset_objects/@Area2D@121192" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121193" to="tileset_objects/@Area2D@121193" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@121194" to="tileset_objects/@Area2D@121194" method="_on_area_entered"]

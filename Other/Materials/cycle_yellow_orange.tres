@@ -4,11 +4,11 @@
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
 offsets = PackedFloat32Array(0, 0.497797, 1)
-colors = PackedColorArray(1, 1, 0, 1, 1, 0.482353, 0, 1, 1, 0.619608, 0, 1)
+colors = PackedColorArray(1, 0.839216, 0, 1, 1, 0.482353, 0, 1, 1, 0.839216, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
 gradient = SubResource("Gradient_pk7t1")
-fill_from = Vector2(1, 0)
+fill_from = Vector2(0.483516, 0)
 fill_to = Vector2(0, 0)
 
 [resource]

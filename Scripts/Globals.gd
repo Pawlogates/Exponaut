@@ -1,7 +1,7 @@
 extends Node
 
 @onready var World = $/root/World
-@onready var Player = $/root/World/player
+@onready var Player = $/root/World/Player
 
 
 # Folder paths (String) for better readability:
@@ -132,7 +132,7 @@ func handle_actions():
 
 func reassign_general():
 	World = $/root/World
-	Player = $/root/World/player
+	Player = $/root/World/Player
 	
 	return [World, Player]
 
@@ -151,16 +151,16 @@ var player_health = 100
 var player_position = Vector2(0, 0)
 var player_velocity = Vector2(0, 0)
 
-var player_direction = 0 # Only vertical.
-var player_direction_active = 1 # Can never be equal to 0 (standing still).
-var player_direction_full = Vector2(0, 0) # Both vertical and horizontal.
-var player_direction_full_active = Vector2(0, 0) # None of the values (x and y) can ever be equal to 0.
+var player_direction_x = 0 # Only horizontal.
+var player_direction_x_active = 1 # Can never be equal to 0 (standing still).
+var player_direction_y = 0 # Only vertical.
+var player_direction_y_active = -1 # Can never be equal to 0 (floating in place).
 
 # Score:
 var level_score = 0 # Current level's score.
 var score_multiplier = 1 # Main score multiplier, increased by means other than the combo system. It affects both combo score as well as the actual score.
 var combo_score = 0
-var combo_collectibles = 0 # Combo starts on collecting a collectible, damaging an enemy or various other actions performed by the player. It lasts a different amount of time depending on the action that started/prolonged it. The combo can be prolonged if player performs another action while it's already active, resetting the combo timer.
+var combo_streak = 0 # Combo starts on collecting a collectible, damaging an enemy or various other actions performed by the player. It lasts a different amount of time depending on the action that started/prolonged it. The combo can be prolonged if player performs another action while it's already active, resetting the combo timer.
 var combo_tier = 1
 var combo_multiplier = 1 # Increases by 1 every 5 collectibles collected (or other specific actions performed) by the player during a combo, up to 10. (x1 during 1-5, x2 during 6-10, x3 during 11-15, x4 during 16-20, x5 during 21-25, x6 during 26-30, x7 during 31-35, x8 during 36-40, x9 during 41-45, and finally x10 during 46-50. The final - x11
 
@@ -234,6 +234,8 @@ signal quickload(slot_number : int)
 
 signal reassign_nodes_general
 
+signal play_music_random
+
 var settings_quicksaves = false
 
 var save_player_position_x = player_position[0]
@@ -242,9 +244,9 @@ var save_level_score = level_score
 
 
 # Background changes during gameplay.
-signal bgChange_trigger_entered
-signal bgChange_finished
-signal bgMove_trigger_entered
+signal trigger_bg_change_entered
+signal trigger_bg_move_entered
+signal bg_change_finished
 
 var bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
 var bg_file_current = "res://Assets/Graphics/backgrounds/bg_fields.png"

@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://8624o4hxrywd" path="res://Assets/Sounds/ambience/ambience_mysterious1.mp3" id="4_pqbrp"]
 [ext_resource type="AudioStream" uid="uid://bx760hqjcji0s" path="res://Assets/Sounds/ambience/ambience7.mp3" id="5_kiwfk"]
 
-[node name="Ambience Controller" type="Node2D"]
+[node name="Ambience Manager" type="Node2D"]
 script = ExtResource("1_bbqoc")
 
 [node name="layer1" type="AudioStreamPlayer" parent="."]
@@ -37,7 +37,7 @@ stream = ExtResource("5_kiwfk")
 [node name="cooldown" type="Timer" parent="layer4"]
 one_shot = true
 
-[connection signal="timeout" from="layer1/cooldown" to="." method="_on_ambience_1_delay_timeout"]
-[connection signal="timeout" from="layer2/cooldown" to="." method="_on_ambience_2_delay_timeout"]
-[connection signal="timeout" from="layer3/cooldown" to="." method="_on_ambience_3_delay_timeout"]
-[connection signal="timeout" from="layer4/cooldown" to="." method="_on_ambience_4_delay_timeout"]
+[connection signal="timeout" from="layer1/cooldown" to="." method="_on_cooldown1_timeout"]
+[connection signal="timeout" from="layer2/cooldown" to="." method="_on_cooldown2_timeout"]
+[connection signal="timeout" from="layer3/cooldown" to="." method="_on_cooldown3_timeout"]
+[connection signal="timeout" from="layer4/cooldown" to="." method="_on_cooldown4_timeout"]

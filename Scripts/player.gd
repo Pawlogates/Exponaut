@@ -37,7 +37,7 @@ var base_GRAVITY_MULTIPLIER = GRAVITY_MULTIPLIER
 @onready var sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
 
-@onready var collision = $collision_main
+@onready var collision_main = $CollisionShape2D
 @onready var hitbox = $hitbox_main/CollisionShape2D
 
 @onready var sfx_manager = $sfx_manager
@@ -47,27 +47,28 @@ var base_GRAVITY_MULTIPLIER = GRAVITY_MULTIPLIER
 
 @onready var t_leniency_jump = $timer_leniency_jump
 @onready var t_leniency_wall_jump = $timer_leniency_wall_jump
-@onready var t_powerup = $timer_powerup
+@onready var t_powerUp = $timer_powerUp
 @onready var t_jump = $timer_jump
 @onready var t_dash = $timer_dash
-@onready var t_dash_speed_block = $dash_timer/timer_dash_speed_block
-@onready var c_dash_end_slowdown_enable = $dash_timer/cooldown_dash_end_slowdown_enable
-@onready var c_dash_end_slowdown_disable = $dash_timer/cooldown_dash_end_slowdown_disable
-@onready var t_dash_await_jump = $dash_timer/timer_dash_await_jump
+@onready var t_dash_speed_block = $timer_dash/timer_dash_speed_block
+@onready var c_dash_end_slowdown_enable = $timer_dash/cooldown_dash_end_slowdown_enable
+@onready var c_dash_end_slowdown_disable = $timer_dash/cooldown_dash_end_slowdown_disable
+@onready var t_dash_await_jump = $timer_dash/timer_dash_await_jump
 @onready var dash_check = $timer_dash/dash_check
 @onready var t_block_movement_full: Timer = $block_movement_full
 @onready var t_invincible = $timer_invincible
+@onready var cooldown_state_idle: Timer = $cooldown_state_idle
 
 @onready var animation_player = $AnimationPlayer
 @onready var animation_player2 = $AnimationPlayer2
 
 @onready var t_state_shooting = $timer_state_shooting
 @onready var t_state_damaged = $timer_state_damaged
-@onready var t_state_crouching = $timer_state_crouching
-@onready var t_state_walking = $timer_state_walking
+#@onready var t_state_crouching = $timer_state_crouching
+#@onready var t_state_walking = $timer_state_walking
 
-@onready var c_crouch_walk = $cooldown_crouch_walk
-@onready var c_crouch_walk_correct_collision = $cooldown_crouch_walk_correct_collision
+@onready var c_crouch_walk = $AnimatedSprite2D/cooldown_crouch_walk
+@onready var c_crouch_walk_correct_collision = $AnimatedSprite2D/cooldown_crouch_walk_correct_collision
 
 @onready var hitbox_dash_scan_solid = $hitbox_main/hitbox_dash_scan_solid
 
@@ -158,16 +159,16 @@ func _ready():
 	Globals.combo_reset.connect(on_combo_reset)
 	
 	
-	if World.cameraLimit_left != 0.0 or World.cameraLimit_right != 0.0 or World.cameraLimit_top != 0.0 or World.cameraLimit_bottom != 0.0:
-		%Camera2D.limit_left = World.cameraLimit_left
-		%Camera2D.limit_right = World.cameraLimit_right
-		%Camera2D.limit_bottom = World.cameraLimit_bottom
-		%Camera2D.limit_top = World.cameraLimit_top
+	if World.camera_boundary_left != 0.0 or World.camera_boundary_right != 0.0 or World.camera_boundary_top != 0.0 or World.camera_boundary_bottom != 0.0:
+		%Camera2D.limit_left = World.camera_boundary_left
+		%Camera2D.limit_right = World.camera_boundary_right
+		%Camera2D.limit_bottom = World.camera_boundary_bottom
+		%Camera2D.limit_top = World.camera_boundary_top
 	
 	
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
-	Globals.collectibles_in_this_level = get_tree().get_nodes_in_group("Collectibles").size() + (get_tree().get_nodes_in_group("bonusBox").size() * 10)
+	Globals.total_collectibles_in_currentLevel = get_tree().get_nodes_in_group("Collectibles").size() + (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	
 	
 	if Globals.mode_scoreAttack:
@@ -262,8 +263,8 @@ func _on_timer_dash_timeout():
 	dash_active = false
 	
 	if can_stand_up == 0:
-		collision.shape.extents = Vector2(20, 56)
-		collision.position = Vector2(0, 0)
+		collision_main.shape.extents = Vector2(20, 56)
+		collision_main.position = Vector2(0, 0)
 		
 		hitbox.shape.extents = Vector2(16, 40)
 		hitbox.position = Vector2(0, 0)
@@ -272,8 +273,8 @@ func _on_timer_dash_timeout():
 	
 	else:
 		await safe_standUp
-		collision.shape.extents = Vector2(20, 56)
-		collision.position = Vector2(0, 0)
+		collision_main.shape.extents = Vector2(20, 56)
+		collision_main.position = Vector2(0, 0)
 		
 		hitbox.shape.extents = Vector2(16, 40)
 		hitbox.position = Vector2(0, 0)
@@ -322,7 +323,7 @@ func apply_gravity(delta):
 				else:
 					velocity.y += gravity * 1.0 * delta * GRAVITY_MULTIPLIER
 			
-			elif Input.is_action_pressed("move_DOWN"):
+			elif Input.is_action_pressed("move_down"):
 				if inside_water:
 					velocity.y += gravity * 2.0 * delta * GRAVITY_MULTIPLIER * inside_water_multiplier
 				else:
@@ -345,7 +346,7 @@ func apply_gravity(delta):
 		#if started_dash == false or dash_slowdown:
 			#velocity.x = 0
 		
-		if Input.is_action_pressed("move_DOWN"):
+		if Input.is_action_pressed("move_down"):
 			velocity.y += gravity * delta * 4 * GRAVITY_MULTIPLIER
 			velocity.x = move_toward(velocity.x, 1000 * direction_x, 6000 * delta)
 		else:
@@ -419,7 +420,7 @@ func handle_jump(delta):
 	elif not on_floor and not on_wall and not t_leniency_wall_jump.time_left > 0.0 or not on_floor and on_wall and not can_wall_jump and t_leniency_wall_jump.time_left > 0.0:
 		if Input.is_action_just_released("jump") and velocity.y < JUMP_VELOCITY / 2:
 			velocity.y = JUMP_VELOCITY / 2
-		if can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_DOWN"):
+		if can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_down"):
 			if inside_water:
 				velocity.y = JUMP_VELOCITY * 0.8 * inside_water_multiplier
 			else:
@@ -497,7 +498,7 @@ func handle_acceleration_direction_x(delta):
 			velocity.x = move_toward(velocity.x, direction_x * SPEED, ACCELERATION * delta * crouch_walk_multiplier * inside_water_multiplier)
 	
 	if not recently_bounced:
-		if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
+		if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
 			velocity.x *= 0.75
 
 
@@ -513,7 +514,7 @@ func handle_air_acceleration(delta):
 			velocity.x = move_toward(velocity.x, SPEED * direction_x, AIR_ACCELERATION * delta)
 	
 	if not recently_bounced:
-		if Input.is_action_just_pressed("move_L") or Input.is_action_just_pressed("move_R"):
+		if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
 			velocity.x *= 0.75
 
 
@@ -523,7 +524,7 @@ func update_anim():
 	
 	if not flight:
 		if not is_on_floor():
-			$idle_timer.stop()
+			$cooldown_state_idle.stop()
 	
 	if dead and not dead_anim_active:
 		dead_anim_active = true
@@ -548,18 +549,18 @@ func update_anim():
 		if not state_damaged and not dead and not dash_active and direction_x != 0 and not state_shooting and not crouch_walk_active and not crouch_active:
 			sprite.play("walk")
 			sprite.flip_h = (direction_x < 0)
-			$idle_timer.stop()
+			cooldown_state_idle.stop()
 	
 	if not flight and not state_damaged and not dead and not dash_active and not is_on_floor() and not state_shooting and not crouch_walk_active and not crouch_active:
 		sprite.play("jump")
 
 
 func idle_after_delay():
-	if $idle_timer.is_stopped():
-		$idle_timer.start()
+	if cooldown_state_idle.is_stopped():
+		cooldown_state_idle.start()
 
 
-func _on_cooldown_anim_idle_timeout():
+func _on_cooldown_state_idle_timeout():
 	if not state_damaged and not dead and not dash_active and not state_shooting and not crouch_walk_active and not crouch_active:
 		sprite.play("idle")
 
@@ -601,7 +602,7 @@ func _on_timer_state_shooting():
 # Player crouch/dash logic:
 func handle_crouch():
 	if not can_dash and is_on_floor():
-		if can_dash and Input.is_action_pressed("move_DOWN") and not crouch_walk_active:
+		if can_dash and Input.is_action_pressed("move_down") and not crouch_walk_active:
 			c_crouch_walk.start()
 			c_crouch_walk_correct_collision.start()
 			crouch_active = true
@@ -625,9 +626,9 @@ func handle_crouch():
 			
 			raycast_top.enabled = false
 	
-	if not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_DOWN") and can_stand_up == 0 and crouch_walk_active or not is_on_floor() and can_stand_up == 0 and crouch_walk_active:
-		collision.shape.extents = Vector2(20, 56)
-		collision.position = Vector2(0, 0)
+	if not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_walk_active or not is_on_floor() and can_stand_up == 0 and crouch_walk_active:
+		collision_main.shape.extents = Vector2(20, 56)
+		collision_main.position = Vector2(0, 0)
 		
 		hitbox.shape.extents = Vector2(16, 40)
 		hitbox.position = Vector2(0, 0)
@@ -647,8 +648,8 @@ func _on_cooldown_crouch_walk_timeout():
 		crouch_walk_active = true
 
 func _on_cooldown_crouch_walk_correct_collision_timeout():
-	collision.shape.extents = Vector2(20, 20)
-	collision.position += Vector2(0, 36)
+	collision_main.shape.extents = Vector2(20, 20)
+	collision_main.position += Vector2(0, 36)
 	hitbox.shape.extents = Vector2(20, 20)
 	hitbox.position += Vector2(0, 28)
 
@@ -659,8 +660,8 @@ func handle_dash():
 		can_dash = false
 		$dash_timer.start()
 		
-		collision.shape.extents = Vector2(20, 20)
-		collision.position += Vector2(0, 36)
+		collision_main.shape.extents = Vector2(20, 20)
+		collision_main.position += Vector2(0, 36)
 		
 		hitbox.shape.extents = Vector2(20, 20)
 		hitbox.position += Vector2(0, 28)
@@ -681,8 +682,8 @@ func saveState_loaded():
 	await get_tree().create_timer(0.1, false).timeout
 	$Camera2D.position_smoothing_enabled = true
 	
-	collision.shape.extents = Vector2(20, 56)
-	collision.position = Vector2(0, 0)
+	collision_main.shape.extents = Vector2(20, 56)
+	collision_main.position = Vector2(0, 0)
 	
 	hitbox.shape.extents = Vector2(16, 40)
 	hitbox.position = Vector2(0, 0)
@@ -795,10 +796,10 @@ func _on_dash_check_timeout():
 func shoot_projectile(projectile_scene):
 	if weaponType == "basic" and Globals.collected_in_cycle >= 20:
 		if not dead and Input.is_action_just_pressed("attack_main"):
-			var projectile_phaser = scene_projectile_phaser.instantiate()
-			projectile_phaser.playerProjectile = true
-			projectile_phaser.enemyProjectile = false
-			add_child(projectile_phaser)
+			#var projectile_phaser = scene_projectile_phaser.instantiate()
+			#projectile_phaser.playerProjectile = true
+			#projectile_phaser.enemyProjectile = false
+			#add_child(projectile_phaser)
 			
 			state_shooting = true
 			t_state_shooting.start()
@@ -869,9 +870,9 @@ var stuck = false
 
 func handle_stuck():
 	if stuck:
-		raycast_top.target_position.x = 16 * Globals.direction_x
-		raycast_bottom.target_position.x = 16 * Globals.direction_x
-		raycast_middle.target_position.x = 16 * Globals.direction_x
+		raycast_top.target_position.x = 16 * Globals.player_direction_x_active
+		raycast_bottom.target_position.x = 16 * Globals.player_direction_x_active
+		raycast_middle.target_position.x = 16 * Globals.player_direction_x_active
 		#raycast_top.enabled = true
 		#raycast_bottom.enabled = true
 		#raycast_middle.enabled = true
@@ -898,7 +899,7 @@ func _on_stuck_check_timeout():
 		return
 	
 	if velocity.y == JUMP_VELOCITY or velocity[1] == 0:
-		$stuckCheck/stuckCheck_confirm.start()
+		$stuck_check/stuck_confirm.start()
 		confirm_timer_isActive = true
 
 func _on_stuck_confirm_timeout():
@@ -920,7 +921,7 @@ func _on_stuck_confirm_timeout():
 #Debug movement type that lets you freely move in any direction_x. Press CTRL + C to activate it. (needs Globals.debug_mode to be true)
 #Hold RMB to move a lot slower. Hold SHIFT to move very fast.
 func handle_debugMovement(delta):
-	if Input.is_action_pressed("move_R"):
+	if Input.is_action_pressed("move_right"):
 		if Input.is_action_pressed("attack_secondary"):
 			global_position.x += 200 * delta
 			return
@@ -931,7 +932,7 @@ func handle_debugMovement(delta):
 			
 		global_position.x += 1000 * delta
 	
-	if Input.is_action_pressed("move_L"):
+	if Input.is_action_pressed("move_left"):
 		if Input.is_action_pressed("attack_secondary"):
 			global_position.x -= 200 * delta
 			return
@@ -942,7 +943,7 @@ func handle_debugMovement(delta):
 			
 		global_position.x -= 1000 * delta
 	
-	if Input.is_action_pressed("move_UP"):
+	if Input.is_action_pressed("move_up"):
 		if Input.is_action_pressed("attack_secondary"):
 			global_position.y -= 200 * delta
 			return
@@ -953,7 +954,7 @@ func handle_debugMovement(delta):
 			
 		global_position.y -= 1000 * delta
 	
-	if Input.is_action_pressed("move_DOWN"):
+	if Input.is_action_pressed("move_down"):
 		if Input.is_action_pressed("attack_secondary"):
 			global_position.y += 200 * delta
 			return
@@ -974,27 +975,27 @@ var secondaryAttack_cooldown = false
 @export var secondaryWeaponType = "none"
 
 #WEAPON TYPES
-var scene_projectile_phaser = load("res://Projectiles/player_projectile_charged_phaser.tscn")
-var scene_projectile_basic = load("res://Projectiles/player_projectile_basic.tscn")
-var scene_projectile_short_shotDelay = load("res://Projectiles/player_projectile_short_shotDelay.tscn")
-var scene_projectile_ice = load("res://Projectiles/player_projectile_ice.tscn")
-var scene_projectile_fire = load("res://Projectiles/player_projectile_fire.tscn")
-var scene_projectile_destructive_fast_speed = load("res://Projectiles/player_projectile_destructive_fast_speed.tscn")
-var scene_projectile_veryFast_speed = load("res://Projectiles/player_projectile_veryFast_speed.tscn")
-var scene_projectile_lethalBall_basic = load("res://Projectiles/projectile_lethalBall_base.tscn")
-#WEAPON TYPES END
+#var scene_projectile_phaser = load("res://Projectiles/player_projectile_charged_phaser.tscn")
+#var scene_projectile_basic = load("res://Projectiles/player_projectile_basic.tscn")
+#var scene_projectile_short_shotDelay = load("res://Projectiles/player_projectile_short_shotDelay.tscn")
+#var scene_projectile_ice = load("res://Projectiles/player_projectile_ice.tscn")
+#var scene_projectile_fire = load("res://Projectiles/player_projectile_fire.tscn")
+#var scene_projectile_destructive_fast_speed = load("res://Projectiles/player_projectile_destructive_fast_speed.tscn")
+#var scene_projectile_veryFast_speed = load("res://Projectiles/player_projectile_veryFast_speed.tscn")
+#var scene_projectile_lethalBall_basic = load("res://Projectiles/projectile_lethalBall_base.tscn")
+##WEAPON TYPES END
 
 #SECONDARY WEAPON TYPES
-var scene_secondaryProjectile_basic = load("res://Projectiles/player_secondaryProjectile_basic.tscn")
-var scene_secondaryProjectile_fast = load("res://Projectiles/player_secondaryProjectile_fast.tscn")
+#var scene_secondaryProjectile_basic = load("res://Projectiles/player_secondaryProjectile_basic.tscn")
+#var scene_secondaryProjectile_fast = load("res://Projectiles/player_secondaryProjectile_fast.tscn")
 #SECONDARY WEAPON TYPES END
 
 func handle_shooting():
 	#MAIN ATTACK
 	if weaponType == "phaser":
 		if not dead and Input.is_action_just_pressed("attack_main"):
-			var projectile_phaser = scene_projectile_phaser.instantiate()
-			add_child(projectile_phaser)
+			#var projectile_phaser = scene_projectile_phaser.instantiate()
+			#add_child(projectile_phaser)
 			
 			#SHOOTING ANIMATION
 			state_shooting = true
@@ -1006,29 +1007,29 @@ func handle_shooting():
 			return
 	
 	if not dead and Input.is_action_pressed("attack_main"):
-		
-		if weaponType == "basic":
-			shoot_projectile(scene_projectile_basic)
-		elif weaponType == "short_shotDelay":
-			shoot_projectile(scene_projectile_short_shotDelay)
-		elif weaponType == "ice":
-			shoot_projectile(scene_projectile_ice)
-		elif weaponType == "fire":
-			shoot_projectile(scene_projectile_fire)
-		elif weaponType == "destructive_fast_speed":
-			shoot_projectile(scene_projectile_destructive_fast_speed)
-		elif weaponType == "veryFast_speed":
-			shoot_projectile(scene_projectile_veryFast_speed)
-		elif weaponType == "lethalBall_basic":
-			shoot_projectile(scene_projectile_lethalBall_basic)
+		pass
+		#if weaponType == "basic":
+			#shoot_projectile(scene_projectile_basic)
+		#elif weaponType == "short_shotDelay":
+			#shoot_projectile(scene_projectile_short_shotDelay)
+		#elif weaponType == "ice":
+			#shoot_projectile(scene_projectile_ice)
+		#elif weaponType == "fire":
+			#shoot_projectile(scene_projectile_fire)
+		#elif weaponType == "destructive_fast_speed":
+			#shoot_projectile(scene_projectile_destructive_fast_speed)
+		#elif weaponType == "veryFast_speed":
+			#shoot_projectile(scene_projectile_veryFast_speed)
+		#elif weaponType == "lethalBall_basic":
+			#shoot_projectile(scene_projectile_lethalBall_basic)
 	
 	
 	#SECONDARY ATTACK
-	if not dead and Input.is_action_pressed("attack_secondary"):
-		if secondaryWeaponType == "basic":
-			shoot_secondaryProjectile(scene_secondaryProjectile_basic)
-		elif secondaryWeaponType == "fast":
-			shoot_secondaryProjectile(scene_secondaryProjectile_fast)
+	#if not dead and Input.is_action_pressed("attack_secondary"):
+		#if secondaryWeaponType == "basic":
+			#shoot_secondaryProjectile(scene_secondaryProjectile_basic)
+		#elif secondaryWeaponType == "fast":
+			#shoot_secondaryProjectile(scene_secondaryProjectile_fast)
 
 
 # True if player is currently touching the specified surface.
@@ -1037,7 +1038,7 @@ var on_wall = false
 
 func get_basic_player_values():
 	if not dead and not block_movement:
-		direction_x = Input.get_axis("move_L", "move_R")
+		direction_x = Input.get_axis("move_left", "move_right")
 	else:
 		direction_x = 0
 	
@@ -1066,22 +1067,21 @@ func get_basic_player_values():
 	#Globals.player_posY = get_global_position()[1]
 	Globals.player_velocity = velocity
 	
-	if direction_x != 0:
-		Globals.direction_x = direction_x
+	Globals.player_direction_x = direction_x
 
 
 func handle_spawn_dust():
 	if is_on_floor() and direction_x and spawn_dust_effect:
 		spawn_dust_effect = false
-		$dust_effect.start()
+		$cooldown_effect_dust.start()
 		
 		var dust = Globals.scene_effect_dust.instantiate()
-		dust.position = Globals.player_pos - Vector2(0, -48)
+		dust.position = Globals.player_position - Vector2(0, -48)
 		get_parent().add_child(dust)
 		
 	elif not is_on_floor():
 		spawn_dust_effect = true
-		$dust_effect.stop()
+		$cooldown_effect_dust.stop()
 
 
 # Zones (water, wind, etc.)
@@ -1171,9 +1171,9 @@ func handle_manual_player_death():
 
 
 func handle_flight(delta):
-	if Input.is_action_pressed("jump") or Input.is_action_pressed("move_UP"):
+	if Input.is_action_pressed("jump") or Input.is_action_pressed("move_up"):
 		velocity.y = move_toward(velocity.y, JUMP_VELOCITY, delta * ACCELERATION / 2)
-	elif Input.is_action_pressed("move_DOWN"):
+	elif Input.is_action_pressed("move_down"):
 		velocity.y = move_toward(velocity.y, -JUMP_VELOCITY, delta * ACCELERATION / 2)
 	else:
 		velocity.y = move_toward(velocity.y, 0, delta * 600)
@@ -1204,7 +1204,7 @@ func on_on_block_movement_full_timeout() -> void:
 var debug_toggle = false
 var scene_debug_screen = preload("res://Other/Scenes/User Interface/Debug/debug_screen.tscn")
 func handle_debug_screen():
-	if Input.is_action_just_pressed("show_debugInfo"):
+	if Input.is_action_just_pressed("debug_console"):
 		if not debug_toggle:
 			#$/root/World.player.block_movement = true
 			var debug_screen = scene_debug_screen.instantiate()
@@ -1323,7 +1323,7 @@ func just_update():
 
 @onready var t_recently_landed: Timer = $timer_recently_landed
 @onready var t_recently_bounced: Timer = $timer_recently_bounced
-@onready var t_recently_left_wind: Timer = $timer_recently_left_win
+@onready var t_recently_left_wind: Timer = $timer_recently_left_wind
 
 func on_just_bounced():
 	recently_bounced = true

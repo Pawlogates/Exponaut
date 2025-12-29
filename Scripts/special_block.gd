@@ -31,7 +31,7 @@ var velocity_x_last = 0.0
 @export var remove_delay = 1.0
 
 @export var collectibleAmount = 3
-@export var item_scene = preload("res://Collectibles/collectibleOrange.tscn")
+@export var item_scene = preload("res://Enemies/togglebot.tscn")
 
 @export var block_movement_onSpawn = true
 @export var movement_type = "normal"

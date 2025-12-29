@@ -34,7 +34,7 @@ func _process(_delta):
 	
 	
 	
-	if Input.is_action_just_pressed("use_item"):
+	if Input.is_action_just_pressed("inventory_use"):
 		get_tree().call_group("in_inventory", "selected_check")
 		
 		if Globals.inventory_onSpawn_scene != null:

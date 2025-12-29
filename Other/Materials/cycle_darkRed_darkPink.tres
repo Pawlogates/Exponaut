@@ -1,0 +1,20 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://dwg2kvd7cw6l5"]
+
+[ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="1_xiy2l"]
+
+[sub_resource type="Gradient" id="Gradient_pk7t1"]
+offsets = PackedFloat32Array(0, 0.508475, 1)
+colors = PackedColorArray(0.407843, 0, 0, 1, 0.662576, 0, 0.199969, 1, 0.407843, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ie5v4"]
+gradient = SubResource("Gradient_pk7t1")
+
+[resource]
+shader = ExtResource("1_xiy2l")
+shader_parameter/disableProcessing = false
+shader_parameter/modulate = Color(1, 1, 1, 1)
+shader_parameter/palette = SubResource("GradientTexture2D_ie5v4")
+shader_parameter/cycleMode = 2
+shader_parameter/cycleRate = 5.0
+shader_parameter/cycleOffset = 0.0
+shader_parameter/colorBlending = true

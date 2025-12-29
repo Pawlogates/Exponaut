@@ -66,7 +66,7 @@ func _process(_delta):
 	
 	if not transitioning and not bg_transition.current_animation == "bg_show" and not bg_transition.current_animation == "bg_hide":
 		transitioning = true
-		Globals.bgTransition_finished.emit()
+		Globals.bg_change_finished.emit()
 		%bg_transition_buffer_delay.start()
 
 

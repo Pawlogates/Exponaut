@@ -16,10 +16,10 @@ func _process(delta):
 	count_score()
 	
 	multiplier_label.text = str("x", Globals.combo_tier)
-	streak_label.text = str(Globals.collected_in_cycle)
+	streak_label.text = str(Globals.combo_streak)
 	comboScore_label.text = str(Globals.combo_score)
 	
-	if Globals.collected_in_cycle > 0:
+	if Globals.combo_streak > 0:
 		comboScore_label.modulate.a = move_toward(comboScore_label.modulate.a, 1, delta)
 	else:
 		comboScore_label.modulate.a = move_toward(comboScore_label.modulate.a, 0, delta)

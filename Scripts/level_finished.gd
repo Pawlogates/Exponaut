@@ -27,11 +27,10 @@ func _on_continue_btn_pressed():
 	Globals.transitioned = false
 	get_tree().change_scene_to_packed(saved_level)
 
-var mapScreen = load("res://Other/Scenes/Level Select/screen_levelSelect.tscn")
 func _on_level_select_btn_pressed():
 	Overlay.animation("fade_black", 0, 1.0, true)
 	get_tree().paused = false
-	get_tree().change_scene_to_packed(mapScreen)
+	get_tree().change_scene_to_packed(Globals.scene_levelSet_screen)
 	Overlay.animation("fade_black", 0, 1.0, true)
 
 

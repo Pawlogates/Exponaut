@@ -1,10 +1,9 @@
-[gd_scene load_steps=35 format=3 uid="uid://d0ev5ctdik86d"]
+[gd_scene load_steps=33 format=3 uid="uid://d0ev5ctdik86d"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_prtiu"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_g6gxa"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="3_pl8oi"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_okv10"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_4kwvj"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_uexjc"]
 [ext_resource type="Texture2D" uid="uid://w4snge8ql743" path="res://Assets/Graphics/backgrounds/bg_cavern.png" id="7_66pcn"]
 [ext_resource type="Texture2D" uid="uid://dsqa3f4pw5rov" path="res://Assets/Graphics/backgrounds/bg_mountains.png" id="8_yfht7"]
@@ -21,7 +20,6 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="20_ai846"]
 [ext_resource type="PackedScene" uid="uid://dl5i4pgp0735j" path="res://Objects/Decorations/godrays.tscn" id="21_e3x8y"]
 [ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://Objects/Decorations/darkDecoParallax_grass.tscn" id="22_s4u06"]
-[ext_resource type="PackedScene" uid="uid://dsn2i83vgnnpy" path="res://Collectibles/collectibleShrineGem.tscn" id="23_03lbc"]
 [ext_resource type="PackedScene" uid="uid://c6v8vv70k0pe3" path="res://Objects/gate_goldenApple.tscn" id="24_so3cm"]
 [ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://Objects/Decorations/glow_fog_gradient_colorful.tscn" id="25_6gvgw"]
 [ext_resource type="PackedScene" uid="uid://chykfjtli3g53" path="res://Objects/Decorations/glow_orb_soft.tscn" id="26_lkrdf"]
@@ -39,10 +37,6 @@
 light_mask = 7
 visibility_layer = 7
 z_index = -5
-cameraLimit_left = -11584.0
-cameraLimit_right = 7232.0
-cameraLimit_bottom = 6336.0
-cameraLimit_top = -10752.0
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_g6gxa")]
 unique_name_in_owner = true
@@ -78,8 +72,18 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_4kwvj")]
+[node name="tileset_objectsSmall" parent="." index="3"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 layer_0/tile_data = PackedInt32Array(-1245199, 0, 65536, -1835016, 0, 196608, -1900544, 0, 196608, -524333, 0, 131072, -589870, 0, 131072, -589868, 0, 131072, -524331, 0, 131072, 65515, 0, 65536, -65560, 0, 65536, -131099, 0, 65536, -65566, 0, 65536, -33, 0, 65536, 65500, 0, 65536, 131033, 0, 65536, 196566, 0, 65536, 327619, 0, 65536, 262084, 0, 65536, 327621, 0, 65536, -2293711, 0, 196608, -2293709, 0, 196608, -2293707, 0, 196608, -786469, 0, 196608, -786471, 0, 196608, -786467, 0, 196608, -917541, 0, 196608, -655397, 0, 196608, -1114102, 0, 65536, -2424676, 0, 65536, -2293616, 0, 65536, -5898184, 0, 65536, -1704184, 0, 65536, -721142, 0, 65536, -1507573, 0, 65536, -983285, 0, 65536, -458997, 0, 65536, -1245428, 0, 65536, -196852, 0, 65536, -2293976, 0, 262144, -2031830, 0, 2555904, -2031828, 0, 2490368, -2031826, 0, 2555904, -2031824, 0, 2490368, -2031822, 0, 2555904, 196412, 0, 65536, 327486, 0, 196608, -2031808, 0, 262144, 327488, 0, 65536, -65724, 0, 65536, -65722, 0, 196608, -65720, 0, 65536, -4653226, 0, 131072, -5177508, 0, 131072, -4522144, 0, 131072, -4522140, 0, 131072, -3473516, 0, 196608, -3342412, 0, 65536, -3407947, 0, 65536, -3342411, 0, 65536, -3342410, 0, 65536, -3276877, 0, 65536, -3276876, 0, 65536, -3276875, 0, 65536, -3276874, 0, 65536, -3276873, 0, 65536, 7471188, 0, 2424832, 4063330, 0, 2424832, -3276678, 0, 2424832, -2621396, 0, 851968, -6619150, 0, 2424832, -6488078, 0, 2424832, -1376247, 0, 2686976, -5701700, 0, 2883584, -5701706, 0, 2883584, -5701712, 0, 2883584, -6422498, 0, 786432, -6553570, 0, 65536, -6946796, 0, 2883584, -6946790, 0, 2883584, -6946784, 0, 2883584, -5308516, 0, 2752512, -5308522, 0, 2752512, -589969, 0, 2818048, -196753, 0, 2818048, 196463, 0, 2818048, 589679, 0, 2818048, -5439646, 0, 2949120, -5832862, 0, 2949120, -6291306, 0, 2883584, -6291300, 0, 2883584, -3473464, 0, 851968, -851932, 0, 131072, -1114086, 0, 131072, -1572817, 0, 131072, -1638352, 0, 131072, -1507280, 0, 131072, -1572815, 0, 131072, -2097096, 0, 65536, -655285, 0, 262144, -6750082, 0, 65536, -6684550, 0, 65536, -6619018, 0, 65536, -6553486, 0, 65536, -6487954, 0, 65536, -6422422, 0, 65536, 196410, 0, 131072, 196414, 0, 131072, -1834868, 0, 851968, -1900686, 0, 3342336, -2031758, 0, 3342336, -2162830, 0, 3342336)
+script = null
 
 [node name="Player" parent="." index="6"]
 position = Vector2(-5936, -2072)
@@ -319,7 +323,16 @@ position = Vector2(-8864, 224)
 [node name="darkDecoParallax_grass6" parent="." index="46" instance=ExtResource("22_s4u06")]
 position = Vector2(-8416, -2784)
 
-[node name="Shrine Gem" parent="." index="47" instance=ExtResource("23_03lbc")]
+[node name="Shrine Gem" parent="." index="47"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 position = Vector2(-6752, -1952)
 hp = 1
 shrineGem_openPortal = true
@@ -329,16 +342,36 @@ shrineGem_checkpoint_offset = Vector2(448, -64)
 item_scene = "res://Collectibles/collectibleBlackBerry.tscn"
 spawnedAmount = 10
 item_posSpread = 50
+script = null
 
-[node name="Shrine Gem2" parent="." index="48" instance=ExtResource("23_03lbc")]
+[node name="Shrine Gem2" parent="." index="48"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 position = Vector2(-2400, 128)
 hp = 3
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_2"
 shrineGem_level_filePath = "res://Levels/MAIN_2.tscn"
 item_scene = "res://Collectibles/collectibleRotApple.tscn"
+script = null
 
-[node name="Shrine Gem3" parent="." index="49" instance=ExtResource("23_03lbc")]
+[node name="Shrine Gem3" parent="." index="49"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 position = Vector2(1824, -2624)
 hp = 1
 shrineGem_openPortal = true
@@ -347,21 +380,42 @@ shrineGem_level_filePath = "res://Levels/MAIN_3.tscn"
 shrineGem_checkpoint_offset = Vector2(-240, -640)
 item_scene = "res://Enemies/enemy_fireImp.tscn"
 spawnedAmount = 10
+script = null
 
-[node name="Shrine Gem4" parent="." index="50" instance=ExtResource("23_03lbc")]
+[node name="Shrine Gem4" parent="." index="50"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 position = Vector2(-2304, -2112)
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_4"
 shrineGem_level_filePath = "res://Levels/MAIN_4.tscn"
 spawnedAmount = 1
+script = null
 
-[node name="Shrine Gem5" parent="." index="51" instance=ExtResource("23_03lbc")]
+[node name="Shrine Gem5" parent="." index="51"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 position = Vector2(2881, 4480)
 hp = 10
 shrineGem_openPortal = true
 shrineGem_portal_level_ID = "MAIN_5"
 shrineGem_level_filePath = "res://Levels/MAIN_5.tscn"
 shrineGem_checkpoint_offset = Vector2(-128, -64)
+script = null
 
 [node name="goldenApple_gate" parent="." index="52" instance=ExtResource("24_so3cm")]
 z_index = -3
@@ -754,3 +808,17 @@ displayedText = "Hold Q or Middle Mouse Button to open the weapon select menu."
 position = Vector2(-1824, -1056)
 displayedText = "Golden apple gates will open if you collect the required amount of golden apples."
 displayedText_size = 1
+
+[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115164" to="tileset_objects/@Area2D@115164" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115172" to="tileset_objects/@Area2D@115172" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115186" to="tileset_objects/@Area2D@115186" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115187" to="tileset_objects/@Area2D@115187" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115281" to="tileset_objects/@Area2D@115281" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115282" to="tileset_objects/@Area2D@115282" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115446" to="tileset_objects/@Area2D@115446" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115447" to="tileset_objects/@Area2D@115447" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115448" to="tileset_objects/@Area2D@115448" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115449" to="tileset_objects/@Area2D@115449" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@115450" to="tileset_objects/@Area2D@115450" method="_on_area_entered"]

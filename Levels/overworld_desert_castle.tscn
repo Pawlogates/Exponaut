@@ -1,10 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://ce3mkertk2uya"]
+[gd_scene load_steps=11 format=3 uid="uid://ce3mkertk2uya"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_rpwlp"]
-[ext_resource type="AudioStream" uid="uid://c00o3t4jx1vs2" path="res://Assets/Sounds/music/desert3.mp3" id="2_4c5pl"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="3_l0peb"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_7e7km"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="5_k1v4q"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_evlo1"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_i44e1"]
 [ext_resource type="Texture2D" uid="uid://y7pfdpv8h7y" path="res://Assets/Graphics/backgrounds/bg_desert.png" id="8_yb05a"]
@@ -14,14 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="12_52o6i"]
 
 [node name="World" instance=ExtResource("1_rpwlp")]
-regular_level = false
-playerStartHP = 5
-rain = true
-leaves = true
-selected_episode = "Main Levels"
-
-[node name="music" parent="Music Controller" index="5"]
-stream = ExtResource("2_4c5pl")
 
 [node name="tileset_main" parent="." index="1" instance=ExtResource("3_l0peb")]
 unique_name_in_owner = true
@@ -41,28 +31,57 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="3" instance=ExtResource("5_k1v4q")]
+[node name="tileset_objectsSmall" parent="." index="3"]
+_import_path = NodePath("")
 unique_name_in_owner = true
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 layer_0/tile_data = PackedInt32Array(1310874, 0, 851968, 786590, 0, 2490368, 786591, 0, 262144, 786592, 0, 2490368, 852126, 0, 262144, 852127, 0, 2490368, 852128, 0, 262144, 721055, 0, 2490368, 721054, 0, 262144, 721056, 0, 262144, 917650, 0, 65536, 917652, 0, 65536, 917654, 0, 65536, 1114271, 0, 65536, 1114250, 0, 65536, 1114246, 0, 65536, 917648, 0, 65536, 786576, 0, 196608, 786580, 0, 196608, 786578, 0, 131072, 786582, 0, 131072)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_back" parent="." index="4" instance=ExtResource("5_k1v4q")]
+[node name="tileset_objectsSmall_back" parent="." index="4"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = -5
 layer_0/tile_data = PackedInt32Array(786512, 0, 720896, 1179722, 0, 720896, 1835088, 0, 720896, 393290, 0, 720896)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_front" parent="." index="5" instance=ExtResource("5_k1v4q")]
+[node name="tileset_objectsSmall_front" parent="." index="5"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = 5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
 [node name="kill_area" parent="." index="14" instance=ExtResource("6_evlo1")]
 position = Vector2(7168, 5184)
@@ -76,7 +95,7 @@ Background_a_filePath = ExtResource("9_ufxdh")
 
 [node name="trigger_bgMove" parent="." index="16" instance=ExtResource("10_li7y1")]
 
-[node name="trigger_positional" parent="." index="19" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional" parent="." index="18" instance=ExtResource("11_2yqee")]
 position = Vector2(2496, 640)
 scale = Vector2(2, 20)
 horizontal = false
@@ -89,7 +108,7 @@ camera_baseOffset_Y = 750
 minOffset_Y = 0
 maxOffset_Y = 750
 
-[node name="trigger_positional6" parent="." index="20" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional6" parent="." index="19" instance=ExtResource("11_2yqee")]
 position = Vector2(3680, 704)
 scale = Vector2(13, 6)
 right_to_left = true
@@ -100,7 +119,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional7" parent="." index="21" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional7" parent="." index="20" instance=ExtResource("11_2yqee")]
 position = Vector2(5120, 224)
 scale = Vector2(2, 1)
 RESET_OFFSET = true
@@ -112,7 +131,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional9" parent="." index="22" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional9" parent="." index="21" instance=ExtResource("11_2yqee")]
 position = Vector2(6048, -192)
 scale = Vector2(1, 2)
 RESET_OFFSET = true
@@ -124,7 +143,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional5" parent="." index="23" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional5" parent="." index="22" instance=ExtResource("11_2yqee")]
 position = Vector2(5792, -768)
 scale = Vector2(15, 12)
 moveCamera = true
@@ -136,7 +155,7 @@ zoomCamera = true
 minZoom = 0.85
 maxZoom = 1.0
 
-[node name="trigger_positional2" parent="." index="24" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional2" parent="." index="23" instance=ExtResource("11_2yqee")]
 position = Vector2(2880, 800)
 scale = Vector2(8, 3)
 RESET_OFFSET = true
@@ -145,7 +164,7 @@ vertical = true
 minOffset = 0
 maxOffset = 500
 
-[node name="trigger_positional3" parent="." index="25" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional3" parent="." index="24" instance=ExtResource("11_2yqee")]
 position = Vector2(2176, -288)
 scale = Vector2(2, 7)
 RESET_OFFSET = true
@@ -154,7 +173,7 @@ vertical = true
 minOffset = 0
 maxOffset = 500
 
-[node name="trigger_positional8" parent="." index="26" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional8" parent="." index="25" instance=ExtResource("11_2yqee")]
 position = Vector2(2560, -96)
 scale = Vector2(10, 1)
 RESET_OFFSET = true
@@ -163,7 +182,7 @@ vertical = true
 minOffset = 0
 maxOffset = 500
 
-[node name="trigger_positional4" parent="." index="27" instance=ExtResource("11_2yqee")]
+[node name="trigger_positional4" parent="." index="26" instance=ExtResource("11_2yqee")]
 position = Vector2(2944, -352)
 scale = Vector2(2, 7)
 RESET_OFFSET = true
@@ -172,14 +191,29 @@ vertical = true
 minOffset = 0
 maxOffset = 500
 
-[node name="areaTransition3" parent="." index="28" instance=ExtResource("12_52o6i")]
+[node name="areaTransition3" parent="." index="27" instance=ExtResource("12_52o6i")]
 unique_name_in_owner = true
 position = Vector2(-288, 32)
 target_area = "uid://bay2cb2mbpfjy"
 next_transition = 3
 
-[node name="areaTransition4" parent="." index="29" instance=ExtResource("12_52o6i")]
+[node name="areaTransition4" parent="." index="28" instance=ExtResource("12_52o6i")]
 unique_name_in_owner = true
 position = Vector2(6368, -160)
 target_area = "uid://bay2cb2mbpfjy"
 next_transition = 3
+
+[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123631" to="tileset_objects/@Area2D@123631" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123632" to="tileset_objects/@Area2D@123632" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123633" to="tileset_objects/@Area2D@123633" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123634" to="tileset_objects/@Area2D@123634" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123635" to="tileset_objects/@Area2D@123635" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123636" to="tileset_objects/@Area2D@123636" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123637" to="tileset_objects/@Area2D@123637" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123639" to="tileset_objects/@Area2D@123639" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123640" to="tileset_objects/@Area2D@123640" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123641" to="tileset_objects/@Area2D@123641" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123642" to="tileset_objects/@Area2D@123642" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@123643" to="tileset_objects/@Area2D@123643" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

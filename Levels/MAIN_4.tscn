@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b4m0yj5crrt1x"]
 
-[ext_resource type="PackedScene" uid="uid://dutlj6pc1qp86" path="res://Levels/empty_shrineLevel.tscn" id="1_oio0u"]
+[ext_resource type="PackedScene" uid="uid://dutlj6pc1qp86" path="res://Levels/empty_levelSet.tscn" id="1_oio0u"]
 [ext_resource type="AudioStream" uid="uid://dcsnlyc2cu8co" path="res://Assets/Sounds/music/general2.mp3" id="2_ub1eo"]
 
 [node name="World" instance=ExtResource("1_oio0u")]

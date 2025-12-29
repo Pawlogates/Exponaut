@@ -1,0 +1,11 @@
+[gd_resource type="Theme" format=3 uid="uid://8i27k6tj1d3o"]
+
+[resource]
+default_font_size = 24
+Button/constants/outline_size = 4
+Button/font_sizes/font_size = 24
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.588235)
+Label/constants/outline_size = 4
+Label/constants/shadow_offset_x = 2
+Label/constants/shadow_offset_y = 2
+Label/font_sizes/font_size = 24

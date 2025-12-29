@@ -1,188 +1,168 @@
 extends Node2D
 
-@onready var layer_1 = %ambience_layer1
-@onready var layer_2 = %ambience_layer2
-@onready var layer_3 = %ambience_layer3
-@onready var layer_4 = %ambience_layer4
+@onready var layer1 = %layer1
+@onready var layer2 = %layer2
+@onready var layer3 = %layer3
+@onready var layer4 = %layer4
 
-@export var ambience_layer1_baseDelay = 90
-@export var ambience_layer2_baseDelay = 90
-@export var ambience_layer3_baseDelay = 90
-@export var ambience_layer4_baseDelay = 90
+@export var layer1_delay_base = 90
+@export var layer2_delay_base = 90
+@export var layer3_delay_base = 90
+@export var layer4_delay_base = 90
 
-@export var ambience_layer1_delayRange = 60
-@export var ambience_layer2_delayRange = 60
-@export var ambience_layer3_delayRange = 60
-@export var ambience_layer4_delayRange = 60
+@export var layer1_delay_range = 60
+@export var layer2_delay_range = 60
+@export var layer3_delay_range = 60
+@export var layer4_delay_range = 60
 
-@export var ambience_layer1_basePitch = 1
-@export var ambience_layer2_basePitch = 1
-@export var ambience_layer3_basePitch = 1
-@export var ambience_layer4_basePitch = 1
+@export var layer1_pitch_base = 1
+@export var layer2_pitch_base = 1
+@export var layer3_pitch_base = 1
+@export var layer4_pitch_base = 1
 
-@export var ambience_layer1_pitchRange = 0.2
-@export var ambience_layer2_pitchRange = 0.2
-@export var ambience_layer3_pitchRange = 0.2
-@export var ambience_layer4_pitchRange = 0.2
+@export var layer1_pitchRange = 0.2
+@export var layer2_pitchRange = 0.2
+@export var layer3_pitchRange = 0.2
+@export var layer4_pitchRange = 0.2
 
-@export var ambience_layer1_baseVolume = 1
-@export var ambience_layer2_baseVolume = 1
-@export var ambience_layer3_baseVolume = 1
-@export var ambience_layer4_baseVolume = 1
+@export var layer1_volume_base = 1
+@export var layer2_volume_base = 1
+@export var layer3_volume_base = 1
+@export var layer4_volume_base = 1
 
-@export var ambience_layer1_volumeRange = 0.6
-@export var ambience_layer2_volumeRange = 0.6
-@export var ambience_layer3_volumeRange = 0.6
-@export var ambience_layer4_volumeRange = 0.6
+@export var layer1_volume_range = 0.6
+@export var layer2_volume_range = 0.6
+@export var layer3_volume_range = 0.6
+@export var layer4_volume_range = 0.6
 
-var disabled = false
+var enabled = false
+var active = false # Equal to "true" while any sound is being played currently.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	ambience_layer_randomize_delay()
-	ambience_layer_randomize_pitch()
-	ambience_layer_randomize_volume()
+	layer_randomize_delay()
+	layer_randomize_pitch()
+	layer_randomize_volume()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if disabled:
+	if not enabled:
 		return
 	
 	pass
 
 
 #randomize all
-func ambience_layer_randomize_delay():
+func layer_randomize_delay():
 	var x = 1
 	while x <= 4: #4 loops
-		var ambience_layer_baseDelay = get("ambience_layer" + str(x) + "_baseDelay")
-		var ambience_layer_delayRange = get("ambience_layer" + str(x) + "_delayRange")
-		var ambience_layer_delay = ambience_layer_baseDelay + randf_range(-ambience_layer_delayRange, ambience_layer_delayRange)
-		ambience_layer_delay = abs(ambience_layer_delay)
+		var layer_delay_base = get("layer" + str(x) + "_delay_base")
+		var layer_delay_range = get("layer" + str(x) + "_delay_range")
+		var layer_delay = layer_delay_base + randf_range(-layer_delay_range, layer_delay_range)
+		layer_delay = abs(layer_delay)
 		
-		var timer = get_node("ambience_layer" + str(x) + "/" + "ambience" + str(x) + "_delay")
-		timer.wait_time = ambience_layer_delay
+		var timer = get_node("layer" + str(x) + "/" + "cooldown")
+		timer.wait_time = layer_delay
 		timer.start()
 		
 		x += 1
 
-func ambience_layer_randomize_pitch():
+func layer_randomize_pitch():
 	var x = 1
 	while x <= 4: #4 loops
-		var ambience_layer_basePitch = get("ambience_layer" + str(x) + "_basePitch")
-		var ambience_layer_pitchRange = get("ambience_layer" + str(x) + "_delayRange")
-		var ambience_layer_pitch = ambience_layer_basePitch + randf_range(-ambience_layer_pitchRange, ambience_layer_pitchRange)
-		ambience_layer_pitch = abs(ambience_layer_pitch)
+		var layer_pitch_base = get("layer" + str(x) + "_pitch_base")
+		var layer_pitchRange = get("layer" + str(x) + "_delay_range")
+		var layer_pitch = layer_pitch_base + randf_range(-layer_pitchRange, layer_pitchRange)
+		layer_pitch = abs(layer_pitch)
 		
-		var audioStreamPlayer = get_node("%ambience_layer" + str(x))
-		audioStreamPlayer.pitch_scale = ambience_layer_pitch
+		var audioStreamPlayer = get_node("%layer" + str(x))
+		audioStreamPlayer.pitch_scale = layer_pitch
 		
 		x += 1
 
-func ambience_layer_randomize_volume():
+func layer_randomize_volume():
 	var x = 1
 	while x <= 4: #4 loops
-		var ambience_layer_baseVolume = get("ambience_layer" + str(x) + "_baseVolume")
-		var ambience_layer_volumeRange = get("ambience_layer" + str(x) + "_volumeRange")
-		var ambience_layer_volume = ambience_layer_baseVolume + randf_range(-ambience_layer_volumeRange, ambience_layer_volumeRange)
-		ambience_layer_volume = abs(ambience_layer_volume)
+		var layer_volume_base = get("layer" + str(x) + "_volume_base")
+		var layer_volume_range = get("layer" + str(x) + "_volume_range")
+		var layer_volume = layer_volume_base + randf_range(-layer_volume_range, layer_volume_range)
+		layer_volume = abs(layer_volume)
 		
-		var audioStreamPlayer = get_node("%ambience_layer" + str(x))
-		audioStreamPlayer.volume_db = ambience_layer_volume
+		var audioStreamPlayer = get_node("%layer" + str(x))
+		audioStreamPlayer.volume_db = layer_volume
 		
 		x += 1
-
 
 
 #randomize single
-func single_ambience_layer_randomize_delay(x):
-	var ambience_layer_baseDelay = get("ambience_layer" + str(x) + "_baseDelay")
-	var ambience_layer_delayRange = get("ambience_layer" + str(x) + "_delayRange")
-	var ambience_layer_delay = ambience_layer_baseDelay + randf_range(-ambience_layer_delayRange, ambience_layer_delayRange)
-	ambience_layer_delay = abs(ambience_layer_delay)
+func single_layer_randomize_delay(x):
+	var layer_delay_base = get("layer" + str(x) + "_delay_base")
+	var layer_delay_range = get("layer" + str(x) + "_delay_range")
+	var layer_delay = layer_delay_base + randf_range(-layer_delay_range, layer_delay_range)
+	layer_delay = abs(layer_delay)
 	
-	var timer = get_node("%ambience" + str(x) + "_delay")
-	timer.wait_time = ambience_layer_delay
+	var timer = get_node("layer" + str(x) + "/" + "cooldown")
+	timer.wait_time = layer_delay
 	
-	print(str(ambience_layer_delay) + " is the rolled ambience delay.")
+	print(str(layer_delay) + " is the rolled ambience delay.")
 	
-	return ambience_layer_delay
+	return layer_delay
 
-func single_ambience_layer_randomize_pitch(x):
-	var ambience_layer_basePitch = get("ambience_layer" + str(x) + "_basePitch")
-	var ambience_layer_pitchRange = get("ambience_layer" + str(x) + "_pitchRange")
-	var ambience_layer_pitch = ambience_layer_basePitch + randf_range(-ambience_layer_pitchRange, ambience_layer_pitchRange)
-	ambience_layer_pitch = abs(ambience_layer_pitch)
-	
-	var audioStreamPlayer = get_node("%ambience_layer" + str(x))
-	audioStreamPlayer.pitch_scale = ambience_layer_pitch
-	
-	print(str(ambience_layer_pitch) + " is the rolled ambience pitch.")
-	
-	return ambience_layer_pitch
 
-func single_ambience_layer_randomize_volume(x):
-	var ambience_layer_baseVolume = get("ambience_layer" + str(x) + "_baseVolume")
-	var ambience_layer_volumeRange = get("ambience_layer" + str(x) + "_volumeRange")
-	var ambience_layer_volume = ambience_layer_baseVolume + randf_range(-ambience_layer_volumeRange, ambience_layer_volumeRange)
-	ambience_layer_volume = abs(ambience_layer_volume)
+func single_layer_randomize_pitch(x):
+	var layer_pitch_base = get("layer" + str(x) + "_pitch_base")
+	var layer_pitchRange = get("layer" + str(x) + "_pitchRange")
+	var layer_pitch = layer_pitch_base + randf_range(-layer_pitchRange, layer_pitchRange)
+	layer_pitch = abs(layer_pitch)
 	
-	var audioStreamPlayer = get_node("%ambience_layer" + str(x))
-	audioStreamPlayer.volume_db = ambience_layer_volume
+	var audioStreamPlayer = get_node("%layer" + str(x))
+	audioStreamPlayer.pitch_scale = layer_pitch
 	
-	print(str(ambience_layer_volume) + " is the rolled ambience volume.")
+	print(str(layer_pitch) + " is the rolled ambience pitch.")
 	
-	return ambience_layer_volume
+	return layer_pitch
 
-#delay timers
-func _on_ambience_1_delay_timeout():
-	if disabled:
+
+func single_layer_randomize_volume(x):
+	var layer_volume_base = get("layer" + str(x) + "_volume_base")
+	var layer_volume_range = get("layer" + str(x) + "_volume_range")
+	var layer_volume = layer_volume_base + randf_range(-layer_volume_range, layer_volume_range)
+	layer_volume = abs(layer_volume)
+	
+	var audioStreamPlayer = get_node("%layer" + str(x))
+	audioStreamPlayer.volume_db = layer_volume
+	
+	print(str(layer_volume) + " is the rolled ambience volume.")
+	
+	return layer_volume
+
+
+func _on_cooldown1_timeout() -> void:
+	layer_play(1)
+
+
+func _on_cooldown2_timeout() -> void:
+	layer_play(2)
+
+
+func _on_cooldown3_timeout() -> void:
+	layer_play(3)
+
+
+func _on_cooldown4_timeout() -> void:
+	layer_play(4)
+
+
+func layer_play(id : int):
+	if not enabled:
 		return
 	
-	single_ambience_layer_randomize_delay(1)
-	single_ambience_layer_randomize_pitch(1)
-	single_ambience_layer_randomize_volume(1)
+	single_layer_randomize_delay(id)
+	single_layer_randomize_pitch(id)
+	single_layer_randomize_volume(id)
 	
-	var timer = $ambience_layer1/ambience1_delay
+	var timer = $layer2/ambience2_delay
 	timer.start()
-	%ambience_layer1.play()
-
-
-func _on_ambience_2_delay_timeout():
-	if disabled:
-		return
-	
-	single_ambience_layer_randomize_delay(2)
-	single_ambience_layer_randomize_pitch(2)
-	single_ambience_layer_randomize_volume(2)
-	
-	var timer = $ambience_layer2/ambience2_delay
-	timer.start()
-	%ambience_layer2.play()
-
-
-func _on_ambience_3_delay_timeout():
-	if disabled:
-		return
-	
-	single_ambience_layer_randomize_delay(3)
-	single_ambience_layer_randomize_pitch(3)
-	single_ambience_layer_randomize_volume(3)
-	
-	var timer = $ambience_layer3/ambience3_delay
-	timer.start()
-	%ambience_layer3.play()
-
-
-func _on_ambience_4_delay_timeout():
-	if disabled:
-		return
-	
-	single_ambience_layer_randomize_delay(4)
-	single_ambience_layer_randomize_pitch(4)
-	single_ambience_layer_randomize_volume(4)
-	
-	var timer = $ambience_layer4/ambience4_delay
-	timer.start()
-	%ambience_layer4.play()
+	var target_node = str("%layer", str(id))
+	get_node(target_node).play()

@@ -595,7 +595,6 @@ wait_time = 0.15
 one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["player_camera"]]
-unique_name_in_owner = true
 process_mode = 3
 z_index = 1
 position_smoothing_enabled = true
@@ -711,7 +710,7 @@ one_shot = true
 wait_time = 1.2
 one_shot = true
 
-[node name="powerup_timer" type="Timer" parent="."]
+[node name="timer_powerUp" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
@@ -754,8 +753,8 @@ one_shot = true
 [connection signal="timeout" from="timer_recently_landed" to="." method="_on_timer_recently_landed_timeout"]
 [connection signal="timeout" from="timer_recently_bounced" to="." method="_on_timer_state_recently_bounced_timeout"]
 [connection signal="timeout" from="timer_recently_left_wind" to="." method="_on_just_left_wind_timeout"]
-[connection signal="timeout" from="powerup_timer" to="." method="_on_powerup_timer_timeout"]
+[connection signal="timeout" from="timer_powerUp" to="." method="_on_powerup_timer_timeout"]
 [connection signal="timeout" from="block_movement_full" to="." method="_on_block_movement_full_timeout"]
 [connection signal="timeout" from="timer_state_shooting" to="." method="_on_timer_anim_shooting_timeout"]
 [connection signal="timeout" from="timer_state_damaged" to="." method="_on_attacked_timer_timeout"]
-[connection signal="timeout" from="cooldown_state_idle" to="." method="_on_cooldown_anim_idle_timeout"]
+[connection signal="timeout" from="cooldown_state_idle" to="." method="_on_cooldown_state_idle_timeout"]

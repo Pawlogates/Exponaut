@@ -1,9 +1,8 @@
-[gd_scene load_steps=36 format=3 uid="uid://1ahj48o4tkw0"]
+[gd_scene load_steps=35 format=3 uid="uid://1ahj48o4tkw0"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_bhkyt"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_7dfdb"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_36hu5"]
-[ext_resource type="PackedScene" uid="uid://fcq2c3tx5v67" path="res://Tilesets/tileset_objectsSmall.tscn" id="4_6f002"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="6_nae7b"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_nen1n"]
 [ext_resource type="Texture2D" uid="uid://o4c45t62y00t" path="res://Assets/Graphics/backgrounds/bg_factory.png" id="8_sdmyd"]
@@ -58,10 +57,6 @@ size = Vector2(64, 512)
 size = Vector2(64, 192)
 
 [node name="World" instance=ExtResource("1_bhkyt")]
-cameraLimit_left = -1e+07
-cameraLimit_right = 10432.0
-cameraLimit_bottom = 640.0
-cameraLimit_top = -1e+07
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_7dfdb")]
 unique_name_in_owner = true
@@ -81,27 +76,56 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="2" instance=ExtResource("4_6f002")]
+[node name="tileset_objectsSmall" parent="." index="2"]
+_import_path = NodePath("")
 unique_name_in_owner = true
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 layer_0/tile_data = PackedInt32Array(-7995224, 0, 2359296, -10878784, 0, 65536, -11403100, 0, 65536)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_back" parent="." index="3" instance=ExtResource("4_6f002")]
+[node name="tileset_objectsSmall_back" parent="." index="3"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = -5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
-[node name="tileset_objectsSmall_front" parent="." index="4" instance=ExtResource("4_6f002")]
+[node name="tileset_objectsSmall_front" parent="." index="4"]
+_import_path = NodePath("")
+unique_name_in_owner = false
+process_mode = 0
+process_priority = 0
+process_physics_priority = 0
+process_thread_group = 0
+physics_interpolation_mode = 0
+auto_translate_mode = 0
+editor_description = ""
 z_index = 5
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
+script = null
 
 [node name="Player" parent="." index="7"]
 position = Vector2(-288, 64)

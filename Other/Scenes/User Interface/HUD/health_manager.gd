@@ -1,12 +1,17 @@
 extends Control
 
+var health = 100
+var health_max = 100
+
 @onready var health_left: Control = %health_left
 @onready var health_middle: ColorRect = %health_middle
-@onready var health_right: ColorRect = %health_right
+@onready var health_right: Control = %health_right
 @onready var decoration_main: TextureRect = %decoration_main
 
+@onready var label_hp: Label = $label_hp
 
-var health = 100
+@onready var debug_hp_subtract_10: Button = $"debug_hp -"
+@onready var debug_hp_add_10: Button = $"debug_hp +"
 
 
 func _ready() -> void:
@@ -18,24 +23,48 @@ func _physics_process(delta: float) -> void:
 
 
 func update_display():
-	if health < 84:
-		health_middle.visible == false
+	label_hp.text = str(health)
 	
-	health_middle.size.x = health * 4 - 84
+	if health < 8:
+		health_middle.visible = false
+	
+	else:
+		health_middle.visible = true
+	
+	health_middle.size.x = health * 2 - 44
+	health_middle.size.x = clamp(health_middle.size.x, 0, 100 + 14)
 	
 	for segment in health_left.get_children():
+	
 		var segment_id = segment.name.replace("segment", "")
-		if segment_id < health:
-			segment.visible == false
+		if int(segment_id) < health:
+			segment.visible = true
 		else:
-			segment.visible == true
+			segment.visible = false
+	
+	for segment in health_right.get_children():
+	
+		var segment_id = segment.name.replace("segment", "")
+		if int(segment_id) < health - 78:
+			segment.visible = true
+			segment.modulate.b = 1.0 - float(segment_id) * 0.025
+			segment.modulate.r = 1.0 - float(segment_id) * -0.025
+		else:
+			segment.visible = false
 
+# REMEMBER TO ADD RAINBOW2 MATERIAL TO EACH HP SEGMENT WHEN IN MAX COMBO MODE
 
 func _on_button_pressed() -> void:
-	health += 1
-	Globals.update_player_health.emit()
+	for x in range(10):
+		health += 1
+		Globals.update_player_health.emit()
+		await get_tree().create_timer(0.05, false).timeout
+		update_display()
 
 
 func _on_button_2_pressed() -> void:
-	health -= 1
-	Globals.update_player_health.emit()
+	for x in range(10):
+		health -= 1
+		Globals.update_player_health.emit()
+		await get_tree().create_timer(0.05, false).timeout
+		update_display()
