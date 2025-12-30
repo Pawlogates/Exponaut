@@ -196,7 +196,6 @@ func _ready():
 		#next_level = preload("res://VictoryScreen.tscn")
 	
 	
-	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	RenderingServer.set_default_clear_color(background_color)
 	
 	

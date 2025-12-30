@@ -12,6 +12,9 @@ var world = Node2D
 
 
 func _ready():
+	if Globals.gameState_debug:
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
 	Globals.refresh_info.connect(display_message_check)
 	screen_black.color.a = 0.0
 

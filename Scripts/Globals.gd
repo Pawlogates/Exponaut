@@ -399,3 +399,31 @@ func message_debug(text):
 @onready var l_onTimer_secondaryProjectile_scene = []
 @onready var l_bonusBox_item_scene = []
 @onready var l_bonusBox_item_blacklist_enemy_scene = []
+
+
+func spawn_scenes(target : Node, file, quantity : int, pos_offset): # Quantity of -1 will randomize the number of spawned scenes.
+	for x in range(quantity):
+		var scene = file.instantiate()
+		target.add_child(scene)
+
+
+func anim_glow(target : Node, material, duration):
+	var tween1 = Tween
+	var tween2 = Tween
+	var tween3 = Tween
+	var tween4 = Tween
+	
+	var random_scale = randi_range(0.25, 2)
+	
+	target.material = material
+	
+	tween1 = get_tree().create_tween().bind_node(target).set_trans(Tween.TRANS_LINEAR)
+	tween2 = get_tree().create_tween().bind_node(target).set_trans(Tween.TRANS_BACK)
+	tween3 = get_tree().create_tween().bind_node(target).set_trans(Tween.TRANS_SPRING)
+	tween4 = get_tree().create_tween().bind_node(target).set_trans(Tween.TRANS_LINEAR)
+
+	tween1.tween_property(target, "position:x", randi_range(-2000, 2000), randf_range(2, 4))
+	tween2.tween_property(target, "position:y", randi_range(1000, 2000), randf_range(1.5, 3))
+	tween3.tween_property(target, "rotation_degrees", randi_range(-720, 720), randf_range(1, 2))
+	tween4.tween_property(target, "scale", Vector2(random_scale, random_scale), randf_range(1, 2))
+	tween1.tween_property(target, "visible", false, 0)

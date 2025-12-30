@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://cpuihqge2yjh4"]
+
+[ext_resource type="PackedScene" uid="uid://ckno8j7uupljt" path="res://Other/Scenes/User Interface/HUD/player_health.tscn" id="1_jmqk1"]
+[ext_resource type="PackedScene" uid="uid://dd6cdje4hw22c" path="res://Other/Scenes/User Interface/HUD/player_abilities.tscn" id="2_a83xg"]
+
+[node name="player_main" type="Control"]
+z_index = 5
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="player_health" parent="." instance=ExtResource("1_jmqk1")]
+
+[node name="player_abilities" parent="." instance=ExtResource("2_a83xg")]
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 16.0
+offset_top = 12.0
+offset_right = 16.0
+offset_bottom = 12.0
+grow_horizontal = 1
+grow_vertical = 1
+
+[node name="debug" type="Camera2D" parent="."]
+position = Vector2(112, 48)
+enabled = false

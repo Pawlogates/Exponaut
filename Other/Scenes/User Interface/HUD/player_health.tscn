@@ -9,6 +9,7 @@ atlas = ExtResource("1_04vke")
 region = Rect2(512, 0, 256, 64)
 
 [node name="player_health" type="Control"]
+z_index = 1
 layout_mode = 3
 anchors_preset = 0
 offset_right = 800.0
@@ -529,24 +530,24 @@ offset_right = 256.0
 offset_bottom = 64.0
 texture = SubResource("AtlasTexture_3m55f")
 
-[node name="debug_hp -" type="Button" parent="."]
-layout_mode = 0
-offset_left = 176.0
-offset_top = 64.0
-offset_right = 224.0
-offset_bottom = 112.0
-theme = ExtResource("3_wts6p")
-text = "+"
-clip_text = true
-
 [node name="debug_hp +" type="Button" parent="."]
 layout_mode = 0
 offset_left = 112.0
-offset_top = 64.0
+offset_top = 96.0
 offset_right = 160.0
-offset_bottom = 112.0
+offset_bottom = 144.0
+theme = ExtResource("3_wts6p")
+text = "+"
+
+[node name="debug_hp -" type="Button" parent="."]
+layout_mode = 0
+offset_left = 176.0
+offset_top = 96.0
+offset_right = 224.0
+offset_bottom = 144.0
 theme = ExtResource("3_wts6p")
 text = "-"
+clip_text = true
 
 [node name="label_hp" type="Label" parent="."]
 layout_mode = 0
@@ -560,7 +561,5 @@ text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Camera2D" type="Camera2D" parent="."]
-
-[connection signal="pressed" from="debug_hp -" to="." method="_on_button_pressed"]
-[connection signal="pressed" from="debug_hp +" to="." method="_on_button_2_pressed"]
+[connection signal="pressed" from="debug_hp +" to="." method="_on_debug_hp_add_pressed"]
+[connection signal="pressed" from="debug_hp -" to="." method="_on_debug_hp_subtract_pressed"]

@@ -1,5 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://venyptfcari1"]
+[gd_scene load_steps=9 format=3 uid="uid://venyptfcari1"]
 
+[ext_resource type="Script" uid="uid://6oq0agwanlkd" path="res://Other/Scenes/User Interface/HUD/HUD_manager.gd" id="1_fblkw"]
+[ext_resource type="PackedScene" uid="uid://cpuihqge2yjh4" path="res://Other/Scenes/User Interface/HUD/player_main.tscn" id="1_iqrlt"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_2eo37"]
 [ext_resource type="PackedScene" uid="uid://dijgiqym3g0vv" path="res://Other/Scenes/screen_levelFinished.tscn" id="3_4125l"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://Other/Scenes/User Interface/score_display.tscn" id="4_yr68u"]
@@ -9,6 +11,13 @@
 
 [node name="HUD" type="CanvasLayer"]
 layer = 75
+script = ExtResource("1_fblkw")
+
+[node name="player_main" parent="." instance=ExtResource("1_iqrlt")]
+offset_left = 1488.0
+offset_top = 76.0
+offset_right = 1488.0
+offset_bottom = 76.0
 
 [node name="section_bottom" type="HBoxContainer" parent="."]
 custom_minimum_size = Vector2(0, 200)
@@ -34,6 +43,7 @@ anchor_right = 1.0
 offset_top = 24.0
 offset_bottom = 72.0
 grow_horizontal = 2
+mouse_filter = 2
 
 [node name="levelTime" type="Label" parent="CenterContainerTime"]
 unique_name_in_owner = true
@@ -45,63 +55,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 visible_characters = 0
 visible_ratio = 0.0
-
-[node name="CenterContainerHealth" type="CenterContainer" parent="."]
-anchors_preset = 1
-anchor_left = 1.0
-anchor_right = 1.0
-offset_left = -192.0
-offset_top = 64.0
-offset_right = -64.0
-offset_bottom = 112.0
-grow_horizontal = 0
-
-[node name="health" type="Label" parent="CenterContainerHealth"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 0)
-layout_mode = 2
-theme = ExtResource("2_2eo37")
-text = "HP"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="CenterContainerKeysLeft" type="CenterContainer" parent="."]
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -256.0
-offset_top = -88.0
-offset_right = -128.0
-offset_bottom = -24.0
-grow_horizontal = 0
-grow_vertical = 0
-
-[node name="keysLeft" type="Label" parent="CenterContainerKeysLeft"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(128, 64)
-layout_mode = 2
-theme = ExtResource("2_2eo37")
-text = "0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="filler_TotalKeys_left" type="CenterContainer" parent="."]
-offset_left = 1568.0
-offset_top = 928.0
-offset_right = 1888.0
-offset_bottom = 992.0
-
-[node name="filler_TotalKeys_left" type="Label" parent="filler_TotalKeys_left"]
-custom_minimum_size = Vector2(320, 64)
-layout_mode = 2
-theme = ExtResource("2_2eo37")
-theme_override_font_sizes/font_size = 22
-text = "Keys left:"
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
 
 [node name="TotalCollectibles_collected" type="CenterContainer" parent="."]
 anchors_preset = 3

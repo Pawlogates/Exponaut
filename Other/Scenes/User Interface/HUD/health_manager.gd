@@ -54,7 +54,7 @@ func update_display():
 
 # REMEMBER TO ADD RAINBOW2 MATERIAL TO EACH HP SEGMENT WHEN IN MAX COMBO MODE
 
-func _on_button_pressed() -> void:
+func _on_debug_hp_add_pressed() -> void:
 	for x in range(10):
 		health += 1
 		Globals.update_player_health.emit()
@@ -62,7 +62,7 @@ func _on_button_pressed() -> void:
 		update_display()
 
 
-func _on_button_2_pressed() -> void:
+func _on_debug_hp_subtract_pressed() -> void:
 	for x in range(10):
 		health -= 1
 		Globals.update_player_health.emit()
