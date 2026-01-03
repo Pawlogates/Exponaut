@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqtpito0c3p7p"]
-
-[ext_resource type="PackedScene" uid="uid://dun5a8r7qx00f" path="res://Levels/empty.tscn" id="1_a2f6y"]
-
-[node name="World" instance=ExtResource("1_a2f6y")]
-level_number = -1
-random_music = true

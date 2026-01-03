@@ -11,27 +11,24 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if Input.is_action_just_pressed("inventory_right"):
-		if Globals.inventory_selectedItem == get_tree().get_nodes_in_group("in_inventory").size():
-			Globals.inventory_selectedItem = 1
+		if Globals.inventory_selected == get_tree().get_nodes_in_group("in_inventory").size():
+			Globals.inventory_selectedtedItem = 1
 		else:
-			Globals.inventory_selectedItem += 1
+			Globals.inventory_selected += 1
 		
 		get_tree().call_group("in_inventory", "selected_check")
 		
 	elif Input.is_action_just_pressed("inventory_left"):
-		if Globals.inventory_selectedItem == 1:
-			Globals.inventory_selectedItem = get_tree().get_nodes_in_group("in_inventory").size()
+		if Globals.inventory_selected == 1:
+			Globals.inventory_selected = get_tree().get_nodes_in_group("in_inventory").size()
 		else:
-			Globals.inventory_selectedItem -= 1
+			Globals.inventory_selected -= 1
 		
 		get_tree().call_group("in_inventory", "selected_check")
 	
 	
 	#$Label.text = str("selected item: ", Globals.inventory_selectedItem)
 	#$Label2.text = str("path to item that will spawn: ", Globals.inventory_onSpawn_scene)
-	
-	
-	
 	
 	
 	if Input.is_action_just_pressed("inventory_use"):

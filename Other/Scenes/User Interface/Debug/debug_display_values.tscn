@@ -1,0 +1,184 @@
+[gd_scene load_steps=3 format=3 uid="uid://c5ofuigpjsovr"]
+
+[ext_resource type="Script" uid="uid://by2hgr3dcykih" path="res://Other/Scenes/User Interface/Debug/debug_display_values.gd" id="1_6cpwm"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_osdyr"]
+
+[node name="debug_display_values" type="CanvasLayer"]
+script = ExtResource("1_6cpwm")
+
+[node name="names" type="VBoxContainer" parent="."]
+offset_left = 1280.0
+offset_right = 1320.0
+offset_bottom = 736.0
+theme = ExtResource("2_osdyr")
+
+[node name="1" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="2" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="3" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="4" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="5" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="6" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="7" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="8" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="9" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="10" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="11" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="12" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="13" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="14" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="15" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="16" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="17" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="18" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="19" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="20" type="Label" parent="names"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="values" type="VBoxContainer" parent="."]
+offset_left = 1568.0
+offset_right = 1608.0
+offset_bottom = 736.0
+theme = ExtResource("2_osdyr")
+
+[node name="1" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="2" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="3" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="4" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="5" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="6" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="7" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="8" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="9" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="10" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="11" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="12" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="13" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="14" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="15" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="16" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="17" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="18" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="19" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="20" type="Label" parent="values"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+
+[node name="cooldown_refresh" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="cooldown_refresh" to="." method="_on_cooldown_refresh_timeout"]

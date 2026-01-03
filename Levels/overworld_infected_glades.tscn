@@ -31,7 +31,7 @@
 [ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://Objects/Decorations/deco_cloud.tscn" id="32_qqfqw"]
 [ext_resource type="PackedScene" uid="uid://neisqlmfj6fx" path="res://Objects/Decorations/deco_treeBig2.tscn" id="33_q11u6"]
 [ext_resource type="PackedScene" uid="uid://bmnsg0hl7qcpu" path="res://Objects/gate_score.tscn" id="34_t4wup"]
-[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_positional.tscn" id="35_ots6b"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="35_ots6b"]
 
 [node name="World" instance=ExtResource("1_prtiu")]
 light_mask = 7

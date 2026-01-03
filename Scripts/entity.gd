@@ -6,6 +6,8 @@ func _ready():
 	reassign_movement_type_id()
 
 func _process(delta):
+	handle_movement(delta)
+	
 	if direction_x != 0:
 		direction_active_x = direction_x
 	
@@ -26,12 +28,8 @@ func _process(delta):
 		look_at(Player.position)
 		rotation_degrees += look_at_player_rotate_offset
 	
-	if not on_collected_effect_thrownAway:
-		if not animation_general.current_animation == "fade_out_up":
-			removable = true
-	
 	if removable:
-		print("Removed already collected entity.")
+		Globals.message_debug("Removed already collected entity.")
 		queue_free()
 	
 	if on_collected_effect_special:
@@ -50,31 +48,41 @@ func _process(delta):
 			else:
 				sprite.flip_h = true
 		
-		
+		# if can_collide:
 		# Handle straight surface bounce.
 		reflect_straight()
 		
-		# Handle slope surface bounce
-		reflect_slope()
-		
-		
-		if direction_y > 0:
-			rotation_degrees = 90
-		elif direction_y < 0:
-			rotation_degrees = -90
+		if gravity == 0:
+			# Handle slope surface bounce
+			reflect_slope()
+			
+			if direction_y > 0:
+				rotation_degrees = 90
+			elif direction_y < 0:
+				rotation_degrees = -90
 	
 	move_and_slide()
 	
 	if effect_shrink:
 		scale.x = move_toward(scale.x, 0.1, delta * 2)
 		scale.y = move_toward(scale.y, 0.1, delta * 2)
+	
+	if debug:
+		pass
 
 
 func handle_gravity(delta):
 	if can_move:
 		if can_move_y:
 			if not is_on_floor():
-				velocity.y += gravity * delta
+				velocity.y += fall_speed * gravity * gravity_multiplier_y * delta
+
+
+func _on_scan_visible_screen_entered() -> void:
+	basic_on_active()
+
+func _on_scan_visible_screen_exited() -> void:
+	basic_on_inactive()
 
 
 func direction_toward_target_x(target):
@@ -121,10 +129,7 @@ func _on_hitbox_area_exited(area: Area2D) -> void:
 
 
 func reassign_movement_type_id():
-	if movement_type == "normal":
-		movement_type_id = 0
-	elif movement_type == "move_x":
-		movement_type_id = 1
+	movement_type_id = Globals.l_entity_movement.find(movement_type)
 
 
 # Functionality around entities being inside other entities, which causes them to modify their movement. This is the case when this entity's HITBOX is inside another entity's MAIN COLLISION.
@@ -190,9 +195,9 @@ func inside_check_enter(body):
 	if collidable and is_collidable:
 		
 		if inside_player > 0:
-			print("Player entered an entity " + "(" + entity_name + ").")
+			Globals.message_debug("Player entered an entity " + "(" + entity_name + ").")
 		else:
-			print("An entity " + "(" + body.entity_name + "). has entered another entity " + "(" + entity_name + ").")
+			Globals.message_debug("An entity " + "(" + body.entity_name + "). has entered another entity " + "(" + entity_name + ").")
 		
 		collidable = false
 		cooldown_collidable.wait_time = collidable_cooldown
@@ -238,11 +243,12 @@ func inside_check_exit(body):
 
 # The entity moves (the function is executed every frame) according to its movement type, and only one is active at a time. (This is unlike the other properties, which synergize with eachother to provide a very vast selection of unique object behaviors).
 # Movement types: 0 - "normal", 1 - "move_x", 2 - "move_y", 3 - "move_xy", 4 - "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted".
+
+@onready var movement_function_name = "movement_" + movement_type
+
 func handle_movement(delta):
-	if movement_type_id == 0:
-		movement_normal(delta)
-	elif movement_type_id == 1:
-		movement_move_x(delta)
+	call(movement_function_name, delta)
+	#call("movement_" + str(Globals.l_entity_movement[movement_type_id]), delta)
 
 
 # Movement types:
@@ -260,7 +266,7 @@ func movement_move_x(delta):
 	handle_gravity(delta)
 	
 	if direction_x == 0:
-		direction_x = direction_active_x # Active means "last value considered active", which in case of velocity, would be anything except 0 (but in this case its actually everything between -25 and 25).
+		direction_active_x = direction_x # Active means "last value considered active", which in case of velocity, would be anything except 0 (but in this case its actually everything between -25 and 25).
 	
 	if not dead:
 		move_in_direction_x(delta)
@@ -556,7 +562,7 @@ func reassign_general():
 	World = Globals.reassign_general()[0]
 	Player = Globals.reassign_general()[1]
 	
-	global_gravity = Globals.gravity
+	gravity = Globals.gravity
 
 
 func _on_cooldown_collidable_timeout() -> void:
@@ -576,10 +582,10 @@ func move_toward_zero_velocity_y(delta):
 	velocity.y = move_toward(velocity.y, 0, delta * friction)
 
 func move_in_direction_x(delta):
-	velocity.x = move_toward(velocity.x, speed * speed_multiplier_x, delta * acceleration * acceleration_multiplier_x)
+	velocity.x = move_toward(velocity.x, direction_x * speed * speed_multiplier_x, delta * acceleration * acceleration_multiplier_x)
 
 func move_in_direction_y(delta):
-	velocity.y = move_toward(velocity.y, speed * speed_multiplier_y, delta * acceleration * acceleration_multiplier_y)
+	velocity.y = move_toward(velocity.y, direction_y * speed * speed_multiplier_y, delta * acceleration * acceleration_multiplier_y)
 
 func chase_target_x(delta, target : Node):
 	position.x = lerp(position.x, Player.position, delta)
@@ -727,7 +733,7 @@ func spawn_portal():
 
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "collect_special":
-		print("Special collectible has been deleted after the collect animation finished.")
+		Globals.message_debug("Special collectible has been deleted after the collect animation finished.")
 		queue_free()
 
 
@@ -905,7 +911,12 @@ func reflect_slope():
 			direction_y = 1
 
 func reflect_straight():
-	speed /= 1.5
+	if on_wall_change_velocity:
+		velocity *= on_wall_change_velocity_multiplier
+	
+	if on_wall_change_speed:
+		if variable_speed:
+			speed *= on_wall_change_speed_multiplier
 	
 	if get_wall_normal() == Vector2(0, -1): #bottom
 		direction_x = 0
@@ -916,6 +927,7 @@ func reflect_straight():
 		direction_y = 1
 	
 	elif get_wall_normal() == Vector2(-1, 0): #right
+		Globals.message_debug("An entity " + entity_name + " has STRAIGHT REFLECTED.")
 		direction_x = -1
 		direction_y = 0
 	

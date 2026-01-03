@@ -3,19 +3,12 @@ extends CanvasLayer
 @onready var animation_player = $AnimationPlayer
 @onready var screen_black = $screen_black
 
-var scene_display_message = preload("res://Other/Scenes/User Interface/display_message.tscn")
-var scene_debug_display_message = preload("res://Other/Scenes/User Interface/Debug/debug_display_message.tscn")
-var display_message : Control
-var debug_display_message: Control
-
 var world = Node2D
-
 
 func _ready():
 	if Globals.gameState_debug:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
-	Globals.refresh_info.connect(display_message_check)
 	screen_black.color.a = 0.0
 
 func _physics_process(_delta: float) -> void:
@@ -51,13 +44,3 @@ func animation(animation_name, play_backwards, speed, await_finished):
 		animation_player.play(str(animation_name))
 	
 	if await_finished : await animation_player.animation_finished
-
-
-func display_message_check():
-	if not Globals.display_message_textQueue.is_empty() and not get_node_or_null("$display_message"):
-		display_message = scene_display_message.instantiate()
-		add_child(display_message)
-	
-	if not Globals.display_debug_message_textQueue.is_empty() and not get_node_or_null("$debug_display_message"):
-		debug_display_message = scene_debug_display_message.instantiate()
-		add_child(debug_display_message)

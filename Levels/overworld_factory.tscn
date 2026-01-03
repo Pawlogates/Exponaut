@@ -23,7 +23,7 @@
 [ext_resource type="PackedScene" uid="uid://cskb3d0dg2faj" path="res://Objects/object_remover.tscn" id="23_4lb14"]
 [ext_resource type="Script" uid="uid://men5oqebe2pf" path="res://Scripts/checkpoint.gd" id="24_7oae6"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="25_ti7dl"]
-[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_positional.tscn" id="26_clhao"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="26_clhao"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_cl0fn"]
 size = Vector2(64, 192)

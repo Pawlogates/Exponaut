@@ -8,7 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://y7pfdpv8h7y" path="res://Assets/Graphics/backgrounds/bg_desert.png" id="8_yb05a"]
 [ext_resource type="Texture2D" uid="uid://1lhcu4206vij" path="res://Assets/Graphics/backgrounds/bg_a_desert.png" id="9_ufxdh"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="10_li7y1"]
-[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_positional.tscn" id="11_2yqee"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="11_2yqee"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="12_52o6i"]
 
 [node name="World" instance=ExtResource("1_rpwlp")]

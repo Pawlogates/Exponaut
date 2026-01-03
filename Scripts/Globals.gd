@@ -57,10 +57,10 @@ var scene_particle_score = preload("res://Other/Particles/score.tscn")
 var sfx_player_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
 var sfx_player_wall_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
 var sfx_player_shoot = preload("res://Assets/Sounds/sfx/projectile_shoot.wav")
-var sfx_player_hit = preload("res://Assets/Sounds/sfx/effect_slash.wav")
 var sfx_player_damage = preload("res://Assets/Sounds/sfx/robot_damage.wav")
 var sfx_player_death = preload("res://Assets/Sounds/sfx/rabbit_death.wav")
 var sfx_player_heal = preload("res://Assets/Sounds/sfx/heal.wav")
+#var sfx_player_hit = preload("res://Assets/Sounds/sfx/effect_slash.wav")
 var sfx_collect = preload("res://Assets/Sounds/sfx/collect.wav")
 
 
@@ -88,6 +88,7 @@ var scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
 # Other scenes:
 var scene_portal = preload("res://Objects/shrine_portal.tscn")
+var scene_debug_message = preload("res://Other/Scenes/User Interface/Debug/debug_message.tscn")
 
 
 func _ready() -> void:
@@ -178,7 +179,7 @@ var total_enemies_in_currentLevel = 0
 
 var player_weaponType = "none"
 
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+var gravity = 1.0
 
 var level_time = 0.0
 
@@ -237,6 +238,8 @@ signal reassign_nodes_general
 signal play_music_random
 
 var settings_quicksaves = false
+var settings_volume_music = 0.2
+var settings_volume_sfx = 0.6
 
 var save_player_position_x = player_position[0]
 var save_player_position_y = player_position[1]
@@ -343,32 +346,34 @@ signal stop_playback
 
 # Text displays:
 # Only one message can be displayed at a time. Message display is located in the (global) Overlay node.
-var display_message_textQueue : Array = []
+var display_messages_queued : Array = []
 signal refresh_info
 
 func message(text):
-	display_message_textQueue.append(str(text))
+	display_messages_queued.append(str(text))
 	Globals.refresh_info.emit()
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
-var display_message_debug_textQueue : Array = ["Welcome to the debug display!", "Type in '!help' to see available commands and shortcuts."]
+@onready var display_messages_debug_queued : Array = ["Welcome to the debug display!", "Type in '!help' to see available commands and shortcuts."]
 
 func message_debug(text):
-	display_message_debug_textQueue.append(str(text))
+	display_messages_debug_queued.append(str(text))
+	print(display_messages_debug_queued)
 	Globals.refresh_info.emit()
 
 
 # Lists (Array) of various entity properties, used for randomization purposes.
 # These lists contain word based properties (String).
-@onready var list_movementType = ["normal", "followPlayerX", "followPlayerY", "followPlayerXY", "followPlayerX_whenSpotted", "followPlayerY_whenSpotted", "followPlayerXY_whenSpotted", "chasePlayerX", "chasePlayerX_whenSpotted", "chasePlayerY", "chasePlayerY_whenSpotted", "chasePlayerXY", "chasePlayerXY_whenSpotted", "stationary", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted", "moveAround_startPosition_X_when_notSpotted", "moveAround_startPosition_Y_when_notSpotted"]
-@onready var list_movementType_limited = ["normal", "followPlayerX", "wave_H", "wave_V", "moveAround_startPosition_XY_when_notSpotted"]
-@onready var list_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
-@onready var list_level_ID = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
-@onready var list_special_apple_type = ["red", "blue", "golden"]
-@onready var list_temporary_powerup = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
-@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
-@onready var list_secondaryWeapon = ["basic", "fast"]
-@onready var list_potion = ["rooster", "bird", "chicken"]
+const l_entity_movement = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
+const l_entity_movement_limited = ["stationary", "move_x", "follow_player_x", "wave_X", "move_around_startPosition_xy_if_not_spotted"]
+const l_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
+const l_level_id = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
+const l_majorCollectible = ["red", "blue", "golden"]
+const list_temporary_powerUp = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
+
+#@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
+#@onready var list_secondaryWeapon = ["basic", "fast"]
+#@onready var list_potion = ["rooster", "bird", "chicken"]
 
 # These lists contain every single entity scene from their respective folders.
 # Scenes:

@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=7 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
 [ext_resource type="PackedScene" uid="uid://venyptfcari1" path="res://Other/Scenes/User Interface/HUD/HUD.tscn" id="2_o857m"]
+[ext_resource type="PackedScene" uid="uid://bec60ts473x1w" path="res://Other/Scenes/User Interface/Debug/await_debug.tscn" id="3_xupot"]
 
 [sub_resource type="Animation" id="Animation_g0n3s"]
 length = 0.001
@@ -60,3 +61,5 @@ libraries = {
 speed_scale = -2.0
 
 [node name="hud" parent="." instance=ExtResource("2_o857m")]
+
+[node name="await_debug" parent="." instance=ExtResource("3_xupot")]

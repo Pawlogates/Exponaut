@@ -4,19 +4,20 @@
 [ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_togglebot.tres" id="2_i7pjj"]
 
 [node name="togglebot" instance=ExtResource("1_5yskg")]
+collision_layer = 0
 collectable = false
 hittable = true
 health_value = 1
 score_value = 50
 movement_type = "move_x"
-speed = 200
 family = "enemy"
 can_move = true
 can_move_x = true
 can_move_y = true
 on_wall_turn = true
-on_wall_speed_multiplier = 0.8
 on_ledge_turn = true
+entity_name = "togglebot"
+entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_i7pjj")

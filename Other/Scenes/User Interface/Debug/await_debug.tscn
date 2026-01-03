@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bec60ts473x1w"]
+
+[ext_resource type="Script" uid="uid://cqadg6wy31k8o" path="res://await_debug.gd" id="1_p5r51"]
+
+[node name="await_debug" type="Node2D"]
+script = ExtResource("1_p5r51")

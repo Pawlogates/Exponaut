@@ -25,8 +25,8 @@ var level_time = 0
 var level_time_displayed = 0
 var level_start_time = 0.0
 
-@onready var music_manager = $"music_manager"
-@onready var ambience_manager = $"ambience_manager"
+@onready var music_manager = $"Music Manager"
+@onready var ambience_manager = $"Ambience Manager"
 
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = Node
@@ -525,7 +525,7 @@ func bg_change():
 	
 	if bg_free_to_change:
 		bg_free_to_change = false
-		print("Background textures began fading.")
+		Globals.message_debug("Background textures began fading.")
 		
 		%bg_previous/bg_transition.play("bg_hide")
 		%bg_previous/bg_a_transition.play("bg_a_hide")
@@ -573,11 +573,11 @@ func save_game():
 	for node in save_nodes:
 		# Check the node is an instanced scene so it can be instanced again during load.
 		if node.scene_file_path.is_empty():
-			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
+			print("Persistent node '%s' is not an instanced scene, skipped" % node.name)
 			continue
 		# Check the node has a save function.
 		if !node.has_method("save"):
-			print("persistent node '%s' is missing a save() function, skipped" % node.name)
+			print("Persistent node '%s' is missing a save() function, skipped" % node.name)
 			continue
 		# Call the node's save function.
 		var node_data = node.call("save")

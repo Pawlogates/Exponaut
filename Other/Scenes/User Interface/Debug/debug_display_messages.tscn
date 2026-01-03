@@ -1,0 +1,61 @@
+[gd_scene load_steps=7 format=3 uid="uid://bx8nd251l8ow"]
+
+[ext_resource type="Script" uid="uid://dhp5l6ys2rn0j" path="res://Scripts/debug_display_messages.gd" id="1_kfqwp"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_jvx07"]
+
+[sub_resource type="Animation" id="Animation_why7p"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_kfqwp"]
+resource_name = "show"
+
+[sub_resource type="Animation" id="Animation_jvx07"]
+resource_name = "hide"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_mhb8t"]
+_data = {
+&"RESET": SubResource("Animation_why7p"),
+&"hide": SubResource("Animation_jvx07"),
+&"show": SubResource("Animation_kfqwp")
+}
+
+[node name="debug_display_messages" type="CanvasLayer"]
+layer = 128
+script = ExtResource("1_kfqwp")
+
+[node name="text_container" type="Control" parent="."]
+z_index = 10
+custom_minimum_size = Vector2(0, 64)
+layout_mode = 3
+anchors_preset = 10
+anchor_right = 1.0
+grow_horizontal = 2
+
+[node name="bg" type="ColorRect" parent="."]
+z_index = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.392157)
+
+[node name="close" type="Button" parent="."]
+z_index = 25
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -1920.0
+offset_right = -1896.0
+offset_bottom = 24.0
+grow_horizontal = 0
+theme = ExtResource("2_jvx07")
+theme_override_font_sizes/font_size = 16
+text = "X"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_mhb8t")
+}
+
+[connection signal="pressed" from="close" to="." method="_on_close_pressed"]

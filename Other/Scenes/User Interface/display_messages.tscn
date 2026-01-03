@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://l83a5sjf2kck"]
 
-[ext_resource type="Script" uid="uid://bgivwbaf6ik1f" path="res://Scripts/display_message.gd" id="1_2jl23"]
+[ext_resource type="Script" uid="uid://bgivwbaf6ik1f" path="res://Scripts/display_messages.gd" id="1_2jl23"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_i808q"]
 [ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/text_ui.tres" id="3_1wtwk"]
 
@@ -8,7 +8,7 @@
 atlas = ExtResource("2_i808q")
 region = Rect2(512, 128, 384, 192)
 
-[node name="display_message" type="Control"]
+[node name="display_messages" type="Control"]
 layout_mode = 3
 anchors_preset = 0
 offset_left = -400.0

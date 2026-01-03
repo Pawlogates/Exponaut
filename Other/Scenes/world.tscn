@@ -66,16 +66,16 @@ _data = {
 texture_filter = 1
 script = ExtResource("1_25muh")
 
-[node name="music_manager" parent="." instance=ExtResource("2_1jcpx")]
+[node name="Music Manager" parent="." instance=ExtResource("2_1jcpx")]
 
-[node name="music" type="AudioStreamPlayer" parent="music_manager"]
+[node name="music" type="AudioStreamPlayer" parent="Music Manager"]
 unique_name_in_owner = true
 stream = ExtResource("3_4yis1")
 autoplay = true
 
-[node name="ambience_manager" parent="." instance=ExtResource("4_y15yt")]
+[node name="Ambience Manager" parent="." instance=ExtResource("4_y15yt")]
 
-[node name="ambience" type="AudioStreamPlayer" parent="ambience_manager"]
+[node name="ambience" type="AudioStreamPlayer" parent="Ambience Manager"]
 unique_name_in_owner = true
 stream = ExtResource("5_3ydfu")
 volume_db = -10.0

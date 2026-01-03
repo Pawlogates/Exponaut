@@ -1,0 +1,37 @@
+[gd_scene load_steps=10 format=3 uid="uid://cdg38we643pot"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_pwdqq"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_2f8hp"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_ow0im"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_0frgg"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_g0ydq"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_b7wfc"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_dmn0g"]
+[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_fufb6"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="9_pbyw6"]
+
+[node name="World" instance=ExtResource("1_pwdqq")]
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_2f8hp")]
+layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 65536, 0, 131069, 65536, 0, 65537, 65536, 0, 65538, 65536, 0, 131068, 0, 0, 65539, 131072, 0, 196604, 0, 1, 131075, 131072, 1, 196611, 131072, 2, 196605, 65536, 1, 196606, 65536, 1, 196607, 65536, 1, 131072, 65536, 1, 131073, 65536, 1, 131074, 65536, 1, 262143, 65536, 2, 196608, 65536, 2, 196609, 65536, 2, 196610, 65536, 2, 262140, 0, 2, 262141, 65536, 2, 262142, 65536, 2, 131076, 0, 7, 131077, 0, 7, 131078, 0, 7, 131079, 0, 7, 131080, 0, 7, 131081, 0, 7, 131082, 0, 7, 131083, 0, 7, 131084, 0, 7, 131085, 0, 7, 131086, 0, 7, 131087, 0, 7, 131088, 0, 7, 131089, 0, 7, 131090, 0, 7, 65547, 327680, 8, 65548, 327680, 8, 65549, 327680, 8, 13, 327680, 8, 65550, 327680, 8, 14, 327680, 8, 65551, 327680, 8, -65522, 327680, 8, 196603, 65536, 10, 196602, 65536, 10, 196601, 65536, 10, 196600, 65536, 10, 196599, 65536, 10, 196598, 65536, 10, 196597, 65536, 10, 196596, 0, 10, -327675, 327680, 8, -327674, 327680, 8, -327677, 327680, 8, -327676, 327680, 8, -327673, 327680, 8, -327672, 327680, 8)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_ow0im")]
+layer_0/tile_data = PackedInt32Array(65526, 2, 65536, -6, 2, 65536, 6, 2, 65536, -458747, 2, 65536, -131061, 2, 65536, -65520, 2, 65536)
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_0frgg")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_g0ydq")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("6_b7wfc")]
+
+[node name="trigger_bgMove" parent="triggers" index="1" instance=ExtResource("7_dmn0g")]
+
+[node name="trigger_musicChange" parent="triggers" index="2" instance=ExtResource("8_fufb6")]
+
+[node name="trigger_positional" parent="triggers" index="3" instance=ExtResource("9_pbyw6")]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]

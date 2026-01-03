@@ -1,0 +1,19 @@
+extends Node2D
+
+const node_name = "debug_display_messages"
+const node2_name = "debug_display_values"
+
+const scene = preload("res://Other/Scenes/User Interface/Debug/debug_display_messages.tscn")
+const scene2 = preload("res://Other/Scenes/User Interface/Debug/debug_display_values.tscn")
+
+const action_name = "debug_console"
+
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed(action_name):
+		if not has_node("../" + node_name):
+			var instance = scene.instantiate()
+			Overlay.add_child(instance)
+		
+		if not has_node("../" + node2_name):
+			var instance2 = scene2.instantiate()
+			Overlay.add_child(instance2)

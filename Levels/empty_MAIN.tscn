@@ -1,0 +1,36 @@
+[gd_scene load_steps=10 format=3 uid="uid://bnfayx4a5lp4v"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_djy6u"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_hy7l8"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_ox8v6"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_mkjrg"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_v2005"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_m7n4q"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_81a50"]
+[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_umhsp"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="9_sjim6"]
+
+[node name="World" instance=ExtResource("1_djy6u")]
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_hy7l8")]
+layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 65536, 0, 131069, 65536, 0, 65537, 65536, 0, 65538, 65536, 0, 131068, 0, 0, 65539, 131072, 0, 196604, 0, 1, 131075, 131072, 1, 196611, 131072, 2, 196605, 65536, 1, 196606, 65536, 1, 196607, 65536, 1, 131072, 65536, 1, 131073, 65536, 1, 131074, 65536, 1, 262143, 65536, 2, 196608, 65536, 2, 196609, 65536, 2, 196610, 65536, 2, 262140, 0, 2, 262141, 65536, 2, 262142, 65536, 2)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_ox8v6")]
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_mkjrg")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_v2005")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("6_m7n4q")]
+
+[node name="trigger_bgMove" parent="triggers" index="1" instance=ExtResource("7_81a50")]
+
+[node name="trigger_musicChange" parent="triggers" index="2" instance=ExtResource("8_umhsp")]
+
+[node name="trigger_positional" parent="triggers" index="3" instance=ExtResource("9_sjim6")]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]

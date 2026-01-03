@@ -17,8 +17,11 @@ extends CharacterBody2D
 
 @onready var animation_general: AnimationPlayer = %animation_general
 
-@onready var hitbox: Area2D = $hitbox
 @onready var collision_main: CollisionShape2D = $collision_main
+@onready var hitbox: Area2D = $hitbox
+@onready var hitbox_collision: CollisionShape2D = $hitbox/hitbox_collision
+
+@onready var scan_visible: VisibleOnScreenNotifier2D = $scan_visible
 
 
 # Sound effects.
@@ -38,7 +41,7 @@ var can_turn = true
 
 var movement_type_id = 0
 
-var global_gravity = Globals.gravity
+var gravity = Globals.gravity
 
 var rng = RandomNumberGenerator.new()
 
@@ -48,7 +51,7 @@ var direction_active_y = -1
 
 # Last velocity cannot be equal to any value between -25 and 25 (used for behavior like bouncing).
 var velocity_last_x = 25
-var velocity_last_5 = -25
+var velocity_last_y = -25
 
 var spotted = false
 
@@ -81,13 +84,13 @@ var effect_shrink = false
 @export var damage_value = 1
 @export var score_value = 25
 
-@export_enum("normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var movement_type : String = "normal"
+@export_enum("stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var movement_type : String = "normal"
 
 @export var speed = 400
 @export var jump_velocity = -600
-@export var gravity = 1.0
-@export var acceleration = 1.0
-@export var friction = 1.0
+@export var acceleration = 400
+@export var friction = 400
+@export var fall_speed = 400
 
 @export_enum("player", "enemy", "none", "all") var family : String = "all"
 
@@ -109,7 +112,10 @@ var effect_shrink = false
 @export var gravity_multiplier_y = 1.0
 
 @export var on_wall_turn = false
-@export var on_wall_speed_multiplier = 1.0
+@export var on_wall_change_speed = false
+@export var on_wall_change_speed_multiplier = 0.5
+@export var on_wall_change_velocity = true
+@export var on_wall_change_velocity_multiplier = Vector2(0.8, 0.8)
 @export var on_wall_float = false
 @export var on_wall_death = false
 
@@ -422,6 +428,8 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 @export var on_wall_bounce = false
 @export var on_death_effect_shrink = false
 
+@export var variable_speed = false
+
 @export_group("") # End of section.
 # End of properties.
 
@@ -460,6 +468,11 @@ func remove_if_corpse():
 
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
+	basic_on_active()
+
+
+# Executes on entity entering the camera view.
+func basic_on_inactive():
 	set_process(false)
 	set_physics_process(false)
 	
@@ -470,42 +483,11 @@ func basic_on_spawn():
 	
 	sprite.pause()
 	sprite.visible = false
-	
-	hitbox.set_monitorable(false)
-	hitbox.set_monitoring(false)
 	
 	collision_main.disabled = true
 	
 	timer_attacking.set_paused(true)
 	timer_attacked.set_paused(true)
-	
-	cooldown_jump.set_paused(false)
-	timer_invincible.set_paused(true)
-	
-	remove_if_corpse()
-	
-	animation_general.play(animation)
-	animation_general.advance(abs(position[0]) / 100)
-
-
-# Executes on entity entering the camera view.
-func basic_on_active():
-	set_process(false)
-	set_physics_process(false)
-	
-	set_process_input(false)
-	set_process_internal(false)
-	set_process_unhandled_input(false)
-	set_process_unhandled_key_input(false)
-	
-	sprite.pause()
-	sprite.visible = false
-	
-	$CollisionShape2D.disabled = true
-	
-	$AnimatedSprite2D/AttackingTimer.set_paused(true)
-	$AnimatedSprite2D/AttackedTimer.set_paused(true)
-	$AnimatedSprite2D/DeadTimer.set_paused(true)
 	
 	#$jumpTimer.set_paused(true)
 	
@@ -513,12 +495,12 @@ func basic_on_active():
 	
 	animation_general.advance(abs(position[0]) / 100)
 	
-	$Area2D.set_monitorable(false)
-	$Area2D.set_monitoring(false)
+	hitbox.set_monitorable(false)
+	hitbox.set_monitoring(false)
 
 
 # Executes on entity leaving the camera view.
-func basic_on_inactive():
+func basic_on_active():
 	set_process(true)
 	set_physics_process(true)
 	
@@ -530,27 +512,26 @@ func basic_on_inactive():
 	sprite.play()
 	sprite.visible = true
 	
-	$CollisionShape2D.disabled = false
+	collision_main.disabled = false
 	
-	$AnimatedSprite2D/AttackingTimer.set_paused(false)
-	$AnimatedSprite2D/AttackedTimer.set_paused(false)
-	$AnimatedSprite2D/DeadTimer.set_paused(false)
+	timer_attacking.set_paused(false)
+	timer_attacked.set_paused(false)
 	
 	#$jumpTimer.set_paused(false)
 	
 	animation_general.advance(abs(position[0]) / 100)
 	
 	await get_tree().create_timer(0.5, false).timeout
-	$Area2D.set_monitorable(true)
-	$Area2D.set_monitoring(true)
+	hitbox.set_monitorable(true)
+	hitbox.set_monitoring(true)
 
 
 func enemy_stunned():
-	$Area2D.monitoring = false
-	$Area2D.monitorable = false
+	hitbox.monitoring = false
+	hitbox.monitorable = false
 	await get_tree().create_timer(0.75, false).timeout
-	$Area2D.monitoring = true
-	$Area2D.monitorable = true
+	hitbox.monitoring = true
+	hitbox.monitorable = true
 
 func basic_sprite_flipDirection():
 	if not dead:

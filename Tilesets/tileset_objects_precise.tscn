@@ -1,12 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cdppta5y51e08"]
+[gd_scene load_steps=2 format=3 uid="uid://oswqe4x5q4gm"]
 
-[ext_resource type="TileSet" uid="uid://c386fqjqax7c" path="res://Tilesets/tileset_objects.tres" id="1_evuef"]
+[ext_resource type="TileSet" uid="uid://busdrn2k5786o" path="res://Tilesets/tileset_objects_precise.tres" id="2_hpybe"]
 
-[node name="tileset_objects" type="TileMap"]
+[node name="tileset_objects_precise" type="TileMap"]
 visibility_layer = 2
 z_index = -1
 texture_filter = 1
-tile_set = ExtResource("1_evuef")
+tile_set = ExtResource("2_hpybe")
 rendering_quadrant_size = 64
 format = 2
 layer_0/name = "main"

@@ -1,4 +1,4 @@
-[gd_scene load_steps=52 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=51 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" uid="uid://bvqjdy74r3ptq" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="Texture2D" uid="uid://b75xmiutrqrh8" path="res://Assets/Graphics/sprites/sprites_player.png" id="2_vnlwi"]
@@ -100,10 +100,6 @@ region = Rect2(1280, 0, 160, 320)
 [sub_resource type="AtlasTexture" id="AtlasTexture_8m7ar"]
 atlas = ExtResource("2_vnlwi")
 region = Rect2(1440, 0, 160, 320)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_jq42x"]
-atlas = ExtResource("2_vnlwi")
-region = Rect2(1280, 320, 160, 320)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_uuvbd"]
 atlas = ExtResource("2_vnlwi")
@@ -228,14 +224,6 @@ animations = [{
 }],
 "loop": true,
 "name": &"jump",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_jq42x")
-}],
-"loop": true,
-"name": &"secondaryShoot",
 "speed": 5.0
 }, {
 "frames": [{
@@ -564,7 +552,6 @@ collision_layer = 2
 collision_mask = 5
 floor_constant_speed = true
 floor_max_angle = 1.0472
-floor_snap_length = 15.0
 safe_margin = 0.1
 script = ExtResource("1_gy5p5")
 
@@ -575,8 +562,7 @@ shape = SubResource("RectangleShape2D_fshcs")
 position = Vector2(0, -24)
 scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_c8f3n")
-animation = &"idle"
-frame_progress = 0.924795
+animation = &"jump"
 
 [node name="cooldown_crouch_walk" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.4
@@ -678,7 +664,7 @@ libraries = {
 &"": SubResource("AnimationLibrary_mcx4o")
 }
 
-[node name="timer_jump" type="Timer" parent="."]
+[node name="timer_await_jump" type="Timer" parent="."]
 unique_name_in_owner = true
 wait_time = 0.1
 one_shot = true
@@ -720,11 +706,11 @@ one_shot = true
 
 [node name="timer_invincible" type="Timer" parent="."]
 
-[node name="timer_state_shooting" type="Timer" parent="."]
+[node name="timer_state_shoot" type="Timer" parent="."]
 wait_time = 0.75
 one_shot = true
 
-[node name="timer_state_damaged" type="Timer" parent="."]
+[node name="timer_state_damage" type="Timer" parent="."]
 one_shot = true
 
 [node name="cooldown_state_idle" type="Timer" parent="."]
@@ -746,7 +732,7 @@ one_shot = true
 [connection signal="timeout" from="timer_dash/cooldown_dash_end_slowdown_disable" to="." method="_on_cooldown_dash_end_slowdown_disable_timeout"]
 [connection signal="timeout" from="timer_dash/timer_dash_await_jump" to="." method="_on_await_jump_timer_timeout"]
 [connection signal="timeout" from="timer_dash/dash_check" to="." method="_on_dash_check_timeout"]
-[connection signal="timeout" from="timer_jump" to="." method="_on_timer_jump_timeout"]
+[connection signal="timeout" from="timer_await_jump" to="." method="_on_timer_await_jump_timeout"]
 [connection signal="timeout" from="cooldown_effect_dust" to="." method="_on_cooldown_effect_dust_timeout"]
 [connection signal="timeout" from="cooldown_attack" to="." method="_on_cooldown_attack_timeout"]
 [connection signal="timeout" from="cooldown_secondaryAttack" to="." method="_on_cooldown_secondaryAttack_timeout"]
@@ -755,6 +741,6 @@ one_shot = true
 [connection signal="timeout" from="timer_recently_left_wind" to="." method="_on_just_left_wind_timeout"]
 [connection signal="timeout" from="timer_powerUp" to="." method="_on_powerup_timer_timeout"]
 [connection signal="timeout" from="block_movement_full" to="." method="_on_block_movement_full_timeout"]
-[connection signal="timeout" from="timer_state_shooting" to="." method="_on_timer_anim_shooting_timeout"]
-[connection signal="timeout" from="timer_state_damaged" to="." method="_on_attacked_timer_timeout"]
+[connection signal="timeout" from="timer_state_shoot" to="." method="_on_timer_state_shoot_timeout"]
+[connection signal="timeout" from="timer_state_damage" to="." method="_on_timer_state_damage_timeout"]
 [connection signal="timeout" from="cooldown_state_idle" to="." method="_on_cooldown_state_idle_timeout"]
