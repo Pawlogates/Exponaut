@@ -3,9 +3,9 @@ extends CenterContainer
 var can_quit = true
 
 func _ready():
-	SaveData.gameplay_recorder.selected_playback_id = 0
+	#SaveData.gameplay_recorder.selected_playback_id = 0
 	
-	SaveData.load_game()
+	#SaveData.load_game_all()
 	last_area_filePath_load()
 	
 	hide_everything()
@@ -20,7 +20,7 @@ func _ready():
 	%main_menu.process_mode = Node.PROCESS_MODE_ALWAYS
 	menu_appearance(1, 1, true, 2000)
 	
-	if SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
+	if SaveData.saved_last_level_filepath == "res://Levels/empty.tscn":
 		%StartGame.grab_focus()
 	else:
 		%Continue.grab_focus()
@@ -28,20 +28,16 @@ func _ready():
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
-	await get_tree().create_timer(0.5, false).timeout
-	%fade_animation.play("fade_from_black")
 	correct_button_ordering()
-	await get_tree().create_timer(2, false).timeout
-	%fade_animation.play("fade_to_black")
 
 
-var saved_level_filePath = "res://Levels/empty.tscn"
-var saved_level = load("res://Levels/empty.tscn")
+var saved_last_level_filepath = "res://Levels/empty.tscn"
+var saved_last_level = load("res://Levels/empty.tscn")
 
 func start_game(): #starts a brand new playthrough and deletes save files
-	SaveData.delete_progress()
-	SaveData.savedData_reset()
-	SaveData.saved_progress_reset()
+	SaveData.reset_levelState()
+	SaveData.reset_playerData()
+	SaveData.saved_levelState()
 	
 	Globals.transitioned = false
 	Globals.next_transition = 0
@@ -143,14 +139,14 @@ func _on_continue_pressed():
 	if SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
 		return
 	
-	print(str(saved_level) + " is the file path of the saved last area level that you are loading into.")
-	saved_level = load(saved_level_filePath)
+	print(str(saved_last_level) + " is the file path of the saved last area level that you are loading into.")
+	saved_last_level = load(saved_last_level_filepath)
 	Globals.transitioned = false
 	Globals.next_transition = 0
 	Globals.just_started_new_game = false
 	
 	Overlay.animation("fade_black", 0, 1.0, true)
-	get_tree().change_scene_to_packed(saved_level)
+	get_tree().change_scene_to_packed(saved_last_level)
 
 func _on_levels_pressed():
 	%main_menu.visible = false
@@ -390,7 +386,7 @@ func display_stretch_viewport_off():
 
 
 func last_area_filePath_load():
-	if SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
+	if SaveData.saved_last_level_filepath == "res://Levels/empty.tscn":
 		print("The saved_last_area_filePath property is default (res://Levels/empty.tscn), so the Continue option is blocked.")
 		#%Continue.process_mode = Node.PROCESS_MODE_DISABLED
 		%Continue.disabled = true
@@ -400,7 +396,7 @@ func last_area_filePath_load():
 		
 		return
 	
-	saved_level_filePath = SaveData.saved_last_area_filePath
+	saved_last_level_filepath = SaveData.saved_last_level_filepath
 
 
 #func delete_saves():
@@ -447,18 +443,13 @@ func hide_everything():
 	%accessibility_menu.process_mode = Node.PROCESS_MODE_DISABLED
 	%accessibility_menu.visible = false
 	%accessibility_menu.process_mode = Node.PROCESS_MODE_DISABLED
-	
-	%ColorRect.visible = true
-	
-	%menu_deco_bg.visible = false
-	%menu_deco_bg.process_mode = Node.PROCESS_MODE_DISABLED
 
 
 func correct_toggle_buttons():
-	if Globals.quicksaves_enabled == true:
+	if Globals.settings_quicksaves == true:
 		%"Toggle Quicksaves"/RichTextLabel.text = "[wave amp=50.0 freq=10.0 connected=1]Disable Quicksaves[/wave]"
 	
-	elif Globals.quicksaves_enabled == false:
+	elif Globals.settings_quicksaves == false:
 		%"Toggle Quicksaves"/RichTextLabel.text = "[wave amp=50.0 freq=10.0 connected=1]Enable Quicksaves[/wave]"
 
 

@@ -19,32 +19,32 @@ func _process(_delta):
 
 func _on_area_entered(area):
 	if is_gradient:
-		Globals.bg_File_current = gradient_filePath.resource_path
+		Globals.bg_file_current = gradient_filePath.resource_path
 		print(gradient_filePath.resource_path)
-		Globals.bg_a_File_current = "res://Assets/Graphics/backgrounds/bg_empty_a.png"
-		Globals.bg_b_File_current = "res://Assets/Graphics/backgrounds/bg_empty_b.png"
-		Globals.bgChange_entered.emit()
+		Globals.bg_a_file_current = "res://Assets/Graphics/backgrounds/bg_empty_a.png"
+		Globals.bg_b_file_current = "res://Assets/Graphics/backgrounds/bg_empty_b.png"
+		Globals.trigger_bg_change_entered.emit()
 		
 		return
 	
 	if area.name == "Player_hitbox_main":
-		print(Globals.bg_File_current)
+		print(Globals.bg_file_current)
 		print(Background_filePath.resource_path)
 		
-		Globals.bg_File_previous = Globals.bg_File_current
-		if Globals.bg_File_current != self.Background_filePath.resource_path:
+		Globals.bg_file_previous = Globals.bg_file_current
+		if Globals.bg_file_current != self.Background_filePath.resource_path:
 			
-			Globals.bg_File_current = self.Background_filePath.resource_path
-			Globals.bgChange_entered.emit()
+			Globals.bg_file_current = self.Background_filePath.resource_path
+			Globals.trigger_bg_change_entered.emit()
 		
 		
-		Globals.bg_a_File_previous = Globals.bg_a_File_current
-		if Globals.bg_a_File_current != self.Background_a_filePath.resource_path:
+		Globals.bg_a_file_previous = Globals.bg_a_file_current
+		if Globals.bg_a_file_current != self.Background_a_filePath.resource_path:
 			
-			Globals.bg_a_File_current = self.Background_a_filePath.resource_path
+			Globals.bg_a_file_current = self.Background_a_filePath.resource_path
 		
 		
-		Globals.bg_b_File_previous = Globals.bg_b_File_current
-		if Globals.bg_b_File_current != self.Background_b_filePath.resource_path:
+		Globals.bg_b_file_previous = Globals.bg_b_file_current
+		if Globals.bg_b_file_current != self.Background_b_filePath.resource_path:
 			
-			Globals.bg_b_File_current = self.Background_b_filePath.resource_path
+			Globals.bg_b_file_current = self.Background_b_filePath.resource_path

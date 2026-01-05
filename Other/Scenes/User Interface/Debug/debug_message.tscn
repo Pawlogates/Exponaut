@@ -40,13 +40,13 @@ _data = {
 }
 
 [node name="debug_message" type="Label"]
-custom_minimum_size = Vector2(32, 24)
 anchors_preset = 10
 anchor_right = 1.0
-offset_bottom = 22.3333
+offset_right = -1896.0
+offset_bottom = 18.0
 grow_horizontal = 2
 theme = ExtResource("1_wm2x5")
-theme_override_font_sizes/font_size = 16
+theme_override_font_sizes/font_size = 12
 text = "text"
 script = ExtResource("1_cc4bh")
 

@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Exponaut v0.9"
-run/main_scene="uid://c370w0v3janyp"
+run/main_scene="uid://1yrqwkydp78d"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/use_filter=false
 config/icon="res://Assets/Graphics/other/icon.svg"

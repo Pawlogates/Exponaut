@@ -12,6 +12,14 @@ func _ready():
 	screen_black.color.a = 0.0
 
 func _physics_process(_delta: float) -> void:
+	if Input.is_action_just_pressed("menu"):
+		Overlay.animation("fade_black", false, true, 1)
+		get_tree().change_scene_to_packed(Globals.scene_menu_start)
+	
+	elif Input.is_action_just_pressed("menu_start"):
+		Overlay.animation("fade_black", false, true, 1)
+		get_tree().change_scene_to_packed(Globals.scene_menu_start)
+	
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused == false:
 			get_tree().paused = true

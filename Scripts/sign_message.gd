@@ -1,11 +1,9 @@
 extends StaticBody2D
 
-@export var displayedText = "none"
-@export var displayedText_size = 0
+@export var message_text = "none"
 
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("player"):
-		Globals.infoSign_current_text = str(displayedText)
-		Globals.infoSign_current_size = displayedText_size
+		Globals.sign_message_text = str(message_text)
 		
-		Globals.info_sign_touched.emit()
+		Globals.sign_message_touched.emit()

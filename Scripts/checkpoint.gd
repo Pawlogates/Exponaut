@@ -21,9 +21,13 @@ func reset_all_checkpoints():
 
 
 func checkpoint_activated():
-	$/root/World.last_checkpoint_pos = position
-	$/root/World.save_game()
-	$/root/World.save_game_area()
+	Globals.World.last_checkpoint_pos = position
+	
+	if Globals.World.level_type == "overworld":
+		SaveData.save_levelState(Globals.level_id)
+		SaveData.save_playerData(true) # The argument affects whether or not the saved overworld position will also be updated.
+	
+	else : SaveData.save_levelState("levelState_quicksave1")
 	
 	if not $/root/World.regular_level and not $/root/World.shrine_level:
 		SaveData.save_playerData(true)

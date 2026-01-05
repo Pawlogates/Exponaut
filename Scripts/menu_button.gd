@@ -80,14 +80,13 @@ func _on_mouse_exited():
 		modulate.b = 1.0
 
 func _on_pressed():
-	if enable_deco:
-		button_deco.on_clicked()
+	pass
 
 
 #IF IS AN EPISODE BUTTON
 func _on_self_pressed():
 	if episode_select != "none":
-		Globals.selected_episode = episode_select
+		Globals.levelSet_id = episode_select
 
 
 func _process(delta):

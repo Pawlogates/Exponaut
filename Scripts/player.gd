@@ -190,8 +190,6 @@ func _process(delta):
 	
 	update_can()
 	
-	handle_actions()
-	
 	get_basic_player_values()
 	
 	if debug_movement:
@@ -1193,49 +1191,6 @@ func on_combo_reset():
 func on_on_block_movement_full_timeout() -> void:
 	block_movement_full = false
 	velocity = Vector2(0, 0)
-
-
-#var debug_toggle = false
-#var scene_debug_screen = preload("res://Other/Scenes/User Interface/Debug/debug_screen.tscn")
-#func handle_debug_screen():
-	#if Input.is_action_just_pressed("debug_console"):
-		#if not debug_toggle:
-			##$/root/World.player.block_movement = true
-			#var debug_screen = scene_debug_screen.instantiate()
-			#World.hud.add_child(debug_screen)
-			#
-			#debug_screen.debugToggle = true
-			#debug_toggle = true
-			#debug_screen.visible = true
-			#
-			#get_tree().set_debug_collisions_hint(true)
-			#debug_screen.refresh_debugInfo()
-			#debug_screen.refresh_debugInfo_values()
-		#
-		#else:
-			##$/root/World.player.block_movement = false
-			#get_tree().set_debug_collisions_hint(false)
-			#
-			#World.debug_screen_delete()
-			#debug_toggle = false
-
-
-func handle_actions():
-	if Input.is_action_just_pressed("menu_start"):
-		if Globals.scene_menu_start == null:
-			return
-		
-		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(Globals.scene_menu_start)
-		#Overlay.animation("fade_black", true, true, 1)
-	
-	elif Input.is_action_just_pressed("menu"):
-		if Globals.scene_levelSet_screen == null:
-			return
-		
-		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(Globals.scene_levelSet_screen)
-		#Overlay.animation("fade_black", true, true, 1)
 
 
 func on_levelState_saved():

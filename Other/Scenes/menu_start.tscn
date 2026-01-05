@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=11 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_j2qdm"]
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_menu.gd" id="2_fbau1"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" uid="uid://dyg342n2aof80" path="res://Scripts/menu_button.gd" id="4_5ppq6"]
 [ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_g50ce"]
 [ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="6_sbkd0"]
-[ext_resource type="PackedScene" uid="uid://dg1su3riwland" path="res://Other/Scenes/decoration_moving.tscn" id="7_xc7nq"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="9_aijrc"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
@@ -586,7 +585,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
-episode_select = "Main Levels"
+episode_select = "MAIN"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control/Main Levels"]
 z_index = 125
@@ -628,7 +627,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 script = ExtResource("4_5ppq6")
-episode_select = "Debug Levels"
+episode_select = "DEBUG"
 
 [node name="RichTextLabel" type="RichTextLabel" parent="episodeSelect_menu/menu_container/Control2/Debug Levels"]
 z_index = 125
@@ -1431,15 +1430,6 @@ z_index = 1
 color = Color(0.242311, 2.19597e-07, 5.41471e-08, 1)
 polygon = PackedVector2Array(528, 224, 1520, 352, 1624, 728, 296, 888)
 
-[node name="decoration_moving" type="Control" parent="."]
-unique_name_in_owner = true
-z_index = 10
-texture_filter = 1
-layout_mode = 2
-mouse_filter = 2
-
-[node name="decoration_moving" parent="decoration_moving" instance=ExtResource("7_xc7nq")]
-
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
 theme = ExtResource("9_aijrc")
@@ -1456,7 +1446,7 @@ By: Pawlogates
 Thanks for playing!
 BETA-v0.9"
 
-[node name="block_buttonSounds" type="Timer" parent="."]
+[node name="block_button_sounds" type="Timer" parent="."]
 process_mode = 3
 wait_time = 0.25
 one_shot = true
@@ -1559,6 +1549,6 @@ one_shot = true
 [connection signal="focus_entered" from="refreshrate_menu/Control/ReturnRefreshrate" to="refreshrate_menu/Control/ReturnRefreshrate" method="_on_focus_entered"]
 [connection signal="focus_exited" from="refreshrate_menu/Control/ReturnRefreshrate" to="refreshrate_menu/Control/ReturnRefreshrate" method="_on_focus_exited"]
 [connection signal="pressed" from="refreshrate_menu/Control/ReturnRefreshrate" to="." method="_on_return_refreshrate_pressed"]
-[connection signal="timeout" from="block_buttonSounds" to="." method="_on_block_button_sounds_timeout"]
+[connection signal="timeout" from="block_button_sounds" to="." method="_on_block_button_sounds_timeout"]
 [connection signal="timeout" from="block_buttons" to="." method="_on_buttons_blocked_timeout"]
 [connection signal="timeout" from="quit_delay" to="." method="_on_quit_delay_timeout"]

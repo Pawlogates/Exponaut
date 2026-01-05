@@ -570,8 +570,12 @@ func _on_cooldown_collidable_timeout() -> void:
 
 
 func _on_cooldown_remove_corpse_timeout() -> void:
+	Globals.wait(self, 0.5)
 	var effect_death = Globals.scene_effect_dead_enemy.instantiate()
 	effect_death.position = position
+	print(effect_death)
+	print(Globals.World)
+	print(Globals.scene_effect_dead_enemy)
 	Globals.World.add_child(effect_death)
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://crpkpw12lktoc"]
+[gd_scene load_steps=12 format=3 uid="uid://crpkpw12lktoc"]
 
 [ext_resource type="Script" uid="uid://u5krhs30o3ik" path="res://Scripts/level_icon.gd" id="1_gn7yy"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_7sswb"]
@@ -10,7 +10,7 @@ length = 0.001
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("sprite/decoration_glow:modulate:r")
+tracks/0/path = NodePath("icon/decoration_glow:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -21,7 +21,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("sprite/decoration_glow:modulate:g")
+tracks/1/path = NodePath("icon/decoration_glow:modulate:g")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -32,7 +32,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("sprite/decoration_glow:modulate:b")
+tracks/2/path = NodePath("icon/decoration_glow:modulate:b")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -43,7 +43,7 @@ tracks/2/keys = {
 tracks/3/type = "bezier"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("sprite/decoration_glow:modulate:a")
+tracks/3/path = NodePath("icon/decoration_glow:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -59,7 +59,7 @@ loop_mode = 1
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("sprite/decoration_glow:modulate:r")
+tracks/0/path = NodePath("icon/decoration_glow:modulate:r")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -70,7 +70,7 @@ tracks/0/keys = {
 tracks/1/type = "bezier"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("sprite/decoration_glow:modulate:g")
+tracks/1/path = NodePath("icon/decoration_glow:modulate:g")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -81,7 +81,7 @@ tracks/1/keys = {
 tracks/2/type = "bezier"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("sprite/decoration_glow:modulate:b")
+tracks/2/path = NodePath("icon/decoration_glow:modulate:b")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -92,7 +92,7 @@ tracks/2/keys = {
 tracks/3/type = "bezier"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("sprite/decoration_glow:modulate:a")
+tracks/3/path = NodePath("icon/decoration_glow:modulate:a")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -119,6 +119,10 @@ region = Rect2(128, 512, 64, 64)
 atlas = ExtResource("2_7sswb")
 region = Rect2(192, 512, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdhfg"]
+atlas = ExtResource("2_7sswb")
+region = Rect2(0, 928, 64, 64)
+
 [node name="level_icon" type="Button"]
 self_modulate = Color(1, 1, 1, 0)
 z_index = 5
@@ -129,14 +133,14 @@ offset_bottom = 32.0
 mouse_filter = 2
 script = ExtResource("1_gn7yy")
 
-[node name="sprite" type="Sprite2D" parent="."]
+[node name="icon" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(32, 32)
 texture = ExtResource("2_7sswb")
 region_enabled = true
 region_rect = Rect2(0, 448, 64, 64)
 
-[node name="decoration_glow" type="Sprite2D" parent="sprite"]
+[node name="decoration_glow" type="Sprite2D" parent="icon"]
 unique_name_in_owner = true
 modulate = Color(1, 1, 1, 0)
 texture_filter = 1
@@ -179,3 +183,6 @@ stream = ExtResource("3_b50wd")
 [node name="sfx_locked" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_6faij")
+
+[node name="icon_rank" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_vdhfg")

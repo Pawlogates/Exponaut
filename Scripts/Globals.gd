@@ -1,97 +1,97 @@
 extends Node
 
-@onready var World = $/root/World
-@onready var Player = $/root/World/Player
-
+var World : Node
+var Player : Node
 
 # Folder paths (String) for better readability:
-var dirpath_saves = "user://saves"
-var d_playerData = dirpath_saves + "/playerData"
-var d_levelSet = dirpath_saves + "/levelSet"
-var d_levelState = dirpath_saves + "/levelState"
+const dirpath_saves = "user://saves"
+const d_playerData = dirpath_saves + "/playerData"
+const d_levelSet = dirpath_saves + "/levelSet"
+const d_levelState = dirpath_saves + "/levelState"
 
-var dirpath_assets = "res://Assets"
-var dirpath_graphics = dirpath_assets + "/Graphics"
-var d_backgrounds = dirpath_graphics + "/backgrounds"
-var d_sprites = dirpath_graphics + "/sprites"
-var d_tilesets = dirpath_graphics + "/tilesets"
+const dirpath_assets = "res://Assets"
+const dirpath_graphics = dirpath_assets + "/Graphics"
+const d_backgrounds = dirpath_graphics + "/backgrounds"
+const d_sprites = dirpath_graphics + "/sprites"
+const d_tilesets = dirpath_graphics + "/tilesets"
 
-var dirpath_sounds = dirpath_assets + "/Sounds"
-var d_music = dirpath_sounds + "/music"
-var d_ambience = dirpath_sounds + "/ambience"
+const dirpath_sounds = dirpath_assets + "/Sounds"
+const d_music = dirpath_sounds + "/music"
+const d_ambience = dirpath_sounds + "/ambience"
 
 
 # Various lists (String):
-var l_levelSet_id : Array = ["MAIN, BONUS, DEBUG"]
-var l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
+const l_levelSet_id : Array = ["MAIN, BONUS, DEBUG"]
+const l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
 
 # Reusable sentences (String):
-var s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
-var s_levelSet_unlockedBy_score = "Unlocked by achieving a score of "
-var s_levelSet_unlockedBy_level = "Unlocked by finishing "
-var s_levelSet_unlockedBy_portal_overworld = s_levelSet_unlockedBy_portal + "the Overworld's "
-var s_levelSet_unlockedBy_portal_level = s_levelSet_unlockedBy_portal + "a level called: "
-var s_levelSet_unlockedBy_score_overworld = " in the Overworld"
-var s_levelSet_unlockedBy_score_level = "in a level called: "
-var s_levelSet_unlockedBy_score_levelSet = " combined across all levels in a level set called: "
-var s_levelSet_unlockedBy_level_previous = "the previous level."
-var s_levelSet_unlockedBy_level_specific = "a level called: "
+const s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
+const s_levelSet_unlockedBy_score = "Unlocked by achieving a score of "
+const s_levelSet_unlockedBy_level = "Unlocked by finishing "
+const s_levelSet_unlockedBy_portal_overworld = s_levelSet_unlockedBy_portal + "the Overworld's "
+const s_levelSet_unlockedBy_portal_level = s_levelSet_unlockedBy_portal + "a level called: "
+const s_levelSet_unlockedBy_score_overworld = " in the Overworld"
+const s_levelSet_unlockedBy_score_level = "in a level called: "
+const s_levelSet_unlockedBy_score_levelSet = " combined across all levels in a level set called: "
+const s_levelSet_unlockedBy_level_previous = "the previous level."
+const s_levelSet_unlockedBy_level_specific = "a level called: "
 
 
 # Effects and particles:
-var scene_particle_star = preload("res://Other/Particles/star.tscn")
-var scene_effect_hit_enemy = preload("res://Other/Effects/hit_enemy.tscn")
-var scene_effect_dead_enemy = preload("res://Other/Effects/dead_enemy.tscn")
-var scene_effect_oneShot_enemy = preload("res://Other/Effects/oneShot_enemy.tscn")
-var scene_particle_special = preload("res://Other/Particles/special.tscn")
-var scene_particle_special_multiple = preload("res://Other/Particles/special_multiple.tscn")
-var scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
-var scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
-var scene_particle_splash = preload("res://Other/Particles/splash.tscn")
-var scene_particle_feather_multiple = preload("res://Other/Particles/feather.tscn")
-var scene_effect_dust = preload("res://Other/Effects/dust.tscn")
-var scene_particle_score = preload("res://Other/Particles/score.tscn")
+const scene_particle_star = preload("res://Other/Particles/star.tscn")
+const scene_effect_hit_enemy = preload("res://Other/Effects/hit_enemy.tscn")
+@onready var scene_effect_dead_enemy = preload("res://Other/Effects/dead_enemy.tscn")
+const scene_effect_oneShot_enemy = preload("res://Other/Effects/oneShot_enemy.tscn")
+const scene_particle_special = preload("res://Other/Particles/special.tscn")
+const scene_particle_special_multiple = preload("res://Other/Particles/special_multiple.tscn")
+const scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
+const scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
+const scene_particle_splash = preload("res://Other/Particles/splash.tscn")
+const scene_particle_feather_multiple = preload("res://Other/Particles/feather.tscn")
+const scene_effect_dust = preload("res://Other/Effects/dust.tscn")
+const scene_particle_score = preload("res://Other/Particles/score.tscn")
 
 
 # Sound effects:
-var sfx_player_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
-var sfx_player_wall_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
-var sfx_player_shoot = preload("res://Assets/Sounds/sfx/projectile_shoot.wav")
-var sfx_player_damage = preload("res://Assets/Sounds/sfx/robot_damage.wav")
-var sfx_player_death = preload("res://Assets/Sounds/sfx/rabbit_death.wav")
-var sfx_player_heal = preload("res://Assets/Sounds/sfx/heal.wav")
-#var sfx_player_hit = preload("res://Assets/Sounds/sfx/effect_slash.wav")
-var sfx_collect = preload("res://Assets/Sounds/sfx/collect.wav")
+const sfx_player_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
+const sfx_player_wall_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
+const sfx_player_shoot = preload("res://Assets/Sounds/sfx/projectile_shoot.wav")
+const sfx_player_damage = preload("res://Assets/Sounds/sfx/robot_damage.wav")
+const sfx_player_death = preload("res://Assets/Sounds/sfx/rabbit_death.wav")
+const sfx_player_heal = preload("res://Assets/Sounds/sfx/heal.wav")
+const sfx_collect = preload("res://Assets/Sounds/sfx/collect.wav")
 
 
 # Other files:
-var material_rainbow = preload("res://Other/Materials/rainbow.tres")
-var material_rainbow2 = preload("res://Other/Materials/rainbow2.tres")
-var material_rainbow2_slowSlight = preload("res://Other/Materials/rainbow2_slowSlight.tres")
-var material_player_rainbow = preload("res://Other/Materials/player_rainbow.tres")
-var material_wave1 = preload("res://Other/Materials/wave1.tres")
-var material_wave2 = preload("res://Other/Materials/wave2.tres")
-var material_wave3 = preload("res://Other/Materials/wave3.tres")
-var material_godrays = preload("res://Other/Materials/godrays.tres")
-var material_hueShift = preload("res://Other/Materials/hueShift.tres")
-var material_cycle_darkBlue_purple = preload("res://Other/Materials/cycle_darkBlue_purple.tres")
-var material_cycle_yellow_orange = preload("res://Other/Materials/cycle_yellow_orange.tres")
-var material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres")
+const material_rainbow = preload("res://Other/Materials/rainbow.tres")
+const material_rainbow2 = preload("res://Other/Materials/rainbow2.tres")
+const material_rainbow2_slowSlight = preload("res://Other/Materials/rainbow2_slowSlight.tres")
+const material_player_rainbow = preload("res://Other/Materials/player_rainbow.tres")
+const material_wave1 = preload("res://Other/Materials/wave1.tres")
+const material_wave2 = preload("res://Other/Materials/wave2.tres")
+const material_wave3 = preload("res://Other/Materials/wave3.tres")
+const material_godrays = preload("res://Other/Materials/godrays.tres")
+const material_hueShift = preload("res://Other/Materials/hueShift.tres")
+const material_cycle_darkBlue_purple = preload("res://Other/Materials/cycle_darkBlue_purple.tres")
+const material_cycle_yellow_orange = preload("res://Other/Materials/cycle_yellow_orange.tres")
+const material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres")
 
 
 # Main scenes:
-var scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
-var scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
-
-var scene_start_area = preload("res://Levels/overworld_factory.tscn")
+const scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
+const scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
 
 
 # Other scenes:
-var scene_portal = preload("res://Objects/shrine_portal.tscn")
-var scene_debug_message = preload("res://Other/Scenes/User Interface/Debug/debug_message.tscn")
+const scene_portal = preload("res://Objects/shrine_portal.tscn")
+const scene_debug_message = preload("res://Other/Scenes/User Interface/Debug/debug_message.tscn")
+const scene_levelSet_display_level_info = preload("res://Other/Scenes/Level Set/levelSet_display_level_info.tscn")
+const scene_levelSet_level_icon = preload("res://Other/Scenes/Level Set/levelSet_level_icon.tscn")
 
+const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
 func _ready() -> void:
+	reassign_general()
 	reassign_nodes_general.connect(reassign_general)
 
 
@@ -132,8 +132,9 @@ func handle_actions():
 
 
 func reassign_general():
-	World = $/root/World
-	Player = $/root/World/Player
+	if has_node("/root/World") : World = $/root/World
+	if has_node("/root/World/Player") : Player = $/root/World/Player
+	print(World, Player)
 	
 	return [World, Player]
 
@@ -299,7 +300,6 @@ var inventory_item_icon = null
 # Message sign is an entity that when touched, causes a message box to appear on the screen.
 signal sign_message_touched
 var sign_message_text = "none"
-var sign_message_size = Vector2(0, 0)
 
 
 # Level Set is the screen where you can select a level to play.
@@ -358,7 +358,7 @@ func message(text):
 
 func message_debug(text):
 	display_messages_debug_queued.append(str(text))
-	print(display_messages_debug_queued)
+	print(text)
 	Globals.refresh_info.emit()
 
 
@@ -432,3 +432,7 @@ func anim_glow(target : Node, material, duration):
 	tween3.tween_property(target, "rotation_degrees", randi_range(-720, 720), randf_range(1, 2))
 	tween4.tween_property(target, "scale", Vector2(random_scale, random_scale), randf_range(1, 2))
 	tween1.tween_property(target, "visible", false, 0)
+
+func wait(target : Node, time : float):
+	print(is_inside_tree())
+	await get_tree().create_timer(0.5, false).timeout

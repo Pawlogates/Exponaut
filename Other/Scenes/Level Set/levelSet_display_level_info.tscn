@@ -1,0 +1,140 @@
+[gd_scene load_steps=6 format=3 uid="uid://4f80mle80wo6"]
+
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_sd4uq"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_j8vbx"]
+[ext_resource type="Script" uid="uid://x8n15ou3pdrt" path="res://Scripts/levelSet_display_level_info.gd" id="2_rumxb"]
+[ext_resource type="Texture2D" uid="uid://clag2hx0qe4c5" path="res://s1.png" id="2_wfxt5"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rumxb"]
+atlas = ExtResource("2_j8vbx")
+region = Rect2(0, 128, 320, 192)
+
+[node name="display_level_info" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 768.0
+offset_bottom = 384.0
+theme = ExtResource("1_sd4uq")
+script = ExtResource("2_rumxb")
+
+[node name="label_container" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_sd4uq")
+alignment = 1
+
+[node name="name" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 52)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/normal_font_size = 36
+text = "name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="type" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/normal_font_size = 16
+text = "type"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="empty" type="Control" parent="label_container"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+
+[node name="score_best" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+text = "score_best"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="score_target" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/normal_font_size = 16
+text = "score_target"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="empty2" type="Control" parent="label_container"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+
+[node name="time_best" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/normal_font_size = 14
+text = "time_best"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="time_target" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 20)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/normal_font_size = 10
+text = "time_target"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="creator" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+text = "creator"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="message" type="RichTextLabel" parent="label_container"]
+custom_minimum_size = Vector2(0, 60)
+layout_mode = 2
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/normal_font_size = 16
+text = "message"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="preview" type="TextureRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0)
+z_index = -2
+layout_mode = 0
+offset_left = -96.0
+offset_top = -576.0
+offset_right = 1824.0
+offset_bottom = 504.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("2_wfxt5")
+expand_mode = 1
+stretch_mode = 4
+
+[node name="bg" type="TextureRect" parent="."]
+unique_name_in_owner = true
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("AtlasTexture_rumxb")
+
+[node name="cooldown_preview" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="timeout" from="cooldown_preview" to="." method="_on_cooldown_preview_timeout"]

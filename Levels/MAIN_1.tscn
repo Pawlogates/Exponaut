@@ -34,73 +34,20 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="3"]
-_import_path = NodePath("")
-unique_name_in_owner = true
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="tileset_objectsSmall_back" parent="." index="4"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-z_index = -5
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="tileset_objectsSmall_front" parent="." index="5"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-z_index = 5
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="kill_area" parent="." index="15" instance=ExtResource("5_6yky3")]
+[node name="kill_area" parent="." index="13" instance=ExtResource("5_6yky3")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
 collision_mask = 7
 
-[node name="trigger_bgChange" parent="." index="16" instance=ExtResource("6_y4yhd")]
+[node name="trigger_bgChange" parent="." index="14" instance=ExtResource("6_y4yhd")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
 is_gradient = true
 
-[node name="trigger_bgMove" parent="." index="17" instance=ExtResource("10_mcw21")]
+[node name="trigger_bgMove" parent="." index="15" instance=ExtResource("10_mcw21")]
 scale = Vector2(4, 4)
 
-[node name="info_sign" parent="." index="19" instance=ExtResource("10_iu6i2")]
+[node name="info_sign" parent="." index="16" instance=ExtResource("10_iu6i2")]
 position = Vector2(2144, -224)
-displayedText = "Hold DOWN to crouch. You can also walk while crouching."
-displayedText_size = 1
 
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
 [connection signal="timeout" from="whiteBlocks_make_rainbow/Timer" to="." method="_on_timer_timeout"]

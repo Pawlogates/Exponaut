@@ -3,14 +3,13 @@ extends Area2D
 #possible zone types: "wind", "water", "kill", "bouncy", "gravity".
 @export_enum("wind", "water", "kill", "bouncy", "gravity") var zone_type = "wind"
 
-#possible wind directions: "left", "right"
-@export var wind_direction_X = 1
-@export var wind_direction_Y = 0
-@export var wind_strength_X = 1.0
-@export var wind_strength_Y = 1.0
+@export var inside_wind = 0
+@export var inside_wind_multiplier_x = 1.0
+@export var inside_wind_multiplier_y = 1.0
 
-@export var water_strength = 0.8
-@export var water_slowdown = 0.6
+@export var inside_water = 0
+@export var inside_water_multiplier_x = 1.0
+@export var inside_water_multiplier_y = 1.0
 
 @export var gravity_value = 0.4
 
@@ -22,18 +21,17 @@ func _on_area_entered(area):
 	
 		if zone_type == "wind":
 			Globals.Player.inside_wind += 1
-			Globals.Player.insideWind_direction_X = wind_direction_X
-			Globals.Player.insideWind_direction_Y = wind_direction_Y
-			Globals.Player.insideWind_strength_X = wind_strength_X
-			Globals.Player.insideWind_strength_Y = wind_strength_Y
+			Globals.Player.inside_wind_multiplier_x = inside_wind_multiplier_x
+			Globals.Player.inside_wind_multiplier_y = inside_wind_multiplier_y
 		
 		
 		elif zone_type == "water":
 			Globals.Player.inside_water += 1
+			
 			if Globals.Player.inside_water == 1:
-				water_effect()
-				Globals.Player.insideWater_multiplier = water_strength
-				Globals.Player.SPEED = Globals.Player.base_SPEED * water_slowdown
+				water_effect_enter()
+				Globals.Player.inside_water_multiplier_x = inside_water_multiplier_x
+				Globals.Player.inside_water_multiplier_y = inside_water_multiplier_y
 				Globals.Player.velocity.y /= 3
 				Globals.Player.get_node("jumpBuildVelocity").wait_time = 0.25
 		
@@ -50,7 +48,7 @@ func _on_area_entered(area):
 			if bouncy_velocity_Y != -1:
 				Globals.Player.velocity.y = bouncy_velocity_Y
 			
-			water_effect()
+			water_effect_enter()
 		
 		
 		elif zone_type == "kill":
@@ -64,10 +62,8 @@ func _on_area_entered(area):
 		
 		if zone_type == "wind":
 			block.inside_wind += 1
-			block.insideWind_direction_X = wind_direction_X
-			block.insideWind_direction_Y = wind_direction_Y
-			block.insideWind_strength_X = wind_strength_X
-			block.insideWind_strength_Y = wind_strength_Y
+			block.inside_wind_multiplier_x = inside_wind_multiplier_x
+			block.inside_wind_multiplier_y = inside_wind_multiplier_y
 		
 		
 		elif zone_type == "water":
@@ -99,7 +95,7 @@ func _on_area_exited(area):
 		elif zone_type == "water":
 			Globals.Player.inside_water -= 1
 			if Globals.Player.inside_water == 0:
-				water_effect()
+				water_effect_enter()
 				Globals.Player.SPEED = Globals.Player.base_SPEED
 				Globals.Player.get_node("jumpBuildVelocity").wait_time = 0.1
 		
@@ -132,10 +128,8 @@ func _on_body_entered(body: Node2D) -> void:
 	
 		if zone_type == "wind":
 			body.inside_wind += 1
-			body.insideWind_direction_X = wind_direction_X
-			body.insideWind_direction_Y = wind_direction_Y
-			body.insideWind_strength_X = wind_strength_X
-			body.insideWind_strength_Y = wind_strength_Y
+			body.inside_wind_multiplier_x = inside_wind_multiplier_x
+			body.inside_wind_multiplier_y = inside_wind_multiplier_y
 		
 		
 		elif zone_type == "water":
@@ -176,7 +170,7 @@ func _on_body_exited(body: Node2D) -> void:
 			body.GRAVITY_SCALE = 1.0
 
 
-func water_effect():
+func water_effect_enter():
 	$AudioStreamPlayer2D.play()
 	var splashParticle = Globals.scene_particle_splash.instantiate()
 	splashParticle.global_position = Globals.player_pos + Vector2(0, 48)

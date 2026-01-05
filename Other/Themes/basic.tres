@@ -4,8 +4,13 @@
 default_font_size = 24
 Button/constants/outline_size = 4
 Button/font_sizes/font_size = 24
-Label/colors/font_shadow_color = Color(0, 0, 0, 0.588235)
+Label/colors/font_shadow_color = Color(0, 0, 0, 0.7)
 Label/constants/outline_size = 4
 Label/constants/shadow_offset_x = 2
 Label/constants/shadow_offset_y = 2
 Label/font_sizes/font_size = 24
+RichTextLabel/colors/font_shadow_color = Color(0, 0, 0, 0.7)
+RichTextLabel/constants/outline_size = 4
+RichTextLabel/constants/shadow_offset_x = 2
+RichTextLabel/constants/shadow_offset_y = 2
+RichTextLabel/font_sizes/normal_font_size = 24

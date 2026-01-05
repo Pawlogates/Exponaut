@@ -1,5 +1,9 @@
 extends CanvasLayer
 
+@onready var animation_ui: AnimationPlayer = $animation_ui
+@onready var bg: ColorRect = $bg
+@onready var close: Button = $close
+
 @onready var label_n1: Label = $"names/1"
 @onready var label_n2: Label = $"names/2"
 @onready var label_n3: Label = $"names/3"
@@ -85,6 +89,9 @@ var value19 = "none"
 var value20 = "none"
 
 func _ready() -> void:
+	update_labels()
+	animation_ui.play("show")
+	
 	name1 = "Currently loaded level's id: "
 	name1 = "Currently loaded level's id: "
 	name1 = "Currently loaded level's id: "
@@ -114,3 +121,12 @@ func update_labels():
 	for id in range(1, 20): # Total (20) - 1, because it starts from 0.
 		get("label_n" + str(id)).text = get("name" + str(id))
 		get("label_v" + str(id)).text = get("value" + str(id))
+
+
+func _on_close_pressed() -> void:
+	animation_ui.play("hide")
+
+
+func _on_animation_ui_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "hide":
+		queue_free()
