@@ -593,14 +593,12 @@ func delete_file(filename, dir):
 @onready var list_ranks = ["none", "F-", "F", "F+", "E-", "E", "E+", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+", "S-", "S", "S+", "S+", "S++", "S+++", "EXPONAUT"]
 
 func calculate_rank_level(level_id):
-	print(list_ranks)
-	Globals.message_debug(get("saved_" + level_id)[1])
-	Globals.message_debug(get("info_" + level_id)[4])
+	
 	var score = get("saved_" + level_id)[1]
 	var score_target = get("info_" + level_id)[4]
-	print(score_target)
-	print(score)
 	var score_segment = int(score_target / len(list_ranks))
+	
+	Globals.message_debug("Calculating score rank, with score of " + str(score) + " and target score of " + str(score_target) + " " + "Possible ranks: " + str(list_ranks) + ".")
 	
 	var rank_value = 0
 	
@@ -610,5 +608,7 @@ func calculate_rank_level(level_id):
 		rank_value = int((score_target / score_segment) / score) + 1
 	
 	var rank = list_ranks[rank_value]
+	
+	Globals.message_debug("Rank result: " + rank + " (" + str(rank_value) + "), with score segment of " + str(score_segment) + ".")
 	
 	return [rank, rank_value]

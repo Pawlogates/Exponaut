@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://4olk0q7d1acn"]
+
+[sub_resource type="Animation" id="Animation_qxxp8"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:size:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(16, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_g6xnb"]
+resource_name = "loop"
+loop_mode = 2
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:size:y")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 16, -0.75, 20, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6yhbx"]
+_data = {
+&"RESET": SubResource("Animation_qxxp8"),
+&"loop": SubResource("Animation_g6xnb")
+}
+
+[node name="line" type="ColorRect"]
+offset_right = 768.0
+offset_bottom = 16.0
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6yhbx")
+}
+autoplay = "loop"
+speed_scale = 2.0

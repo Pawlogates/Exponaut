@@ -15,6 +15,7 @@ offset_left = -400.0
 offset_top = -100.0
 offset_right = -400.0
 offset_bottom = -100.0
+mouse_filter = 2
 script = ExtResource("1_2jl23")
 
 [node name="bg" type="TextureRect" parent="."]

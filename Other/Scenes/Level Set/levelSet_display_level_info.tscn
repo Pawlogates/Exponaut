@@ -1,19 +1,152 @@
-[gd_scene load_steps=6 format=3 uid="uid://4f80mle80wo6"]
+[gd_scene load_steps=11 format=3 uid="uid://4f80mle80wo6"]
 
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_sd4uq"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_j8vbx"]
 [ext_resource type="Script" uid="uid://x8n15ou3pdrt" path="res://Scripts/levelSet_display_level_info.gd" id="2_rumxb"]
 [ext_resource type="Texture2D" uid="uid://clag2hx0qe4c5" path="res://s1.png" id="2_wfxt5"]
+[ext_resource type="PackedScene" uid="uid://4olk0q7d1acn" path="res://Objects/Decorations/line.tscn" id="5_rumxb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rumxb"]
 atlas = ExtResource("2_j8vbx")
 region = Rect2(0, 128, 320, 192)
 
-[node name="display_level_info" type="Control"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rumxb"]
+size = Vector2(768, 384)
+
+[sub_resource type="Animation" id="Animation_qyyig"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:pivot_offset:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:pivot_offset:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_rumxb"]
+resource_name = "show"
+length = 2.0
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0, 0, 1, -1, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1e-05, -0.25, 0, 0, 0, 1, -1, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:pivot_offset:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1000, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:pivot_offset:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 500, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 0.25, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0.392157), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_8ag1f"]
+_data = {
+&"RESET": SubResource("Animation_qyyig"),
+&"show": SubResource("Animation_rumxb")
+}
+
+[node name="display_level_info" type="Control" groups=["levelSet_display"]]
+modulate = Color(1, 1, 1, 0)
+z_index = 50
 layout_mode = 3
 anchors_preset = 0
 offset_right = 768.0
 offset_bottom = 384.0
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 script = ExtResource("2_rumxb")
 
@@ -51,7 +184,7 @@ custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 theme = ExtResource("1_sd4uq")
 
-[node name="score_best" type="RichTextLabel" parent="label_container"]
+[node name="score" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 theme = ExtResource("1_sd4uq")
@@ -73,7 +206,7 @@ custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
 theme = ExtResource("1_sd4uq")
 
-[node name="time_best" type="RichTextLabel" parent="label_container"]
+[node name="time" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
 theme = ExtResource("1_sd4uq")
@@ -118,6 +251,7 @@ offset_top = -576.0
 offset_right = 1824.0
 offset_bottom = 504.0
 scale = Vector2(0.5, 0.5)
+mouse_filter = 2
 texture = ExtResource("2_wfxt5")
 expand_mode = 1
 stretch_mode = 4
@@ -133,8 +267,54 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("AtlasTexture_rumxb")
 
+[node name="line" parent="bg" instance=ExtResource("5_rumxb")]
+layout_mode = 0
+color = Color(0, 0, 0, 1)
+
+[node name="line2" parent="bg" instance=ExtResource("5_rumxb")]
+layout_mode = 0
+offset_top = 384.0
+offset_bottom = 400.0
+scale = Vector2(1, -1)
+color = Color(0, 0, 0, 1)
+
+[node name="line3" parent="bg" instance=ExtResource("5_rumxb")]
+layout_mode = 0
+offset_top = 384.0
+offset_bottom = 400.0
+rotation = -1.5708
+scale = Vector2(0.5, 1)
+color = Color(0, 0, 0, 1)
+
+[node name="line4" parent="bg" instance=ExtResource("5_rumxb")]
+layout_mode = 0
+offset_left = 768.0
+offset_right = 1536.0
+rotation = 1.5708
+scale = Vector2(0.5, 1)
+color = Color(0, 0, 0, 1)
+
 [node name="cooldown_preview" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
+[node name="scan_valid" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="scan_valid"]
+position = Vector2(384, 192)
+shape = SubResource("RectangleShape2D_rumxb")
+
+[node name="cooldown_show" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_8ag1f")
+}
+
 [connection signal="timeout" from="cooldown_preview" to="." method="_on_cooldown_preview_timeout"]
+[connection signal="area_entered" from="scan_valid" to="." method="_on_scan_valid_area_entered"]
+[connection signal="timeout" from="cooldown_show" to="." method="_on_cooldown_show_timeout"]

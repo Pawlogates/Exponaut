@@ -38,7 +38,7 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_olarl"]
 _data = {
 &"RESET": SubResource("Animation_g0n3s"),
-&"fade_black": SubResource("Animation_wyr23")
+&"black_fade_in": SubResource("Animation_wyr23")
 }
 
 [node name="Overlay" type="CanvasLayer"]
@@ -58,7 +58,6 @@ process_mode = 3
 libraries = {
 &"": SubResource("AnimationLibrary_olarl")
 }
-speed_scale = -2.0
 
 [node name="hud" parent="." instance=ExtResource("2_o857m")]
 

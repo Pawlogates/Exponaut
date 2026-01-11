@@ -1,4 +1,12 @@
-extends Node
+extends Node2D
+
+# REMINDERS [START]
+
+# Pause a function for a time:
+# await get_tree().create_timer(1.0, true).timeout
+# (time : float, process_always : bool)
+
+# REMINDERS [END]
 
 var World : Node
 var Player : Node
@@ -40,7 +48,7 @@ const s_levelSet_unlockedBy_level_specific = "a level called: "
 # Effects and particles:
 const scene_particle_star = preload("res://Other/Particles/star.tscn")
 const scene_effect_hit_enemy = preload("res://Other/Effects/hit_enemy.tscn")
-@onready var scene_effect_dead_enemy = preload("res://Other/Effects/dead_enemy.tscn")
+const scene_effect_dead_enemy = preload("res://Other/Effects/dead_enemy.tscn")
 const scene_effect_oneShot_enemy = preload("res://Other/Effects/oneShot_enemy.tscn")
 const scene_particle_special = preload("res://Other/Particles/special.tscn")
 const scene_particle_special_multiple = preload("res://Other/Particles/special_multiple.tscn")
@@ -94,47 +102,55 @@ func _ready() -> void:
 	reassign_general()
 	reassign_nodes_general.connect(reassign_general)
 
-
 func _physics_process(_delta):
 	handle_actions() # Handles global functions executed on triggering an action.
+	get_mouse_position()
 
 
 func handle_actions():
+	if Input.is_action_just_pressed("menu"):
+		Overlay.animation("black_fade_in", false, true, 1)
+		get_tree().change_scene_to_packed(Globals.scene_menu_start)
+	
+	elif Input.is_action_just_pressed("menu_start"):
+		Overlay.animation("black_fade_in", false, true, 1)
+		get_tree().change_scene_to_packed(Globals.scene_menu_start)
+	
+	
 	if Input.is_action_just_pressed("pause"):
 		if get_tree().paused == false:
 			get_tree().paused = true
+			Globals.message_debug("Game paused.")
 		elif get_tree().paused == true:
 			get_tree().paused = false
+			Globals.message_debug("Game resumed.")
 	
 	
-	elif Input.is_action_just_pressed("menu_start"):
-		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(scene_menu_start)
-		Overlay.animation("fade_black", true, true, 1)
-	
-	elif Input.is_action_just_pressed("menu"):
-		Overlay.animation("fade_black", false, true, 1)
-		get_tree().change_scene_to_packed(scene_levelSet_screen)
-		Overlay.animation("fade_black", true, true, 1)
-	
-	
-	elif Input.is_action_pressed("debug_mode"):
-		Globals.debug_mode = true
+	elif Input.is_action_just_pressed("debug_console"):
+		if Globals.debug_mode == false:
+			Globals.debug_mode = true
+			Globals.message_debug("Debug mode is active.")
+		elif Globals.debug_mode == true:
+			Globals.debug_mode = false
+			Globals.message_debug("Debug mode is disabled.")
 		
-		if not get_node_or_null("/root/World"):
-			return
+		if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
+			World.player_health = 999
+	
+	#elif Input.is_action_just_pressed("debug_console"):
+		##add_child(scene)
+		#Globals.message_debug("Debug mode is active.")
 		
 		#world.player.player_health = 999
 		
-		if get_node_or_null("/root/World/HUD/Debug Screen"):
-			$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
-			$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
+		#if get_node_or_null("/root/World/HUD/Debug Screen"):
+			#$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
+			#$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
 
 
 func reassign_general():
 	if has_node("/root/World") : World = $/root/World
 	if has_node("/root/World/Player") : Player = $/root/World/Player
-	print(World, Player)
 	
 	return [World, Player]
 
@@ -214,6 +230,7 @@ signal collected_weapon
 signal collected_secondary
 
 # These signals are emitted after an action is performed.
+signal HUD_update_general
 signal levelState_saved # Only one level is saved here at a time. Level State refers to objects (and their state) inside of a level and other persistent aspects of it, to be restored when player comes back to an already visited overworld level, or loading a quicksave.
 signal levelState_loaded
 signal playerData_saved # Various otherworld player info like health, score, unlocks, etc.
@@ -282,6 +299,7 @@ var worldState_leftStartArea = false
 
 # Game states:
 var gameState_level = false
+var gameState_levelSet = false
 var gameState_debug = true
 
 
@@ -347,19 +365,22 @@ signal stop_playback
 # Text displays:
 # Only one message can be displayed at a time. Message display is located in the (global) Overlay node.
 var display_messages_queued : Array = []
-signal refresh_info
+signal messages_refresh # Forces all message displays to refresh when emitted.
+signal messages_added
+signal messages_removed
+signal messages_debug_added
+signal messages_debug_removed
 
 func message(text):
 	display_messages_queued.append(str(text))
-	Globals.refresh_info.emit()
+	messages_added.emit() # This is a signal from this script (Globals.gd).
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
-@onready var display_messages_debug_queued : Array = ["Welcome to the debug display!", "Type in '!help' to see available commands and shortcuts."]
+@onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!", "All debug messages will be shown here for a while, as well as printed to the console."]
 
-func message_debug(text):
-	display_messages_debug_queued.append(str(text))
-	print(text)
-	Globals.refresh_info.emit()
+func message_debug(text, importance : int = 0):
+	display_messages_debug_queued.append(str(text) + str("[%s]" % importance))
+	Globals.messages_debug_added.emit()
 
 
 # Lists (Array) of various entity properties, used for randomization purposes.
@@ -406,10 +427,23 @@ const list_temporary_powerUp = ["none", "higher_jump", "increased_speed", "telep
 @onready var l_bonusBox_item_blacklist_enemy_scene = []
 
 
-func spawn_scenes(target : Node, file, quantity : int, pos_offset): # Quantity of -1 will randomize the number of spawned scenes.
+func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1): # Quantity of -1 will randomize the number of spawned scenes.
+	var spawned_nodes : Array
+	
 	for x in range(quantity):
-		var scene = file.instantiate()
-		target.add_child(scene)
+		var node = file.instantiate()
+		node.position = pos_offset
+		target.add_child(node)
+		
+		spawned_nodes.append(node)
+	
+	if remove_cooldown != -1:
+		
+		await get_tree().create_timer(remove_cooldown, true).timeout
+		
+		for node in spawned_nodes:
+			if node:
+				node.queue_free()
 
 
 func anim_glow(target : Node, material, duration):
@@ -433,6 +467,57 @@ func anim_glow(target : Node, material, duration):
 	tween4.tween_property(target, "scale", Vector2(random_scale, random_scale), randf_range(1, 2))
 	tween1.tween_property(target, "visible", false, 0)
 
-func wait(target : Node, time : float):
-	print(is_inside_tree())
-	await get_tree().create_timer(0.5, false).timeout
+
+func wait(time : float): # Not working for some reason.
+	await get_tree().create_timer(time, true).timeout
+
+
+var mouse_pos = Vector2(0, 0)
+
+func get_mouse_position():
+	mouse_pos = get_global_mouse_position()
+
+
+func list_files_in_dirpath(directory_path : String, exclude : Array):
+	var dir_path = "res://" + directory_path
+	var dir = DirAccess.open(dir_path)
+	var list = []
+	
+	if dir != null:
+		var filenames = dir.get_files()
+		
+		for filename in filenames:
+			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".uid"):
+				list.append(dir_path + "/" + filename)
+		
+		var count = -1
+		for exclusion in exclude:
+			count += 1
+			for filename in list:
+				if filename.contains(exclude[count]):
+					list.erase(filename)
+	
+	return list
+
+
+func random_from_list(list_name, list_length): #list length of -1 will include everything.
+	var list = get(str(list_name))
+	var randomized_ID : int
+	
+	if list_length != -1:
+		randomized_ID = randi_range(0, list_length)
+	else:
+		randomized_ID = randi_range(0, len(list) - 1)
+	
+	var randomized_property = list[randomized_ID]
+	return randomized_property
+
+
+func random_bool(false_probability, true_probability):
+	var randomized_number = randf_range(-false_probability, true_probability)
+	if randomized_number <= 0:
+		var randomized_bool = false
+		return randomized_bool
+	else:
+		var randomized_bool = true
+		return randomized_bool

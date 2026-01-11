@@ -19,19 +19,6 @@ offset_top = 76.0
 offset_right = 1488.0
 offset_bottom = 76.0
 
-[node name="section_bottom" type="HBoxContainer" parent="."]
-custom_minimum_size = Vector2(0, 200)
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -200.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="CenterContainer" type="CenterContainer" parent="section_bottom"]
-layout_mode = 2
-
 [node name="Level Finished" parent="." instance=ExtResource("3_4125l")]
 unique_name_in_owner = true
 visible = false

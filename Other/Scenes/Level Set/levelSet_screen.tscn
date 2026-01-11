@@ -1,11 +1,9 @@
-[gd_scene load_steps=14 format=3 uid="uid://1yrqwkydp78d"]
+[gd_scene load_steps=15 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_tevf8"]
 [ext_resource type="Script" uid="uid://bgd2v1alhdml" path="res://Scripts/screen_levelSelect.gd" id="2_7kq8d"]
 [ext_resource type="AudioStream" uid="uid://bwf4nucobwg4x" path="res://Assets/Sounds/music/intense1.mp3" id="3_e37xu"]
 [ext_resource type="Script" uid="uid://dyg342n2aof80" path="res://Scripts/menu_button.gd" id="4_eht7p"]
-[ext_resource type="Theme" uid="uid://r4gv8ac0831q" path="res://Other/Themes/text_small.tres" id="8_f6rh0"]
-[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="8_ru2um"]
 
 [sub_resource type="Gradient" id="Gradient_uas2u"]
 colors = PackedColorArray(0.618933, 1.73271e-06, 3.85046e-07, 1, 0, 0, 0, 1)
@@ -31,18 +29,29 @@ _data = {
 &"fade_to_black": SubResource("Animation_7qc2w")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ot7iw"]
-atlas = ExtResource("8_ru2um")
-region = Rect2(0, 96, 288, 256)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6dhn4"]
+resource_local_to_scene = true
+size = Vector2(1920, 720)
 
-[node name="Map Screen" type="CenterContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_tevf8")
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_axjjw"]
+resource_local_to_scene = true
+size = Vector2(1296, 2688)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hirpx"]
+resource_local_to_scene = true
+size = Vector2(3456, 912)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8nxm7"]
+resource_local_to_scene = true
+size = Vector2(1552, 1792)
+
+[node name="Level Set Screen" type="Control"]
+layout_mode = 3
+anchors_preset = 0
 script = ExtResource("2_7kq8d")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(960, 544)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_e37xu")
@@ -50,7 +59,12 @@ autoplay = true
 
 [node name="menu_main" type="Control" parent="."]
 unique_name_in_owner = true
-layout_mode = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 960.0
+offset_bottom = 540.0
 
 [node name="menu_container" type="VBoxContainer" parent="menu_main"]
 z_index = 5
@@ -102,7 +116,7 @@ text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
 autowrap_mode = 0
 
 [node name="Control2" type="Control" parent="menu_main/menu_container"]
-z_index = 25
+z_index = 250
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 
@@ -169,9 +183,10 @@ autowrap_mode = 0
 
 [node name="background" type="TextureRect" parent="."]
 unique_name_in_owner = true
+modulate = Color(1, 1, 1, 0.407843)
 z_index = -5
 custom_minimum_size = Vector2(1920, 1080)
-layout_mode = 2
+layout_mode = 0
 mouse_filter = 2
 texture = SubResource("GradientTexture1D_agkmp")
 expand_mode = 1
@@ -185,148 +200,35 @@ speed_scale = 5.0
 
 [node name="level_icon_container" type="Control" parent="."]
 unique_name_in_owner = true
-layout_mode = 2
-
-[node name="level_info_container" type="Control" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="level_info_container"]
-layout_mode = 0
-offset_left = 512.0
-offset_top = 164.0
-offset_right = 832.0
-offset_bottom = 484.0
-texture = SubResource("AtlasTexture_ot7iw")
-
-[node name="level_info" type="VBoxContainer" parent="level_info_container/TextureRect"]
-custom_minimum_size = Vector2(320, 0)
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-alignment = 1
-
-[node name="Control" type="Control" parent="level_info_container/TextureRect/level_info"]
-custom_minimum_size = Vector2(96, 80)
-layout_mode = 2
-
-[node name="name" type="Label" parent="level_info_container/TextureRect/level_info/Control"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -16.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "name"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="name_filler" type="Label" parent="level_info_container/TextureRect/level_info/Control"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_bottom = -56.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("8_f6rh0")
-text = "level name"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Control2" type="Control" parent="level_info_container/TextureRect/level_info"]
-custom_minimum_size = Vector2(96, 80)
-layout_mode = 2
-
-[node name="score" type="Label" parent="level_info_container/TextureRect/level_info/Control2"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -16.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "score"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="score_filler" type="Label" parent="level_info_container/TextureRect/level_info/Control2"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_bottom = -56.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("8_f6rh0")
-text = "best score"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Control3" type="Control" parent="level_info_container/TextureRect/level_info"]
-custom_minimum_size = Vector2(96, 80)
-layout_mode = 2
-
-[node name="rank" type="Label" parent="level_info_container/TextureRect/level_info/Control3"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = -16.0
-offset_bottom = 16.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "rank"
-horizontal_alignment = 1
-vertical_alignment = 2
-
-[node name="rank_filler" type="Label" parent="level_info_container/TextureRect/level_info/Control3"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -8.0
-offset_bottom = -56.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("8_f6rh0")
-text = "score rank"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="top_rank_score" type="Label" parent="level_info_container/TextureRect/level_info/Control3"]
-unique_name_in_owner = true
-layout_mode = 1
-anchors_preset = 14
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_top = 20.0
-offset_bottom = 36.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 16
-text = "top_rank_score"
-horizontal_alignment = 1
-vertical_alignment = 1
+layout_mode = 3
+anchors_preset = 0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 960.0
+offset_bottom = 540.0
 
 [node name="buttons_blocked" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="blocked_zone" type="Area2D" parent="." groups=["blocked_zone_display"]]
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="blocked_zone"]
+position = Vector2(960, 1432)
+shape = SubResource("RectangleShape2D_6dhn4")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="blocked_zone"]
+position = Vector2(2552, 448)
+shape = SubResource("RectangleShape2D_axjjw")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="blocked_zone"]
+position = Vector2(192, -440)
+shape = SubResource("RectangleShape2D_hirpx")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="blocked_zone"]
+position = Vector2(-760, 896)
+shape = SubResource("RectangleShape2D_8nxm7")
 
 [connection signal="focus_entered" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="menu_main/menu_container/Control/Enable Score Attack Mode" method="_on_focus_entered"]
 [connection signal="focus_exited" from="menu_main/menu_container/Control/Enable Score Attack Mode" to="menu_main/menu_container/Control/Enable Score Attack Mode" method="_on_focus_exited"]
@@ -337,5 +239,4 @@ one_shot = true
 [connection signal="focus_entered" from="menu_main/menu_container/Control3/Main menu" to="menu_main/menu_container/Control3/Main menu" method="_on_focus_entered"]
 [connection signal="focus_exited" from="menu_main/menu_container/Control3/Main menu" to="menu_main/menu_container/Control3/Main menu" method="_on_focus_exited"]
 [connection signal="pressed" from="menu_main/menu_container/Control3/Main menu" to="." method="_on_main_menu_pressed"]
-[connection signal="animation_finished" from="fade_animation" to="." method="_on_fade_animation_animation_finished"]
 [connection signal="timeout" from="buttons_blocked" to="." method="_on_buttons_blocked_timeout"]

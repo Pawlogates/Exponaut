@@ -1,4 +1,4 @@
-extends CenterContainer
+extends Control
 
 var levelSet_id = Globals.levelSet_id
 
@@ -6,11 +6,11 @@ var levelSet_saved : Array # The saved (in the "SaveData" global node, and the "
 var levelSet_info : Array
 var levelSet_unlock : Array
 
-@onready var level_info_container: Control = %level_info_container
 @onready var background: TextureRect = %background
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.gameState_levelSet = true
 	Overlay.animation("fade_black", false, true, 1.0)
 	
 	if not levelSet_id == "none":
@@ -24,7 +24,6 @@ func _ready():
 	if levelSet_id != "none":
 		place_level_icons(levelSet_id)
 		background.texture = load(levelSet_info[5])
-		level_info_container.get_child(0).grab_focus()
 	
 	await get_tree().create_timer(0.1, false).timeout
 	
@@ -39,6 +38,9 @@ func _ready():
 	
 	Globals.levelSet_loaded.emit()
 
+func _physics_process(delta: float) -> void:
+	pass
+	#$blocked_zone.position = Vector2(randi_range(-5, 5), randi_range(-5, 5))
 
 func _on_enable_score_attack_mode_pressed():
 	if Globals.mode_scoreAttack == false:
@@ -89,7 +91,6 @@ func place_level_icons(levelSet_id):
 	var level_number = 0
 	for icon in range(1, SaveData.get("info_" + levelSet_id)[1]):
 		level_number += 1
-		print(level_number)
 		
 		var level_icon = Globals.scene_levelSet_level_icon.instantiate()
 		level_icon.level_number = level_number

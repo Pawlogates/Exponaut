@@ -8,7 +8,7 @@
 layer = 128
 script = ExtResource("1_kfqwp")
 
-[node name="text_container" type="Control" parent="."]
+[node name="message_container" type="Control" parent="."]
 z_index = 10
 layout_mode = 3
 anchors_preset = 0
@@ -18,6 +18,7 @@ mouse_filter = 2
 
 [node name="bg" type="ColorRect" parent="."]
 z_index = 1
+mouse_filter = 2
 color = Color(0.2, 0.029, 0.019, 0.3)
 
 [node name="close" type="Button" parent="."]

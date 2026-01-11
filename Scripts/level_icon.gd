@@ -1,6 +1,6 @@
 extends Button
 
-@onready var screen_levelSet = get_parent()
+@onready var screen_levelSet = get_parent().get_parent()
 
 @export var icon_image_id = 0
 @export var icon_position = Vector2(0, 0)
@@ -49,17 +49,18 @@ var unlocked = false
 
 
 func _ready():
-	Globals.wait(self, 3.0)
-	position = Vector2(level_icon_position_x, level_icon_position_y)
-	level_id = Globals.levelSet_id + "_" + str(level_number)
+	await get_tree().create_timer(0.5, true).timeout
+	
 	update_level_info()
+	position = Vector2(level_icon_position_x, level_icon_position_y)
+	
 	if level_state > -1 : unlocked = true
 	
 	position = icon_position
 	%icon.region_rect = Rect2(64 * icon_image_id, 448, 64, 64)
 	%AnimationPlayer.advance((abs(position.x) / 100))
 	
-	await Globals.levelSet_loaded
+	position = Vector2(level_icon_position_x, level_icon_position_y)
 	
 	if level_state == 0:
 		pass
@@ -70,6 +71,8 @@ func _ready():
 	elif level_state == 3:
 		%icon_state_allCollectibles.visible = true
 
+func _physics_process(delta: float) -> void:
+	pass
 
 func _on_pressed():
 	if unlocked or Globals.debug_mode:
@@ -92,7 +95,7 @@ func _on_pressed():
 			Globals.current_level_number = level_number
 		
 	else:
-		%level_locked.play()
+		%sfx_locked.play()
 
 
 func _on_focus_entered():
@@ -109,38 +112,42 @@ func _on_focus_entered():
 	get_parent().get_node("%level_info_container").visible = true
 	update_level_info()
 
-
 func _on_focus_exited():
 	%level_icon.scale = Vector2(1.0, 1.0)
 	modulate.b = 1.0
 	modulate.g = 1.0
 	%glow_root.modulate.a = 1.0
-	
-	get_parent().get_node("%level_info_container").visible = false
 
 
 func _on_mouse_entered():
-	%level_icon.scale = Vector2(1.1, 1.1)
+	%icon.scale = Vector2(1.1, 1.1)
 	
 	if unlocked:
 		modulate.b = 0.5
+		Globals.message_debug("This level is locked.")
 	else:
 		modulate.b = 0.3
 		modulate.g = 0.3
+		Globals.message_debug("This level is unlocked.")
 	
-	%glow_root.modulate.a = 0.5
+	%decoration_glow.modulate.a = 0.5
 	
-	var display_level_info = Globals.levelSet_display_level_info.instantiate()
 	update_level_info()
-
+	show_display_level_info()
 
 func _on_mouse_exited():
-	%level_icon.scale = Vector2(1.0, 1.0)
+	%icon.scale = Vector2(1.0, 1.0)
 	modulate.b = 1.0
 	modulate.g = 1.0
-	%glow_root.modulate.a = 1.0
+	%decoration_glow.modulate.a = 1.0
 	
-	get_parent().get_node("%level_info_container").visible = false
+	if screen_levelSet.has_node("display_level_info"):
+		for display in get_tree().get_nodes_in_group("levelSet_display"):
+			display.queue_free()
+			Globals.message_debug("Display removed.")
+	else:
+		Globals.message_debug("No level display to remove.")
+
 
 func update_level_info():
 	if Globals.levelSet_id == "none" : return
@@ -158,9 +165,6 @@ func update_level_info():
 	# unlock : [previous, portal_in_level_id, key_in_level_id, score_in_level_id, score_in_levelSet_id, score_in_overworld_levelSet_id, time_in_level_id, time_in_levelSet_id]
 	# collectibles : [[slot 1 - major collectible exists in a level], [slot 2 - major collectible exists in a level], etc.]
 	
-	print(levelSet_id)
-	print(level_number)
-	print(level_id)
 	level_state = level_saved[0]
 	level_score = level_saved[1]
 	level_time = level_saved[2]
@@ -192,7 +196,7 @@ func update_level_info():
 	level_rank = level_rank_info[0]
 	level_rank_value = level_rank_info[1]
 
-func show_display_level_info(display):
+func show_display_level_info():
 	var display_level_info = Globals.scene_levelSet_display_level_info.instantiate()
 	
 	display_level_info.levelSet_id = levelSet_id
@@ -225,8 +229,8 @@ func show_display_level_info(display):
 	
 	display_level_info.level_info_major_collectibles = level_info_major_collectibles
 	
-	var level_rank_info = SaveData.calculate_rank_level(level_id)
-	display_level_info.level_rank = level_rank_info[0]
-	display_level_info.level_rank_value = level_rank_info[1]
+	display_level_info.level_rank = level_rank
+	display_level_info.level_rank_value = level_rank_value
 	
 	screen_levelSet.add_child(display_level_info)
+	Globals.message_debug("Display added.")
