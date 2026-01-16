@@ -11,6 +11,7 @@ extends Node2D
 var World : Node
 var Player : Node
 
+
 # Folder paths (String) for better readability:
 const dirpath_saves = "user://saves"
 const d_playerData = dirpath_saves + "/playerData"
@@ -31,6 +32,7 @@ const d_ambience = dirpath_sounds + "/ambience"
 # Various lists (String):
 const l_levelSet_id : Array = ["MAIN, BONUS, DEBUG"]
 const l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
+const l_animation_name_general : Array = ["collect_special", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight"]
 
 # Reusable sentences (String):
 const s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
@@ -95,12 +97,22 @@ const scene_portal = preload("res://Objects/shrine_portal.tscn")
 const scene_debug_message = preload("res://Other/Scenes/User Interface/Debug/debug_message.tscn")
 const scene_levelSet_display_level_info = preload("res://Other/Scenes/Level Set/levelSet_display_level_info.tscn")
 const scene_levelSet_level_icon = preload("res://Other/Scenes/Level Set/levelSet_level_icon.tscn")
+const scene_text_manager = preload("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn")
+const scene_text_manager_character = preload("res://Other/Scenes/User Interface/Text Manager/character.tscn")
+const scene_gear = preload("res://Objects/Decorations/gear.tscn")
+const scene_gear2 = preload("res://Objects/Decorations/gear2.tscn")
+const scene_gear3 = preload("res://Objects/Decorations/gear3.tscn")
+const scene_gear4 = preload("res://Objects/Decorations/gear4.tscn")
+const scene_gear5 = preload("res://Objects/Decorations/gear5.tscn")
 
 const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
 func _ready() -> void:
+	refreshed.connect(on_refreshed)
+	refresh()
+	
 	reassign_general()
-	reassign_nodes_general.connect(reassign_general)
+	#reassign_nodes_general.connect(reassign_general)
 
 func _physics_process(_delta):
 	handle_actions() # Handles global functions executed on triggering an action.
@@ -136,16 +148,13 @@ func handle_actions():
 		
 		if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
 			World.player_health = 999
-	
-	#elif Input.is_action_just_pressed("debug_console"):
-		##add_child(scene)
-		#Globals.message_debug("Debug mode is active.")
 		
-		#world.player.player_health = 999
 		
-		#if get_node_or_null("/root/World/HUD/Debug Screen"):
-			#$/root/World/HUD/"Debug Screen"._on_toggle_ambience_pressed()
-			#$/root/World/HUD/"Debug Screen"._on_toggle_music_pressed()
+	if debug_mode:
+		for x in range(2): # Should eventually be 9.
+			if Input.is_action_just_pressed(str(x)):
+				call("on_action_%s" % x)
+				Globals.message_debug("Pressed %s. Executing assigned debug function..." % x)
 
 
 func reassign_general():
@@ -251,7 +260,7 @@ signal save_levelState(levelState_name)
 signal quicksave(slot_number : int)
 signal quickload(slot_number : int)
 
-signal reassign_nodes_general
+#signal reassign_nodes_general
 
 signal play_music_random
 
@@ -300,6 +309,7 @@ var worldState_leftStartArea = false
 # Game states:
 var gameState_level = false
 var gameState_levelSet = false
+var gameState_menu = false
 var gameState_debug = true
 
 
@@ -521,3 +531,28 @@ func random_bool(false_probability, true_probability):
 	else:
 		var randomized_bool = true
 		return randomized_bool
+
+
+signal refreshed
+
+func refresh():
+	await get_tree().create_timer(0.5, true).timeout
+	refreshed.emit()
+	refresh()
+
+func on_refreshed():
+	pass
+
+
+signal debug1
+signal debug2
+signal debug0
+
+func on_action_1():
+	debug1.emit()
+
+func on_action_2():
+	debug2.emit()
+
+func on_action_0():
+	debug0.emit()

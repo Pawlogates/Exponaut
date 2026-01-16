@@ -1,0 +1,105 @@
+[gd_resource type="AnimationLibrary" load_steps=7 format=3 uid="uid://hcdta174ln3f"]
+
+[sub_resource type="Animation" id="Animation_l17if"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_2qcs2"]
+resource_name = "rotate"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, 0, 0, 0, 0, 6.28319, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 3.996)
+}
+
+[sub_resource type="Animation" id="Animation_xdcpa"]
+resource_name = "rotate_back"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0, 0, 0, 0, 0, 4.50729, -1, 10, 0, 0, 6.28319, -1, -10, 0, 0),
+"times": PackedFloat32Array(0, 2, 4)
+}
+
+[sub_resource type="Animation" id="Animation_7e2bt"]
+resource_name = "rotate_back_in"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 1.5, -10, 6.28319, 0, 0, 0, 0),
+"times": PackedFloat32Array(0, 3.996)
+}
+
+[sub_resource type="Animation" id="Animation_ev5ot"]
+resource_name = "rotate_back_out"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 6.28319, -1.5, 10, 0, 0),
+"times": PackedFloat32Array(0, 3.996)
+}
+
+[sub_resource type="Animation" id="Animation_jh8at"]
+resource_name = "rotate_forwardAndBack"
+length = 4.0
+loop_mode = 2
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, 0, 0, 1, 0, 6.28319, -1, 0, 0, 0),
+"times": PackedFloat32Array(0, 3.996)
+}
+
+[resource]
+_data = {
+&"RESET": SubResource("Animation_l17if"),
+&"rotate": SubResource("Animation_2qcs2"),
+&"rotate_back": SubResource("Animation_xdcpa"),
+&"rotate_back_in": SubResource("Animation_7e2bt"),
+&"rotate_back_out": SubResource("Animation_ev5ot"),
+&"rotate_forwardAndBack": SubResource("Animation_jh8at")
+}

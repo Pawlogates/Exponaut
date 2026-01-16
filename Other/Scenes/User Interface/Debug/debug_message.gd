@@ -4,7 +4,6 @@ var message = "none"
 var repeats = 0
 
 @onready var c_remove: Timer = $cooldown_remove
-@onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var display = $/root/Overlay/debug_display_messages
 @onready var message_container = $/root/Overlay/debug_display_messages/message_container
 
@@ -27,23 +26,24 @@ func _ready() -> void:
 	
 	visible = true
 
-func _on_cooldown_delay_timeout() -> void:
-	animation_player.play("fade_out")
-
-
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "fade_out":
+func _physics_process(delta: float) -> void:
+	if fade_out_active : modulate.a = move_toward(modulate.a, 0, delta)
+	if modulate.a <= 0.05:
 		display.active_messages -= 1
 		Globals.messages_debug_removed.emit()
 		queue_free()
+
+
+var fade_out_active = false
+
+func _on_cooldown_delay_timeout() -> void:
+	fade_out_active = true
 
 
 func handle_repeats():
 	if repeats > 0:
 		text = "(%s) " % str(repeats) + message
 		display.update_bg(text, id)
-		animation_player.stop()
-		animation_player.play("RESET")
 
 
 func _on_mouse_entered() -> void:

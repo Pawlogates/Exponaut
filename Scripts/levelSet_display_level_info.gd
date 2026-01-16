@@ -129,7 +129,7 @@ var attempts_position = 0
 
 func validate_position():
 	if attempts_position > 10:
-		Globals.message_debug("Warning: Failed to validate position of a level info display on time (10 failed attempts).", 2)
+		Globals.message_debug("Warning: Failed to validate position of a level info display on time (10 failed attempts).", 3)
 	
 	attempts_position += 1
 	
@@ -152,7 +152,7 @@ func validate_position():
 	
 	for area in overlapping_areas:
 		if area.is_in_group("blocked_zone_display"):
-			Globals.message_debug("Touching a blocked zone, so this level info display position is invalid " + str(position), 2)
+			Globals.message_debug("Touching a blocked zone, so this level info display position is invalid " + str(position), 1)
 			
 			if Globals.debug_mode:
 				Globals.spawn_scenes(screen_levelSet, Globals.scene_effect_oneShot_enemy, 1, position + size / 2, 2)

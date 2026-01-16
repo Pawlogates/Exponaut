@@ -1,9 +1,9 @@
 extends CanvasLayer
 
-@onready var animation_player = $AnimationPlayer
-@onready var screen_black = $screen_black
+@onready var HUD = $HUD
 
-var world = Node2D
+@onready var screen_black = $screen_black
+@onready var animation_player = $AnimationPlayer
 
 func _ready():
 	if Globals.gameState_debug:

@@ -11,6 +11,8 @@ var levelSet_unlock : Array
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Globals.gameState_levelSet = true
+	Globals.gameState_level = false
+	
 	Overlay.animation("fade_black", false, true, 1.0)
 	
 	if not levelSet_id == "none":
@@ -51,36 +53,14 @@ func _on_enable_score_attack_mode_pressed():
 		Globals.mode_scoreAttack = false
 		$"menu_main/menu_container/Control/Enable Score Attack Mode/RichTextLabel".text = "[wave amp=50.0 freq=10.0 connected=1]Enable Score Attack Mode[/wave]"
 
-
-func _on_main_menu_pressed():
-	if check_if_buttons_blocked():
-		return
-	
-	await Overlay.animation("fade_black", false, true, 1)
-	get_tree().change_scene_to_packed(Globals.scene_menu_start)
-
-
-func _on_back_to_overworld_pressed():
-	if check_if_buttons_blocked():
-		return
-	
-	var saved_level = load(SaveData.saved_last_area_filePath)
-	
-	#DEBUG
-	if saved_level == load("res://Levels/empty.tscn"):
-		saved_level = load("res://Levels/overworld_infected_glades.tscn")
-	
-	Overlay.animation("fade_black", true, true, 1)
-	Globals.transitioned = false
-	get_tree().change_scene_to_packed(saved_level)
-
-
 var buttons_blocked = false
-func check_if_buttons_blocked():
+func check_buttons_blocked():
 	if buttons_blocked:
 		Globals.message_debug("Buttons are blocked.")
 		return true
+	
 	buttons_blocked = true
+	$buttons_blocked.start()
 
 func _on_buttons_blocked_timeout() -> void:
 	Globals.message_debug("Button are no longer blocked.")
@@ -95,3 +75,26 @@ func place_level_icons(levelSet_id):
 		var level_icon = Globals.scene_levelSet_level_icon.instantiate()
 		level_icon.level_number = level_number
 		$level_icon_container.add_child(level_icon)
+
+
+func _on_btn_main_menu_pressed() -> void:
+	if check_buttons_blocked():
+		return
+	
+	Overlay.animation("black_fade_in", 1.0, false, true)
+	get_tree().change_scene_to_packed(Globals.scene_menu_start)
+
+
+func _on_btn_back_to_overworld_pressed() -> void:
+	if check_buttons_blocked():
+		return
+	
+	var saved_level = SaveData.saved_last_level_filepath
+	
+	#DEBUG
+	if saved_level == "none":
+		saved_level = "res://Levels/overworld_infected_glades.tscn"
+	
+	Overlay.animation("black_fade_in", 1.0, false, true)
+	Globals.transition_triggered = false
+	get_tree().change_scene_to_packed(load(saved_level))

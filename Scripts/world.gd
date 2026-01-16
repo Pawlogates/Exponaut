@@ -92,7 +92,12 @@ var quicksave_blocked = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.gameState_levelSet = true
+	Globals.gameState_level = false
+	
 	Globals.level_started.emit()
+	
+	Overlay.animation("black_fade_out", 1.0, false, false)
 	
 	#if Globals.gameState_debug: # False if the game is currently being worked on.
 		#SaveData.delete_progress()
@@ -200,7 +205,7 @@ func _ready():
 	
 	
 	if Globals.debug_mode:
-		Globals.playerHP = 250
+		Globals.player_health = 250
 	
 	if weather_rain == true:
 		Player.camera.add_child(scene_rain.instantiate())

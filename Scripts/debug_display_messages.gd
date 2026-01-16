@@ -44,6 +44,9 @@ func insert_queued_messages():
 					label_old.repeats += 1
 					label_old.handle_repeats()
 					label_old.c_remove.start()
+					label_old.fade_out_active = false
+					label_old.modulate.a = 1.0
+					
 					is_repeat = true
 			
 			if is_repeat : continue
@@ -80,6 +83,7 @@ func _on_close_pressed() -> void:
 
 
 func update_bg(message, message_id):
+	print(active_messages)
 	var new_size_x = len(message) * letter_x + 4
 	var new_size_y = (message_id + 1) * letter_y
 	
@@ -97,8 +101,9 @@ func update_bg(message, message_id):
 		new_size_y = 0
 		btn_close.position.x = 0
 	
-	elif active_messages == 1:
-		btn_close.position.x = clamp(new_size_x * 2, 0, 1894)
+	elif active_messages < 4 and active_messages > 0:
+		if btn_close.position.x < clamp(new_size_x * 2, 0, 1894):
+			btn_close.position.x = clamp(new_size_x * 2, 0, 1894)
 
 func _on_animation_ui_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "hide":

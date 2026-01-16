@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://venyptfcari1"]
+[gd_scene load_steps=10 format=3 uid="uid://venyptfcari1"]
 
 [ext_resource type="Script" uid="uid://6oq0agwanlkd" path="res://Other/Scenes/User Interface/HUD/HUD_manager.gd" id="1_fblkw"]
 [ext_resource type="PackedScene" uid="uid://cpuihqge2yjh4" path="res://Other/Scenes/User Interface/HUD/player_main.tscn" id="1_iqrlt"]
@@ -8,9 +8,13 @@
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://Other/Scenes/User Interface/HUD/info_downRight.tscn" id="5_7reqh"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://Other/Scenes/User Interface/Inventory/inventory.tscn" id="6_rtdal"]
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://Other/Scenes/User Interface/collectedApplesDisplay_golden.tscn" id="8_qos86"]
+[ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/User Interface/Debug/animation_ui.tscn" id="9_v8p1v"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 75
+offset = Vector2(-4000, -4000)
+scale = Vector2(0.01, 0.01)
+transform = Transform2D(0.01, 0, 0, 0.01, -4000, -4000)
 script = ExtResource("1_fblkw")
 
 [node name="player_main" parent="." instance=ExtResource("1_iqrlt")]
@@ -100,6 +104,7 @@ offset_right = 1824.0
 offset_bottom = 1046.0
 
 [node name="Inventory" parent="." instance=ExtResource("6_rtdal")]
+scale = Vector2(1e-05, 1e-05)
 
 [node name="collectedApples_display" type="Control" parent="."]
 custom_minimum_size = Vector2(160, 320)
@@ -120,3 +125,7 @@ alignment = 1
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 4
+
+[node name="animation_ui" parent="." instance=ExtResource("9_v8p1v")]
+
+[connection signal="animation_finished" from="animation_ui" to="." method="_on_animation_ui_animation_finished"]

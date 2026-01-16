@@ -1,33 +1,70 @@
-[gd_scene load_steps=3 format=3 uid="uid://dx18msavpuef4"]
+[gd_scene load_steps=4 format=3 uid="uid://dx18msavpuef4"]
 
-[ext_resource type="PackedScene" uid="uid://66m2wk380cys" path="res://Objects/Decorations/circle_full.tscn" id="2_2qcs2"]
-[ext_resource type="PackedScene" uid="uid://dutvlit68jqob" path="res://Objects/Decorations/polygon_gear_part.tscn" id="2_l17if"]
+[ext_resource type="Script" uid="uid://bcrfevrckuk51" path="res://Objects/Decorations/gear.gd" id="1_l17if"]
+[ext_resource type="AnimationLibrary" uid="uid://hcdta174ln3f" path="res://Other/Animations/gear.tres" id="2_2qcs2"]
+[ext_resource type="PackedScene" uid="uid://b3cga5t2t7txf" path="res://Objects/Decorations/gear_hole_basic.tscn" id="2_l17if"]
 
 [node name="gear" type="Node2D"]
+script = ExtResource("1_l17if")
 
-[node name="circle_full" parent="." instance=ExtResource("2_2qcs2")]
-scale = Vector2(0.6, 0.6)
+[node name="gear" parent="." instance=ExtResource("2_l17if")]
 
-[node name="gear_part" parent="." instance=ExtResource("2_l17if")]
-position = Vector2(0, -113)
-scale = Vector2(0.15, 0.15)
+[node name="gear2" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 0)
 
-[node name="gear_part2" parent="." instance=ExtResource("2_l17if")]
-position = Vector2(-115, -36)
-rotation = 4.98619
-scale = Vector2(0.15, 0.15)
+[node name="gear3" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, -8)
 
-[node name="gear_part3" parent="." instance=ExtResource("2_l17if")]
-position = Vector2(-66, 102)
-rotation = 3.66378
-scale = Vector2(0.15, 0.15)
+[node name="gear4" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, -8)
 
-[node name="gear_part4" parent="." instance=ExtResource("2_l17if")]
-position = Vector2(76, 94)
-rotation = 2.60315
-scale = Vector2(0.15, 0.15)
+[node name="gear5" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, -8)
 
-[node name="gear_part5" parent="." instance=ExtResource("2_l17if")]
-position = Vector2(112, -44)
-rotation = 1.27387
-scale = Vector2(0.15, 0.15)
+[node name="gear6" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, 0)
+
+[node name="gear7" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, 8)
+
+[node name="gear8" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, 8)
+
+[node name="gear9" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 8)
+
+[node name="gear10" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-16, 8)
+
+[node name="gear11" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 16)
+
+[node name="gear12" parent="." instance=ExtResource("2_l17if")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-16, 16)
+
+[node name="animation_gear" type="AnimationPlayer" parent="."]
+libraries = {
+&"": ExtResource("2_2qcs2")
+}

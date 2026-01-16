@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://c8qxhrm2pefrh"]
+
+[ext_resource type="Script" uid="uid://bcrfevrckuk51" path="res://Objects/Decorations/gear.gd" id="1_2bejy"]
+[ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="2_abixh"]
+[ext_resource type="AnimationLibrary" uid="uid://hcdta174ln3f" path="res://Other/Animations/gear.tres" id="3_352ya"]
+
+[node name="gear" type="Node2D"]
+script = ExtResource("1_2bejy")
+
+[node name="gear" parent="." instance=ExtResource("2_abixh")]
+
+[node name="gear10" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0.779291, 0.779291, 0.779291, 1)
+position = Vector2(4, 4)
+
+[node name="gear2" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, -8)
+
+[node name="gear3" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, 8)
+
+[node name="gear4" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, -8)
+
+[node name="gear5" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 8)
+
+[node name="gear6" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 0)
+
+[node name="gear7" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, -8)
+
+[node name="gear8" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, 0)
+
+[node name="gear9" parent="." instance=ExtResource("2_abixh")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, 8)
+
+[node name="animation_gear" type="AnimationPlayer" parent="."]
+libraries = {
+&"": ExtResource("3_352ya")
+}

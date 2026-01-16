@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://cems3m2yqtxcc"]
+
+[ext_resource type="PackedScene" uid="uid://66m2wk380cys" path="res://Objects/Decorations/circle_full.tscn" id="1_le3lu"]
+[ext_resource type="PackedScene" uid="uid://dutvlit68jqob" path="res://Objects/Decorations/polygon_gear_part.tscn" id="2_s1u6m"]
+
+[node name="gear" type="Node2D"]
+
+[node name="circle_full" parent="." instance=ExtResource("1_le3lu")]
+scale = Vector2(0.6, 0.6)
+
+[node name="gear_part" parent="." instance=ExtResource("2_s1u6m")]
+position = Vector2(0, -113)
+scale = Vector2(0.15, 0.15)
+
+[node name="gear_part2" parent="." instance=ExtResource("2_s1u6m")]
+position = Vector2(-115, -36)
+rotation = 4.98619
+scale = Vector2(0.15, 0.15)
+
+[node name="gear_part3" parent="." instance=ExtResource("2_s1u6m")]
+position = Vector2(-66, 102)
+rotation = 3.66378
+scale = Vector2(0.15, 0.15)
+
+[node name="gear_part4" parent="." instance=ExtResource("2_s1u6m")]
+position = Vector2(76, 94)
+rotation = 2.60315
+scale = Vector2(0.15, 0.15)
+
+[node name="gear_part5" parent="." instance=ExtResource("2_s1u6m")]
+position = Vector2(112, -44)
+rotation = 1.27387
+scale = Vector2(0.15, 0.15)

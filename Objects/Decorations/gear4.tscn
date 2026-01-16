@@ -1,0 +1,207 @@
+[gd_scene load_steps=5 format=3 uid="uid://jtg6t8760f5e"]
+
+[ext_resource type="Script" uid="uid://bcrfevrckuk51" path="res://Objects/Decorations/gear.gd" id="1_uhh57"]
+[ext_resource type="PackedScene" uid="uid://b3cga5t2t7txf" path="res://Objects/Decorations/gear_hole_basic.tscn" id="2_hfgas"]
+[ext_resource type="PackedScene" uid="uid://cbn8ygu14a3pw" path="res://Objects/Decorations/circle_hole.tscn" id="3_t0v7j"]
+[ext_resource type="AnimationLibrary" uid="uid://hcdta174ln3f" path="res://Other/Animations/gear.tres" id="4_44ijf"]
+
+[node name="gear" type="Node2D"]
+script = ExtResource("1_uhh57")
+
+[node name="gear" parent="." instance=ExtResource("2_hfgas")]
+
+[node name="gear2" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 0)
+
+[node name="gear3" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, -8)
+
+[node name="gear4" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, -8)
+
+[node name="gear5" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, -8)
+
+[node name="gear6" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, 0)
+
+[node name="gear7" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(8, 8)
+
+[node name="gear8" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, 8)
+
+[node name="gear9" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 8)
+
+[node name="gear10" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-16, 8)
+
+[node name="gear11" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-8, 16)
+
+[node name="gear12" parent="." instance=ExtResource("2_hfgas")]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-16, 16)
+
+[node name="gear_hole" parent="." instance=ExtResource("3_t0v7j")]
+modulate = Color(0, 0, 0, 1)
+z_index = 1
+scale = Vector2(0.48, 0.48)
+
+[node name="gear_hole2" parent="." instance=ExtResource("3_t0v7j")]
+z_index = 2
+scale = Vector2(0.455, 0.455)
+
+[node name="gear_hole5" parent="." instance=ExtResource("3_t0v7j")]
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(-4, 4)
+scale = Vector2(0.43, 0.43)
+
+[node name="gear_hole3" parent="." instance=ExtResource("3_t0v7j")]
+modulate = Color(0, 0, 0, 1)
+z_index = 2
+scale = Vector2(0.17, 0.17)
+
+[node name="gear_hole6" parent="." instance=ExtResource("3_t0v7j")]
+modulate = Color(0, 0, 0, 1)
+z_index = 1
+position = Vector2(-2, 2)
+scale = Vector2(0.17, 0.17)
+
+[node name="gear_hole4" parent="." instance=ExtResource("3_t0v7j")]
+z_index = 3
+scale = Vector2(0.16, 0.16)
+
+[node name="gear_hole7" parent="." instance=ExtResource("3_t0v7j")]
+modulate = Color(0, 0, 0, 1)
+z_index = 2
+position = Vector2(-1, 1)
+scale = Vector2(0.145, 0.145)
+
+[node name="animation_gear" type="AnimationPlayer" parent="."]
+libraries = {
+&"": ExtResource("4_44ijf")
+}
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = 1
+offset_left = 42.0
+offset_top = -6.0
+offset_right = 102.0
+offset_bottom = 6.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect"]
+z_index = -4
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 58.0
+offset_bottom = 10.0
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = 1
+offset_left = 12.0
+offset_top = -40.0
+offset_right = 72.0
+offset_bottom = -28.0
+rotation = -0.976977
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect2"]
+z_index = -4
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 58.0
+offset_bottom = 10.0
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+z_index = 1
+offset_left = -102.0
+offset_top = -6.0
+offset_right = -42.0
+offset_bottom = 6.0
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect3"]
+z_index = -4
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 58.0
+offset_bottom = 10.0
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+z_index = 1
+offset_left = -30.0
+offset_top = -32.0
+offset_right = 30.0
+offset_bottom = -20.0
+rotation = -2.1988
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect4"]
+z_index = -4
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 58.0
+offset_bottom = 10.0
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+z_index = 1
+offset_left = -22.0
+offset_top = 40.0
+offset_right = 38.0
+offset_bottom = 52.0
+rotation = -4.16146
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect5"]
+z_index = -4
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 58.0
+offset_bottom = 10.0
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+z_index = 1
+offset_left = 24.0
+offset_top = 32.0
+offset_right = 84.0
+offset_bottom = 44.0
+rotation = -5.48332
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="ColorRect6"]
+z_index = -4
+layout_mode = 0
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 58.0
+offset_bottom = 10.0

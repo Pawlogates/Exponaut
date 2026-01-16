@@ -140,6 +140,7 @@ _data = {
 }
 
 [node name="display_level_info" type="Control" groups=["levelSet_display"]]
+process_mode = 1
 modulate = Color(1, 1, 1, 0)
 z_index = 50
 layout_mode = 3

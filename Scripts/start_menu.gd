@@ -3,6 +3,12 @@ extends CenterContainer
 var can_quit = true
 
 func _ready():
+	Globals.gameState_menu = true
+	Globals.gameState_level = false
+	Globals.gameState_levelSet = false
+	
+	Overlay.animation("black_fade_out", 1.0, false, false)
+	
 	#SaveData.gameplay_recorder.selected_playback_id = 0
 	
 	#SaveData.load_game_all()
@@ -10,8 +16,6 @@ func _ready():
 	
 	hide_everything()
 	correct_toggle_buttons()
-	
-	Overlay.animation("fade_black", 0, 1.0, true)
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	

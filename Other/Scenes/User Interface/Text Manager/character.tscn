@@ -1,0 +1,36 @@
+[gd_scene load_steps=6 format=3 uid="uid://dy7m5jtiofcmf"]
+
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_5w5jm"]
+[ext_resource type="Script" uid="uid://bt1ym7x1bvgf1" path="res://Other/Scenes/User Interface/Text Manager/text_manager_character.gd" id="1_sjc3v"]
+[ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="2_sjkrq"]
+[ext_resource type="AnimationLibrary" uid="uid://dti27low163p0" path="res://Other/Animations/sprite.tres" id="3_4ti24"]
+[ext_resource type="AnimationLibrary" uid="uid://oqwyjsjb12x8" path="res://Other/Animations/ui.tres" id="4_5w5jm"]
+
+[node name="text_manager_character" type="Control"]
+custom_minimum_size = Vector2(20, 40)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 20.0
+offset_bottom = 40.0
+mouse_filter = 2
+script = ExtResource("1_sjc3v")
+
+[node name="character" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+theme = ExtResource("1_5w5jm")
+text = "t"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="animation_general" parent="character" instance=ExtResource("2_sjkrq")]
+libraries = {
+&"": ExtResource("3_4ti24"),
+&"ui": ExtResource("4_5w5jm")
+}
