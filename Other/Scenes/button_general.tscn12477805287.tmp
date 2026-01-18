@@ -1,8 +1,11 @@
-[gd_scene load_steps=7 format=3 uid="uid://cw2j64pbmrk6p"]
+[gd_scene load_steps=10 format=3 uid="uid://cw2j64pbmrk6p"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_qc5pf"]
-[ext_resource type="Script" uid="uid://do6ughs0nnkvg" path="res://Scripts/menu_button_general.gd" id="2_iek26"]
+[ext_resource type="Script" uid="uid://do6ughs0nnkvg" path="res://Scripts/button_UI_general.gd" id="1_wdn3h"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="3_wdn3h"]
+[ext_resource type="Texture2D" uid="uid://v3yeccs7l7bp" path="res://Assets/Graphics/other/UI_button.png" id="4_jbag6"]
+[ext_resource type="Texture2D" uid="uid://b4owrlvxevem8" path="res://Assets/Graphics/other/gradients/darkRed_darkPink.tres" id="4_qdynn"]
+[ext_resource type="Texture2D" uid="uid://c6ll37ql1nm6a" path="res://Assets/Graphics/other/gradients/black_white.tres" id="5_o206t"]
 
 [sub_resource type="Animation" id="Animation_jbag6"]
 length = 0.001
@@ -14,7 +17,7 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-32, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/1/type = "bezier"
@@ -25,7 +28,7 @@ tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(-32, -0.25, 0, 0.25, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
 "times": PackedFloat32Array(0)
 }
 tracks/2/type = "bezier"
@@ -193,27 +196,79 @@ _data = {
 &"clicked": SubResource("Animation_wdn3h")
 }
 
-[node name="button_general" type="Button" groups=["button_general"]]
-z_as_relative = false
+[node name="button_UI_general" type="Button" groups=["button_UI"]]
+self_modulate = Color(1, 1, 1, 0)
+custom_minimum_size = Vector2(64, 64)
+offset_right = 64.0
+offset_bottom = 64.0
+flat = true
+script = ExtResource("1_wdn3h")
+
+[node name="decoration_simple" type="Button" parent="."]
+visible = false
 custom_minimum_size = Vector2(0, 64)
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("1_qc5pf")
-script = ExtResource("2_iek26")
+
+[node name="decoration" type="Polygon2D" parent="."]
+texture_repeat = 2
+position = Vector2(176, -80)
+texture = ExtResource("4_jbag6")
+polygon = PackedVector2Array(-112, 144, -176, 144, -176, 80, -112, 80)
+uv = PackedVector2Array(0, 0, 128, 0, 7.62939e-06, 128, 128, 128)
+
+[node name="decoration_fg" type="Polygon2D" parent="decoration"]
+modulate = Color(1, 1, 1, 0.414)
+z_index = 1
+texture_repeat = 2
+texture = ExtResource("4_qdynn")
+polygon = PackedVector2Array(-112, 144, -176, 144, -176, 80, -112, 80)
+uv = PackedVector2Array(0, 0, 64, 0, 7.62939e-06, 64, 64, 64)
+
+[node name="decoration_bg" type="Polygon2D" parent="decoration"]
+z_index = -1
+texture_repeat = 2
+polygon = PackedVector2Array(-112, 144, -176, 144, -176, 80, -112, 80)
+
+[node name="decoration_bg2" type="Polygon2D" parent="decoration"]
+z_index = -2
+texture_repeat = 2
+texture = ExtResource("5_o206t")
+polygon = PackedVector2Array(-112, 144, -176, 144, -176, 80, -112, 80)
+uv = PackedVector2Array(0, 0, 64, 0, 64, 64, 1.52588e-05, 64)
 
 [node name="text_manager" parent="." instance=ExtResource("3_wdn3h")]
 layout_mode = 1
+offset_left = -32.0
+offset_top = -32.0
+offset_right = -32.0
+offset_bottom = -32.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../decoration_simple")
 libraries = {
 &"": SubResource("AnimationLibrary_qdynn")
 }
 
-[node name="timer_disabled" type="Timer" parent="."]
+[node name="cooldown_active" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="debug_real_size" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="button_up" from="." to="." method="_on_button_up"]
@@ -222,4 +277,4 @@ one_shot = true
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="current_animation_changed" from="AnimationPlayer" to="." method="_on_animation_player_current_animation_changed"]
-[connection signal="timeout" from="timer_disabled" to="." method="_on_timer_disabled_timeout"]
+[connection signal="timeout" from="cooldown_active" to="." method="_on_timer_disabled_timeout"]

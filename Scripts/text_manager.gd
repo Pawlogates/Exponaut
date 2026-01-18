@@ -1,17 +1,26 @@
 extends Control
 
 @export var text_full = "" # This is the main text property which should be targeted when instantiating this scene.
+@export var text_alignment = 0
+@export var text_animation_sync = true
 
 var text_simple = "none"
 var last_text_full = "none"
 
-var letter_x = 40
-var letter_y = 40
+var letter_x = 20
+var letter_y = 20
 
 var character_id = 0
 
+var sfx_limit = 0
+
 func _ready() -> void:
-	Globals.debug1.connect(create_message)
+	Globals.message_debug("Connecting debug signal 1 to a Text Manager, with the target function being 'create_message'.")
+	Globals.debug1.connect(debug_create_message)
+	
+	sfx_limit = 0
+	
+	if text_alignment : $row1.alignment = text_alignment
 	
 	if text_full != "":
 		create_message(text_full)
@@ -19,13 +28,13 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	pass
 
+
 var current_character_is_rule_name = false
 var current_rule = "none"
 
 func create_message(message = last_text_full):
-	#get_tree().paused = true
-	
 	Globals.message_debug("Creating a message using a Text Manager... Message's FULL text: '%s'" % message)
+	
 	if message != "":
 		last_text_full = message
 	
@@ -50,18 +59,16 @@ func create_message(message = last_text_full):
 			continue
 		
 		add_letter(character)
-	
-		if current_rule == "[anim_fade_out_up]" or current_rule == "[/]" or current_rule == "":
-			Globals.message_debug("A specific rule is causing a text container letter to delay the spawn of the rest.")
-			await get_tree().create_timer(0.025, true).timeout
-	
-	#get_tree().paused = false
+		
+		#if current_rule == "[anim_fade_out_up]" or current_rule == "[/]" or current_rule == "":
+		#Globals.message_debug("A specific rule is causing a text container letter to delay the spawn of the rest.")
+		
+		await get_tree().create_timer(0.01, true).timeout
 
 
 func add_letter(character):
 	var letter = Globals.scene_text_manager_character.instantiate()
 	$row1.add_child(letter)
-	print(current_rule)
 	
 	letter.character.text = str(character)
 	
@@ -70,7 +77,36 @@ func add_letter(character):
 			
 			letter.animation_player.play(anim_name)
 	
-	if not current_rule == "[anim_fade_out_up]" and not current_rule == "[/]" and not current_rule == "":
+	#if not current_rule == "[anim_fade_out_up]" and not current_rule == "[/]" and not current_rule == "":
+	
+	if text_animation_sync:
 		letter.animation_player.advance(float(character_id) / 20)
+		
+		#if sfx_limit <= 0:
+			#letter.cooldown_sfx.wait_time = float(character_id) / 20
+			#letter.cooldown_sfx.start()
+			
+			#sfx_limit = 5 + randi_range(0, 4)
+	
+	if sfx_limit <= 0:
+		letter.sfx.play()
+		
+		sfx_limit = 10 + randi_range(-10, 20)
 	
 	character_id += 1
+	sfx_limit -= 1
+
+
+func debug_create_message():
+	if not debug_available : return
+	
+	create_message()
+	
+	debug_available = false
+	$cooldown_debug_available.start()
+
+
+var debug_available = true
+
+func _on_cooldown_debug_available_timeout() -> void:
+	debug_available = true

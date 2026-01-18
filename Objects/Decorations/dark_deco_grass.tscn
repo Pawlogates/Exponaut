@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="5_m08to"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://Objects/Decorations/wavingDeco_grass.tscn" id="6_mpb3w"]
 [ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://Objects/Decorations/glow_shadow_orb_soft.tscn" id="7_u40ux"]
-[ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_shadowOrb_heavy.png" id="7_uybsh"]
+[ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="7_uybsh"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_i0gb7"]
 

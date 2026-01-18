@@ -15,7 +15,7 @@ func _process(_delta):
 @export var Background_a_filePath = preload("res://Assets/Graphics/backgrounds/bg_a_fields.png")
 @export var Background_b_filePath = preload("res://Assets/Graphics/backgrounds/bg_b_fields.png")
 @export var is_gradient = false
-@export var gradient_filePath = preload("res://Assets/Graphics/other/gradients/gradient_bg_purple_darkPurple.tres")
+@export var gradient_filePath = preload("res://Assets/Graphics/other/gradients/purple_darkPurple.tres")
 
 func _on_area_entered(area):
 	if is_gradient:

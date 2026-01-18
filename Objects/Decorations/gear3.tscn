@@ -1,12 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://b70den6jjw5n6"]
+[gd_scene load_steps=4 format=3 uid="uid://b70den6jjw5n6"]
 
-[ext_resource type="Script" uid="uid://bcrfevrckuk51" path="res://Objects/Decorations/gear.gd" id="1_h8htx"]
 [ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="2_analn"]
-[ext_resource type="AnimationLibrary" uid="uid://hcdta174ln3f" path="res://Other/Animations/gear.tres" id="3_qsdml"]
+[ext_resource type="PackedScene" uid="uid://b8lm3sobndbn2" path="res://Objects/Decorations/glow_gear.tscn" id="3_ypj2s"]
 [ext_resource type="PackedScene" uid="uid://66m2wk380cys" path="res://Objects/Decorations/circle_full.tscn" id="4_yej8v"]
 
 [node name="gear" type="Node2D"]
-script = ExtResource("1_h8htx")
+modulate = Color(0.641144, 0.863968, 0.651786, 1)
 
 [node name="gear" parent="." instance=ExtResource("2_analn")]
 
@@ -54,11 +53,6 @@ modulate = Color(0, 0, 0, 1)
 z_index = -1
 position = Vector2(0, 8)
 
-[node name="animation_gear" type="AnimationPlayer" parent="."]
-libraries = {
-&"": ExtResource("3_qsdml")
-}
-
 [node name="circle_full" parent="." instance=ExtResource("4_yej8v")]
 modulate = Color(0, 0, 0, 1)
 z_index = 1
@@ -85,3 +79,5 @@ scale = Vector2(0.12, 0.12)
 [node name="circle_full6" parent="." instance=ExtResource("4_yej8v")]
 z_index = 4
 scale = Vector2(0.105, 0.105)
+
+[node name="glow_gear" parent="." instance=ExtResource("3_ypj2s")]

@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://b8lm3sobndbn2"]
+
+[ext_resource type="Script" uid="uid://ku0yimal5iu6" path="res://Objects/Decorations/glow_general.gd" id="1_g85gt"]
+[ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="1_qyhmy"]
+
+[node name="glow_gear" type="Node2D"]
+z_index = 1
+script = ExtResource("1_g85gt")
+
+[node name="glow_dark" type="PointLight2D" parent="."]
+blend_mode = 1
+range_layer_max = 1
+texture = ExtResource("1_qyhmy")
+offset = Vector2(200, -200)
+texture_scale = 1.5
+
+[node name="glow_color" type="PointLight2D" parent="."]
+z_index = 1
+position = Vector2(-290, 370)
+color = Color(0.980882, 0.825167, 0.729474, 1)
+energy = 5.14
+blend_mode = 2
+range_layer_max = 1
+texture = ExtResource("1_qyhmy")
+offset = Vector2(200, -200)
+texture_scale = 1.5
+
+[node name="glow_color2" type="PointLight2D" parent="."]
+z_index = 2
+position = Vector2(-458, 100)
+color = Color(0, 0, 0, 1)
+blend_mode = 2
+range_layer_max = 1
+texture = ExtResource("1_qyhmy")
+offset = Vector2(200, -200)
+
+[node name="glow_color3" type="PointLight2D" parent="."]
+z_index = 3
+position = Vector2(-28, 398)
+color = Color(0.144063, 0.144063, 0.144063, 1)
+blend_mode = 2
+range_layer_max = 1
+texture = ExtResource("1_qyhmy")
+offset = Vector2(200, -200)
+
+[node name="glow_color4" type="PointLight2D" parent="."]
+z_index = 4
+position = Vector2(-346, 396)
+color = Color(0.366595, 0.366594, 0.366595, 1)
+blend_mode = 2
+range_layer_max = 1
+texture = ExtResource("1_qyhmy")
+offset = Vector2(200, -200)

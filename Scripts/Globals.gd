@@ -32,7 +32,17 @@ const d_ambience = dirpath_sounds + "/ambience"
 # Various lists (String):
 const l_levelSet_id : Array = ["MAIN, BONUS, DEBUG"]
 const l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
-const l_animation_name_general : Array = ["collect_special", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight"]
+
+const l_animation_type : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
+const l_animation_type_all : Array = ["general, gear, ui"]
+const l_animation_name_general : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
+const l_animation_name_gear : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
+
+const l_animation_type_limited : Array = ["general_limited", "gear_limited"]
+const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
+const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
+const l_animation_name_gear_limited : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
+
 
 # Reusable sentences (String):
 const s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
@@ -99,18 +109,20 @@ const scene_levelSet_display_level_info = preload("res://Other/Scenes/Level Set/
 const scene_levelSet_level_icon = preload("res://Other/Scenes/Level Set/levelSet_level_icon.tscn")
 const scene_text_manager = preload("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn")
 const scene_text_manager_character = preload("res://Other/Scenes/User Interface/Text Manager/character.tscn")
+const scene_decoration_core = preload("res://Other/Scenes/decoration_core.tscn")
 const scene_gear = preload("res://Objects/Decorations/gear.tscn")
 const scene_gear2 = preload("res://Objects/Decorations/gear2.tscn")
 const scene_gear3 = preload("res://Objects/Decorations/gear3.tscn")
 const scene_gear4 = preload("res://Objects/Decorations/gear4.tscn")
 const scene_gear5 = preload("res://Objects/Decorations/gear5.tscn")
+const scene_UI_button_general_decoration_right_round = preload("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_round.tscn")
+const scene_UI_button_general_decoration_right_slope = preload("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_slope.tscn")
+const scene_animation_general = preload("res://Other/Scenes/animation_general.tscn")
+const scene_animation_gear = preload("res://Other/Scenes/animation_gear.tscn")
 
 const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
 func _ready() -> void:
-	refreshed.connect(on_refreshed)
-	refresh()
-	
 	reassign_general()
 	#reassign_nodes_general.connect(reassign_general)
 
@@ -148,13 +160,8 @@ func handle_actions():
 		
 		if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
 			World.player_health = 999
-		
-		
-	if debug_mode:
-		for x in range(2): # Should eventually be 9.
-			if Input.is_action_just_pressed(str(x)):
-				call("on_action_%s" % x)
-				Globals.message_debug("Pressed %s. Executing assigned debug function..." % x)
+	
+	handle_debug_actions()
 
 
 func reassign_general():
@@ -437,12 +444,17 @@ const list_temporary_powerUp = ["none", "higher_jump", "increased_speed", "telep
 @onready var l_bonusBox_item_blacklist_enemy_scene = []
 
 
-func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1): # Quantity of -1 will randomize the number of spawned scenes.
+func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1, add_modulate : Color = Color(1, 1, 1, 1), add_scale : Vector2 = Vector2(1, 1), add_z_index : int = 0): # Quantity of -1 will randomize the number of spawned scenes.
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
 		var node = file.instantiate()
-		node.position = pos_offset
+		
+		node.position += pos_offset
+		node.modulate += add_modulate
+		node.scale += add_scale
+		node.z_index += add_z_index
+		
 		target.add_child(node)
 		
 		spawned_nodes.append(node)
@@ -510,6 +522,20 @@ func list_files_in_dirpath(directory_path : String, exclude : Array):
 	return list
 
 
+# General tools - [START]
+
+func random_bool(false_probability, true_probability):
+	var randomized_number = randf_range(-false_probability, true_probability)
+	if randomized_number <= 0 : return false
+	else : return true
+
+func opposite_bool(start_bool):
+	if start_bool:
+		return false
+	else:
+		return true
+
+# Below function is useless as its a repeat of "pick_random()".
 func random_from_list(list_name, list_length): #list length of -1 will include everything.
 	var list = get(str(list_name))
 	var randomized_ID : int
@@ -522,31 +548,20 @@ func random_from_list(list_name, list_length): #list length of -1 will include e
 	var randomized_property = list[randomized_ID]
 	return randomized_property
 
-
-func random_bool(false_probability, true_probability):
-	var randomized_number = randf_range(-false_probability, true_probability)
-	if randomized_number <= 0:
-		var randomized_bool = false
-		return randomized_bool
-	else:
-		var randomized_bool = true
-		return randomized_bool
+# General tools - [END]
 
 
-signal refreshed
-
-func refresh():
-	await get_tree().create_timer(0.5, true).timeout
-	refreshed.emit()
-	refresh()
-
-func on_refreshed():
-	pass
-
+func handle_debug_actions():
+	if debug_mode:
+		for x in range(1, 5): # Should eventually be 10 (which doesn't include the last - "10" value).
+			if Input.is_action_just_pressed(str(x)):
+				call("on_action_%s" % x)
+				Globals.message_debug("Pressed %s while debug mode is active. Executing assigned debug function..." % x)
 
 signal debug1
 signal debug2
-signal debug0
+signal debug3
+signal debug4
 
 func on_action_1():
 	debug1.emit()
@@ -554,5 +569,8 @@ func on_action_1():
 func on_action_2():
 	debug2.emit()
 
-func on_action_0():
-	debug0.emit()
+func on_action_3():
+	debug3.emit()
+
+func on_action_4():
+	debug4.emit()

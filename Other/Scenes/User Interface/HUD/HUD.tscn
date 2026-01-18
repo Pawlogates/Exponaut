@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://Other/Scenes/User Interface/HUD/info_downRight.tscn" id="5_7reqh"]
 [ext_resource type="PackedScene" uid="uid://cd8smchd5b76m" path="res://Other/Scenes/User Interface/Inventory/inventory.tscn" id="6_rtdal"]
 [ext_resource type="PackedScene" uid="uid://b5nfhi05mcdv4" path="res://Other/Scenes/User Interface/collectedApplesDisplay_golden.tscn" id="8_qos86"]
-[ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/User Interface/Debug/animation_ui.tscn" id="9_v8p1v"]
+[ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/animation_ui.tscn" id="9_v8p1v"]
 
 [node name="HUD" type="CanvasLayer"]
 layer = 75

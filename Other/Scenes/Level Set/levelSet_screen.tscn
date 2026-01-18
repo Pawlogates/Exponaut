@@ -1,9 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://1yrqwkydp78d"]
+[gd_scene load_steps=14 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Script" uid="uid://bgd2v1alhdml" path="res://Scripts/screen_levelSelect.gd" id="2_7kq8d"]
 [ext_resource type="AudioStream" uid="uid://bwf4nucobwg4x" path="res://Assets/Sounds/music/intense1.mp3" id="3_e37xu"]
-[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/button_general.tscn" id="3_icvp0"]
-[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_6dhn4"]
+[ext_resource type="PackedScene" uid="uid://km48vtk3m8qx" path="res://Other/Scenes/menu_main.tscn" id="3_icvp0"]
 
 [sub_resource type="Gradient" id="Gradient_uas2u"]
 colors = PackedColorArray(0.618933, 1.73271e-06, 3.85046e-07, 1, 0, 0, 0, 1)
@@ -55,7 +54,7 @@ position = Vector2(960, 544)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_e37xu")
-volume_db = -43.89
+volume_db = -23.853
 autoplay = true
 
 [node name="background" type="TextureRect" parent="."]
@@ -107,48 +106,11 @@ shape = SubResource("RectangleShape2D_hirpx")
 position = Vector2(-760, 896)
 shape = SubResource("RectangleShape2D_8nxm7")
 
-[node name="container_buttons" type="VBoxContainer" parent="."]
-z_index = 10
+[node name="menu_main" parent="." instance=ExtResource("3_icvp0")]
 layout_mode = 0
-offset_left = 48.0
-offset_top = 640.0
-offset_right = 912.0
+offset_left = 112.0
+offset_top = 544.0
+offset_right = 832.0
 offset_bottom = 1044.0
 
-[node name="btn_main_menu" parent="container_buttons" instance=ExtResource("3_icvp0")]
-layout_mode = 2
-text_manager_message = "[anim_collect_special]Main Menu"
-
-[node name="btn_back_to_overworld" parent="container_buttons" instance=ExtResource("3_icvp0")]
-z_index = -1
-layout_mode = 2
-text_manager_message = "[/]Back to Overworld"
-
-[node name="btn_back_to_overworld2" parent="container_buttons" instance=ExtResource("3_icvp0")]
-z_index = -2
-layout_mode = 2
-text_manager_message = "[anim_fade_out_up]testtesttesttesttesttesttest"
-
-[node name="btn_back_to_overworld3" parent="container_buttons" instance=ExtResource("3_icvp0")]
-z_index = -3
-layout_mode = 2
-theme = ExtResource("4_6dhn4")
-text_manager_message = "[anim_loop_up_down]testtesttesttestte[anim_collect_special]sttesttest"
-
-[node name="btn_back_to_overworld4" parent="container_buttons" instance=ExtResource("3_icvp0")]
-z_index = -4
-layout_mode = 2
-text_manager_message = "[anim_loop_scale]someexample text i guess ???? ??"
-
-[node name="btn_back_to_overworld5" parent="container_buttons" instance=ExtResource("3_icvp0")]
-z_index = -5
-layout_mode = 2
-text_manager_message = "[anim_collect_special]Back to[/] Overwo[anim_collect_special]rld"
-
 [connection signal="timeout" from="buttons_blocked" to="." method="_on_buttons_blocked_timeout"]
-[connection signal="pressed" from="container_buttons/btn_main_menu" to="." method="_on_btn_main_menu_pressed"]
-[connection signal="pressed" from="container_buttons/btn_back_to_overworld" to="." method="_on_btn_back_to_overworld_pressed"]
-[connection signal="pressed" from="container_buttons/btn_back_to_overworld2" to="." method="_on_btn_back_to_overworld_pressed"]
-[connection signal="pressed" from="container_buttons/btn_back_to_overworld3" to="." method="_on_btn_back_to_overworld_pressed"]
-[connection signal="pressed" from="container_buttons/btn_back_to_overworld4" to="." method="_on_btn_back_to_overworld_pressed"]
-[connection signal="pressed" from="container_buttons/btn_back_to_overworld5" to="." method="_on_btn_back_to_overworld_pressed"]

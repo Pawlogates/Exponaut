@@ -1,11 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dx18msavpuef4"]
+[gd_scene load_steps=3 format=3 uid="uid://dx18msavpuef4"]
 
-[ext_resource type="Script" uid="uid://bcrfevrckuk51" path="res://Objects/Decorations/gear.gd" id="1_l17if"]
-[ext_resource type="AnimationLibrary" uid="uid://hcdta174ln3f" path="res://Other/Animations/gear.tres" id="2_2qcs2"]
+[ext_resource type="PackedScene" uid="uid://b8lm3sobndbn2" path="res://Objects/Decorations/glow_gear.tscn" id="2_2qcs2"]
 [ext_resource type="PackedScene" uid="uid://b3cga5t2t7txf" path="res://Objects/Decorations/gear_hole_basic.tscn" id="2_l17if"]
 
 [node name="gear" type="Node2D"]
-script = ExtResource("1_l17if")
 
 [node name="gear" parent="." instance=ExtResource("2_l17if")]
 
@@ -64,7 +62,4 @@ modulate = Color(0, 0, 0, 1)
 z_index = -1
 position = Vector2(-16, 16)
 
-[node name="animation_gear" type="AnimationPlayer" parent="."]
-libraries = {
-&"": ExtResource("2_2qcs2")
-}
+[node name="glow_gear" parent="." instance=ExtResource("2_2qcs2")]

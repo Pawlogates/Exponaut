@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://wcpxlfkt2r3h"]
+
+[node name="debug_marker" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0

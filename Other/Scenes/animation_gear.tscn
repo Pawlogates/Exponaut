@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://bgcgpxrksdo80"]
+
+[ext_resource type="AnimationLibrary" uid="uid://hcdta174ln3f" path="res://Other/Animations/gear.tres" id="1_05cte"]
+
+[node name="animation_gear" type="AnimationPlayer"]
+libraries = {
+&"": ExtResource("1_05cte")
+}

@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=3 uid="uid://hcpspry1t85v"]
+
+[ext_resource type="Texture2D" uid="uid://v3yeccs7l7bp" path="res://Assets/Graphics/other/UI_button.png" id="1_vlxq4"]
+[ext_resource type="Texture2D" uid="uid://b4owrlvxevem8" path="res://Assets/Graphics/other/gradients/darkRed_darkPink.tres" id="2_hk237"]
+[ext_resource type="Script" uid="uid://dtru2fhlmrnmy" path="res://Other/Unused/button_decoration_polygons.gd" id="2_w2dh7"]
+[ext_resource type="Texture2D" uid="uid://c6ll37ql1nm6a" path="res://Assets/Graphics/other/gradients/black_white.tres" id="3_w2dh7"]
+
+[node name="decoration" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("2_w2dh7")
+
+[node name="decoration_main" type="Polygon2D" parent="."]
+texture_repeat = 2
+texture = ExtResource("1_vlxq4")
+polygon = PackedVector2Array(0, 0, 64, 0, 64, 64, -7.62939e-06, 64)
+uv = PackedVector2Array(0, 0, 128, 3.8147e-06, 128, 128, 2.00272e-05, 128)
+
+[node name="decoration_fg" type="Polygon2D" parent="decoration_main"]
+modulate = Color(1, 1, 1, 0.215)
+z_index = 1
+texture_repeat = 2
+texture = ExtResource("2_hk237")
+polygon = PackedVector2Array(0, -4.76837e-07, 64, 0, 64, 64, 0, 64)
+uv = PackedVector2Array(0, 0, 64, 0, 7.62939e-06, 64, 64, 64)
+
+[node name="decoration_bg" type="Polygon2D" parent="decoration_main"]
+z_index = -1
+texture_repeat = 2
+polygon = PackedVector2Array(-7.62939e-06, 3.8147e-06, 64, 3.8147e-06, 64, 64, -8.58307e-06, 64)
+uv = PackedVector2Array(-7.62939e-06, 3.8147e-06, 64, 3.8147e-06, 64, 64, -8.58307e-06, 64)
+
+[node name="decoration_bg2" type="Polygon2D" parent="decoration_main"]
+z_index = -2
+texture_repeat = 2
+texture = ExtResource("3_w2dh7")
+polygon = PackedVector2Array(0, 0, 64, 0, 64, 64, 4.76837e-07, 64)
+uv = PackedVector2Array(0, 0, 64, 0, 64, 64, 1.52588e-05, 64)

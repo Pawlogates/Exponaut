@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://oo5p05gn4cmy"]
+
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="1_vpx1a"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dsn1y"]
+atlas = ExtResource("1_vpx1a")
+region = Rect2(320, 256, 64, 64)
+
+[node name="decoration_right_round" type="TextureRect" groups=["decoration_right"]]
+light_mask = 2
+visibility_layer = 2
+texture_filter = 1
+offset_right = 40.0
+offset_bottom = 40.0
+texture = SubResource("AtlasTexture_dsn1y")

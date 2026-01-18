@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c61ibs417d5ae"
-path="res://.godot/imported/glow_shadowOrb_soft.png-7d8a54258f43bf046f59fef25cd04e3d.ctex"
+uid="uid://v3yeccs7l7bp"
+path="res://.godot/imported/UI_button.png-3376394f41b4ba663c9aee624a8ac326.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/other/glow_shadowOrb_soft.png"
-dest_files=["res://.godot/imported/glow_shadowOrb_soft.png-7d8a54258f43bf046f59fef25cd04e3d.ctex"]
+source_file="res://Assets/Graphics/other/UI_button.png"
+dest_files=["res://.godot/imported/UI_button.png-3376394f41b4ba663c9aee624a8ac326.ctex"]
 
 [params]
 

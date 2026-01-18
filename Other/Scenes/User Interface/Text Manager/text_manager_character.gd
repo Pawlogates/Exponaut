@@ -2,6 +2,8 @@ extends Control
 
 @onready var character: RichTextLabel = $character
 @onready var animation_player: AnimationPlayer = $character/animation_general
+@onready var sfx: AudioStreamPlayer2D = $sfx
+@onready var cooldown_sfx: Timer = $cooldown_sfx
 
 var character_text = "-"
 var letter_x = 20
@@ -30,3 +32,7 @@ var anim_rotation_start = 0.0
 var anim_rotation_target = 0.0
 var anim_rotation_speed = 10
 var anim_rotation_direction = 0
+
+
+func _on_cooldown_sfx_timeout() -> void:
+	sfx.play()

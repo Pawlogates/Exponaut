@@ -56,9 +56,8 @@ func _on_episode_button_pressed():
 	if check_if_buttons_blocked():
 		return
 	
-	Overlay.animation("fade_black", 0, 1.0, true)
+	Overlay.animation("black_fade_in", 1.0, false, true)
 	get_tree().change_scene_to_packed(Globals.scene_levelSet_screen)
-	Overlay.animation("fade_black", 0, 1.0, true)
 
 
 func _on_fade_animation_animation_finished(anim_name):

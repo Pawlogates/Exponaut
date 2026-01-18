@@ -1,0 +1,10 @@
+[gd_resource type="GradientTexture2D" load_steps=2 format=3 uid="uid://dhyopvbgc7qd6"]
+
+[ext_resource type="Gradient" uid="uid://bbmujde7xrdhi" path="res://Assets/Graphics/other/gradients/gradient_purple_darkPurple.tres" id="1_gb70y"]
+
+[resource]
+gradient = ExtResource("1_gb70y")
+width = 960
+height = 1170
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0, 0)

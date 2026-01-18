@@ -1,0 +1,75 @@
+[gd_scene load_steps=4 format=3 uid="uid://km48vtk3m8qx"]
+
+[ext_resource type="Script" uid="uid://b6fwx0e2fx6ei" path="res://Scripts/menu_main.gd" id="1_gykjg"]
+[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="1_i7kli"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_gykjg"]
+
+[node name="menu_main" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 454.0
+offset_right = 720.0
+offset_bottom = 454.0
+script = ExtResource("1_gykjg")
+
+[node name="container_buttons" type="VBoxContainer" parent="."]
+z_index = 25
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -360.0
+offset_top = -250.0
+offset_right = 360.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="btn_main_menu" parent="container_buttons" groups=["button_UI"] instance=ExtResource("1_i7kli")]
+layout_mode = 2
+text_manager_message = "[/]Resume game."
+decoration_base_size_multiplier = Vector2(0.5, 1)
+
+[node name="btn_back_to_overworld" parent="container_buttons" groups=["button_UI"] instance=ExtResource("1_i7kli")]
+z_index = 5
+layout_mode = 2
+text_manager_message = "[/]Back to the Overworld"
+decoration_base_size_multiplier = Vector2(0.8, 1)
+
+[node name="btn_back_to_overworld2" parent="container_buttons" groups=["button_UI"] instance=ExtResource("1_i7kli")]
+z_index = 10
+layout_mode = 2
+text_manager_message = "[/]Enable Score Attack mode."
+decoration_base_size_multiplier = Vector2(0.9, 1)
+
+[node name="btn_back_to_overworld3" parent="container_buttons" groups=["button_UI"] instance=ExtResource("1_i7kli")]
+z_index = 15
+layout_mode = 2
+theme = ExtResource("2_gykjg")
+text_manager_message = "[/]Settings."
+decoration_base_size_multiplier = Vector2(0.4, 1)
+
+[node name="btn_back_to_overworld4" parent="container_buttons" groups=["button_UI"] instance=ExtResource("1_i7kli")]
+z_index = 20
+layout_mode = 2
+text_manager_message = "Quit to Main Menu"
+decoration_base_size_multiplier = Vector2(0.7, 1)
+
+[node name="btn_back_to_overworld5" parent="container_buttons" groups=["button_UI"] instance=ExtResource("1_i7kli")]
+z_index = 25
+layout_mode = 2
+text_manager_message = "[/]Quit Game"
+decoration_base_size_multiplier = Vector2(0.4, 1)
+
+[node name="timer_destabilized" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="cooldown_debug_available" type="Timer" parent="."]
+wait_time = 1.25
+
+[connection signal="timeout" from="timer_destabilized" to="." method="_on_timer_destabilized_timeout"]
+[connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]

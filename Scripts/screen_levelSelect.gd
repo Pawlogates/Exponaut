@@ -13,7 +13,7 @@ func _ready():
 	Globals.gameState_levelSet = true
 	Globals.gameState_level = false
 	
-	Overlay.animation("fade_black", false, true, 1.0)
+	Overlay.animation("black_fade_out", 1.0, false, false)
 	
 	if not levelSet_id == "none":
 		levelSet_saved = SaveData.get("saved_" + levelSet_id)

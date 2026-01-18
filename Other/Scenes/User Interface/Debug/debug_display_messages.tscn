@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dhp5l6ys2rn0j" path="res://Scripts/debug_display_messages.gd" id="1_kfqwp"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_jvx07"]
-[ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/User Interface/Debug/animation_ui.tscn" id="3_jvx07"]
+[ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/animation_ui.tscn" id="3_jvx07"]
 
 [node name="debug_display_messages" type="CanvasLayer"]
 layer = 128
