@@ -1,13 +1,22 @@
 extends Button
 
+var remove = false # Decides whether this button will appear in a spawned general menu.
+
+var button_levelSet_id = "none"
+var button_levelSet_name = "none"
+
+signal button_clicked
+
 @onready var decoration: Button = $decoration
 @onready var text_manager: Control = $text_manager
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var cooldown_active: Timer = $cooldown_active
+@onready var sfx_stabilize: AudioStreamPlayer2D = $sfx_stabilize
 
 @export var text_manager_message = "none"
 @export var text_manager_letter_alignment = 0
 @export var text_manager_letter_animation_sync = true
+@export var text_manager_cooldown_create_message : float = -1.0
 
 @export var decoration_base_size = Vector2(720, 64)
 @export var decoration_base_size_multiplier = Vector2(1.0, 1.0)
@@ -23,7 +32,7 @@ var on_focus_rotation_direction = 1
 var enabled = true # Decides whether it can interact with the mouse.
 var active = false # Only used for visual behavior.
 
-var stabilized = true # It is true when the button decoration is in the middle of a transition animation.
+var stabilized : bool = true # It is true when the button decoration is in the middle of a transition animation. Note that this property is usually changed by a Menu and not the button itself.
 
 var target_pos = Vector2(0, 0)
 var target_rotation = 0.0
@@ -37,11 +46,13 @@ signal button_ready
 
 var id : int = 0
 
-var randomize_modulate_direction : float = 1.0
+var stabilize_multiplier = 1.0
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if remove : queue_free() ; return
+	
 	Globals.message_debug("Connecting debug signal 1 to a General UI Button, with the target function being 'debug_refresh_decoration'.")
 	Globals.debug1.connect(debug_refresh_decoration)
 	Globals.message_debug("Connecting debug signal 2 to a General UI Button, with the target function being 'debug_show_real_size'.")
@@ -49,13 +60,25 @@ func _ready() -> void:
 	
 	id = get_index()
 	
+	stabilize_multiplier = -0.5 # This causes the button to be invisible until about when its been destabilized.
+	
 	text_manager.text_alignment = text_manager_letter_alignment
 	text_manager.text_animation_sync = text_manager_letter_animation_sync
+	
+	if text_manager_cooldown_create_message != -1.0:
+		text_manager.cooldown_create_message = text_manager_cooldown_create_message
+	else:
+		text_manager.cooldown_create_message = randf_range(0.25, 1)
 	
 	text_manager.create_message(text_manager_message)
 	Globals.message_debug("Text Manager message has been requested by a Button.")
 	
+	decoration.modulate.a = 0.0
+	
+	await get_tree().create_timer(0.1, true).timeout
+	
 	spawn_decoration()
+	sfx_random()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -70,20 +93,33 @@ func _process(delta: float) -> void:
 		decoration.scale = lerp(decoration.scale, decoration_base_scale, delta * 20)
 	
 	if not stabilized:
-		position = lerp(position, target_pos, delta * 5)
-		rotation_degrees = lerp(rotation_degrees, target_rotation, delta * 5)
-		scale = lerp(scale, target_scale, delta * 5)
+		position = lerp(position, target_pos, delta * stabilize_multiplier)
+		rotation_degrees = lerp(rotation_degrees, target_rotation, delta * stabilize_multiplier)
+		scale = lerp(scale, target_scale, delta * stabilize_multiplier)
+		
+		stabilize_multiplier = move_toward(stabilize_multiplier, 5.0, delta * 20)
 	
 	decoration.modulate.b = move_toward(decoration.modulate.b, 1.0 + 0.1 * id, delta)
+	decoration.modulate.a = move_toward(decoration.modulate.a, 1.0, delta * stabilize_multiplier)
 
-
-func spawn_decoration():
-	await get_tree().create_timer(0.05, true).timeout
-	adjust_decoration()
-	await get_tree().create_timer(0.05, true).timeout
-	spawn_decoration_gears(false)
-	await get_tree().create_timer(0.05, true).timeout
-	spawn_decoration_edges(false)
+func spawn_decoration(debug : bool = false):
+	if not debug:
+		await get_tree().create_timer(0.05, true).timeout
+		adjust_decoration()
+		await get_tree().create_timer(0.05, true).timeout
+		spawn_decoration_gears(false)
+		await get_tree().create_timer(0.05, true).timeout
+		spawn_decoration_edges(false)
+		
+		button_ready.emit()
+	
+	else:
+		await get_tree().create_timer(0.05, true).timeout
+		adjust_decoration()
+		await get_tree().create_timer(0.05, true).timeout
+		spawn_decoration_gears(true)
+		await get_tree().create_timer(0.05, true).timeout
+		spawn_decoration_edges(true)
 
 
 func _on_button_down() -> void:
@@ -94,7 +130,9 @@ func _on_button_down() -> void:
 
 func _on_button_up() -> void:
 	is_pressed = false
+	
 	animation_player.play("clicked")
+	button_clicked.emit()
 
 
 func _on_focus_entered() -> void: # Note: This does NOT trigger on hovering over the button with mouse.
@@ -156,8 +194,8 @@ func spawn_decoration_gears(delete_old : bool = true):
 			
 			var button_bg_position_x = (get_parent().size.x - decoration.size.x) / 2
 			
-			if x == 0 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 0.5, Vector2(x + button_bg_position_x, 32), 2)
-			elif x == int(decoration.size.x) - 1 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 0.5, Vector2(x + button_bg_position_x, 32), 2)
+			if x == 0 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 2, Vector2(x + button_bg_position_x, 32), 1, Color(0, -0.4, 0, 0), Vector2(0, 0), 15)
+			elif x == int(decoration.size.x) - 1 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 2, Vector2(x + button_bg_position_x, 32), 1, Color(0, 0, -0.4, 0), Vector2(0, 0), 15)
 		
 		if randf_range(0, int(decoration.size.x)) > int(decoration.size.x) * gear_fail_chance:
 			
@@ -178,7 +216,7 @@ func spawn_decoration_gears(delete_old : bool = true):
 				else:
 					deco_core.is_near_edge = -1 # Because the only option left is: "x <= 256 * deco_core.scale.x"
 				
-				Globals.spawn_scenes(self, Globals.scene_effect_dust, 1, Vector2(x + button_bg_position_x, 32), 2, Color(1, 0, 1, 1), -Vector2(0.75, 0.75), 250)
+				if Globals.debug_mode : Globals.spawn_scenes(self, Globals.scene_effect_dust, 1, Vector2(x + button_bg_position_x, 32), 2, Color(1, 0, 1, 1), Vector2(0, 0), 250)
 			
 			elif x >= decoration.size.x - 256 * deco_core.scale.x:
 				
@@ -189,7 +227,7 @@ func spawn_decoration_gears(delete_old : bool = true):
 				else:
 					deco_core.is_near_edge = 1 # Because the only option left is: "x >= decoration.size.x - 256 * deco_core.scale.x"
 				
-				Globals.spawn_scenes(self, Globals.scene_effect_dust, 1, Vector2(x + button_bg_position_x, 32), 2, Color(1, 1, 0, 1), -Vector2(0.75, 0.75), 250)
+				if Globals.debug_mode : Globals.spawn_scenes(self, Globals.scene_effect_dust, 1, Vector2(x + button_bg_position_x, 32), 2, Color(1, 1, 0, 1), Vector2(0, 0), 250)
 			
 			var scene = Globals.scene_gear
 			
@@ -250,7 +288,7 @@ func spawn_decoration_edges(delete_old : bool = true):
 	
 	decoration.add_child(decoration_right)
 
-func adjust_decoration(emit_signal_on_finished : bool = true):
+func adjust_decoration():
 	pivot_offset = size / 2
 	
 	decoration.size = decoration_base_size * decoration_base_size_multiplier
@@ -267,8 +305,6 @@ func adjust_decoration(emit_signal_on_finished : bool = true):
 	target_pos = original_pos
 	target_rotation = original_rotation
 	target_scale = original_scale
-	
-	if emit_signal_on_finished : button_ready.emit()
 
 
 func _on_cooldown_active_timeout() -> void:
@@ -283,12 +319,7 @@ func _on_cooldown_active_timeout() -> void:
 func debug_refresh_decoration():
 	if not debug_available : return
 	
-	await get_tree().create_timer(0.05, true).timeout
-	adjust_decoration(false)
-	await get_tree().create_timer(0.05, true).timeout
-	spawn_decoration_gears(true)
-	await get_tree().create_timer(0.05, true).timeout
-	spawn_decoration_edges(true)
+	spawn_decoration(true)
 	
 	debug_available = false
 	$cooldown_debug_available.start()
@@ -312,3 +343,13 @@ var debug_available = true
 
 func _on_cooldown_debug_available_timeout() -> void:
 	debug_available = true
+
+
+func sfx_random():
+	await get_tree().create_timer(randf_range(0.1, 1.0), true).timeout
+	
+	sfx_stabilize.volume_linear = randf_range(0.25, 2)
+	sfx_stabilize.pitch_scale = randf_range(0.8, 1.2)
+	sfx_stabilize.stream = Globals.l_sfx_menu_stabilize.pick_random()
+	sfx_stabilize.play()
+	Globals.message_debug("A button played a sound effect: %s (randomized)." % sfx_stabilize.stream)

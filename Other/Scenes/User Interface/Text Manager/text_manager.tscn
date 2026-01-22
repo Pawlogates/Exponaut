@@ -27,4 +27,7 @@ alignment = 1
 wait_time = 2.0
 one_shot = true
 
+[node name="cooldown_create_message" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]

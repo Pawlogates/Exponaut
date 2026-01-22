@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bymtshk0gkxih" path="res://Scripts/special_block.gd" id="1_8fk21"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_jbaou"]
-[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="3_l1auw"]
+[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/break.wav" id="3_l1auw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
 size = Vector2(46, 64)

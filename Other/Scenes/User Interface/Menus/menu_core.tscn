@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://b212itlhyclqg"]
+
+[ext_resource type="Script" uid="uid://b6fwx0e2fx6ei" path="res://Scripts/menu_general.gd" id="1_dyb5u"]
+
+[node name="menu_core" type="Control" groups=["menu_main"]]
+process_mode = 3
+modulate = Color(1, 1, 1, 0)
+layout_mode = 3
+anchors_preset = 0
+mouse_filter = 2
+script = ExtResource("1_dyb5u")
+
+[node name="container_buttons" type="VBoxContainer" parent="."]
+z_index = 25
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="timer_destabilized" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[node name="cooldown_debug_available" type="Timer" parent="."]
+wait_time = 1.25
+
+[node name="timer_buttons_blocked" type="Timer" parent="."]
+
+[node name="debug_real_size_container_buttons" type="ColorRect" parent="."]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[connection signal="timeout" from="timer_destabilized" to="." method="_on_timer_destabilized_timeout"]
+[connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]
+[connection signal="timeout" from="timer_buttons_blocked" to="." method="_on_timer_buttons_blocked_timeout"]

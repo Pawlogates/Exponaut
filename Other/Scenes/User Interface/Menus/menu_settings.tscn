@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://yxx13lj0a1gx"]
+
+[ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_a1kvi"]
+[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="2_cgm2q"]
+
+[node name="menu_settings" instance=ExtResource("1_a1kvi")]
+
+[node name="btn_Video" parent="container_buttons" index="0" instance=ExtResource("2_cgm2q")]
+layout_mode = 2
+
+[node name="btn_Sound" parent="container_buttons" index="1" instance=ExtResource("2_cgm2q")]
+layout_mode = 2
+
+[node name="btn_Gameplay" parent="container_buttons" index="2" instance=ExtResource("2_cgm2q")]
+layout_mode = 2
+
+[node name="btn_Accessibility" parent="container_buttons" index="3" instance=ExtResource("2_cgm2q")]
+layout_mode = 2
+
+[node name="btn_Return_settings" parent="container_buttons" index="4" instance=ExtResource("2_cgm2q")]
+layout_mode = 2
+
+[connection signal="pressed" from="container_buttons/btn_Video" to="." method="_on_btn_video_pressed"]
+[connection signal="pressed" from="container_buttons/btn_Sound" to="." method="_on_btn_sound_pressed"]
+[connection signal="pressed" from="container_buttons/btn_Gameplay" to="." method="_on_btn_gameplay_pressed"]
+[connection signal="pressed" from="container_buttons/btn_Accessibility" to="." method="_on_btn_accessibility_pressed"]
+[connection signal="pressed" from="container_buttons/btn_Return_settings" to="." method="_on_btn_return_settings_pressed"]

@@ -1,0 +1,90 @@
+[gd_scene load_steps=4 format=3 uid="uid://cj0l75s18h1yo"]
+
+[ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_78nwv"]
+[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="2_0mlty"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_4o7a4"]
+
+[node name="menu_core" instance=ExtResource("1_78nwv")]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="container_buttons" parent="." index="0"]
+anchors_preset = 13
+anchor_top = 0.0
+anchor_bottom = 1.0
+offset_left = -32.0
+offset_right = 32.0
+
+[node name="btn_Start New Game" parent="container_buttons" index="0" instance=ExtResource("2_0mlty")]
+layout_mode = 2
+text_manager_message = "[/]Start New Game"
+decoration_base_size_multiplier = Vector2(0.5, 1)
+
+[node name="btn_Continue" parent="container_buttons" index="1" instance=ExtResource("2_0mlty")]
+layout_mode = 2
+text_manager_message = "[/]Continue"
+decoration_base_size_multiplier = Vector2(0.4, 1)
+
+[node name="btn_Resume game" parent="container_buttons" index="2" instance=ExtResource("2_0mlty")]
+layout_mode = 2
+text_manager_message = "[/]Resume game"
+decoration_base_size_multiplier = Vector2(0.5, 1)
+
+[node name="btn_Level Set screen" parent="container_buttons" index="3" instance=ExtResource("2_0mlty")]
+layout_mode = 2
+text_manager_message = "[/]Level Set screen"
+decoration_base_size_multiplier = Vector2(0.6, 1)
+
+[node name="btn_Select Level Set" parent="container_buttons" index="4" instance=ExtResource("2_0mlty")]
+layout_mode = 2
+text_manager_message = "[/]Select Level Set"
+decoration_base_size_multiplier = Vector2(0.6, 1)
+
+[node name="btn_Back to Overworld" parent="container_buttons" index="5" instance=ExtResource("2_0mlty")]
+z_index = 5
+layout_mode = 2
+text_manager_message = "[/]Back to Overworld"
+decoration_base_size_multiplier = Vector2(0.7, 1)
+
+[node name="btn_Enable Score Attack mode" parent="container_buttons" index="6" instance=ExtResource("2_0mlty")]
+z_index = 10
+layout_mode = 2
+text_manager_message = "[/]Enable Score Attack mode"
+decoration_base_size_multiplier = Vector2(0.9, 1)
+
+[node name="btn_Settings" parent="container_buttons" index="7" instance=ExtResource("2_0mlty")]
+z_index = 15
+layout_mode = 2
+theme = ExtResource("3_4o7a4")
+text_manager_message = "[/]Settings"
+decoration_base_size_multiplier = Vector2(0.3, 1)
+
+[node name="btn_Quit to Main Menu" parent="container_buttons" index="8" instance=ExtResource("2_0mlty")]
+z_index = 20
+layout_mode = 2
+text_manager_message = "[/]Quit to Main Menu"
+decoration_base_size_multiplier = Vector2(0.7, 1)
+
+[node name="btn_Quit Game" parent="container_buttons" index="9" instance=ExtResource("2_0mlty")]
+z_index = 25
+layout_mode = 2
+text_manager_message = "[/]Quit Game"
+decoration_base_size_multiplier = Vector2(0.4, 1)
+
+[node name="debug_real_size_container_buttons" parent="." index="4"]
+visible = false
+color = Color(0, 0, 0, 0.365)
+
+[connection signal="pressed" from="container_buttons/btn_Start New Game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_Continue" to="." method="_on_btn_continue_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_Resume game" to="." method="_on_btn_resume_game_pressed" binds= [2.0]]
+[connection signal="pressed" from="container_buttons/btn_Level Set screen" to="." method="_on_btn_level_set_screen_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_Select Level Set" to="." method="_on_btn_select_level_set_pressed" binds= [2.0]]
+[connection signal="pressed" from="container_buttons/btn_Back to Overworld" to="." method="_on_btn_back_to_overworld_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_Enable Score Attack mode" to="." method="_on_btn_enable_score_attack_mode_pressed" binds= [0.5]]
+[connection signal="pressed" from="container_buttons/btn_Settings" to="." method="_on_btn_settings_pressed" binds= [2.0]]
+[connection signal="pressed" from="container_buttons/btn_Quit to Main Menu" to="." method="_on_btn_quit_to_main_menu_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_Quit Game" to="." method="_on_btn_quit_game_pressed" binds= [10.0]]

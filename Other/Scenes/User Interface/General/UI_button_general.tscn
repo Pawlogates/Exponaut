@@ -348,6 +348,8 @@ text = "text"
 wait_time = 0.25
 one_shot = true
 
+[node name="sfx_stabilize" type="AudioStreamPlayer2D" parent="."]
+
 [connection signal="button_down" from="." to="." method="_on_button_down"]
 [connection signal="button_up" from="." to="." method="_on_button_up"]
 [connection signal="focus_entered" from="." to="." method="_on_focus_entered"]

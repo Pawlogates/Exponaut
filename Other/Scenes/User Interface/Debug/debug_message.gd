@@ -6,6 +6,7 @@ var repeats = 0
 @onready var c_remove: Timer = $cooldown_remove
 @onready var display = $/root/Overlay/debug_display_messages
 @onready var message_container = $/root/Overlay/debug_display_messages/message_container
+@onready var animation_player: AnimationPlayer = $AnimationPlayer
 
 var id : int = 0
 var cooldown_remove = 4.0
@@ -47,13 +48,17 @@ func handle_repeats():
 
 
 func _on_mouse_entered() -> void:
-	return
 	scale += Vector2(0.5, 0.5)
-	c_remove.wait_time = 10
+	position += Vector2(0, -4)
+	animation_player.stop()
+	animation_player.play("refresh")
+	
+	c_remove.wait_time = 20
 	c_remove.start()
 
 func _on_mouse_exited() -> void:
-	return
-	scale -= Vector2(0.5, 0.5)
+	scale += Vector2(-0.5, -0.5)
+	position += Vector2(0, 4)
+	
 	c_remove.wait_time = 4
 	c_remove.start()

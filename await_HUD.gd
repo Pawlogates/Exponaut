@@ -3,7 +3,7 @@ extends Node2D
 const scene = preload("res://Other/Scenes/User Interface/HUD/HUD.tscn")
 
 func _on_cooldown_refresh_timeout() -> void:
-	if Globals.gameState_levelSet:
+	if Globals.gameState_levelSet_screen:
 		if has_node("../" + "HUD") : return
 		
 		Overlay.HUD.active = false

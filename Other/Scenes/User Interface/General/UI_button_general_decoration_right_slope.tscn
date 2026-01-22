@@ -6,10 +6,11 @@
 atlas = ExtResource("1_4i3f8")
 region = Rect2(384, 256, 64, 64)
 
-[node name="decoration_right_slope" type="TextureRect" groups=["decoration_right"]]
+[node name="decoration_right_slope" type="TextureRect" groups=["UI_button_general_decoration_right"]]
 light_mask = 2
 visibility_layer = 2
 texture_filter = 1
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 64.0
+offset_bottom = 64.0
 texture = SubResource("AtlasTexture_dsn1y")
+expand_mode = 1

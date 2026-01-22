@@ -9,7 +9,7 @@ func _ready() -> void:
 	update_general()
 
 func update_general():
-	if Globals.gameState_levelSet : queue_free()
+	if Globals.gameState_levelSet_screen : queue_free()
 
 
 func _on_animation_ui_animation_finished(anim_name: StringName) -> void:

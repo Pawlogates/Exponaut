@@ -1,32 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://1yrqwkydp78d"]
+[gd_scene load_steps=9 format=3 uid="uid://1yrqwkydp78d"]
 
-[ext_resource type="Script" uid="uid://bgd2v1alhdml" path="res://Scripts/screen_levelSelect.gd" id="2_7kq8d"]
+[ext_resource type="Script" uid="uid://bgd2v1alhdml" path="res://Scripts/levelSet_screen.gd" id="2_7kq8d"]
 [ext_resource type="AudioStream" uid="uid://bwf4nucobwg4x" path="res://Assets/Sounds/music/intense1.mp3" id="3_e37xu"]
-[ext_resource type="PackedScene" uid="uid://km48vtk3m8qx" path="res://Other/Scenes/menu_main.tscn" id="3_icvp0"]
 
 [sub_resource type="Gradient" id="Gradient_uas2u"]
 colors = PackedColorArray(0.618933, 1.73271e-06, 3.85046e-07, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_agkmp"]
 gradient = SubResource("Gradient_uas2u")
-
-[sub_resource type="Animation" id="Animation_v8wcq"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_f1f2o"]
-resource_name = "fade_from_black"
-length = 2.0
-
-[sub_resource type="Animation" id="Animation_7qc2w"]
-resource_name = "fade_to_black"
-length = 3.0
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_j83ll"]
-_data = {
-&"RESET": SubResource("Animation_v8wcq"),
-&"fade_from_black": SubResource("Animation_f1f2o"),
-&"fade_to_black": SubResource("Animation_7qc2w")
-}
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6dhn4"]
 resource_local_to_scene = true
@@ -67,13 +48,6 @@ mouse_filter = 2
 texture = SubResource("GradientTexture1D_agkmp")
 expand_mode = 1
 
-[node name="fade_animation" type="AnimationPlayer" parent="."]
-unique_name_in_owner = true
-libraries = {
-&"": SubResource("AnimationLibrary_j83ll")
-}
-speed_scale = 5.0
-
 [node name="level_icon_container" type="Control" parent="."]
 unique_name_in_owner = true
 layout_mode = 3
@@ -82,10 +56,6 @@ offset_left = 960.0
 offset_top = 540.0
 offset_right = 960.0
 offset_bottom = 540.0
-
-[node name="buttons_blocked" type="Timer" parent="."]
-wait_time = 5.0
-one_shot = true
 
 [node name="blocked_zone" type="Area2D" parent="." groups=["blocked_zone_display"]]
 collision_mask = 0
@@ -105,12 +75,3 @@ shape = SubResource("RectangleShape2D_hirpx")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="blocked_zone"]
 position = Vector2(-760, 896)
 shape = SubResource("RectangleShape2D_8nxm7")
-
-[node name="menu_main" parent="." instance=ExtResource("3_icvp0")]
-layout_mode = 0
-offset_left = 112.0
-offset_top = 544.0
-offset_right = 832.0
-offset_bottom = 1044.0
-
-[connection signal="timeout" from="buttons_blocked" to="." method="_on_buttons_blocked_timeout"]

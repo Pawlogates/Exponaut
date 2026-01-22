@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bnxsmsibcc74r"]
+
+[ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_mvsoj"]
+[ext_resource type="Script" uid="uid://620tshagdaeu" path="res://Other/Scenes/User Interface/Menus/menu_select_levelSet.gd" id="2_vg72a"]
+
+[node name="menu_select_levelSet" instance=ExtResource("1_mvsoj")]
+script = ExtResource("2_vg72a")

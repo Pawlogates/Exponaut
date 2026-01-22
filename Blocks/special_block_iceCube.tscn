@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bymtshk0gkxih" path="res://Scripts/special_block.gd" id="1_yass0"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_yraw8"]
-[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/effect_break.wav" id="3_tqe8p"]
+[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/break.wav" id="3_tqe8p"]
 
 [sub_resource type="Animation" id="Animation_3507k"]
 length = 0.001

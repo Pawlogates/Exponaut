@@ -30,7 +30,8 @@ const d_ambience = dirpath_sounds + "/ambience"
 
 
 # Various lists (String):
-const l_levelSet_id : Array = ["MAIN, BONUS, DEBUG"]
+const l_levelSet_id : Array = ["MAIN", "BONUS", "DEBUG"]
+const l_levelSet_name : Dictionary = {l_levelSet_id[0] : "Main Levels", l_levelSet_id[1] : "Bonus Levels", l_levelSet_id[2] : "Debug Levels"}
 const l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
 
 const l_animation_type : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
@@ -42,7 +43,6 @@ const l_animation_type_limited : Array = ["general_limited", "gear_limited"]
 const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
 const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
 const l_animation_name_gear_limited : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
-
 
 # Reusable sentences (String):
 const s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
@@ -73,13 +73,18 @@ const scene_particle_score = preload("res://Other/Particles/score.tscn")
 
 
 # Sound effects:
-const sfx_player_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
-const sfx_player_wall_jump = preload("res://Assets/Sounds/sfx/effect_jump.wav")
-const sfx_player_shoot = preload("res://Assets/Sounds/sfx/projectile_shoot.wav")
-const sfx_player_damage = preload("res://Assets/Sounds/sfx/robot_damage.wav")
-const sfx_player_death = preload("res://Assets/Sounds/sfx/rabbit_death.wav")
-const sfx_player_heal = preload("res://Assets/Sounds/sfx/heal.wav")
-const sfx_collect = preload("res://Assets/Sounds/sfx/collect.wav")
+var sfx_player_jump = load("res://Assets/Sounds/sfx/jump.wav")
+var sfx_player_wall_jump = load("res://Assets/Sounds/sfx/jump.wav")
+var sfx_player_shoot = load("res://Assets/Sounds/sfx/projectile_shoot.wav")
+var sfx_player_damage = load("res://Assets/Sounds/sfx/robot_damage.wav")
+var sfx_player_death = load("res://Assets/Sounds/sfx/rabbit_death.wav")
+var sfx_player_heal = load("res://Assets/Sounds/sfx/heal.wav")
+var sfx_collect = load("res://Assets/Sounds/sfx/collect.wav")
+var sfx_mechanical = load("res://Assets/Sounds/sfx/mechanical.wav")
+var sfx_mechanical2 = load("res://Assets/Sounds/sfx/mechanical2.wav")
+var sfx_mechanical3 = load("res://Assets/Sounds/sfx/mechanical3.wav")
+var sfx_powerUp = load("res://Assets/Sounds/sfx/powerUp.wav")
+var sfx_powerUp2 = load("res://Assets/Sounds/sfx/powerUp2.wav")
 
 
 # Other files:
@@ -98,7 +103,7 @@ const material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres
 
 
 # Main scenes:
-const scene_menu_start = preload("res://Other/Scenes/menu_start.tscn")
+const scene_start_screen = preload("res://Other/Scenes/start_screen.tscn")
 const scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
 
 
@@ -115,16 +120,29 @@ const scene_gear2 = preload("res://Objects/Decorations/gear2.tscn")
 const scene_gear3 = preload("res://Objects/Decorations/gear3.tscn")
 const scene_gear4 = preload("res://Objects/Decorations/gear4.tscn")
 const scene_gear5 = preload("res://Objects/Decorations/gear5.tscn")
-const scene_UI_button_general_decoration_right_round = preload("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_round.tscn")
-const scene_UI_button_general_decoration_right_slope = preload("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_slope.tscn")
+var scene_UI_button_general = load("res://Other/Scenes/User Interface/General/UI_button_general.tscn")
+var scene_UI_button_general_decoration_right_round = load("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_round.tscn")
+var scene_UI_button_general_decoration_right_slope = load("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_slope.tscn")
 const scene_animation_general = preload("res://Other/Scenes/animation_general.tscn")
 const scene_animation_gear = preload("res://Other/Scenes/animation_gear.tscn")
+var scene_menu_main = load("res://Other/Scenes/User Interface/Menus/menu_main.tscn")
+var scene_menu_settings = load("res://Other/Scenes/User Interface/Menus/menu_settings.tscn")
+var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/menu_select_levelSet.tscn")
 
 const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
+
+# Various lists (General):
+# Note: This section needs to be at the bottom because it creates references to many variables, and needs them all to be ready at the time of its turn.
+var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechanical2, sfx_powerUp, sfx_powerUp2]
+
+
 func _ready() -> void:
+	gameState_changed.connect(on_gameState_changed)
+	
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	
 	reassign_general()
-	#reassign_nodes_general.connect(reassign_general)
 
 func _physics_process(_delta):
 	handle_actions() # Handles global functions executed on triggering an action.
@@ -132,22 +150,17 @@ func _physics_process(_delta):
 
 
 func handle_actions():
+	if Input.is_action_just_pressed("menu_start_screen"):
+		change_main_scene(scene_start_screen)
+	
+	elif Input.is_action_just_pressed("menu_levelSet_screen"):
+		change_main_scene(scene_levelSet_screen)
+	
 	if Input.is_action_just_pressed("menu"):
-		Overlay.animation("black_fade_in", false, true, 1)
-		get_tree().change_scene_to_packed(Globals.scene_menu_start)
-	
-	elif Input.is_action_just_pressed("menu_start"):
-		Overlay.animation("black_fade_in", false, true, 1)
-		get_tree().change_scene_to_packed(Globals.scene_menu_start)
-	
+		handle_spawn_menu(gameState_debug, gameState_level, gameState_levelSet_screen, gameState_start_screen)
 	
 	if Input.is_action_just_pressed("pause"):
-		if get_tree().paused == false:
-			get_tree().paused = true
-			Globals.message_debug("Game paused.")
-		elif get_tree().paused == true:
-			get_tree().paused = false
-			Globals.message_debug("Game resumed.")
+		handle_pause()
 	
 	
 	elif Input.is_action_just_pressed("debug_console"):
@@ -169,12 +182,16 @@ func reassign_general():
 	if has_node("/root/World/Player") : Player = $/root/World/Player
 	
 	return [World, Player]
+	
+	window_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
 
 
-func change_main_scene(scene):
-	Overlay.animation("fade_black", false, 1.0, true)
+func change_main_scene(scene, instant : bool = false, anim_name : String = "black_fade_in"):
+	if debug_mode : anim_name = "none" ; instant = true
+	Globals.message_debug("Changing the Main Scene to %s" % scene)
+	
+	if anim_name != "none" : Overlay.animation(anim_name, 1.0, false, opposite_bool(instant))
 	get_tree().change_scene_to_packed(scene)
-	Overlay.animation("fade_black", true, 1.0, true)
 
 
 # Important gameplay-related properties.
@@ -267,9 +284,9 @@ signal save_levelState(levelState_name)
 signal quicksave(slot_number : int)
 signal quickload(slot_number : int)
 
-#signal reassign_nodes_general
-
 signal play_music_random
+
+signal gameState_changed
 
 var settings_quicksaves = false
 var settings_volume_music = 0.2
@@ -315,8 +332,9 @@ var worldState_leftStartArea = false
 
 # Game states:
 var gameState_level = false
-var gameState_levelSet = false
-var gameState_menu = false
+var gameState_levelSet_screen = false
+var gameState_start_screen = false
+
 var gameState_debug = true
 
 
@@ -444,16 +462,23 @@ const list_temporary_powerUp = ["none", "higher_jump", "increased_speed", "telep
 @onready var l_bonusBox_item_blacklist_enemy_scene = []
 
 
-func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1, add_modulate : Color = Color(1, 1, 1, 1), add_scale : Vector2 = Vector2(1, 1), add_z_index : int = 0): # Quantity of -1 will randomize the number of spawned scenes.
+func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, add_properties_name : Array = ["position"], add_properties_value : Array = [Vector2(0, 0)]): # Quantity of -1 will randomize the number of spawned scenes.
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
 		var node = file.instantiate()
-		
 		node.position += pos_offset
+		print(node.position)
 		node.modulate += add_modulate
 		node.scale += add_scale
 		node.z_index += add_z_index
+		
+		var y = -1
+		for p_name in add_properties_name:
+			y += 1
+			
+			#var add_property : Dictionary = {add_properties_name[y] : add_properties_value[y]}
+			node.set(add_properties_name[y], add_properties_value[y])
 		
 		target.add_child(node)
 		
@@ -574,3 +599,37 @@ func on_action_3():
 
 func on_action_4():
 	debug4.emit()
+
+
+@onready var window_size : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
+
+
+func handle_pause():
+	if get_tree().paused == false:
+		get_tree().paused = true
+		Globals.message_debug("Game paused.")
+	elif get_tree().paused == true:
+		get_tree().paused = false
+		Globals.message_debug("Game resumed.")
+
+
+func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none"], add_position : Vector2 = window_size * 0, button_size_multiplier : Vector2 = Vector2(1, 1)):
+	spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
+
+func handle_spawn_menu(p_gameState_debug : bool = true, p_gameState_level : bool = false, p_gameState_levelSet_screen : bool = false, p_gameState_start_screen : bool = false): # The "p" stands for "passed".
+	for menu in get_tree().get_nodes_in_group("menu_main") : menu.queue_free()
+	
+	if p_gameState_debug and debug_mode:
+		spawn_menu()
+		return
+	
+	if p_gameState_level:
+		spawn_menu()
+	elif p_gameState_levelSet_screen:
+		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set screen", "Select Level Set", "Quit Game"], Vector2(window_size.x / -3.5, window_size.y / 3), Vector2(0.75, 0.75))
+	elif p_gameState_start_screen:
+		spawn_menu(scene_menu_main, ["Resume Game", "Select Set screen", "Quit to Main Menu"])
+
+
+func on_gameState_changed():
+	handle_spawn_menu(gameState_debug, gameState_level, gameState_levelSet_screen, gameState_start_screen)

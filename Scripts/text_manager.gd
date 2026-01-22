@@ -1,8 +1,12 @@
 extends Control
 
+@onready var c_create_message: Timer = $cooldown_create_message
+
 @export var text_full = "" # This is the main text property which should be targeted when instantiating this scene.
 @export var text_alignment = 0
 @export var text_animation_sync = true
+
+@export var cooldown_create_message = -1.0
 
 var text_simple = "none"
 var last_text_full = "none"
@@ -23,7 +27,7 @@ func _ready() -> void:
 	if text_alignment : $row1.alignment = text_alignment
 	
 	if text_full != "":
-		create_message(text_full)
+		create_message(text_full) # This rarely if ever actually executes. Most of the time, the "create_message()" function is requested by the node instantiating the Text Manager.
 
 func _physics_process(delta: float) -> void:
 	pass
@@ -33,6 +37,12 @@ var current_character_is_rule_name = false
 var current_rule = "none"
 
 func create_message(message = last_text_full):
+	if cooldown_create_message != -1.0:
+		Globals.message_debug(str("Text Manager's message creation has been delayed by %s") % cooldown_create_message, 3)
+		c_create_message.wait_time = cooldown_create_message
+		c_create_message.start()
+		await c_create_message.timeout
+	
 	Globals.message_debug("Creating a message using a Text Manager... Message's FULL text: '%s'" % message)
 	
 	if message != "":
