@@ -75,7 +75,6 @@ text_manager_message = "[/]Quit Game"
 decoration_base_size_multiplier = Vector2(0.4, 1)
 
 [node name="debug_real_size_container_buttons" parent="." index="4"]
-visible = false
 color = Color(0, 0, 0, 0.365)
 
 [connection signal="pressed" from="container_buttons/btn_Start New Game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]

@@ -6,10 +6,10 @@ const node2_name = "debug_display_values"
 const scene = preload("res://Other/Scenes/User Interface/Debug/debug_display_messages.tscn")
 const scene2 = preload("res://Other/Scenes/User Interface/Debug/debug_display_values.tscn")
 
-const action_name = "debug_console"
+const action_name = "debug_tools"
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed(action_name):
+	if Input.is_action_just_pressed(action_name) and not Input.is_action_just_pressed("debug_mode"):
 		if not has_node("../" + node_name):
 			var instance = scene.instantiate()
 			Overlay.add_child(instance)

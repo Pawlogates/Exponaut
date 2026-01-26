@@ -16,7 +16,7 @@ func _physics_process(_delta: float) -> void:
 
 
 # Called from anywhere outside of this script. Example: animation("black_fade_in", 1.0, false, true)
-func animation(name : String, speed : float, play_backwards : bool, await_finished : bool):
+func animation(name : String = "black_fade_out", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true):
 	animation_player.speed_scale = speed
 	
 	if play_backwards:

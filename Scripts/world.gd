@@ -92,7 +92,7 @@ var quicksave_blocked = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Globals.gameState_levelSet = true
+	Globals.gameState_levelSet_screen = true
 	Globals.gameState_level = false
 	
 	Globals.level_started.emit()
@@ -187,11 +187,11 @@ func _ready():
 	Globals.level_finished.connect(show_screen_levelFinished)
 	
 	
-	Globals.bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
-	Globals.bg_file_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
-	
-	Globals.trigger_bg_change_entered.connect(bg_change_check)
-	Globals.trigger_bg_move_entered.connect(bg_move_check)
+	#Globals.bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
+	#Globals.bg_file_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
+	#
+	#Globals.trigger_bg_change_entered.connect(bg_change_check)
+	#Globals.trigger_bg_move_entered.connect(bg_move_check)
 	
 	
 	Globals.transformation_activated.connect(reassign_player)
@@ -215,13 +215,7 @@ func _ready():
 	#Globals.cheated_state = false
 	
 	if bg_instant_transitions:
-		%bg_previous/bg_transition.speed_scale = 20
-		%bg_previous/bg_a_transition.speed_scale = 20
-		%bg_previous/bg_b_transition.speed_scale = 20
-	
-		%bg_current/bg_transition.speed_scale = 20
-		%bg_current/bg_a_transition.speed_scale = 20
-		%bg_current/bg_b_transition.speed_scale = 20
+		$background/animation_fade.speed_scale = 20.0
 	
 	
 	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
@@ -293,20 +287,19 @@ func _ready():
 		memeMode_background_video_player.position = Player.position + Vector2(-960, -540)
 		add_child(memeMode_background_video_player)
 	
-	await Overlay.animation("fade_black", false, true, 1.0)
-	
 	teleporter_assign_ID()
 	
 	bg_instant_transitions = false
 	
 	if not bg_deleted:
-		%bg_previous/bg_transition.speed_scale = 1
-		%bg_previous/bg_a_transition.speed_scale = 1
-		%bg_previous/bg_b_transition.speed_scale = 1
-		
-		%bg_current/bg_transition.speed_scale = 1
-		%bg_current/bg_a_transition.speed_scale = 1
-		%bg_current/bg_b_transition.speed_scale = 1
+		pass
+		#%bg_previous/bg_transition.speed_scale = 1
+		#%bg_previous/bg_a_transition.speed_scale = 1
+		#%bg_previous/bg_b_transition.speed_scale = 1
+		#
+		#%bg_current/bg_transition.speed_scale = 1
+		#%bg_current/bg_a_transition.speed_scale = 1
+		#%bg_current/bg_b_transition.speed_scale = 1
 	
 	#await get_tree().create_timer(0.2, false).timeout
 	

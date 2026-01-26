@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=3 uid="uid://cw2j64pbmrk6p"]
+[gd_scene load_steps=11 format=3 uid="uid://cw2j64pbmrk6p"]
 
 [ext_resource type="Script" uid="uid://do6ughs0nnkvg" path="res://Scripts/UI_button_general.gd" id="1_2wonl"]
 [ext_resource type="Theme" uid="uid://cpv330li4w8ra" path="res://Other/Themes/button_menu2.tres" id="2_u3asm"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="3_nk4sl"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_u3asm"]
+[ext_resource type="AudioStream" uid="uid://cp16up1kbcmju" path="res://Assets/Sounds/sfx/mechanical3.wav" id="5_tytc5"]
+[ext_resource type="AudioStream" uid="uid://0o3x2xyj02bt" path="res://Assets/Sounds/sfx/powerUp2.wav" id="6_tytc5"]
 
 [sub_resource type="Animation" id="Animation_jbag6"]
 length = 0.001
@@ -256,7 +258,6 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 2
 theme = ExtResource("2_u3asm")
 
 [node name="text_manager" parent="." instance=ExtResource("3_nk4sl")]
@@ -286,12 +287,7 @@ mouse_filter = 2
 theme = ExtResource("4_u3asm")
 
 [node name="debug_real_size" type="ColorRect" parent="debug"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+layout_mode = 0
 mouse_filter = 2
 
 [node name="debug_real_size_bg" type="ColorRect" parent="debug/debug_real_size"]
@@ -313,6 +309,7 @@ color = Color(1, 0, 0, 1)
 layout_mode = 0
 offset_right = 96.0
 offset_bottom = 33.0
+mouse_filter = 2
 
 [node name="debug_pos" type="Label" parent="debug/HBoxContainer"]
 unique_name_in_owner = true
@@ -325,6 +322,7 @@ unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="debug_original_pos" type="Label" parent="debug/HBoxContainer"]
 unique_name_in_owner = true
@@ -337,6 +335,7 @@ unique_name_in_owner = true
 z_index = 1
 custom_minimum_size = Vector2(32, 0)
 layout_mode = 2
+mouse_filter = 2
 
 [node name="debug_target_pos" type="Label" parent="debug/HBoxContainer"]
 unique_name_in_owner = true
@@ -347,6 +346,15 @@ text = "text"
 [node name="cooldown_debug_available" type="Timer" parent="."]
 wait_time = 0.25
 one_shot = true
+
+[node name="sfx_focused" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_tytc5")
+volume_db = -2.5
+pitch_scale = 1.5
+
+[node name="sfx_clicked" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_tytc5")
+pitch_scale = 0.85
 
 [node name="sfx_stabilize" type="AudioStreamPlayer2D" parent="."]
 

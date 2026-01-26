@@ -2,7 +2,8 @@ class_name menu_general
 extends Control
 
 @onready var container_buttons: VBoxContainer = $container_buttons
-@onready var timer_destabilized: Timer = $timer_destabilized
+@onready var t_destabilized: Timer = $timer_destabilized
+@onready var c_toggle_button_destabilize_modulate_reversed: Timer = $cooldown_toggle_button_destabilize_modulate_reversed
 
 @onready var debug_real_size_container_buttons: ColorRect = $debug_real_size_container_buttons
 
@@ -11,20 +12,29 @@ extends Control
 var l_destabilize_type = ["pos_x", "pos_y", "pos_xy", "rotation", "scale"]
 
 var ready_show = false
+var button_quantity : int = 0
 
 @export var l_disable_buttons : Array = ["none"]
+
+var button_color : String = "none"
+
 
 func _ready() -> void:
 	on_ready()
 
 func _process(delta: float) -> void:
-	debug_real_size_container_buttons.position = container_buttons.position
-	debug_real_size_container_buttons.size = container_buttons.size
+	if Input.is_action_just_pressed("0"):
+		queue_free()
+	
+	#debug_real_size_container_buttons.position = container_buttons.position
+	#debug_real_size_container_buttons.size = container_buttons.size
 
 func on_ready():
 	Globals.debug4.connect(debug_destabilize_buttons_randomize)
 	
 	disable_buttons()
+	
+	button_color = Globals.l_color.pick_random()
 	
 	modulate.a = 0.0
 	
@@ -41,26 +51,28 @@ func on_ready():
 	if Globals.debug_mode : $debug_real_size_container_buttons.visible = true
 
 
+# This function is executed right after a menu gets the final "button_ready" signal. The needed amount is equal to total button count in a given menu. Note: It's called from within the "on_button_ready()" function.
 func destabilize_buttons_randomize(d_pos_x : bool = true, d_pos_y : bool = true, d_pos_range_x : int = 8000, d_pos_range_y : int = 4000, d_rotation : bool = true, d_rotation_range : int = 360, d_scale_x : bool = true, d_scale_y : bool = true, d_scale_match : bool = true, d_scale_range_x : float = 40, d_scale_range_y : float = 0): # The "d" stands for "destabilize".
 	Globals.message_debug("Destabilizing buttons (d_pos_x = " + str(d_pos_x) + ", " + "d_pos_y = " + str(d_pos_y) + ", " + "d_pos_range_x = " + str(d_pos_range_x) + ", " + "d_pos_range_y = " + str(d_pos_range_y) + ", " + "d_rotation = " + str(d_rotation) + ", " + "d_rotation_range = " + str(d_rotation_range) + ", " + "d_scale_x = " + str(d_scale_x) + ", " + "d_scale_y = " + str(d_scale_y) + "," + "d_scale_match = " + str(d_scale_match) + ", " + "d_scale_range_x = " + str(d_scale_range_x) + ", " + "d_scale_range_y = " + str(d_scale_range_y) + ".")
-	timer_destabilized.start()
+	t_destabilized.start()
 	
 	var destabilize_type : String = "none"
 	
+	# Some destabilization types are supposed to be more rare than the rest. Below is the mechanism doing that.
 	Globals.message_debug("Choosing a valid button destabilization type...")
 	var valid : bool = false
 	while not valid:
 		
 		destabilize_type = l_destabilize_type.pick_random()
 		
-		if destabilize_type == "pos_y" or destabilize_type == "pos_xy" or destabilize_type == "rotation":
-			Globals.message_debug("Rolled an uncommon destabilization type. There is now a 25% chance for it to be considered valid.")
-			if randi_range(0, 20) >= 5 : valid = false ; Globals.message_debug("The 25% chance roll has failed. Retrying...", 2)
+		if destabilize_type == "pos_y" or destabilize_type == "pos_xy":
+			Globals.message_debug(str("Rolled an uncommon destabilization type (%s). There is now a 50% chance for it to be considered valid." % destabilize_type), 1)
+			if randi_range(0, 20) > 10 : valid = false ; Globals.message_debug("The 50% chance roll has failed. Retrying...", 2)
 			else : valid = true ; Globals.message_debug("The 25% chance roll has succeeded.", 1)
 			
 		else:
 			valid = true
-			Globals.message_debug("Rolled a common destabilization type.")
+			Globals.message_debug(str("Rolled a common destabilization type (%s)." % destabilize_type))
 	
 	
 	for button in container_buttons.get_children():
@@ -69,8 +81,10 @@ func destabilize_buttons_randomize(d_pos_x : bool = true, d_pos_y : bool = true,
 			button.stabilized = false
 			button.stabilize_multiplier = 0.1
 			
+			button.decoration.modulate.a = 0.0
 			button.pivot_offset = Vector2(randf_range(-button.decoration.size.x, button.decoration.size.x), randf_range(-button.decoration.size.y, button.decoration.size.y))
-			button.pivot_offset *= Vector2(randf_range(-4, 4), randf_range(-4, 4))
+			
+			Globals.message_debug("The current Menu Button destabilization type is %s." % destabilize_type)
 			
 			if destabilize_type == "pos_x":
 				if d_pos_x:
@@ -86,12 +100,15 @@ func destabilize_buttons_randomize(d_pos_x : bool = true, d_pos_y : bool = true,
 			
 			elif destabilize_type == "rotation":
 				
+				button.pivot_offset *= Vector2(randf_range(-2, 2), randf_range(-2, 2))
 				destabilize_pos(button, d_pos_x, d_pos_y, d_pos_range_x, d_pos_range_y)
 				
 				if d_rotation:
 					button.rotation_degrees += randi_range(-d_rotation_range * 2, d_rotation_range * 2)
 			
 			elif destabilize_type == "scale":
+				
+				button.pivot_offset *= Vector2(randf_range(-4, 4), randf_range(-4, 4))
 				destabilize_pos(button, d_pos_x, d_pos_y, d_pos_range_x, d_pos_range_y)
 				
 				if d_scale_match:
@@ -117,8 +134,21 @@ func _on_timer_destabilized_timeout() -> void:
 	for button in container_buttons.get_children():
 		if button.is_in_group("UI_button"):
 			
+			button.id = button.get_index() + 1
+			
 			button.stabilized = true
 			button.stabilize_multiplier = 0.1
+			
+			if abs(button.target_pos) - abs(button.position) < Vector2(1.0, 1.0):
+				button.position = button.target_pos
+				button.rotation_degrees = button.target_rotation
+				button.scale = button.target_scale
+				
+				if Globals.debug_mode:
+					button.debug_show_real_size(false)
+					button.get_node("%debug_pos").modulate = Color.GREEN_YELLOW
+					button.get_node("%debug_target_pos").modulate = Color.GREEN_YELLOW
+					button.get_node("%debug_original_pos").modulate = Color.GREEN_YELLOW
 
 
 var ready_buttons = 0
@@ -126,7 +156,7 @@ var ready_buttons = 0
 func on_button_ready():
 	ready_buttons += 1
 	
-	Globals.message_debug("Ready menu buttons: %s" % ready_buttons)
+	Globals.message_debug(str("Ready menu buttons: %s/%s" % [ready_buttons, len(container_buttons.get_children())]))
 	if ready_buttons == len(container_buttons.get_children()):
 		if randomize_default_preset : destabilize_buttons_randomize() # No arguments means: "default preset".
 		ready_buttons = 0
@@ -140,10 +170,17 @@ func _on_cooldown_debug_available_timeout() -> void:
 func debug_destabilize_buttons_randomize():
 	if not debug_available : return
 	
+	for button in container_buttons.get_children():
+		button.get_node("%debug_pos").modulate = Color.WHITE
+		button.get_node("%debug_target_pos").modulate = Color.WHITE
+		button.get_node("%debug_original_pos").modulate = Color.WHITE
+	
 	destabilize_buttons_randomize()
 	
 	debug_available = false
 	$cooldown_debug_available.start()
+	
+	$debug_real_size_container_buttons.visible = Globals.opposite_bool($debug_real_size_container_buttons.visible)
 
 
 func _on_enable_score_attack_mode_pressed():
@@ -234,13 +271,14 @@ func _on_btn_quit_game_pressed(block_buttons_time : float = 1.0) -> void:
 	get_tree().quit()
 
 func _on_btn_start_new_game_pressed(block_buttons_time : float = 1.0) -> void:
-	pass # Replace with function body.
+	SaveData.wipe_slot(SaveData.slot_current)
+	Globals.change_main_scene(Globals.scene_start_area)
 
 func _on_btn_continue_pressed(block_buttons_time : float = 1.0) -> void:
 	pass # Replace with function body.
 
 func _on_btn_select_level_set_pressed(block_buttons_time : float = 1.0) -> void:
-	Globals.spawn_menu(Globals.scene_menu_select_levelSet)
+	Globals.spawn_menu(Globals.scene_menu_select_levelSet, [], Globals.window_size / 2)
 	queue_free()
 
 # MAIN MENU - [END]
@@ -276,24 +314,41 @@ func disable_buttons():
 	for button_name in l_disable_buttons:
 		for button in container_buttons.get_children():
 			if button.name == button_name or button.name == "btn_" + button_name:
-				Globals.message_debug(button_name + " " + button.name)
+				Globals.message_debug(str("Removing the %s button from a menu." % button_name))
 				button.queue_free()
 
 
 var button_size_multiplier = Vector2(1, 1)
 
 func adjust_buttons():
+	await get_tree().create_timer(0.1, true).timeout
 	for button in container_buttons.get_children():
 		adjust_buttons_general(button)
 	
+	await get_tree().create_timer(0.1, true).timeout
 	for edge in get_tree().get_nodes_in_group("UI_button_general_decoration_right"):
 		adjust_buttons_edge(edge)
 
 func adjust_buttons_general(button):
-	#button.custom_minimum_size.y *= button_size_multiplier.y
+	button.custom_minimum_size.y *= button_size_multiplier.y
 	button.size.y *= button_size_multiplier.y
-	#button.decoration.custom_minimum_size.y *= button_size_multiplier.y
+	if button_size_multiplier != Vector2(1, 1) : button.target_pos *= button_size_multiplier * 1.2
+	button.decoration.custom_minimum_size.y *= button_size_multiplier.y
 	button.decoration.size.y *= button_size_multiplier.y
 
 func adjust_buttons_edge(edge):
-	edge.size *= button_size_multiplier
+	Globals.message_debug("Adjusting Button Decoration's right edge.")
+	edge.size.y *= button_size_multiplier.y
+
+
+func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
+	Globals.message_debug("Reversing Button Decoration's color blend order and possibly choosing a different menu button color.")
+	
+	if randi_range(-1, 1) : button_color = Globals.l_color.pick_random()
+	
+	var toggle_button_destabilize_modulate_dark = true
+	if randi_range(-1, 1) : toggle_button_destabilize_modulate_dark = false
+	
+	for button in container_buttons.get_children():
+		button.button_destabilize_modulate_reversed = Globals.opposite_bool(button.button_destabilize_modulate_reversed)
+		button.button_destabilize_modulate_dark = toggle_button_destabilize_modulate_dark

@@ -42,7 +42,6 @@ collision_mask = 7
 [node name="trigger_bgChange" parent="." index="14" instance=ExtResource("6_y4yhd")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
-is_gradient = true
 
 [node name="trigger_bgMove" parent="." index="15" instance=ExtResource("10_mcw21")]
 scale = Vector2(4, 4)

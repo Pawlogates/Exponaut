@@ -7,11 +7,16 @@ var button_levelSet_name = "none"
 
 signal button_clicked
 
+@onready var button_container : VBoxContainer = get_parent()
+@onready var menu : Control = button_container.get_parent()
+
 @onready var decoration: Button = $decoration
 @onready var text_manager: Control = $text_manager
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var cooldown_active: Timer = $cooldown_active
 @onready var sfx_stabilize: AudioStreamPlayer2D = $sfx_stabilize
+@onready var sfx_focused: AudioStreamPlayer2D = $sfx_focused
+@onready var sfx_clicked: AudioStreamPlayer2D = $sfx_clicked
 
 @export var text_manager_message = "none"
 @export var text_manager_letter_alignment = 0
@@ -47,6 +52,12 @@ signal button_ready
 var id : int = 0
 
 var stabilize_multiplier = 1.0
+var button_destabilize_modulate_reversed = false
+var button_destabilize_modulate_dark = false
+
+var debug_markers : Array
+
+var button_quantity : int = 0
 
 
 # Called when the node enters the scene tree for the first time.
@@ -57,8 +68,13 @@ func _ready() -> void:
 	Globals.debug1.connect(debug_refresh_decoration)
 	Globals.message_debug("Connecting debug signal 2 to a General UI Button, with the target function being 'debug_show_real_size'.")
 	Globals.debug2.connect(debug_show_real_size)
+	Globals.refreshed2_0.connect(on_refreshed2_0)
 	
-	id = get_index()
+	mouse_filter = 0
+	decoration.mouse_filter = 0
+	
+	id = get_index() + 1
+	menu.button_quantity += 1
 	
 	stabilize_multiplier = -0.5 # This causes the button to be invisible until about when its been destabilized.
 	
@@ -79,6 +95,11 @@ func _ready() -> void:
 	
 	spawn_decoration()
 	sfx_random()
+	
+	await get_tree().create_timer(1.0, true).timeout
+	
+	mouse_filter = 1
+	decoration.mouse_filter = 1
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -92,6 +113,8 @@ func _process(delta: float) -> void:
 		decoration.rotation_degrees = lerp(decoration.rotation_degrees, 0.0, delta * 20)
 		decoration.scale = lerp(decoration.scale, decoration_base_scale, delta * 20)
 	
+	var previous_opacity = decoration.modulate.a
+	
 	if not stabilized:
 		position = lerp(position, target_pos, delta * stabilize_multiplier)
 		rotation_degrees = lerp(rotation_degrees, target_rotation, delta * stabilize_multiplier)
@@ -99,8 +122,26 @@ func _process(delta: float) -> void:
 		
 		stabilize_multiplier = move_toward(stabilize_multiplier, 5.0, delta * 20)
 	
-	decoration.modulate.b = move_toward(decoration.modulate.b, 1.0 + 0.1 * id, delta)
+	
+	elif menu.button_color != "none":
+		if button_destabilize_modulate_reversed:
+			#print(delta / id * 4)
+			if button_destabilize_modulate_dark:
+				decoration.modulate = lerp(decoration.modulate, Color(1, 1, 1, 1).blend(Color((button_quantity - id) * 0.1, (button_quantity - id) * 0.1, (button_quantity - id) * 0.1, 1.0) * Color(menu.button_color) + Color(0.85, 0.85, 0.85, 1.0)), delta / clampf(button_quantity - id, 0.5, 100) * 2)
+			else:
+				decoration.modulate = lerp(decoration.modulate, Color(1, 1, 1, 1).blend(Color((button_quantity - id) * 0.1, (button_quantity - id) * 0.1, (button_quantity - id) * 0.1, 1.0) * Color(menu.button_color) + Color(1.0, 1.0, 1.0, 1.0)), delta / clampf(button_quantity - id, 0.5, 100) * 2)
+		else:
+			#print(delta / (button_quantity - id - 1) * 4)
+			#print(clampf(button_quantity - id, 0.5, 100), " ", delta)
+			if button_destabilize_modulate_dark:
+				decoration.modulate = lerp(decoration.modulate, Color(1, 1, 1, 1).blend(Color(id * 0.1, id * 0.1, id * 0.1, 1.0) * Color(menu.button_color) + Color(0.85, 0.85, 0.85, 1.0)), delta / id * 2)
+			else:
+				decoration.modulate = lerp(decoration.modulate, Color(1, 1, 1, 1).blend(Color(id * 0.1, id * 0.1, id * 0.1, 1.0) * Color(menu.button_color) + Color(1.0, 1.0, 1.0, 1.0)), delta / id * 2)
+	
+	
+	decoration.modulate.a = previous_opacity
 	decoration.modulate.a = move_toward(decoration.modulate.a, 1.0, delta * stabilize_multiplier)
+
 
 func spawn_decoration(debug : bool = false):
 	if not debug:
@@ -112,6 +153,7 @@ func spawn_decoration(debug : bool = false):
 		spawn_decoration_edges(false)
 		
 		button_ready.emit()
+		button_quantity = menu.button_quantity
 	
 	else:
 		await get_tree().create_timer(0.05, true).timeout
@@ -133,6 +175,8 @@ func _on_button_up() -> void:
 	
 	animation_player.play("clicked")
 	button_clicked.emit()
+	
+	sfx_clicked.play()
 
 
 func _on_focus_entered() -> void: # Note: This does NOT trigger on hovering over the button with mouse.
@@ -141,6 +185,9 @@ func _on_focus_entered() -> void: # Note: This does NOT trigger on hovering over
 	is_focused = true
 	
 	cooldown_active.start()
+	
+	sfx_focused.pitch_scale = randf_range(0.8, 1.2)
+	sfx_focused.play()
 
 
 func _on_focus_exited() -> void:
@@ -160,6 +207,9 @@ func _on_mouse_entered() -> void: # This does trigger on hovering over the butto
 	animation_player.stop()
 	animation_player.speed_scale = 4.0
 	animation_player.play("focused")
+	
+	sfx_focused.pitch_scale = randf_range(0.8, 1.2)
+	sfx_focused.play()
 
 
 func _on_mouse_exited() -> void:
@@ -191,11 +241,7 @@ func spawn_decoration_gears(delete_old : bool = true):
 	for x in range(int(decoration.size.x)):
 		
 		if Globals.debug_mode:
-			
-			var button_bg_position_x = (get_parent().size.x - decoration.size.x) / 2
-			
-			if x == 0 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 2, Vector2(x + button_bg_position_x, 32), 1, Color(0, -0.4, 0, 0), Vector2(0, 0), 15)
-			elif x == int(decoration.size.x) - 1 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 2, Vector2(x + button_bg_position_x, 32), 1, Color(0, 0, -0.4, 0), Vector2(0, 0), 15)
+			debug_place_markers(x)
 		
 		if randf_range(0, int(decoration.size.x)) > int(decoration.size.x) * gear_fail_chance:
 			
@@ -274,7 +320,7 @@ func spawn_decoration_edges(delete_old : bool = true):
 	if delete_old:
 		Globals.message_debug("Deleting old button right decorations.")
 		for node in decoration.get_children():
-			if node.is_in_group("decoration_right"):
+			if node.is_in_group("UI_button_general_decoration_right"):
 				node.queue_free()
 	
 	var decoration_right : Node
@@ -326,7 +372,7 @@ func debug_refresh_decoration():
 	
 	Globals.message_debug("DEBUG - Refreshed button decoration.", 1)
 
-func debug_show_real_size():
+func debug_show_real_size(toggle_visible : bool = true):
 	$debug/debug_real_size.size = size
 	$debug/debug_real_size.pivot_offset = pivot_offset
 	
@@ -334,9 +380,9 @@ func debug_show_real_size():
 	%debug_original_pos.text = "original_pos = " + str(original_pos)
 	%debug_target_pos.text = "target_pos = " + str(target_pos)
 	
-	$debug.visible = Globals.opposite_bool($debug.visible)
-	
-	Globals.message_debug("DEBUG - Toggled visibility of real button size, as well as position values.", 2)
+	if toggle_visible:
+		$debug.visible = Globals.opposite_bool($debug.visible)
+		Globals.message_debug("DEBUG - Toggled visibility of a Button's real size, as well as its position values.", 2)
 
 
 var debug_available = true
@@ -346,10 +392,21 @@ func _on_cooldown_debug_available_timeout() -> void:
 
 
 func sfx_random():
-	await get_tree().create_timer(randf_range(0.1, 1.0), true).timeout
+	await get_tree().create_timer(randf_range(0.25, 1.0), true).timeout
 	
 	sfx_stabilize.volume_linear = randf_range(0.25, 2)
-	sfx_stabilize.pitch_scale = randf_range(0.8, 1.2)
+	sfx_stabilize.pitch_scale = randf_range(0.75, 1.25)
 	sfx_stabilize.stream = Globals.l_sfx_menu_stabilize.pick_random()
 	sfx_stabilize.play()
 	Globals.message_debug("A button played a sound effect: %s (randomized)." % sfx_stabilize.stream)
+
+
+func debug_place_markers(x):
+	await get_tree().create_timer(0.05 * id, true).timeout
+	if x == 0 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 2, Vector2(x - decoration.size.x / 2 + size.x / 2, decoration.size.y / 2), 2, Color(0, -0.4, 0, 0), Vector2(0, 0), 15)
+	elif x == int(decoration.size.x) - 1 : Globals.spawn_scenes(self, load("res://Other/Scenes/debug_marker.tscn"), 2, Vector2(x - decoration.size.x / 2 + size.x / 2, decoration.size.y / 2), 2, Color(0, 0, -0.4, 0), Vector2(0, 0), 15)
+
+
+func on_refreshed2_0():
+	debug_show_real_size(false)
+	if Globals.debug_mode : menu.button_color = Globals.l_color.pick_random()

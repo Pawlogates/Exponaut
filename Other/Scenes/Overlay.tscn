@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=11 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
 [ext_resource type="PackedScene" uid="uid://venyptfcari1" path="res://Other/Scenes/User Interface/HUD/HUD.tscn" id="2_o857m"]
@@ -52,11 +52,45 @@ tracks/0/keys = {
 "values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
 }
 
+[sub_resource type="Animation" id="Animation_2pv2x"]
+resource_name = "white_fade_in"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("screen_black:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cw5ax"]
+resource_name = "white_fade_out"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("screen_black:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_olarl"]
 _data = {
 &"RESET": SubResource("Animation_g0n3s"),
 &"black_fade_in": SubResource("Animation_wyr23"),
-&"black_fade_out": SubResource("Animation_xupot")
+&"black_fade_out": SubResource("Animation_xupot"),
+&"white_fade_in": SubResource("Animation_2pv2x"),
+&"white_fade_out": SubResource("Animation_cw5ax")
 }
 
 [node name="Overlay" type="CanvasLayer"]
@@ -66,6 +100,7 @@ script = ExtResource("1_xupot")
 metadata/_edit_horizontal_guides_ = []
 
 [node name="screen_black" type="ColorRect" parent="."]
+z_index = 500
 offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2

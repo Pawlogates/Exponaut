@@ -25,7 +25,7 @@ mouse_filter = 2
 color = Color(0.2, 0.029, 0.019, 0.3)
 
 [node name="close" type="Button" parent="."]
-z_index = 25
+z_index = 51
 offset_right = 24.0
 offset_bottom = 24.0
 theme = ExtResource("2_jvx07")

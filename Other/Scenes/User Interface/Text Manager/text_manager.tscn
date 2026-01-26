@@ -21,6 +21,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 alignment = 1
 
 [node name="cooldown_debug_available" type="Timer" parent="."]

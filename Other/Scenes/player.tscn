@@ -546,10 +546,8 @@ _data = {
 &"streak_reset": SubResource("Animation_a3nuy")
 }
 
-[node name="Player" type="CharacterBody2D" groups=["player", "player_root"]]
+[node name="Player" type="CharacterBody2D" groups=["player_root"]]
 texture_filter = 4
-collision_layer = 2
-collision_mask = 5
 floor_constant_speed = true
 floor_max_angle = 1.0472
 safe_margin = 0.1
@@ -588,8 +586,6 @@ position_smoothing_speed = 4.0
 
 [node name="hitbox_main" type="Area2D" parent="." groups=["player"]]
 position = Vector2(0, 8)
-collision_layer = 2
-collision_mask = 7
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_main"]

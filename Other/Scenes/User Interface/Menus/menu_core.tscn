@@ -43,6 +43,11 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
+[node name="cooldown_toggle_button_destabilize_modulate_reversed" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
 [connection signal="timeout" from="timer_destabilized" to="." method="_on_timer_destabilized_timeout"]
 [connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]
 [connection signal="timeout" from="timer_buttons_blocked" to="." method="_on_timer_buttons_blocked_timeout"]
+[connection signal="timeout" from="cooldown_toggle_button_destabilize_modulate_reversed" to="." method="_on_cooldown_toggle_button_destabilize_modulate_reversed_timeout"]

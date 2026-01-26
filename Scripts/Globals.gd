@@ -43,6 +43,8 @@ const l_animation_type_limited : Array = ["general_limited", "gear_limited"]
 const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
 const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
 const l_animation_name_gear_limited : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
+const l_button_color = ["ORANGE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN"]
+const l_color = ["AQUA", "AQUAMARINE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN", "CORAL", "HOT_PINK", "ORANGE_RED", "YELLOW_GREEN", "DARK_MAGENTA", "INDIAN_RED", "LIGHT_CORAL", "GOLD", "MEDIUM_PURPLE", "MAROON", "MISTY_ROSE", "YELLOW_GREEN", "MIDNIGHT_BLUE", "PERU", "LIGHT_SEA_GREEN", "LIME_GREEN"]
 
 # Reusable sentences (String):
 const s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
@@ -139,6 +141,11 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 func _ready() -> void:
 	gameState_changed.connect(on_gameState_changed)
+	dm(mainScene)
+	refresh0_5()
+	refresh1_0()
+	refresh2_0()
+	refresh4_0()
 	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -148,28 +155,54 @@ func _physics_process(_delta):
 	handle_actions() # Handles global functions executed on triggering an action.
 	get_mouse_position()
 
+func _input(event: InputEvent) -> void:
+	if gameState_debug:
+		
+		if event is InputEventMouseButton:
+			
+			if Input.is_action_pressed("LMB"):
+				if Input.is_action_pressed("RMB"):
+					if Overlay.has_node("debug_display_messages"):
+						Overlay.get_node("debug_display_messages").delete_messages()
+				
+				else:
+					if Overlay.has_node("debug_display_messages"):
+						Overlay.get_node("debug_display_messages").message_start_following_mouse()
+					
+					if Overlay.has_node("debug_display_messages"):
+						Overlay.get_node("debug_display_messages").refresh_messages()
+			
+			elif event.button_index == 2 and event.pressed:
+				if Overlay.has_node("debug_display_messages"):
+					Overlay.get_node("debug_display_messages").delete_messages(true)
+
 
 func handle_actions():
 	if Input.is_action_just_pressed("menu_start_screen"):
 		change_main_scene(scene_start_screen)
 	
-	elif Input.is_action_just_pressed("menu_levelSet_screen"):
-		change_main_scene(scene_levelSet_screen)
+	elif Input.is_action_just_pressed("menu"):
+		handle_spawn_menu()
+		
+		if Input.is_action_just_pressed("1"):
+			change_main_scene(scene_levelSet_screen)
 	
-	if Input.is_action_just_pressed("menu"):
-		handle_spawn_menu(gameState_debug, gameState_level, gameState_levelSet_screen, gameState_start_screen)
 	
 	if Input.is_action_just_pressed("pause"):
 		handle_pause()
 	
 	
-	elif Input.is_action_just_pressed("debug_console"):
-		if Globals.debug_mode == false:
-			Globals.debug_mode = true
-			Globals.message_debug("Debug mode is active.")
-		elif Globals.debug_mode == true:
-			Globals.debug_mode = false
-			Globals.message_debug("Debug mode is disabled.")
+	if Input.is_action_just_pressed("debug_mode"):
+		
+		debug_mode = Globals.opposite_bool(debug_mode)
+		
+		if debug_mode:
+			message_debug("Debug mode is active.")
+			Overlay.animation("white_fade_out", 2.0)
+			
+		else:
+			message_debug("Debug mode is disabled.")
+			Overlay.animation("black_fade_out", 2.0)
 		
 		if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
 			World.player_health = 999
@@ -190,7 +223,7 @@ func change_main_scene(scene, instant : bool = false, anim_name : String = "blac
 	if debug_mode : anim_name = "none" ; instant = true
 	Globals.message_debug("Changing the Main Scene to %s" % scene)
 	
-	if anim_name != "none" : Overlay.animation(anim_name, 1.0, false, opposite_bool(instant))
+	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant))
 	get_tree().change_scene_to_packed(scene)
 
 
@@ -302,23 +335,23 @@ signal trigger_bg_change_entered
 signal trigger_bg_move_entered
 signal bg_change_finished
 
-var bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
-var bg_file_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
+var bg_main_visible_filepath = d_backgrounds + "/bg_fields.png"
+var bg_front_visible_filepath = d_backgrounds + "/bg_fields.png"
+var bg_front2_visible_filepath = d_backgrounds + "/bg_fields.png"
+var bg_back_visible_filepath = d_backgrounds + "/bg_fields.png"
+var bg_back2_visible_filepath = d_backgrounds + "/bg_fields.png"
 
-var bg_a_file_previous = "res://Assets/Graphics/backgrounds/bg_a_fields.png"
-var bg_a_file_current = "res://Assets/Graphics/backgrounds/bg_a_fields.png"
+var bg_main_hidden_filepath = d_backgrounds + "/bg_cave.png"
+var bg_front_hidden_filepath = d_backgrounds + "/bg_cave.png"
+var bg_front2_hidden_filepath = d_backgrounds + "/bg_cave.png"
+var bg_back_hidden_filepath = d_backgrounds + "/bg_cave.png"
+var bg_back2_hidden_filepath = d_backgrounds + "/bg_cave.png"
 
-var bg_b_file_previous = "res://Assets/Graphics/backgrounds/bg_b_fields.png"
-var bg_b_file_current = "res://Assets/Graphics/backgrounds/bg_b_fields.png"
-
-var bg_offset_target_x = 0
-var bg_offset_target_y = 0
-
-var bg_a_offset_target_x = 0
-var bg_a_offset_target_y = 0
-
-var bg_b_offset_target_x = 0
-var bg_b_offset_target_y= 0
+var bg_main_offset_target = Vector2(0, 0)
+var bg_front_offset_target = Vector2(0, 0)
+var bg_front2_offset_target = Vector2(0, 0)
+var bg_back_offset_target = Vector2(0, 0)
+var bg_back2_target = Vector2(0, 0)
 
 
 # Main scene refers to the current root scene (the parent node at the top of the node tree).
@@ -411,11 +444,14 @@ func message(text):
 	messages_added.emit() # This is a signal from this script (Globals.gd).
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
-@onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!", "All debug messages will be shown here for a while, as well as printed to the console."]
+@onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
 
-func message_debug(text, importance : int = 0):
-	display_messages_debug_queued.append(str(text) + str("[%s]" % importance))
+func message_debug(text, importance = "none", add_scale : float = -1.0, remove_cooldown : float = -1.0):
+	display_messages_debug_queued.append(str(text) + str("//%si" % importance) + str("//%ss" % add_scale) + str("//%st" % remove_cooldown)) # Note that the "%s" is replaced by what is after the "%" at the end.
 	Globals.messages_debug_added.emit()
+
+func dm(text, importance = "none", add_scale : float = -1.0, remove_cooldown : float = -1.0): # This function clone is just for typing convenience.
+	message_debug(text, importance, add_scale, remove_cooldown)
 
 
 # Lists (Array) of various entity properties, used for randomization purposes.
@@ -462,27 +498,29 @@ const list_temporary_powerUp = ["none", "higher_jump", "increased_speed", "telep
 @onready var l_bonusBox_item_blacklist_enemy_scene = []
 
 
-func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, add_properties_name : Array = ["position"], add_properties_value : Array = [Vector2(0, 0)]): # Quantity of -1 will randomize the number of spawned scenes.
+func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = []): # Quantity of -1 will randomize the number of spawned scenes.
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
 		var node = file.instantiate()
 		node.position += pos_offset
-		print(node.position)
 		node.modulate += add_modulate
 		node.scale += add_scale
 		node.z_index += add_z_index
 		
 		var y = -1
-		for p_name in add_properties_name:
+		for p_name in properties_name:
 			y += 1
 			
 			#var add_property : Dictionary = {add_properties_name[y] : add_properties_value[y]}
-			node.set(add_properties_name[y], add_properties_value[y])
+			node.set(properties_name[y], properties_value[y])
 		
 		target.add_child(node)
 		
 		spawned_nodes.append(node)
+		
+		#if "debug_markers" in target : target.debug_markers.append(node)
+	
 	
 	if remove_cooldown != -1:
 		
@@ -601,9 +639,6 @@ func on_action_4():
 	debug4.emit()
 
 
-@onready var window_size : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
-
-
 func handle_pause():
 	if get_tree().paused == false:
 		get_tree().paused = true
@@ -613,23 +648,52 @@ func handle_pause():
 		Globals.message_debug("Game resumed.")
 
 
+@onready var window_size : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
+
 func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none"], add_position : Vector2 = window_size * 0, button_size_multiplier : Vector2 = Vector2(1, 1)):
 	spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
 
-func handle_spawn_menu(p_gameState_debug : bool = true, p_gameState_level : bool = false, p_gameState_levelSet_screen : bool = false, p_gameState_start_screen : bool = false): # The "p" stands for "passed".
+func handle_spawn_menu(manual_request : bool = false):
 	for menu in get_tree().get_nodes_in_group("menu_main") : menu.queue_free()
 	
-	if p_gameState_debug and debug_mode:
+	if gameState_debug and debug_mode:
 		spawn_menu()
 		return
 	
-	if p_gameState_level:
-		spawn_menu()
-	elif p_gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set screen", "Select Level Set", "Quit Game"], Vector2(window_size.x / -3.5, window_size.y / 3), Vector2(0.75, 0.75))
-	elif p_gameState_start_screen:
+	if gameState_level:
+		if manual_request:
+			spawn_menu()
+	elif gameState_levelSet_screen:
+		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set screen", "Select Level Set", "Quit Game"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+	elif gameState_start_screen:
 		spawn_menu(scene_menu_main, ["Resume Game", "Select Set screen", "Quit to Main Menu"])
 
 
 func on_gameState_changed():
-	handle_spawn_menu(gameState_debug, gameState_level, gameState_levelSet_screen, gameState_start_screen)
+	await get_tree().create_timer(0.2, true).timeout
+	handle_spawn_menu(false)
+
+
+# Constant global refresh timers:
+
+signal refreshed0_5
+signal refreshed1_0
+signal refreshed2_0
+signal refreshed4_0
+
+func refresh0_5():
+	await get_tree().create_timer(0.5, true).timeout
+	refreshed0_5.emit()
+	refresh0_5()
+func refresh1_0():
+	await get_tree().create_timer(1.0, true).timeout
+	refreshed1_0.emit()
+	refresh1_0()
+func refresh2_0():
+	await get_tree().create_timer(2.0, true).timeout
+	refreshed2_0.emit()
+	refresh2_0()
+func refresh4_0():
+	await get_tree().create_timer(4.0, true).timeout
+	refreshed4_0.emit()
+	refresh4_0

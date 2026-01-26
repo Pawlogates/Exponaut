@@ -226,6 +226,8 @@ const collectibles_DEBUG_10 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 	#pass
 
 
+var slot_current = "DEFAULT" # Save slot ID is checked every time the game saves or loads either playerData, levelSet or levelState save files.
+
 # Saved player-related properties (overworld):
 var saved_last_level_filepath = "none"
 
@@ -361,7 +363,7 @@ func load_playerData():
 
 
 # Resets saved player-related properties (applied in overworld levels):
-func reset_playerData():
+func reset_playerData(slot_id : String, levelSet_id: String):
 	saved_last_level_filepath = "none"
 	
 	saved_position_x = 0 # Saved overworld player position, to be applied when loading back into any of the overworld-type levels.
@@ -393,15 +395,17 @@ func reset_playerData():
 	never_saved = true
 
 
-func delete_playerData(target : String):
-	var dir = DirAccess.open("user://saves/playerData")
+func delete_playerData(slot_id : String, property_name : String):
+	var dir : DirAccess
+	if FileAccess.file_exists(Globals.d_playerData) : dir = DirAccess.open(Globals.d_playerData)
+	else : Globals.dm("The 'playerData' save file directory doesn't exist.") ; return
 	
-	if target == "all":
+	if slot_id == "all":
 		for filename in dir.get_files():
 			delete_file(filename, dir)
 	
 	else:
-		delete_file(target, dir)
+		delete_file("playerData_" + slot_id, dir)
 
 
 # Data is what you get when opening a json. This function is called at the end of a main save/load function.
@@ -481,10 +485,32 @@ func load_levelSet(list_levelSet_id):
 					set("saved_" + levelSet + str(level_number), data[("saved_" + levelSet + str(level_number))])
 
 
-func reset_levelSet(id): # Example id: "MAIN, "BONUS", etc.
-	set("saved_" + id, default_saved_levelSet)
-	for level_number in range(get("info_" + id)[2]):
-		set("saved_" + id + str(level_number), default_saved_level)
+func reset_levelSet(slot_id : String, levelSet_id: String): # Example id: "MAIN, "BONUS", etc.
+	if levelSet_id == "all":
+		for i_levelSet_id in Globals.l_levelSet_id: # The "i" stands for "iterated".
+			set("saved_" + i_levelSet_id, default_saved_levelSet)
+			
+			for level_number in range(get("info_" + i_levelSet_id)[1]):
+				set("saved_" + i_levelSet_id + str(level_number), default_saved_level)
+	
+	else:
+		set("saved_" + levelSet_id, default_saved_levelSet)
+		
+		for level_number in range(get("info_" + levelSet_id)[1]):
+			set("saved_" + levelSet_id + str(level_number), default_saved_level)
+
+
+func delete_levelSet(slot_id : String, levelSet_id: String):
+	var dir : DirAccess
+	if FileAccess.file_exists(Globals.d_levelSet) : dir = DirAccess.open(Globals.d_levelSet)
+	else : Globals.dm("The 'levelSet' save file directory doesn't exist.") ; return
+	
+	if slot_id == "all":
+		for filename in dir.get_files():
+			delete_file(filename, dir)
+	
+	else:
+		delete_file("levelSet_" + levelSet_id + "_" + slot_id, dir)
 
 
 func data_levelSet(id):
@@ -559,35 +585,24 @@ func save_file(filepath : String, data_function : String):
 	file.store_line(json_contents)
 
 
-func save_file_levelState(level_id):
-	pass
-
-
 # Functions that delete the game's save files.
-func delete_levelState(target : String): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
-	var dir = DirAccess.open("user://levelState")
+func delete_levelState(slot_id : String, levelState_id: String): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
+	var dir : DirAccess
+	if FileAccess.file_exists(Globals.d_levelState) : dir = DirAccess.open(Globals.d_levelState)
+	else : Globals.dm("The 'levelState' save file directory doesn't exist.") ; return
 	
-	if target == "all":
+	if slot_id == "all":
 		for filename in dir.get_files():
 			delete_file(filename, dir)
 	
 	else:
-		delete_file(target, dir)
-
-func delete_levelSet(target : String):
-	var dir = DirAccess.open(Globals.d_levelSet)
-	
-	if target == "all":
-		for filename in dir.get_files():
-			delete_file(filename, dir)
-	
-	else:
-		delete_file(target, dir)
+		delete_file("levelState_" + levelState_id + "_" + slot_id, dir)
 
 func delete_file(filename, dir):
 	if not dir.file_exists(filename) : return
 	
 	dir.remove(filename)
+
 
 # Returns a score rank (or its int value), depending on target score (score needed for maximum rank).
 @onready var list_ranks = ["none", "F-", "F", "F+", "E-", "E", "E+", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+", "S-", "S", "S+", "S+", "S++", "S+++", "EXPONAUT"]
@@ -612,3 +627,18 @@ func calculate_rank_level(level_id):
 	Globals.message_debug("Rank result: " + rank + " (" + str(rank_value) + "), with score segment of " + str(score_segment) + ".")
 	
 	return [rank, rank_value]
+
+
+# Delete progress for a specific save slot.
+func reset_slot(id : String): # Sets variables to their default values.
+	reset_playerData(id, "all")
+	reset_levelSet(id, "all")
+
+func delete_slot(id : String): # Deletes save files from the game's data folder.
+	delete_playerData(id, "all")
+	delete_levelState(id, "all")
+	delete_levelSet(id, "all")
+
+func wipe_slot(id : String):
+	reset_slot("all")
+	delete_slot("all")
