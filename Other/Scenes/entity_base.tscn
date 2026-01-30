@@ -12,9 +12,9 @@ size = Vector2(63.5, 63.5)
 size = Vector2(48, 48)
 
 [node name="base" type="CharacterBody2D"]
+collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
-debug = true
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
 
@@ -31,6 +31,8 @@ unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_ep4j2")
 
 [node name="hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
 
 [node name="hitbox_collision" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("RectangleShape2D_c3p0q")
@@ -59,8 +61,6 @@ scale = Vector2(51.2, 51.2)
 
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
-[connection signal="body_entered" from="hitbox" to="." method="_on_hitbox_body_entered"]
-[connection signal="body_exited" from="hitbox" to="." method="_on_hitbox_body_exited"]
 [connection signal="timeout" from="cooldown_collidable" to="." method="_on_cooldown_collidable_timeout"]
 [connection signal="timeout" from="cooldown_remove_corpse" to="." method="_on_cooldown_remove_corpse_timeout"]
 [connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]

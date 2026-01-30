@@ -52,6 +52,7 @@ func update_display():
 		else:
 			segment.visible = false
 
+
 # REMEMBER TO ADD RAINBOW2 MATERIAL TO EACH HP SEGMENT WHEN IN MAX COMBO MODE
 
 func _on_debug_hp_add_pressed() -> void:

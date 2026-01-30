@@ -1,0 +1,303 @@
+[gd_scene load_steps=13 format=3 uid="uid://qvxb24kyh4pu"]
+
+[ext_resource type="Script" uid="uid://b01g011s3jleu" path="res://Scripts/background_manager.gd" id="1_buqj4"]
+[ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/backgrounds/bg_back_fields.png" id="3_6te8h"]
+[ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/backgrounds/bg_front_fields.png" id="4_xvuw8"]
+[ext_resource type="Texture2D" uid="uid://o4c45t62y00t" path="res://Assets/Graphics/backgrounds/bg_factory.png" id="5_84qf3"]
+[ext_resource type="Texture2D" uid="uid://di6vnsvk0e1wf" path="res://Assets/Graphics/backgrounds/bg_cavern_rocky.png" id="6_0vdwx"]
+[ext_resource type="Texture2D" uid="uid://dnkumwh3w5j5g" path="res://Assets/Graphics/backgrounds/bg_front_clouds.png" id="7_uxftp"]
+[ext_resource type="Texture2D" uid="uid://do7kn3idunov2" path="res://Assets/Graphics/backgrounds/bg_front_jungle.png" id="8_0vdwx"]
+[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_front_jungle2.png" id="9_htje4"]
+[ext_resource type="Texture2D" uid="uid://xd416xftax5h" path="res://Assets/Graphics/backgrounds/bg_volcano.png" id="10_htje4"]
+
+[sub_resource type="Animation" id="Animation_cw6l6"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bg_main_A/layer:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bg_main_A/layer:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg_main_A/layer:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg_main_A/layer:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_qeixd"]
+resource_name = "layer_all_fade_out"
+length = 4.0
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bg_main_A/layer:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("bg_main_A/layer:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("bg_main_A/layer:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("bg_main_A/layer:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 4)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_txf8u"]
+_data = {
+&"RESET": SubResource("Animation_cw6l6"),
+&"layer_all_fade_out": SubResource("Animation_qeixd")
+}
+
+[node name="background" type="CanvasLayer"]
+layer = -10
+script = ExtResource("1_buqj4")
+
+[node name="animation_fade" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+&"": SubResource("AnimationLibrary_txf8u")
+}
+
+[node name="bg_main_A" type="ParallaxBackground" parent="."]
+layer = -10
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_main_A"]
+texture_repeat = 3
+motion_scale = Vector2(0.75, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_main_A/layer"]
+texture_filter = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("5_84qf3")
+expand_mode = 1
+
+[node name="bg_front_A" type="ParallaxBackground" parent="."]
+layer = -9
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_front_A"]
+z_index = 1
+texture_repeat = 3
+motion_scale = Vector2(0.85, 0.4)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_front_A/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("3_6te8h")
+expand_mode = 1
+
+[node name="bg_front2_A" type="ParallaxBackground" parent="."]
+layer = -8
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_front2_A"]
+z_index = 2
+texture_repeat = 3
+motion_scale = Vector2(0.95, 0.5)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_front2_A/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("4_xvuw8")
+expand_mode = 1
+
+[node name="bg_back_A" type="ParallaxBackground" parent="."]
+layer = -11
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_back_A"]
+z_index = -1
+texture_repeat = 3
+motion_scale = Vector2(0.65, -0.2)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_back_A/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("10_htje4")
+expand_mode = 1
+
+[node name="bg_back2_A" type="ParallaxBackground" parent="."]
+layer = -12
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_back2_A"]
+z_index = -2
+texture_repeat = 3
+motion_scale = Vector2(0.55, -0.2)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_back2_A/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("6_0vdwx")
+expand_mode = 1
+
+[node name="bg_main_B" type="ParallaxBackground" parent="."]
+layer = -10
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_main_B"]
+visible = false
+texture_repeat = 3
+motion_scale = Vector2(0.75, 0.1)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_main_B/layer"]
+texture_filter = 1
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("5_84qf3")
+expand_mode = 1
+
+[node name="bg_front_B" type="ParallaxBackground" parent="."]
+layer = -9
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_front_B"]
+visible = false
+z_index = 1
+texture_repeat = 3
+motion_scale = Vector2(0.85, 0.4)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_front_B/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("8_0vdwx")
+expand_mode = 1
+
+[node name="bg_front2_B" type="ParallaxBackground" parent="."]
+layer = -8
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_front2_B"]
+visible = false
+z_index = 2
+texture_repeat = 3
+motion_scale = Vector2(0.95, 0.5)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_front2_B/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("7_uxftp")
+expand_mode = 1
+
+[node name="bg_back_B" type="ParallaxBackground" parent="."]
+layer = -11
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_back_B"]
+visible = false
+z_index = -1
+texture_repeat = 3
+motion_scale = Vector2(0.85, 0.4)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_back_B/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("10_htje4")
+expand_mode = 1
+
+[node name="bg_back2_B" type="ParallaxBackground" parent="."]
+layer = -12
+scroll_ignore_camera_zoom = true
+
+[node name="layer" type="ParallaxLayer" parent="bg_back2_B"]
+visible = false
+z_index = -2
+texture_repeat = 3
+motion_scale = Vector2(0.85, 0.4)
+motion_mirroring = Vector2(1920, 0)
+
+[node name="texture" type="TextureRect" parent="bg_back2_B/layer"]
+texture_filter = 1
+texture_repeat = 3
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("9_htje4")
+expand_mode = 1

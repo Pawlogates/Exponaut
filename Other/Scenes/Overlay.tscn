@@ -1,7 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=10 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
-[ext_resource type="PackedScene" uid="uid://venyptfcari1" path="res://Other/Scenes/User Interface/HUD/HUD.tscn" id="2_o857m"]
 [ext_resource type="PackedScene" uid="uid://bec60ts473x1w" path="res://Other/Scenes/User Interface/Debug/await_debug.tscn" id="3_xupot"]
 [ext_resource type="PackedScene" uid="uid://ifj2hp6u65is" path="res://Other/Scenes/User Interface/Debug/await_HUD.tscn" id="4_cw5ax"]
 
@@ -112,8 +111,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_olarl")
 }
 
-[node name="HUD" parent="." instance=ExtResource("2_o857m")]
+[node name="await_HUD" parent="." instance=ExtResource("4_cw5ax")]
 
 [node name="await_debug" parent="." instance=ExtResource("3_xupot")]
-
-[node name="await_HUD" parent="." instance=ExtResource("4_cw5ax")]

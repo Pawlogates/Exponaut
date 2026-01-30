@@ -43,7 +43,7 @@ func _ready() -> void:
 	
 	reassign_general()
 	
-	if not animation_general.is_playing() and not animation_gear.is_playing() : play_anim(false)
+	if not animation_general.is_playing() and not animation_gear.is_playing() : play_anim(true)
 	
 	glow_light.offset += Vector2(randi_range(-50, 50), randi_range(-50, 50))
 

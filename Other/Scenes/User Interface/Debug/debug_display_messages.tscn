@@ -6,9 +6,6 @@
 
 [node name="debug_display_messages" type="CanvasLayer"]
 layer = 128
-offset = Vector2(-4000, -4000)
-scale = Vector2(0.01, 0.01)
-transform = Transform2D(0.01, 0, 0, 0.01, -4000, -4000)
 script = ExtResource("1_kfqwp")
 
 [node name="message_container" type="Control" parent="."]

@@ -548,6 +548,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" groups=["player_root"]]
 texture_filter = 4
+collision_layer = 2
 floor_constant_speed = true
 floor_max_angle = 1.0472
 safe_margin = 0.1
@@ -578,7 +579,7 @@ one_shot = true
 wait_time = 0.15
 one_shot = true
 
-[node name="Camera2D" type="Camera2D" parent="." groups=["player_camera"]]
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera", "player_camera"]]
 process_mode = 3
 z_index = 1
 position_smoothing_enabled = true
@@ -586,17 +587,20 @@ position_smoothing_speed = 4.0
 
 [node name="hitbox_main" type="Area2D" parent="." groups=["player"]]
 position = Vector2(0, 8)
+collision_layer = 8
+collision_mask = 8
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_main"]
 shape = SubResource("RectangleShape2D_ct51a")
 debug_color = Color(0.984314, 0, 0.329412, 0.419608)
 
-[node name="hitbox_dash_scan_solid" type="Area2D" parent="hitbox_main" groups=["player_exact"]]
-position = Vector2(0, -8)
+[node name="hitbox_dash_scan_solid" type="Area2D" parent="." groups=["player_exact"]]
+collision_layer = 8
+collision_mask = 8
 input_pickable = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_main/hitbox_dash_scan_solid"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_dash_scan_solid"]
 shape = SubResource("RectangleShape2D_q480c")
 debug_color = Color(0.611765, 0.537255, 0, 0.419608)
 
@@ -718,8 +722,8 @@ one_shot = true
 [connection signal="timeout" from="timer_leniency_jump" to="." method="_on_timer_leniency_jump_timeout"]
 [connection signal="timeout" from="timer_leniency_wall_jump" to="." method="_on_timer_leniency_wall_jump_timeout"]
 [connection signal="area_entered" from="hitbox_main" to="." method="_on_hitbox_main_area_entered"]
-[connection signal="body_entered" from="hitbox_main/hitbox_dash_scan_solid" to="." method="_on_hitbox_dash_scan_solid_body_entered"]
-[connection signal="body_exited" from="hitbox_main/hitbox_dash_scan_solid" to="." method="_on_hitbox_dash_scan_solid_body_exited"]
+[connection signal="body_entered" from="hitbox_dash_scan_solid" to="." method="_on_hitbox_dash_scan_solid_body_entered"]
+[connection signal="body_exited" from="hitbox_dash_scan_solid" to="." method="_on_hitbox_dash_scan_solid_body_exited"]
 [connection signal="timeout" from="stuck_check" to="." method="_on_stuck_check_timeout"]
 [connection signal="timeout" from="stuck_check/stuck_confirm" to="." method="_on_stuck_confirm_timeout"]
 [connection signal="timeout" from="timer_dash" to="." method="_on_timer_dash_timeout"]

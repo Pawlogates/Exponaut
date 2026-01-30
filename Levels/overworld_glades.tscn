@@ -13,7 +13,7 @@
 [ext_resource type="AudioStream" uid="uid://jrrdb7mdfafc" path="res://Assets/Sounds/music/plains3.mp3" id="13_gj00c"]
 [ext_resource type="AudioStream" uid="uid://ymeawbacseox" path="res://Assets/Sounds/music/music_plains4.mp3" id="14_k3mos"]
 [ext_resource type="Texture2D" uid="uid://8h4y75y71fj4" path="res://Assets/Graphics/backgrounds/bg_lake_mountains.png" id="15_tu0mf"]
-[ext_resource type="Texture2D" uid="uid://b6ykdc8w7hpm2" path="res://Assets/Graphics/backgrounds/bg_a_wheat.png" id="16_4b1qb"]
+[ext_resource type="Texture2D" uid="uid://b6ykdc8w7hpm2" path="res://Assets/Graphics/backgrounds/bg_front_wheat.png" id="16_4b1qb"]
 [ext_resource type="AudioStream" uid="uid://7xoh66av8tjx" path="res://Assets/Sounds/music/ascent2.mp3" id="17_4swh5"]
 [ext_resource type="Texture2D" uid="uid://bjkqxj8c6bpll" path="res://Assets/Graphics/backgrounds/bg_forest.png" id="18_f8lca"]
 [ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/backgrounds/bg_empty_a.png" id="19_0ueja"]

@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_screen.gd" id="2_2hc0d"]
 [ext_resource type="AudioStream" uid="uid://dfoqdahqfeem3" path="res://Assets/Sounds/music/factory3.mp3" id="3_ooxfa"]
 [ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_mmt5r"]
-[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="6_r0lxw"]
+[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_front_jungle2.png" id="6_r0lxw"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="7_jqjnh"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
@@ -26,7 +26,7 @@ shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
 
-[node name="StartMenu" type="CenterContainer"]
+[node name="Start Screen" type="CenterContainer"]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -34,6 +34,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_q74v4")
 script = ExtResource("2_2hc0d")
+
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+position = Vector2(960, 540)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_ooxfa")

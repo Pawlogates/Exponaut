@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_5yskg"]
 [ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_togglebot.tres" id="2_i7pjj"]
 
-[node name="togglebot" instance=ExtResource("1_5yskg")]
+[node name="togglebot" groups=["Entity"] instance=ExtResource("1_5yskg")]
 collision_layer = 0
 collectable = false
 hittable = true

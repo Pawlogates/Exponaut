@@ -88,39 +88,55 @@ var value18 = "none"
 var value19 = "none"
 var value20 = "none"
 
+
 func _ready() -> void:
 	update_labels()
 	animation_ui.play("show")
-	
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name1 = "Currently loaded level's id: "
-	name12 = "Current player sprite anim name: "
 
 func _physics_process(delta: float) -> void:
 	pass
 
+
 func _on_cooldown_refresh_timeout() -> void:
-	if Globals.gameState_level : value1 = Globals.World.level_id ; value1 = str(value1)
-	#if Globals.gameState_level : value1 = Globals.World.level_id ; value1 = str(value1)
-	#if Globals.gameState_level : value1 = Globals.World.level_id ; value1 = str(value1)
-	#if Globals.gameState_level : value1 = Globals.World.level_id ; value1 = str(value1)
-	#if Globals.gameState_level : value1 = Globals.World.level_id ; value1 = str(value1)
-	if Globals.gameState_level : value12 = Globals.Player.sprite.animation ; value12 = str(value12)
+	if Globals.gameState_level:
+		value1 = Globals.level_id
+		value12 = Globals.Player.sprite.animation
+		value13 = Globals.Player.state_walk
+		value14 = Globals.Player.state_jump
+		value15 = Globals.Player.state_fall
+		value16 = Globals.Player.state_shoot
+		value17 = Globals.Player.state_damage
+		value18 = Globals.Player.state_crouch
+		value19 = Globals.Player.state_crouch_walk
+		value20 = Globals.Player.state_idle
 	
 	# Update the visible text of value labels.
 	update_labels()
 
 func update_labels():
-	for id in range(1, 20): # Total (20) - 1, because it starts from 0.
-		get("label_n" + str(id)).text = get("name" + str(id))
-		get("label_v" + str(id)).text = get("value" + str(id))
+	for id in range(1, 21): # Total (20) - 1, because it starts from 0.
+		get("label_n" + str(id)).text = str(get("name" + str(id)))
+		get("label_v" + str(id)).text = str(get("value" + str(id)))
+	
+	name1 = "none"
+	name2 = "none"
+	name3 = "none"
+	name4 = "none"
+	name5 = "none"
+	name6 = "none"
+	name7 = "none"
+	name8 = "none"
+	name9 = "none"
+	name10 = "none"
+	name12 = "Current player sprite anim name: "
+	name13 = "Walk state weight: "
+	name14 = "Jump state weight: "
+	name15 = "Fall state weight: "
+	name16 = "Shoot state weight: "
+	name17 = "Damage state weight: "
+	name18 = "Crouch state weight: "
+	name19 = "Crouch Walk state weight: "
+	name20 = "Idle state weight: "
 
 
 func _on_close_pressed() -> void:

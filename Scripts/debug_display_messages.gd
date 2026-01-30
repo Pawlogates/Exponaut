@@ -155,7 +155,8 @@ func correct_messages_order():
 		
 		label.target_position = label.position
 		label.target_scale = label.scale
-		label.z_index += int(scale.y * 1.5)
+		label.z_index += clamp(int(scale.y * 1.5), -200, 200)
+		label.z_index = clamp(label.z_index, -200, 200)
 
 
 func refresh_messages():

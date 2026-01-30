@@ -30,6 +30,8 @@ func _process(delta: float) -> void:
 	#debug_real_size_container_buttons.size = container_buttons.size
 
 func on_ready():
+	#Globals.gameState_changed.connect(delete_menu)
+	
 	Globals.debug4.connect(debug_destabilize_buttons_randomize)
 	
 	disable_buttons()
@@ -177,10 +179,10 @@ func debug_destabilize_buttons_randomize():
 	
 	destabilize_buttons_randomize()
 	
+	$debug_real_size_container_buttons.visible = Globals.opposite_bool($debug_real_size_container_buttons.visible)
+	
 	debug_available = false
 	$cooldown_debug_available.start()
-	
-	$debug_real_size_container_buttons.visible = Globals.opposite_bool($debug_real_size_container_buttons.visible)
 
 
 func _on_enable_score_attack_mode_pressed():
@@ -352,3 +354,7 @@ func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
 	for button in container_buttons.get_children():
 		button.button_destabilize_modulate_reversed = Globals.opposite_bool(button.button_destabilize_modulate_reversed)
 		button.button_destabilize_modulate_dark = toggle_button_destabilize_modulate_dark
+
+
+func delete_menu(): # Will add some menu deletion effect making heavy use of the general tween tool (doesn't exist yet) for each button.
+	queue_free()

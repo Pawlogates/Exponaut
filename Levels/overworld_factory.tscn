@@ -76,17 +76,31 @@ layer_4/enabled = false
 [node name="Player" parent="." index="5"]
 position = Vector2(-288, 64)
 
-[node name="kill_area" parent="." index="11" instance=ExtResource("6_nae7b")]
+[node name="zone_kill" parent="." index="11" instance=ExtResource("6_nae7b")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
 
-[node name="trigger_bgChange" parent="." index="12" instance=ExtResource("7_nen1n")]
+[node name="trigger_bg_change" parent="." index="12" instance=ExtResource("7_nen1n")]
 position = Vector2(-288, 64)
 scale = Vector2(8, 8)
+bg_main_filepath = "uid://o4c45t62y00t"
+bg_front_filepath = "uid://bpevvq03p3otx"
+bg_front2_filepath = "uid://bpevvq03p3otx"
+bg_back_filepath = "uid://bpevvq03p3otx"
+bg_back2_filepath = "uid://bpevvq03p3otx"
+bg_main_repeat_y = true
+bg_main_edge_top_filepath = "uid://bpevvq03p3otx"
 
-[node name="trigger_bgChange2" parent="." index="13" instance=ExtResource("7_nen1n")]
+[node name="trigger_bg_change2" parent="." index="13" instance=ExtResource("7_nen1n")]
 position = Vector2(10304, -3712)
 scale = Vector2(7, 7)
+bg_main_filepath = "uid://o4c45t62y00t"
+bg_front_filepath = "uid://bpevvq03p3otx"
+bg_front2_filepath = "uid://bpevvq03p3otx"
+bg_back_filepath = "uid://bpevvq03p3otx"
+bg_back2_filepath = "uid://bpevvq03p3otx"
+bg_main_repeat_y = true
+bg_main_edge_top_filepath = "uid://bpevvq03p3otx"
 
 [node name="score_gate" parent="." index="14" instance=ExtResource("11_y58wk")]
 position = Vector2(2176, -2176)

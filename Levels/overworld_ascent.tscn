@@ -7,12 +7,12 @@
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="7_y6mvm"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="8_gxha1"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="9_ylxfu"]
-[ext_resource type="Texture2D" uid="uid://dnkumwh3w5j5g" path="res://Assets/Graphics/backgrounds/bg_a_clouds.png" id="10_xjj5x"]
+[ext_resource type="Texture2D" uid="uid://dnkumwh3w5j5g" path="res://Assets/Graphics/backgrounds/bg_front_clouds.png" id="10_xjj5x"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="11_xgaeo"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="12_te0pg"]
 [ext_resource type="AudioStream" uid="uid://n3l8lgynqx44" path="res://Assets/Sounds/music/castle5.mp3" id="13_40hd3"]
 [ext_resource type="Texture2D" uid="uid://cstrkdig8bra3" path="res://Assets/Graphics/backgrounds/bg_fields2.png" id="14_ffcrq"]
-[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_a_jungle2.png" id="15_sk7oh"]
+[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_front_jungle2.png" id="15_sk7oh"]
 
 [node name="World" instance=ExtResource("1_yoitb")]
 

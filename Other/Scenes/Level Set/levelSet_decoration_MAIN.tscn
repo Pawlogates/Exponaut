@@ -1,7 +1,18 @@
 [gd_scene load_steps=2 format=3 uid="uid://bs1uryh81tn0f"]
 
-[ext_resource type="PackedScene" uid="uid://dx18msavpuef4" path="res://Objects/Decorations/gear.tscn" id="1_enbdo"]
+[ext_resource type="PackedScene" uid="uid://b2swb0rn67xn1" path="res://Objects/Decorations/decoration_gear.tscn" id="1_enbdo"]
 
 [node name="levelSet_decoration_MAIN" type="Node2D"]
 
-[node name="gear" parent="." instance=ExtResource("1_enbdo")]
+[node name="decoration_core" parent="." instance=ExtResource("1_enbdo")]
+
+[node name="decoration_core2" parent="." instance=ExtResource("1_enbdo")]
+position = Vector2(-544, 256)
+scale = Vector2(1.95711, 0.542426)
+
+[node name="decoration_core3" parent="." instance=ExtResource("1_enbdo")]
+position = Vector2(872, -176)
+scale = Vector2(-0.826455, -2.55554)
+
+[node name="decoration_core4" parent="." instance=ExtResource("1_enbdo")]
+position = Vector2(-704, -312)

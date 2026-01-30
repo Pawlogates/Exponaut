@@ -10,10 +10,10 @@ const action_name = "debug_tools"
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed(action_name) and not Input.is_action_just_pressed("debug_mode"):
-		if not has_node("../" + node_name):
+		if not has_node("./" + node_name):
 			var instance = scene.instantiate()
 			Overlay.add_child(instance)
 		
-		if not has_node("../" + node2_name):
+		if not has_node("./" + node2_name):
 			var instance2 = scene2.instantiate()
 			Overlay.add_child(instance2)

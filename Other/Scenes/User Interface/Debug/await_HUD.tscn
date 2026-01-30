@@ -4,9 +4,3 @@
 
 [node name="await_HUD" type="Node2D"]
 script = ExtResource("1_eis8v")
-
-[node name="cooldown_refresh" type="Timer" parent="."]
-wait_time = 0.5
-autostart = true
-
-[connection signal="timeout" from="cooldown_refresh" to="." method="_on_cooldown_refresh_timeout"]

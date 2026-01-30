@@ -36,8 +36,10 @@ func sfx_fade(delta):
 		elif fade < 0: # Fade out.
 			sfx.volume_linear = move_toward(sfx.volume_linear, 0, delta * -fade)
 
-func sfx_play(file, volume, pitch): # Example: sfx_manager.sfx_play(Globals.sfx_player_jump, 1.0, 0.0)
-	for sfx_player_id in range(4):
+func sfx_play(filepath : String, volume : float = 1.0, pitch : float = 1.0): # Example: sfx_manager.sfx_play(Globals.sfx_player_jump, 1.0, 0.0)
+	
+	
+	for sfx_player_id in range(5):
 		if sfx_player_id > 4:
 			break
 		
@@ -45,7 +47,7 @@ func sfx_play(file, volume, pitch): # Example: sfx_manager.sfx_play(Globals.sfx_
 			var sfx_player = $sfx
 			
 			if not sfx.playing:
-				sfx_player.stream = file
+				sfx_player.stream = load(filepath)
 				sfx_player.volume_linear = volume
 				sfx_player.pitch_scale = pitch
 				sfx_player.play()
@@ -54,7 +56,7 @@ func sfx_play(file, volume, pitch): # Example: sfx_manager.sfx_play(Globals.sfx_
 			var sfx_player = get_node("sfx" + str(sfx_player_id))
 			
 			if not sfx_player.playing:
-				sfx_player.stream = file
+				sfx_player.stream = load(filepath)
 				sfx_player.volume_linear = volume
 				sfx_player.pitch_scale = pitch
 				sfx_player.play()

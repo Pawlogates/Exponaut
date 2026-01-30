@@ -30,8 +30,8 @@ layout_mode = 3
 anchors_preset = 0
 script = ExtResource("2_7kq8d")
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(960, 544)
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+position = Vector2(960, 540)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_e37xu")

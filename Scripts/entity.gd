@@ -98,34 +98,31 @@ func direction_toward_target_y(target : Node):
 		direction_y = -1
 
 
-# The entity's HITBOX has been touched by the player, or another entity's MAIN COLLISION.
-func _on_hitbox_body_entered(body: Node2D) -> void:
+# The entity's HITBOX has been touched by another entity's HITBOX.
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	var target = area.get_parent()
+	
 	# Executes only if the node is a valid one to interact with.
-	if not body.is_in_group("Player") and body.is_in_group("Entity") : return
+	if not target.is_in_group("Player") and target.is_in_group("Entity") : return
+	else : Globals.dm(str("Player's Main Hitbox has entered an entity's Main Hitbox (%s, %s)" % [entity_name, entity_type]), "CRIMSON")
+	
 	
 	# Assigns an "inside" variable depending on the node that just entered this entity. Used mostly for the pushing movement logic.
-	inside_check_enter(body)
+	inside_check_enter(target)
 	
 	# Tries to COLLECT the entity.
-	if collectable and not collected and body.can_collect:
-		if not rotten or body.family != "Player":
-			handle_collectable(body)
+	if collectable and not collected and target.can_collect:
+		if not rotten or target.family != "Player":
+			handle_collectable(target)
+	
+	if breakable : handle_breakable(target)
 
-func _on_hitbox_body_exited(body: Node2D) -> void:
-	inside_check_exit(body)
+func _on_hitbox_area_exited(target: Area2D) -> void:
+	inside_check_exit(target)
 	
 	if breakable_advanced_on_touch_modulate != Color(1, 1, 1, 1):
 		if inside_player:
 			sprite.modulate = breakable_advanced_on_touch_modulate
-
-
-# The entity's HITBOX has been touched by another entity's HITBOX.
-func _on_hitbox_area_entered(area: Area2D) -> void:
-	pass # Replace with function body.
-
-
-func _on_hitbox_area_exited(area: Area2D) -> void:
-	pass # Replace with function body.
 
 
 func reassign_movement_type_id():
@@ -638,6 +635,8 @@ func effect_thrownAway(delta):
 
 
 func handle_award_score():
+	Globals.dm(str("An entity is awarding score: %s. Secondary score values: %s, %s, %s." % [score_value, score_value2, score_value3, score_value4, score_value5]))
+	
 	Globals.level_score += score_value
 	
 	if Globals.combo_collectibles > 1:
@@ -672,7 +671,7 @@ func handle_award_score():
 	spawn_display_score(score_value)
 	spawn_display_score_bonus(score_value, Globals.combo_tier)
 	
-	spawn_scenes(Globals.scene_particle_star, Globals.combo_tier)
+	Globals.spawn_scenes(World, Globals.scene_particle_star, Globals.combo_tier, Vector2(0, 0), 4.0)
 	
 	# Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier and other player-related changes).
 	if Globals.combo_collectibles == 20:
@@ -757,6 +756,7 @@ func reassign_player():
 
 
 func handle_collectable(body): # The main function of the "collectible" entity type. The word "collectable" refers to a MAIN BEHAVIOR type, while "collectible" is (most of the time) the entity TYPE of ones with that main behavior type.
+	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
 	
 	collected = true
 	Globals.entity_collected.emit()
@@ -777,8 +777,8 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 		Globals.player_heal.emit(heal_value)
 		
 		sfx_manager.sfx_play(Globals.sfx_player_heal, 1.0, 0.0)
-		spawn_scenes(Globals.scene_particle_star, 4)
-		spawn_scenes(Globals.scene_particle_feather_multiple, 1)
+		Globals.spawn_scenes(World, Globals.scene_particle_star, Globals.combo_tier, Vector2(0, 0), 4.0)
+		Globals.spawn_scenes(World, Globals.scene_particle_feather_multiple, 4, Vector2(0, 0), 4.0)
 	
 	if inventory_item:
 		if get_tree().get_nodes_in_group("inventory_item").size() < 10:
@@ -799,12 +799,6 @@ func handle_collidable(body):
 	pass
 
 
-func spawn_scenes(scene, quantity):
-	for current in range(quantity):
-		var instance = scene.instantiate()
-		World.add_child(instance)
-
-
 func spawn_display_score(score):
 	var instance = Globals.display_score.instantiate()
 	
@@ -819,12 +813,9 @@ func spawn_display_score_bonus(score, bonus_score):
 	
 	World.add_child(instance)
 
-func handle_hit(body):
+func handle_hit(target):
 	if not immortal:
-		health_value -= body.damage_value
-	
-	if health_value <= 0:
-		handle_death()
+		handle_damage(target)
 	
 	if on_hit_gain_movement:
 		
@@ -833,15 +824,14 @@ func handle_hit(body):
 	
 	if inside_projectile:
 		
-		if not body.direction_v:
+		if not target.direction_v:
 			velocity.y = speed * speed_multiplier_y / 2
-			velocity.x = speed * speed_multiplier_x * body.direction
+			velocity.x = speed * speed_multiplier_x * target.direction
 			
 		else:
 			velocity.y = speed * speed_multiplier_y
 		
-		sfx_manager.sfx_play(Globals.sfx_collect, 1.0, 0.0)
-		animation_general.stop()
+		handle_effects_hit()
 
 func handle_death():
 	if collectable:
@@ -850,7 +840,7 @@ func handle_death():
 	add_child(Globals.scene_effect_hit_enemy.instantiate())
 	add_child(Globals.scene_particle_star.instantiate())
 	add_child(Globals.scene_particle_splash.instantiate())
-	add_child(Globals.dust.instantiate())
+	add_child(Globals.scene_effect_dust.instantiate())
 	
 	#await get_tree().create_timer(0.5, false).timeout
 	
@@ -934,3 +924,49 @@ func reflect_straight():
 	elif get_wall_normal() == Vector2(1, 0): #left
 		direction_x = 1
 		direction_y = 0
+
+
+# Breakable logic should later become split into BOUNCABLE and BREAKABLE.
+func handle_breakable(target):
+	Globals.dm("An entity is handling its BREAKABLE logic.", "ORANGE")
+	
+	if breakable_requires_velocity_y:
+		if Player.velocity.y >= breakable_requires_velocity_y_range[0] and Player.velocity.y <= breakable_requires_velocity_y_range[1]:
+			if Input.is_action_pressed("jump"):
+				Player.velocity.y = breakable_on_hit_player_velocity_y_jump
+				velocity = Vector2(0, 0)
+				handle_damage(target.damage_value)
+				handle_effects_bounce()
+				
+				Globals.dm("Player's velocity.y was within the range required by this entity to bounce off of. Adding velocity.a to the player: " + str(breakable_on_hit_player_velocity_y), "YELLOW")
+			
+			else:
+				Player.velocity.y = breakable_on_hit_player_velocity_y
+				velocity = Vector2(0, 0)
+				handle_damage(target.damage_value)
+				handle_effects_bounce()
+				
+				Globals.dm("Player's velocity.y was within the range required by this entity to bounce off of. Adding velocity.a to the player: " + str(breakable_on_hit_player_velocity_y_jump), "YELLOW")
+		
+		else:
+			Globals.dm(str("Player's velocity.y (%s) was not within the range (%s) required by this entity to bounce off of." % [int(Player.velocity.y), breakable_requires_velocity_y_range]), "YELLOW")
+
+
+func handle_damage(value):
+	health_value -= value
+	
+	if health_value <= 0:
+		handle_death()
+
+
+func handle_effects_hit():
+	sfx_manager.sfx_play(Globals.sfx_mechanical2)
+	animation_general.stop()
+
+func handle_effects_death():
+	sfx_manager.sfx_play(Globals.sfx_mechanical)
+	animation_general.stop()
+
+func handle_effects_bounce():
+	sfx_manager.sfx_play(Globals.sfx_player_wall_jump, 1.0, 0.75)
+	animation_general.stop()

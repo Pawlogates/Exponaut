@@ -76,7 +76,11 @@ var gravity = Globals.gravity
 @onready var c_crouch_walk = $AnimatedSprite2D/cooldown_crouch_walk
 @onready var c_crouch_walk_correct_collision = $AnimatedSprite2D/cooldown_crouch_walk_correct_collision
 
-@onready var hitbox_dash_scan_solid = $hitbox_main/hitbox_dash_scan_solid
+@onready var hitbox_dash_scan_solid = $hitbox_dash_scan_solid
+
+
+@export var damage_value = 1 # Used when bouncing off an entity, NOT when attacking with a projectile/weapon.
+@export var health_value = 15 # So far it's handled through Global signals, and the value is Global too.
 
 
 # Properties:
@@ -186,9 +190,11 @@ func _ready():
 
 
 func _process(delta):
-	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
+	if Input.is_action_pressed("LMB"):
+		position = get_global_mouse_position()
+		velocity.y = 0
 	
-	update_can()
+	update_can() # The word "can" does too.
 	
 	get_basic_player_values()
 	
@@ -202,7 +208,7 @@ func _process(delta):
 			if not handle_jump(delta):
 				if can_wall_jump:
 					handle_wall_jump()
-			
+		
 		handle_move_x(delta)
 		handle_air_acceleration(delta)
 	
@@ -238,8 +244,7 @@ func _process(delta):
 		sprite.play("idle")
 	
 	handle_spawn_dust()
-	handle_zoom(delta)
-	handle_toggle_debugMovement()
+	
 	handle_manual_player_death()
 	
 	#HANDLE STUCK IN WALL
@@ -247,7 +252,10 @@ func _process(delta):
 	
 	handle_gameMode_scoreAttack()
 	
+	# Handle JUST.
+	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
 	just_update() # The word "just" refers to something very specific. Check out the function for the explanation.
+	just_handle()
 
 #MAIN END
 
@@ -270,7 +278,7 @@ func _on_timer_dash_timeout():
 	dash_active = false
 	
 	if can_stand_up == 0:
-		collision_main.shape.extents = Vector2(20, 56)
+		collision_main.shape.size = Vector2(20, 56)
 		collision_main.position = Vector2(0, 0)
 		
 		hitbox.shape.extents = Vector2(16, 40)
@@ -280,7 +288,7 @@ func _on_timer_dash_timeout():
 	
 	else:
 		await safe_standUp
-		collision_main.shape.extents = Vector2(20, 56)
+		collision_main.shape.extents = Vector2(40, 112)
 		collision_main.position = Vector2(0, 0)
 		
 		hitbox.shape.extents = Vector2(16, 40)
@@ -366,10 +374,12 @@ func handle_gravity(delta):
 	if dash_end_slowdown_active and not dash_end_slowdown_canceled:
 		velocity.x = move_toward(velocity.x, 0, 7000 * delta)
 	
+	
+	##WHAT IS THIS?
 	#HANDLE JUST LANDED
-	if dash_just_landed_queued and is_on_floor():
-		dash_just_landed_queued = false
-		just_landed = true
+	#if dash_just_landed_queued and is_on_floor():
+		#dash_just_landed_queued = false
+		#just_landed = true
 
 
 func update_sprite():
@@ -378,8 +388,12 @@ func update_sprite():
 	
 	else:
 		if on_floor or flight:
-			if not c_state_idle.is_stopped():
-				c_state_idle.start()
+			if state_idle and state_walk:
+				if c_state_idle.is_stopped():
+					c_state_idle.start()
+		
+		else:
+			state_walk = 0 # Because being in the air should never cause an idle anim to play, except during flight.
 	
 	sprite_animation()
 
@@ -388,20 +402,22 @@ func sprite_animation():
 	var queued_anim = "idle"
 	var x = 0
 	
-	if state_idle > x : queued_anim = "idle"; x = state_idle
-	if state_walk > x : queued_anim = "walk"; x = state_walk
-	if state_jump > x : queued_anim = "jump"; x = state_jump
-	if state_fall > x : queued_anim = "fall"; x = state_fall
-	if state_shoot > x : queued_anim = "shoot"; x = state_shoot
-	if state_damage > x : queued_anim = "damaged"; x = state_damage
-	if state_crouch > x : queued_anim = "crouch"; x = state_crouch
-	if state_crouch_walk > x : queued_anim = "crouch_walk"; x = state_crouch_walk
-	if state_death > x : queued_anim = "death"; x = state_death
+	if state_idle >= x : queued_anim = "idle"; x = state_idle
+	if state_walk >= x : queued_anim = "walk"; x = state_walk
+	if state_jump >= x : queued_anim = "jump"; x = state_jump
+	if state_fall >= x : queued_anim = "fall"; x = state_fall
+	if state_shoot >= x : queued_anim = "shoot"; x = state_shoot
+	if state_damage >= x : queued_anim = "damaged"; x = state_damage
+	if state_crouch >= x : queued_anim = "crouch"; x = state_crouch
+	if state_crouch_walk >= x : queued_anim = "crouch_walk"; x = state_crouch_walk
+	if state_death >= x : queued_anim = "death"; x = state_death
 	
 	sprite.play(queued_anim)
 
-func _on_cooldown_state_idle_timeout():
-	state_idle = 1
+
+func _on_cooldown_state_idle_timeout(): # Walking anim weight is disabled here, allowing for the Idle anim to take over after a delay after the player stops moving horizontally.
+	if on_floor : state_walk = 0
+	Globals.dm("The 'Walk' state's weight has been set to 0, after a short delay after the player stopped moving.")
 
 
 func handle_friction(delta):
@@ -436,17 +452,22 @@ func handle_walk(delta):
 
 
 func handle_move_x(delta):
-	if not on_floor or not direction_x : return
+	if not on_floor or not direction_x:
+		state_idle = 1
+		return
 	
 	if inside_wind:
 		if inside_wind_multiplier_x == direction_x:
 			speed_x = base_speed_x * inside_wind_multiplier_x
 	else:
 		velocity.x = move_toward(velocity.x, direction_x * speed_x, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
-
+	
 	if not recently_bounced:
 		if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
 			velocity.x *= 0.75
+	
+	state_walk = 1
+	state_idle = 0
 
 
 func handle_jump(delta):
@@ -460,6 +481,8 @@ func handle_jump(delta):
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
 		velocity.x = base_speed_x * 4.5 * direction_x
+		
+		state_jump = 1
 	
 	
 	# Regular jump:
@@ -484,6 +507,7 @@ func handle_jump(delta):
 					%AnimationPlayer.play("rotate_left")
 			
 			velocity.y = jump_velocity
+			
 			state_jump = 1
 			
 			return true
@@ -524,6 +548,8 @@ func handle_jump(delta):
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
 				velocity.x += 500 * direction_x
+			
+			state_jump = 1
 			
 			return true
 	
@@ -1099,64 +1125,6 @@ func handle_inside_zone():
 			Globals.message_debug("The player's 'just_left_wind' property is now true (because player left a conveyor belt).")
 
 
-func handle_zoom(delta):
-	if Input.is_action_pressed("zoom_out"):
-		Globals.message_debug(str($Camera2D.zoom.x) + " is the current zoom. " + str(zoomValue) + " is the current zoomValue (speed multiplier)")
-		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 0.1, 0.01 * delta * 50 * zoomValue)
-		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 0.1, 0.01 * delta * 50 * zoomValue)
-		
-		if $Camera2D.zoom.x < 0.25:
-			zoomValue = 0.25
-			
-		elif $Camera2D.zoom.x < 0.5:
-			zoomValue = 0.35
-			
-		elif $Camera2D.zoom.x < 0.75:
-			zoomValue = 0.5
-			
-		elif $Camera2D.zoom.x > 1.2:
-			zoomValue = 1.5
-			
-		else:
-			zoomValue = 1
-		
-		
-	elif Input.is_action_pressed("zoom_in"):
-		Globals.message_debug(str($Camera2D.zoom.x) + " is the current zoom. " + str(zoomValue) + " is the current zoomValue (speed multiplier)")
-		$Camera2D.zoom.x = move_toward($Camera2D.zoom.x, 2, 0.01 * delta * 50 * zoomValue)
-		$Camera2D.zoom.y = move_toward($Camera2D.zoom.y, 2, 0.01 * delta * 50 * zoomValue)
-		
-		if $Camera2D.zoom.x < 0.25:
-			zoomValue = 0.25
-			
-		elif $Camera2D.zoom.x < 0.5:
-			zoomValue = 0.35
-			
-		elif $Camera2D.zoom.x < 0.75:
-			zoomValue = 0.5
-			
-		elif $Camera2D.zoom.x > 1.2:
-			zoomValue = 1.5
-			
-		else:
-			zoomValue = 1
-		
-		
-	elif Input.is_action_pressed("zoom_reset"):
-		Globals.message_debug("Camera zoom reset.")
-		$Camera2D.zoom.x = 1
-		$Camera2D.zoom.y = 1
-
-
-func handle_toggle_debugMovement():
-	if Globals.debug_mode:
-		if not debug_movement and Input.is_action_just_pressed("debug_console"):
-			debug_movement = true
-			
-		elif debug_movement and Input.is_action_just_pressed("debug_console"):
-			debug_movement = false
-
-
 func handle_manual_player_death():
 	if Input.is_action_just_pressed("back"):
 		Globals.player_kill.emit()
@@ -1246,18 +1214,19 @@ func _on_timer_leniency_wall_jump_timeout() -> void:
 # The word "just" refers to something that happens for a single frame, like landing on the ground, or bouncing off something.
 # The word "recently" refers to a lingering state that starts on triggering a "just", and lasts for a specific amount of time.
 
-var just_landed = false
-var just_left_wind = false
+var just_landed : bool = false
+var just_bounced : bool = false
+var just_left_wind : bool = false
 
-var q_just_landed = false
-var q_just_just_left_wind = false
+var q_just_landed : bool = false
+var q_just_just_left_wind : bool = false
 
-var recently_landed = false
-var recently_bounced = false
-var recently_left_wind = false
+var recently_landed : bool = false
+var recently_bounced : bool = false
+var recently_left_wind : bool = false
 
-# The "just" queues are conditions that must be "true" for the "just" to be able to have its value set to "true" for one frame, and then they (the queues) get set back to "false" immediately.
-# So basically, a queue represents whether, for example, the player was in the air on the previous frame, so that the game knows it can consider the player as having landed the next time it touched the ground.
+# The "just" queues are conditions that must be "true" for the "just" to be able to have its value set to "true" for one frame, and then they (the queues) get set back to "false" immediately after.
+# So basically, a queue represents whether, for example, the player was in the air on the previous frame, so that the game knows it can consider the player as having landed the next time it touched the ground, but only for a single frame, not every single frame the player is touching it.
 
 func just_queue():
 	if not on_floor:
@@ -1269,10 +1238,24 @@ func just_update():
 			just_landed = true
 			q_just_landed = false
 
+func just_handle():
+	if just_landed : player_just_landed.emit()
+	if just_bounced : player_just_bounced.emit()
+	
+	just_landed = false
+	just_bounced = false
+
 
 @onready var t_recently_landed: Timer = $timer_recently_landed
 @onready var t_recently_bounced: Timer = $timer_recently_bounced
 @onready var t_recently_left_wind: Timer = $timer_recently_left_wind
+
+# Player just landed on the ground (the "just" refers to something that just got set to true, and then immediately gets set back to false right after all relevant consequences are applied).
+func on_just_landed():
+	Globals.message_debug("Player landed.")
+	%AnimationPlayer.play("RESET")
+	
+	state_jump = 0
 
 func on_just_bounced():
 	recently_bounced = true
@@ -1282,6 +1265,10 @@ func on_just_bounced():
 	sprite.modulate.g = 0.8
 	recently_bounced = false
 
+
+func _on_timer_recently_landed_timeout() -> void:
+	recently_landed = false
+
 func _on_timer_recently_bounced_timeout() -> void:
 	recently_bounced = false
 	sprite.modulate.g = 1.0
@@ -1289,18 +1276,6 @@ func _on_timer_recently_bounced_timeout() -> void:
 func _on_timer_recently_left_wind_timeout() -> void:
 	recently_left_wind = false
 	Globals.message_debug("The 'just_left_wind' is now false (Player left a conveyor belt for and a set time is up) so regular air acceleration is applied.")
-
-
-# Player just landed on the ground (the "just" refers to something that just got set to true, and then immediately gets set back to false right after all relevant consequences are applied).
-func on_just_landed():
-	Globals.message_debug("Player landed.")
-	player_just_landed.emit()
-	%AnimationPlayer.play("RESET")
-	$landed.play()
-
-
-func _on_timer_recently_landed_timeout() -> void:
-	recently_landed = false
 
 
 func update_can(): # The "can" refers to player's movement options that are not always available.

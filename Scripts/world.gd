@@ -92,8 +92,10 @@ var quicksave_blocked = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Globals.gameState_levelSet_screen = true
-	Globals.gameState_level = false
+	Globals.gameState_level = true
+	Globals.gameState_levelSet_screen = false
+	Globals.gameState_start_screen = false
+	Globals.gameState_changed.emit()
 	
 	Globals.level_started.emit()
 	

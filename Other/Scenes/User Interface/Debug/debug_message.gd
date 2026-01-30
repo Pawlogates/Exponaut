@@ -30,7 +30,7 @@ var remove_multiplier : float = 1.0
 
 
 func _ready() -> void:
-	var message_split = message.split("//")
+	var message_split = message.split("[/BREAK/]")
 	
 	message_visible = message_split[0]
 	if message_visible == message : print(str("Something is wrong about this debug message: %s" % message))
@@ -48,7 +48,7 @@ func _ready() -> void:
 					material = Globals.material_rainbow
 					
 				else:
-					modulate = Color.GREEN / message_importance * 2
+					modulate = Color.PURPLE / message_importance * 4
 					modulate.a = 1.0
 			
 			else:
@@ -108,9 +108,15 @@ func handle_repeats():
 var currently_focused : bool = false
 
 func _on_mouse_entered() -> void:
+	if message_importance is not String or message_importance == "none":
+		animation_player.stop()
+		animation_player.play("focus_entered")
+	
 	currently_focused = true
+	
 	if not Input.is_action_pressed("LMB") : return
 	if display.message_following_mouse_id != -1 and display.message_following_mouse_id != following_mouse_id : return
+	
 	following_mouse_id = id
 	display.message_following_mouse_id = following_mouse_id
 	
@@ -118,9 +124,6 @@ func _on_mouse_entered() -> void:
 	position += Vector2(0, -4)
 	
 	target_position_follow_mouse = Vector2(position.x, position.y + 8)
-	
-	animation_player.stop()
-	animation_player.play("focus_entered")
 	
 	z_index = 50 * id
 	remove_multiplier = 0.1
@@ -131,6 +134,7 @@ func _on_mouse_entered() -> void:
 
 func _on_mouse_exited() -> void:
 	currently_focused = false
+	
 	if display.message_following_mouse_id != -1 and display.message_following_mouse_id != following_mouse_id : return
 	elif display.message_following_mouse_id == following_mouse_id:
 		following_mouse_id = -1
@@ -138,11 +142,14 @@ func _on_mouse_exited() -> void:
 	
 	if float(message_scale) != -1.0 : scale = Vector2(float(message_scale), float(message_scale))
 	else : scale = target_scale
+	
 	position = target_position
+	
 	display.correct_messages_order()
 	
-	animation_player.stop()
-	animation_player.play("focus_exited")
+	if message_importance is not String or message_importance == "none":
+		animation_player.stop()
+		animation_player.play("focus_exited")
 	
 	z_index = 0
 	remove_multiplier = 0.2

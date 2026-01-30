@@ -75,18 +75,18 @@ const scene_particle_score = preload("res://Other/Particles/score.tscn")
 
 
 # Sound effects:
-var sfx_player_jump = load("res://Assets/Sounds/sfx/jump.wav")
-var sfx_player_wall_jump = load("res://Assets/Sounds/sfx/jump.wav")
-var sfx_player_shoot = load("res://Assets/Sounds/sfx/projectile_shoot.wav")
-var sfx_player_damage = load("res://Assets/Sounds/sfx/robot_damage.wav")
-var sfx_player_death = load("res://Assets/Sounds/sfx/rabbit_death.wav")
-var sfx_player_heal = load("res://Assets/Sounds/sfx/heal.wav")
-var sfx_collect = load("res://Assets/Sounds/sfx/collect.wav")
-var sfx_mechanical = load("res://Assets/Sounds/sfx/mechanical.wav")
-var sfx_mechanical2 = load("res://Assets/Sounds/sfx/mechanical2.wav")
-var sfx_mechanical3 = load("res://Assets/Sounds/sfx/mechanical3.wav")
-var sfx_powerUp = load("res://Assets/Sounds/sfx/powerUp.wav")
-var sfx_powerUp2 = load("res://Assets/Sounds/sfx/powerUp2.wav")
+const sfx_player_jump : String = "res://Assets/Sounds/sfx/jump.wav"
+const sfx_player_wall_jump : String = "res://Assets/Sounds/sfx/jump.wav"
+const sfx_player_shoot : String = "res://Assets/Sounds/sfx/projectile_shoot.wav"
+const sfx_player_damage : String = "res://Assets/Sounds/sfx/robot_damage.wav"
+const sfx_player_death : String = "res://Assets/Sounds/sfx/rabbit_death.wav"
+const sfx_player_heal : String = "res://Assets/Sounds/sfx/heal.wav"
+const sfx_collect : String = "res://Assets/Sounds/sfx/collect.wav"
+const sfx_mechanical : String = "res://Assets/Sounds/sfx/mechanical.wav"
+const sfx_mechanical2 : String = "res://Assets/Sounds/sfx/mechanical2.wav"
+const sfx_mechanical3 : String = "res://Assets/Sounds/sfx/mechanical3.wav"
+const sfx_powerUp : String = "res://Assets/Sounds/sfx/powerUp.wav"
+const sfx_powerUp2 : String = "res://Assets/Sounds/sfx/powerUp2.wav"
 
 
 # Other files:
@@ -141,7 +141,11 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 func _ready() -> void:
 	gameState_changed.connect(on_gameState_changed)
-	dm(mainScene)
+	refreshed0_5.connect(on_refreshed0_5)
+	refreshed1_0.connect(on_refreshed1_0)
+	refreshed2_0.connect(on_refreshed2_0)
+	refreshed4_0.connect(on_refreshed4_0)
+	
 	refresh0_5()
 	refresh1_0()
 	refresh2_0()
@@ -151,8 +155,8 @@ func _ready() -> void:
 	
 	reassign_general()
 
-func _physics_process(_delta):
-	handle_actions() # Handles global functions executed on triggering an action.
+func _physics_process(delta):
+	handle_actions(delta) # Handles global functions executed on triggering an action.
 	get_mouse_position()
 
 func _input(event: InputEvent) -> void:
@@ -177,14 +181,14 @@ func _input(event: InputEvent) -> void:
 					Overlay.get_node("debug_display_messages").delete_messages(true)
 
 
-func handle_actions():
+func handle_actions(delta):
 	if Input.is_action_just_pressed("menu_start_screen"):
 		change_main_scene(scene_start_screen)
 	
 	elif Input.is_action_just_pressed("menu"):
-		handle_spawn_menu()
+		handle_spawn_menu(true)
 		
-		if Input.is_action_just_pressed("1"):
+		if Input.is_action_pressed("1"):
 			change_main_scene(scene_levelSet_screen)
 	
 	
@@ -204,10 +208,13 @@ func handle_actions():
 			message_debug("Debug mode is disabled.")
 			Overlay.animation("black_fade_out", 2.0)
 		
-		if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
-			World.player_health = 999
+		#if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
+		if Player : Globals.player_heal.emit(999)
 	
 	handle_debug_actions()
+	handle_toggle_debug_movement()
+	
+	handle_zoom(delta)
 
 
 func reassign_general():
@@ -219,11 +226,11 @@ func reassign_general():
 	window_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
 
 
-func change_main_scene(scene, instant : bool = false, anim_name : String = "black_fade_in"):
+func change_main_scene(scene, instant : bool = false, anim_name : String = "black_fade_in", anim_delay : float = 0.0):
 	if debug_mode : anim_name = "none" ; instant = true
 	Globals.message_debug("Changing the Main Scene to %s" % scene)
 	
-	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant))
+	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
 	get_tree().change_scene_to_packed(scene)
 
 
@@ -335,23 +342,41 @@ signal trigger_bg_change_entered
 signal trigger_bg_move_entered
 signal bg_change_finished
 
-var bg_main_visible_filepath = d_backgrounds + "/bg_fields.png"
-var bg_front_visible_filepath = d_backgrounds + "/bg_fields.png"
-var bg_front2_visible_filepath = d_backgrounds + "/bg_fields.png"
-var bg_back_visible_filepath = d_backgrounds + "/bg_fields.png"
-var bg_back2_visible_filepath = d_backgrounds + "/bg_fields.png"
+var bg_main_filepath = d_backgrounds + "/bg_fields.png"
+var bg_front_filepath = d_backgrounds + "/bg_back_fields.png"
+var bg_front2_filepath = d_backgrounds + "/bg_front_fields.png"
+var bg_back_filepath = d_backgrounds + "/bg_empty.png"
+var bg_back2_filepath = d_backgrounds + "/bg_empty.png"
 
-var bg_main_hidden_filepath = d_backgrounds + "/bg_cave.png"
-var bg_front_hidden_filepath = d_backgrounds + "/bg_cave.png"
-var bg_front2_hidden_filepath = d_backgrounds + "/bg_cave.png"
-var bg_back_hidden_filepath = d_backgrounds + "/bg_cave.png"
-var bg_back2_hidden_filepath = d_backgrounds + "/bg_cave.png"
+#var bg_main_visible_filepath = d_backgrounds + "/bg_fields.png" # There is no need for these properties.
+#var bg_front_visible_filepath = d_backgrounds + "/bg_back_fields.png"
+#var bg_front2_visible_filepath = d_backgrounds + "/bg_front_fields.png"
+#var bg_back_visible_filepath = d_backgrounds + "/bg_empty.png"
+#var bg_back2_visible_filepath = d_backgrounds + "/bg_empty.png"
+
+#var bg_main_hidden_filepath = d_backgrounds + "/bg_fields.png"
+#var bg_front_hidden_filepath = d_backgrounds + "/bg_back_fields.png"
+#var bg_front2_hidden_filepath = d_backgrounds + "/bg_front_fields.png"
+#var bg_back_hidden_filepath = d_backgrounds + "/bg_empty.png"
+#var bg_back2_hidden_filepath = d_backgrounds + "/bg_empty.png"
 
 var bg_main_offset_target = Vector2(0, 0)
 var bg_front_offset_target = Vector2(0, 0)
 var bg_front2_offset_target = Vector2(0, 0)
 var bg_back_offset_target = Vector2(0, 0)
 var bg_back2_target = Vector2(0, 0)
+
+var bg_main_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_edge_black.png"
+var bg_front_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
+var bg_front2_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
+var bg_back_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
+var bg_back2_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
+
+var bg_main_repeat_y = true
+var bg_front_repeat_y = false
+var bg_front2_repeat_y = false
+var bg_back_repeat_y = false
+var bg_back2_repeat_y = false
 
 
 # Main scene refers to the current root scene (the parent node at the top of the node tree).
@@ -447,7 +472,7 @@ func message(text):
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
 
 func message_debug(text, importance = "none", add_scale : float = -1.0, remove_cooldown : float = -1.0):
-	display_messages_debug_queued.append(str(text) + str("//%si" % importance) + str("//%ss" % add_scale) + str("//%st" % remove_cooldown)) # Note that the "%s" is replaced by what is after the "%" at the end.
+	display_messages_debug_queued.append(str(text) + str("[/BREAK/]%si" % importance) + str("[/BREAK/]%ss" % add_scale) + str("[/BREAK/]%st" % remove_cooldown)) # Note that the "%s" is replaced by what is after the "%" at the end.
 	Globals.messages_debug_added.emit()
 
 func dm(text, importance = "none", add_scale : float = -1.0, remove_cooldown : float = -1.0): # This function clone is just for typing convenience.
@@ -671,6 +696,7 @@ func handle_spawn_menu(manual_request : bool = false):
 
 func on_gameState_changed():
 	await get_tree().create_timer(0.2, true).timeout
+	dm(str("Game State has changed: Level - %s, Start screen - %s, Level Set screen - %s, Debug - %s" % [gameState_level, gameState_start_screen, gameState_levelSet_screen, gameState_debug]), "ORANGE")
 	handle_spawn_menu(false)
 
 
@@ -685,15 +711,102 @@ func refresh0_5():
 	await get_tree().create_timer(0.5, true).timeout
 	refreshed0_5.emit()
 	refresh0_5()
+
 func refresh1_0():
 	await get_tree().create_timer(1.0, true).timeout
 	refreshed1_0.emit()
 	refresh1_0()
+
 func refresh2_0():
 	await get_tree().create_timer(2.0, true).timeout
 	refreshed2_0.emit()
 	refresh2_0()
+
 func refresh4_0():
 	await get_tree().create_timer(4.0, true).timeout
 	refreshed4_0.emit()
 	refresh4_0
+
+func on_refreshed0_5():
+	pass
+
+func on_refreshed1_0():
+	pass
+
+func on_refreshed2_0():
+	pass
+
+func on_refreshed4_0():
+	next_reassign_camera = true
+
+
+var zoom_multiplier : float = 1.0
+var target_camera : Camera2D
+var next_reassign_camera : bool = false
+
+func handle_zoom(delta):
+	if Input.is_action_pressed("zoom_out"):
+		
+		if next_reassign_camera:
+			target_camera = get_tree().get_first_node_in_group("camera")
+			message_debug("Reassigning the camera target node.")
+		
+		target_camera.zoom.x = move_toward(target_camera.zoom.x, 0.1, 0.01 * delta * 50 * zoom_multiplier)
+		target_camera.zoom.y = move_toward(target_camera.zoom.y, 0.1, 0.01 * delta * 50 * zoom_multiplier)
+		
+		if target_camera.zoom.x < 0.25:
+			zoom_multiplier = 0.25
+			
+		elif target_camera.zoom.x < 0.5:
+			zoom_multiplier = 0.35
+			
+		elif target_camera.zoom.x < 0.75:
+			zoom_multiplier = 0.5
+			
+		elif target_camera.zoom.x > 1.2:
+			zoom_multiplier = 1.5
+			
+		else:
+			zoom_multiplier = 1
+		
+		message_debug(str(target_camera.zoom.x) + " is the current zoom. " + str(zoom_multiplier) + " is the current zoom_multiplier")
+	
+	
+	elif Input.is_action_pressed("zoom_in"):
+		
+		if next_reassign_camera:
+			target_camera = get_tree().get_first_node_in_group("camera")
+			message_debug("Reassigning the camera target node.")
+		
+		target_camera.zoom.x = move_toward(target_camera.zoom.x, 2, 0.01 * delta * 50 * zoom_multiplier)
+		target_camera.zoom.y = move_toward(target_camera.zoom.y, 2, 0.01 * delta * 50 * zoom_multiplier)
+		
+		if target_camera.zoom.x < 0.25:
+			zoom_multiplier = 0.25
+			
+		elif target_camera.zoom.x < 0.5:
+			zoom_multiplier = 0.35
+			
+		elif target_camera.zoom.x < 0.75:
+			zoom_multiplier = 0.5
+			
+		elif target_camera.zoom.x > 1.2:
+			zoom_multiplier = 1.5
+			
+		else:
+			zoom_multiplier = 1
+		
+		message_debug(str(target_camera.zoom.x) + " is the current zoom. " + str(zoom_multiplier) + " is the current zoom_multiplier.")
+	
+	
+	elif Input.is_action_pressed("zoom_reset"):
+		Globals.message_debug("Camera zoom reset.")
+		target_camera.zoom.x = 1
+		target_camera.zoom.y = 1
+
+
+func handle_toggle_debug_movement():
+	if Input.is_action_just_pressed("debug_cheat"):
+		if Globals.debug_mode:
+			Player.debug_movement = Globals.opposite_bool(Player.debug_movement)
+			Globals.dm("Debug movement status: " + str(Player.debug_movement))

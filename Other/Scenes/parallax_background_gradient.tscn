@@ -4,14 +4,14 @@
 [ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/other/fg_gradient.png" id="2_nkdpl"]
 
 [node name="ParallaxBackgroundGradient" type="Node2D"]
-z_index = 100
+z_index = 500
 script = ExtResource("1_joybx")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 50
+layer = 100
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
-layer = 25
+layer = 100
 scale = Vector2(2, 2)
 transform = Transform2D(2, 0, 0, 2, 0, 0)
 scroll_ignore_camera_zoom = true

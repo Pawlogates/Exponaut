@@ -12,9 +12,6 @@
 
 [node name="HUD" type="CanvasLayer"]
 layer = 75
-offset = Vector2(-4000, -4000)
-scale = Vector2(0.01, 0.01)
-transform = Transform2D(0.01, 0, 0, 0.01, -4000, -4000)
 script = ExtResource("1_fblkw")
 
 [node name="player_main" parent="." instance=ExtResource("1_iqrlt")]

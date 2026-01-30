@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://bk1o70r1mo5kw"]
 
-[ext_resource type="Script" uid="uid://crmexajjr301g" path="res://Scripts/trigger_bgChange.gd" id="1_3hbpa"]
+[ext_resource type="Script" uid="uid://crmexajjr301g" path="res://Scripts/trigger_bg_change.gd" id="1_3hbpa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jb7dg"]
 size = Vector2(64, 64)
 
-[node name="trigger_bg_change" type="Area2D" groups=["bgChange_area"]]
+[node name="trigger_bg_change" type="Area2D" groups=["trigger", "trigger_bg_change"]]
 input_pickable = false
 script = ExtResource("1_3hbpa")
 

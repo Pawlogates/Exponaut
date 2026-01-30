@@ -92,7 +92,7 @@ var effect_shrink = false
 @export var friction = 400
 @export var fall_speed = 400
 
-@export_enum("player", "enemy", "none", "all") var family : String = "all"
+@export_enum("Player", "Enemy", "none", "all") var family : String = "all"
 
 @export_group("") # Section end.
 
@@ -222,19 +222,19 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 @export_enum("none", "loop_up_down", "loop_up_down_slight", "loop_scale") var animation = "loop_up_down"
 
 # If an entity is breakable, the player can bounce off of it, and gains greater height if the jump button is pressed during the bounce, making it a "box" in most cases.
-@export var breakable = false
+@export var breakable = true
 
 @export var breakable_on_death_spawn_entity = false
 @export var breakable_on_death_spawn_entity_scene = load("res://Enemies/togglebot.tscn")
-@export var breakable_on_death_spawn_entity_quantity = 10
+@export var breakable_on_death_spawn_entity_quantity = 5
 @export var breakable_on_death_spawn_entity_throwAround = false
 @export var breakable_on_death_spawn_entity_throwAround_velocity = Vector2(400, -200)
 @export var breakable_on_death_spawn_entity_throwAround_random = false
 @export var breakable_on_death_spawn_entity_throwAround_random_velocity_minimal = Vector2(-200, -600)
 @export var breakable_on_death_spawn_entity_throwAround_random_velocity_maximum = Vector2(600, 200)
 
-@export var breakable_on_death_player_velocity = -400
-@export var breakable_on_death_player_velocity_jump = -600
+@export var breakable_on_death_player_velocity_y = -200
+@export var breakable_on_death_player_velocity_y_jump = -600
 
 @export var breakable_on_death_spawn_entity_spread_position = true
 
@@ -247,8 +247,8 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 @export var breakable_on_hit_spawn_entity_throwAround_random_velocity_minimal = Vector2(-200, -600)
 @export var breakable_on_hit_spawn_entity_throwAround_random_velocity_maximum = Vector2(600, 200)
 
-@export var breakable_on_hit_player_velocity = -400
-@export var breakable_on_hit_player_velocity_jump = -600
+@export var breakable_on_hit_player_velocity_y = -400
+@export var breakable_on_hit_player_velocity_y_jump = -600
 
 @export var breakable_on_hit_spawn_entity_spread_position = true
 
@@ -469,6 +469,7 @@ func remove_if_corpse():
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
 	basic_on_active()
+	add_to_group(family)
 
 
 # Executes on entity entering the camera view.

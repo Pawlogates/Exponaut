@@ -7,9 +7,6 @@
 
 [node name="debug_display_values" type="CanvasLayer"]
 layer = 127
-offset = Vector2(-4000, -4000)
-scale = Vector2(0.01, 0.01)
-transform = Transform2D(0.01, 0, 0, 0.01, -4000, -4000)
 script = ExtResource("1_6cpwm")
 
 [node name="names" type="VBoxContainer" parent="."]
@@ -185,6 +182,7 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 16
 
 [node name="cooldown_refresh" type="Timer" parent="."]
+wait_time = 0.5
 autostart = true
 
 [node name="bg" type="ColorRect" parent="."]
