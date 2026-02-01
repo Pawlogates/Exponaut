@@ -81,12 +81,23 @@ const sfx_player_shoot : String = "res://Assets/Sounds/sfx/projectile_shoot.wav"
 const sfx_player_damage : String = "res://Assets/Sounds/sfx/robot_damage.wav"
 const sfx_player_death : String = "res://Assets/Sounds/sfx/rabbit_death.wav"
 const sfx_player_heal : String = "res://Assets/Sounds/sfx/heal.wav"
+
 const sfx_collect : String = "res://Assets/Sounds/sfx/collect.wav"
 const sfx_mechanical : String = "res://Assets/Sounds/sfx/mechanical.wav"
 const sfx_mechanical2 : String = "res://Assets/Sounds/sfx/mechanical2.wav"
 const sfx_mechanical3 : String = "res://Assets/Sounds/sfx/mechanical3.wav"
 const sfx_powerUp : String = "res://Assets/Sounds/sfx/powerUp.wav"
 const sfx_powerUp2 : String = "res://Assets/Sounds/sfx/powerUp2.wav"
+const sfx_beam_enabled : String = "res://Assets/Sounds/sfx/beam_enabled.mp3"
+const sfx_electric : String = "res://Assets/Sounds/sfx/electric.mp3"
+const sfx_electric_disabled : String = "res://Assets/Sounds/sfx/electric_disabled.mp3"
+const sfx_electric_disabled2 : String = "res://Assets/Sounds/sfx/electric_disabled2.mp3"
+const sfx_effect_teleport : String = "res://Assets/Sounds/sfx/effect_teleport.wav"
+const sfx_footstep_mechanical : String = "res://Assets/Sounds/sfx/footstep_mechanical.mp3"
+const sfx_footstep_mechanical2 : String = "res://Assets/Sounds/sfx/footstep_mechanical2.mp3"
+const sfx_mechanical4 : String = "res://Assets/Sounds/sfx/mechanical4.mp3"
+const sfx_piano : String = "res://Assets/Sounds/sfx/piano.wav"
+const sfx_mysterious_loop1 : String = "res://Assets/Sounds/sfx/mysterious_loop1.wav"
 
 
 # Other files:
@@ -130,6 +141,7 @@ const scene_animation_gear = preload("res://Other/Scenes/animation_gear.tscn")
 var scene_menu_main = load("res://Other/Scenes/User Interface/Menus/menu_main.tscn")
 var scene_menu_settings = load("res://Other/Scenes/User Interface/Menus/menu_settings.tscn")
 var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/menu_select_levelSet.tscn")
+var scene_score_value = load("res://Other/Scenes/score_value.tscn")
 
 const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
@@ -192,11 +204,11 @@ func handle_actions(delta):
 			change_main_scene(scene_levelSet_screen)
 	
 	
-	if Input.is_action_just_pressed("pause"):
+	elif Input.is_action_just_pressed("pause"):
 		handle_pause()
 	
 	
-	if Input.is_action_just_pressed("debug_mode"):
+	elif Input.is_action_just_pressed("debug_mode"):
 		
 		debug_mode = Globals.opposite_bool(debug_mode)
 		
@@ -210,6 +222,12 @@ func handle_actions(delta):
 		
 		#if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
 		if Player : Globals.player_heal.emit(999)
+	
+	
+	elif Input.is_action_just_pressed("debug_console"):
+		get_tree().debug_collisions_hint = opposite_bool(get_tree().debug_collisions_hint)
+		dm("Debug collision visibility has been set to: " + str(get_tree().debug_collisions_hint), clamp(int(get_tree().debug_collisions_hint) * 5, 1, 5))
+	
 	
 	handle_debug_actions()
 	handle_toggle_debug_movement()

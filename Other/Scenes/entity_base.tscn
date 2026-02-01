@@ -1,9 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://wgtcgh1uo037"]
+[gd_scene load_steps=11 format=3 uid="uid://wgtcgh1uo037"]
 
 [ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://Scripts/entity.gd" id="1_wx0ek"]
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="3_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_c3p0q"]
+[ext_resource type="SpriteFrames" uid="uid://cem520dxph8vh" path="res://Assets/Graphics/sprites/packed/enemies/pursuiton.tres" id="3_vwi61"]
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_84r7y"]
+[ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_fjle6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
 size = Vector2(63.5, 63.5)
@@ -11,14 +14,25 @@ size = Vector2(63.5, 63.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
 size = Vector2(48, 48)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i18mk"]
+size = Vector2(384, 64)
+
 [node name="base" type="CharacterBody2D"]
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
+sprite_frames = ExtResource("3_vwi61")
+animation = &"attack"
+
+[node name="animation_all" parent="sprite" instance=ExtResource("4_84r7y")]
+unique_name_in_owner = true
 
 [node name="animation_general" parent="sprite" instance=ExtResource("3_1y7wk")]
+unique_name_in_owner = true
+
+[node name="animation_color" parent="sprite" instance=ExtResource("5_fjle6")]
 unique_name_in_owner = true
 
 [node name="timer_attacking" type="Timer" parent="sprite"]
@@ -27,15 +41,23 @@ unique_name_in_owner = true
 
 [node name="cooldown_particles" type="Timer" parent="sprite"]
 
+[node name="container_effect_thrownAway" type="Node2D" parent="sprite"]
+
 [node name="collision_main" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ep4j2")
+debug_color = Color(0, 0.595, 0.7, 0)
 
 [node name="hitbox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 8
 
-[node name="hitbox_collision" type="CollisionShape2D" parent="hitbox"]
+[node name="collision_hitbox" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("RectangleShape2D_c3p0q")
+debug_color = Color(0, 0.595, 0.7, 0)
+
+[node name="text_container" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
 
 [node name="cooldown_jump" type="Timer" parent="."]
 
@@ -59,9 +81,40 @@ target_position = Vector2(0, 64)
 position = Vector2(7.62939e-06, -1.52588e-05)
 scale = Vector2(51.2, 51.2)
 
+[node name="cooldown_sfx_idle" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="scan_patrolling" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="collision_patrolling" type="CollisionShape2D" parent="scan_patrolling"]
+position = Vector2(192, 0)
+shape = SubResource("RectangleShape2D_i18mk")
+debug_color = Color(0, 0.595, 0.7, 0)
+
+[node name="cooldown_patrolling_target_spotted_queue" type="Timer" parent="."]
+wait_time = 0.25
+one_shot = true
+
+[node name="cooldown_patrolling_target_spotted" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="cooldown_patrolling_change_direction" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+
+[connection signal="animation_looped" from="sprite" to="." method="_on_sprite_animation_looped"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="timeout" from="cooldown_collidable" to="." method="_on_cooldown_collidable_timeout"]
 [connection signal="timeout" from="cooldown_remove_corpse" to="." method="_on_cooldown_remove_corpse_timeout"]
 [connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]
 [connection signal="screen_exited" from="scan_visible" to="." method="_on_scan_visible_screen_exited"]
+[connection signal="area_entered" from="scan_patrolling" to="." method="_on_scan_patrolling_area_entered"]
+[connection signal="area_exited" from="scan_patrolling" to="." method="_on_scan_patrolling_area_exited"]
+[connection signal="timeout" from="cooldown_patrolling_target_spotted_queue" to="." method="_on_cooldown_patrolling_target_spotted_queue_timeout"]
+[connection signal="timeout" from="cooldown_patrolling_target_spotted" to="." method="_on_cooldown_patrolling_target_spotted_timeout"]
+[connection signal="timeout" from="cooldown_patrolling_change_direction" to="." method="_on_cooldown_patrolling_change_direction_timeout"]

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://dqdxgfn7clhkh"]
+
+[ext_resource type="PackedScene" uid="uid://bieh176ikqktf" path="res://Other/Scenes/decoration_core.tscn" id="1_butqx"]
+[ext_resource type="PackedScene" uid="uid://jtg6t8760f5e" path="res://Objects/Decorations/gear4.tscn" id="2_tpx78"]
+
+[node name="decoration_gear" instance=ExtResource("1_butqx")]
+randomize_type = false
+
+[node name="gear" parent="." index="3" instance=ExtResource("2_tpx78")]

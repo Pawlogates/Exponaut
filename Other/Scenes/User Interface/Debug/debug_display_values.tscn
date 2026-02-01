@@ -5,7 +5,7 @@
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_me5a5"]
 [ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/animation_ui.tscn" id="4_qdv36"]
 
-[node name="debug_display_values" type="CanvasLayer"]
+[node name="debug_display_values" type="CanvasLayer" groups=["debug_display_values"]]
 layer = 127
 script = ExtResource("1_6cpwm")
 

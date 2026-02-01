@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b1rgcf0o2iibx"]
+
+[ext_resource type="AnimationLibrary" uid="uid://dggd8m0xy5yoj" path="res://Other/Animations/other_color.tres" id="1_1wabx"]
+
+[node name="animation_other_color" type="AnimationPlayer"]
+reset_on_save = false
+libraries = {
+&"": ExtResource("1_1wabx")
+}

@@ -241,7 +241,7 @@ grow_vertical = 2
 flat = true
 script = ExtResource("1_2wonl")
 
-[node name="decoration" type="Button" parent="."]
+[node name="decoration" type="Button" parent="." groups=["UI_button_decoration"]]
 light_mask = 2
 visibility_layer = 2
 texture_filter = 3

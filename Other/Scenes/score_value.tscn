@@ -318,7 +318,7 @@ vertical_alignment = 1
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_qpnol")
+&"": SubResource("AnimationLibrary_qpnol")
 }
 autoplay = "opacity_fade_in"
 

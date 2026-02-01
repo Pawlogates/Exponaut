@@ -65,8 +65,8 @@ var gravity = Globals.gravity
 @onready var t_invincible = $timer_invincible
 @onready var c_state_idle: Timer = $cooldown_state_idle
 
-@onready var animation_player = $AnimationPlayer
-@onready var animation_player2 = $AnimationPlayer2
+@onready var animation_player_sprite_general = %animation_player_sprite_general
+@onready var animation_player_sprite_color = %animation_player_sprite_color
 
 @onready var t_state_shoot = $timer_state_shoot
 @onready var t_state_damage = $timer_state_damage
@@ -318,7 +318,7 @@ func _on_cooldown_dash_end_slowdown_disable_timeout():
 	dash_just_landed_queued = false
 	dash_just_landed = false
 	dash_end_slowdown_await_jump = false
-	animation_player2.play("streak_reset")
+	animation_player_sprite_color.play("streak_reset")
 
 
 # Checks whether the player is stuck inside a solid tileset.
@@ -495,16 +495,16 @@ func handle_jump(delta):
 			sfx(Globals.sfx_player_jump, 1.0, 1.0)
 			var x = randi_range(0, 1)
 			if not dash_active and x or not dash_active and not direction_x:
-				%AnimationPlayer.stop()
-				%AnimationPlayer.speed_scale = 2
-				%AnimationPlayer.play("jumped")
+				%animation_player_sprite_general.stop()
+				%animation_player_sprite_general.speed_scale = 2
+				%animation_player_sprite_general.play("jumped")
 			else:
-				%AnimationPlayer.stop()
-				%AnimationPlayer.speed_scale = 1.5
+				%animation_player_sprite_general.stop()
+				%animation_player_sprite_general.speed_scale = 1.5
 				if direction_x == 1:
-					%AnimationPlayer.play("rotate_right")
+					%animation_player_sprite_general.play("rotate_right")
 				if direction_x == -1:
-					%AnimationPlayer.play("rotate_left")
+					%animation_player_sprite_general.play("rotate_left")
 			
 			velocity.y = jump_velocity
 			
@@ -534,16 +534,16 @@ func handle_jump(delta):
 			
 			var x = randi_range(0, 1)
 			if x or not direction_x:
-				%AnimationPlayer.stop()
-				%AnimationPlayer.speed_scale = 3
-				%AnimationPlayer.play("air_jumped")
+				%animation_player_sprite_general.stop()
+				%animation_player_sprite_general.speed_scale = 3
+				%animation_player_sprite_general.play("air_jumped")
 			else:
-				%AnimationPlayer.stop()
-				%AnimationPlayer.speed_scale = 1
+				%animation_player_sprite_general.stop()
+				%animation_player_sprite_general.speed_scale = 1
 				if direction_x == 1:
-					%AnimationPlayer.play("rotate_right")
+					%animation_player_sprite_general.play("rotate_right")
 				if direction_x == -1:
-					%AnimationPlayer.play("rotate_left")
+					%animation_player_sprite_general.play("rotate_left")
 			
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
@@ -573,16 +573,16 @@ func handle_wall_jump():
 		
 		var x = randi_range(0, 1)
 		if x or not direction_x:
-			%AnimationPlayer.stop()
-			%AnimationPlayer.speed_scale = 3
-			%AnimationPlayer.play("air_jumped")
+			%animation_player_sprite_general.stop()
+			%animation_player_sprite_general.speed_scale = 3
+			%animation_player_sprite_general.play("air_jumped")
 		else:
-			%AnimationPlayer.stop()
-			%AnimationPlayer.speed_scale = 1
+			%animation_player_sprite_general.stop()
+			%animation_player_sprite_general.speed_scale = 1
 			if direction_x == -1:
-				%AnimationPlayer.play("rotate_right")
+				%animation_player_sprite_general.play("rotate_right")
 			if direction_x == 1:
-				%AnimationPlayer.play("rotate_left")
+				%animation_player_sprite_general.play("rotate_left")
 
 
 # Player damage (Received by player).
@@ -594,7 +594,7 @@ func health_decrease(value):
 
 
 func charged_effect():
-	animation_player2.play("shot_charged")
+	animation_player_sprite_color.play("shot_charged")
 	
 	var star = Globals.scene_particle_star.instantiate()
 	add_child(star)
@@ -606,8 +606,8 @@ func charged_effect():
 	add_child(star)
 
 func cancel_effect():
-	animation_player2.stop()
-	animation_player2.play("RESET")
+	animation_player_sprite_color.stop()
+	animation_player_sprite_color.play("RESET")
 
 
 func _on_timer_state_shoot():
@@ -1148,12 +1148,12 @@ func _on_powerup_timer_timeout():
 
 
 func on_max_scoreMultiplier_reached():
-	animation_player2.play("max_score_multiplier_reached")
+	animation_player_sprite_color.play("max_score_multiplier_reached")
 	can_air_jump = true
 	can_wall_jump = true
 
 func on_combo_reset():
-	animation_player2.play("streak_reset")
+	animation_player_sprite_color.play("streak_reset")
 
 
 func on_on_block_movement_full_timeout() -> void:
@@ -1253,7 +1253,7 @@ func just_handle():
 # Player just landed on the ground (the "just" refers to something that just got set to true, and then immediately gets set back to false right after all relevant consequences are applied).
 func on_just_landed():
 	Globals.message_debug("Player landed.")
-	%AnimationPlayer.play("RESET")
+	%animation_player_sprite_general.play("RESET")
 	
 	state_jump = 0
 

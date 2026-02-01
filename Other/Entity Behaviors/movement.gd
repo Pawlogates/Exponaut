@@ -1,13 +1,13 @@
 extends Node2D
 
-var movement type = "none" # Assigned when the entity is created and assigned this behaviour.
-var 
+var movement_type = "none" # Assigned when the entity is created and assigned this behaviour.
+var movement_type_id = 0
+var direction = 0
+
 
 func _process(delta):
 	movement()
 
-
-var movement_type_id = 0
 
 func movement():
 	if movement_type_id == 0 : return

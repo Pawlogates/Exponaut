@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3xh4eu46lr7w"]
+
+[ext_resource type="AnimationLibrary" uid="uid://wsw4glmskd6a" path="res://Other/Animations/other_general.tres" id="1_65ami"]
+
+[node name="animation_other_general" type="AnimationPlayer"]
+reset_on_save = false
+libraries = {
+&"": ExtResource("1_65ami")
+}

@@ -18,14 +18,20 @@ extends Node2D
 @export var anim_reverse2 : bool = false
 
 # Randomization:
+@export var randomize_everything : bool = true
+
+@export var randomize_type : bool = true
+
 @export var randomize_multiplier : float = 1.0
 @export var randomize_multiplier2 : float = 1.0
 
 @export var randomize_anim_name : bool = false
+@export var randomize_anim_name_limited : bool = false
 @export var randomize_anim_speed : bool = false
 @export var randomize_anim_reverse : bool = false
 
 @export var randomize_anim_name2 : bool = false
+@export var randomize_anim_name2_limited : bool = false
 @export var randomize_anim_speed2 : bool = false
 @export var randomize_anim_reverse2 : bool = false
 
@@ -34,6 +40,13 @@ extends Node2D
 var is_near_edge = 0 # Directional ("-1" = left, "1" = right).
 var near_edge_offset = 0
 
+var effect_thrownAway_active = false
+var effect_thrownAway_applied_velocity = false
+var rolled_effect_thrownAway_scale = randf_range(0.01, 0.1)
+var effect_thrownAway_scale = Vector2(rolled_effect_thrownAway_scale, rolled_effect_thrownAway_scale)
+var effect_thrownAway_rotation = randi_range(-720, 720)
+var effect_thrownAway_velocity = Vector2(randi_range(-1000, 1000), randi_range(-500, -1000))
+
 
 func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 3 to a Decoration Core, with the target function being 'debug_show_anim_names'.")
@@ -41,14 +54,32 @@ func _ready() -> void:
 	
 	if decoration == null : return
 	
+	if randomize_type:
+		if type == "gear" : randomize_type_gear()
+	
 	reassign_general()
 	
-	if not animation_general.is_playing() and not animation_gear.is_playing() : play_anim(true)
+	if not animation_general.is_playing() and not animation_gear.is_playing() : play_anim(randomize_everything)
 	
 	glow_light.offset += Vector2(randi_range(-50, 50), randi_range(-50, 50))
 
+func _process(delta: float) -> void:
+	if not effect_thrownAway_active : return
+	
+	if not effect_thrownAway_applied_velocity: # This makes the changes apply only on the first frame of the effect being active.
+		effect_thrownAway_applied_velocity = true
+		
+		z_index -= 10
+	
+	scale.x = lerp(scale.x, effect_thrownAway_scale[0], delta)
+	scale.y = lerp(scale.y, effect_thrownAway_scale[1], delta)
+	skew = lerp(skew, deg_to_rad(60 * randf_range(-10, 10)), deg_to_rad(delta * 100))
+	rotation_degrees = lerp(float(rotation_degrees), float(effect_thrownAway_rotation), delta)
+	position += delta * effect_thrownAway_velocity / 5
+
 
 func play_anim(randomize_everything : bool = true):
+	await get_tree().create_timer(0.2, true).timeout
 	reassign_general()
 	
 	if randomize_everything:
@@ -91,13 +122,27 @@ func play_anim(randomize_everything : bool = true):
 
 
 func randomize_anim():
-	if randomize_anim_name : anim_name = Globals.l_animation_name_general_limited.pick_random()
+	
+	# Main animation:
+	if randomize_anim_name:
+		if randomize_anim_name_limited:
+			anim_name = Globals.l_animation_name_general_limited.pick_random()
+		else:
+			anim_name = Globals.l_animation_name_general.pick_random()
+	
 	if randomize_anim_speed : anim_speed = randf_range(0.05 * randomize_multiplier, 2 * randomize_multiplier)
 	if randomize_anim_reverse : anim_reverse = Globals.random_bool(1, 1)
 	
-	if randomize_anim_name2 : anim_name2 = Globals.l_animation_name_gear.pick_random()
+	# Secondary animation:
+	if randomize_anim_name2:
+		if randomize_anim_name2_limited:
+			anim_name2 = Globals.l_animation_name_gear_limited.pick_random()
+		else:
+			anim_name2 = Globals.l_animation_name_gear.pick_random()
+	
 	if randomize_anim_speed2 : anim_speed2 = randf_range(0.05 * randomize_multiplier2, 2 * randomize_multiplier2)
 	if randomize_anim_reverse2 : anim_reverse2 = Globals.random_bool(1, 1)
+	
 	
 	if randomize_modulate_dark:
 		if Globals.random_bool(3, 1):
@@ -109,15 +154,19 @@ func randomize_anim():
 
 func set_randomize_everything():
 	randomize_anim_name = true
+	randomize_anim_name_limited = true
 	randomize_anim_reverse = true
 	randomize_anim_speed = true
 	randomize_anim_name2 = true
+	randomize_anim_name2_limited = true
 	randomize_anim_reverse2 = true
 	randomize_anim_speed2 = true
 	randomize_modulate_dark = true
 
 
 func reassign_general():
+	decoration = get_child(3)
+	
 	for animation_type in Globals.l_animation_type:
 		
 		var node_name = "animation_" + animation_type
@@ -140,3 +189,17 @@ func debug_show_anim_names():
 	
 	$debug.visible = Globals.opposite_bool($debug.visible)
 	$debug_real_pos.visible = Globals.opposite_bool($debug_real_pos.visible)
+
+
+func randomize_type_gear():
+	if get_parent().is_in_group("UI_button_decoration") : return # The UI Buttons have an alternative way of handling the gear type randomization. Ideally it would not be the case...
+		
+	var scene = load("res://Objects/Decorations/gear.tscn")
+	
+	var rolled_geat_type = randi_range(1, 5)
+	if rolled_geat_type > 1: # If "x" is equal to anything but "1", because there is no "decoration_gear1.tscn" file, only "decoration_gear.tscn", "decoration_gear2.tscn", etc.
+		scene = load(str("res://Objects/Decorations/gear%s.tscn" % rolled_geat_type))
+	
+	decoration.queue_free()
+	add_child(scene.instantiate())
+	reassign_general()

@@ -6,9 +6,16 @@ extends Control
 @export var text_alignment = 0
 @export var text_animation_sync = true
 
+@export var remove_cooldown = -1.0
+
 @export var cooldown_create_message = -1.0
 
-var text_simple = "none"
+@export var offset_x_based_on_character_amount = false
+
+@export var character_anim_speed_scale = 1.0
+
+
+var text_visible = "none"
 var last_text_full = "none"
 
 var letter_x = 20
@@ -26,8 +33,21 @@ func _ready() -> void:
 	
 	if text_alignment : $row1.alignment = text_alignment
 	
+	if offset_x_based_on_character_amount:
+		$row1.position.x -= letter_x * len(text_visible) / 2
+	
 	if text_full != "":
 		create_message(text_full) # This rarely if ever actually executes. Most of the time, the "create_message()" function is requested by the node instantiating the Text Manager.
+	
+	if remove_cooldown != -1.0:
+		await get_tree().create_timer(remove_cooldown, true).timeout
+		
+		for character in $row1.get_children():
+			character.queue_free()
+			await get_tree().create_timer(0.01, true).timeout
+		
+		queue_free()
+
 
 func _physics_process(delta: float) -> void:
 	pass
@@ -85,12 +105,13 @@ func add_letter(character):
 	for anim_name in Globals.l_animation_name_general:
 		if current_rule == str("[anim_%s]" % anim_name):
 			
+			letter.animation_player.speed_scale = character_anim_speed_scale
 			letter.animation_player.play(anim_name)
 	
 	#if not current_rule == "[anim_fade_out_up]" and not current_rule == "[/]" and not current_rule == "":
 	
 	if text_animation_sync:
-		letter.animation_player.advance(float(character_id) / 20)
+		letter.animation_player.advance(float(character_id * character_anim_speed_scale) / 10) # 20
 		
 		#if sfx_limit <= 0:
 			#letter.cooldown_sfx.wait_time = float(character_id) / 20

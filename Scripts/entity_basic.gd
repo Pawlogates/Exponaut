@@ -15,14 +15,32 @@ extends CharacterBody2D
 
 @onready var scan_ledge = $scan_ledge
 
+@onready var animation_all: AnimationPlayer = %animation_all
 @onready var animation_general: AnimationPlayer = %animation_general
+@onready var animation_color: AnimationPlayer = %animation_color
 
 @onready var collision_main: CollisionShape2D = $collision_main
 @onready var hitbox: Area2D = $hitbox
-@onready var hitbox_collision: CollisionShape2D = $hitbox/hitbox_collision
+@onready var collision_hitbox: CollisionShape2D = $hitbox/collision_hitbox
 
 @onready var scan_visible: VisibleOnScreenNotifier2D = $scan_visible
 
+@onready var container_effect_thrownAway: Node2D = $sprite/container_effect_thrownAway
+
+@onready var cooldown_sfx_idle: Timer = $cooldown_sfx_idle
+
+@onready var text_container: Control = $text_container
+
+
+# Patrolling - [START]
+@onready var scan_patrolling: Area2D = $scan_patrolling
+@onready var collision_patrolling: CollisionShape2D = $scan_patrolling/collision_patrolling
+@onready var c_patrolling_target_spotted_queue: Timer = $cooldown_patrolling_target_spotted_queue
+@onready var c_patrolling_target_spotted: Timer = $cooldown_patrolling_target_spotted
+@onready var c_patrolling_change_direction: Timer = $cooldown_patrolling_change_direction
+
+var patrolling_target_spotted_active = false
+# Patrolling - [END]
 
 # Sound effects.
 @onready var sfx_manager = $sfx_manager # The sound effects manager should be called every time a sound should play. Example: "sfx_manager.sfx_play(Globals.sfx_player_jump, 1.0, 0.0)"
@@ -53,8 +71,6 @@ var direction_active_y = -1
 var velocity_last_x = 25
 var velocity_last_y = -25
 
-var spotted = false
-
 var start_pos = Vector2(-1, -1) # If equal to Vector2(-1, -1), it will be assigned at _ready().
 
 var collected = false
@@ -69,6 +85,9 @@ var random_position_offset = Vector2(randf_range(0, 250), randf_range(0, 250))
 
 var effect_shrink = false
 
+var last_wall_normal = Vector2(99, 99)
+
+
 # Start of properties.
 @export_group("Main interactions.") # Section start.
 
@@ -77,6 +96,10 @@ var effect_shrink = false
 @export var collidable = false
 
 @export_group("") # Section end.
+
+
+#---------------------------------------------------------------------------#
+
 
 @export_group("Main information.") # Section start.
 
@@ -96,11 +119,18 @@ var effect_shrink = false
 
 @export_group("") # Section end.
 
+
+#---------------------------------------------------------------------------#
+
+
 @export_group("Movement specifics.") # Section start.
 
 @export var can_move = false
 @export var can_move_x = false
 @export var can_move_y = false
+
+@export var ignore_gravity = true
+@export var on_death_ignore_gravity_stop = true
 
 @export var speed_multiplier_x = 1.0
 @export var speed_multiplier_y = 1.0
@@ -111,7 +141,7 @@ var effect_shrink = false
 @export var gravity_multiplier_x = 1.0
 @export var gravity_multiplier_y = 1.0
 
-@export var on_wall_turn = false
+@export var on_wall_change_direction_x = true
 @export var on_wall_change_speed = false
 @export var on_wall_change_speed_multiplier = 0.5
 @export var on_wall_change_velocity = true
@@ -165,24 +195,27 @@ var effect_shrink = false
 @export var on_hit_spawn_entity_throwAround_multiplier_y = 1.0
 
 # Behavior triggered on entity spotting a "target" entity:
-@export var spotted_patrolling = false
-@export var spotted_targets = "Player" # A valid target is a node with either a matching group name, entity_type or family.
-@export var spotted_vision_size = Vector2(256, 64)
+@export var patrolling = false
+@export var patrolling_targets = ["Player"] # A valid target is a node with either a matching group name, entity_type or family.
+@export var patrolling_vision_size = Vector2(384, 64)
+@export var patrolling_vision_pos = Vector2(192, 0)
 
-@export var on_spotted_spawn_entity = false
-@export var on_spotted_spawn_entity_scene = load("res://Enemies/togglebot.tscn")
-@export var on_spotted_spawn_entity_cooldown = 0.5
+@export var on_patrolling_spotted_spawn_entity = false
+@export var on_patrolling_spotted_spawn_entity_scene = load("res://Enemies/togglebot.tscn")
+@export var on_patrolling_spotted_spawn_entity_cooldown = 0.5
 
-@export var on_spotted_spawn_entity2 = false
-@export var on_spotted_spawn_entity_scene2 = load("res://Enemies/togglebot.tscn")
-@export var on_spotted_spawn_entity2_cooldown = 0.5
+@export var on_patrolling_spotted_spawn_entity2 = false
+@export var on_patrolling_spotted_spawn_entity_scene2 = load("res://Enemies/togglebot.tscn")
+@export var on_patrolling_spotted_spawn_entity2_cooldown = 0.5
 
-@export var on_spotted_spawn_entity3 = false
-@export var on_spotted_spawn_entity_scene3 = load("res://Enemies/togglebot.tscn")
-@export var on_spotted_spawn_entity3_cooldown = 0.5
+@export var on_patrolling_spotted_spawn_entity3 = false
+@export var on_patrolling_spotted_spawn_entity_scene3 = load("res://Enemies/togglebot.tscn")
+@export var on_patrolling_spotted_spawn_entity3_cooldown = 0.5
 
-@export var on_spotted_spawn_entity_offset = Vector2(0, 0)
-@export_enum("player", "enemy", "none", "all") var on_spotted_spawn_entity_family: String = "enemy"
+@export var on_patrolling_spotted_spawn_entity_offset = Vector2(0, 0)
+@export_enum("Player", "Enemy", "none", "all") var on_patrolling_spotted_spawn_entity_family: String = "enemy"
+@export var patrolling_change_direction_cooldown : float = 4.0
+
 
 # Behavior triggered as long as the entity currently satisfies a condition:
 @export var when_atStartPosition_x_stop = false
@@ -201,7 +234,11 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 
 @export_group("") # Section end.
 
-@export_group("Other properties.") # Section start.
+
+#---------------------------------------------------------------------------#
+
+
+@export_group("Other properties (behavior).") # Section start.
 
 @export var can_affect_player = false
 @export var can_collect = false
@@ -215,6 +252,10 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 
 @export var enteredFromAboveAndNotMoving_enable = true
 @export var enteredFromAboveAndNotMoving_velocity = -800
+
+@export var idle_sfx = false
+@export var idle_sfx_cooldown = 4.0
+@export var idle_sfx_randomize_cooldown = false
 
 @export var rng_custom = -1 # Set to -1 for random.
 @export var disable_animations = ["none", "none", "none"]
@@ -337,6 +378,7 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 
 @export var immortal = false
 
+
 # General timers. Each one can have an action assigned to it, which will be executed on the matching timer's timeout.
 @export var general_timers_enabled = false
 
@@ -415,7 +457,6 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 @export var p_particle_leaf = -1
 #UNFINISHED
 
-@export var on_collected_effect_thrownAway = false
 
 @export var heal_player = false # Will heal the player even if collected by an entity.
 @export var heal_value = 1
@@ -426,9 +467,23 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 @export var remove_delay = 1.0
 @export var on_floor_bounce = false
 @export var on_wall_bounce = false
-@export var on_death_effect_shrink = false
 
 @export var variable_speed = false
+
+@export var anim_alternate_walk = false
+@export var anim_alternate_walk_hittable_only_during = false
+
+@export var on_wall_jump_velocity : int = -100
+
+@export_group("") # End of section.
+
+
+#---------------------------------------------------------------------------#
+
+
+@export_group("Other properties (visual).") # Section start.
+
+@export var on_death_effect_shrink = false
 
 @export_group("") # End of section.
 # End of properties.
@@ -462,14 +517,27 @@ func _on_particle_limiter_timeout():
 
 func remove_if_corpse():
 	await get_tree().create_timer(0.2, false).timeout
+	
 	if dead:
+		Globals.dm("Attempting to remove a dead entity on it leaving the screen.", 1)
+		if len(container_effect_thrownAway.get_children()):
+			Globals.dm("The dead entity has a potentially still visible segments. Waiting additional 4 seconds.", 2)
+			await get_tree().create_timer(4, false).timeout
+		
 		queue_free()
+		Globals.dm("The dead entity has been deleted.", 3)
 
 
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
 	basic_on_active()
+	
 	add_to_group(family)
+	
+	if idle_sfx:
+		if idle_sfx_cooldown : cooldown_sfx_idle.wait_time = idle_sfx_cooldown # If "idle_sfx_cooldown" is not equal to "0".
+		if idle_sfx_randomize_cooldown : cooldown_sfx_idle.wait_time = randf_range(0.5, 8)
+		cooldown_sfx_idle.start()
 
 
 # Executes on entity entering the camera view.
@@ -536,7 +604,7 @@ func enemy_stunned():
 
 func basic_sprite_flipDirection():
 	if not dead:
-		if direction_x == 1:
+		if direction_active_x > 0:
 			sprite.flip_h = false
 		else:
 			sprite.flip_h = true

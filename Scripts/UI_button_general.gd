@@ -396,7 +396,7 @@ func sfx_random():
 	
 	sfx_stabilize.volume_linear = randf_range(0.25, 2)
 	sfx_stabilize.pitch_scale = randf_range(0.75, 1.25)
-	sfx_stabilize.stream = Globals.l_sfx_menu_stabilize.pick_random()
+	sfx_stabilize.stream = load(Globals.l_sfx_menu_stabilize.pick_random())
 	sfx_stabilize.play()
 	Globals.message_debug("A button played a sound effect: %s (randomized)." % sfx_stabilize.stream)
 

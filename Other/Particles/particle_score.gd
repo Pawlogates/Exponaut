@@ -8,7 +8,7 @@ var SPEED = 250
 var homing = false
 var collected = false
 
-@onready var player = $/root/World.player
+@onready var player = $/root/World.Player
 @onready var world = $/root/World
 @onready var particle_visual = $particle
 

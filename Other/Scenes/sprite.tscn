@@ -4,4 +4,3 @@
 
 [node name="sprite" type="AnimatedSprite2D"]
 sprite_frames = ExtResource("1_5a00w")
-animation = &"idle"

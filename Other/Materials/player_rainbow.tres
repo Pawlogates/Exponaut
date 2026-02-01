@@ -31,6 +31,6 @@ void fragment() {
 
 [resource]
 shader = SubResource("Shader_o6u4a")
-shader_parameter/strength = 0.00070655
+shader_parameter/strength = 0.0
 shader_parameter/speed = 0.5
 shader_parameter/angle = 320.0

@@ -138,7 +138,7 @@ func correct_messages_order():
 			label.scale = Vector2(1, 1)
 		else:
 			label.position.y = letter_y * highest_message_height_multiplier
-			label.scale = Vector2(float(label.message_scale), float(label.message_scale))
+			label.scale = Vector2(1, 1) + Vector2(float(label.message_scale), float(label.message_scale))
 		
 		if highest_message_id >= len(list_messages) -3: # Last three messages will be enlarged.
 			if float(label.message_scale) == -1.0 : label.scale = Vector2(2, 2)

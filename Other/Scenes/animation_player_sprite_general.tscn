@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://r7qbmuile5vd"]
+
+[ext_resource type="AnimationLibrary" uid="uid://dtj0w3l6ivshu" path="res://Other/Animations/player_sprite_general.tres" id="1_4xe6g"]
+
+[node name="animation_player_sprite_general" type="AnimationPlayer"]
+reset_on_save = false
+libraries = {
+&"": ExtResource("1_4xe6g")
+}

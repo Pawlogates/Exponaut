@@ -1,0 +1,23 @@
+[gd_scene load_steps=9 format=3 uid="uid://cd1ras6qhwjqa"]
+
+[ext_resource type="AnimationLibrary" uid="uid://c0m65pn4posn8" path="res://Other/Animations/color.tres" id="1_0b3dm"]
+[ext_resource type="AnimationLibrary" uid="uid://hcdta174ln3f" path="res://Other/Animations/gear.tres" id="2_x3ags"]
+[ext_resource type="AnimationLibrary" uid="uid://dti27low163p0" path="res://Other/Animations/general.tres" id="3_dy7bs"]
+[ext_resource type="AnimationLibrary" uid="uid://dggd8m0xy5yoj" path="res://Other/Animations/other_color.tres" id="4_dy7bs"]
+[ext_resource type="AnimationLibrary" uid="uid://doy81j8yk4nnp" path="res://Other/Animations/player_sprite_color.tres" id="4_lbm1j"]
+[ext_resource type="AnimationLibrary" uid="uid://wsw4glmskd6a" path="res://Other/Animations/other_general.tres" id="5_lbm1j"]
+[ext_resource type="AnimationLibrary" uid="uid://dtj0w3l6ivshu" path="res://Other/Animations/player_sprite_general.tres" id="5_txw8t"]
+[ext_resource type="AnimationLibrary" uid="uid://oqwyjsjb12x8" path="res://Other/Animations/ui.tres" id="6_8ud6p"]
+
+[node name="animation_all" type="AnimationPlayer"]
+reset_on_save = false
+libraries = {
+&"color": ExtResource("1_0b3dm"),
+&"gear": ExtResource("2_x3ags"),
+&"general": ExtResource("3_dy7bs"),
+&"other_color": ExtResource("4_dy7bs"),
+&"other_general": ExtResource("5_lbm1j"),
+&"player_sprite_color": ExtResource("4_lbm1j"),
+&"player_sprite_general": ExtResource("5_txw8t"),
+&"ui": ExtResource("6_8ud6p")
+}

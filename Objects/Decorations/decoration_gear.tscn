@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://bieh176ikqktf" path="res://Other/Scenes/decoration_core.tscn" id="1_3axhj"]
 [ext_resource type="PackedScene" uid="uid://dx18msavpuef4" path="res://Objects/Decorations/gear.tscn" id="2_e78dl"]
 
-[node name="decoration_core" instance=ExtResource("1_3axhj")]
+[node name="decoration_gear" instance=ExtResource("1_3axhj")]
+randomize_type = false
 
 [node name="gear" parent="." index="3" instance=ExtResource("2_e78dl")]

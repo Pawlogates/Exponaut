@@ -37,7 +37,7 @@ func sfx_fade(delta):
 			sfx.volume_linear = move_toward(sfx.volume_linear, 0, delta * -fade)
 
 func sfx_play(filepath : String, volume : float = 1.0, pitch : float = 1.0): # Example: sfx_manager.sfx_play(Globals.sfx_player_jump, 1.0, 0.0)
-	
+	Globals.dm(str("A sound effect (%s) has been received by a Sfx Manager." % filepath))
 	
 	for sfx_player_id in range(5):
 		if sfx_player_id > 4:
@@ -47,19 +47,15 @@ func sfx_play(filepath : String, volume : float = 1.0, pitch : float = 1.0): # E
 			var sfx_player = $sfx
 			
 			if not sfx.playing:
-				sfx_player.stream = load(filepath)
-				sfx_player.volume_linear = volume
-				sfx_player.pitch_scale = pitch
-				sfx_player.play()
-			
+				handle_play_sound(sfx_player, filepath, volume, pitch)
+				break
+		
 		else:
 			var sfx_player = get_node("sfx" + str(sfx_player_id))
 			
 			if not sfx_player.playing:
-				sfx_player.stream = load(filepath)
-				sfx_player.volume_linear = volume
-				sfx_player.pitch_scale = pitch
-				sfx_player.play()
+				handle_play_sound(sfx_player, filepath, volume, pitch)
+				break
 
 # Combined sound effects.
 func sfx_combined_play():
@@ -67,3 +63,10 @@ func sfx_combined_play():
 
 func sfx_combined_fade(delta):
 	pass
+
+
+func handle_play_sound(sfx_player : Node, filepath : String, volume : float = 1.0, pitch : float = 1.0):
+	sfx_player.stream = load(filepath)
+	sfx_player.volume_linear = volume
+	sfx_player.pitch_scale = pitch
+	sfx_player.play()

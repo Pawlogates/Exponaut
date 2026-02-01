@@ -74,12 +74,12 @@ func _ready() -> void:
 			for segment in message_split : print(segment)
 	
 	
-	c_remove.wait_time = cooldown_remove
-	c_remove.start()
-	
 	text = message_visible
 	
 	await get_tree().create_timer(0.1, true).timeout # The message positions also get corrected after a delay, so it looks best when a new message isn't visible immediately.
+	
+	c_remove.wait_time = cooldown_remove
+	c_remove.start()
 	
 	visible = true
 
@@ -108,7 +108,7 @@ func handle_repeats():
 var currently_focused : bool = false
 
 func _on_mouse_entered() -> void:
-	if message_importance is not String or message_importance == "none":
+	if not is_important():
 		animation_player.stop()
 		animation_player.play("focus_entered")
 	
@@ -147,7 +147,7 @@ func _on_mouse_exited() -> void:
 	
 	display.correct_messages_order()
 	
-	if message_importance is not String or message_importance == "none":
+	if not is_important():
 		animation_player.stop()
 		animation_player.play("focus_exited")
 	
@@ -165,4 +165,11 @@ func set_remove_cooldown(cooldown : float = 10.0):
 	c_remove.start()
 	animation_player.stop()
 	
-	if message_importance is not String or message_importance == "none" : animation_player.play("focus_entered")
+	if not is_important() : animation_player.play("focus_entered")
+
+
+func is_important():
+	if message_importance is String and message_importance == "none" or message_importance is int and message_importance == 0:
+		return false
+	else:
+		return true

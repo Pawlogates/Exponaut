@@ -114,8 +114,6 @@ func _ready():
 	for l_property_name in list_l_property_name:
 		var bg_layer = get(l_property_name)
 		bg_layer.visible = true
-		Globals.dm(l_property_name)
-		Globals.dm(get(l_property_name))
 	
 	#for layer_name in l_layer_node_name:
 		#if layer_name.ends_with("B"):
@@ -278,25 +276,25 @@ func debug_toggle_fully():
 func toggle_layer_id():
 	for layer_name in list_l_B_node_name:
 		
-		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "YELLOW")
+		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "YELLOW", 0, 1)
 		
 		if currently_visible_id == "B":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 2)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 2, 0, 1)
 			set(list_lv_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 		elif currently_visible_id == "A":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 1)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 1, 0, 1)
 			set(list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 		
 		
 	for layer_name in list_l_A_node_name:
 		
-		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "ORANGE")
+		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "ORANGE", 0, 1)
 		
 		if currently_visible_id == "A":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 4)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 4, 0, 1)
 			set(list_lv_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 		elif currently_visible_id == "B":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 3)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 3, 0, 1)
 			set(list_lh_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 	
 	
@@ -341,18 +339,11 @@ func _on_cooldown_debug_available_timeout() -> void:
 
 
 func _on_cooldown_check_fade_timeout() -> void:
-	return
-	Globals.dm(lv_main.modulate.a, "GREEN")
-	Globals.dm(lv_main, "GREEN")
 	if lv_main.modulate.a == 0.0 or lv_main.modulate.a == 1.0:
 		bg_fade_finished.emit()
-		Globals.dm("bg_fade_finished", "ORANGE")
 	
-	Globals.dm(lh_main.modulate.a, "RED")
-	Globals.dm(lh_main, "RED")
 	if lh_main.modulate.a == 0.0 or lh_main.modulate.a == 1.0:
 		bg_fade_finished.emit()
-		Globals.dm("bg_fade_finished", "ORANGE")
 
 
 func debug_layer_labels():
@@ -390,13 +381,13 @@ func bg_update_other():
 	bg_back_repeat_y = Globals.bg_back_repeat_y
 	bg_back2_repeat_y = Globals.bg_back2_repeat_y
 	
-	Globals.dm(str(bg_main_repeat_y,bg_front_repeat_y,bg_front2_repeat_y), 99)
+	
 	if bg_main_repeat_y : lv_main.motion_mirroring.y = 2160
 	else : lv_main.motion_mirroring.y = 0
 	if bg_front_repeat_y : lv_front.motion_mirroring.y = 2160
 	else : lv_front.motion_mirroring.y = 0
 	if bg_front2_repeat_y : lv_front2.motion_mirroring.y = 2160 ; Globals.dm(str(bg_front2_repeat_y, lv_front2.motion_mirroring.y))
-	else : lv_front2.motion_mirroring.y = 0 ; Globals.dm("FALSE")
+	else : lv_front2.motion_mirroring.y = 0
 	if bg_back_repeat_y : lv_back.motion_mirroring.y = 2160
 	else : lv_back.motion_mirroring.y = 0
 	if bg_back2_repeat_y : lv_back2.motion_mirroring.y = 2160
