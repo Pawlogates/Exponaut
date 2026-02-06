@@ -17,7 +17,7 @@ script = ExtResource("2_y2l1u")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_4g1wx")
+&"": SubResource("AnimationLibrary_4g1wx")
 }
 
 [node name="Control" type="Control" parent="."]

@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=113 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=116 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_38g62"]
@@ -72,8 +72,11 @@
 [ext_resource type="PackedScene" uid="uid://doof5g6lsehx4" path="res://Blocks/special_block_buttonSpikes_DOWN.tscn" id="70_3x82x"]
 [ext_resource type="PackedScene" uid="uid://dpm11fdo256ld" path="res://Objects/Decorations/deco_toxicWaterfall.tscn" id="71_wmxpc"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="72_doclg"]
+[ext_resource type="PackedScene" uid="uid://bp1c8almrnogl" path="res://Collectibles/jewel.tscn" id="72_g2ic1"]
+[ext_resource type="PackedScene" uid="uid://cuxplgh41ahnt" path="res://Collectibles/orb_zeroScore.tscn" id="73_f8l16"]
 [ext_resource type="PackedScene" uid="uid://da0htgtcareps" path="res://Triggers/zone_wind_L.tscn" id="73_x8rwi"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="74_0lewg"]
+[ext_resource type="PackedScene" uid="uid://d2t0i5n4ypasc" path="res://Collectibles/apple.tscn" id="74_77evu"]
 [ext_resource type="PackedScene" uid="uid://bmrqly8vl8m48" path="res://Triggers/zone_wind_UP.tscn" id="75_nqxea"]
 [ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="76_hnosd"]
 [ext_resource type="PackedScene" uid="uid://hq4cxsvbv03l" path="res://Enemies/togglebot.tscn" id="77_38g62"]
@@ -176,6 +179,9 @@ scenes/303/scene = ExtResource("30_31gdt")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_w16yt"]
 resource_name = "collectibles"
+scenes/1/scene = ExtResource("72_g2ic1")
+scenes/2/scene = ExtResource("73_f8l16")
+scenes/3/scene = ExtResource("74_77evu")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bdx2g"]
 resource_name = "switches"

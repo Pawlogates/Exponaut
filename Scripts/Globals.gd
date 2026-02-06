@@ -27,6 +27,7 @@ const d_tilesets = dirpath_graphics + "/tilesets"
 const dirpath_sounds = dirpath_assets + "/Sounds"
 const d_music = dirpath_sounds + "/music"
 const d_ambience = dirpath_sounds + "/ambience"
+const d_sfx = dirpath_sounds + "/sfx"
 
 
 # Various lists (String):
@@ -67,6 +68,7 @@ const scene_effect_oneShot_enemy = preload("res://Other/Effects/oneShot_enemy.ts
 const scene_particle_special = preload("res://Other/Particles/special.tscn")
 const scene_particle_special_multiple = preload("res://Other/Particles/special_multiple.tscn")
 const scene_particle_special2 = preload("res://Other/Particles/special2.tscn")
+const scene_orb_blue = preload("res://Other/Particles/splash.tscn")
 const scene_particle_special2_multiple = preload("res://Other/Particles/special2_multiple.tscn")
 const scene_particle_splash = preload("res://Other/Particles/splash.tscn")
 const scene_particle_feather_multiple = preload("res://Other/Particles/feather.tscn")
@@ -89,15 +91,25 @@ const sfx_mechanical3 : String = "res://Assets/Sounds/sfx/mechanical3.wav"
 const sfx_powerUp : String = "res://Assets/Sounds/sfx/powerUp.wav"
 const sfx_powerUp2 : String = "res://Assets/Sounds/sfx/powerUp2.wav"
 const sfx_beam_enabled : String = "res://Assets/Sounds/sfx/beam_enabled.mp3"
+
+const sfx_combo_streak_finished : String = d_sfx + "/" + "combo_streak_finished.wav"
+const sfx_combo_tier_increased : String = d_sfx + "/" + "combo_tier_increased.wav"
+
 const sfx_electric : String = "res://Assets/Sounds/sfx/electric.mp3"
 const sfx_electric_disabled : String = "res://Assets/Sounds/sfx/electric_disabled.mp3"
 const sfx_electric_disabled2 : String = "res://Assets/Sounds/sfx/electric_disabled2.mp3"
 const sfx_effect_teleport : String = "res://Assets/Sounds/sfx/effect_teleport.wav"
+
 const sfx_footstep_mechanical : String = "res://Assets/Sounds/sfx/footstep_mechanical.mp3"
 const sfx_footstep_mechanical2 : String = "res://Assets/Sounds/sfx/footstep_mechanical2.mp3"
 const sfx_mechanical4 : String = "res://Assets/Sounds/sfx/mechanical4.mp3"
+
 const sfx_piano : String = "res://Assets/Sounds/sfx/piano.wav"
 const sfx_mysterious_loop1 : String = "res://Assets/Sounds/sfx/mysterious_loop1.wav"
+
+const sfx_jewel_collect : String = d_sfx + "/" + "jewel_collect.wav"
+const sfx_jewel_collect2 : String = d_sfx + "/" + "jewel_collect2.wav"
+const sfx_jewel_collect3 : String = d_sfx + "/" + "jewel_collect3.wav"
 
 
 # Other files:
@@ -113,6 +125,8 @@ const material_hueShift = preload("res://Other/Materials/hueShift.tres")
 const material_cycle_darkBlue_purple = preload("res://Other/Materials/cycle_darkBlue_purple.tres")
 const material_cycle_yellow_orange = preload("res://Other/Materials/cycle_yellow_orange.tres")
 const material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres")
+const material_score_value_rainbow2 = preload("res://Other/Materials/score_value_rainbow2.tres")
+const material_score_bonus_rainbow2 = preload("res://Other/Materials/score_bonus_rainbow2.tres")
 
 
 # Main scenes:
@@ -141,7 +155,8 @@ const scene_animation_gear = preload("res://Other/Scenes/animation_gear.tscn")
 var scene_menu_main = load("res://Other/Scenes/User Interface/Menus/menu_main.tscn")
 var scene_menu_settings = load("res://Other/Scenes/User Interface/Menus/menu_settings.tscn")
 var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/menu_select_levelSet.tscn")
-var scene_score_value = load("res://Other/Scenes/score_value.tscn")
+var scene_effect_score_value = load("res://Other/Scenes/display_score.tscn")
+var scene_effect_score_bonus = load("res://Other/Scenes/score_value.tscn")
 
 const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
@@ -227,6 +242,8 @@ func handle_actions(delta):
 	elif Input.is_action_just_pressed("debug_console"):
 		get_tree().debug_collisions_hint = opposite_bool(get_tree().debug_collisions_hint)
 		dm("Debug collision visibility has been set to: " + str(get_tree().debug_collisions_hint), clamp(int(get_tree().debug_collisions_hint) * 5, 1, 5))
+		
+		if World.has_node("background") : World.get_node("background").queue_free()
 	
 	
 	handle_debug_actions()
@@ -545,7 +562,11 @@ func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
-		var node = file.instantiate()
+		var node
+		
+		if file is String : node = load(file).instantiate()
+		else : node = file.instantiate()
+		
 		node.position += pos_offset
 		node.modulate += add_modulate
 		node.scale += add_scale
@@ -726,22 +747,22 @@ signal refreshed2_0
 signal refreshed4_0
 
 func refresh0_5():
-	await get_tree().create_timer(0.5, true).timeout
+	await get_tree().create_timer(0.5, false).timeout
 	refreshed0_5.emit()
 	refresh0_5()
 
 func refresh1_0():
-	await get_tree().create_timer(1.0, true).timeout
+	await get_tree().create_timer(1.0, false).timeout
 	refreshed1_0.emit()
 	refresh1_0()
 
 func refresh2_0():
-	await get_tree().create_timer(2.0, true).timeout
+	await get_tree().create_timer(2.0, false).timeout
 	refreshed2_0.emit()
 	refresh2_0()
 
 func refresh4_0():
-	await get_tree().create_timer(4.0, true).timeout
+	await get_tree().create_timer(4.0, false).timeout
 	refreshed4_0.emit()
 	refresh4_0
 
@@ -752,17 +773,42 @@ func on_refreshed1_0():
 	pass
 
 func on_refreshed2_0():
-	pass
+	if debug_mode and World.has_node("background") : World.get_node("background").queue_free() ; dm("Deleted all background layers.")
 
 func on_refreshed4_0():
 	next_reassign_camera = true
 
 
+var camera_manual_active = false
+
 var zoom_multiplier : float = 1.0
 var target_camera : Camera2D
-var next_reassign_camera : bool = false
+var next_reassign_camera : bool = true
 
 func handle_zoom(delta):
+	if Input.is_action_just_pressed("debug_console") and Input.is_action_pressed("map"):
+		if not target_camera:
+			target_camera = get_tree().get_first_node_in_group("camera")
+			dm("Reassigning the camera target node.")
+			camera_manual_active = true
+			target_camera.position_smoothing_enabled = false
+		
+		elif camera_manual_active:
+			camera_manual_active = false
+			target_camera.position_smoothing_enabled = true
+			target_camera.position = Vector2(0, 0)
+		
+		elif not camera_manual_active:
+			camera_manual_active = true
+			target_camera.position_smoothing_enabled = false
+		
+		dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
+	
+	
+	if target_camera:
+		if camera_manual_active:
+			target_camera.position = lerp(target_camera.position, Player.get_local_mouse_position(), delta * 4)
+	
 	if Input.is_action_pressed("zoom_out"):
 		
 		if next_reassign_camera:
@@ -828,3 +874,22 @@ func handle_toggle_debug_movement():
 		if Globals.debug_mode:
 			Player.debug_movement = Globals.opposite_bool(Player.debug_movement)
 			Globals.dm("Debug movement status: " + str(Player.debug_movement))
+
+
+func get_filepath(file, details : bool = false):
+	if file is String and file == "none" : return "ERROR - null ('none') argument."
+	
+	if file == null:
+		
+		if not details : return "none" #"res://Other/Scenes/debug_marker.tscn"
+		else : return "none - Returned a generic filepath because the resource is null."
+	
+	else:
+		
+		if not details:
+			if file is Resource : return file.get_path()
+			if file is String : return load(file).get_path()
+		
+		else:
+			if file is Resource : return file.get_path() + " (from Resource: " + str(file) + ")"
+			if file is String : return load(file).get_path() + "(from String: " + str(file) + ")"

@@ -41,17 +41,17 @@ var zoomValue = 1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass
+	await get_tree().create_timer(1.0, true).timeout
+	active = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#print(active)
 	if not active:
 		return
 	
 	for area in get_overlapping_areas():
-		if area.get_parent().is_in_group("player"):
+		if area.is_in_group("Player"):
 			if horizontal:
 				distance_X = area.get_parent().position[0] - position.x
 				width = %shape.shape.size[0]
@@ -78,9 +78,9 @@ func _process(delta):
 			#$/root/World.music.volume_db = trigger value
 			
 			if RESET_OFFSET and RESET_ZOOM:
-				$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
-				$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
-				$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+				Globals.World.camera.position[0] = lerp(Globals.World.camera.position[0], 0.0, delta)
+				Globals.World.camera.position[1] = lerp(Globals.World.camera.position[1], 0.0, delta)
+				Globals.World.camera.zoom = Globals.World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
 				return
 			
 			if RESET_OFFSET:
@@ -104,39 +104,39 @@ func _process(delta):
 			
 			return
 	
-	if RESET_OFFSET and RESET_ZOOM:
-		$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
-		$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
-		$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
-		return
-
-	if RESET_OFFSET:
-		$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
-		$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
-		return
-		
-	if RESET_ZOOM:
-		$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
-		return
-	
-	
-	if moveCamera:
-		if $/root/World.camera.position[0] != offsetValue:
-			$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], offsetValue, delta)
-		if $/root/World.camera.position[1] != offsetValue_Y:
-			$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], offsetValue_Y, delta)
-	if zoomCamera:
-		if $/root/World.camera.zoom != Vector2(zoomValue, zoomValue):
-			$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
+	#if RESET_OFFSET and RESET_ZOOM:
+		#$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
+		#$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
+		#$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+		#return
+#
+	#if RESET_OFFSET:
+		#$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
+		#$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
+		#return
+		#
+	#if RESET_ZOOM:
+		#$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+		#return
+	#
+	#
+	#if moveCamera:
+		#if $/root/World.camera.position[0] != offsetValue:
+			#$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], offsetValue, delta)
+		#if $/root/World.camera.position[1] != offsetValue_Y:
+			#$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], offsetValue_Y, delta)
+	#if zoomCamera:
+		#if $/root/World.camera.zoom != Vector2(zoomValue, zoomValue):
+			#$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
 
 
 func _on_body_entered(body):
-	if body.is_in_group("player"):
+	if body.is_in_group("Player"):
 		$Timer.stop()
 		active = true
 
 func _on_body_exited(body):
-	if body.is_in_group("player"):
+	if body.is_in_group("Player"):
 		$Timer.start()
 
 func _on_timer_timeout():

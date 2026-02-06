@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjiup7b3smvl7"]
+[gd_scene load_steps=4 format=3 uid="uid://cjiup7b3smvl7"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_f4vxg"]
 [ext_resource type="Material" uid="uid://dswjq4rhy7ysl" path="res://Other/Materials/rainbow2_slowSlight.tres" id="2_d1pvb"]
+[ext_resource type="SpriteFrames" uid="uid://cem520dxph8vh" path="res://Assets/Graphics/sprites/packed/enemies/pursuiton.tres" id="3_12ie6"]
 
 [node name="pursuitron" instance=ExtResource("1_f4vxg")]
 collectable = false
@@ -15,10 +16,10 @@ can_move_y = true
 ignore_gravity = false
 friction_multiplier_x = 0.4
 patrolling = true
+start_animation = "none"
 entity_name = "pursuitron"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 material = ExtResource("2_d1pvb")
-animation = &"idle"
-frame_progress = 0.340581
+sprite_frames = ExtResource("3_12ie6")

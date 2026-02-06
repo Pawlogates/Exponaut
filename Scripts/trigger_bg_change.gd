@@ -28,9 +28,8 @@ func _process(_delta):
 	pass
 
 func _on_area_entered(area):
-	if not area.is_in_group("player_hitbox") : return
-	
-	Globals.dm("A 'bg_change' trigger has been entered by the player. The main layer's filepath is: " + bg_main_filepath, "BLUE")
+	if not area.is_in_group("Player") : return
+	Globals.dm("A 'bg_change' trigger has been entered by the player. The main layer's filepath is: " + bg_main_filepath, "GREEN")
 	Globals.dm("The main layer's repeat is: " + str(bg_main_repeat_y) + " (2160px if true, 0px if false).", "AQUA")
 	Globals.dm("The main layer's top edge filepath is: " + str(bg_main_repeat_y) + " (2160px).", "LIGHT_BLUE")
 	

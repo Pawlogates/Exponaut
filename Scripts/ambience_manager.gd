@@ -10,10 +10,10 @@ extends Node2D
 @export var layer3_delay_base = 90
 @export var layer4_delay_base = 90
 
-@export var layer1_delay_range = 60
-@export var layer2_delay_range = 60
-@export var layer3_delay_range = 60
-@export var layer4_delay_range = 60
+@export var layer1_delay_range = 75
+@export var layer2_delay_range = 75
+@export var layer3_delay_range = 75
+@export var layer4_delay_range = 75
 
 @export var layer1_pitch_base = 1
 @export var layer2_pitch_base = 1
@@ -35,7 +35,7 @@ extends Node2D
 @export var layer3_volume_range = 0.6
 @export var layer4_volume_range = 0.6
 
-var enabled = false
+@export var enabled = true
 var active = false # Equal to "true" while any sound is being played currently.
 
 # Called when the node enters the scene tree for the first time.
@@ -162,7 +162,8 @@ func layer_play(id : int):
 	single_layer_randomize_pitch(id)
 	single_layer_randomize_volume(id)
 	
-	var timer = $layer2/ambience2_delay
+	var timer = get_node("layer" + str(id) + "/" + "cooldown")
+	var layer = get_node("%layer" + str(id))
+	
 	timer.start()
-	var target_node = str("%layer", str(id))
-	get_node(target_node).play()
+	layer.play()

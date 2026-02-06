@@ -9,12 +9,12 @@ func _ready():
 	$Label.text = str(target_score)
 
 func _on_area_2d_area_entered(area):
-	if area.get_parent().is_in_group("player"):
+	if area.is_in_group("Player"):
 		if activated:
 			return
 		
-		get_parent().get_node("%ComboManager").reset_combo_tier()
-		get_parent().get_node("%ScoreDisplay").displayScore = Globals.level_score + Globals.combo_score
+		Globals.Player.get_node("Combo Manager").reset_combo_tier()
+		Overlay.HUD.get_node("ScoreDisplay").displayScore = Globals.level_score + Globals.combo_score
 		await get_tree().create_timer(0.1, false).timeout
 		
 		if Globals.level_score >= target_score:

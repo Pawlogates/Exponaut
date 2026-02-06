@@ -174,10 +174,10 @@ func _ready():
 	
 	
 	if World.camera_boundary_left != 0.0 or World.camera_boundary_right != 0.0 or World.camera_boundary_top != 0.0 or World.camera_boundary_bottom != 0.0:
-		%Camera2D.limit_left = World.camera_boundary_left
-		%Camera2D.limit_right = World.camera_boundary_right
-		%Camera2D.limit_bottom = World.camera_boundary_bottom
-		%Camera2D.limit_top = World.camera_boundary_top
+		camera.limit_left = World.camera_boundary_left
+		camera.limit_right = World.camera_boundary_right
+		camera.limit_bottom = World.camera_boundary_bottom
+		camera.limit_top = World.camera_boundary_top
 	
 	
 	#total collectibles

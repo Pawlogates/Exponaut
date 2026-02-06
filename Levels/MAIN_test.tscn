@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://cdg38we643pot"]
+[gd_scene load_steps=14 format=3 uid="uid://cdg38we643pot"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_pwdqq"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_2f8hp"]
@@ -9,6 +9,10 @@
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_dmn0g"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_fufb6"]
 [ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="9_pbyw6"]
+[ext_resource type="PackedScene" uid="uid://cjiup7b3smvl7" path="res://Enemies/pursuitron.tscn" id="10_g0ydq"]
+[ext_resource type="PackedScene" uid="uid://hq4cxsvbv03l" path="res://Enemies/togglebot.tscn" id="11_b7wfc"]
+[ext_resource type="PackedScene" uid="uid://d2t0i5n4ypasc" path="res://Collectibles/apple.tscn" id="12_dmn0g"]
+[ext_resource type="PackedScene" uid="uid://bp1c8almrnogl" path="res://Collectibles/jewel.tscn" id="13_fufb6"]
 
 [node name="World" instance=ExtResource("1_pwdqq")]
 
@@ -16,7 +20,7 @@
 layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 65536, 0, 131069, 65536, 0, 65537, 65536, 0, 65538, 65536, 0, 131068, 0, 0, 65539, 131072, 0, 196604, 0, 1, 131075, 131072, 1, 196611, 131072, 2, 196605, 65536, 1, 196606, 65536, 1, 196607, 65536, 1, 131072, 65536, 1, 131073, 65536, 1, 131074, 65536, 1, 262143, 65536, 2, 196608, 65536, 2, 196609, 65536, 2, 196610, 65536, 2, 262140, 0, 2, 262141, 65536, 2, 262142, 65536, 2, 131076, 0, 7, 131077, 0, 7, 131078, 0, 7, 131079, 0, 7, 131080, 0, 7, 131081, 0, 7, 131082, 0, 7, 131083, 0, 7, 131084, 0, 7, 131085, 0, 7, 131086, 0, 7, 131087, 0, 7, 131088, 0, 7, 131089, 0, 7, 131090, 0, 7, 65547, 327680, 8, 65548, 327680, 8, 65549, 327680, 8, 13, 327680, 8, 65550, 327680, 8, 14, 327680, 8, 65551, 327680, 8, -65522, 327680, 8, 196603, 65536, 10, 196602, 65536, 10, 196601, 65536, 10, 196600, 65536, 10, 196599, 65536, 10, 196598, 65536, 10, 196597, 65536, 10, 196596, 0, 10, -327675, 327680, 8, -327674, 327680, 8, -327677, 327680, 8, -327676, 327680, 8, -327673, 327680, 8, -327672, 327680, 8, 65523, 0, 10, -65545, 0, 10, -524301, 0, 10, -655372, 0, 10, -458766, 0, 10, -262160, 0, 10, -327697, 0, 10)
 
 [node name="tileset_objects" parent="." index="1" instance=ExtResource("3_ow0im")]
-layer_0/tile_data = PackedInt32Array(-131063, 2, 131072)
+layer_0/tile_data = PackedInt32Array(-131063, 2, 131072, -458763, 1, 65536, -393227, 1, 65536, -327691, 1, 65536, -327690, 1, 65536, -327689, 1, 65536, -327688, 1, 65536, -393224, 1, 65536, -458760, 1, 65536, -458761, 1, 65536, -458762, 1, 65536, -393226, 1, 65536, -393225, 1, 65536, -655375, 1, 65536, -65549, 1, 65536, -458746, 1, 65536, -196596, 1, 65536)
 
 [node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_0frgg")]
 
@@ -37,7 +41,7 @@ position = Vector2(240, -48)
 
 [node name="zones" type="Node2D" parent="." index="6"]
 
-[node name="trigger_bg_change" parent="." index="16" instance=ExtResource("6_b7wfc")]
+[node name="trigger_bg_change" parent="." index="14" instance=ExtResource("6_b7wfc")]
 position = Vector2(720, -16)
 scale = Vector2(6.40996, 3.86483)
 bg_main_filepath = "uid://cvpcnuicbjb3u"
@@ -51,7 +55,7 @@ bg_back2_repeat_y = true
 bg_main_edge_top_filepath = "uid://bpevvq03p3otx"
 bg_back2_edge_top_filepath = "uid://mb1sy1wnniyj"
 
-[node name="trigger_bg_change2" parent="." index="17" instance=ExtResource("6_b7wfc")]
+[node name="trigger_bg_change2" parent="." index="15" instance=ExtResource("6_b7wfc")]
 position = Vector2(-448, 32)
 scale = Vector2(6.40996, 3.86483)
 bg_main_filepath = "uid://dfphbqyrmgmmu"
@@ -61,3 +65,18 @@ bg_back_filepath = "uid://c0o0u2gecllc6"
 bg_back2_filepath = "uid://buj1tlrawdtgc"
 bg_main_edge_top_filepath = "uid://bpevvq03p3otx"
 bg_back2_edge_top_filepath = "uid://mb1sy1wnniyj"
+
+[node name="pursuitron" parent="." index="16" instance=ExtResource("10_g0ydq")]
+position = Vector2(-336, -320)
+
+[node name="togglebot" parent="." index="17" instance=ExtResource("11_b7wfc")]
+position = Vector2(-592, 64)
+
+[node name="apple" parent="." index="18" instance=ExtResource("12_dmn0g")]
+position = Vector2(-752, -208)
+
+[node name="base" parent="." index="19" instance=ExtResource("13_fufb6")]
+position = Vector2(352, -144)
+
+[node name="base2" parent="." index="20" instance=ExtResource("13_fufb6")]
+position = Vector2(176, -512)

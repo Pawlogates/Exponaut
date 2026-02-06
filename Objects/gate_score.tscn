@@ -69,6 +69,8 @@ script = ExtResource("2_gwd64")
 texture = ExtResource("1_2fe0m")
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_isqap")
@@ -76,7 +78,7 @@ shape = SubResource("RectangleShape2D_isqap")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../score_gate")
 libraries = {
-"": SubResource("AnimationLibrary_n7f7h")
+&"": SubResource("AnimationLibrary_n7f7h")
 }
 
 [node name="Label" type="Label" parent="."]

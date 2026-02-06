@@ -150,7 +150,8 @@ required_item_amount = 10
 texture = ExtResource("2_cl6t3")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 2
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 visible = false
@@ -159,7 +160,7 @@ shape = SubResource("RectangleShape2D_isqap")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../goldenApple_gate")
 libraries = {
-"": SubResource("AnimationLibrary_n7f7h")
+&"": SubResource("AnimationLibrary_n7f7h")
 }
 
 [node name="Label" type="Label" parent="."]

@@ -509,24 +509,28 @@ on_death_effect_thrownAway = true
 on_death_decoration_nodes_effect_thrownAway = true
 collectable = false
 hittable = true
-score_value = 50
+score_value = 100
 movement_type = "move_x"
+speed = 200
 family = "Enemy"
 can_move = true
 can_move_x = true
 can_move_y = true
 ignore_gravity = false
+on_wall_change_velocity_multiplier = Vector2(0.01, 0.5)
 on_ledge_turn = true
 idle_sfx = true
 idle_sfx_randomize_cooldown = true
 anim_alternate_walk = true
 anim_alternate_walk_hittable_only_during = true
+on_wall_jump_velocity = -200
+start_animation = "none"
 entity_name = "togglebot"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_i7pjj")
-animation = &"walk_alt"
+animation = &"walk"
 
 [node name="animation_general" parent="sprite" index="1"]
 libraries = {

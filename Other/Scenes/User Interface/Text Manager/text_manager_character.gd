@@ -9,6 +9,8 @@ var character_text = "-"
 var letter_x = 20
 var letter_y = 40
 
+var removable = false
+
 
 # Code-based letter animation properties:
 # Note: The "direction" type of properties will cause them to use "move_toward()" for changing their values, instead of "lerp()".
@@ -32,6 +34,19 @@ var anim_rotation_start = 0.0
 var anim_rotation_target = 0.0
 var anim_rotation_speed = 10
 var anim_rotation_direction = 0
+
+
+var rolled_opacity_multiplier = randf_range(0.25, 4)
+var rolled_rotation = randi_range(-720, 720)
+var rolled_pivot_offset = Vector2(randi_range(-1000, 1000), randi_range(-1000, 1000))
+
+
+func _process(delta: float) -> void:
+	if removable:
+		character.modulate.a = move_toward(character.modulate.a, 0, delta * randf_range(0.25, 4))
+		character.rotation_degrees = move_toward(character.rotation_degrees, rolled_rotation, delta * 10)
+		character.pivot_offset.x = move_toward(character.modulate.a, rolled_pivot_offset.x, delta * 10)
+		character.pivot_offset.y = move_toward(character.modulate.a, rolled_pivot_offset.y, delta * 10)
 
 
 func _on_cooldown_sfx_timeout() -> void:

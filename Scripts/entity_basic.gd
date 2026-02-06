@@ -14,6 +14,7 @@ extends CharacterBody2D
 @onready var cooldown_collidable: Timer = $cooldown_collidable
 
 @onready var scan_ledge = $scan_ledge
+@onready var scan_stuck = $scan_stuck
 
 @onready var animation_all: AnimationPlayer = %animation_all
 @onready var animation_general: AnimationPlayer = %animation_general
@@ -85,7 +86,7 @@ var random_position_offset = Vector2(randf_range(0, 250), randf_range(0, 250))
 
 var effect_shrink = false
 
-var last_wall_normal = Vector2(99, 99)
+var wall_normal = Vector2(99, 99)
 
 
 # Start of properties.
@@ -111,7 +112,7 @@ var last_wall_normal = Vector2(99, 99)
 
 @export var speed = 400
 @export var jump_velocity = -600
-@export var acceleration = 400
+@export var acceleration = 200
 @export var friction = 400
 @export var fall_speed = 400
 
@@ -145,7 +146,7 @@ var last_wall_normal = Vector2(99, 99)
 @export var on_wall_change_speed = false
 @export var on_wall_change_speed_multiplier = 0.5
 @export var on_wall_change_velocity = true
-@export var on_wall_change_velocity_multiplier = Vector2(0.8, 0.8)
+@export var on_wall_change_velocity_multiplier = Vector2(0.5, 0.5)
 @export var on_wall_float = false
 @export var on_wall_death = false
 
@@ -230,7 +231,7 @@ var last_wall_normal = Vector2(99, 99)
 @export var on_spawn_offset_position_random_variance = Vector2(randi_range(-200, 200), randi_range(-200, 200)) # Maximum variance.
 
 # Behaviour triggered on player touching the entity.
-var on_touch_modulate = Color(1, 1, 1, 1)
+@export var on_touch_modulate = Color(1, 1, 1, 1)
 
 @export_group("") # Section end.
 
@@ -259,8 +260,6 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 
 @export var rng_custom = -1 # Set to -1 for random.
 @export var disable_animations = ["none", "none", "none"]
-
-@export_enum("none", "loop_up_down", "loop_up_down_slight", "loop_scale") var animation = "loop_up_down"
 
 # If an entity is breakable, the player can bounce off of it, and gains greater height if the jump button is pressed during the bounce, making it a "box" in most cases.
 @export var breakable = true
@@ -463,6 +462,8 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 @export var heal_entity = false
 
 @export var award_score = true
+@export var on_collected_award_score = true
+@export var on_death_award_score = false
 
 @export var remove_delay = 1.0
 @export var on_floor_bounce = false
@@ -482,6 +483,40 @@ var on_touch_modulate = Color(1, 1, 1, 1)
 
 
 @export_group("Other properties (visual).") # Section start.
+
+@export_enum("none", "loop_up_down", "loop_up_down_slight", "loop_scale") var start_animation = "loop_up_down"
+@export_enum("none", "loop_up_down", "rotate_around_y_fade_out", "reflect_straight") var on_collected_anim_name : String = "fade_out_up"
+
+@export var on_collected_spawn_star : bool = true
+@export var on_collected_spawn_star2 : bool = true
+@export var on_collected_spawn_orb_orange : bool = true
+@export var on_collected_spawn_orb_blue : bool = true
+@export var on_collected_spawn_homing_square_yellow : bool = true
+
+# Sound effects - [START]
+
+# With alternatives for when the effect is inflicted on another entity:
+@export_file("*.mp3", "*.wav") var sfx_self_collected_filepath = Globals.d_sfx + "/" + "jewel_collect.wav" # The "self" refers to the sfx playing on ITSELF having died, been collected, killing another entity, etc. So the main sfx properties are the ones with "self" in the middle.
+@export_file("*.mp3", "*.wav") var sfx_self_hit_filepath = Globals.d_sfx + "/" + "player_attack.wav"
+@export_file("*.mp3", "*.wav") var sfx_self_shot_filepath = Globals.d_sfx + "/" + "laser_shot.wav"
+@export_file("*.mp3", "*.wav") var sfx_self_death_filepath = Globals.d_sfx + "/" + "laser_shot.wav"
+@export_file("*.mp3", "*.wav") var sfx_self_bounced_filepath = Globals.d_sfx + "/" + "error.wav"
+@export_file("*.mp3", "*.wav") var sfx_self_spotted_filepath = Globals.d_sfx + "/" + "error.wav"
+
+# Without the alternatives:
+@export_file("*.mp3", "*.wav") var sfx_self_reflected_straight_filepath = Globals.d_sfx + "/" + "laser_shot.wav"
+@export_file("*.mp3", "*.wav") var sfx_self_reflected_slope_filepath = Globals.d_sfx + "/" + "error.wav"
+
+# The alternatives:
+@export_file("*.mp3", "*.wav") var sfx_collected_filepath = Globals.d_sfx + "/" + "jewel_collect.wav"
+@export_file("*.mp3", "*.wav") var sfx_hit_filepath = Globals.d_sfx + "/" + "player_attack.wav"
+@export_file("*.mp3", "*.wav") var sfx_shot_filepath = Globals.d_sfx + "/" + "laser_shot.wav"
+@export_file("*.mp3", "*.wav") var sfx_death_filepath = Globals.d_sfx + "/" + "laser_shot.wav"
+@export_file("*.mp3", "*.wav") var sfx_bounced_filepath = Globals.d_sfx + "/" + "error.wav"
+@export_file("*.mp3", "*.wav") var sfx_spotted_filepath = Globals.d_sfx + "/" + "beam_enabled.mp3"
+
+# Sound effects - [END]
+
 
 @export var on_death_effect_shrink = false
 

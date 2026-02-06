@@ -1,7 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://d2t0i5n4ypasc"]
+[gd_scene load_steps=3 format=3 uid="uid://d2t0i5n4ypasc"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_p17no"]
+[ext_resource type="SpriteFrames" uid="uid://dxklhfxjvxsjo" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_apple.tres" id="2_ylj0o"]
 
 [node name="apple" instance=ExtResource("1_p17no")]
 score_value = 10
 entity_name = "apple"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_ylj0o")

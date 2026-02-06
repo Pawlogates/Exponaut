@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://vn2emi73bj4f"
-path="res://.godot/imported/combo_reset.wav-efbc6c941017be592c65924026c8d7c0.sample"
+path="res://.godot/imported/combo_streak_finished.wav-0af20b4908185a23537b6f958eb36ae7.sample"
 
 [deps]
 
-source_file="res://Assets/Sounds/sfx/combo_reset.wav"
-dest_files=["res://.godot/imported/combo_reset.wav-efbc6c941017be592c65924026c8d7c0.sample"]
+source_file="res://Assets/Sounds/sfx/combo_streak_finished.wav"
+dest_files=["res://.godot/imported/combo_streak_finished.wav-0af20b4908185a23537b6f958eb36ae7.sample"]
 
 [params]
 

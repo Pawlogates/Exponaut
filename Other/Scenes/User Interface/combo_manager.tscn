@@ -1,17 +1,15 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhjuxvebimqov"]
 
-[ext_resource type="Script" uid="uid://coupdpnhilc0d" path="res://Scripts/ComboManager.gd" id="1_bhqmy"]
-[ext_resource type="AudioStream" uid="uid://vn2emi73bj4f" path="res://Assets/Sounds/sfx/combo_reset.wav" id="2_h4ctp"]
+[ext_resource type="Script" uid="uid://coupdpnhilc0d" path="res://Scripts/combo_manager.gd" id="1_bhqmy"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="2_f8dp8"]
 
-[node name="ComboManager" type="Node2D"]
+[node name="Combo Manager" type="Node2D"]
 script = ExtResource("1_bhqmy")
 
-[node name="collectible_streak_timer" type="Timer" parent="."]
+[node name="timer_combo_streak_active" type="Timer" parent="."]
 wait_time = 2.5
 one_shot = true
 
-[node name="collectible_streak_finished" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_h4ctp")
-volume_db = -5.0
+[node name="sfx_manager" parent="." instance=ExtResource("2_f8dp8")]
 
-[connection signal="timeout" from="collectible_streak_timer" to="." method="_on_collectible_streak_timer_timeout"]
+[connection signal="timeout" from="timer_combo_streak_active" to="." method="_on_timer_combo_streak_active_timeout"]

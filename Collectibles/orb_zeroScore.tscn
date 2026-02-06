@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuxplgh41ahnt"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_sofbr"]
+
+[node name="orb_zeroScore" instance=ExtResource("1_sofbr")]
+on_collected_effect_thrownAway = true
+on_collected_decoration_nodes_effect_thrownAway = true
+score_value = 0
+on_collected_anim_name = "none"
+on_collected_spawn_star = false
+on_collected_spawn_star2 = false
+on_collected_spawn_orb_orange = false
+on_collected_spawn_homing_square_yellow = false
+sfx_self_collected_filepath = "uid://b6l5kgi6auj8j"
+entity_name = "orb_zeroScore"

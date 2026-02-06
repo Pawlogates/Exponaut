@@ -111,38 +111,16 @@ func _ready():
 	
 	if Globals.debug_mode : debug_layer_labels()
 	
+	fade_multiplier = 20.0
+	
 	for l_property_name in list_l_property_name:
 		var bg_layer = get(l_property_name)
 		bg_layer.visible = true
 	
-	#for layer_name in l_layer_node_name:
-		#if layer_name.ends_with("B"):
-			#Globals.dm("Hiding a background layer: " + layer_name)
-			#var node = get_node(layer_name + "/layer")
-			#node.modulate.a = 0
-			#await get_tree().create_timer(0.5, true).timeout
-		#
-		#if layer_name.ends_with("A"):
-			#Globals.dm("Hiding a background layer: " + layer_name)
-			#var node = get_node(layer_name + "/layer")
-			#node.modulate.a = 0
-			#await get_tree().create_timer(0.5, true).timeout
 	
+	await get_tree().create_timer(1.0, true).timeout
 	
-	#$CanvasLayer/bg_main/bg_main/TextureRect.modulate.r = main_r
-	#$CanvasLayer/bg_main/bg_main/TextureRect.modulate.g = main_g
-	#$CanvasLayer/bg_main/bg_main/TextureRect.modulate.b = main_b
-	#$CanvasLayer/bg_main/bg_main/TextureRect.modulate.a = main_a
-	#
-	#$CanvasLayer/bg_a/bg_a/TextureRect.modulate.r = a_r
-	#$CanvasLayer/bg_a/bg_a/TextureRect.modulate.g = a_g
-	#$CanvasLayer/bg_a/bg_a/TextureRect.modulate.b = a_b
-	#$CanvasLayer/bg_a/bg_a/TextureRect.modulate.a = a_a
-	#
-	#$CanvasLayer/bg_b/bg_b/TextureRect.modulate.r = b_r
-	#$CanvasLayer/bg_b/bg_b/TextureRect.modulate.g = b_g
-	#$CanvasLayer/bg_b/bg_b/TextureRect.modulate.b = b_b
-	#$CanvasLayer/bg_b/bg_b/TextureRect.modulate.a = b_a
+	fade_multiplier = 1.0
 
 @onready var animation_fade: AnimationPlayer = %animation_fade
 var bg_fade_active : bool = false

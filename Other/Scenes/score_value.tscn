@@ -2,7 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="1_6182f"]
 [ext_resource type="Script" uid="uid://ba02blea8illp" path="res://Scripts/score_value.gd" id="1_sj14u"]
-[ext_resource type="Material" uid="uid://g07ca37hnt0w" path="res://Other/Materials/rainbow2.tres" id="2_qw4nc"]
+[ext_resource type="Material" uid="uid://baxn4hh7ugrk2" path="res://Other/Materials/score_bonus_rainbow2.tres" id="2_b5uee"]
 
 [sub_resource type="Animation" id="Animation_h8fwk"]
 length = 0.001
@@ -181,7 +181,7 @@ script = ExtResource("1_sj14u")
 
 [node name="main_label" type="Label" parent="."]
 texture_filter = 1
-material = ExtResource("2_qw4nc")
+material = ExtResource("2_b5uee")
 offset_left = -256.0
 offset_right = 256.0
 offset_bottom = 128.0
@@ -321,5 +321,6 @@ libraries = {
 &"": SubResource("AnimationLibrary_qpnol")
 }
 autoplay = "opacity_fade_in"
+speed_scale = 4.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

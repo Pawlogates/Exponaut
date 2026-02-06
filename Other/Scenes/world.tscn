@@ -1,15 +1,12 @@
-[gd_scene load_steps=15 format=3 uid="uid://pu6px63ietmi"]
+[gd_scene load_steps=12 format=3 uid="uid://pu6px63ietmi"]
 
 [ext_resource type="Script" uid="uid://chbltq2mfgud8" path="res://Scripts/world.gd" id="1_25muh"]
-[ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_controller.tscn" id="2_1jcpx"]
-[ext_resource type="AudioStream" uid="uid://7xoh66av8tjx" path="res://Assets/Sounds/music/ascent2.mp3" id="3_4yis1"]
-[ext_resource type="PackedScene" uid="uid://d2xjhu1myvqf5" path="res://Other/Scenes/ambience_controller.tscn" id="4_y15yt"]
-[ext_resource type="AudioStream" uid="uid://016x6ugxmvem" path="res://Assets/Sounds/ambience/ambience_loop14.mp3" id="5_3ydfu"]
+[ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_manager.tscn" id="2_1jcpx"]
+[ext_resource type="PackedScene" uid="uid://d2xjhu1myvqf5" path="res://Other/Scenes/ambience_manager.tscn" id="4_y15yt"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://Other/Scenes/player.tscn" id="6_exop1"]
 [ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://Other/Scenes/parallax_background_gradient.tscn" id="7_3ull5"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://Other/Scenes/background.tscn" id="8_8ihao"]
 [ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/neon_rainbow.tres" id="19_eepji"]
-[ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="20_fa23o"]
 
 [sub_resource type="Animation" id="Animation_aveud"]
 length = 0.001
@@ -68,37 +65,18 @@ script = ExtResource("1_25muh")
 
 [node name="background" parent="." instance=ExtResource("8_8ihao")]
 
+[node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("7_3ull5")]
+unique_name_in_owner = true
+
 [node name="Music Manager" parent="." instance=ExtResource("2_1jcpx")]
 
-[node name="music" type="AudioStreamPlayer" parent="Music Manager"]
-unique_name_in_owner = true
-stream = ExtResource("3_4yis1")
-volume_db = -30.532
-autoplay = true
-
 [node name="Ambience Manager" parent="." instance=ExtResource("4_y15yt")]
-
-[node name="ambience" type="AudioStreamPlayer" parent="Ambience Manager"]
-unique_name_in_owner = true
-stream = ExtResource("5_3ydfu")
-volume_db = -10.0
-autoplay = true
 
 [node name="Player" parent="." instance=ExtResource("6_exop1")]
 unique_name_in_owner = true
 
-[node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("7_3ull5")]
-unique_name_in_owner = true
-
-[node name="ComboManager" parent="." instance=ExtResource("20_fa23o")]
-unique_name_in_owner = true
-
-[node name="QuickloadLimiter" type="Timer" parent="."]
+[node name="timer_quicksaves_disabled" type="Timer" parent="."]
 one_shot = true
-
-[node name="DEBUG refresh" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true
 
 [node name="whiteBlocks_make_rainbow" type="AnimationPlayer" parent="."]
 libraries = {
@@ -111,5 +89,4 @@ material = ExtResource("19_eepji")
 [node name="Timer" type="Timer" parent="whiteBlocks_make_rainbow"]
 wait_time = 45.0
 
-[connection signal="timeout" from="QuickloadLimiter" to="." method="_on_quickload_limiter_timeout"]
-[connection signal="timeout" from="DEBUG refresh" to="." method="_on_debug_refresh_timeout"]
+[connection signal="timeout" from="timer_quicksaves_disabled" to="." method="_on_quickload_limiter_timeout"]

@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/electric_enabled.mp3-f361a4fe24d0b363a0b0151f
 [params]
 
 loop=false
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4

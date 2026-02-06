@@ -26,6 +26,10 @@ func _ready():
 	reassign_general()
 	reassign_movement_type_id()
 	
+	animation_all.play("general/" + start_animation)
+	
+	synchronize_animation()
+	
 	# Prepare patrolling
 	if patrolling:
 		collision_patrolling.shape.size = patrolling_vision_size
@@ -44,10 +48,10 @@ func _ready():
 func _process(delta):
 	handle_movement(delta)
 	
-	if abs(velocity.x) > 25 : velocity_last_x = velocity.x
-	if abs(velocity.y) > 25 : velocity_last_y = velocity.y
+	if abs(velocity.x) > 15 : velocity_last_x = velocity.x
+	if abs(velocity.y) > 15 : velocity_last_y = velocity.y
 	
-	if on_death_effect_thrownAway : effect_thrownAway(delta)
+	if on_death_effect_thrownAway or on_collected_decoration_nodes_effect_thrownAway : effect_thrownAway(delta)
 	
 	if direction_x != 0:
 		direction_active_x = direction_x
@@ -78,11 +82,13 @@ func _process(delta):
 	
 	
 	if is_on_wall():
+		wall_normal = get_wall_normal()
+		
 		# if can_collide:
 		# Handle straight surface bounce.
-		if not reflect_straight() : effects_reflect_straight()
+		if not reflect_straight() : reflect_slope()
 		
-		if gravity == 0:
+		if not gravity or ignore_gravity:
 			# Handle slope surface bounce
 			reflect_slope()
 			
@@ -108,9 +114,11 @@ func _process(delta):
 
 
 func handle_gravity(delta):
+	if effect_thrownAway_active : return
+	
 	if can_move:
 		if can_move_y:
-			if not is_on_floor():
+			if not is_on_floor() and not ignore_gravity:
 				velocity.y += fall_speed * gravity * gravity_multiplier_y * delta
 		
 		else:
@@ -150,7 +158,7 @@ func direction_toward_target_y(target : Node):
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	
 	# Executes only if the node is a valid one to interact with.
-	if not area.get_parent().is_in_group("Player") and not area.get_parent().is_in_group("Entity") : return
+	if not area.is_in_group("player_hitbox") and not area.is_in_group("Entity") : return
 	else : Globals.dm(str("Player's Main Hitbox has entered an entity's Main Hitbox (%s, %s)" % [entity_name, entity_type]), "CRIMSON")
 	
 	var target = area.get_parent()
@@ -164,7 +172,8 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if not rotten or target.family != "Player":
 			handle_collectable(target)
 	
-	if breakable : handle_breakable(target)
+	if hittable:
+		handle_hittable(target)
 
 func _on_hitbox_area_exited(target: Area2D) -> void:
 	inside_check_exit(target)
@@ -297,10 +306,10 @@ var handle_gravity_in_movement_type = false # If true, the gravity is not handle
 @onready var movement_function_name = "movement_" + movement_type
 
 func handle_movement(delta):
-	if not ignore_gravity : handle_gravity(delta)
 	#if not handle_gravity_in_movement_type : handle_gravity(delta)
 	call(movement_function_name, delta)
 	#call("movement_" + str(Globals.l_entity_movement[movement_type_id]), delta)
+	handle_gravity(delta) # Also handles every type of "can_move".
 
 
 # Movement types:
@@ -592,10 +601,12 @@ func effect_thrownAway(delta):
 	sprite.scale.y = lerp(sprite.scale.y, effect_thrownAway_scale[1], delta / 2)
 	sprite.rotation_degrees = lerp(float(sprite.rotation_degrees), float(effect_thrownAway_rotation), delta)
 	velocity.y += delta * 1000
+	sprite.modulate.a += delta / 10
+	if sprite.modulate.a < 0.01 : queue_free()
 
 
 func handle_award_score():
-	Globals.dm(str("An entity is awarding score: %s. Secondary score values: %s, %s, %s." % [score_value, score_value2, score_value3, score_value4, score_value5]))
+	Globals.dm(str("An entity is awarding score: %s. Secondary score values: %s, %s, %s, %s." % [score_value, score_value2, score_value3, score_value4, score_value5]))
 	
 	Globals.level_score += score_value
 	
@@ -617,41 +628,13 @@ func handle_award_score():
 				
 				if Globals.combo_tier > 4:
 					
-					sprite.material = Globals.material_rainbow2.duplicate()
+					sprite.material = Globals.material_score_value_rainbow2
 					sprite.material.set_shader_parameter("strength", 0.5)
 	
 	
 	else:
+		sprite.material = Globals.material_score_value_rainbow2
 		sprite.material.set_shader_parameter("strength", 0.0)
-	
-	sfx_manager.sfx_play(Globals.sfx_collect, 1.0, 1 * randf_range(-0.2, 0.2) + (0.2 * (Globals.combo_tier - 1)))
-	
-	animation_general.play("fadeOut_up")
-	
-	spawn_display_score(score_value)
-	spawn_display_score_bonus(score_value, Globals.combo_tier)
-	
-	Globals.spawn_scenes(World, Globals.scene_particle_star, Globals.combo_tier, Vector2(0, 0), 4.0)
-	
-	# Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier and other player-related changes).
-	if Globals.combo_streak == 20:
-		var max_multiplier_particle_amount = 50
-		while max_multiplier_particle_amount > 0:
-			max_multiplier_particle_amount -= 1
-			call_deferred("spawn_particle_score", 2)
-	
-	# Handle double score particles (while a temporary powerup is active).
-	if get_node_or_null("$/root/World/player"):
-		if not Player.double_score:
-			return
-		
-		var effective_score = score_value * Globals.combo_tier
-		var particle_quantity : int
-		
-		if effective_score < 100:
-			spawn_particles(Globals.scene_particle_score, effective_score, Vector2(0, 0), Vector2(1, 1))
-		else:
-			spawn_particles(Globals.scene_particle_score, 100, Vector2(0, 0), Vector2(1, 1))
 
 
 func spawn_particles(scene, quantity, offset, scale):
@@ -716,13 +699,18 @@ func reassign_player():
 
 
 func handle_collectable(body): # The main function of the "collectible" entity type. The word "collectable" refers to a MAIN BEHAVIOR type, while "collectible" is (most of the time) the entity TYPE of ones with that main behavior type.
+	if dead : return
+	
 	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
 	
+	handle_effects_collected()
+	
 	collected = true
+	
+	Globals.combo_streak += 1
 	Globals.entity_collected.emit()
 	
-	if award_score:
-		handle_award_score()
+	if award_score and on_collected_award_score : handle_award_score()
 	
 	if majorCollectible_module:
 		var value = Globals.score_multiplier * Globals.combo_multiplier
@@ -749,29 +737,46 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 		get_tree().call_group("inventory_item", "selected_check")
 		
 		#get_tree().call_group("in_inventory", "itemOrder_correct")
+		
+	if on_collected_effect_thrownAway : effect_thrownAway_active = true
+	
+	if on_collected_decoration_nodes_effect_thrownAway:
+		for node in container_effect_thrownAway.get_children():
+			node.effect_thrownAway_active = true
 
 
-func handle_hittable(body):
-	handle_hit(body.damage_value)
+func handle_hittable(target):
+	if dead : return
+	
+	handle_hit(target.damage_value)
+	
+	if breakable : handle_breakable(target)
 
 
 func handle_collidable(body):
 	pass
 
 
-func spawn_display_score(score):
-	var instance = Globals.scene_score_value.instantiate()
+func spawn_display_score(value : int, add_scale : Vector2 = Vector2(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1))):
+	var node = Globals.scene_effect_score_value.instantiate()
 	
-	instance.position = position + Vector2(randi_range(-50, 50), randi_range(-50, 50))
+	node.position = position + Vector2(randi_range(-50, 50), randi_range(-50, 50))
+	node.value = value
+	node.scale += add_scale
+	node.z_index += Globals.combo_streak
 	
-	World.add_child(instance)
+	World.add_child(node)
 
-func spawn_display_score_bonus(score, bonus_score):
-	var instance = Globals.scene_score_value.instantiate()
+func spawn_display_score_bonus(value : int, add_scale : Vector2 = Vector2(1, 1), ignore_gravity : bool = false):
+	var node = Globals.scene_effect_score_bonus.instantiate()
 	
-	instance.position = position + Vector2(randi_range(-50, 50), randi_range(-50, 50))
+	node.position = position + Vector2(randi_range(-50, 50), randi_range(-50, 50))
+	node.value = value
+	node.add_scale += add_scale # Note: This line modifies a custom property, not "scale".
+	node.z_index += Globals.combo_streak
 	
-	World.add_child(instance)
+	World.add_child(node)
+
 
 func handle_hit(target):
 	if not immortal:
@@ -798,12 +803,19 @@ func handle_death():
 	if collectable : collected = true
 	#if collidable : destroyed = true
 	
+	if award_score and on_death_award_score: handle_award_score()
+	
 	direction_x = 0
 	direction_y = 0
 	
 	if on_death_ignore_gravity_stop : ignore_gravity = false
 	
 	Globals.entity_hit.emit()
+	
+	hitbox.monitoring = false
+	scan_patrolling.monitoring = false
+	scan_ledge.enabled = false
+	scan_stuck.enabled = false
 	
 	if breakable_advanced_portal_on_death_open:
 		
@@ -856,12 +868,11 @@ func reflect_slope():
 			direction_y = 1
 
 func reflect_straight():
-	if get_wall_normal() == last_wall_normal : return
-	last_wall_normal = get_wall_normal()
-	
 	Globals.dm(str("An entity (%s) is Straight Reflecting.") % entity_name)
 	
-	velocity.x = -velocity_last_x * 0.5
+	effects_reflect_straight()
+	
+	velocity.x = -velocity_last_x
 	
 	if on_wall_jump_velocity: # If not equal to "0".
 		velocity.y = on_wall_jump_velocity
@@ -886,7 +897,6 @@ func reflect_straight():
 	elif get_wall_normal() == Vector2(-1, 0): #right
 		direction_x = -1
 		direction_y = 0
-		Globals.dm(str("An entity (%s) is Straight Reflecting.") % entity_name, "RED")
 		return true
 	
 	elif get_wall_normal() == Vector2(1, 0): #left
@@ -899,6 +909,8 @@ func reflect_straight():
 
 # Breakable logic should later become split into BOUNCABLE and BREAKABLE.
 func handle_breakable(target):
+	if not inside_player and target.effect_thrownAway_active : return
+	
 	Globals.dm("An entity is handling its BREAKABLE logic.", "ORANGE")
 	
 	if breakable_requires_velocity_y:
@@ -937,8 +949,7 @@ func handle_damage(value):
 
 
 func handle_effects_death():
-	sfx_manager.sfx_play(Globals.sfx_powerUp2)
-	animation_general.stop()
+	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, 0.75)
 	
 	Globals.spawn_scenes(World, Globals.scene_effect_hit_enemy, 1, position, 4.0)
 	Globals.spawn_scenes(World, Globals.scene_particle_star, 1, position, 4.0)
@@ -957,8 +968,9 @@ func handle_effects_hit():
 	animation_color.play("pulse_red_normal_long")
 
 func handle_effects_bounce():
-	sfx_manager.sfx_play(Globals.sfx_player_wall_jump, 1.0, 0.75)
+	sfx_manager.sfx_play(sfx_self_bounced_filepath, 1.0, 0.75)
 	animation_general.stop()
+	animation_all.speed_scale = 4.0
 	animation_all.play("other_general/air_jumped")
 
 
@@ -1014,8 +1026,9 @@ func _on_cooldown_sfx_idle_timeout() -> void:
 
 
 func effects_reflect_straight():
-	animation_general.speed_scale = 4.0
+	animation_general.speed_scale = 2.5
 	animation_general.play("reflect_straight")
+	sfx_manager.sfx_play(sfx_self_reflected_straight_filepath, 1.0, 0.75)
 
 
 # Patrolling:
@@ -1049,6 +1062,8 @@ func _on_scan_patrolling_area_exited(area: Area2D) -> void:
 			c_patrolling_target_spotted.stop()
 			c_patrolling_target_spotted_queue.stop()
 			
+			direction_x = 0
+			
 			break
 
 func _on_cooldown_patrolling_target_spotted_timeout() -> void: # When the entity actually starts following the player.
@@ -1060,25 +1075,21 @@ func _on_cooldown_patrolling_target_spotted_timeout() -> void: # When the entity
 
 func _on_cooldown_patrolling_target_spotted_queue_timeout() -> void: # When the entity sees the player.
 	velocity.y = on_wall_jump_velocity
-	Globals.spawn_scenes(self, Globals.scene_particle_star, 15)
-	sfx_manager.sfx_play(Globals.sfx_beam_enabled, 1.0, 1.5)
+	Globals.spawn_scenes(self, Globals.scene_particle_star, 5)
+	sfx_manager.sfx_play(sfx_spotted_filepath, 1.0, randf_range(0.95, 1.2))
 	
-	var confusion_text_node = load("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn").instantiate()
-	
-	#confusion_text_node.text_full = "[anim_loop_up_down]!!! HELLO MFER 67676767676"
-	#confusion_text_node.remove_cooldown = 1.0
-	#confusion_text_node.text_visible = "!!! HELLO MFER 67676767676"
-	#confusion_text_node.offset_x_based_on_character_amount = true
-	#confusion_text_node.position.y -= 120
-	
-	confusion_text_node.text_full = "[anim_loop_scale]some long message thats an example of some dialogue sentence thing"
-	confusion_text_node.remove_cooldown = 6.0
-	confusion_text_node.character_anim_speed_scale = 0.5
-	confusion_text_node.text_visible = "some long message thats an example of some dialogue sentence thing"
-	confusion_text_node.offset_x_based_on_character_amount = true
-	confusion_text_node.position.y -= 120
-	
-	text_container.add_child(confusion_text_node)
+	if direction_x : # This check causes repeats less noticable, because the direction is set to "0' on losing sight of the target, and only gets set to active after a timer (patrolling direction) goes off.
+		var confusion_text_node = load("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn").instantiate()
+		
+		confusion_text_node.text_full = "[anim_loop_up_down]!"
+		confusion_text_node.cooldown_remove_message = 0.05
+		confusion_text_node.character_anim_speed_scale = 8.0
+		confusion_text_node.character_anim_backwards = true
+		confusion_text_node.text_animation_add_offset = 1.75
+		confusion_text_node.scale *= 2
+		confusion_text_node.position += Vector2(48 * direction_x, -120)
+		
+		text_container.add_child(confusion_text_node)
 	
 	
 	c_patrolling_target_spotted.start()
@@ -1098,5 +1109,47 @@ func handle_patrolling():
 			sfx_manager.sfx_play(Globals.sfx_footstep_mechanical2, 1.0, randf_range(0.75, 1.25))
 
 func _on_cooldown_patrolling_change_direction_timeout() -> void:
-	direction_x *= -1
+	
+	if direction_x : direction_x *= -1
+	else : direction_x = direction_active_x * -1
+	
 	c_patrolling_change_direction.start()
+
+
+func handle_effects_collected():
+	sfx_manager.sfx_play(sfx_self_collected_filepath, 1.0, randf_range(0.9, 1.1) + (0.025 * (Globals.combo_streak)))
+	if on_collected_anim_name != "none" : animation_general.play("fade_out_up")
+	
+	spawn_display_score(score_value)
+	if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)
+	elif Globals.debug_mode : spawn_display_score_bonus(Globals.combo_score, -Vector2(-0.5, -0.5))
+	
+	if on_collected_spawn_star : Globals.spawn_scenes(World, Globals.scene_particle_special, 4 + 4 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 4 + 4 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 4 + 4 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_orb_blue : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 4 + 4 * Globals.combo_tier, position, 4.0)
+	
+	# Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier and other player-related changes).
+	if Globals.combo_streak == 20:
+		var max_multiplier_particle_amount = 50
+		while max_multiplier_particle_amount > 0:
+			max_multiplier_particle_amount -= 1
+			call_deferred("spawn_particle_score", 2)
+	
+	# Handle double score particles (while a temporary powerup is active).
+	if get_node_or_null("$/root/World/player"):
+		if not Player.double_score:
+			return
+		
+		var effective_score = score_value * Globals.combo_tier
+		var particle_quantity : int
+		
+		if effective_score < 100:
+			spawn_particles(Globals.scene_particle_score, effective_score, Vector2(0, 0), Vector2(1, 1))
+		else:
+			spawn_particles(Globals.scene_particle_score, 100, Vector2(0, 0), Vector2(1, 1))
+
+
+func synchronize_animation():
+	animation_all.advance(position.x / 200)

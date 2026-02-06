@@ -6,13 +6,12 @@ extends Control
 @export var text_alignment = 0
 @export var text_animation_sync = true
 
-@export var remove_cooldown = -1.0
+@export var cooldown_remove_message : float = -1.0
+@export var cooldown_create_message : float = -1.0
 
-@export var cooldown_create_message = -1.0
-
-@export var offset_x_based_on_character_amount = false
-
-@export var character_anim_speed_scale = 1.0
+@export var character_anim_speed_scale : float = 1.0
+@export var character_anim_backwards : bool = false
+@export var text_animation_add_offset : float = -1.0
 
 
 var text_visible = "none"
@@ -33,19 +32,17 @@ func _ready() -> void:
 	
 	if text_alignment : $row1.alignment = text_alignment
 	
-	if offset_x_based_on_character_amount:
-		$row1.position.x -= letter_x * len(text_visible) / 2
-	
 	if text_full != "":
 		create_message(text_full) # This rarely if ever actually executes. Most of the time, the "create_message()" function is requested by the node instantiating the Text Manager.
 	
-	if remove_cooldown != -1.0:
-		await get_tree().create_timer(remove_cooldown, true).timeout
+	if cooldown_remove_message != -1.0: # It should only ever be equal to "0" if the message consists of a single visible character, otherwise the text is not ready for this delay.
+		if cooldown_remove_message != 0.0 : await get_tree().create_timer(cooldown_remove_message, true).timeout
 		
 		for character in $row1.get_children():
-			character.queue_free()
+			character.removable = true
 			await get_tree().create_timer(0.01, true).timeout
 		
+		await get_tree().create_timer(4, true).timeout
 		queue_free()
 
 
@@ -70,8 +67,6 @@ func create_message(message = last_text_full):
 	
 	for node in $row1.get_children():
 		node.queue_free()
-	
-	$row1.size.x = letter_x * len(text_full)
 	
 	character_id = 0
 	
@@ -106,13 +101,18 @@ func add_letter(character):
 		if current_rule == str("[anim_%s]" % anim_name):
 			
 			letter.animation_player.speed_scale = character_anim_speed_scale
-			letter.animation_player.play(anim_name)
+			
+			if character_anim_backwards : letter.animation_player.play_backwards(anim_name)
+			else : letter.animation_player.play(anim_name)
 	
 	#if not current_rule == "[anim_fade_out_up]" and not current_rule == "[/]" and not current_rule == "":
 	
 	if text_animation_sync:
 		letter.animation_player.advance(float(character_id * character_anim_speed_scale) / 10) # 20
 		
+	if text_animation_add_offset != -1.0:
+		letter.animation_player.advance(text_animation_add_offset)
+	
 		#if sfx_limit <= 0:
 			#letter.cooldown_sfx.wait_time = float(character_id) / 20
 			#letter.cooldown_sfx.start()

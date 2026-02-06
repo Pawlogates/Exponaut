@@ -1,10 +1,11 @@
 extends Node2D
 
-@export var next_level: PackedScene
-
 @onready var Player = $Player
+
 @onready var camera = Player.camera
-@onready var hud = Node
+@onready var music_manager: Node2D = $"Music Manager"
+@onready var ambience_manager: Node2D = $"Ambience Manager"
+
 
 var debug_screen: Control # Added and deleted on demand.
 
@@ -25,8 +26,6 @@ var level_time = 0
 var level_time_displayed = 0
 var level_start_time = 0.0
 
-@onready var music_manager = $"Music Manager"
-@onready var ambience_manager = $"Ambience Manager"
 
 @onready var tileset_main = $tileset_main
 @onready var tileset_objects = Node
@@ -63,6 +62,8 @@ var scene_leaves = preload("res://Other/Scenes/Weather/leaves.tscn")
 @export var weather_rain = false
 @export var weather_leaves = false
 
+@export var next_level: PackedScene
+
 
 # Main level info:
 @export var levelSet_id = "none"
@@ -96,6 +97,16 @@ func _ready():
 	Globals.gameState_levelSet_screen = false
 	Globals.gameState_start_screen = false
 	Globals.gameState_changed.emit()
+	
+	get_tree().paused = false
+	
+	Globals.level_score = 0
+	Globals.score_multiplier = 0
+	
+	Globals.combo_streak = 0
+	Globals.combo_tier = 0
+	Globals.combo_score = 0
+	Globals.combo_multiplier = 0
 	
 	Globals.level_started.emit()
 	
@@ -308,9 +319,6 @@ func _ready():
 	if level_type == "overworld":
 		SaveData.save_levelState("quicksave")
 	
-	quickload_blocked = false
-	$QuickloadLimiter.start()
-	
 	Globals.worldState_justStartedNewGame = false
 	
 	if level_overworld_id != "overworld_factory":
@@ -319,7 +327,6 @@ func _ready():
 
 #MAIN START
 func _physics_process(delta):
-	get_tree().paused = false
 	
 	# Current level's playtime.
 	level_time = Time.get_ticks_msec() - level_start_time
@@ -669,7 +676,7 @@ func _on_debug_refresh_timeout():
 	if get_node_or_null("HUD/Debug Screen"):
 		$"HUD/Debug Screen".refresh_debugInfo()
 	
-	Globals.combo_streak = Globals.total_collectibles_in_currentLevel - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
+	#Globals.combo_streak = Globals.total_collectibles_in_currentLevel - get_tree().get_nodes_in_group("Collectibles").size() - (get_tree().get_nodes_in_group("bonusBox").size() * 10)
 	#%TotalCollectibles_collected.text = str(Globals.collected_collectibles) + "/" + str(Globals.collectibles_in_this_level)
 
 

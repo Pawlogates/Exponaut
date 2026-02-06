@@ -1,6 +1,5 @@
-[gd_scene load_steps=7 format=3 uid="uid://cr15cqjny1b63"]
+[gd_scene load_steps=6 format=3 uid="uid://cr15cqjny1b63"]
 
-[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="1_4sgki"]
 [ext_resource type="Script" uid="uid://pg24d22j4s7s" path="res://Other/Scenes/display_score.gd" id="1_yadvj"]
 [ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="2_yadvj"]
 
@@ -201,7 +200,6 @@ script = ExtResource("1_yadvj")
 modulate = Color(1, 1, 1, 0.25)
 z_index = 25
 texture_filter = 2
-material = ExtResource("1_4sgki")
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

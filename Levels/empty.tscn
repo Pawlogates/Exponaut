@@ -24,6 +24,7 @@ layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 
 [node name="triggers" type="Node2D" parent="." index="4"]
 
 [node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("9_wxu0a")]
+script = null
 
 [node name="trigger_bgMove" parent="triggers" index="1" instance=ExtResource("8_wsrry")]
 
@@ -34,3 +35,6 @@ layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 
 [node name="objects" type="Node2D" parent="." index="5"]
 
 [node name="zones" type="Node2D" parent="." index="6"]
+
+[node name="background" parent="." index="7"]
+script = null

@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bl2wojdbpaurx"]
 
-[ext_resource type="Script" uid="uid://b6k31rfs2ykm0" path="res://Scripts/music_controller.gd" id="1_5q24m"]
+[ext_resource type="Script" uid="uid://b6k31rfs2ykm0" path="res://Scripts/music_manager.gd" id="1_5q24m"]
 [ext_resource type="AudioStream" uid="uid://by7gw2q8yutm2" path="res://Assets/Sounds/ambience/ambience6.mp3" id="2_d2que"]
 [ext_resource type="AudioStream" uid="uid://chvi6ycadfi3x" path="res://Assets/Sounds/ambience/ambience_mysterious2.mp3" id="3_35147"]
 [ext_resource type="AudioStream" uid="uid://rangaccummiw" path="res://Assets/Sounds/ambience/ambience_mysterious5.mp3" id="4_q67ph"]
@@ -13,35 +13,39 @@ script = ExtResource("1_5q24m")
 unique_name_in_owner = true
 stream = ExtResource("2_d2que")
 
-[node name="cooldown" type="Timer" parent="layer1"]
+[node name="cooldown_toggle_fade" type="Timer" parent="layer1"]
 one_shot = true
+
+[node name="layer1_alt" type="AudioStreamPlayer" parent="layer1"]
+unique_name_in_owner = true
+stream = ExtResource("2_d2que")
 
 [node name="layer2" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_35147")
 
-[node name="cooldown" type="Timer" parent="layer2"]
+[node name="cooldown_toggle_fade" type="Timer" parent="layer2"]
 one_shot = true
 
 [node name="layer3" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("4_q67ph")
 
-[node name="cooldown" type="Timer" parent="layer3"]
+[node name="cooldown_toggle_fade" type="Timer" parent="layer3"]
 one_shot = true
 
 [node name="layer4" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_bjasv")
 
-[node name="cooldown" type="Timer" parent="layer4"]
+[node name="cooldown_toggle_fade" type="Timer" parent="layer4"]
 one_shot = true
 
-[node name="toggle_fade_delay" type="Timer" parent="."]
+[node name="cooldown_all_toggle_fade" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="layer1/cooldown" to="." method="_on_ambience_1_delay_timeout"]
-[connection signal="timeout" from="layer2/cooldown" to="." method="_on_ambience_2_delay_timeout"]
-[connection signal="timeout" from="layer3/cooldown" to="." method="_on_ambience_3_delay_timeout"]
-[connection signal="timeout" from="layer4/cooldown" to="." method="_on_ambience_4_delay_timeout"]
-[connection signal="timeout" from="toggle_fade_delay" to="." method="_on_toggle_fade_delay_timeout"]
+[connection signal="timeout" from="layer1/cooldown_toggle_fade" to="." method="_on_cooldown1_toggle_fade_timeout"]
+[connection signal="timeout" from="layer2/cooldown_toggle_fade" to="." method="_on_cooldown2_toggle_fade_timeout"]
+[connection signal="timeout" from="layer3/cooldown_toggle_fade" to="." method="_on_cooldown3_toggle_fade_timeout"]
+[connection signal="timeout" from="layer4/cooldown_toggle_fade" to="." method="_on_cooldown4_toggle_fade_timeout"]
+[connection signal="timeout" from="cooldown_all_toggle_fade" to="." method="_on_cooldown_all_toggle_fade_timeout"]

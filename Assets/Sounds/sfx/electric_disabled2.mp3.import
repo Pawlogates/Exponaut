@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/electric_disabled2.mp3-e13eb5f7c691f87b2b3e2e
 [params]
 
 loop=false
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4
