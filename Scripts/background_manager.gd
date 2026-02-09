@@ -254,25 +254,25 @@ func debug_toggle_fully():
 func toggle_layer_id():
 	for layer_name in list_l_B_node_name:
 		
-		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "YELLOW", 0, 1)
+		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "YELLOW", 1)
 		
 		if currently_visible_id == "B":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 2, 0, 1)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 2, 1)
 			set(list_lv_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 		elif currently_visible_id == "A":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 1, 0, 1)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 1, 1)
 			set(list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 		
 		
 	for layer_name in list_l_A_node_name:
 		
-		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "ORANGE", 0, 1)
+		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "ORANGE", 1)
 		
 		if currently_visible_id == "A":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 4, 0, 1)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lv_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 4, 1)
 			set(list_lv_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 		elif currently_visible_id == "B":
-			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 3, 0, 1)
+			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 3, 1)
 			set(list_lh_property_name[list_l_A_node_name.find(layer_name)], get_node(layer_name + "/layer"))
 	
 	

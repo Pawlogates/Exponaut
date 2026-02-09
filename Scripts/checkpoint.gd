@@ -1,13 +1,17 @@
 extends StaticBody2D
 
+var active = false
+
+
 func _ready():
 	await get_tree().create_timer(5, false).timeout
 	active = true
 
-var active = false
+
 func _on_area_2d_area_entered(area):
 	if active:
-		if area.get_parent().is_in_group("player"):
+		if area.is_in_group("Player"):
+			Globals.dm("Player has entered a checkpoint at position: " + str(position))
 			reset_all_checkpoints()
 			active = false
 			#await get_tree().create_timer(1, false).timeout
@@ -16,18 +20,17 @@ func _on_area_2d_area_entered(area):
 
 
 func reset_all_checkpoints():
-	for checkpoint in get_tree().get_nodes_in_group("checkpoints"):
+	for checkpoint in get_tree().get_nodes_in_group("checkpoint"):
 		checkpoint.active = true
 
 
 func checkpoint_activated():
-	Globals.World.last_checkpoint_pos = position
+	Globals.Player.last_checkpoint_pos = position
+	Globals.dm(Globals.Player.last_checkpoint_pos)
 	
 	if Globals.World.level_type == "overworld":
 		SaveData.save_levelState(Globals.level_id)
 		SaveData.save_playerData(true) # The argument affects whether or not the saved overworld position will also be updated.
 	
-	else : SaveData.save_levelState("levelState_quicksave1")
-	
-	if not $/root/World.regular_level and not $/root/World.shrine_level:
-		SaveData.save_playerData(true)
+	else:
+		SaveData.save_levelState(Globals.level_id)

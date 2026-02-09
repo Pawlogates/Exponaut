@@ -71,7 +71,7 @@ func _ready():
 
 
 func score_correct_saved():
-	displayScore = Globals.saved_level_score
+	displayScore = Globals.level_score
 
 func score_correct():
 	displayScore = Globals.level_score

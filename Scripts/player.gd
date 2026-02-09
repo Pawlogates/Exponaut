@@ -42,11 +42,11 @@ var gravity = Globals.gravity
 
 @onready var sprite = $AnimatedSprite2D
 @onready var camera = $Camera2D
+@onready var sfx_manager = $sfx_manager
+@onready var combo_manager = $"Combo Manager"
 
 @onready var collision_main = $CollisionShape2D
 @onready var hitbox = $hitbox_main/CollisionShape2D
-
-@onready var sfx_manager = $sfx_manager
 
 @onready var c_attack: Timer = %cooldown_attack
 @onready var c_secondaryAttack: Timer = %cooldown_secondaryAttack
@@ -133,6 +133,9 @@ var double_score = false
 var lethalBall_released = false
 
 var can_collect = true # Whether the entity (player in this case) can collect another entity.
+
+var last_checkpoint_pos = Vector2(-1, -1)
+
 
 # Emitted when player lands on the ground.
 signal player_just_landed
@@ -1127,7 +1130,7 @@ func handle_inside_zone():
 
 func handle_manual_player_death():
 	if Input.is_action_just_pressed("back"):
-		Globals.player_kill.emit()
+		SaveData.load_levelState(Globals.level_id)
 
 
 func handle_flight(delta):

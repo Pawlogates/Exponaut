@@ -14,9 +14,10 @@ var Player : Node
 
 # Folder paths (String) for better readability:
 const dirpath_saves = "user://saves"
-const d_playerData = dirpath_saves + "/playerData"
-const d_levelSet = dirpath_saves + "/levelSet"
-const d_levelState = dirpath_saves + "/levelState"
+const d_slot_id = dirpath_saves + "/slot_[replace_with_slot_id]" # Every time this directory path is used, it needs to be modified by replacing "[replace_with_slot_id]" with the currently active save slot ID number.
+const d_playerData = d_slot_id + "/playerData"
+const d_levelSet = d_slot_id + "/levelSet"
+const d_levelState = d_slot_id + "/levelState"
 
 const dirpath_assets = "res://Assets"
 const dirpath_graphics = dirpath_assets + "/Graphics"
@@ -250,11 +251,59 @@ func handle_actions(delta):
 	handle_toggle_debug_movement()
 	
 	handle_zoom(delta)
+	
+	
+	if Input.is_action_just_pressed("quicksave"):
+		SaveData.save_levelState(level_id, SaveData.slot_current)
+	elif Input.is_action_just_pressed("quickload"):
+		SaveData.load_levelState(level_id, SaveData.slot_current)
+	
+	
+	elif Input.is_action_pressed("ctrl"):
+		for x in range(10):
+			if Input.is_action_just_pressed(str(x)):
+				dm(str("Saving a quicksave (quicksave id: '%s')." % x))
+				SaveData.save_levelState(level_id, x)
+	
+	elif Input.is_action_pressed("shift"):
+		
+		for x in range(10):
+			if Input.is_action_just_pressed(str(x)):
+				await Overlay.animation("black_fade_in", 2.0, false, true, 0.0)
+				
+				dm(str("Loading a quicksave (quicksave id: '%s')." % x))
+				SaveData.load_levelState(level_id, x)
+				
+				Overlay.animation("black_fade_out", 2.0, false, false)
+	
+	
+	elif Input.is_action_pressed("alt"):
+		
+		if Input.is_action_just_pressed("1"):
+			reload_level_scene(true)
+		
+		if Input.is_action_just_pressed("2"):
+			if not target_camera:
+				target_camera = get_tree().get_first_node_in_group("camera")
+				dm("Reassigning the camera target node.")
+				camera_manual_active = true
+				target_camera.position_smoothing_enabled = false
+			
+			elif camera_manual_active:
+				camera_manual_active = false
+				target_camera.position_smoothing_enabled = true
+				target_camera.position = Vector2(0, 0)
+			
+			elif not camera_manual_active:
+				camera_manual_active = true
+				target_camera.position_smoothing_enabled = false
+			
+			dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
 
 
 func reassign_general():
 	if has_node("/root/World") : World = $/root/World
-	if has_node("/root/World/Player") : Player = $/root/World/Player
+	if World.has_node("Player") : Player = World.get_node("Player")
 	
 	return [World, Player]
 	
@@ -291,6 +340,10 @@ var combo_tier = 1
 var combo_multiplier = 1 # Increases by 1 every 5 collectibles collected (or other specific actions performed) by the player during a combo, up to 10. (x1 during 1-5, x2 during 6-10, x3 during 11-15, x4 during 16-20, x5 during 21-25, x6 during 26-30, x7 during 31-35, x8 during 36-40, x9 during 41-45, and finally x10 during 46-50. The final - x11
 
 var total_score = 0 # Current save slot's total score, combined across all overworld segments and all of the overworld's level set levels.
+var total_collected_collectibles = 0 # Collectibles collected in the current level.
+var total_collected_majorCollectibles_module = 0
+var total_collected_majorCollectibles_key = 0
+var total_killed_enemies = 0
 
 var collected_collectibles = 0 # Collectibles collected in the current level.
 var collected_majorCollectibles_module = 0
@@ -302,7 +355,8 @@ var total_majorCollectibles_module_in_currentLevel = 0
 var total_majorCollectibles_key_in_currentLevel = 0
 var total_enemies_in_currentLevel = 0
 
-var player_weaponType = "none"
+var weapon : Dictionary = {"none" : -1} # All the property values needed to construct the main projectile.
+var secondaryWeapon = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
 
 var gravity = 1.0
 
@@ -383,17 +437,19 @@ var bg_front2_filepath = d_backgrounds + "/bg_front_fields.png"
 var bg_back_filepath = d_backgrounds + "/bg_empty.png"
 var bg_back2_filepath = d_backgrounds + "/bg_empty.png"
 
-#var bg_main_visible_filepath = d_backgrounds + "/bg_fields.png" # There is no need for these properties.
-#var bg_front_visible_filepath = d_backgrounds + "/bg_back_fields.png"
-#var bg_front2_visible_filepath = d_backgrounds + "/bg_front_fields.png"
-#var bg_back_visible_filepath = d_backgrounds + "/bg_empty.png"
-#var bg_back2_visible_filepath = d_backgrounds + "/bg_empty.png"
+# These are used only for state save/load. - [START]
+var bg_main_visible_filepath = d_backgrounds + "/bg_fields.png"
+var bg_front_visible_filepath = d_backgrounds + "/bg_back_fields.png"
+var bg_front2_visible_filepath = d_backgrounds + "/bg_front_fields.png"
+var bg_back_visible_filepath = d_backgrounds + "/bg_empty.png"
+var bg_back2_visible_filepath = d_backgrounds + "/bg_empty.png"
 
-#var bg_main_hidden_filepath = d_backgrounds + "/bg_fields.png"
-#var bg_front_hidden_filepath = d_backgrounds + "/bg_back_fields.png"
-#var bg_front2_hidden_filepath = d_backgrounds + "/bg_front_fields.png"
-#var bg_back_hidden_filepath = d_backgrounds + "/bg_empty.png"
-#var bg_back2_hidden_filepath = d_backgrounds + "/bg_empty.png"
+var bg_main_hidden_filepath = d_backgrounds + "/bg_fields.png"
+var bg_front_hidden_filepath = d_backgrounds + "/bg_back_fields.png"
+var bg_front2_hidden_filepath = d_backgrounds + "/bg_front_fields.png"
+var bg_back_hidden_filepath = d_backgrounds + "/bg_empty.png"
+var bg_back2_hidden_filepath = d_backgrounds + "/bg_empty.png"
+# These are used only for state save/load. - [END]
 
 var bg_main_offset_target = Vector2(0, 0)
 var bg_front_offset_target = Vector2(0, 0)
@@ -456,6 +512,12 @@ var level_name = "none"
 var level_id = "MAIN_1" # Each level ID follows this naming method: [LEVEL SET ID]_[LEVEL_ID].
 var level_number = 1
 var level_topRankScore = -1
+var level_type = "none"
+
+
+var load_playerData = true
+var load_levelSet = true
+var load_levelState = true
 
 
 # Game modes:
@@ -506,12 +568,12 @@ func message(text):
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
 
-func message_debug(text, importance = "none", add_scale : float = -1.0, remove_cooldown : float = -1.0):
-	display_messages_debug_queued.append(str(text) + str("[/BREAK/]%si" % importance) + str("[/BREAK/]%ss" % add_scale) + str("[/BREAK/]%st" % remove_cooldown)) # Note that the "%s" is replaced by what is after the "%" at the end.
+func message_debug(text, importance = "none", remove_cooldown : float = -1.0):
+	display_messages_debug_queued.append(str(text) + str("[/BREAK/]%si" % importance) + str("[/BREAK/]%st" % remove_cooldown)) # Note that the "%s" is replaced by what is after the "%" at the end.
 	Globals.messages_debug_added.emit()
 
-func dm(text, importance = "none", add_scale : float = -1.0, remove_cooldown : float = -1.0): # This function clone is just for typing convenience.
-	message_debug(text, importance, add_scale, remove_cooldown)
+func dm(text, importance = "none", remove_cooldown : float = -1.0): # This function clone is just for typing convenience.
+	message_debug(text, importance, remove_cooldown)
 
 
 # Lists (Array) of various entity properties, used for randomization purposes.
@@ -558,7 +620,7 @@ const list_temporary_powerUp = ["none", "higher_jump", "increased_speed", "telep
 @onready var l_bonusBox_item_blacklist_enemy_scene = []
 
 
-func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = -1, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = []): # Quantity of -1 will randomize the number of spawned scenes.
+func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = []): # Quantity of -1 will randomize the number of spawned scenes.
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
@@ -786,25 +848,6 @@ var target_camera : Camera2D
 var next_reassign_camera : bool = true
 
 func handle_zoom(delta):
-	if Input.is_action_just_pressed("debug_console") and Input.is_action_pressed("map"):
-		if not target_camera:
-			target_camera = get_tree().get_first_node_in_group("camera")
-			dm("Reassigning the camera target node.")
-			camera_manual_active = true
-			target_camera.position_smoothing_enabled = false
-		
-		elif camera_manual_active:
-			camera_manual_active = false
-			target_camera.position_smoothing_enabled = true
-			target_camera.position = Vector2(0, 0)
-		
-		elif not camera_manual_active:
-			camera_manual_active = true
-			target_camera.position_smoothing_enabled = false
-		
-		dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
-	
-	
 	if target_camera:
 		if camera_manual_active:
 			target_camera.position = lerp(target_camera.position, Player.get_local_mouse_position(), delta * 4)
@@ -893,3 +936,17 @@ func get_filepath(file, details : bool = false):
 		else:
 			if file is Resource : return file.get_path() + " (from Resource: " + str(file) + ")"
 			if file is String : return load(file).get_path() + "(from String: " + str(file) + ")"
+
+
+func reload_level_scene(keep_player_pos : bool = false):
+	load_levelSet = false
+	load_levelState = false
+	load_playerData = false
+	
+	var previous_player_pos = Player.position
+	
+	World.get_tree().reload_current_scene()
+	
+	await get_tree().create_timer(1.0, false).timeout
+	
+	if keep_player_pos : Player.position = previous_player_pos

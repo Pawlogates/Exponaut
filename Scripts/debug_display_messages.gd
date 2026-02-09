@@ -25,6 +25,7 @@ func _ready():
 
 func _physics_process(delta: float) -> void:
 	btn_close.position = btn_close.position.lerp(btn_close_target_pos, delta * 4)
+	message_container.modulate.a = move_toward(message_container.modulate.a, 0.5, delta / 10)
 
 
 func insert_queued_messages():
@@ -133,16 +134,11 @@ func correct_messages_order():
 		label.id = highest_message_id
 		if label.remove_multiplier == 0.1 : continue # Skip if debug message is currently following the mouse.
 		
-		if float(label.message_scale) == -1.0:
-			label.position.y = letter_y * highest_message_id
-			label.scale = Vector2(1, 1)
-		else:
-			label.position.y = letter_y * highest_message_height_multiplier
-			label.scale = Vector2(1, 1) + Vector2(float(label.message_scale), float(label.message_scale))
+		label.position.y = letter_y * highest_message_id
+		label.scale = Vector2(1, 1)
 		
 		if highest_message_id >= len(list_messages) -3: # Last three messages will be enlarged.
-			if float(label.message_scale) == -1.0 : label.scale = Vector2(2, 2)
-			else : label.scale = Vector2(float(label.message_scale), float(label.message_scale)) * 2
+			label.scale = Vector2(2, 2)
 			
 			if active_messages > 1:
 				label.position.y += letter_y * (highest_message_id - active_messages + 3)
@@ -164,7 +160,7 @@ func refresh_messages():
 	for label in list_messages:
 		label.set_remove_cooldown()
 	
-	Globals.dm("Refreshed all debug display messages.", "GREEN", 2.0, 1.0)
+	Globals.dm("Refreshed all debug display messages.", "GREEN", 1.0)
 
 func delete_messages(only_currently_focused : bool = false):
 	var list_messages = message_container.get_children()

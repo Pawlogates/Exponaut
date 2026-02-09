@@ -10,7 +10,29 @@
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="10_mcw21"]
 
 [node name="World" instance=ExtResource("1_631pt")]
+camera_boundary_left = null
+camera_boundary_right = null
+camera_boundary_bottom = null
+camera_boundary_top = null
+level_type = null
+final_level = null
+player_start_health = null
+night = null
+weather_rain = null
+weather_leaves = null
+levelSet_id = null
 level_number = 4
+force_mode_scoreAttack = null
+force_mode_memeMode = null
+delete_background_layers = null
+neon_hueShift = null
+neon_fade = null
+neon_fade_cooldown = null
+neon_rainbow = null
+background_color = null
+scoreAttack_target_collectible_amount = null
+scoreAttack_target_time = null
+random_music = null
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_2wc6y")]
 unique_name_in_owner = true
@@ -34,19 +56,19 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="kill_area" parent="." index="12" instance=ExtResource("5_6yky3")]
+[node name="kill_area" parent="." index="10" instance=ExtResource("5_6yky3")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
 collision_mask = 7
 
-[node name="trigger_bgChange" parent="." index="13" instance=ExtResource("6_y4yhd")]
+[node name="trigger_bgChange" parent="." index="11" instance=ExtResource("6_y4yhd")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
 
-[node name="trigger_bgMove" parent="." index="14" instance=ExtResource("10_mcw21")]
+[node name="trigger_bgMove" parent="." index="12" instance=ExtResource("10_mcw21")]
 scale = Vector2(4, 4)
 
-[node name="info_sign" parent="." index="15" instance=ExtResource("10_iu6i2")]
+[node name="info_sign" parent="." index="13" instance=ExtResource("10_iu6i2")]
 position = Vector2(2144, -224)
 
 [connection signal="timeout" from="whiteBlocks_make_rainbow/Timer" to="." method="_on_timer_timeout"]

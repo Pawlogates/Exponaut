@@ -16,11 +16,7 @@ var debug_screen: Control # Added and deleted on demand.
 @onready var hud_collected_keys = Node
 @onready var hud_total_keys = Node
 
-#@export_file("*.tscn") var level_filePath: String
 var level_filepath = scene_file_path
-
-# Change this value (String) only if its an overworld level.
-var level_overworld_id = "none" # Leave it unchanged if its a levelSet level, so that the name will be fetched from "SaveData".
 
 var level_time = 0
 var level_time_displayed = 0
@@ -68,6 +64,8 @@ var scene_leaves = preload("res://Other/Scenes/Weather/leaves.tscn")
 # Main level info:
 @export var levelSet_id = "none"
 @export var level_number = -1
+
+@export var overworld_level_id = "none"
 
 
 @export var force_mode_scoreAttack = false
@@ -120,19 +118,18 @@ func _ready():
 		Globals.levelSet_id = levelSet_id
 		Globals.level_number = level_number
 		Globals.level_id = levelSet_id + "_" + str(level_number)
+		Globals.level_type = level_type
 		Globals.level_name = SaveData.get("info" + Globals.level_id)
 	
 	elif level_type == "overworld":
 		Globals.levelSet_id = levelSet_id
 		Globals.level_number = -1 # Because its an overworld segment.
-		Globals.level_id = level_overworld_id # Because its an overworld segment.
-		Globals.level_name = "none" # Because its an overworld segment.
+		Globals.level_id = levelSet_id + "_overworld_" + overworld_level_id
+		Globals.level_type = level_type
+		Globals.level_name = overworld_level_id # Because its an overworld segment.
 	
 	elif level_type == "debug":
 		pass
-	
-	if level_overworld_id != "none":
-		Globals.level_id = level_overworld_id
 	
 	Globals.material_neon_hueShift.set_shader_parameter("Shift_Hue", neon_hueShift)
 	
@@ -232,18 +229,14 @@ func _ready():
 	
 	
 	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
-	if not level_type == "levelSet" and Globals.transitioned and Globals.next_transition != 0:
-		var areaTransition = get_node("%areaTransition" + str(Globals.next_transition))
+	if not level_type == "levelSet" and Globals.transition_triggered and Globals.transition_next != 0:
+		var areaTransition = get_node("%areaTransition" + str(Globals.transition_next))
 		if areaTransition.spawn_position != Vector2(0, 0):
 			print(areaTransition.spawn_position)
 			Player.position = areaTransition.spawn_position
 		else:
 			print(areaTransition.position)
 			Player.position = areaTransition.position
-	
-	
-	if not level_type == "levelSet" and not Globals.worldState_justStartedNewGame: 
-		SaveData.load_playerData() # Loads player related progress, doesn't conflict with load_levelState().
 	
 	
 	Player.camera.position_smoothing_enabled = false
@@ -277,13 +270,20 @@ func _ready():
 	
 	await get_tree().create_timer(0.2, false).timeout
 	
-	if not Globals.transition_triggered:
-		save_game()
+	#if not Globals.transition_triggered:
+		#save_game()
 	
 	Globals.transition_triggered = false
 	
-	if level_overworld_id != "none":
-		SaveData.load_levelState(level_overworld_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
+	if Globals.level_type == "overworld" and Globals.level_id != "none":
+		
+		if Globals.load_levelState:
+			SaveData.load_levelState(Globals.level_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
+	
+	Globals.load_levelState = true
+	Globals.load_playerData = true
+	Globals.load_levelSet = true
+	
 	
 	handle_night()
 	
@@ -321,7 +321,7 @@ func _ready():
 	
 	Globals.worldState_justStartedNewGame = false
 	
-	if level_overworld_id != "overworld_factory":
+	if Globals.level_id != "overworld_factory":
 		SaveData.never_saved = false
 
 
@@ -370,7 +370,17 @@ func _physics_process(delta):
 	
 	if Input.is_action_just_pressed("restart"):
 		retry()
+	
+	if reset_puzzle_line_visible : queue_redraw()
 #MAIN END
+
+var reset_puzzle_line_visible = false
+var reset_puzzle_line_start = Vector2(0, 0)
+var reset_puzzle_line_end = Vector2(0, 0)
+
+func _draw():
+	if reset_puzzle_line_visible : draw_line(reset_puzzle_line_start, reset_puzzle_line_end, Globals.l_button_color.pick_random(), 5.0, true)
+
 
 var night_toggle = true
 var bg_deleted = false
@@ -568,8 +578,6 @@ func bg_change_check():
 	bg_change_active = false
 
 
-var last_checkpoint_pos = Vector2(0, 0)
-
 #Save state
 func save_game():
 	#if Globals.combo_score != 0:
@@ -594,17 +602,7 @@ func save_game():
 
 		# Store the save dictionary as a new line in the save file.
 		save_gameFile.store_line(json_string)
-	
-	
-	await get_tree().create_timer(0.1, false).timeout
-	
-	if last_checkpoint_pos == Vector2(0, 0):
-		SaveData.saved_position_x = Globals.player_position.x
-		SaveData.saved_position_y = Globals.player_position.y
-	else:
-		SaveData.saved_position_x = last_checkpoint_pos[0]
-		SaveData.saved_position_y = last_checkpoint_pos[1]
-	
+		
 	Globals.levelState_saved.emit()
 
 
@@ -852,19 +850,12 @@ func change_main_scene_menu_start():
 
 func retry_checkpoint():
 	Overlay.animation("fade_black", false, 1.0, true)
-	retry_load_levelState()
-	retry_load_playerData()
+	
+	SaveData.load_levelState(Globals.level_id)
+	SaveData.load_playerData()
+	
 	Globals.player_health = player_start_health
 	Player.dead = false
-
-
-func retry_load_levelState():
-	pass
-	#SaveData.load_levelState()
-
-
-func retry_load_playerData():
-	pass
 
 
 func effect_stars():
@@ -884,8 +875,7 @@ func last_area_filePath_save():
 	if level_type != "overworld":
 		return
 	
-	SaveData.saved_last_area_filePath = level_filepath
-	Globals.message("Changing last overworld level filepath to " + str(SaveData.level_filepath))
+	SaveData.saved_last_level_filepath = level_filepath
 
 
 func reassign_player():
@@ -949,3 +939,59 @@ func _input(event):
 		
 		var touch_controls = preload("res://Other/Scenes/touch_controls.tscn").instantiate()
 		#hud.add_child(touch_controls)
+
+
+func get_entity_status_all():
+	if not is_inside_tree() : return
+	
+	var entity_all = get_tree().get_nodes_in_group("entity")
+	var entity_active = []
+	var entity_inactive = []
+	
+	for entity in entity_all:
+		if entity.active:
+			entity_active.append(entity)
+		else:
+			entity_inactive.append(entity)
+	
+	var collectible_all = get_tree().get_nodes_in_group("collectible")
+	var collectible_active = []
+	var collectible_inactive = []
+	
+	for entity in collectible_all:
+		if entity.active:
+			collectible_active.append(entity)
+		else:
+			collectible_inactive.append(entity)
+	
+	var enemy_all = get_tree().get_nodes_in_group("enemy")
+	var enemy_active = []
+	var enemy_inactive = []
+	
+	for entity in enemy_all:
+		if entity.active:
+			enemy_active.append(entity)
+		else:
+			enemy_inactive.append(entity)
+	
+	var box_all = get_tree().get_nodes_in_group("box")
+	var box_active = []
+	var box_inactive = []
+	
+	for entity in box_all:
+		if entity.active:
+			box_active.append(entity)
+		else:
+			box_inactive.append(entity)
+	
+	var projectile_all = get_tree().get_nodes_in_group("projectile")
+	var projectile_active = []
+	var projectile_inactive = []
+	
+	for entity in projectile_all:
+		if entity.active:
+			projectile_active.append(entity)
+		else:
+			projectile_inactive.append(entity)
+	
+	return str("Entity: %s (Active/Inactive : %s/%s), Collectible: %s (Active/Inactive : %s/%s), Enemy: %s (Active/Inactive : %s/%s), Box: %s (Active/Inactive : %s/%s), Projectile: %s (Active/Inactive : %s/%s)." % [len(entity_all), len(entity_active), len(entity_inactive), len(collectible_all), len(collectible_active), len(collectible_inactive), len(enemy_all), len(enemy_active), len(enemy_inactive), len(box_all), len(box_active), len(box_inactive), len(projectile_all), len(projectile_active), len(projectile_inactive)])

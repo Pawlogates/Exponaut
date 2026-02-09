@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3 uid="uid://ukaq30esmehe"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_bsrt3"]
+[ext_resource type="SpriteFrames" uid="uid://cpocby34y3ppf" path="res://Assets/Graphics/sprites/packed/collectibles/puzzle.tres" id="2_bbww4"]
+
+[node name="puzzle_reset_zone" instance=ExtResource("1_bsrt3")]
+texture_filter = 5
+can_collect = true
+collectable_multiple = true
+collectable_multiple_health = -1
+immortal = true
+award_score = false
+reset_puzzle = true
+on_collected_reset_puzzle = true
+on_hit_reset_puzzle = true
+start_animation = "general/loop_up_down_slight"
+can_change_sprite_anim = true
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_bbww4")
+
+[node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
+debug_color = Color(1, 0, 0, 0)
+
+[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
+debug_color = Color(1, 1, 0, 0)
+
+[node name="timer_reset_puzzle_line_visible" type="Timer" parent="." index="18"]
+
+[connection signal="area_entered" from="scan_reset_puzzle_coverage" to="." method="_on_scan_reset_puzzle_coverage_area_entered"]

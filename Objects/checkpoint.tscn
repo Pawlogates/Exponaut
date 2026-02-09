@@ -10,13 +10,15 @@ region = Rect2(576, 896, 64, 64)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isqap"]
 size = Vector2(64, 64)
 
-[node name="checkpoint" type="StaticBody2D" groups=["checkpoints"]]
+[node name="checkpoint" type="StaticBody2D" groups=["checkpoint"]]
 script = ExtResource("1_142kj")
 
 [node name="checkpoint" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_2jjck")
 
 [node name="Area2D" type="Area2D" parent="checkpoint"]
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="checkpoint/Area2D"]
 shape = SubResource("RectangleShape2D_isqap")

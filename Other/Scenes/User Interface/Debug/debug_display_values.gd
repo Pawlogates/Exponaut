@@ -100,6 +100,16 @@ func _physics_process(delta: float) -> void:
 func _on_cooldown_refresh_timeout() -> void:
 	if Globals.gameState_level:
 		value1 = Globals.level_id
+		value2 = Globals.World.get_entity_status_all()
+		value3 = Globals.level_id
+		value4 = Globals.level_id
+		value5 = Globals.level_id
+		value6 = Globals.level_id
+		value7 = Globals.level_id
+		value8 = Globals.level_id
+		value9 = Globals.level_id
+		value10 = Globals.level_id
+		value11 = Globals.level_id
 		value12 = Globals.Player.sprite.animation
 		value13 = Globals.Player.state_walk
 		value14 = Globals.Player.state_jump
@@ -118,8 +128,8 @@ func update_labels():
 		get("label_n" + str(id)).text = str(get("name" + str(id)))
 		get("label_v" + str(id)).text = str(get("value" + str(id)))
 	
-	name1 = "none"
-	name2 = "none"
+	name1 = "Currently loaded level's ID: "
+	name2 = "Total entities present in the currently loaded level: "
 	name3 = "none"
 	name4 = "none"
 	name5 = "none"

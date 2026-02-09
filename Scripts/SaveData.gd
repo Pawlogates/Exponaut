@@ -226,7 +226,24 @@ const collectibles_DEBUG_10 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 	#pass
 
 
-var slot_current = "DEFAULT" # Save slot ID is checked every time the game saves or loads either playerData, levelSet or levelState save files.
+var slot_current = "1" # Save slot ID is checked every time the game saves or loads either playerData, levelSet or levelState save files.
+
+var levelState_score = 0
+var levelState_time = 0.0
+var levelState_player_position_x = 0.0
+var levelState_player_position_y = 0.0
+var levelState_player_velocity_x = 0.0
+var levelState_player_velocity_y = 0.0
+var levelState_player_health = 0
+
+var levelState_slot_score = [0, 0, 0, 0, 0, 0, 0, 0, 0] # Every value corresponds to its matching quicksave slot number (starting from "1").
+var levelState_slot_time = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var levelState_slot_player_position_x = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var levelState_slot_player_position_y = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var levelState_slot_player_velocity_x = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var levelState_slot_player_velocity_y = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+var levelState_slot_player_health = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+
 
 # Saved player-related properties (overworld):
 var saved_last_level_filepath = "none"
@@ -240,19 +257,29 @@ var saved_module_points = 0
 var saved_weapon = Array()
 var saved_secondaryWeapon = Array()
 
-var saved_bg_current_filepath = "none"
-var saved_bg_a_current_filepath = "none"
-var saved_bg_b_current_filepath = "none"
-
-var saved_bg_previous_filepath = "none"
-var saved_bg_a_previous_filepath = "none"
-var saved_bg_b_previous_filepath = "none"
+var saved_bg_main_visible_filepath = "none"
+var saved_bg_front_visible_filepath = "none"
+var saved_bg_front2_visible_filepath = "none"
+var saved_bg_back_visible_filepath = "none"
+var saved_bg_back2_visible_filepath = "none"
+var saved_bg_main_hidden_filepath = "none"
+var saved_bg_front_hidden_filepath = "none"
+var saved_bg_front2_hidden_filepath = "none"
+var saved_bg_back_hidden_filepath = "none"
+var saved_bg_back2_hidden_filepath = "none"
 
 var saved_bg_offset_target_x = 0
 var saved_bg_offset_target_y = 0
 
-var saved_music_filepath = "none"
-var saved_ambience_filepath = "none"
+var saved_music1_filepath = "none"
+var saved_music2_filepath = "none"
+var saved_music3_filepath = "none"
+var saved_music4_filepath = "none"
+
+var saved_ambience1_filepath = "none"
+var saved_ambience2_filepath = "none"
+var saved_ambience3_filepath = "none"
+var saved_ambience4_filepath = "none"
 
 var saved_music_active = false
 var saved_ambience_active = false
@@ -266,43 +293,54 @@ func save_playerData(save_player_position):
 	Globals.reassign_general()
 	
 	if save_player_position: # Doesn't save current player position if a save is triggered by entering a portal.
-		if Globals.player.last_checkpoint_position == Vector2(0, 0):
+		if Globals.Player.last_checkpoint_pos == Vector2(0, 0):
 			saved_position_x = Globals.player.position[0]
 			saved_position_y = Globals.player.position[1]
 		else:
-			saved_position_x = Globals.player.last_checkpoint_position[0]
-			saved_position_y = Globals.player.last_checkpoint_position[1]
+			saved_position_x = Globals.Player.last_checkpoint_pos[0]
+			saved_position_y = Globals.Player.last_checkpoint_pos[1]
 	
 	saved_health = int(Globals.player_health)
 	saved_score = Globals.level_score
-	saved_module_points = Globals.module_points
+	saved_module_points = Globals.total_collected_majorCollectibles_module
 	
-	saved_weapon = Globals.player.weapon
-	saved_secondaryWeapon = Globals.player.secondaryWeapon
+	saved_weapon = Globals.weapon
+	saved_secondaryWeapon = Globals.secondaryWeapon
 	
-	saved_bg_current_filepath = Globals.world.bg_current.texture.resource_path
-	saved_bg_a_current_filepath = Globals.world.bg_a_current.texture.resource_path
-	saved_bg_b_current_filepath = Globals.world.bg_b_current.texture.resource_path
+	saved_bg_main_visible_filepath = Globals.bg_main_visible_filepath
+	saved_bg_front_visible_filepath = Globals.bg_front_visible_filepath
+	saved_bg_front2_visible_filepath = Globals.bg_front2_visible_filepath
+	saved_bg_back_visible_filepath = Globals.bg_back_visible_filepath
+	saved_bg_back2_visible_filepath = Globals.bg_back2_visible_filepath
 	
-	saved_bg_previous_filepath = Globals.world.bg_previous.texture.resource_path
-	saved_bg_a_previous_filepath = Globals.world.bg_a_previous.texture.resource_path
-	saved_bg_b_previous_filepath = Globals.world.bg_b_previous.texture.resource_path
+	saved_bg_main_hidden_filepath = Globals.bg_main_hidden_filepath
+	saved_bg_front_hidden_filepath = Globals.bg_front_hidden_filepath
+	saved_bg_front2_hidden_filepath = Globals.bg_front2_hidden_filepath
+	saved_bg_back_hidden_filepath = Globals.bg_back_hidden_filepath
+	saved_bg_back2_hidden_filepath = Globals.bg_back2_hidden_filepath
 	
-	saved_bg_offset_target_x = Globals.World.bg_offset_target_x
-	saved_bg_offset_target_y = Globals.World.bg_offset_target_y
+	# The "l" stands for "layer", and refers to both visible and invisible layers.
+	#var saved_l_main_offset_target = Vector2(0, 0)
+	#var saved_l_front_offset_target = Vector2(0, 0)
+	#var saved_l_front2_offset_target = Vector2(0, 0)
+	#var saved_l_back_offset_target = Vector2(0, 0)
+	#var saved_l_back2_target = Vector2(0, 0)
+	#
+	#var l_main_modulate = Color(1, 1, 1, 1)
+	#var l_front_modulate = Color(1, 1, 1, 1)
+	#var l_front2_modulate = Color(1, 1, 1, 1)
+	#var l_back_modulate = Color(1, 1, 1, 1)
+	#var l_back2_modulate = Color(1, 1, 1, 1)
 	
-	if Globals.World.music.stream != null:
-		saved_music_filepath = Globals.World.music.stream.resource_path
-	else:
-		saved_music_filepath = "none"
+	saved_music1_filepath = Globals.get_filepath(Globals.World.music_manager.layer1.stream)
+	saved_music2_filepath = Globals.get_filepath(Globals.World.music_manager.layer2.stream)
+	saved_music3_filepath = Globals.get_filepath(Globals.World.music_manager.layer3.stream)
+	saved_music4_filepath = Globals.get_filepath(Globals.World.music_manager.layer4.stream)
 	
-	if Globals.World.ambience.stream != null:
-		saved_ambience_filepath = Globals.World.ambience.stream.stream.resource_path
-	else:
-		saved_music_filepath = "none"
-	
-	saved_music_active = Globals.World.music.playing
-	saved_ambience_active = Globals.World.ambience.playing
+	saved_ambience1_filepath = Globals.get_filepath(Globals.World.ambience_manager.layer1.stream)
+	saved_ambience2_filepath = Globals.get_filepath(Globals.World.ambience_manager.layer2.stream)
+	saved_ambience3_filepath = Globals.get_filepath(Globals.World.ambience_manager.layer3.stream)
+	saved_ambience4_filepath = Globals.get_filepath(Globals.World.ambience_manager.layer4.stream)
 	
 	
 	never_saved = false
@@ -340,19 +378,23 @@ func load_playerData():
 		saved_weapon = data["saved_weapon"]
 		saved_secondaryWeapon = data["saved_secondaryWeapon"]
 		
-		saved_bg_current_filepath = data["saved_bg_current_filepath"]
-		saved_bg_a_current_filepath = data["saved_bg_a_current_filepath"]
-		saved_bg_b_current_filepath = data["saved_bg_b_current_filepath"]
+		saved_bg_main_visible_filepath = data["saved_bg_main_visible_filepath"]
+		saved_bg_back_visible_filepath = data["saved_bg_back_visible_filepath"]
+		saved_bg_back2_visible_filepath = data["saved_bg_back2_visible_filepath"]
+		saved_bg_front_visible_filepath = data["saved_bg_front_visible_filepath"]
+		saved_bg_front2_visible_filepath = data["saved_bg_front2_visible_filepath"]
 		
-		saved_bg_previous_filepath = data["saved_bg_previous_filepath"]
-		saved_bg_a_previous_filepath = data["saved_bg_a_previous_filepath"]
-		saved_bg_b_previous_filepath = data["saved_bg_b_previous_filepath"]
+		saved_bg_main_hidden_filepath = data["saved_bg_main_hidden_filepath"]
+		saved_bg_back_hidden_filepath = data["saved_bg_back_hidden_filepath"]
+		saved_bg_back2_hidden_filepath = data["saved_bg_back2_hidden_filepath"]
+		saved_bg_front_hidden_filepath = data["saved_bg_front_hidden_filepath"]
+		saved_bg_front2_hidden_filepath = data["saved_bg_front2_hidden_filepath"]
 		
 		saved_bg_offset_target_x = data["saved_bg_offset_target_x"]
 		saved_bg_offset_target_y = data["saved_bg_offset_target_y"]
 		
-		saved_music_filepath = data["saved_music_filepath"]
-		saved_ambience_filepath = data["saved_ambience_filepath"]
+		saved_music1_filepath = data["saved_music1_filepath"]
+		saved_ambience1_filepath = data["saved_ambience1_filepath"]
 		
 		saved_music_active = data["saved_music_active"]
 		saved_ambience_active = data["saved_ambience_active"]
@@ -375,19 +417,22 @@ func reset_playerData(slot_id : String, levelSet_id: String):
 	saved_weapon = []
 	saved_secondaryWeapon = []
 	
-	saved_bg_current_filepath = "none"
-	saved_bg_a_current_filepath = "none"
-	saved_bg_b_current_filepath = "none"
-	
-	saved_bg_previous_filepath = "none"
-	saved_bg_a_previous_filepath = "none"
-	saved_bg_b_previous_filepath = "none"
+	saved_bg_main_visible_filepath = "none"
+	saved_bg_front_visible_filepath = "none"
+	saved_bg_front2_visible_filepath = "none"
+	saved_bg_back_visible_filepath = "none"
+	saved_bg_back2_visible_filepath = "none"
+	saved_bg_main_hidden_filepath = "none"
+	saved_bg_front_hidden_filepath = "none"
+	saved_bg_front2_hidden_filepath = "none"
+	saved_bg_back_hidden_filepath = "none"
+	saved_bg_back2_hidden_filepath = "none"
 	
 	saved_bg_offset_target_x = 0
 	saved_bg_offset_target_y = 0
 	
-	saved_music_filepath = AudioStreamMP3
-	saved_ambience_filepath = AudioStreamMP3
+	saved_music1_filepath = "none"
+	saved_ambience1_filepath = "none"
 	
 	saved_music_active = false
 	saved_ambience_active = false
@@ -423,19 +468,23 @@ func data_playerData():
 		"saved_weapon" : saved_weapon,
 		"saved_secondaryWeapon" : saved_secondaryWeapon,
 		
-		"saved_bg_current_filepath" : saved_bg_current_filepath,
-		"saved_bg_a_current_filepath" : saved_bg_a_current_filepath,
-		"saved_bg_b_current_filepath" : saved_bg_b_current_filepath,
+		"saved_bg_main_visible_filepath" : saved_bg_main_visible_filepath,
+		"saved_bg_back_visible_filepath" : saved_bg_back_visible_filepath,
+		"saved_bg_back2_visible_filepath" : saved_bg_back2_visible_filepath,
+		"saved_bg_front_visible_filepath" : saved_bg_front_visible_filepath,
+		"saved_bg_front2_visible_filepath" : saved_bg_front2_visible_filepath,
 		
-		"saved_bg_previous_filepath" : saved_bg_previous_filepath,
-		"saved_bg_a_previous_filepath" : saved_bg_a_previous_filepath,
-		"saved_bg_b_previous_filepath" : saved_bg_b_previous_filepath,
+		"saved_bg_main_hidden_filepath" : saved_bg_main_hidden_filepath,
+		"saved_bg_back_hidden_filepath" : saved_bg_back_hidden_filepath,
+		"saved_bg_back2_hidden_filepath" : saved_bg_back2_hidden_filepath,
+		"saved_bg_front_hidden_filepath" : saved_bg_front_hidden_filepath,
+		"saved_bg_front2_hidden_filepath" : saved_bg_front2_hidden_filepath,
 		
 		"saved_bg_offset_target_x" : saved_bg_offset_target_x,
 		"saved_bg_offset_target_y" : saved_bg_offset_target_y,
 		
-		"saved_music_filepath" : saved_music_filepath,
-		"saved_ambience_filepath" : saved_ambience_filepath,
+		"saved_music1_filepath" : saved_music1_filepath,
+		"saved_ambience1_filepath" : saved_ambience1_filepath,
 		
 		"saved_music_active" : saved_music_active,
 		"saved_ambience_active" : saved_ambience_active,
@@ -527,54 +576,145 @@ func data_levelSet(id):
 	return contents
 
 
-func save_levelState(level_id):
-	if Globals.World.level_overworld_id == "none" : return
+func save_levelState(level_id : String, quicksave_slot_id : int = -1): # If the value of "quicksave_slot_id" is left at "-1", the function will perform a regular save, otherwise it will perform a quicksave.
+	if Globals.level_id == "none" : return
 	
-	var file = FileAccess.open(Globals.d_levelState + "/levelState_" + level_id + ".save", FileAccess.WRITE)
-	var save_nodes = get_tree().get_nodes_in_group("Persist")
-	for node in save_nodes:
+	create_save_directories()
+	
+	var filepath : String
+	
+	if quicksave_slot_id == -1:
+		filepath = Globals.d_levelState.replace("[replace_with_slot_id]", slot_current) + "/levelState_" + level_id + ".save"
+	else:
+		filepath = Globals.d_levelState.replace("[replace_with_slot_id]", slot_current) + "/quicksave_" + str(quicksave_slot_id) + ".save"
+	
+	
+	var file = FileAccess.open(filepath, FileAccess.WRITE)
+	
+	var persistent_nodes = get_tree().get_nodes_in_group("persistent")
+	for node in persistent_nodes:
+		
 		# Check the node is an instanced scene so it can be instanced again during load.
 		if node.scene_file_path.is_empty():
+			
 			print("persistent node '%s' is not an instanced scene, skipped" % node.name)
 			continue
+		
 		# Check the node has a save function.
 		if !node.has_method("save"):
 			print("persistent node '%s' is missing a save() function, skipped" % node.name)
 			continue
+		
 		# Call the node's save function.
-		var node_data = node.call("save")
-
+		var saved_object_properties = node.call("save")
+		
 		# JSON provides a static method to serialized JSON string.
-		var json_string = JSON.stringify(node_data)
-
+		var json_string = JSON.stringify(saved_object_properties)
+		
 		# Store the save dictionary as a new line in the save file.
 		file.store_line(json_string)
 	
 	
-	Globals.saved_level_score = Globals.level_score
+	SaveData.levelState_score = Globals.level_score
 	
-	Globals.reassign_player()
+	Globals.reassign_general()
 	
-	if Globals.World.last_checkpoint_pos == Vector2(0, 0):
-		Globals.saved_player_pos_x = Globals.Player.position.x
-		Globals.saved_player_pos_x = Globals.Player.position.y
+	if quicksave_slot_id == -1:
+		
+		if Globals.Player.last_checkpoint_pos == Vector2(-1, -1):
+			levelState_player_position_x = Globals.Player.position.x
+			levelState_player_position_y = Globals.Player.position.y
+		else:
+			levelState_player_position_x = Globals.Player.last_checkpoint_pos[0]
+			levelState_player_position_y = Globals.Player.last_checkpoint_pos[1]
+		
+		levelState_player_velocity_x = Globals.Player.velocity.x
+		levelState_player_velocity_y = Globals.Player.velocity.y
+	
 	else:
-		Globals.saved_player_pos_x = Globals.World.last_checkpoint_position[0]
-		Globals.saved_player_pos_y = Globals.World.last_checkpoint_pos[1]
+		
+		levelState_slot_player_position_x[quicksave_slot_id] = Globals.Player.position.x
+		levelState_slot_player_position_y[quicksave_slot_id] = Globals.Player.position.y
+		
+		levelState_slot_player_velocity_x[quicksave_slot_id] = Globals.Player.velocity.x
+		levelState_slot_player_velocity_y[quicksave_slot_id] = Globals.Player.velocity.y
 	
 	
-	%quicksavedDisplay/Label/AnimationPlayer.play("on_justQuicksaved")
-	
-	Globals.saveState_saved.emit()
-	
-	
-	await get_tree().create_timer(0.1, false).timeout
-	Globals.is_saving = false
+	Globals.levelState_saved.emit()
 
 
 # Set the "quicksave" property value to 0 for normal behaviour.
-func load_levelState(quicksave): # Value of "0" will cause it to load a state file matching the current level's overworld id, while values from 1 to 4 will cause it to load a matching quicksave file (levelState_quicksave1, levelState_quicksave2, etc.)
-	pass
+func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value of "none" will cause it to load a state file matching the current level's overworld id, while values from 1 to 4 will cause it to load a matching quicksave file (levelState_quicksave1, levelState_quicksave2, etc.)
+	if not Globals.load_levelState : return
+	
+	var filepath : String
+	
+	if quicksave_slot_id == -1:
+		filepath = Globals.d_levelState.replace("[replace_with_slot_id]", slot_current) + "/levelState_" + level_id + ".save"
+	else:
+		filepath = Globals.d_levelState.replace("[replace_with_slot_id]", slot_current) + "/quicksave_" + str(quicksave_slot_id) + ".save"
+	
+	
+	if not FileAccess.file_exists(filepath):
+		Globals.dm(str("Cannot load the levelState save file ('%s')." % filepath))
+		return
+	
+	Globals.dm(str("Loading the levelState save file (%s)." % filepath))
+	
+	var file = FileAccess.open(filepath, FileAccess.READ)
+	
+	
+	# Delete all currently existing persistent nodes.
+	var persistent_nodes = get_tree().get_nodes_in_group("persistent") + get_tree().get_nodes_in_group("Persist")
+	for node in persistent_nodes:
+		node.queue_free()
+	
+	while file.get_position() < file.get_length():
+		var json_string = file.get_line()
+
+		var json = JSON.new()
+
+		var parse_result = json.parse(json_string)
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			continue
+		
+		
+		var saved_object_properties = json.get_data()
+		
+		var new_object = load(saved_object_properties["filename"]).instantiate()
+		get_node(saved_object_properties["parent"]).add_child(new_object)
+		new_object.position = Vector2(saved_object_properties["pos_x"], saved_object_properties["pos_y"])
+		
+		for x in saved_object_properties.keys():
+			if x == "filename" or x == "parent" or x == "pos_x" or x == "pos_y":
+				continue
+			
+			new_object.set(x, saved_object_properties[x])
+	
+	
+	if quicksave_slot_id == -1:
+		Globals.Player.position = Vector2(SaveData.levelState_player_position_x, SaveData.levelState_player_position_y)
+		Globals.Player.velocity = Vector2(SaveData.levelState_player_velocity_x, SaveData.levelState_player_velocity_y)
+		
+		Globals.level_score = SaveData.levelState_score
+		
+		Globals.combo_score = 0
+		Globals.combo_tier = 1
+		Globals.combo_streak = 0
+	
+	else:
+		Globals.Player.position = Vector2(SaveData.levelState_slot_player_position_x[quicksave_slot_id], SaveData.levelState_slot_player_position_y[quicksave_slot_id])
+		Globals.Player.velocity = Vector2(SaveData.levelState_slot_player_velocity_x[quicksave_slot_id], SaveData.levelState_slot_player_velocity_y[quicksave_slot_id])
+		
+		Globals.level_score = SaveData.levelState_score
+		
+		Globals.combo_score = 0
+		Globals.combo_tier = 1
+		Globals.combo_streak = 0
+	
+	print(levelState_slot_player_position_x[quicksave_slot_id])
+	Globals.levelState_loaded.emit()
 
 
 func save_file(filepath : String, data_function : String):
@@ -586,7 +726,7 @@ func save_file(filepath : String, data_function : String):
 
 
 # Functions that delete the game's save files.
-func delete_levelState(slot_id : String, levelState_id: String): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
+func delete_levelState(level_id : String, slot_id : String = slot_current): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
 	var dir : DirAccess
 	if FileAccess.file_exists(Globals.d_levelState) : dir = DirAccess.open(Globals.d_levelState)
 	else : Globals.dm("The 'levelState' save file directory doesn't exist.") ; return
@@ -596,7 +736,7 @@ func delete_levelState(slot_id : String, levelState_id: String): # Target is a f
 			delete_file(filename, dir)
 	
 	else:
-		delete_file("levelState_" + levelState_id + "_" + slot_id, dir)
+		delete_file("levelState_" + level_id + "_" + slot_id, dir)
 
 func delete_file(filename, dir):
 	if not dir.file_exists(filename) : return
@@ -642,3 +782,16 @@ func delete_slot(id : String): # Deletes save files from the game's data folder.
 func wipe_slot(id : String):
 	reset_slot("all")
 	delete_slot("all")
+
+
+func create_save_directories():
+	var dir = DirAccess.open("user://")
+	dir.make_dir("saves")
+	
+	dir = DirAccess.open("user://saves")
+	dir.make_dir("slot_" + slot_current)
+	
+	dir = DirAccess.open("user://saves/slot_" + slot_current)
+	dir.make_dir("playerData")
+	dir.make_dir("levelSet")
+	dir.make_dir("levelState")

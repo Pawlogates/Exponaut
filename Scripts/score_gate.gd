@@ -13,7 +13,6 @@ func _on_area_2d_area_entered(area):
 		if activated:
 			return
 		
-		Globals.Player.get_node("Combo Manager").reset_combo_tier()
 		Overlay.HUD.get_node("ScoreDisplay").displayScore = Globals.level_score + Globals.combo_score
 		await get_tree().create_timer(0.1, false).timeout
 		
@@ -24,5 +23,3 @@ func _on_area_2d_area_entered(area):
 		
 		else:
 			$AnimationPlayer.play("locked")
-			if respawn_player_on_fail:
-				get_parent().retry_scoreGate()

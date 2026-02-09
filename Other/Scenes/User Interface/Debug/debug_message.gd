@@ -108,6 +108,8 @@ func handle_repeats():
 var currently_focused : bool = false
 
 func _on_mouse_entered() -> void:
+	message_container.modulate.a = 1.0
+	
 	if not is_important():
 		animation_player.stop()
 		animation_player.play("focus_entered")

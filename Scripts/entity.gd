@@ -19,14 +19,14 @@ var effect_thrownAway_scale = Vector2(rolled_effect_thrownAway_scale, rolled_eff
 var effect_thrownAway_rotation = randi_range(-720, 720)
 var effect_thrownAway_velocity = Vector2(randi_range(-1000 * effect_thrownAway_randomize_velocity_multiplier_x, 1000 * effect_thrownAway_randomize_velocity_multiplier_x), randi_range(-500 * effect_thrownAway_randomize_velocity_multiplier_y, -1000 * effect_thrownAway_randomize_velocity_multiplier_y))
 var effect_thrownAway_applied_velocity = false
-
+var number = randi_range(0, 999)
 
 func _ready():
 	basic_on_spawn()
 	reassign_general()
 	reassign_movement_type_id()
 	
-	animation_all.play("general/" + start_animation)
+	if start_animation != "none" : animation_all.play(start_animation)
 	
 	synchronize_animation()
 	
@@ -39,19 +39,35 @@ func _ready():
 		c_patrolling_change_direction.start()
 	
 	else:
-		scan_patrolling.monitoring = false
+		scan_patrolling_vision.monitoring = false
 	
 	
 	if movement_type == "move_y" or movement_type == "move_xy" or movement_type == "follow_player_y" or movement_type == "follow_player_y_if_spotted":
 		handle_gravity_in_movement_type = true
+	
+	
+	await get_tree().create_timer(0.5, true).timeout
+	
+	if reset_puzzle:
+		scan_reset_puzzle_coverage.monitorable = true
+		scan_reset_puzzle_coverage.monitoring = true
+	
+	await get_tree().create_timer(0.5, true).timeout
+	
+	if reset_puzzle:
+		scan_reset_puzzle_coverage.monitorable = false
+		scan_reset_puzzle_coverage.monitoring = false
 
 func _process(delta):
 	handle_movement(delta)
+	#if reset_puzzle_delete_node_queued : Globals.spawn_scenes(self, Globals.scene_particle_special2_multiple)
 	
 	if abs(velocity.x) > 15 : velocity_last_x = velocity.x
 	if abs(velocity.y) > 15 : velocity_last_y = velocity.y
 	
 	if on_death_effect_thrownAway or on_collected_decoration_nodes_effect_thrownAway : effect_thrownAway(delta)
+	
+	if effect_collected_multiple_active : effect_collected_multiple(delta)
 	
 	if direction_x != 0:
 		direction_active_x = direction_x
@@ -75,7 +91,7 @@ func _process(delta):
 	
 	if removable:
 		Globals.message_debug("Removed already collected entity.")
-		queue_free()
+		delete_entity()
 	
 	if on_collected_effect_special:
 		position = lerp(position, World.player.position + random_position_offset, delta)
@@ -108,9 +124,7 @@ func _process(delta):
 	
 	if patrolling : handle_patrolling()
 	
-	
-	if debug:
-		pass
+	if reset_puzzle_line_visible : queue_redraw()
 
 
 func handle_gravity(delta):
@@ -602,7 +616,7 @@ func effect_thrownAway(delta):
 	sprite.rotation_degrees = lerp(float(sprite.rotation_degrees), float(effect_thrownAway_rotation), delta)
 	velocity.y += delta * 1000
 	sprite.modulate.a += delta / 10
-	if sprite.modulate.a < 0.01 : queue_free()
+	if sprite.modulate.a < 0.01 : delete_entity()
 
 
 func handle_award_score():
@@ -676,7 +690,7 @@ func spawn_portal():
 func _on_animation_player_animation_finished(anim_name):
 	if anim_name == "collect_special":
 		Globals.message_debug("Special collectible has been deleted after the collect animation finished.")
-		queue_free()
+		delete_entity()
 
 
 #AREAS (water, wind, etc.)
@@ -703,14 +717,33 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 	
 	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
 	
-	handle_effects_collected()
+	if reset_puzzle_inside_zone:
+		Globals.dm("Updating the list of nodes in an 'reset_puzzle' entity.", 1)
+		
+		reset_puzzle_master_node.reset_puzzle_nodes_inside_zone.append(self)
+		reset_puzzle_delete_node_queued = true
+		reset_puzzle_master_node.reset_puzzle_activated.connect(reset_puzzle_delete_entities)
 	
-	collected = true
+	if not collectable_multiple:
+		collected = true
+		handle_effects_collected()
+		
+	else:
+		if collectable_multiple_health != -1 : collectable_multiple_health -= 1 ; collectable_multiple_health = clamp(collectable_multiple_health, 0, 9999)
+		
+		if collectable_multiple_health == 0 or collectable_multiple_health < -1:
+			collected = true
+			handle_effects_collected()
+		
+		else:
+			handle_effects_collected_multiple()
 	
-	Globals.combo_streak += 1
+	Globals.combo_streak += 1 # These values need to be modified before the "handle_award_score" function goes off, due to many of the visual effects being based on them.
 	Globals.entity_collected.emit()
 	
 	if award_score and on_collected_award_score : handle_award_score()
+	
+	if reset_puzzle and on_collected_reset_puzzle : handle_reset_puzzle()
 	
 	if majorCollectible_module:
 		var value = Globals.score_multiplier * Globals.combo_multiplier
@@ -737,12 +770,13 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 		get_tree().call_group("inventory_item", "selected_check")
 		
 		#get_tree().call_group("in_inventory", "itemOrder_correct")
-		
-	if on_collected_effect_thrownAway : effect_thrownAway_active = true
 	
-	if on_collected_decoration_nodes_effect_thrownAway:
-		for node in container_effect_thrownAway.get_children():
-			node.effect_thrownAway_active = true
+	if not reset_puzzle_inside_zone:
+		if on_collected_effect_thrownAway : effect_thrownAway_active = true
+		
+		if on_collected_decoration_nodes_effect_thrownAway:
+			for node in container_effect_thrownAway.get_children():
+				node.effect_thrownAway_active = true
 
 
 func handle_hittable(target):
@@ -813,7 +847,7 @@ func handle_death():
 	Globals.entity_hit.emit()
 	
 	hitbox.monitoring = false
-	scan_patrolling.monitoring = false
+	scan_patrolling_vision.monitoring = false
 	scan_ledge.enabled = false
 	scan_stuck.enabled = false
 	
@@ -921,7 +955,7 @@ func handle_breakable(target):
 				if not dead : velocity = Vector2(0, 0)
 				handle_effects_bounce()
 				
-				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y), "YELLOW", 0.0, 0.5)
+				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y), "YELLOW", 0.5)
 			
 			else:
 				target.velocity.y = breakable_on_hit_player_velocity_y
@@ -929,14 +963,16 @@ func handle_breakable(target):
 				if not dead : velocity = Vector2(0, 0)
 				handle_effects_bounce()
 				
-				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y_jump), "YELLOW", 0.0, 0.5)
+				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y_jump), "YELLOW", 0.5)
 		
 		else:
-			Globals.dm(str("Target's velocity.y (%s) was not within the range (%s) required by this entity to bounce off of." % [int(target.velocity.y), breakable_requires_velocity_y_range]), "YELLOW", 0.0, 0.5)
+			Globals.dm(str("Target's velocity.y (%s) was not within the range (%s) required by this entity to bounce off of." % [int(target.velocity.y), breakable_requires_velocity_y_range]), "YELLOW", 0.5)
 
 
 func handle_damage(value):
-	health_value -= value
+	if not immortal : health_value -= value
+	
+	health_value = clamp(health_value, 0, 9999)
 	
 	if anim_alternate_walk_hittable_only_during:
 		if sprite.animation == "walk_alt":
@@ -984,6 +1020,8 @@ func handle_friction(delta):
 var walk_alt_loop_number = 0
 
 func _on_sprite_animation_looped():
+	if not can_change_sprite_anim : return
+	
 	if anim_alternate_walk:
 		var anim_name = sprite.animation
 		Globals.dm(sprite.animation)
@@ -1003,6 +1041,8 @@ func _on_sprite_animation_looped():
 
 func sprite_animation():
 	basic_sprite_flipDirection()
+	
+	if not can_change_sprite_anim : return
 	
 	if patrolling:
 		if patrolling_target_spotted_active:
@@ -1099,8 +1139,8 @@ func _on_cooldown_patrolling_target_spotted_queue_timeout() -> void: # When the 
 
 
 func handle_patrolling():
-	if direction_active_x > 0 : scan_patrolling.scale.x = 1.0
-	elif direction_active_x < 0 : scan_patrolling.scale.x = -1.0
+	if direction_active_x > 0 : scan_patrolling_vision.scale.x = 1.0
+	elif direction_active_x < 0 : scan_patrolling_vision.scale.x = -1.0
 	
 	if patrolling_target_spotted_active:
 		if Globals.random_bool(1, 1):
@@ -1124,11 +1164,11 @@ func handle_effects_collected():
 	if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)
 	elif Globals.debug_mode : spawn_display_score_bonus(Globals.combo_score, -Vector2(-0.5, -0.5))
 	
-	if on_collected_spawn_star : Globals.spawn_scenes(World, Globals.scene_particle_special, 4 + 4 * Globals.combo_tier, position, 4.0)
-	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 4 + 4 * Globals.combo_tier, position, 4.0)
-	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 4 + 4 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_star : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_orb_blue : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 4 + 4 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 1 + 1 * Globals.combo_tier, position, 4.0)
 	
 	# Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier and other player-related changes).
 	if Globals.combo_streak == 20:
@@ -1151,5 +1191,122 @@ func handle_effects_collected():
 			spawn_particles(Globals.scene_particle_score, 100, Vector2(0, 0), Vector2(1, 1))
 
 
-func synchronize_animation():
-	animation_all.advance(position.x / 200)
+func handle_reset_puzzle():
+	await reset_puzzle_delete_entities()
+	#reset_puzzle_activated.emit()
+	
+	await get_tree().create_timer(0.5, true).timeout
+	
+	for entity in reset_puzzle_nodes_inside_zone:
+		
+		if entity.reset_puzzle_delete_node_queued:
+			entity.reset_all()
+			Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 3, position)
+			
+			sfx_manager.sfx_play([Globals.sfx_powerUp, Globals.sfx_powerUp2].pick_random(), randf_range(0.8, 1.2), randf_range(0.9, 1.1))
+		
+		else:
+			entity.animation_general.play("reflect_straight")
+		
+		await get_tree().create_timer(0.1, true).timeout
+	
+	
+	Globals.level_score = reset_puzzle_saved_score
+	Globals.score_reduced.emit()
+	
+	reset_puzzle_delete_entities2()
+
+
+func reset_all():
+	call_deferred("spawn_entity_copy")
+	
+	Globals.dm(str(number))
+	Globals.spawn_scenes(Globals.World, Globals.scene_particle_splash, 1, position)
+
+
+signal reset_puzzle_all_nodes_ready
+
+func spawn_entity_copy():
+	var filepath : String = scene_file_path
+	var entity = load(filepath).instantiate()
+	entity.position = position
+	entity.reset_puzzle_inside_zone = reset_puzzle_inside_zone
+	entity.reset_puzzle_line_visible = reset_puzzle_line_visible
+	entity.reset_puzzle_master_node = reset_puzzle_master_node
+	Globals.World.reset_puzzle_line_visible = reset_puzzle_line_visible
+	Globals.World.reset_puzzle_line_start = reset_puzzle_master_node.position
+	Globals.World.reset_puzzle_line_end = position
+	Globals.World.add_child(entity)
+	entity.effects_reset()
+
+func effects_reset():
+	Globals.dm("An entity (%s, %s) was covered by a 'reset_puzzle' entity. It had just been reset.")
+	
+	#animation_color.play("pulse_red_normal")
+	modulate *= 10
+	animation_general.play("reflect_straight")
+	sfx_manager.sfx_play(Globals.sfx_beam_enabled)
+	Globals.World.reset_puzzle_line_visible = true
+	
+	await get_tree().create_timer(1.0, true).timeout
+	
+	Globals.World.reset_puzzle_line_visible = false
+	Globals.World.queue_redraw()
+	animation_all.play("other_general/scale_downUp")
+	
+	await get_tree().create_timer(1.0, true).timeout
+	modulate = Color(1,1,1,1)
+	if start_animation != "none" : animation_all.play(start_animation)
+
+
+func handle_effects_collected_multiple():
+	set_hitbox(false, true)
+	
+	effect_collected_multiple_active = true
+	
+	sprite.stop()
+	sprite.speed_scale = 1.0
+	sprite.play("collected")
+	sfx_manager.sfx_play(Globals.sfx_electric_disabled2)
+	
+	await get_tree().create_timer(1.0 + 0.1 * len(reset_puzzle_nodes_inside_zone), true).timeout
+	
+	effect_collected_multiple_active = false
+	sprite.speed_scale = 1.0
+	sprite.play("idle")
+	Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 3, position)
+	Globals.spawn_scenes(Globals.World, Globals.scene_particle_special, 6, position)
+	
+	set_hitbox(true, true)
+
+func effect_collected_multiple(delta):
+	sprite.speed_scale += delta
+	sprite.play("collected")
+
+
+func _on_scan_reset_puzzle_coverage_area_entered(area: Area2D) -> void:
+	if not reset_puzzle : return
+	if not area.is_in_group("scan_always_active") : return
+	
+	if area.get_parent().is_in_group("entity"):
+		var entity = area.get_parent()
+		
+		Globals.dm("An entity is being assigned to a 'reset_puzzle' entity's zone.")
+		
+		if not entity.reset_puzzle:
+			entity.reset_puzzle_inside_zone = true
+			entity.reset_puzzle_master_node = self
+			Globals.World.reset_puzzle_line_start = entity.position
+			Globals.World.reset_puzzle_line_end = position
+
+
+func reset_puzzle_delete_entities():
+	for entity in reset_puzzle_nodes_inside_zone:
+		if entity.reset_puzzle_delete_node_queued : continue
+		
+		reset_puzzle_nodes_inside_zone.erase(entity)
+		entity.delete_entity()
+
+func reset_puzzle_delete_entities2():
+	for entity in reset_puzzle_nodes_inside_zone:
+		reset_puzzle_nodes_inside_zone.clear()

@@ -34,14 +34,20 @@ extends CharacterBody2D
 
 
 # Patrolling - [START]
-@onready var scan_patrolling: Area2D = $scan_patrolling
-@onready var collision_patrolling: CollisionShape2D = $scan_patrolling/collision_patrolling
+@onready var scan_patrolling_vision: Area2D = $scan_patrolling_vision
+@onready var collision_patrolling: CollisionShape2D = $scan_patrolling_vision/collision_patrolling
 @onready var c_patrolling_target_spotted_queue: Timer = $cooldown_patrolling_target_spotted_queue
 @onready var c_patrolling_target_spotted: Timer = $cooldown_patrolling_target_spotted
 @onready var c_patrolling_change_direction: Timer = $cooldown_patrolling_change_direction
 
 var patrolling_target_spotted_active = false
 # Patrolling - [END]
+
+@onready var scan_always_active: Area2D = $scan_always_active
+
+# Reset puzzle - [START]
+@onready var scan_reset_puzzle_coverage: Area2D = $scan_reset_puzzle_coverage
+# Reset puzzle - [END]
 
 # Sound effects.
 @onready var sfx_manager = $sfx_manager # The sound effects manager should be called every time a sound should play. Example: "sfx_manager.sfx_play(Globals.sfx_player_jump, 1.0, 0.0)"
@@ -51,10 +57,12 @@ var patrolling_target_spotted_active = false
 @onready var sfx3 = $sfx_manager/sfx3
 @onready var sfx4 = $sfx_manager/sfx4
 
+
+var active = false
+
 # States an entity can be in, used mainly for managing sprite animations. Note that an entity can be in multiple states at the same time.
-var attacked = false;
-var attacking = false;
-var dead = false;
+var attacked = false
+var attacking = false
 
 var can_turn = true
 
@@ -75,8 +83,13 @@ var velocity_last_y = -25
 var start_pos = Vector2(-1, -1) # If equal to Vector2(-1, -1), it will be assigned at _ready().
 
 var collected = false
+var dead = false
+var destroyed = false
+
 var rotten = false
+
 var only_visual = false
+
 var removable = false
 
 signal collected_majorCollectible_module
@@ -87,6 +100,21 @@ var random_position_offset = Vector2(randf_range(0, 250), randf_range(0, 250))
 var effect_shrink = false
 
 var wall_normal = Vector2(99, 99)
+
+
+# Reset Puzzle (an entity that resets all entities in its zone, used for retrying puzzles). - [START]
+var reset_puzzle_inside_zone = false # Right after the level is loaded, a "reset_puzzle" entity will look for nodes inside its coverage area ("scan_reset_puzzle_coverage" : "area2D") and add them all to the list ("reset_puzzle_nodes_inside_zone") which should NEVER change after that, for the entire playthrough.
+var reset_puzzle_delete_node_queued = false
+var reset_puzzle_nodes_inside_zone : Array
+var reset_puzzle_saved_score = -1 # The score value that will replace the player's overworld score when the puzzle gets reset. Note: It's needed so you can't abuse the fact that entities can respawn infinitely, to get infinite score.
+var reset_puzzle_line_visible = false
+var reset_puzzle_master_node : Node
+
+signal reset_puzzle_activated
+# Reset Puzzle (an entity that resets all entities in its zone, used for retrying puzzles). - [END]
+
+
+var effect_collected_multiple_active = false
 
 
 # Start of properties.
@@ -254,12 +282,12 @@ var wall_normal = Vector2(99, 99)
 @export var enteredFromAboveAndNotMoving_enable = true
 @export var enteredFromAboveAndNotMoving_velocity = -800
 
-@export var idle_sfx = false
-@export var idle_sfx_cooldown = 4.0
-@export var idle_sfx_randomize_cooldown = false
 
 @export var rng_custom = -1 # Set to -1 for random.
-@export var disable_animations = ["none", "none", "none"]
+
+
+@export var collectable_multiple = false
+@export var collectable_multiple_health = 4 # Set to "-1" for infinite.
 
 # If an entity is breakable, the player can bounce off of it, and gains greater height if the jump button is pressed during the bounce, making it a "box" in most cases.
 @export var breakable = true
@@ -463,9 +491,16 @@ var wall_normal = Vector2(99, 99)
 
 @export var award_score = true
 @export var on_collected_award_score = true
+@export var on_hit_award_score = false
 @export var on_death_award_score = false
 
+@export var reset_puzzle = false
+@export var on_collected_reset_puzzle = false
+@export var on_hit_reset_puzzle = false
+@export var on_death_reset_puzzle = false
+
 @export var remove_delay = 1.0
+
 @export var on_floor_bounce = false
 @export var on_wall_bounce = false
 
@@ -484,8 +519,17 @@ var wall_normal = Vector2(99, 99)
 
 @export_group("Other properties (visual).") # Section start.
 
-@export_enum("none", "loop_up_down", "loop_up_down_slight", "loop_scale") var start_animation = "loop_up_down"
-@export_enum("none", "loop_up_down", "rotate_around_y_fade_out", "reflect_straight") var on_collected_anim_name : String = "fade_out_up"
+@export_enum("none", "general/loop_up_down", "general/loop_up_down_slight", "general/loop_scale", "gear/rotate") var start_animation = "general/loop_up_down"
+@export_enum("none", "general/loop_up_down", "general/rotate_around_y_fade_out", "general/reflect_straight") var on_collected_anim_name : String = "general/fade_out_up"
+
+@export var can_change_sprite_anim : bool = false
+
+@export var disable_sprite_anims = ["none"]
+@export var disable_anims = ["none"]
+
+@export var idle_sfx = false
+@export var idle_sfx_cooldown = 4.0
+@export var idle_sfx_randomize_cooldown = false
 
 @export var on_collected_spawn_star : bool = true
 @export var on_collected_spawn_star2 : bool = true
@@ -553,7 +597,7 @@ func _on_particle_limiter_timeout():
 func remove_if_corpse():
 	await get_tree().create_timer(0.2, false).timeout
 	
-	if dead:
+	if dead or collected or destroyed:
 		Globals.dm("Attempting to remove a dead entity on it leaving the screen.", 1)
 		if len(container_effect_thrownAway.get_children()):
 			Globals.dm("The dead entity has a potentially still visible segments. Waiting additional 4 seconds.", 2)
@@ -565,9 +609,7 @@ func remove_if_corpse():
 
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
-	basic_on_active()
-	
-	add_to_group(family)
+	basic_on_inactive()
 	
 	if idle_sfx:
 		if idle_sfx_cooldown : cooldown_sfx_idle.wait_time = idle_sfx_cooldown # If "idle_sfx_cooldown" is not equal to "0".
@@ -577,6 +619,10 @@ func basic_on_spawn():
 
 # Executes on entity entering the camera view.
 func basic_on_inactive():
+	active = false
+	
+	Globals.dm(str("Entity %s has been made INACTIVE." % entity_name), "ORANGE_RED")
+	
 	set_process(false)
 	set_physics_process(false)
 	
@@ -605,6 +651,10 @@ func basic_on_inactive():
 
 # Executes on entity leaving the camera view.
 func basic_on_active():
+	active = true
+	
+	Globals.dm(str("Entity %s has been made ACTIVE." % entity_name), "ORANGE")
+	
 	set_process(true)
 	set_physics_process(true)
 	
@@ -623,7 +673,7 @@ func basic_on_active():
 	
 	#$jumpTimer.set_paused(false)
 	
-	animation_general.advance(abs(position[0]) / 100)
+	synchronize_animation()
 	
 	await get_tree().create_timer(0.5, false).timeout
 	hitbox.set_monitorable(true)
@@ -803,3 +853,37 @@ func randomize_everything():
 		scale.x = randf_range(0.1, 2)
 		scale.y = scale.x
 	if Globals.random_bool(4, 1) : sprite.material = null
+
+
+func synchronize_animation():
+	animation_all.advance(position.x / 500)
+
+
+func delete_entity():
+	queue_free() # Reset zone is a collection of entities that are tied to a "reset_puzzle" entity. The entity uses a "scan_reset_puzzle_coverage" node (area2D)'s collision, to determine which objects are part of the zone. They cannot be actually deleted (until the puzzle is solved) because they will be restored multiple times.
+
+
+func set_hitbox(active : bool, deferred : bool = true):
+	if deferred:
+		hitbox.set_deferred("monitoring", active)
+		hitbox.set_deferred("monitorable", active)
+	
+	else:
+		hitbox.set_monitorable(active)
+		hitbox.set_monitoring(active)
+
+
+func save():
+	var save_dict = {
+		"filename" : get_scene_file_path(),
+		"parent" : get_parent().get_path(),
+		"pos_x" : position.x, # Note: Unfortunately, Vector2 is not supported by JSON.
+		"pos_y" : position.y,
+		"test" : [position.x, position.y],
+		"collected" : collected,
+		"dead" : dead,
+		"destroyed" : destroyed,
+		"health_value" : health_value,
+	
+	}
+	return save_dict

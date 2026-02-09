@@ -16,7 +16,9 @@ can_move_y = true
 ignore_gravity = false
 friction_multiplier_x = 0.4
 patrolling = true
+patrolling_vision_size = Vector2(384, 128)
 start_animation = "none"
+can_change_sprite_anim = true
 entity_name = "pursuitron"
 entity_type = "enemy"
 

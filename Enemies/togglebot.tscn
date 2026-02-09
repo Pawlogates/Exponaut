@@ -502,7 +502,7 @@ _data = {
 &"rotate_around_y_fade_out": SubResource("Animation_75qk4")
 }
 
-[node name="togglebot" groups=["Entity"] instance=ExtResource("1_5yskg")]
+[node name="togglebot" instance=ExtResource("1_5yskg")]
 texture_filter = 3
 collision_layer = 0
 on_death_effect_thrownAway = true
@@ -519,18 +519,19 @@ can_move_y = true
 ignore_gravity = false
 on_wall_change_velocity_multiplier = Vector2(0.01, 0.5)
 on_ledge_turn = true
-idle_sfx = true
-idle_sfx_randomize_cooldown = true
 anim_alternate_walk = true
 anim_alternate_walk_hittable_only_during = true
 on_wall_jump_velocity = -200
 start_animation = "none"
+can_change_sprite_anim = true
+idle_sfx = true
+idle_sfx_randomize_cooldown = true
 entity_name = "togglebot"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_i7pjj")
-animation = &"walk"
+animation = &"walk_alt"
 
 [node name="animation_general" parent="sprite" index="1"]
 libraries = {
