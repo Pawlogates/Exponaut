@@ -6,6 +6,9 @@ extends Node2D
 # await get_tree().create_timer(1.0, true).timeout
 # (time : float, process_always : bool)
 
+# Print the TYPE of a given property to the console:
+# print(type_string(typeof(property)))
+
 # REMINDERS [END]
 
 var World : Node
@@ -36,17 +39,41 @@ const l_levelSet_id : Array = ["MAIN", "BONUS", "DEBUG"]
 const l_levelSet_name : Dictionary = {l_levelSet_id[0] : "Main Levels", l_levelSet_id[1] : "Bonus Levels", l_levelSet_id[2] : "Debug Levels"}
 const l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
 
-const l_animation_type : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
-const l_animation_type_all : Array = ["general, gear, ui"]
-const l_animation_name_general : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
-const l_animation_name_gear : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
+# Animations - [START]
+const l_animation_type_main : Array = ["general", "gear"] # The most generally reasonable option to choose.
+const l_animation_type_limited : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
+const l_animation_type_all : Array = ["general, gear, ui"] # Includes absolutely every animation type.
 
-const l_animation_type_limited : Array = ["general_limited", "gear_limited"]
-const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
+const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
 const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
+const l_animation_name_general_all : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
+
+const l_animation_name_gear_main : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
 const l_animation_name_gear_limited : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
+const l_animation_name_gear_all : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
+
+const l_animation_name_ui_main : Array = ["show", "hide"]
+const l_animation_name_ui_limited : Array = ["show", "hide"]
+const l_animation_name_ui_all : Array = ["show", "hide"]
+
+const l_animation_type_limited_main : Array = ["general_limited", "gear_limited"]
+const l_animation_type_limited_limited : Array = ["general_limited", "gear_limited"]
+const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
+# Animations - [END]
+
 const l_button_color = ["ORANGE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN"]
 const l_color = ["AQUA", "AQUAMARINE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN", "CORAL", "HOT_PINK", "ORANGE_RED", "YELLOW_GREEN", "DARK_MAGENTA", "INDIAN_RED", "LIGHT_CORAL", "GOLD", "MEDIUM_PURPLE", "MAROON", "MISTY_ROSE", "YELLOW_GREEN", "MIDNIGHT_BLUE", "PERU", "LIGHT_SEA_GREEN", "LIME_GREEN"]
+
+const l_entity_movement_main = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
+const l_entity_movement_limited = ["move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "chase_player_x", "chase_player_y", "chase_player_xy", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy"]
+const l_entity_movement_all = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
+
+const l_entity_type = ["collectible", "enemy", "projectile", "box", "block"]
+const l_entity_family = ["Player", "Enemy", "none", "all"]
+
+const l_animation_loop = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
+const l_temporary_powerUp = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
+
 
 # Reusable sentences (String):
 const s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
@@ -129,6 +156,10 @@ const material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres
 const material_score_value_rainbow2 = preload("res://Other/Materials/score_value_rainbow2.tres")
 const material_score_bonus_rainbow2 = preload("res://Other/Materials/score_bonus_rainbow2.tres")
 
+const style_button_menu = "res://Other/Styles/button_menu.tres"
+const style_button_menu2 = "res://Other/Styles/button_menu2.tres"
+const style_button_entity_editor = "res://Other/Styles/button_entity_editor.tres"
+
 
 # Main scenes:
 const scene_start_screen = preload("res://Other/Scenes/start_screen.tscn")
@@ -148,9 +179,9 @@ const scene_gear2 = preload("res://Objects/Decorations/gear2.tscn")
 const scene_gear3 = preload("res://Objects/Decorations/gear3.tscn")
 const scene_gear4 = preload("res://Objects/Decorations/gear4.tscn")
 const scene_gear5 = preload("res://Objects/Decorations/gear5.tscn")
-var scene_UI_button_general = load("res://Other/Scenes/User Interface/General/UI_button_general.tscn")
-var scene_UI_button_general_decoration_right_round = load("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_round.tscn")
-var scene_UI_button_general_decoration_right_slope = load("res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_slope.tscn")
+var scene_UI_button_general = "res://Other/Scenes/User Interface/General/UI_button_general.tscn"
+var scene_UI_button_general_decoration_right_round = "res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_round.tscn"
+var scene_UI_button_general_decoration_right_slope = "res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_slope.tscn"
 const scene_animation_general = preload("res://Other/Scenes/animation_general.tscn")
 const scene_animation_gear = preload("res://Other/Scenes/animation_gear.tscn")
 var scene_menu_main = load("res://Other/Scenes/User Interface/Menus/menu_main.tscn")
@@ -158,6 +189,15 @@ var scene_menu_settings = load("res://Other/Scenes/User Interface/Menus/menu_set
 var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/menu_select_levelSet.tscn")
 var scene_effect_score_value = load("res://Other/Scenes/display_score.tscn")
 var scene_effect_score_bonus = load("res://Other/Scenes/score_value.tscn")
+
+# Entity editor - [START]
+var scene_entity_editor = "res://Other/Scenes/Entity Editor/entity_editor.tscn"
+var scene_entity_editor_behavior_button = "res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.tscn"
+
+var entity_editor_icon_speed = "res://icon.png"
+var entity_editor_icon_ignore_gravity = "res://Assets/Graphics/other/icon.svg"
+var entity_editor_icon_movement_type = "res://Assets/Graphics/other/menu_deco.png"
+# Entity editor - [END]
 
 const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
@@ -578,12 +618,6 @@ func dm(text, importance = "none", remove_cooldown : float = -1.0): # This funct
 
 # Lists (Array) of various entity properties, used for randomization purposes.
 # These lists contain word based properties (String).
-const l_entity_movement = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
-const l_entity_movement_limited = ["stationary", "move_x", "follow_player_x", "wave_X", "move_around_startPosition_xy_if_not_spotted"]
-const l_loop_anim = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
-const l_level_id = ["MAIN_1", "MAIN_2", "MAIN_3", "MAIN_4", "MAIN_5", "MAIN_6", "MAIN_7", "MAIN_8"]
-const l_majorCollectible = ["red", "blue", "golden"]
-const list_temporary_powerUp = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
 
 #@onready var list_weapon = ["basic", "short_shotDelay", "ice", "fire", "destructive_fast_speed", "veryFast_speed", "phaser"]
 #@onready var list_secondaryWeapon = ["basic", "fast"]

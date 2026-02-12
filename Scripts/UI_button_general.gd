@@ -7,8 +7,8 @@ var button_levelSet_name = "none"
 
 signal button_clicked
 
-@onready var button_container : VBoxContainer = get_parent()
-@onready var menu : Control = button_container.get_parent()
+var button_container : Node
+var menu : Node
 
 @onready var decoration: Button = $decoration
 @onready var text_manager: Control = $text_manager
@@ -22,12 +22,15 @@ signal button_clicked
 @export var text_manager_letter_alignment = 0
 @export var text_manager_letter_animation_sync = true
 @export var text_manager_cooldown_create_message : float = -1.0
+@export var text_manager_cooldown_next_character : float = 0.01
 
 @export var decoration_base_size = Vector2(720, 64)
 @export var decoration_base_size_multiplier = Vector2(1.0, 1.0)
 @export var decoration_base_scale = Vector2(1, 1)
 @export var decoration_base_rotation = 1
 @export var decoration_base_position = Vector2(0, 0)
+@export var adjust_decoration_position : bool = true # Causes the decoration to adjust its position based on its parent's horizontal width.
+
 
 var is_pressed = false
 var is_focused = false
@@ -70,6 +73,13 @@ func _ready() -> void:
 	Globals.debug2.connect(debug_show_real_size)
 	Globals.refreshed2_0.connect(on_refreshed2_0)
 	
+	decoration.theme = load(button_style_filepath)
+	print("hello - " + load(button_style_filepath).get_path())
+	print(decoration.theme)
+	
+	button_container = get_parent()
+	menu = button_container.get_parent()
+	
 	mouse_filter = 0
 	decoration.mouse_filter = 0
 	
@@ -80,6 +90,7 @@ func _ready() -> void:
 	
 	text_manager.text_alignment = text_manager_letter_alignment
 	text_manager.text_animation_sync = text_manager_letter_animation_sync
+	text_manager.cooldown_next_character = text_manager_cooldown_next_character
 	
 	if text_manager_cooldown_create_message != -1.0:
 		text_manager.cooldown_create_message = text_manager_cooldown_create_message
@@ -102,8 +113,8 @@ func _ready() -> void:
 	decoration.mouse_filter = 1
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	decoration.size -= Vector2(delta, delta) * 5
 	if correct_pivot_offset or is_focused : decoration.pivot_offset = decoration.size / 2
 	
 	if active:
@@ -316,6 +327,10 @@ func spawn_decoration_gears(delete_old : bool = true):
 			
 			Globals.message_debug(str("Spawning gear button decoration... (Chance of success: %s)" % gear_fail_chance))
 
+@export_file("*.tscn") var edge_decoration1_filepath = "res://Other/Scenes/debug_marker.tscn"
+@export_file("*.tscn") var edge_decoration2_filepath = "res://Other/Scenes/debug_marker.tscn"
+@export_file("*.tres") var button_style_filepath = "res://Other/Themes/button_menu2.tres"
+
 func spawn_decoration_edges(delete_old : bool = true):
 	if delete_old:
 		Globals.message_debug("Deleting old button right decorations.")
@@ -326,9 +341,9 @@ func spawn_decoration_edges(delete_old : bool = true):
 	var decoration_right : Node
 	
 	if Globals.random_bool(1, 1):
-		decoration_right = Globals.scene_UI_button_general_decoration_right_round.instantiate()
+		decoration_right = load(edge_decoration1_filepath).instantiate()
 	else:
-		decoration_right = Globals.scene_UI_button_general_decoration_right_slope.instantiate()
+		decoration_right = load(edge_decoration2_filepath).instantiate()
 	
 	decoration_right.position = Vector2(decoration.size.x - 2, 0)
 	
@@ -337,11 +352,15 @@ func spawn_decoration_edges(delete_old : bool = true):
 func adjust_decoration():
 	pivot_offset = size / 2
 	
+	custom_minimum_size = decoration_base_size * decoration_base_size_multiplier
+	size = decoration_base_size * decoration_base_size_multiplier
+	decoration.custom_minimum_size = decoration_base_size * decoration_base_size_multiplier
 	decoration.size = decoration_base_size * decoration_base_size_multiplier
 	decoration.size.x *= randf_range(0.9, 1.1)
 	decoration.pivot_offset = decoration.size / 2
 	decoration.position = Vector2(0, 0)
-	decoration.position.x += (get_parent().size.x - decoration.size.x) / 2
+	# This property should be disabled if the parent of the button is not a container (or only if it's a vertical one, not sure).
+	if adjust_decoration_position : decoration.position.x += (get_parent().size.x - decoration.size.x) / 2
 	decoration.scale = decoration_base_scale
 	
 	original_pos = position

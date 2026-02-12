@@ -196,7 +196,7 @@ var effect_collected_multiple_active = false
 
 # Behavior triggered on entity death:
 @export var on_death_spawn_entity = false
-@export var on_death_spawn_entity_scene = load("res://Enemies/togglebot.tscn")
+@export_file("*.scene") var on_death_spawn_entity_scene = "res://Enemies/togglebot.tscn"
 @export var on_death_spawn_entity_quantity = 1
 @export var on_death_spawn_entity_spreadPosition = false
 @export var on_death_spawn_entity_spreadPosition_multiplier_x = 1.0
@@ -214,7 +214,7 @@ var effect_collected_multiple_active = false
 
 # Behavior triggered on entity hit:
 @export var on_hit_spawn_entity = false
-@export var on_hit_spawn_entity_scene = load("res://Enemies/togglebot.tscn")
+@export_file("*.scene") var on_hit_spawn_entity_scene = "res://Enemies/togglebot.tscn"
 @export var on_hit_spawn_entity_quantity = 1
 @export var on_hit_spawn_entity_spreadPosition = false
 @export var on_hit_spawn_entity_spreadPosition_multiplier_x = 1.0
@@ -230,15 +230,15 @@ var effect_collected_multiple_active = false
 @export var patrolling_vision_pos = Vector2(192, 0)
 
 @export var on_patrolling_spotted_spawn_entity = false
-@export var on_patrolling_spotted_spawn_entity_scene = load("res://Enemies/togglebot.tscn")
+@export_file("*.scene") var on_patrolling_spotted_spawn_entity_scene = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity_cooldown = 0.5
 
 @export var on_patrolling_spotted_spawn_entity2 = false
-@export var on_patrolling_spotted_spawn_entity_scene2 = load("res://Enemies/togglebot.tscn")
+@export_file("*.scene") var on_patrolling_spotted_spawn_entity_scene2 = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity2_cooldown = 0.5
 
 @export var on_patrolling_spotted_spawn_entity3 = false
-@export var on_patrolling_spotted_spawn_entity_scene3 = load("res://Enemies/togglebot.tscn")
+@export_file("*.scene") var on_patrolling_spotted_spawn_entity_scene3 = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity3_cooldown = 0.5
 
 @export var on_patrolling_spotted_spawn_entity_offset = Vector2(0, 0)

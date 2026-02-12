@@ -1,7 +1,10 @@
 class_name menu_general
 extends Control
 
-@onready var container_buttons: VBoxContainer = $container_buttons
+# Note: The Level Set screen reuses "menu_main", with more buttons disabled (using exported properties), unlike the settings menu. The reason is that unlike Settings, the Level Set screen doesn't require many buttons, and all of the needed ones overlap with the Main Menu anyway.
+
+@onready var container_buttons = $container_buttons # It is crucial to add a container node to the menu core for the menu to work. It's not added by default only because it would limit the type of container used, to just one (nodes in inherited scenes do not allow you to change their type).
+
 @onready var t_destabilized: Timer = $timer_destabilized
 @onready var c_toggle_button_destabilize_modulate_reversed: Timer = $cooldown_toggle_button_destabilize_modulate_reversed
 
@@ -68,9 +71,9 @@ func destabilize_buttons_randomize(d_pos_x : bool = true, d_pos_y : bool = true,
 		destabilize_type = l_destabilize_type.pick_random()
 		
 		if destabilize_type == "pos_y" or destabilize_type == "pos_xy":
-			Globals.message_debug(str("Rolled an uncommon destabilization type (%s). There is now a 50% chance for it to be considered valid." % destabilize_type), 1)
-			if randi_range(0, 20) > 10 : valid = false ; Globals.message_debug("The 50% chance roll has failed. Retrying...", 2)
-			else : valid = true ; Globals.message_debug("The 25% chance roll has succeeded.", 1)
+			Globals.message_debug(str("Rolled an uncommon destabilization type (%s). There is now a 50 percent chance for it to be considered valid." % str(destabilize_type)), 1)
+			if randi_range(0, 20) > 10 : valid = false ; Globals.message_debug("The 50 percent chance roll has failed. Retrying...", 2)
+			else : valid = true ; Globals.message_debug("The 25 percent chance roll has succeeded.", 1)
 			
 		else:
 			valid = true
@@ -151,6 +154,8 @@ func _on_timer_destabilized_timeout() -> void:
 					button.get_node("%debug_pos").modulate = Color.GREEN_YELLOW
 					button.get_node("%debug_target_pos").modulate = Color.GREEN_YELLOW
 					button.get_node("%debug_original_pos").modulate = Color.GREEN_YELLOW
+	
+	Globals.dm("Menu buttons are no longer destabilized.")
 
 
 var ready_buttons = 0

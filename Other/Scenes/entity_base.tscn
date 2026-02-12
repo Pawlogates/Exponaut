@@ -29,6 +29,7 @@ floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
+position = Vector2(0, 22.5322)
 sprite_frames = ExtResource("3_fjle6")
 animation = &"idle"
 

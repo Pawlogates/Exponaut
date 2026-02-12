@@ -167,7 +167,7 @@ func set_randomize_everything():
 func reassign_general():
 	decoration = get_child(3)
 	
-	for animation_type in Globals.l_animation_type:
+	for animation_type in Globals.l_animation_type_limited:
 		
 		var node_name = "animation_" + animation_type
 		

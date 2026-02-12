@@ -11,12 +11,19 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="container_buttons" parent="." index="0"]
+[node name="container_buttons" type="VBoxContainer" parent="." index="0"]
+z_index = 25
+layout_mode = 1
 anchors_preset = 13
-anchor_top = 0.0
+anchor_left = 0.5
+anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -32.0
 offset_right = 32.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
 
 [node name="btn_Start New Game" parent="container_buttons" index="0" instance=ExtResource("2_0mlty")]
 layout_mode = 2

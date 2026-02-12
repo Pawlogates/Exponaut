@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://ca58m4tmqnodt"]
+
+[ext_resource type="Script" uid="uid://iha08rqr4k3r" path="res://await_entity_editor.gd" id="1_mcqp5"]
+
+[node name="await_entity_editor" type="Node2D"]
+script = ExtResource("1_mcqp5")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=11 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
 [ext_resource type="PackedScene" uid="uid://bec60ts473x1w" path="res://Other/Scenes/User Interface/Debug/await_debug.tscn" id="3_xupot"]
+[ext_resource type="PackedScene" uid="uid://ca58m4tmqnodt" path="res://Other/Scenes/User Interface/Debug/await_entity_editor.tscn" id="4_2pv2x"]
 [ext_resource type="PackedScene" uid="uid://ifj2hp6u65is" path="res://Other/Scenes/User Interface/Debug/await_HUD.tscn" id="4_cw5ax"]
 
 [sub_resource type="Animation" id="Animation_g0n3s"]
@@ -114,3 +115,5 @@ libraries = {
 [node name="await_HUD" parent="." instance=ExtResource("4_cw5ax")]
 
 [node name="await_debug" parent="." instance=ExtResource("3_xupot")]
+
+[node name="await_entity_editor" parent="." instance=ExtResource("4_2pv2x")]

@@ -193,9 +193,10 @@ func _ready():
 
 
 func _process(delta):
-	if Input.is_action_pressed("LMB"):
-		position = get_global_mouse_position()
-		velocity.y = 0
+	if Globals.debug_mode:
+		if Input.is_action_pressed("LMB"):
+			position = get_global_mouse_position()
+			velocity.y = 0
 	
 	update_can() # The word "can" does too.
 	

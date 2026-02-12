@@ -5,6 +5,23 @@
 
 [node name="menu_settings" instance=ExtResource("1_a1kvi")]
 
+[node name="container_buttons" type="VBoxContainer" parent="." index="0"]
+z_index = 25
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -168.0
+offset_right = 32.0
+offset_bottom = 168.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
 [node name="btn_Video" parent="container_buttons" index="0" instance=ExtResource("2_cgm2q")]
 layout_mode = 2
 

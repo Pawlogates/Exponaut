@@ -505,6 +505,7 @@ _data = {
 }
 
 [node name="text_manager_character" type="Control"]
+z_index = 5
 custom_minimum_size = Vector2(20, 40)
 layout_mode = 3
 anchors_preset = 0
@@ -516,6 +517,7 @@ script = ExtResource("1_sjc3v")
 [node name="character" type="RichTextLabel" parent="."]
 light_mask = 2
 visibility_layer = 2
+clip_contents = false
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -533,6 +535,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_5w5jm"),
 &"ui": ExtResource("4_5w5jm")
 }
+
+[node name="bg" type="ColorRect" parent="character"]
+z_index = -1
+layout_mode = 0
+offset_left = -5.0
+offset_top = 10.0
+offset_right = 25.0
+offset_bottom = 50.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
 
 [node name="sfx" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("6_nvc2c")

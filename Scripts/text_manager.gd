@@ -5,6 +5,7 @@ extends Control
 @export var text_full = "" # This is the main text property which should be targeted when instantiating this scene.
 @export var text_alignment = 0
 @export var text_animation_sync = true
+@export var cooldown_next_character : float = 0.01
 
 @export var cooldown_remove_message : float = -1.0
 @export var cooldown_create_message : float = -1.0
@@ -12,6 +13,8 @@ extends Control
 @export var character_anim_speed_scale : float = 1.0
 @export var character_anim_backwards : bool = false
 @export var text_animation_add_offset : float = -1.0
+@export var character_bg_simple = false
+@export var character_bg_simple_color = Color("BLACK")
 
 
 var text_visible = "none"
@@ -40,7 +43,7 @@ func _ready() -> void:
 		
 		for character in $row1.get_children():
 			character.removable = true
-			await get_tree().create_timer(0.01, true).timeout
+			await get_tree().create_timer(cooldown_next_character, true).timeout
 		
 		await get_tree().create_timer(4, true).timeout
 		queue_free()
@@ -53,7 +56,7 @@ func _physics_process(delta: float) -> void:
 var current_character_is_rule_name = false
 var current_rule = "none"
 
-func create_message(message = last_text_full):
+func create_message(message : String = last_text_full):
 	if cooldown_create_message != -1.0:
 		Globals.message_debug(str("Text Manager's message creation has been delayed by %s") % cooldown_create_message, 3)
 		c_create_message.wait_time = cooldown_create_message
@@ -93,11 +96,15 @@ func create_message(message = last_text_full):
 
 func add_letter(character):
 	var letter = Globals.scene_text_manager_character.instantiate()
+	
+	letter.bg_simple = character_bg_simple
+	letter.bg_simple_color = character_bg_simple_color
+	
 	$row1.add_child(letter)
 	
 	letter.character.text = str(character)
 	
-	for anim_name in Globals.l_animation_name_general:
+	for anim_name in Globals.l_animation_name_general_main:
 		if current_rule == str("[anim_%s]" % anim_name):
 			
 			letter.animation_player.speed_scale = character_anim_speed_scale
@@ -123,6 +130,7 @@ func add_letter(character):
 		letter.sfx.play()
 		
 		sfx_limit = 10 + randi_range(-10, 20)
+	
 	
 	character_id += 1
 	sfx_limit -= 1

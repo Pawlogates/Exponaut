@@ -226,6 +226,7 @@ _data = {
 
 [node name="UI_button_general" type="Button" groups=["UI_button"]]
 self_modulate = Color(1, 1, 1, 0)
+texture_filter = 1
 custom_minimum_size = Vector2(64, 64)
 anchors_preset = 8
 anchor_left = 0.5
@@ -238,13 +239,13 @@ offset_right = 32.0
 offset_bottom = 32.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 flat = true
 script = ExtResource("1_2wonl")
 
 [node name="decoration" type="Button" parent="." groups=["UI_button_decoration"]]
 light_mask = 2
 visibility_layer = 2
-texture_filter = 3
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 1
 anchors_preset = 8

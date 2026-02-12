@@ -4,6 +4,10 @@ extends Control
 @onready var animation_player: AnimationPlayer = $character/animation_general
 @onready var sfx: AudioStreamPlayer2D = $sfx
 @onready var cooldown_sfx: Timer = $cooldown_sfx
+@onready var bg: ColorRect = $character/bg
+
+@export var bg_simple = false
+@export var bg_simple_color = Color("BLACK")
 
 var character_text = "-"
 var letter_x = 20
@@ -40,6 +44,15 @@ var rolled_opacity_multiplier = randf_range(0.25, 4)
 var rolled_rotation = randi_range(-720, 720)
 var rolled_pivot_offset = Vector2(randi_range(-1000, 1000), randi_range(-1000, 1000))
 
+
+func _ready() -> void:
+	if bg_simple:
+		Globals.dm("Made a Text Manager Character's simple background visible.", "GREEN")
+		bg.visible = true
+		bg.color = bg_simple_color
+	else:
+		Globals.dm("Deleted a Text Manager Character's simple background.", "RED")
+		bg.queue_free()
 
 func _process(delta: float) -> void:
 	if removable:

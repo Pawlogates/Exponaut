@@ -198,7 +198,7 @@ func _on_hitbox_area_exited(target: Area2D) -> void:
 
 
 func reassign_movement_type_id():
-	movement_type_id = Globals.l_entity_movement.find(movement_type)
+	movement_type_id = Globals.l_entity_movement_all.find(movement_type)
 
 
 # Functionality around entities being inside other entities, which causes them to modify their movement. This is the case when this entity's HITBOX is inside another entity's MAIN COLLISION.
@@ -1161,6 +1161,7 @@ func handle_effects_collected():
 	if on_collected_anim_name != "none" : animation_general.play("fade_out_up")
 	
 	spawn_display_score(score_value)
+	
 	if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)
 	elif Globals.debug_mode : spawn_display_score_bonus(Globals.combo_score, -Vector2(-0.5, -0.5))
 	
