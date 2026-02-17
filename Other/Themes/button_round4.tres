@@ -1,0 +1,15 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://bomfvjw6aiq56"]
+
+[ext_resource type="FontFile" uid="uid://bxebncx20vx5q" path="res://Other/Fonts/font_main.png" id="1_1wjoc"]
+[ext_resource type="StyleBox" uid="uid://b6s42av7oudco" path="res://Other/Styles/button_round4.tres" id="2_1wjoc"]
+
+[resource]
+default_font = ExtResource("1_1wjoc")
+default_font_size = 32
+Button/colors/font_focus_color = Color(1, 1, 1, 0.827451)
+Button/fonts/font = ExtResource("1_1wjoc")
+Button/styles/disabled = ExtResource("2_1wjoc")
+Button/styles/focus = ExtResource("2_1wjoc")
+Button/styles/hover = ExtResource("2_1wjoc")
+Button/styles/normal = ExtResource("2_1wjoc")
+Button/styles/pressed = ExtResource("2_1wjoc")

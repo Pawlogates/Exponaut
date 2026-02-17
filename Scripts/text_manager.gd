@@ -13,8 +13,11 @@ extends Control
 @export var character_anim_speed_scale : float = 1.0
 @export var character_anim_backwards : bool = false
 @export var text_animation_add_offset : float = -1.0
+
 @export var character_bg_simple = false
 @export var character_bg_simple_color = Color("BLACK")
+
+@export var text_offset = Vector2(0, 0)
 
 
 var text_visible = "none"
@@ -27,9 +30,12 @@ var character_id = 0
 
 var sfx_limit = 0
 
+
 func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 1 to a Text Manager, with the target function being 'create_message'.")
 	Globals.debug1.connect(debug_create_message)
+	
+	position += text_offset
 	
 	sfx_limit = 0
 	
@@ -56,7 +62,9 @@ func _physics_process(delta: float) -> void:
 var current_character_is_rule_name = false
 var current_rule = "none"
 
-func create_message(message : String = last_text_full):
+func create_message(message : String = text_full):
+	if message == "none" : return
+	
 	if cooldown_create_message != -1.0:
 		Globals.message_debug(str("Text Manager's message creation has been delayed by %s") % cooldown_create_message, 3)
 		c_create_message.wait_time = cooldown_create_message

@@ -5,6 +5,8 @@ var remove = false # Decides whether this button will appear in a spawned genera
 var button_levelSet_id = "none"
 var button_levelSet_name = "none"
 
+var choice = "none"
+
 signal button_clicked
 
 var button_container : Node
@@ -18,18 +20,27 @@ var menu : Node
 @onready var sfx_focused: AudioStreamPlayer2D = $sfx_focused
 @onready var sfx_clicked: AudioStreamPlayer2D = $sfx_clicked
 
+@onready var entity_editor : Node
+
+
 @export var text_manager_message = "none"
 @export var text_manager_letter_alignment = 0
 @export var text_manager_letter_animation_sync = true
 @export var text_manager_cooldown_create_message : float = -1.0
 @export var text_manager_cooldown_next_character : float = 0.01
+@export var text_manager_text_offset = Vector2(0, 0)
 
 @export var decoration_base_size = Vector2(720, 64)
 @export var decoration_base_size_multiplier = Vector2(1.0, 1.0)
 @export var decoration_base_scale = Vector2(1, 1)
 @export var decoration_base_rotation = 1
 @export var decoration_base_position = Vector2(0, 0)
-@export var adjust_decoration_position : bool = true # Causes the decoration to adjust its position based on its parent's horizontal width.
+
+@export var adjust_decoration_size : bool = false # Decoration size will match the text manager message length. Base size will be ignored if this is set to "true".
+@export var adjust_decoration_position : bool = false # Causes the decoration to adjust its position based on its parent's horizontal width.
+
+@export var decoration_edge_base_change_scale = false
+@export var decoration_edge_base_scale = Vector2(0.1, 0.1)
 
 
 var is_pressed = false
@@ -73,9 +84,9 @@ func _ready() -> void:
 	Globals.debug2.connect(debug_show_real_size)
 	Globals.refreshed2_0.connect(on_refreshed2_0)
 	
+	entity_editor = get_tree().get_first_node_in_group("entity_editor")
+	
 	decoration.theme = load(button_style_filepath)
-	print("hello - " + load(button_style_filepath).get_path())
-	print(decoration.theme)
 	
 	button_container = get_parent()
 	menu = button_container.get_parent()
@@ -91,6 +102,7 @@ func _ready() -> void:
 	text_manager.text_alignment = text_manager_letter_alignment
 	text_manager.text_animation_sync = text_manager_letter_animation_sync
 	text_manager.cooldown_next_character = text_manager_cooldown_next_character
+	text_manager.text_offset = text_manager_text_offset
 	
 	if text_manager_cooldown_create_message != -1.0:
 		text_manager.cooldown_create_message = text_manager_cooldown_create_message
@@ -111,10 +123,15 @@ func _ready() -> void:
 	
 	mouse_filter = 1
 	decoration.mouse_filter = 1
+	
+	if menu.type == "Array_choice":
+		text_manager.create_message(str(choice))
+		modulate.a = 1.0
 
 
 func _process(delta: float) -> void:
-	decoration.size -= Vector2(delta, delta) * 5
+	if animation_player.is_playing() : return
+	
 	if correct_pivot_offset or is_focused : decoration.pivot_offset = decoration.size / 2
 	
 	if active:
@@ -155,6 +172,8 @@ func _process(delta: float) -> void:
 
 
 func spawn_decoration(debug : bool = false):
+	if menu.type == "Array_choice" : await get_tree().create_timer(1, true).timeout
+	
 	if not debug:
 		await get_tree().create_timer(0.05, true).timeout
 		adjust_decoration()
@@ -162,6 +181,7 @@ func spawn_decoration(debug : bool = false):
 		spawn_decoration_gears(false)
 		await get_tree().create_timer(0.05, true).timeout
 		spawn_decoration_edges(false)
+		await get_tree().create_timer(0.05, true).timeout
 		
 		button_ready.emit()
 		button_quantity = menu.button_quantity
@@ -184,8 +204,27 @@ func _on_button_down() -> void:
 func _on_button_up() -> void:
 	is_pressed = false
 	
-	animation_player.play("clicked")
 	button_clicked.emit()
+	
+	if menu.type != "Array" and menu.type != "bool":
+		animation_player.stop()
+		animation_player.play("clicked")
+	
+	elif menu.type == "Array":
+		animation_player.speed_scale = 4.0
+		animation_player.stop()
+		animation_player.play("rotate")
+	
+	elif menu.type == "bool":
+		animation_player.speed_scale = 1.0
+		animation_player.stop()
+		
+		if menu.property_value:
+			modulate = Color.GREEN
+			animation_player.play("rotate_up_and_back")
+		else:
+			modulate = Color.RED
+			animation_player.play("rotate_down_and_back")
 	
 	sfx_clicked.play()
 
@@ -212,12 +251,14 @@ func _on_mouse_entered() -> void: # This does trigger on hovering over the butto
 	if not enabled : return
 	
 	is_focused = true
+	menu.button_is_focused = true
 	
 	cooldown_active.start()
 	
-	animation_player.stop()
-	animation_player.speed_scale = 4.0
-	animation_player.play("focused")
+	if menu.type != "Array" and menu.type != "bool":
+		animation_player.stop()
+		animation_player.speed_scale = 4.0
+		animation_player.play("focused")
 	
 	sfx_focused.pitch_scale = randf_range(0.8, 1.2)
 	sfx_focused.play()
@@ -225,6 +266,7 @@ func _on_mouse_entered() -> void: # This does trigger on hovering over the butto
 
 func _on_mouse_exited() -> void:
 	is_focused = false
+	menu.button_is_focused = false
 	
 	active = false
 	cooldown_active.stop()
@@ -327,11 +369,14 @@ func spawn_decoration_gears(delete_old : bool = true):
 			
 			Globals.message_debug(str("Spawning gear button decoration... (Chance of success: %s)" % gear_fail_chance))
 
-@export_file("*.tscn") var edge_decoration1_filepath = "res://Other/Scenes/debug_marker.tscn"
-@export_file("*.tscn") var edge_decoration2_filepath = "res://Other/Scenes/debug_marker.tscn"
+@export_file("*.tscn") var edge_decoration1_filepath = "res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_round.tscn"
+@export_file("*.tscn") var edge_decoration2_filepath = "res://Other/Scenes/User Interface/General/UI_button_general_decoration_right_slope.tscn"
 @export_file("*.tres") var button_style_filepath = "res://Other/Themes/button_menu2.tres"
 
 func spawn_decoration_edges(delete_old : bool = true):
+	if edge_decoration1_filepath == "none" : return
+	if edge_decoration2_filepath == "none" : return
+	
 	if delete_old:
 		Globals.message_debug("Deleting old button right decorations.")
 		for node in decoration.get_children():
@@ -340,12 +385,21 @@ func spawn_decoration_edges(delete_old : bool = true):
 	
 	var decoration_right : Node
 	
-	if Globals.random_bool(1, 1):
+	if edge_decoration1_filepath != "none" and edge_decoration2_filepath != "none":
+		if Globals.random_bool(1, 1):
+			decoration_right = load(edge_decoration1_filepath).instantiate()
+		else:
+			decoration_right = load(edge_decoration2_filepath).instantiate()
+	
+	elif edge_decoration1_filepath != "none" and edge_decoration2_filepath == "none":
 		decoration_right = load(edge_decoration1_filepath).instantiate()
-	else:
+	elif edge_decoration2_filepath != "none" and edge_decoration1_filepath == "none":
 		decoration_right = load(edge_decoration2_filepath).instantiate()
 	
-	decoration_right.position = Vector2(decoration.size.x - 2, 0)
+	decoration_right.position = Vector2(decoration.size.x - 1, 0)
+	if decoration_edge_base_change_scale:
+		decoration_right.scale.x = decoration_edge_base_scale.x * randi_range(0.8, 1.2)
+		decoration_right.scale.y = decoration_right.scale.x
 	
 	decoration.add_child(decoration_right)
 
@@ -355,12 +409,27 @@ func adjust_decoration():
 	custom_minimum_size = decoration_base_size * decoration_base_size_multiplier
 	size = decoration_base_size * decoration_base_size_multiplier
 	decoration.custom_minimum_size = decoration_base_size * decoration_base_size_multiplier
-	decoration.size = decoration_base_size * decoration_base_size_multiplier
-	decoration.size.x *= randf_range(0.9, 1.1)
+	if not adjust_decoration_size:
+		decoration.size = decoration_base_size * decoration_base_size_multiplier
+		decoration.size.x *= randf_range(0.9, 1.1)
+	else:
+		decoration.size = decoration_base_size * decoration_base_size_multiplier
+		if menu.type == "Array_choice":
+			decoration.size.x = 25 * len(str(choice)) + 32 # text_manager.letter_x
+		else:
+			decoration.size.x = 25 * len(text_manager_message) + 32
+	
 	decoration.pivot_offset = decoration.size / 2
 	decoration.position = Vector2(0, 0)
+	
 	# This property should be disabled if the parent of the button is not a container (or only if it's a vertical one, not sure).
-	if adjust_decoration_position : decoration.position.x += (get_parent().size.x - decoration.size.x) / 2
+	if adjust_decoration_position:
+		if menu.type == "Array_choice":
+			decoration.position.x -= decoration.size.x / 2
+		else:
+			decoration.position.x += (get_parent().size.x - decoration.size.x) / 2
+	
+	
 	decoration.scale = decoration_base_scale
 	
 	original_pos = position
@@ -429,3 +498,12 @@ func debug_place_markers(x):
 func on_refreshed2_0():
 	debug_show_real_size(false)
 	if Globals.debug_mode : menu.button_color = Globals.l_color.pick_random()
+
+
+var target_node : Node
+
+func _on_pressed() -> void:
+	if menu.type == "Array_choice":
+		if target_node:
+			target_node.behavior_chosen_option = choice
+			target_node.apply_chosen_option()

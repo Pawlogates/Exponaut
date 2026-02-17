@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://dfh70lcgiwd82"]
+
+[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="1_w5m5i"]
+
+[node name="UI_button_general_choice" instance=ExtResource("1_w5m5i")]
+decoration_base_size = Vector2(64, 64)
+decoration_base_size_multiplier = Vector2(0.5, 0.5)
+decoration_base_position = Vector2(-32, 0)
+adjust_decoration_size = true
+decoration_edge_base_change_scale = true
+edge_decoration1_filepath = "uid://b2swb0rn67xn1"
+edge_decoration2_filepath = "uid://bqld15rk5235o"
+button_style_filepath = "uid://dcxfejhbbj3pi"
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

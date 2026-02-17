@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://8melvub701c3"]
+
+[ext_resource type="AnimationLibrary" uid="uid://bnr2kn8xu1yux" path="res://Other/Animations/entity_editor_general.tres" id="1_n570l"]
+
+[node name="animation_entity_editor_general" type="AnimationPlayer"]
+root_node = NodePath("../..")
+libraries = {
+&"": ExtResource("1_n570l")
+}

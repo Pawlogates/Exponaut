@@ -129,19 +129,21 @@ func _process(delta):
 	if layer3_fade_active : handle_layer3_fade(delta)
 	if layer4_fade_active : handle_layer4_fade(delta)
 	
-	if print_limit > 0:
-		print_limit -= 1
-	
-	else:
-		Globals.dm("Current main ('1') music layer's volume: " + str(layer1.volume_linear), "PURPLE")
-		Globals.dm("Current main ('1_alt') music layer's volume: " + str(layer1_alt.volume_linear), "DARK_MAGENTA")
-		Globals.dm("Music layer_1's fade direction: " + str(layer1_fade_direction) + " (" + str(layer1_fade_active) + ").", 1, 0.5)
-		Globals.dm("Music layer_1_alt's fade direction: " + str(layer1_alt_fade_direction) + " (" + str(layer1_alt_fade_active) + ").", 2, 0.5)
-		Globals.dm("Music layer_1's music track's filepath: " + Globals.get_filepath(layer1_music_filepath, true), 3, 0.5)
-		Globals.dm("Music layer_1_alt's music track's filepath: " + Globals.get_filepath(layer1_alt_music_filepath, true), 4, 0.5)
+	if Globals.debug_mode:
 		
-		print_limit = 25
-		Globals.dm(str("Message print limit has been reset back to %s." % print_limit))
+		if print_limit > 0:
+			print_limit -= 1
+		
+		else:
+			Globals.dm("Current main ('1') music layer's volume: " + str(layer1.volume_linear), "PURPLE")
+			Globals.dm("Current main ('1_alt') music layer's volume: " + str(layer1_alt.volume_linear), "DARK_MAGENTA")
+			Globals.dm("Music layer_1's fade direction: " + str(layer1_fade_direction) + " (" + str(layer1_fade_active) + ").", 1, 0.5)
+			Globals.dm("Music layer_1_alt's fade direction: " + str(layer1_alt_fade_direction) + " (" + str(layer1_alt_fade_active) + ").", 2, 0.5)
+			Globals.dm("Music layer_1's music track's filepath: " + Globals.get_filepath(layer1_music_filepath, true), 3, 0.5)
+			Globals.dm("Music layer_1_alt's music track's filepath: " + Globals.get_filepath(layer1_alt_music_filepath, true), 4, 0.5)
+			
+			print_limit = 25
+			Globals.dm(str("Message print limit has been reset back to %s." % print_limit))
 
 
 func toggle_fade(target_id, restart_timer):

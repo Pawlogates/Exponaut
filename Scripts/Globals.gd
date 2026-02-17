@@ -139,6 +139,8 @@ const sfx_jewel_collect : String = d_sfx + "/" + "jewel_collect.wav"
 const sfx_jewel_collect2 : String = d_sfx + "/" + "jewel_collect2.wav"
 const sfx_jewel_collect3 : String = d_sfx + "/" + "jewel_collect3.wav"
 
+const sfx_slash : String = d_sfx + "/" + "slash.wav"
+
 
 # Other files:
 const material_rainbow = preload("res://Other/Materials/rainbow.tres")
@@ -158,7 +160,15 @@ const material_score_bonus_rainbow2 = preload("res://Other/Materials/score_bonus
 
 const style_button_menu = "res://Other/Styles/button_menu.tres"
 const style_button_menu2 = "res://Other/Styles/button_menu2.tres"
-const style_button_entity_editor = "res://Other/Styles/button_entity_editor.tres"
+const style_button_round = "res://Other/Styles/button_round.tres"
+const style_button_round2 = "res://Other/Styles/button_round2.tres"
+const style_button_round3 = "res://Other/Styles/button_round3.tres"
+const style_button_round4 = "res://Other/Styles/button_round4.tres"
+const style_button_round5 = "res://Other/Styles/button_round5.tres"
+const style_button_round6 = "res://Other/Styles/button_round6.tres"
+const style_button_round_decrease = "res://Other/Styles/button_round_decrease.tres"
+const style_button_round_increase = "res://Other/Styles/button_round_increase.tres"
+const style_button_round_toggle = "res://Other/Styles/button_round_toggle.tres"
 
 
 # Main scenes:
@@ -190,13 +200,36 @@ var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/m
 var scene_effect_score_value = load("res://Other/Scenes/display_score.tscn")
 var scene_effect_score_bonus = load("res://Other/Scenes/score_value.tscn")
 
+
 # Entity editor - [START]
 var scene_entity_editor = "res://Other/Scenes/Entity Editor/entity_editor.tscn"
-var scene_entity_editor_behavior_button = "res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.tscn"
+var scene_entity_editor_behavior_button_int_float = "res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_int_float.tscn"
+var scene_entity_editor_behavior_button_bool = "res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_bool.tscn"
+var scene_entity_editor_behavior_button_Array = "res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_Array.tscn"
+var scene_menu_entity_editor_choices = "res://Other/Scenes/Entity Editor/menu_entity_editor_choices.tscn"
+var scene_ui_button_general_entity_editor_choice = "res://Other/Scenes/Entity Editor/ui_button_general_entity_editor_choice.tscn"
 
-var entity_editor_icon_speed = "res://icon.png"
-var entity_editor_icon_ignore_gravity = "res://Assets/Graphics/other/icon.svg"
-var entity_editor_icon_movement_type = "res://Assets/Graphics/other/menu_deco.png"
+var entity_editor_icon_speed = "res://Assets/Graphics/icons/speed.png"
+var entity_editor_icon_acceleration_multiplier_x = "res://Assets/Graphics/icons/acceleration_multiplier_x.png"
+
+var entity_editor_icon_bouncy_y = "res://Assets/Graphics/icons/bouncy_y.png"
+var entity_editor_icon_bouncy_x = "res://Assets/Graphics/icons/bouncy_x.png"
+
+var entity_editor_icon_ignore_gravity = "res://Assets/Graphics/icons/ignore_gravity.png"
+var entity_editor_icon_on_timeout_change_ignore_gravity = "res://Assets/Graphics/icons/on_timeout_change_ignore_gravity.png"
+var entity_editor_icon_on_timeout_change_ignore_gravity_cooldown = "res://Assets/Graphics/icons/on_timeout_change_ignore_gravity_cooldown.png"
+
+var entity_editor_icon_movement_type = "res://Assets/Graphics/icons/movement_type.png"
+
+var entity_editor_icon_on_death_spawn_entity = "res://Assets/Graphics/icons/on_death_spawn_entity.png"
+var entity_editor_icon_on_death_spawn_entity_scene = "res://Assets/Graphics/icons/on_death_spawn_entity_scene.png"
+var entity_editor_icon_on_death_spawn_entity_quantity = "res://Assets/Graphics/icons/on_death_spawn_entity_quantity.png"
+var entity_editor_icon_on_death_spawn_entity_throwAround = "res://Assets/Graphics/icons/on_death_spawn_entity_throwAround.png"
+var entity_editor_icon_on_death_spawn_entity_velocity = "res://Assets/Graphics/icons/on_death_spawn_entity_velocity.png"
+
+var entity_editor_icon_on_timeout_death = "res://Assets/Graphics/icons/on_timeout_death.png"
+var entity_editor_icon_on_timeout_death_cooldown = "res://Assets/Graphics/icons/on_timeout_death_cooldown.png"
+
 # Entity editor - [END]
 
 const scene_start_area = preload("res://Levels/overworld_factory.tscn")
@@ -208,6 +241,8 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 
 func _ready() -> void:
+	prepare_lists()
+	
 	gameState_changed.connect(on_gameState_changed)
 	refreshed0_5.connect(on_refreshed0_5)
 	refreshed1_0.connect(on_refreshed1_0)
@@ -397,6 +432,9 @@ var total_enemies_in_currentLevel = 0
 
 var weapon : Dictionary = {"none" : -1} # All the property values needed to construct the main projectile.
 var secondaryWeapon = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
+
+var weapon_blocked = false
+
 
 var gravity = 1.0
 
@@ -624,34 +662,133 @@ func dm(text, importance = "none", remove_cooldown : float = -1.0): # This funct
 #@onready var list_potion = ["rooster", "bird", "chicken"]
 
 # These lists contain every single entity scene from their respective folders.
+
 # Scenes:
 @onready var l_collectible = []
 @onready var l_enemy = []
 @onready var l_box = []
 @onready var l_projectile = []
+
+@onready var l_entity = []
+
 # Packed animation sets:
 @onready var l_sprite_collectible = []
 @onready var l_sprite_enemy = []
 @onready var l_sprite_box = []
 @onready var l_sprite_projectile = []
 
+@onready var l_sprite_entity = []
+
+
 # Alternative lists with some types of entities excluded (Used when spawning large amounts of said entity type would otherwise cause issues).
-@onready var l_onDeath_item_scene = []
-@onready var l_onDeath_item_blacklist_enemy_scene = []
-@onready var l_onDeath_projectile_scene = []
-@onready var l_onDeath_secondaryProjectile_scene = []
-@onready var l_onHit_item_scene = []
-@onready var l_onHit_item_blacklist_enemy_scene = []
-@onready var l_onSpotted_item_scene = []
-@onready var l_onSpotted_item_blacklist_enemy_scene = []
-@onready var l_onSpotted_projectile_scene = []
-@onready var l_onSpotted_secondaryProjectile_scene = []
-@onready var l_onTimer_item_scene = []
-@onready var l_onTimer_item_blacklist_enemy_scene = []
-@onready var l_onTimer_projectile_scene = []
-@onready var l_onTimer_secondaryProjectile_scene = []
-@onready var l_bonusBox_item_scene = []
-@onready var l_bonusBox_item_blacklist_enemy_scene = []
+@onready var l_entity_blacklist_enemy = []
+@onready var l_entity_blacklist_enemy_projectile = []
+
+
+# Randomization:
+func randomize_everything():
+	# Prepare lists:
+	
+	# Sprites:
+	l_sprite_entity = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
+	
+	# Entities:
+	l_sprite_collectible = prepare_list_all("Collectibles", [])
+	l_sprite_enemy = prepare_list_all("Enemies", [])
+	l_sprite_box = prepare_list_all("Boxes", [])
+	l_sprite_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
+	
+	
+	l_entity = l_collectible + l_box + l_enemy + l_projectile
+	
+	l_entity_blacklist_enemy = l_collectible + l_box + l_projectile
+	l_entity_blacklist_enemy_projectile = l_collectible + l_box
+	
+	
+	##properties
+	#collectibleScoreValue = randi_range(0, 25000)
+	#give_score = applyRandom_falseTrue(1, 6)
+	#animation_always = applyRandom_falseTrue(1, 4)
+	#floating = applyRandom_falseTrue(1, 4)
+	#is_key = applyRandom_falseTrue(3, 1)
+	#collectable = applyRandom_falseTrue(1, 9)
+	#loop_anim = applyRandom_fromList("list_loop_anim", -1)
+	#hp = randi_range(1, 5)
+	#damageValue = randi_range(0, 3)
+	#is_shrineGem = applyRandom_falseTrue(1, 4)
+	#shrineGem_destructible = applyRandom_falseTrue(2, 1)
+	#shrineGem_giveScore = applyRandom_falseTrue(1, 4)
+	#shrineGem_spawnItems = applyRandom_falseTrue(1, 5)
+	#shrineGem_openPortal = applyRandom_falseTrue(4, 1)
+	#shrineGem_particle_amount = randi_range(0, 300)
+	#shrineGem_portal_level_ID = applyRandom_fromList("list_level_ID", -1)
+	#shrineGem_level_filePath = str("res://Levels/", shrineGem_portal_level_ID, ".tscn")
+	#shrineGem_is_finalLevel = applyRandom_falseTrue(7, 1)
+	#shrineGem_checkpoint_offset = Vector2(randi_range(-320, 320), randi_range(-320, 320))
+	#is_specialApple = applyRandom_fromList("list_special_apple_type", -1)
+	#is_temporary_powerup = applyRandom_falseTrue(5, 1)
+	#temporary_powerup = applyRandom_fromList("list_temporary_powerup", -1)
+	#temporary_powerup_duration = randf_range(0.5, 15)
+	#spawnedAmount = randi_range(1, 12)
+	#item_posSpread = randi_range(-200, 200)
+	#item_velSpread = randi_range(-600, 600)
+	#item_scene = load(applyRandom_fromList("list_bonusBox_item_scene", -1))
+	#is_gift = applyRandom_falseTrue(6, 1)
+	#inventory_item_scene = preload("res://Other/Scenes/User Interface/Inventory/inventoryItem.tscn")
+	#inventory_itemToSpawn = load(applyRandom_fromList("list_bonusBox_item_scene", -1))
+	#inventory_texture_region = Rect2(0, 0, 0, 0)
+	#is_weapon = applyRandom_falseTrue(3, 1)
+	#is_SecondaryWeapon = applyRandom_falseTrue(3, 1)
+	#weapon_type = applyRandom_fromList("list_weapon", -1)
+	#attack_delay = randf_range(0.1, 3)
+	#secondaryWeapon_type = applyRandom_fromList("list_secondaryWeapon", -1)
+	#secondaryAttack_delay = randf_range(0.1, 3)
+	#is_healthItem = applyRandom_falseTrue(4, 1)
+	#rotting = applyRandom_falseTrue(5, 1)
+	#fall_when_button_pressed = applyRandom_falseTrue(6, 1)
+	#is_potion = applyRandom_falseTrue(7, 1)
+	#transform_into = applyRandom_fromList("list_potion", -1)
+	#SPEED = randi_range(-200, 1600)
+	#SLOWDOWN = randi_range(-100, 800)
+	#GRAVITY_SCALE = randi_range(-2, 4)
+	#
+	#
+	#modulate.r = randf_range(0, 1)
+	#modulate.g = randf_range(0, 1)
+	#modulate.b = randf_range(0, 1)
+	#modulate.a = randf_range(0.75, 1)
+	#
+	#sprite.sprite_frames = load(applyRandom_fromList("list_sprite", -1))
+	#main_collision.get_shape().radius = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size().y / 2
+	#sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
+	#if applyRandom_falseTrue(6, 1):
+		#scale.x = randi_range(0.05, 2)
+		#scale.y = scale.x
+	#if applyRandom_falseTrue(4, 1) : sprite.material = null
+
+
+func prepare_list_all(directory_path : String, exclude : Array):
+	var dir_path = "res://" + directory_path
+	var dir = DirAccess.open(dir_path)
+	var list = []
+	
+	if dir != null:
+		var filenames = dir.get_files()
+		
+		for filename in filenames:
+			if not filename.ends_with(".import") and not filename.ends_with(".gd"):
+				list.append(dir_path + "/" + filename)
+		
+		var count = -1
+		for exclusion in exclude:
+			count += 1
+			for filename in list:
+				if filename.contains(exclude[count]):
+					list.erase(filename)
+	else:
+		print("WHY")
+	print(list)
+	return list
 
 
 func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = []): # Quantity of -1 will randomize the number of spawned scenes.
@@ -744,6 +881,25 @@ func list_files_in_dirpath(directory_path : String, exclude : Array):
 	
 	return list
 
+# Prepare lists:
+func prepare_lists():
+	
+	# Sprites:
+	l_sprite_entity = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
+	
+	# Entities:
+	l_collectible = prepare_list_all("Collectibles", [])
+	l_enemy = prepare_list_all("Enemies", [])
+	l_box = prepare_list_all("Boxes", [])
+	l_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
+	
+	
+	l_entity = l_collectible + l_box + l_enemy + l_projectile
+	print(l_entity)
+	
+	l_entity_blacklist_enemy = l_collectible + l_box + l_projectile
+	l_entity_blacklist_enemy_projectile = l_collectible + l_box
+
 
 # General tools - [START]
 
@@ -830,9 +986,10 @@ func handle_spawn_menu(manual_request : bool = false):
 
 
 func on_gameState_changed():
-	await get_tree().create_timer(0.2, true).timeout
+	await get_tree().create_timer(0.25, true).timeout
 	dm(str("Game State has changed: Level - %s, Start screen - %s, Level Set screen - %s, Debug - %s" % [gameState_level, gameState_start_screen, gameState_levelSet_screen, gameState_debug]), "ORANGE")
 	handle_spawn_menu(false)
+	prepare_lists()
 
 
 # Constant global refresh timers:
@@ -869,7 +1026,7 @@ func on_refreshed1_0():
 	pass
 
 func on_refreshed2_0():
-	if debug_mode and World.has_node("background") : World.get_node("background").queue_free() ; dm("Deleted all background layers.")
+	if debug_mode and World and World.has_node("background") : World.get_node("background").queue_free() ; dm("Deleted all background layers.")
 
 func on_refreshed4_0():
 	next_reassign_camera = true

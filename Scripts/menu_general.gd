@@ -17,9 +17,13 @@ var l_destabilize_type = ["pos_x", "pos_y", "pos_xy", "rotation", "scale"]
 var ready_show = false
 var button_quantity : int = 0
 
+@export var type = "none"
 @export var l_disable_buttons : Array = ["none"]
 
 var button_color : String = "none"
+
+var is_focused = false
+var button_is_focused = false
 
 
 func _ready() -> void:
@@ -42,6 +46,9 @@ func on_ready():
 	button_color = Globals.l_color.pick_random()
 	
 	modulate.a = 0.0
+	
+	if type == "Array_choice":
+		await get_tree().create_timer(1, true).timeout
 	
 	for button in container_buttons.get_children():
 		button.button_ready.connect(on_button_ready)
@@ -162,9 +169,9 @@ var ready_buttons = 0
 
 func on_button_ready():
 	ready_buttons += 1
-	
+	print(type, "SUP")
 	Globals.message_debug(str("Ready menu buttons: %s/%s" % [ready_buttons, len(container_buttons.get_children())]))
-	if ready_buttons == len(container_buttons.get_children()):
+	if ready_buttons == len(container_buttons.get_children()) or type == "Array_choice":
 		if randomize_default_preset : destabilize_buttons_randomize() # No arguments means: "default preset".
 		ready_buttons = 0
 

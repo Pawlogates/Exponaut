@@ -1,30 +1,33 @@
-[gd_scene load_steps=7 format=3 uid="uid://dcvmtrhynaeym"]
+[gd_scene load_steps=8 format=3 uid="uid://dcvmtrhynaeym"]
 
 [ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_x8k84"]
 [ext_resource type="Script" uid="uid://u8362on3kbas" path="res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.gd" id="2_v30vh"]
 [ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="3_qq8k8"]
-[ext_resource type="Texture2D" uid="uid://bdqpgn6k6hk6u" path="res://Assets/Graphics/other/icon.svg" id="4_a0al8"]
+[ext_resource type="Texture2D" uid="uid://camiqdechh708" path="res://Assets/Graphics/icons/speed.png" id="4_djkk5"]
+[ext_resource type="PackedScene" uid="uid://8melvub701c3" path="res://Other/Scenes/animation_entity_editor_general.tscn" id="5_2oh6u"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="5_dwo4e"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_mam22"]
 
-[node name="menu_entity_editor_behavior_button" instance=ExtResource("1_x8k84")]
+[node name="menu_entity_editor_behavior_button_int_float" groups=["menu_entity_editor_behavior_button"] instance=ExtResource("1_x8k84")]
 modulate = Color(1, 1, 1, 1)
 z_index = 1
-custom_minimum_size = Vector2(128, 128)
-offset_left = -64.0
-offset_top = -64.0
-offset_right = 64.0
-offset_bottom = 64.0
+custom_minimum_size = Vector2(160, 160)
+offset_left = -80.0
+offset_top = -80.0
+offset_right = 80.0
+offset_bottom = 80.0
 mouse_filter = 0
 script = ExtResource("2_v30vh")
 
 [node name="container_buttons" type="Control" parent="." index="5"]
 z_index = 1
 anchors_preset = 0
-mouse_filter = 2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 16.0
 
 [node name="btn_increase" parent="container_buttons" index="0" instance=ExtResource("3_qq8k8")]
-z_index = 10
 texture_filter = 6
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 1
@@ -37,11 +40,12 @@ text_manager_cooldown_create_message = 1.0
 decoration_base_size = Vector2(64, 64)
 decoration_base_size_multiplier = Vector2(0.5, 0.5)
 decoration_base_position = Vector2(-32, 0)
-adjust_decoration_position = false
-button_style_filepath = "uid://dxqrkc384ak3l"
+decoration_edge_base_change_scale = true
+edge_decoration1_filepath = "none"
+edge_decoration2_filepath = "none"
+button_style_filepath = "uid://d2d4pelr7d52m"
 
 [node name="btn_decrease" parent="container_buttons" index="1" instance=ExtResource("3_qq8k8")]
-z_index = 10
 texture_filter = 6
 custom_minimum_size = Vector2(0, 0)
 layout_mode = 1
@@ -53,12 +57,16 @@ text_manager_message = "[anim_reflect_straight]-"
 text_manager_cooldown_create_message = 1.25
 decoration_base_size = Vector2(64, 64)
 decoration_base_size_multiplier = Vector2(0.5, 0.5)
-adjust_decoration_position = false
-button_style_filepath = "uid://dxqrkc384ak3l"
+decoration_edge_base_change_scale = true
+edge_decoration1_filepath = "none"
+edge_decoration2_filepath = "none"
+button_style_filepath = "uid://d16dso8u4db5s"
 
 [node name="behavior_icon" type="Sprite2D" parent="." index="6"]
-position = Vector2(64, 64)
-texture = ExtResource("4_a0al8")
+position = Vector2(80, 80)
+texture = ExtResource("4_djkk5")
+
+[node name="animation_entity_editor_general" parent="behavior_icon" index="0" instance=ExtResource("5_2oh6u")]
 
 [node name="debug_property_name" type="Label" parent="." index="7"]
 visible = false
@@ -69,9 +77,9 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -128.0
-offset_top = -96.0
+offset_top = 76.0
 offset_right = 128.0
-offset_bottom = -73.6667
+offset_bottom = 109.5
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("5_mam22")
@@ -94,9 +102,8 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -256.0
-offset_top = -64.0
+offset_top = -128.0
 offset_right = 256.0
-offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2

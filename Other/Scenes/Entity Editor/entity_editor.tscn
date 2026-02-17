@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cpbay8ywvd0rd" path="res://Other/Scenes/Entity Editor/entity_editor.gd" id="1_jb7cl"]
 
-[node name="entity_editor" type="Control"]
+[node name="entity_editor" type="Control" groups=["entity_editor"]]
 z_index = 100
 layout_mode = 3
 anchors_preset = 8
@@ -27,7 +27,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-columns = 12
+columns = 10
 
 [node name="bg" type="ColorRect" parent="."]
 z_index = -1

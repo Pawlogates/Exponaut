@@ -22,6 +22,7 @@ var effect_thrownAway_applied_velocity = false
 var number = randi_range(0, 999)
 
 func _ready():
+	print("IM HERE")
 	basic_on_spawn()
 	reassign_general()
 	reassign_movement_type_id()
@@ -1311,3 +1312,10 @@ func reset_puzzle_delete_entities():
 func reset_puzzle_delete_entities2():
 	for entity in reset_puzzle_nodes_inside_zone:
 		reset_puzzle_nodes_inside_zone.clear()
+
+
+func _on_cooldown_death_timeout() -> void:
+	handle_death()
+
+func _on_cooldown_change_ignore_gravity_timeout() -> void:
+	ignore_gravity = Globals.opposite_bool(ignore_gravity)

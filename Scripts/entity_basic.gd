@@ -12,6 +12,8 @@ extends CharacterBody2D
 @onready var cooldown_jump: Timer = $cooldown_jump
 @onready var timer_invincible: Timer = $timer_invincible
 @onready var cooldown_collidable: Timer = $cooldown_collidable
+@onready var cooldown_death: Timer = $cooldown_death
+@onready var cooldown_change_ignore_gravity: Timer = $cooldown_change_ignore_gravity
 
 @onready var scan_ledge = $scan_ledge
 @onready var scan_stuck = $scan_stuck
@@ -191,6 +193,10 @@ var effect_collected_multiple_active = false
 @export var on_timeout_change_direction_cooldown = 4.0
 @export var on_timeout_jump = false
 @export var on_timeout_jump_cooldown = 4.0
+@export var on_timeout_change_ignore_gravity = false
+@export var on_timeout_change_ignore_gravity_cooldown = 2.5
+@export var on_timeout_death = false
+@export var on_timeout_death_cooldown = 2.5
 
 @export var collidable_cooldown = 0.35
 
@@ -615,6 +621,14 @@ func basic_on_spawn():
 		if idle_sfx_cooldown : cooldown_sfx_idle.wait_time = idle_sfx_cooldown # If "idle_sfx_cooldown" is not equal to "0".
 		if idle_sfx_randomize_cooldown : cooldown_sfx_idle.wait_time = randf_range(0.5, 8)
 		cooldown_sfx_idle.start()
+	
+	if on_timeout_death:
+		cooldown_death.wait_time = on_timeout_death_cooldown
+		cooldown_death.start()
+	
+	if on_timeout_change_ignore_gravity:
+		cooldown_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown
+		cooldown_change_ignore_gravity.start()
 
 
 # Executes on entity entering the camera view.

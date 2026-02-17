@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://dq0cq5u3jqp4p"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_e78vu"]
+
+[node name="projectile_base" instance=ExtResource("1_e78vu")]
+hittable = true
+health_value = 1
+movement_type = "move_x"
+family = "none"
+can_move = true
+can_move_x = true
+can_move_y = true
+entity_type = "enemy"

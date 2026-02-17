@@ -186,10 +186,6 @@ func _ready():
 	#total collectibles
 	await get_tree().create_timer(0.5, false).timeout
 	Globals.total_collectibles_in_currentLevel = get_tree().get_nodes_in_group("Collectibles").size() + (get_tree().get_nodes_in_group("bonusBox").size() * 10)
-	
-	
-	if Globals.mode_scoreAttack:
-		weaponType = "basic"
 
 
 func _process(delta):
@@ -253,8 +249,6 @@ func _process(delta):
 	
 	#HANDLE STUCK IN WALL
 	handle_stuck()
-	
-	handle_gameMode_scoreAttack()
 	
 	# Handle JUST.
 	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
@@ -615,7 +609,7 @@ func cancel_effect():
 
 
 func _on_timer_state_shoot():
-	state_shoot = false
+	state_shoot = 0
 
 
 # Player crouch/dash logic:
@@ -721,20 +715,6 @@ func _on_cooldown_effect_dust_timeout():
 	spawn_dust_effect = true
 
 
-# Attack Cooldown:
-# Main:
-func _on_cooldown_attack_timeout():
-	attack_cooldown = false
-	if Globals.direction_x != 0:
-		$AnimatedSprite2D.flip_h = (Globals.direction_x < 0)
-
-# Secondary:
-func _on_cooldown_secondaryAttack_timeout():
-	secondaryAttack_cooldown = false
-	if Globals.direction_x != 0:
-		$AnimatedSprite2D.flip_h = (Globals.direction_x < 0)
-
-
 func _on_just_landed_delay_timeout():
 	recently_landed = false
 	q_just_landed = true
@@ -816,73 +796,60 @@ func _on_dash_check_timeout():
 		safe_standUp.emit()
 
 
-func shoot_projectile(projectile_scene):
-	if weaponType == "basic" and Globals.collected_in_cycle >= 20:
-		if not dead and Input.is_action_just_pressed("attack_main"):
-			#var projectile_phaser = scene_projectile_phaser.instantiate()
-			#projectile_phaser.playerProjectile = true
-			#projectile_phaser.enemyProjectile = false
-			#add_child(projectile_phaser)
-			
-			state_shoot = true
-			t_state_shoot.start()
-			sprite.play("shoot")
-			if direction_x != 0:
-				sprite.flip_h = (direction_x < 0)
+# Attack (main and secondary): - [START]
+func handle_shoot():
+	if Globals.weapon_blocked : return
+	
+	if not dead and Input.is_action_pressed("attack_main"):
+		if Globals.weapon is Dictionary:
+			attack_spawn_scene("res://Projectiles/base.tscn")
+		
+		if c_attack.time_left > 0.0 : return
+		
+		#var projectile_phaser = scene_projectile_phaser.instantiate()
+		#add_child(projectile_phaser)
+		
+		#SHOOTING ANIMATION
+		state_shoot = 1
+		t_state_shoot.start()
+		
+		sprite.play("shoot")
+		sfx_manager.sfx_play(Globals.sfx_slash)
+		
+		if direction_x != 0:
+			sprite.flip_h = (direction_x < 0)
 		
 		return
+
+func attack_spawn_scene(filepath):
+	if filepath == "res://Projectiles/base.tscn":
+		var scene = load(filepath).instantiate()
+		
+		scene.position = position
+		print(Globals.weapon)
+		
+		for property_name in Globals.weapon:
+			if property_name == "none" : continue
+			
+			scene.set(property_name, Globals.weapon[property_name])
+		
+		World.add_child(scene)
 	
-	if not attack_cooldown:
-		attack_cooldown = true
-		$attack_cooldown.start()
-		
-		state_shoot = true
-		t_state_shoot.start()
-		sprite.play("shoot")
-		
-		var projectile = projectile_scene.instantiate()
-		projectile.playerProjectile = true
-		projectile.enemyProjectile = false
-		projectile.position = position + Vector2(Globals.direction_x * 24, -10)
-		get_parent().add_child(projectile)
-		
-		playSound_shoot()
-		
 	if direction_x != 0:
 		sprite.flip_h = (direction_x < 0)
 
-
-func shoot_secondaryProjectile(secondaryProjectile_scene):
-	if not secondaryAttack_cooldown:
-		secondaryAttack_cooldown = true
-		$secondaryAttack_cooldown.start()
-		
-		state_shoot = true
-		t_state_shoot.start()
-		sprite.play("secondaryShoot")
-		
-		var secondaryProjectile = secondaryProjectile_scene.instantiate()
-		secondaryProjectile.position = position + Vector2(Globals.direction_x * 0, 32)
-		secondaryProjectile.direction_x = direction_x
-		if velocity.y <= -100 or velocity.y == 0:
-			secondaryProjectile.velocity = Vector2(velocity.x * 1.2, -100)
-		else:
-			secondaryProjectile.velocity = Vector2(velocity.x * 1.2, 100)
-		get_parent().add_child(secondaryProjectile)
-		playSound_shoot()
-		
-	if direction_x != 0:
-		sprite.flip_h = (direction_x < 0)
+func secondaryAttack_spawn_scene(filepath):
+	pass
 
 
-func handle_gameMode_scoreAttack():
-	if Globals.mode_scoreAttack:
-		if Globals.combo_tier >= 5:
-			if weaponType == "basic":
-				weaponType = "phaser"
-		else:
-			if weaponType == "phaser":
-				weaponType = "basic"
+func _on_cooldown_attack_timeout():
+	pass
+
+# Secondary:
+func _on_cooldown_secondaryAttack_timeout():
+	pass
+
+# Attack (main and secondary): - [END]
 
 
 @onready var raycast_top = $raycast_top
@@ -990,69 +957,6 @@ func handle_debugMovement(delta):
 	
 	crouch_active = false
 	crouch_walk_active = false
-
-
-var attack_cooldown = false
-var secondaryAttack_cooldown = false
-@export var weaponType = "none"
-@export var secondaryWeaponType = "none"
-
-#WEAPON TYPES
-#var scene_projectile_phaser = load("res://Projectiles/player_projectile_charged_phaser.tscn")
-#var scene_projectile_basic = load("res://Projectiles/player_projectile_basic.tscn")
-#var scene_projectile_short_shotDelay = load("res://Projectiles/player_projectile_short_shotDelay.tscn")
-#var scene_projectile_ice = load("res://Projectiles/player_projectile_ice.tscn")
-#var scene_projectile_fire = load("res://Projectiles/player_projectile_fire.tscn")
-#var scene_projectile_destructive_fast_speed = load("res://Projectiles/player_projectile_destructive_fast_speed.tscn")
-#var scene_projectile_veryFast_speed = load("res://Projectiles/player_projectile_veryFast_speed.tscn")
-#var scene_projectile_lethalBall_basic = load("res://Projectiles/projectile_lethalBall_base.tscn")
-##WEAPON TYPES END
-
-#SECONDARY WEAPON TYPES
-#var scene_secondaryProjectile_basic = load("res://Projectiles/player_secondaryProjectile_basic.tscn")
-#var scene_secondaryProjectile_fast = load("res://Projectiles/player_secondaryProjectile_fast.tscn")
-#SECONDARY WEAPON TYPES END
-
-func handle_shoot():
-	#MAIN ATTACK
-	if weaponType == "phaser":
-		if not dead and Input.is_action_just_pressed("attack_main"):
-			#var projectile_phaser = scene_projectile_phaser.instantiate()
-			#add_child(projectile_phaser)
-			
-			#SHOOTING ANIMATION
-			state_shoot = true
-			t_state_shoot.start()
-			sprite.play("shoot")
-			if direction_x != 0:
-				sprite.flip_h = (direction_x < 0)
-			
-			return
-	
-	if not dead and Input.is_action_pressed("attack_main"):
-		pass
-		#if weaponType == "basic":
-			#shoot_projectile(scene_projectile_basic)
-		#elif weaponType == "short_shotDelay":
-			#shoot_projectile(scene_projectile_short_shotDelay)
-		#elif weaponType == "ice":
-			#shoot_projectile(scene_projectile_ice)
-		#elif weaponType == "fire":
-			#shoot_projectile(scene_projectile_fire)
-		#elif weaponType == "destructive_fast_speed":
-			#shoot_projectile(scene_projectile_destructive_fast_speed)
-		#elif weaponType == "veryFast_speed":
-			#shoot_projectile(scene_projectile_veryFast_speed)
-		#elif weaponType == "lethalBall_basic":
-			#shoot_projectile(scene_projectile_lethalBall_basic)
-	
-	
-	#SECONDARY ATTACK
-	#if not dead and Input.is_action_pressed("attack_secondary"):
-		#if secondaryWeaponType == "basic":
-			#shoot_secondaryProjectile(scene_secondaryProjectile_basic)
-		#elif secondaryWeaponType == "fast":
-			#shoot_secondaryProjectile(scene_secondaryProjectile_fast)
 
 
 # True if player is currently touching the specified surface.

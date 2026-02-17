@@ -1,7 +1,7 @@
 [gd_resource type="Theme" load_steps=3 format=3 uid="uid://dxqrkc384ak3l"]
 
 [ext_resource type="FontFile" uid="uid://bxebncx20vx5q" path="res://Other/Fonts/font_main.png" id="1_qv0ph"]
-[ext_resource type="StyleBox" uid="uid://bf74d4pu6ulae" path="res://Other/Styles/button_entity_editor.tres" id="2_qv0ph"]
+[ext_resource type="StyleBox" uid="uid://bf74d4pu6ulae" path="res://Other/Styles/button_round.tres" id="2_qv0ph"]
 
 [resource]
 default_font = ExtResource("1_qv0ph")

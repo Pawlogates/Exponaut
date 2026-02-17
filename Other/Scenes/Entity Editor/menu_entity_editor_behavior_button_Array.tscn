@@ -1,0 +1,132 @@
+[gd_scene load_steps=8 format=3 uid="uid://c0jwg5cmihm77"]
+
+[ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_k6d6o"]
+[ext_resource type="Script" uid="uid://u8362on3kbas" path="res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.gd" id="2_jvfyx"]
+[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="3_unfvl"]
+[ext_resource type="Texture2D" uid="uid://d0gtpgs8h1v27" path="res://Assets/Graphics/icons/movement_type.png" id="4_jvfyx"]
+[ext_resource type="PackedScene" uid="uid://8melvub701c3" path="res://Other/Scenes/animation_entity_editor_general.tscn" id="5_jvfyx"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_v53ty"]
+[ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="6_st4tt"]
+
+[node name="menu_entity_editor_behavior_button_Array" groups=["menu_entity_editor_behavior_button"] instance=ExtResource("1_k6d6o")]
+modulate = Color(1, 1, 1, 1)
+z_index = 1
+custom_minimum_size = Vector2(160, 160)
+offset_left = -80.0
+offset_top = -80.0
+offset_right = 80.0
+offset_bottom = 80.0
+mouse_filter = 0
+script = ExtResource("2_jvfyx")
+
+[node name="container_buttons" type="Control" parent="." index="5"]
+z_index = 1
+anchors_preset = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="btn_show_available" parent="container_buttons" index="0" instance=ExtResource("3_unfvl")]
+z_index = 10
+texture_filter = 6
+custom_minimum_size = Vector2(0, 0)
+layout_mode = 0
+anchors_preset = 0
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = 16.0
+offset_top = 112.0
+offset_right = 48.0
+offset_bottom = 144.0
+grow_horizontal = 1
+grow_vertical = 1
+mouse_filter = 0
+decoration_base_size = Vector2(128, 64)
+decoration_base_size_multiplier = Vector2(0.5, 0.5)
+decoration_base_position = Vector2(-32, 0)
+decoration_edge_base_change_scale = true
+edge_decoration1_filepath = "none"
+edge_decoration2_filepath = "none"
+button_style_filepath = "uid://32lwpw3ctfww"
+
+[node name="behavior_icon" type="Sprite2D" parent="." index="6"]
+position = Vector2(80, 80)
+texture = ExtResource("4_jvfyx")
+
+[node name="animation_entity_editor_general" parent="behavior_icon" index="0" instance=ExtResource("5_jvfyx")]
+
+[node name="debug_property_name" type="Label" parent="." index="7"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = 76.0
+offset_right = 128.0
+offset_bottom = 109.5
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_v53ty")
+text = "none"
+horizontal_alignment = 1
+
+[node name="cooldown_show_behavior_name" type="Timer" parent="." index="8"]
+wait_time = 0.1
+one_shot = true
+
+[node name="cooldown_show_behavior_value" type="Timer" parent="." index="9"]
+one_shot = true
+
+[node name="container_text_managers" type="Control" parent="." index="10"]
+z_index = 5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -128.0
+offset_right = 256.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="tm_behavior_name" parent="container_text_managers" index="0" instance=ExtResource("6_st4tt")]
+z_index = 15
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_right = 512.0
+offset_bottom = 64.0
+grow_horizontal = 1
+grow_vertical = 1
+text_full = "none"
+character_bg_simple = true
+
+[node name="tm_behavior_value" parent="container_text_managers" index="1" instance=ExtResource("6_st4tt")]
+z_index = 15
+layout_mode = 0
+anchors_preset = 0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_top = 64.0
+offset_right = 512.0
+offset_bottom = 128.0
+grow_horizontal = 1
+grow_vertical = 1
+text_full = "none"
+character_bg_simple = true
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="pressed" from="container_buttons/btn_show_available" to="." method="_on_btn_show_available_pressed"]
+[connection signal="timeout" from="cooldown_show_behavior_name" to="." method="_on_cooldown_show_behavior_name_timeout"]
+[connection signal="timeout" from="cooldown_show_behavior_value" to="." method="_on_cooldown_show_behavior_value_timeout"]

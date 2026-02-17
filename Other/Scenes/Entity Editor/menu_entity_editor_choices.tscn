@@ -1,0 +1,59 @@
+[gd_scene load_steps=4 format=3 uid="uid://imlry6dq5h3i"]
+
+[ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_hg37m"]
+[ext_resource type="Script" uid="uid://u8362on3kbas" path="res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.gd" id="2_h5dqg"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_h5dqg"]
+
+[node name="menu_entity_editor_choices" instance=ExtResource("1_hg37m")]
+modulate = Color(1, 1, 1, 1)
+z_index = 150
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -450.0
+offset_right = 800.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("2_h5dqg")
+type = "Array_choice"
+
+[node name="container_buttons" type="VBoxContainer" parent="." index="5"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -450.0
+offset_right = 800.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="btn_close" type="Button" parent="." index="6"]
+layout_mode = 0
+offset_left = 1618.0
+offset_top = 70.0
+offset_right = 1736.0
+offset_bottom = 118.0
+theme = ExtResource("3_h5dqg")
+text = "back"
+
+[node name="ColorRect" type="ColorRect" parent="." index="7"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0, 0, 0.196078)
+
+[connection signal="pressed" from="btn_close" to="." method="_on_btn_close_pressed"]

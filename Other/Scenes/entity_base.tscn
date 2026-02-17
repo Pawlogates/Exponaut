@@ -131,6 +131,14 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="scan_always_active"]
 shape = SubResource("RectangleShape2D_spxko")
 
+[node name="cooldown_death" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+
+[node name="cooldown_change_ignore_gravity" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
 [connection signal="animation_looped" from="sprite" to="." method="_on_sprite_animation_looped"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
@@ -143,3 +151,5 @@ shape = SubResource("RectangleShape2D_spxko")
 [connection signal="timeout" from="cooldown_patrolling_target_spotted_queue" to="." method="_on_cooldown_patrolling_target_spotted_queue_timeout"]
 [connection signal="timeout" from="cooldown_patrolling_target_spotted" to="." method="_on_cooldown_patrolling_target_spotted_timeout"]
 [connection signal="timeout" from="cooldown_patrolling_change_direction" to="." method="_on_cooldown_patrolling_change_direction_timeout"]
+[connection signal="timeout" from="cooldown_death" to="." method="_on_cooldown_death_timeout"]
+[connection signal="timeout" from="cooldown_change_ignore_gravity" to="." method="_on_cooldown_change_ignore_gravity_timeout"]

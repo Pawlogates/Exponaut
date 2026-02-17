@@ -364,7 +364,7 @@ func bg_update_other():
 	else : lv_main.motion_mirroring.y = 0
 	if bg_front_repeat_y : lv_front.motion_mirroring.y = 2160
 	else : lv_front.motion_mirroring.y = 0
-	if bg_front2_repeat_y : lv_front2.motion_mirroring.y = 2160 ; Globals.dm(str(bg_front2_repeat_y, lv_front2.motion_mirroring.y))
+	if bg_front2_repeat_y : lv_front2.motion_mirroring.y = 2160
 	else : lv_front2.motion_mirroring.y = 0
 	if bg_back_repeat_y : lv_back.motion_mirroring.y = 2160
 	else : lv_back.motion_mirroring.y = 0

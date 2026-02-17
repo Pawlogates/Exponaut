@@ -4,18 +4,30 @@ extends Control
 @onready var bg: ColorRect = $bg
 
 
-var l_available_property_name = ["speed", "acceleration", "ignore_gravity", "bouncy_y", "bouncy_x", "movement_type", "on_death_spawn_entity", "on_death_spawn_entity_scene", "on_death_spawn_entity_quantity", "on_death_spawn_entity_throwAround", "on_death_spawn_entity_velocity", "none", "none", "none", "none", "none", "none", "none", "none"]
+var l_available_property_name = ["speed", "acceleration_multiplier_x", "ignore_gravity", "on_timeout_change_ignore_gravity", "on_timeout_change_ignore_gravity_cooldown", "bouncy_y", "bouncy_x", "movement_type", "on_death_spawn_entity", "on_death_spawn_entity_scene", "on_death_spawn_entity_quantity", "on_death_spawn_entity_throwAround", "on_death_spawn_entity_velocity", "on_timeout_death", "on_timeout_death_cooldown"]
 
 var l_speed_button_info : Dictionary = {"behavior_name" : "Movement Speed", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
-var l_acceleration_button_info : Dictionary = {"behavior_name" : "Acceleration Speed", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
-var l_ignore_gravity_button_info : Dictionary = {"behavior_name" : "Ignore Gravity", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_acceleration_multiplier_x_button_info : Dictionary = {"behavior_name" : "Acceleration", "behavior_value" : 1.0, "behavior_value_step" : 0.1, "behavior_value_min" : 0.25, "behavior_value_max" : 10.0, "behavior_available_options" : ["none"]}
+
 var l_bouncy_y_button_info : Dictionary = {"behavior_name" : "Bounce off the ground", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
 var l_bouncy_x_button_info : Dictionary = {"behavior_name" : "Bounce off the walls", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_movement_type_button_info : Dictionary = {"behavior_name" : "Movement type", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_on_death_spawn_entity_button_info : Dictionary = {"behavior_name" : "Leave an object after death", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_on_death_spawn_entity_quantity_button_info : Dictionary = {"behavior_name" : "Movement Speed", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
-var l_on_death_spawn_entity_throwAround_button_info : Dictionary = {"behavior_name" : "Ignore Gravity", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_on_death_spawn_entity_velocity_button_info : Dictionary = {"behavior_name" : "Movement Speed", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+
+var l_ignore_gravity_button_info : Dictionary = {"behavior_name" : "Ignore Gravity", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_on_timeout_change_ignore_gravity_button_info : Dictionary = {"behavior_name" : "Fall after a delay", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_on_timeout_change_ignore_gravity_cooldown_button_info : Dictionary = {"behavior_name" : "Fall delay", "behavior_value" : 1.5, "behavior_value_step" : 0.25, "behavior_value_min" : 0, "behavior_value_max" : 4.0, "behavior_available_options" : ["none"]}
+
+var l_movement_type_button_info : Dictionary = {"behavior_name" : "Movement type", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity_movement_limited}
+
+var l_on_death_spawn_entity_button_info : Dictionary = {"behavior_name" : "Leave an object after death", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_on_death_spawn_entity_scene_button_info : Dictionary = {"behavior_name" : "Chosen object", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity}
+var l_on_death_spawn_entity_quantity_button_info : Dictionary = {"behavior_name" : "Object quantity", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+var l_on_death_spawn_entity_throwAround_button_info : Dictionary = {"behavior_name" : "Throw object around", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_on_death_spawn_entity_velocity_button_info : Dictionary = {"behavior_name" : "Throw direction", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+
+var l_on_timeout_death_button_info : Dictionary = {"behavior_name" : "Destroy after a delay", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_on_timeout_death_cooldown_button_info : Dictionary = {"behavior_name" : "Destruction cooldown", "behavior_value" : 2.5, "behavior_value_step" : 0.25, "behavior_value_min" : 0.0, "behavior_value_max" : 12.0, "behavior_available_options" : ["none"]}
+
+var l_none_button_info : Dictionary = {"behavior_name" : "none", "behavior_value" : -1, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : ["none"]}
 
 
 var choosen_movement_type = "move_x"
@@ -23,17 +35,60 @@ var choosen_family = "player"
 
 
 func _ready():
+	Globals.weapon_blocked = true
+	
+	for property_name in Globals.weapon:
+		if property_name == "none" : continue
+		
+		set(property_name, Globals.weapon[property_name])
+	
 	for property_name in l_available_property_name:
-		var behavior_button = load(Globals.scene_entity_editor_behavior_button).instantiate()
 		
-		behavior_button.set("behavior_info", get("l_" + property_name + "_button_info"))
-		behavior_button.property_name = property_name
-		behavior_button.property_number = l_available_property_name.find(property_name)
+		# Property of float or int value.
+		if get("l_" + property_name + "_button_info")["behavior_available_options"] == ["none"]:
+			
+			var behavior_button = load(Globals.scene_entity_editor_behavior_button_int_float).instantiate()
+			
+			behavior_button.type = "int_float"
+			behavior_button.set("behavior_info", get("l_" + property_name + "_button_info"))
+			behavior_button.property_name = property_name
+			behavior_button.property_number = l_available_property_name.find(property_name)
+			
+			container_behavior_buttons.add_child(behavior_button)
 		
-		container_behavior_buttons.add_child(behavior_button)
+		# Property of bool value (technically an Array containing "true" and "false").
+		elif get("l_" + property_name + "_button_info")["behavior_available_options"] == [true, false]:
+			var behavior_button = load(Globals.scene_entity_editor_behavior_button_bool).instantiate()
+			
+			behavior_button.type = "bool"
+			behavior_button.set("behavior_info", get("l_" + property_name + "_button_info"))
+			behavior_button.property_name = property_name
+			behavior_button.property_number = l_available_property_name.find(property_name)
+			
+			container_behavior_buttons.add_child(behavior_button)
+		
+		# Property of Array value.
+		else:
+			var behavior_button = load(Globals.scene_entity_editor_behavior_button_Array).instantiate()
+			
+			behavior_button.type = "Array"
+			behavior_button.set("behavior_info", get("l_" + property_name + "_button_info"))
+			behavior_button.property_name = property_name
+			behavior_button.property_number = l_available_property_name.find(property_name)
+			
+			container_behavior_buttons.add_child(behavior_button)
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("0") : queue_free()
+	if Input.is_action_just_pressed("0"):
+		Globals.weapon_blocked = false
+		queue_free()
+
+
+func update_entity():
+	Globals.weapon = {}
+	
+	for property_name in l_available_property_name:
+		Globals.weapon.get_or_add(property_name, get(property_name))
 
 
 var collectable = true
@@ -92,6 +147,10 @@ var on_timeout_change_direction = false
 var on_timeout_change_direction_cooldown = 4.0
 var on_timeout_jump = false
 var on_timeout_jump_cooldown = 4.0
+var on_timeout_change_ignore_gravity = false
+var on_timeout_change_ignore_gravity_cooldown = 1.5
+var on_timeout_death = false
+var on_timeout_death_cooldown = 1.5
 
 var collidable_cooldown = 0.35
 
