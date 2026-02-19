@@ -9,8 +9,10 @@ extends entity_basic
 @export var on_death_decoration_nodes_effect_thrownAway = false
 
 @export var effect_thrownAway_randomize_velocity = true
-@export var effect_thrownAway_randomize_velocity_multiplier_x = 1
-@export var effect_thrownAway_randomize_velocity_multiplier_y = 1
+@export var effect_thrownAway_randomize_velocity_multiplier_x = 1.0
+@export var effect_thrownAway_randomize_velocity_multiplier_y = 1.0
+
+@export var on_death_effect_thrownAway_cooldown = 0.0
 
 var effect_thrownAway_active = false
 var rolled_effect_thrownAway_scale = randf_range(0.1, 6)
@@ -19,17 +21,36 @@ var effect_thrownAway_scale = Vector2(rolled_effect_thrownAway_scale, rolled_eff
 var effect_thrownAway_rotation = randi_range(-720, 720)
 var effect_thrownAway_velocity = Vector2(randi_range(-1000 * effect_thrownAway_randomize_velocity_multiplier_x, 1000 * effect_thrownAway_randomize_velocity_multiplier_x), randi_range(-500 * effect_thrownAway_randomize_velocity_multiplier_y, -1000 * effect_thrownAway_randomize_velocity_multiplier_y))
 var effect_thrownAway_applied_velocity = false
-var number = randi_range(0, 999)
+
+var unique_number = randi_range(0, 999)
 
 func _ready():
-	print("IM HERE")
 	basic_on_spawn()
 	reassign_general()
 	reassign_movement_type_id()
 	
+	if on_spawn_effect_grow:
+		effect_grow = true
+		scale *= Vector2(0.1, 0.1)
+	
+	if on_spawn_copy_direction_x_player:
+		if on_spawn_copy_direction_x_active_player:
+			direction_x = Globals.player_direction_x_active
+		else:
+			direction_x = Globals.player_direction_x
+	
+	if on_spawn_max_speed : velocity.x = direction_x * speed * speed_multiplier_x
+	
+	if set_player_attack_cooldown:
+		Player.c_attack.wait_time = set_player_attack_cooldown_value
+		Player.c_attack.start()
+	
 	if start_animation != "none" : animation_all.play(start_animation)
 	
 	synchronize_animation()
+	
+	if on_death_effect_thrownAway and on_death_effect_thrownAway_cooldown:
+		c_on_death_effect_thrownAway.wait_time = on_death_effect_thrownAway_cooldown
 	
 	# Prepare patrolling
 	if patrolling:
@@ -61,7 +82,13 @@ func _ready():
 
 func _process(delta):
 	handle_movement(delta)
-	#if reset_puzzle_delete_node_queued : Globals.spawn_scenes(self, Globals.scene_particle_special2_multiple)
+	
+	if copy_direction_x_player:
+		if copy_direction_x_active_player:
+			direction_x = Globals.player_direction_x_active
+		
+		else:
+			direction_x = Globals.player_direction_x
 	
 	if abs(velocity.x) > 15 : velocity_last_x = velocity.x
 	if abs(velocity.y) > 15 : velocity_last_y = velocity.y
@@ -115,13 +142,24 @@ func _process(delta):
 				rotation_degrees = -90
 	
 	
+	handle_bounce()
+	
 	move_and_slide()
 	
+	
+	if effect_grow:
+		scale.x = move_toward(scale.x, effect_grow_target_scale.x, delta * 4)
+		scale.y = move_toward(scale.y, effect_grow_target_scale.y, delta * 4)
+		
+		if effect_grow and scale >= effect_grow_target_scale : effect_grow = false
+	
 	if effect_shrink:
-		scale.x = move_toward(scale.x, 0.1, delta * 2)
-		scale.y = move_toward(scale.y, 0.1, delta * 2)
+		scale.x = move_toward(scale.x, effect_shrink_target_scale.x, delta * 2)
+		scale.y = move_toward(scale.y, effect_shrink_target_scale.y, delta * 2)
+	
 	
 	sprite_animation()
+	
 	
 	if patrolling : handle_patrolling()
 	
@@ -187,7 +225,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if not rotten or target.family != "Player":
 			handle_collectable(target)
 	
-	if hittable:
+	if hittable and damage_from_entity and damage_from_entity_contact:
 		handle_hittable(target)
 
 func _on_hitbox_area_exited(target: Area2D) -> void:
@@ -309,7 +347,6 @@ func inside_check_exit(body):
 	
 	
 	if not inside_player and not inside_entity:
-		
 		direction_x = 0
 
 
@@ -344,7 +381,7 @@ func movement_move_x(delta):
 	
 	else:
 		handle_friction(delta)
-	
+		
 	if not dead and not direction_x:
 		direction_x = direction_active_x # Active means "last value considered active", which in case of velocity, would be anything except 0 (but in this case its actually everything between -25 and 25).
 
@@ -563,7 +600,10 @@ func _on_cooldown_remove_corpse_timeout() -> void:
 	#velocity.y = move_toward(velocity.y, 0, delta * friction / 10)
 
 func move_in_direction_x(delta):
-	velocity.x = move_toward(velocity.x, direction_x * speed * speed_multiplier_x, delta * acceleration * acceleration_multiplier_x)
+	if always_max_speed:
+		velocity.x = direction_x * speed * speed_multiplier_x
+	else:
+		velocity.x = move_toward(velocity.x, direction_x * speed * speed_multiplier_x, delta * acceleration * acceleration_multiplier_x)
 
 func move_in_direction_y(delta):
 	velocity.y = move_toward(velocity.y, direction_y * speed * speed_multiplier_y, delta * acceleration * acceleration_multiplier_y)
@@ -605,6 +645,8 @@ func effect_thrownAway(delta):
 		if rolled_effect_thrownAway_scale_to_front : z_index += 10
 		else : z_index -= 10
 		collision_main.disabled = true
+		
+		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position)
 		
 		# Correct for potential anim player changes.
 		sprite.scale = abs(sprite.scale)
@@ -817,7 +859,10 @@ func handle_hit(target):
 	if not immortal:
 		handle_damage(target)
 	
-	if on_hit_gain_movement:
+	if on_hit_spawn_entity:
+		spawn_entity(on_hit_spawn_entity_scene_filepath, on_hit_spawn_entity_quantity, on_hit_spawn_entity_add_velocity, on_hit_spawn_entity_add_velocity_range, on_hit_spawn_entity_pos_offset, on_hit_spawn_entity_pos_offset_range)
+	
+	if on_hit_gain_movement != "none":
 		
 		can_move = true
 		movement_type = on_hit_gain_movement
@@ -842,6 +887,12 @@ func handle_death():
 	
 	direction_x = 0
 	direction_y = 0
+	
+	if on_death_spawn_entity:
+		spawn_entity(on_death_spawn_entity_scene_filepath, on_death_spawn_entity_quantity, on_death_spawn_entity_add_velocity, on_death_spawn_entity_add_velocity_range, on_death_spawn_entity_pos_offset, on_death_spawn_entity_pos_offset_range)
+	
+	if breakable_on_death_spawn_entity:
+		spawn_entity(breakable_on_death_spawn_entity_scene_filepath, breakable_on_death_spawn_entity_quantity, breakable_on_death_spawn_entity_add_velocity, breakable_on_death_spawn_entity_add_velocity_range, breakable_on_death_spawn_entity_pos_offset, breakable_on_death_spawn_entity_pos_offset_range)
 	
 	if on_death_ignore_gravity_stop : ignore_gravity = false
 	
@@ -948,6 +999,7 @@ func handle_breakable(target):
 	
 	Globals.dm("An entity is handling its BREAKABLE logic.", "ORANGE")
 	
+	
 	if breakable_requires_velocity_y:
 		if target.velocity.y >= breakable_requires_velocity_y_range[0] and target.velocity.y <= breakable_requires_velocity_y_range[1]:
 			if Input.is_action_pressed("jump"):
@@ -971,9 +1023,10 @@ func handle_breakable(target):
 
 
 func handle_damage(value):
-	if not immortal : health_value -= value
+	if not immortal : health_value -= value ; health_value = clamp(health_value, 0, 9999)
 	
-	health_value = clamp(health_value, 0, 9999)
+	if breakable_on_hit_spawn_entity:
+		spawn_entity(breakable_on_hit_spawn_entity_scene_filepath, breakable_on_hit_spawn_entity_quantity, breakable_on_hit_spawn_entity_add_velocity, breakable_on_hit_spawn_entity_add_velocity_range, breakable_on_hit_spawn_entity_pos_offset, breakable_on_hit_spawn_entity_pos_offset_range)
 	
 	if anim_alternate_walk_hittable_only_during:
 		if sprite.animation == "walk_alt":
@@ -994,10 +1047,20 @@ func handle_effects_death():
 	Globals.spawn_scenes(World, Globals.scene_particle_special_multiple, 1, position, 4.0)
 	Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position, 4.0)
 	
-	if on_death_effect_thrownAway : effect_thrownAway_active = true
+	if on_death_effect_thrownAway:
+		if on_death_effect_thrownAway_cooldown == 0.0:
+			effect_thrownAway_active = true
+		
+		else:
+			c_on_death_effect_thrownAway.start()
+	
 	if on_death_decoration_nodes_effect_thrownAway:
 		for node in container_effect_thrownAway.get_children():
 			node.effect_thrownAway_active = true
+	
+	if on_death_effect_shrink:
+		effect_shrink = true
+		effect_grow = false
 
 func handle_effects_hit():
 	sfx_manager.sfx_play(Globals.sfx_mechanical2)
@@ -1012,7 +1075,6 @@ func handle_effects_bounce():
 
 
 func handle_friction(delta):
-	#if direction_x : return
 	if effect_thrownAway_active : return
 	
 	velocity.x = move_toward(velocity.x, 0, delta * 1.5 * friction * friction_multiplier_x)
@@ -1222,7 +1284,6 @@ func handle_reset_puzzle():
 func reset_all():
 	call_deferred("spawn_entity_copy")
 	
-	Globals.dm(str(number))
 	Globals.spawn_scenes(Globals.World, Globals.scene_particle_splash, 1, position)
 
 
@@ -1319,3 +1380,21 @@ func _on_cooldown_death_timeout() -> void:
 
 func _on_cooldown_change_ignore_gravity_timeout() -> void:
 	ignore_gravity = Globals.opposite_bool(ignore_gravity)
+
+
+func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset : Vector2 = Vector2(0, 0), pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale : Vector2 = Vector2(0, 0)):
+	Globals.spawn_scenes(World, scene_filepath, quantity, position + pos_offset, -1, Color(0, 0, 0, 0), add_scale, 0, [], [], add_velocity, add_velocity_range, pos_offset_range)
+
+
+func handle_bounce():
+	if not is_on_floor() : return
+	
+	if on_floor_bounce:
+		velocity.y = -velocity_last_y
+	
+	if on_wall_bounce:
+		velocity.x = -velocity_last_x
+
+
+func _on_cooldown_on_death_effect_thrownAway_timeout() -> void:
+	effect_thrownAway_active = true

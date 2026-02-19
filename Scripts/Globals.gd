@@ -212,8 +212,8 @@ var scene_ui_button_general_entity_editor_choice = "res://Other/Scenes/Entity Ed
 var entity_editor_icon_speed = "res://Assets/Graphics/icons/speed.png"
 var entity_editor_icon_acceleration_multiplier_x = "res://Assets/Graphics/icons/acceleration_multiplier_x.png"
 
-var entity_editor_icon_bouncy_y = "res://Assets/Graphics/icons/bouncy_y.png"
-var entity_editor_icon_bouncy_x = "res://Assets/Graphics/icons/bouncy_x.png"
+var entity_editor_icon_on_floor_bounce = "res://Assets/Graphics/icons/on_floor_bounce.png"
+var entity_editor_icon_on_wall_bounce = "res://Assets/Graphics/icons/on_wall_bounce.png"
 
 var entity_editor_icon_ignore_gravity = "res://Assets/Graphics/icons/ignore_gravity.png"
 var entity_editor_icon_on_timeout_change_ignore_gravity = "res://Assets/Graphics/icons/on_timeout_change_ignore_gravity.png"
@@ -785,20 +785,21 @@ func prepare_list_all(directory_path : String, exclude : Array):
 			for filename in list:
 				if filename.contains(exclude[count]):
 					list.erase(filename)
+	
 	else:
-		print("WHY")
-	print(list)
+		pass
+	
 	return list
 
 
-func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = []): # Quantity of -1 will randomize the number of spawned scenes.
+func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = [], add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]):
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
 		var node
 		
-		if file is String : node = load(file).instantiate()
-		else : node = file.instantiate()
+		if filepath is String : node = load(filepath).instantiate()
+		else : node = filepath.instantiate()
 		
 		node.position += pos_offset
 		node.modulate += add_modulate
@@ -806,17 +807,14 @@ func spawn_scenes(target : Node, file, quantity : int = 1, pos_offset : Vector2 
 		node.z_index += add_z_index
 		
 		var y = -1
-		for p_name in properties_name:
+		for property_name in properties_name:
 			y += 1
 			
-			#var add_property : Dictionary = {add_properties_name[y] : add_properties_value[y]}
 			node.set(properties_name[y], properties_value[y])
 		
 		target.add_child(node)
 		
 		spawned_nodes.append(node)
-		
-		#if "debug_markers" in target : target.debug_markers.append(node)
 	
 	
 	if remove_cooldown != -1:

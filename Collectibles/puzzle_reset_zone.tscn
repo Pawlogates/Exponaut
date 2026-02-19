@@ -18,6 +18,7 @@ can_change_sprite_anim = true
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_bbww4")
+animation = &"collected"
 
 [node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
 debug_color = Color(1, 0, 0, 0)

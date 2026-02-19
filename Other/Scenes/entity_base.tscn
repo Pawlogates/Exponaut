@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="3_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_c3p0q"]
-[ext_resource type="SpriteFrames" uid="uid://c7v0pqujkeomb" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_orb_blue.tres" id="3_fjle6"]
+[ext_resource type="SpriteFrames" uid="uid://fvwbdon5rq11" path="res://Assets/Graphics/sprites/packed/projectiles/fireball.tres" id="3_fjle6"]
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_84r7y"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_fjle6"]
 
@@ -27,11 +27,11 @@ size = Vector2(64, 64)
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
+on_wall_change_velocity = false
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
-position = Vector2(0, 22.5322)
 sprite_frames = ExtResource("3_fjle6")
-animation = &"idle"
+animation = &"anim"
 
 [node name="animation_all" parent="sprite" instance=ExtResource("4_84r7y")]
 unique_name_in_owner = true
@@ -139,6 +139,9 @@ one_shot = true
 wait_time = 1.5
 one_shot = true
 
+[node name="cooldown_on_death_effect_thrownAway" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="animation_looped" from="sprite" to="." method="_on_sprite_animation_looped"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
@@ -153,3 +156,4 @@ one_shot = true
 [connection signal="timeout" from="cooldown_patrolling_change_direction" to="." method="_on_cooldown_patrolling_change_direction_timeout"]
 [connection signal="timeout" from="cooldown_death" to="." method="_on_cooldown_death_timeout"]
 [connection signal="timeout" from="cooldown_change_ignore_gravity" to="." method="_on_cooldown_change_ignore_gravity_timeout"]
+[connection signal="timeout" from="cooldown_on_death_effect_thrownAway" to="." method="_on_cooldown_on_death_effect_thrownAway_timeout"]

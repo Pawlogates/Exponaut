@@ -9,5 +9,4 @@ entity_name = "jewel"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_yelo0")
-animation = &"anim"
 frame_progress = 0.264758

@@ -32,6 +32,9 @@ var base_gravity_multiplier = gravity_multiplier
 
 @export var flight = false
 
+@export var attack_pos_offset : Vector2 = Vector2(32, 0)
+
+
 var can_jump = true
 var can_air_jump = false
 var can_wall_jump = false
@@ -154,6 +157,7 @@ func _ready():
 	base_gravity_multiplier = gravity_multiplier
 	
 	Globals.player_position = position
+	Globals.player_direction_x_active = 1
 	
 	Globals.levelState_saved.connect(on_levelState_saved)
 	Globals.levelState_loaded.connect(on_levelState_loaded)
@@ -801,10 +805,11 @@ func handle_shoot():
 	if Globals.weapon_blocked : return
 	
 	if not dead and Input.is_action_pressed("attack_main"):
+		if c_attack.time_left > 0.0 : return
+		c_attack.start()
+		
 		if Globals.weapon is Dictionary:
 			attack_spawn_scene("res://Projectiles/base.tscn")
-		
-		if c_attack.time_left > 0.0 : return
 		
 		#var projectile_phaser = scene_projectile_phaser.instantiate()
 		#add_child(projectile_phaser)
@@ -825,8 +830,8 @@ func attack_spawn_scene(filepath):
 	if filepath == "res://Projectiles/base.tscn":
 		var scene = load(filepath).instantiate()
 		
-		scene.position = position
-		print(Globals.weapon)
+		scene.position = position + attack_pos_offset * Globals.player_direction_x_active
+		scene.set_player_attack_cooldown = true
 		
 		for property_name in Globals.weapon:
 			if property_name == "none" : continue
@@ -966,35 +971,37 @@ var on_wall = false
 func get_basic_player_values():
 	if not dead and not block_movement:
 		direction_x = Input.get_axis("move_left", "move_right")
+	
 	else:
 		direction_x = 0
 	
+	Globals.player_direction_x = direction_x
+	if direction_x : Globals.player_direction_x_active = direction_x
+	
+	Globals.player_velocity = velocity
+	
+	
 	if is_on_floor():
 		on_floor = true
+	
 	else:
 		on_floor = false
+	
 	
 	if is_on_wall():
 		on_wall = true
 		on_wall_normal = get_wall_normal()
+	
 	else:
 		on_wall = false
+	
 	
 	# Leniency timers:
 	if on_floor:
 		t_leniency_jump.start()
+	
 	if on_wall:
 		t_leniency_wall_jump.start()
-	
-	#Globals.player_pos = get_global_position()
-	#Globals.player_posX = get_global_position()[0]
-	#Globals.player_posY = get_global_position()[1]
-		#Globals.player_pos = get_global_position()
-	#Globals.player_posX = get_global_position()[0]
-	#Globals.player_posY = get_global_position()[1]
-	Globals.player_velocity = velocity
-	
-	Globals.player_direction_x = direction_x
 
 
 func handle_spawn_dust():

@@ -9,3 +9,4 @@ entity_name = "apple"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_ylj0o")
+animation = &"idle"

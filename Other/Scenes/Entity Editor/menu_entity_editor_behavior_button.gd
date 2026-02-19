@@ -179,6 +179,10 @@ func property_value_change(multiplier : float = 1.0):
 	elif entity_editor.get(property_name) is String:
 		pass # The "one of multiple options within an Array" (like a scene filepath) type of property value is set (with the use of "apply_chosen_option()") by behavior buttons within a completely different menu, dedicated to Arrays.
 	
+	elif entity_editor.get(property_name) is Array:
+		if "range" in property_name:
+			entity_editor.set(property_name[0], entity_editor.get(property_name)[0] + Vector2(behavior_value_step, behavior_value_step) * multiplier)
+			entity_editor.set(property_name[1], entity_editor.get(property_name)[1] + Vector2(behavior_value_step, behavior_value_step) * multiplier)
 	
 	behavior_value = entity_editor.get(property_name)
 	

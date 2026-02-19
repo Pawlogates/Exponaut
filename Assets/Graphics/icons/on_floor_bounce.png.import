@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dtia2uafd7i24"
-path="res://.godot/imported/bouncy_x.png-abeac0f1e78bb119a4c5d5713d73fd4e.ctex"
+uid="uid://b8k51csjwge74"
+path="res://.godot/imported/on_floor_bounce.png-31682a39335bec7ac7a5db54efa82fc8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/icons/bouncy_x.png"
-dest_files=["res://.godot/imported/bouncy_x.png-abeac0f1e78bb119a4c5d5713d73fd4e.ctex"]
+source_file="res://Assets/Graphics/icons/on_floor_bounce.png"
+dest_files=["res://.godot/imported/on_floor_bounce.png-31682a39335bec7ac7a5db54efa82fc8.ctex"]
 
 [params]
 

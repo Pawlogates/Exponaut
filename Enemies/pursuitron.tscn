@@ -25,3 +25,4 @@ entity_type = "enemy"
 [node name="sprite" parent="." index="0"]
 material = ExtResource("2_d1pvb")
 sprite_frames = ExtResource("3_12ie6")
+animation = &"attack"
