@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://b2fg1edb8d6og"
+uid="uid://rb077dkykpda"
 path="res://.godot/imported/teleport.wav-c537157a55efd31f1a0697c4dba82316.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

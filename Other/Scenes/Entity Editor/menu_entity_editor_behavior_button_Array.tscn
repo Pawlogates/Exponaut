@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_k6d6o"]
 [ext_resource type="Script" uid="uid://u8362on3kbas" path="res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.gd" id="2_jvfyx"]
 [ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="3_unfvl"]
-[ext_resource type="Texture2D" uid="uid://d0gtpgs8h1v27" path="res://Assets/Graphics/icons/movement_type.png" id="4_jvfyx"]
+[ext_resource type="Texture2D" uid="uid://b6i8btdm7ebml" path="res://Assets/Graphics/icons/default3.png" id="4_jvfyx"]
 [ext_resource type="PackedScene" uid="uid://8melvub701c3" path="res://Other/Scenes/animation_entity_editor_general.tscn" id="5_jvfyx"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_v53ty"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="6_st4tt"]

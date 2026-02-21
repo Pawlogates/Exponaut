@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_wofh5"]
 [ext_resource type="Script" uid="uid://u8362on3kbas" path="res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.gd" id="2_wjmso"]
 [ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="3_r3hlu"]
-[ext_resource type="Texture2D" uid="uid://dvc35rcirv7jt" path="res://Assets/Graphics/icons/ignore_gravity.png" id="5_0h43h"]
+[ext_resource type="Texture2D" uid="uid://dmdyux7hsjiea" path="res://Assets/Graphics/icons/default2.png" id="4_wjmso"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_efgnf"]
 [ext_resource type="PackedScene" uid="uid://8melvub701c3" path="res://Other/Scenes/animation_entity_editor_general.tscn" id="5_wjmso"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="6_j1ii6"]
@@ -46,7 +46,7 @@ button_style_filepath = "uid://32lwpw3ctfww"
 
 [node name="behavior_icon" type="Sprite2D" parent="." index="6"]
 position = Vector2(80, 80)
-texture = ExtResource("5_0h43h")
+texture = ExtResource("4_wjmso")
 
 [node name="animation_entity_editor_general" parent="behavior_icon" index="0" instance=ExtResource("5_wjmso")]
 

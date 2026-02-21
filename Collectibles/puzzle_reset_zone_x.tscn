@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://b1yp3474kdoii"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_1588a"]
+[ext_resource type="SpriteFrames" uid="uid://cpocby34y3ppf" path="res://Assets/Graphics/sprites/packed/collectibles/puzzle.tres" id="2_rgs1i"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1588a"]
+size = Vector2(2048, 1024)
+
+[node name="puzzle_reset_zone" instance=ExtResource("1_1588a")]
+texture_filter = 5
+can_collect = true
+collectable_multiple = true
+collectable_multiple_health = -1
+immortal = true
+award_score = false
+reset_puzzle = true
+on_collected_reset_puzzle = true
+start_animation = "general/loop_up_down_slight"
+can_change_sprite_anim = true
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_rgs1i")
+animation = &"collected"
+
+[node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
+debug_color = Color(1, 0, 0, 0)
+
+[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
+shape = SubResource("RectangleShape2D_1588a")
+debug_color = Color(1, 1, 0, 0)

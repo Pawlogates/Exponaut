@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_x8k84"]
 [ext_resource type="Script" uid="uid://u8362on3kbas" path="res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.gd" id="2_v30vh"]
 [ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="3_qq8k8"]
-[ext_resource type="Texture2D" uid="uid://camiqdechh708" path="res://Assets/Graphics/icons/speed.png" id="4_djkk5"]
+[ext_resource type="Texture2D" uid="uid://c21c21qparkv8" path="res://Assets/Graphics/icons/default.png" id="4_2oh6u"]
 [ext_resource type="PackedScene" uid="uid://8melvub701c3" path="res://Other/Scenes/animation_entity_editor_general.tscn" id="5_2oh6u"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="5_dwo4e"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_mam22"]
@@ -64,7 +64,7 @@ button_style_filepath = "uid://d16dso8u4db5s"
 
 [node name="behavior_icon" type="Sprite2D" parent="." index="6"]
 position = Vector2(80, 80)
-texture = ExtResource("4_djkk5")
+texture = ExtResource("4_2oh6u")
 
 [node name="animation_entity_editor_general" parent="behavior_icon" index="0" instance=ExtResource("5_2oh6u")]
 

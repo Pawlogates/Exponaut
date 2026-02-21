@@ -88,9 +88,15 @@ var neon_fade_in = false # The value of "true" means that neon blocks are fading
 var quickload_blocked = true
 var quicksave_blocked = true
 
+signal uncover_matching_id(id)
+
+signal reset_puzzle_all_nodes_ready
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	uncover_matching_id.connect(on_uncover_matching_id)
+	
 	Globals.gameState_level = true
 	Globals.gameState_levelSet_screen = false
 	Globals.gameState_start_screen = false
@@ -995,3 +1001,15 @@ func get_entity_status_all():
 			projectile_inactive.append(entity)
 	
 	return str("Entity: %s (Active/Inactive : %s/%s), Collectible: %s (Active/Inactive : %s/%s), Enemy: %s (Active/Inactive : %s/%s), Box: %s (Active/Inactive : %s/%s), Projectile: %s (Active/Inactive : %s/%s)." % [len(entity_all), len(entity_active), len(entity_inactive), len(collectible_all), len(collectible_active), len(collectible_inactive), len(enemy_all), len(enemy_active), len(enemy_inactive), len(box_all), len(box_active), len(box_inactive), len(projectile_all), len(projectile_active), len(projectile_inactive)])
+
+
+func on_uncover_matching_id(id):
+	var uncovered_quantity = 0
+	
+	for zone_hidden in get_tree().get_nodes_in_group("zone_hidden"):
+		#if not zone_hidden.is_hidden : continue
+		
+		if zone_hidden.connected_id == id:
+			zone_hidden.uncover(false)
+			
+			uncovered_quantity += 1

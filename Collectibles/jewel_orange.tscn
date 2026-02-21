@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://c85my28akyfi0"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_511gd"]
+[ext_resource type="SpriteFrames" uid="uid://bn0r5f03h1mh" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_orange.tres" id="2_mgfat"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="jewel_orange" instance=ExtResource("1_511gd")]
+score_value = 75
+can_move = true
+can_move_x = true
+can_move_y = true
+ignore_gravity = false
+start_animation = "none"
+on_spawn_effect_grow = false
+entity_name = "pineapple"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_mgfat")
+animation = &"idle"
+
+[node name="collision_main" parent="." index="1"]
+shape = SubResource("RectangleShape2D_511gd")

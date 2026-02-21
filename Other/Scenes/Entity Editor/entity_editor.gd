@@ -6,23 +6,26 @@ extends Control
 
 var l_available_property_name = ["speed", "acceleration_multiplier_x", "ignore_gravity", "on_timeout_change_ignore_gravity", "on_timeout_change_ignore_gravity_cooldown", "on_wall_bounce", "on_floor_bounce", "movement_type", "on_death_spawn_entity", "on_death_spawn_entity_scene_filepath", "on_death_spawn_entity_quantity", "on_death_spawn_entity_add_velocity", "on_death_spawn_entity_add_velocity_range", "on_hit_spawn_entity", "on_hit_spawn_entity_scene_filepath", "on_hit_spawn_entity_quantity", "on_hit_spawn_entity_add_velocity", "on_hit_spawn_entity_add_velocity_range", "on_timeout_death", "on_timeout_death_cooldown", "on_spawn_copy_direction_x_player", "on_spawn_copy_direction_x_active_player", "copy_direction_x_player", "copy_direction_x_active_player", "direction_x", "set_player_attack_cooldown_value", "on_spawn_max_speed", "always_max_speed", "breakable"]
 
-var l_speed_button_info : Dictionary = {"behavior_name" : "Movement Speed", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+var l_speed_button_info : Dictionary = {"behavior_name" : "Movement Speed", "behavior_value" : 500, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
 var l_acceleration_multiplier_x_button_info : Dictionary = {"behavior_name" : "Acceleration", "behavior_value" : 1.0, "behavior_value_step" : 0.1, "behavior_value_min" : 0.25, "behavior_value_max" : 10.0, "behavior_available_options" : ["none"]}
 
-var l_on_wall_bounce_button_info : Dictionary = {"behavior_name" : "Bounce off the ground", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_on_wall_bounce_button_info : Dictionary = {"behavior_name" : "Bounce off the ground", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
 var l_on_floor_bounce_button_info : Dictionary = {"behavior_name" : "Bounce off the walls", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
 
 var l_ignore_gravity_button_info : Dictionary = {"behavior_name" : "Ignore Gravity", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
 var l_on_timeout_change_ignore_gravity_button_info : Dictionary = {"behavior_name" : "Fall after a delay", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_on_timeout_change_ignore_gravity_cooldown_button_info : Dictionary = {"behavior_name" : "Fall delay", "behavior_value" : 1.5, "behavior_value_step" : 0.25, "behavior_value_min" : 0, "behavior_value_max" : 4.0, "behavior_available_options" : ["none"]}
+var l_on_timeout_change_ignore_gravity_cooldown_button_info : Dictionary = {"behavior_name" : "Fall delay", "behavior_value" : 1.0, "behavior_value_step" : 0.25, "behavior_value_min" : 0, "behavior_value_max" : 4.0, "behavior_available_options" : ["none"]}
 
 var l_movement_type_button_info : Dictionary = {"behavior_name" : "Movement type", "behavior_value" : "move_x", "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity_movement_limited}
 
+var l_on_timeout_death_button_info : Dictionary = {"behavior_name" : "Destroy after a delay", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+var l_on_timeout_death_cooldown_button_info : Dictionary = {"behavior_name" : "Destruction cooldown", "behavior_value" : 1.5, "behavior_value_step" : 0.25, "behavior_value_min" : 0.0, "behavior_value_max" : 12.0, "behavior_available_options" : ["none"]}
+
 var l_on_death_spawn_entity_button_info : Dictionary = {"behavior_name" : "Leave object after death", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_on_death_spawn_entity_scene_filepath_button_info : Dictionary = {"behavior_name" : "Chosen object", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity}
+var l_on_death_spawn_entity_scene_filepath_button_info : Dictionary = {"behavior_name" : "Chosen object", "behavior_value" : "res://Enemies/pursuitron.tscn", "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity}
 var l_on_death_spawn_entity_quantity_button_info : Dictionary = {"behavior_name" : "Object quantity", "behavior_value" : 1, "behavior_value_step" : 1, "behavior_value_min" : 0, "behavior_value_max" : 15, "behavior_available_options" : ["none"]}
 var l_on_death_spawn_entity_add_velocity_button_info : Dictionary = {"behavior_name" : "Object's throw direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
-var l_on_death_spawn_entity_add_velocity_range_button_info : Dictionary = {"behavior_name" : "Object's throw variability range", "behavior_value" : [Vector2(0, 0), Vector2(0, 0)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+var l_on_death_spawn_entity_add_velocity_range_button_info : Dictionary = {"behavior_name" : "Object's throw variability range", "behavior_value" : [Vector2(-400, -400), Vector2(400, 400)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
 var l_on_death_spawn_entity_pos_offset_button_info : Dictionary = {"behavior_name" : "Object's relative position direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
 var l_on_death_spawn_entity_pos_offset_range_button_info : Dictionary = {"behavior_name" : "Object's relative position variability range", "behavior_value" : [Vector2(-50, -600), Vector2(-400, 600)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
 
@@ -33,9 +36,6 @@ var l_on_hit_spawn_entity_add_velocity_button_info : Dictionary = {"behavior_nam
 var l_on_hit_spawn_entity_add_velocity_range_button_info : Dictionary = {"behavior_name" : "Object's throw variability range", "behavior_value" : [Vector2(0, 0), Vector2(0, 0)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
 var l_on_hit_spawn_entity_pos_offset_button_info : Dictionary = {"behavior_name" : "Object's relative position direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
 var l_on_hit_spawn_entity_pos_offset_range_button_info : Dictionary = {"behavior_name" : "Object's relative position variability range", "behavior_value" : [Vector2(0, 0), Vector2(0, 0)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
-
-var l_on_timeout_death_button_info : Dictionary = {"behavior_name" : "Destroy after a delay", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_on_timeout_death_cooldown_button_info : Dictionary = {"behavior_name" : "Destruction cooldown", "behavior_value" : 2.5, "behavior_value_step" : 0.25, "behavior_value_min" : 0.0, "behavior_value_max" : 12.0, "behavior_available_options" : ["none"]}
 
 var l_on_spawn_copy_direction_x_player_button_info : Dictionary = {"behavior_name" : "Start direction matches that of the player", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
 var l_on_spawn_copy_direction_x_active_player_button_info : Dictionary = {"behavior_name" : "But it cannot be inactive", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
@@ -64,6 +64,12 @@ var choosen_family = "player"
 
 func _ready():
 	Globals.weapon_blocked = true
+	
+	if Globals.weapon["apply_default"]: # Apply default values if the entity has never been edited.
+		for property_name in l_available_property_name:
+			Globals.weapon.get_or_add(property_name, get("l_" + property_name + "_button_info")["behavior_value"])
+			
+			Globals.weapon["apply_default"] = false # From this point, the default property values ("l_property_name_button_info[behavior_value]") will not be applied every time the entity editor spawns.
 	
 	for property_name in Globals.weapon:
 		if property_name == "none" : continue
@@ -125,10 +131,10 @@ func _process(delta: float) -> void:
 
 # FIX THIS!
 func update_entity():
-	Globals.weapon = {}
+	Globals.weapon = {"apply_default" : true}
 	
 	for property_name in l_available_property_name:
-		Globals.weapon.get_or_add(property_name, get("l_" + property_name + "_button_info")["behavior_value"])
+		Globals.weapon.get_or_add(property_name, get(property_name))
 
 
 # Start of properties.
@@ -152,13 +158,21 @@ func update_entity():
 
 @export_enum("stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var movement_type : String = "normal"
 
-@export var speed = 400
+@export var speed = 500
 @export var jump_velocity = -600
 @export var acceleration = 200
 @export var friction = 400
-@export var fall_speed = 400
+@export var fall_speed = 1000
 
-@export_enum("Player", "Enemy", "none", "all") var family : String = "all"
+@export var always_max_speed = false
+@export var on_spawn_max_speed = false
+
+@export_enum("Player", "enemy", "none", "all") var family : String = "all"
+@export var damage_from_entity = false
+@export var damage_from_entity_contact = false
+
+@export var set_player_attack_cooldown = false
+@export var set_player_attack_cooldown_value = 1.5
 
 @export_group("") # Section end.
 
@@ -196,9 +210,12 @@ func update_entity():
 @export var on_ledge_speed_multiplier = 1.0
 @export var on_ledge_death = false
 
-@export var on_wall_bounce = false
-@export var on_floor_bounce = false
 @export var ascending = false
+
+@export var copy_direction_x_player = false
+@export var copy_direction_x_active_player = false
+@export var on_spawn_copy_direction_x_player = false
+@export var on_spawn_copy_direction_x_active_player = true
 
 # Timer-based behavior:
 @export var on_timeout_change_direction = false
@@ -217,7 +234,7 @@ func update_entity():
 @export_file("*.scene") var on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_death_spawn_entity_quantity = 1
 @export var on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_death_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_death_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
 @export var on_death_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var on_death_spawn_entity_cooldown = 0.5
@@ -233,7 +250,7 @@ func update_entity():
 @export_file("*.scene") var on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_hit_spawn_entity_quantity = 1
 @export var on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_hit_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
 @export var on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var on_hit_spawn_entity_cooldown = 0.5
@@ -246,20 +263,14 @@ func update_entity():
 @export var patrolling_vision_pos = Vector2(192, 0)
 
 @export var on_patrolling_spotted_spawn_entity_offset = Vector2(0, 0)
-@export_enum("Player", "Enemy", "none", "all") var on_patrolling_spotted_spawn_entity_family: String = "enemy"
+@export_enum("Player", "enemy", "none", "all") var on_patrolling_spotted_spawn_entity_family: String = "enemy"
 @export var patrolling_change_direction_cooldown : float = 4.0
-
-@export var damage_from_entity = false
-@export var damage_from_entity_contact = false
-
-@export var set_player_attack_cooldown = false
-@export var set_player_attack_cooldown_value = 1.5
 
 @export var on_patrolling_spotted_spawn_entity = false
 @export_file("*.scene") var on_patrolling_spotted_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity_quantity = 1
 @export var on_patrolling_spotted_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_patrolling_spotted_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_patrolling_spotted_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
 @export var on_patrolling_spotted_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var on_patrolling_spotted_spawn_entity_cooldown = 0.5
@@ -268,7 +279,7 @@ func update_entity():
 @export_file("*.scene") var on_patrolling_spotted_spawn_entity2_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity2_quantity = 1
 @export var on_patrolling_spotted_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity2_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_patrolling_spotted_spawn_entity2_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_patrolling_spotted_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
 @export var on_patrolling_spotted_spawn_entity2_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var on_patrolling_spotted_spawn_entity2_cooldown = 0.5
@@ -277,7 +288,7 @@ func update_entity():
 @export_file("*.scene") var on_patrolling_spotted_spawn_entity3_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity3_quantity = 1
 @export var on_patrolling_spotted_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity3_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_patrolling_spotted_spawn_entity3_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_patrolling_spotted_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
 @export var on_patrolling_spotted_spawn_entity3_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var on_patrolling_spotted_spawn_entity3_cooldown = 0.5
@@ -303,8 +314,6 @@ func update_entity():
 
 #---------------------------------------------------------------------------#
 
-@export var always_max_speed = false
-@export var on_spawn_max_speed = false
 
 @export_group("Other properties (behavior).") # Section start.
 
@@ -321,11 +330,6 @@ func update_entity():
 @export var enteredFromAboveAndNotMoving_enable = true
 @export var enteredFromAboveAndNotMoving_velocity = -800
 
-@export var copy_direction_x_player = false
-@export var copy_direction_x_active_player = false
-@export var on_spawn_copy_direction_x_player = false
-@export var on_spawn_copy_direction_x_active_player = true
-
 
 @export var rng_custom = -1 # Set to -1 for random.
 
@@ -336,11 +340,14 @@ func update_entity():
 # If an entity is breakable, the player can bounce off of it, and gains greater height if the jump button is pressed during the bounce, making it a "box" in most cases.
 @export var breakable = true
 
+@export_enum("Player", "enemy", "none", "all") var breakable_on_death_spawn_entity_family: String = "all"
+@export_enum("Player", "enemy", "none", "all") var breakable_on_hit_spawn_entity_family: String = "all"
+
 @export var breakable_on_death_spawn_entity = false
 @export_file("*.scene") var breakable_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_on_death_spawn_entity_quantity = 1
 @export var breakable_on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_on_death_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_on_death_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
 @export var breakable_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var breakable_on_death_spawn_entity_cooldown = 0.5
@@ -352,7 +359,7 @@ func update_entity():
 @export_file("*.scene") var breakable_on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_on_hit_spawn_entity_quantity = 1
 @export var breakable_on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
 @export var breakable_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var breakable_on_hit_spawn_entity_cooldown = 0.5
@@ -389,7 +396,7 @@ func update_entity():
 @export_file("*.scene") var breakable_advanced_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_advanced_on_death_spawn_entity_quantity = 1
 @export var breakable_advanced_on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_death_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_advanced_on_death_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_advanced_on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
 @export var breakable_advanced_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var breakable_advanced_on_death_spawn_entity_cooldown = 0.5
@@ -402,7 +409,7 @@ func update_entity():
 @export_file("*.scene") var breakable_advanced__on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_advanced_on_hit_spawn_entity_quantity = 1
 @export var breakable_advanced_on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_advanced_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_advanced_on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
 @export var breakable_advanced_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
 @export var breakable_advanced_on_hit_spawn_entity_cooldown = 0.5
@@ -538,6 +545,9 @@ func update_entity():
 
 @export var remove_delay = 1.0
 
+@export var on_floor_bounce = false
+@export var on_wall_bounce = false
+
 @export var variable_speed = false
 
 @export var anim_alternate_walk = false
@@ -596,7 +606,13 @@ func update_entity():
 # Sound effects - [END]
 
 
-@export var on_death_effect_shrink = false
+@export var on_spawn_effect_grow = true
+@export var effect_grow_target_scale = Vector2(1, 1)
+
+@export var on_death_effect_shrink = true
+@export var effect_shrink_target_scale = Vector2(1, 1)
+@export var effect_shrink_delete : bool = true
+
 
 @export_group("") # End of section.
 

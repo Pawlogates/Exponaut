@@ -50,6 +50,7 @@ var patrolling_target_spotted_active = false
 
 # Reset puzzle - [START]
 @onready var scan_reset_puzzle_coverage: Area2D = $scan_reset_puzzle_coverage
+@onready var scan_reset_puzzle_coverage_collision: CollisionShape2D = $scan_reset_puzzle_coverage/CollisionShape2D
 # Reset puzzle - [END]
 
 # Sound effects.
@@ -110,6 +111,9 @@ var wall_normal = Vector2(99, 99)
 var reset_puzzle_inside_zone = false # Right after the level is loaded, a "reset_puzzle" entity will look for nodes inside its coverage area ("scan_reset_puzzle_coverage" : "area2D") and add them all to the list ("reset_puzzle_nodes_inside_zone") which should NEVER change after that, for the entire playthrough.
 var reset_puzzle_delete_node_queued = false
 var reset_puzzle_nodes_inside_zone : Array
+var reset_puzzle_block_movement = false
+var reset_puzzle_restored = false
+var reset_puzzle_first_time = true
 var reset_puzzle_saved_score = -1 # The score value that will replace the player's overworld score when the puzzle gets reset. Note: It's needed so you can't abuse the fact that entities can respawn infinitely, to get infinite score.
 var reset_puzzle_line_visible = false
 var reset_puzzle_master_node : Node
@@ -146,14 +150,18 @@ var effect_collected_multiple_active = false
 @export var jump_velocity = -600
 @export var acceleration = 200
 @export var friction = 400
-@export var fall_speed = 400
+@export var fall_speed = 1000
 
 @export var always_max_speed = false
 @export var on_spawn_max_speed = false
 
 @export_enum("Player", "enemy", "none", "all") var family : String = "all"
+
 @export var damage_from_entity = false
-@export var damage_from_entity_contact = false
+@export var damage_from_entity_contact = true
+
+@export var pushable_by_entity = false
+@export var pushable_by_player = false
 
 @export var set_player_attack_cooldown = false
 @export var set_player_attack_cooldown_value = 1.5
@@ -215,12 +223,12 @@ var effect_collected_multiple_active = false
 
 # Behavior triggered on entity death:
 @export var on_death_spawn_entity = false
-@export_file("*.scene") var on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_death_spawn_entity_quantity = 1
 @export var on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_death_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_death_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_death_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
+@export var on_death_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
 @export var on_death_spawn_entity_cooldown = 0.5
 
 @export var on_death_toggle_toggleBlocks = false
@@ -231,12 +239,12 @@ var effect_collected_multiple_active = false
 
 # Behavior triggered on entity hit:
 @export var on_hit_spawn_entity = false
-@export_file("*.scene") var on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_hit_spawn_entity_quantity = 1
 @export var on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_hit_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
+@export var on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
 @export var on_hit_spawn_entity_cooldown = 0.5
 
 
@@ -251,30 +259,30 @@ var effect_collected_multiple_active = false
 @export var patrolling_change_direction_cooldown : float = 4.0
 
 @export var on_patrolling_spotted_spawn_entity = false
-@export_file("*.scene") var on_patrolling_spotted_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var on_patrolling_spotted_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity_quantity = 1
 @export var on_patrolling_spotted_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_patrolling_spotted_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_patrolling_spotted_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
+@export var on_patrolling_spotted_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
 @export var on_patrolling_spotted_spawn_entity_cooldown = 0.5
 
 @export var on_patrolling_spotted_spawn_entity2 = false
-@export_file("*.scene") var on_patrolling_spotted_spawn_entity2_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var on_patrolling_spotted_spawn_entity2_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity2_quantity = 1
 @export var on_patrolling_spotted_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity2_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_patrolling_spotted_spawn_entity2_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_patrolling_spotted_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity2_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
+@export var on_patrolling_spotted_spawn_entity2_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
 @export var on_patrolling_spotted_spawn_entity2_cooldown = 0.5
 
 @export var on_patrolling_spotted_spawn_entity3 = false
-@export_file("*.scene") var on_patrolling_spotted_spawn_entity3_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var on_patrolling_spotted_spawn_entity3_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_patrolling_spotted_spawn_entity3_quantity = 1
 @export var on_patrolling_spotted_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity3_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var on_patrolling_spotted_spawn_entity3_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var on_patrolling_spotted_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity3_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
+@export var on_patrolling_spotted_spawn_entity3_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
 @export var on_patrolling_spotted_spawn_entity3_cooldown = 0.5
 
 
@@ -321,35 +329,41 @@ var effect_collected_multiple_active = false
 @export var collectable_multiple = false
 @export var collectable_multiple_health = 4 # Set to "-1" for infinite.
 
+
+# Breakable: - [START]
 # If an entity is breakable, the player can bounce off of it, and gains greater height if the jump button is pressed during the bounce, making it a "box" in most cases.
 @export var breakable = true
 
-@export_enum("Player", "enemy", "none", "all") var breakable_on_death_spawn_entity_family: String = "all"
-@export_enum("Player", "enemy", "none", "all") var breakable_on_hit_spawn_entity_family: String = "all"
-
+# On death:
 @export var breakable_on_death_spawn_entity = false
-@export_file("*.scene") var breakable_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var breakable_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_on_death_spawn_entity_quantity = 1
 @export var breakable_on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_on_death_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_on_death_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
-@export var breakable_on_death_spawn_entity_cooldown = 0.5
+@export var breakable_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var breakable_on_death_spawn_entity_cooldown = 0.0
 
 @export var breakable_on_death_player_velocity_y = -200
 @export var breakable_on_death_player_velocity_y_jump = -600
 
+@export_enum("Player", "enemy", "none", "all") var breakable_on_death_spawn_entity_family: String = "all"
+
+# On hit:
 @export var breakable_on_hit_spawn_entity = false
-@export_file("*.scene") var breakable_on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var breakable_on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_on_hit_spawn_entity_quantity = 1
 @export var breakable_on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
-@export var breakable_on_hit_spawn_entity_cooldown = 0.5
+@export var breakable_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var breakable_on_hit_spawn_entity_cooldown = 0.0
 
 @export var breakable_on_hit_player_velocity_y = -400
 @export var breakable_on_hit_player_velocity_y_jump = -600
+
+@export_enum("Player", "enemy", "none", "all") var breakable_on_hit_spawn_entity_family: String = "all"
+
 
 # Only breakable while these conditions are satisfied.
 @export var breakable_requires_velocity_x = true
@@ -365,6 +379,8 @@ var effect_collected_multiple_active = false
 @export var breakable_requires_velocity_x_range2 = Vector2(-1, -1)
 @export var breakable_requires_velocity_y_range2 = Vector2(-1, -1)
 
+
+# Advanced breakable:
 # Advanced box is an entity that gained movement after being hit or killed. An example of an advanced box would be the large gem that floats until hit by the player, after which it gains physics-based movement, and can be broken again, opening a level portal.
 @export_enum("normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var on_hit_gain_movement : String = "none"
 @export_enum("normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var on_death_gain_movement : String = "none"
@@ -377,26 +393,26 @@ var effect_collected_multiple_active = false
 @export var score_value5 = 125
 
 @export var breakable_advanced_on_death_spawn_entity = false
-@export_file("*.scene") var breakable_advanced_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var breakable_advanced_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_advanced_on_death_spawn_entity_quantity = 1
 @export var breakable_advanced_on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_death_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_advanced_on_death_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_advanced_on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
-@export var breakable_advanced_on_death_spawn_entity_cooldown = 0.5
+@export var breakable_advanced_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var breakable_advanced_on_death_spawn_entity_cooldown = 0.0
 
 @export var breakable_advanced_on_death_player_velocity = -400
 @export var breakable_advanced_on_death_player_velocity_jump = -600
 
 
 @export var breakable_advanced_on_hit_spawn_entity = false
-@export_file("*.scene") var breakable_advanced__on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export_file("*.tscn") var breakable_advanced__on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var breakable_advanced_on_hit_spawn_entity_quantity = 1
 @export var breakable_advanced_on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]
+@export var breakable_advanced_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-64, -64), Vector2(64, 64)]
 @export var breakable_advanced_on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-250, -400), Vector2(250, 400)]
-@export var breakable_advanced_on_hit_spawn_entity_cooldown = 0.5
+@export var breakable_advanced_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var breakable_advanced_on_hit_spawn_entity_cooldown = 0.0
 
 @export var breakable_advanced_on_hit_player_velocity = -400
 @export var breakable_advanced_on_hit_player_velocity_jump = -600
@@ -408,6 +424,8 @@ var effect_collected_multiple_active = false
 @export var breakable_advanced_portal_checkpoint_offset = Vector2(320, -64)
 
 @export var breakable_advanced_on_touch_modulate = Color(1, 1, 1, 1)
+# Breakable: - [END]
+
 
 # Major collectibles have a special pickup animation. An example would be the projectile upgrade modules.
 @export var majorCollectible_module = false
@@ -526,11 +544,12 @@ var effect_collected_multiple_active = false
 @export var on_collected_reset_puzzle = false
 @export var on_hit_reset_puzzle = false
 @export var on_death_reset_puzzle = false
+@export var scan_reset_puzzle_coverage_collision_size : Vector2 = Vector2(-1, -1)
 
 @export var remove_delay = 1.0
 
 @export var on_floor_bounce = false
-@export var on_wall_bounce = false
+@export var on_wall_bounce = true
 
 @export var variable_speed = false
 
@@ -591,10 +610,12 @@ var effect_collected_multiple_active = false
 
 
 @export var on_spawn_effect_grow = true
-@export var on_death_effect_shrink = true
-
 @export var effect_grow_target_scale = Vector2(1, 1)
+
+@export var on_death_effect_shrink = true
 @export var effect_shrink_target_scale = Vector2(1, 1)
+@export var effect_shrink_delete : bool = true
+
 
 @export_group("") # End of section.
 
@@ -633,13 +654,15 @@ func remove_if_corpse():
 			Globals.dm("The dead entity has a potentially still visible segments. Waiting additional 4 seconds.", 2)
 			await get_tree().create_timer(4, false).timeout
 		
-		queue_free()
+		delete_entity()
 		Globals.dm("The dead entity has been deleted.", 3)
 
 
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
 	basic_on_inactive()
+	
+	if start_pos == Vector2(-1, -1) : start_pos = position
 	
 	if idle_sfx:
 		if idle_sfx_cooldown : cooldown_sfx_idle.wait_time = idle_sfx_cooldown # If "idle_sfx_cooldown" is not equal to "0".
@@ -714,6 +737,11 @@ func basic_on_active():
 	synchronize_animation()
 	
 	await get_tree().create_timer(0.5, false).timeout
+	
+	if reset_puzzle_restored:
+		await Globals.World.reset_puzzle_all_nodes_ready
+		reset_puzzle_block_movement = false
+	
 	hitbox.set_monitorable(true)
 	hitbox.set_monitoring(true)
 
@@ -898,7 +926,8 @@ func synchronize_animation():
 
 
 func delete_entity():
-	queue_free() # Reset zone is a collection of entities that are tied to a "reset_puzzle" entity. The entity uses a "scan_reset_puzzle_coverage" node (area2D)'s collision, to determine which objects are part of the zone. They cannot be actually deleted (until the puzzle is solved) because they will be restored multiple times.
+	if reset_puzzle_delete_node_queued : return
+	queue_free()
 
 
 func set_hitbox(active : bool, deferred : bool = true):

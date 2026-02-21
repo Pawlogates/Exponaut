@@ -12,7 +12,6 @@ immortal = true
 award_score = false
 reset_puzzle = true
 on_collected_reset_puzzle = true
-on_hit_reset_puzzle = true
 start_animation = "general/loop_up_down_slight"
 can_change_sprite_anim = true
 
@@ -25,7 +24,3 @@ debug_color = Color(1, 0, 0, 0)
 
 [node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
 debug_color = Color(1, 1, 0, 0)
-
-[node name="timer_reset_puzzle_line_visible" type="Timer" parent="." index="18"]
-
-[connection signal="area_entered" from="scan_reset_puzzle_coverage" to="." method="_on_scan_reset_puzzle_coverage_area_entered"]

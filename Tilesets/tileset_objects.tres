@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=117 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=123 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_38g62"]
@@ -73,18 +73,24 @@
 [ext_resource type="PackedScene" uid="uid://dpm11fdo256ld" path="res://Objects/Decorations/deco_toxicWaterfall.tscn" id="71_wmxpc"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="72_doclg"]
 [ext_resource type="PackedScene" uid="uid://bp1c8almrnogl" path="res://Collectibles/jewel.tscn" id="72_g2ic1"]
+[ext_resource type="PackedScene" uid="uid://c85my28akyfi0" path="res://Collectibles/jewel_orange.tscn" id="73_2kxln"]
 [ext_resource type="PackedScene" uid="uid://cuxplgh41ahnt" path="res://Collectibles/orb_zeroScore.tscn" id="73_f8l16"]
 [ext_resource type="PackedScene" uid="uid://da0htgtcareps" path="res://Triggers/zone_wind_L.tscn" id="73_x8rwi"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="74_0lewg"]
-[ext_resource type="PackedScene" uid="uid://d2t0i5n4ypasc" path="res://Collectibles/apple.tscn" id="74_77evu"]
+[ext_resource type="PackedScene" uid="uid://bq2hygqo7c6kk" path="res://Collectibles/apple.tscn" id="74_77evu"]
 [ext_resource type="PackedScene" uid="uid://bmrqly8vl8m48" path="res://Triggers/zone_wind_UP.tscn" id="75_nqxea"]
 [ext_resource type="PackedScene" uid="uid://ukaq30esmehe" path="res://Collectibles/puzzle_reset_zone.tscn" id="75_pvlly"]
+[ext_resource type="PackedScene" uid="uid://ck8hejss7023o" path="res://Collectibles/coin.tscn" id="76_33lkw"]
 [ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="76_hnosd"]
 [ext_resource type="PackedScene" uid="uid://hq4cxsvbv03l" path="res://Enemies/togglebot.tscn" id="77_38g62"]
+[ext_resource type="PackedScene" uid="uid://bixrhaa8e5a4r" path="res://Collectibles/jewel_pineapple_timed.tscn" id="77_mrtos"]
 [ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration.tscn" id="77_rg5m4"]
 [ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="78_2cubl"]
 [ext_resource type="PackedScene" uid="uid://cjiup7b3smvl7" path="res://Enemies/pursuitron.tscn" id="78_bc0rc"]
+[ext_resource type="PackedScene" uid="uid://b17i5uq6owibc" path="res://Collectibles/piggybank_timed.tscn" id="78_mrtos"]
+[ext_resource type="PackedScene" uid="uid://b1yp3474kdoii" path="res://Collectibles/puzzle_reset_zone_x.tscn" id="79_2kxln"]
 [ext_resource type="PackedScene" uid="uid://csipyeliwxa3r" path="res://Blocks/random_decoration_block.tscn" id="79_woovg"]
+[ext_resource type="PackedScene" uid="uid://dxg5hja7ahyvf" path="res://Collectibles/puzzle_reset_zone_y.tscn" id="80_6cobq"]
 [ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://Objects/Decorations/glow_fog_gradient_colorful.tscn" id="80_npeql"]
 [ext_resource type="PackedScene" uid="uid://fa1gibclq2wn" path="res://Objects/Decorations/glow_orb_heavy.tscn" id="81_e2p17"]
 [ext_resource type="PackedScene" uid="uid://chykfjtli3g53" path="res://Objects/Decorations/glow_orb_soft.tscn" id="82_6f3ax"]
@@ -184,6 +190,12 @@ scenes/1/scene = ExtResource("72_g2ic1")
 scenes/2/scene = ExtResource("73_f8l16")
 scenes/3/scene = ExtResource("74_77evu")
 scenes/4/scene = ExtResource("75_pvlly")
+scenes/5/scene = ExtResource("76_33lkw")
+scenes/6/scene = ExtResource("77_mrtos")
+scenes/7/scene = ExtResource("78_mrtos")
+scenes/8/scene = ExtResource("79_2kxln")
+scenes/9/scene = ExtResource("80_6cobq")
+scenes/10/scene = ExtResource("73_2kxln")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bdx2g"]
 resource_name = "switches"

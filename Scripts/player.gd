@@ -139,6 +139,8 @@ var can_collect = true # Whether the entity (player in this case) can collect an
 
 var last_checkpoint_pos = Vector2(-1, -1)
 
+var family = "Player"
+
 
 # Emitted when player lands on the ground.
 signal player_just_landed
@@ -832,6 +834,7 @@ func attack_spawn_scene(filepath):
 		
 		scene.position = position + attack_pos_offset * Globals.player_direction_x_active
 		scene.set_player_attack_cooldown = true
+		scene.family = "Player"
 		
 		for property_name in Globals.weapon:
 			if property_name == "none" : continue

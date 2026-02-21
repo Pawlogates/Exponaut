@@ -4,15 +4,15 @@ extends entity_basic
 # Effect - Thrown Away:
 @export var on_collected_effect_thrownAway = false
 @export var on_death_effect_thrownAway = false
-
-@export var on_collected_decoration_nodes_effect_thrownAway = false
-@export var on_death_decoration_nodes_effect_thrownAway = false
-
+@export var on_death_effect_thrownAway_cooldown = 0.0
+@export var effect_effect_thrownAway_delete : bool = true
 @export var effect_thrownAway_randomize_velocity = true
 @export var effect_thrownAway_randomize_velocity_multiplier_x = 1.0
 @export var effect_thrownAway_randomize_velocity_multiplier_y = 1.0
 
-@export var on_death_effect_thrownAway_cooldown = 0.0
+@export var on_collected_decoration_nodes_effect_thrownAway = false
+@export var on_death_decoration_nodes_effect_thrownAway = false
+
 
 var effect_thrownAway_active = false
 var rolled_effect_thrownAway_scale = randf_range(0.1, 6)
@@ -29,9 +29,12 @@ func _ready():
 	reassign_general()
 	reassign_movement_type_id()
 	
+	if scan_reset_puzzle_coverage_collision_size != Vector2(-1, -1):
+		scan_reset_puzzle_coverage_collision.shape.size = scan_reset_puzzle_coverage_collision_size
+	
 	if on_spawn_effect_grow:
 		effect_grow = true
-		scale *= Vector2(0.1, 0.1)
+		sprite.scale *= Vector2(0.1, 0.1)
 	
 	if on_spawn_copy_direction_x_player:
 		if on_spawn_copy_direction_x_active_player:
@@ -79,6 +82,10 @@ func _ready():
 	if reset_puzzle:
 		scan_reset_puzzle_coverage.monitorable = false
 		scan_reset_puzzle_coverage.monitoring = false
+	
+	if can_move:
+		if not reset_puzzle_first_time : await Globals.World.reset_puzzle_all_nodes_ready
+		reset_puzzle_queue()
 
 func _process(delta):
 	handle_movement(delta)
@@ -90,8 +97,8 @@ func _process(delta):
 		else:
 			direction_x = Globals.player_direction_x
 	
-	if abs(velocity.x) > 15 : velocity_last_x = velocity.x
-	if abs(velocity.y) > 15 : velocity_last_y = velocity.y
+	if abs(velocity.x) > 0.0 : velocity_last_x = velocity.x
+	if abs(velocity.y) > 0.0 : velocity_last_y = velocity.y
 	
 	if on_death_effect_thrownAway or on_collected_decoration_nodes_effect_thrownAway : effect_thrownAway(delta)
 	
@@ -128,18 +135,17 @@ func _process(delta):
 	if is_on_wall():
 		wall_normal = get_wall_normal()
 		
-		# if can_collide:
-		# Handle straight surface bounce.
-		if not reflect_straight() : reflect_slope()
-		
-		if not gravity or ignore_gravity:
-			# Handle slope surface bounce
-			reflect_slope()
-			
-			if direction_y > 0:
-				rotation_degrees = 90
-			elif direction_y < 0:
-				rotation_degrees = -90
+		if is_collidable:
+			if on_wall_bounce or on_floor_bounce:
+				if not gravity or ignore_gravity:
+					
+					# Handle slope surface bounce
+					if not reflect_straight() : reflect_slope()
+					
+					if direction_y > 0:
+						rotation_degrees = 90
+					elif direction_y < 0:
+						rotation_degrees = -90
 	
 	
 	handle_bounce()
@@ -148,14 +154,17 @@ func _process(delta):
 	
 	
 	if effect_grow:
-		scale.x = move_toward(scale.x, effect_grow_target_scale.x, delta * 4)
-		scale.y = move_toward(scale.y, effect_grow_target_scale.y, delta * 4)
+		sprite.scale.x = move_toward(sprite.scale.x, effect_grow_target_scale.x, delta * 4)
+		sprite.scale.y = move_toward(sprite.scale.y, effect_grow_target_scale.y, delta * 4)
 		
-		if effect_grow and scale >= effect_grow_target_scale : effect_grow = false
+		if effect_grow and sprite.scale >= effect_grow_target_scale : effect_grow = false
 	
 	if effect_shrink:
-		scale.x = move_toward(scale.x, effect_shrink_target_scale.x, delta * 2)
-		scale.y = move_toward(scale.y, effect_shrink_target_scale.y, delta * 2)
+		sprite.scale.x = move_toward(sprite.scale.x, effect_shrink_target_scale.x, delta * 2)
+		sprite.scale.y = move_toward(sprite.scale.y, effect_shrink_target_scale.y, delta * 2)
+		
+		if effect_shrink_delete:
+			if sprite.scale.x == effect_shrink_target_scale.x and sprite.scale.y == effect_shrink_target_scale.y : delete_entity()
 	
 	
 	sprite_animation()
@@ -209,9 +218,10 @@ func direction_toward_target_y(target : Node):
 
 # The entity's HITBOX has been touched by another entity's HITBOX.
 func _on_hitbox_area_entered(area: Area2D) -> void:
+	if reset_puzzle_block_movement : return
 	
 	# Executes only if the node is a valid one to interact with.
-	if not area.is_in_group("player_hitbox") and not area.is_in_group("Entity") : return
+	if not area.is_in_group("player_hitbox") and not area.is_in_group("entity_hitbox") : return
 	else : Globals.dm(str("Player's Main Hitbox has entered an entity's Main Hitbox (%s, %s)" % [entity_name, entity_type]), "CRIMSON")
 	
 	var target = area.get_parent()
@@ -271,7 +281,7 @@ func inside_check_enter(body):
 		inside_player_last = body
 		inside_player_all.append(body)
 	
-	elif body.is_in_group("Entity"):
+	elif body.is_in_group("entity"):
 		
 		inside_entity += 1
 		inside_entity_last = body
@@ -299,6 +309,10 @@ func inside_check_enter(body):
 	
 	else:
 		return
+	
+	if body.is_in_group("Player") and not pushable_by_player : return
+	if body.is_in_group("entity") and not pushable_by_entity : return
+	
 	
 	if collidable and is_collidable:
 		
@@ -336,7 +350,7 @@ func inside_check_exit(body):
 		inside_player_last = body
 		inside_player_all.erase(body)
 	
-	elif body.is_in_group("Entity"):
+	elif body.is_in_group("entity"):
 		
 		inside_entity -= 1
 		inside_entity_last = body
@@ -358,6 +372,7 @@ var handle_gravity_in_movement_type = false # If true, the gravity is not handle
 @onready var movement_function_name = "movement_" + movement_type
 
 func handle_movement(delta):
+	if reset_puzzle_block_movement : return
 	#if not handle_gravity_in_movement_type : handle_gravity(delta)
 	call(movement_function_name, delta)
 	#call("movement_" + str(Globals.l_entity_movement[movement_type_id]), delta)
@@ -368,11 +383,7 @@ func handle_movement(delta):
 
 # The entity doesn't move by itself, it just falls down to the ground and can be affected by other entities and the player.
 func movement_normal(delta):
-	if not dead:
-		move_in_direction_x(delta)
-	
-	else:
-		handle_friction(delta)
+	handle_friction(delta)
 
 # The entity always attempts to move horizontally, as it's direction can never be equal to 0.
 func movement_move_x(delta):
@@ -593,12 +604,6 @@ func _on_cooldown_remove_corpse_timeout() -> void:
 	Globals.World.add_child(effect_death)
 
 
-#func move_toward_zero_velocity_x(delta):
-	#velocity.x = move_toward(velocity.x, 0, delta * friction / 10)
-#
-#func move_toward_zero_velocity_y(delta):
-	#velocity.y = move_toward(velocity.y, 0, delta * friction / 10)
-
 func move_in_direction_x(delta):
 	if always_max_speed:
 		velocity.x = direction_x * speed * speed_multiplier_x
@@ -659,6 +664,7 @@ func effect_thrownAway(delta):
 	sprite.rotation_degrees = lerp(float(sprite.rotation_degrees), float(effect_thrownAway_rotation), delta)
 	velocity.y += delta * 1000
 	sprite.modulate.a += delta / 10
+	
 	if sprite.modulate.a < 0.01 : delete_entity()
 
 
@@ -703,24 +709,6 @@ func spawn_particles(scene, quantity, offset, scale):
 	World.add_child(particle)
 
 
-#func spawn_item():
-	#var item
-	#
-	#if item_scene is String:
-		#item = load(item_scene).instantiate()
-	#else:
-		#item = item_scene.instantiate()
-	#
-	#if "velocity" in item:
-		#item.position = global_position
-		#item.velocity.x = rng.randf_range(item_velSpread, -item_velSpread)
-		#item.velocity.y = min(-abs(item.velocity.x) * 1.2, 100)
-		#
-		#world.add_child(item)
-	#else:
-		#spawn_item_static()
-
-
 func spawn_portal():
 	var portal = Globals.scene_portal.instantiate()
 	portal.level_id = breakable_advanced_portal_level_id
@@ -760,12 +748,7 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 	
 	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
 	
-	if reset_puzzle_inside_zone:
-		Globals.dm("Updating the list of nodes in an 'reset_puzzle' entity.", 1)
-		
-		reset_puzzle_master_node.reset_puzzle_nodes_inside_zone.append(self)
-		reset_puzzle_delete_node_queued = true
-		reset_puzzle_master_node.reset_puzzle_activated.connect(reset_puzzle_delete_entities)
+	reset_puzzle_queue()
 	
 	if not collectable_multiple:
 		collected = true
@@ -811,8 +794,6 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 		
 		Overlay.HUD.check_inventory()
 		get_tree().call_group("inventory_item", "selected_check")
-		
-		#get_tree().call_group("in_inventory", "itemOrder_correct")
 	
 	if not reset_puzzle_inside_zone:
 		if on_collected_effect_thrownAway : effect_thrownAway_active = true
@@ -825,7 +806,8 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 func handle_hittable(target):
 	if dead : return
 	
-	handle_hit(target.damage_value)
+	if family == "Player" and target.family == "enemy" or family == "enemy" and target.family == "Player":
+		handle_hit(target)
 	
 	if breakable : handle_breakable(target)
 
@@ -857,7 +839,9 @@ func spawn_display_score_bonus(value : int, add_scale : Vector2 = Vector2(1, 1),
 
 func handle_hit(target):
 	if not immortal:
-		handle_damage(target)
+		handle_damage(target.damage_value)
+	
+	handle_effects_hit()
 	
 	if on_hit_spawn_entity:
 		spawn_entity(on_hit_spawn_entity_scene_filepath, on_hit_spawn_entity_quantity, on_hit_spawn_entity_add_velocity, on_hit_spawn_entity_add_velocity_range, on_hit_spawn_entity_pos_offset, on_hit_spawn_entity_pos_offset_range)
@@ -869,16 +853,14 @@ func handle_hit(target):
 	
 	if inside_projectile:
 		
-		if not target.direction_v:
+		if not target.direction_y:
 			velocity.y = speed * speed_multiplier_y / 2
-			velocity.x = speed * speed_multiplier_x * target.direction
+			velocity.x = speed * speed_multiplier_x * target.direction_x
 			
 		else:
 			velocity.y = speed * speed_multiplier_y
-		
-		handle_effects_hit()
 
-func handle_death():
+func handle_death(type : String = "normal"):
 	if hittable : dead = true
 	if collectable : collected = true
 	#if collidable : destroyed = true
@@ -911,7 +893,7 @@ func handle_death():
 			SaveData.set(("state_" + str(breakable_advanced_portal_level_id)), -1)
 			Globals.save_progress.emit()
 	
-	handle_effects_death()
+	handle_effects_death(type)
 
 
 func reflect_slope():
@@ -958,8 +940,6 @@ func reflect_straight():
 	
 	effects_reflect_straight()
 	
-	velocity.x = -velocity_last_x
-	
 	if on_wall_jump_velocity: # If not equal to "0".
 		velocity.y = on_wall_jump_velocity
 	
@@ -1004,17 +984,17 @@ func handle_breakable(target):
 		if target.velocity.y >= breakable_requires_velocity_y_range[0] and target.velocity.y <= breakable_requires_velocity_y_range[1]:
 			if Input.is_action_pressed("jump"):
 				target.velocity.y = breakable_on_hit_player_velocity_y_jump
-				handle_damage(target.damage_value)
 				if not dead : velocity = Vector2(0, 0)
 				handle_effects_bounce()
+				handle_damage(target.damage_value, "break")
 				
 				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y), "YELLOW", 0.5)
 			
 			else:
 				target.velocity.y = breakable_on_hit_player_velocity_y
-				handle_damage(target.damage_value)
 				if not dead : velocity = Vector2(0, 0)
 				handle_effects_bounce()
+				handle_damage(target.damage_value, "break")
 				
 				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y_jump), "YELLOW", 0.5)
 		
@@ -1022,7 +1002,7 @@ func handle_breakable(target):
 			Globals.dm(str("Target's velocity.y (%s) was not within the range (%s) required by this entity to bounce off of." % [int(target.velocity.y), breakable_requires_velocity_y_range]), "YELLOW", 0.5)
 
 
-func handle_damage(value):
+func handle_damage(value, type : String = "normal"):
 	if not immortal : health_value -= value ; health_value = clamp(health_value, 0, 9999)
 	
 	if breakable_on_hit_spawn_entity:
@@ -1035,17 +1015,16 @@ func handle_damage(value):
 			sfx_manager.sfx_play(Globals.sfx_powerUp2, 1.0, randf_range(0.8, 1.2))
 	
 	if health_value <= 0:
-		handle_death()
+		handle_death(type)
 
 
-func handle_effects_death():
-	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, 0.75)
-	
-	Globals.spawn_scenes(World, Globals.scene_effect_hit_enemy, 1, position, 4.0)
-	Globals.spawn_scenes(World, Globals.scene_particle_star, 1, position, 4.0)
-	Globals.spawn_scenes(World, Globals.scene_particle_special2_multiple, 1, position, 4.0)
-	Globals.spawn_scenes(World, Globals.scene_particle_special_multiple, 1, position, 4.0)
-	Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position, 4.0)
+func handle_effects_death(type : String = "normal"): # Death types: "normal", "break", "self_destruct", "self_destruct_timed", "crush", "burn", "electrocute".
+	if type == "normal" : effect_death_normal()
+	elif type == "break" : effect_death_break()
+	elif type == "self_destruct" : effect_death_self_destruct()
+	elif type == "self_destruct_timed" : effect_death_self_destruct_timed()
+	elif type == "crush" : effect_death_crush()
+	elif type == "electrocute" : effect_death_electrocute()
 	
 	if on_death_effect_thrownAway:
 		if on_death_effect_thrownAway_cooldown == 0.0:
@@ -1062,6 +1041,52 @@ func handle_effects_death():
 		effect_shrink = true
 		effect_grow = false
 
+
+func effect_death_normal():
+	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, randf_range(0.75, 1.25))
+	
+	Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, position, -1)
+	Globals.spawn_scenes(World, Globals.scene_effect_dead_enemy, 1, position, -1)
+	Globals.spawn_scenes(World, Globals.scene_particle_star, 1, position, 4.0)
+	Globals.spawn_scenes(World, Globals.scene_particle_special2_multiple, 1, position, 4.0)
+	Globals.spawn_scenes(World, Globals.scene_particle_special_multiple, 1, position, 4.0)
+	Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position, 4.0)
+
+func effect_death_break():
+	sfx_manager.sfx_play(sfx_self_death_filepath, 2.0, randf_range(0.75, 1.25))
+	
+	Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, position, 1)
+	Globals.spawn_scenes(World, Globals.scene_particle_star, 1, position, 4.0)
+	Globals.spawn_scenes(World, Globals.scene_particle_special2_multiple, 1, position, 4.0)
+	Globals.spawn_scenes(World, Globals.scene_particle_special_multiple, 1, position, 4.0)
+	
+	animation_general.stop()
+	animation_general.speed_scale = 2.0
+	animation_general.play("rotate_away_up_right")
+
+func effect_death_self_destruct():
+	sfx_manager.sfx_play(sfx_self_death_filepath, 2.0, randf_range(0.75, 1.25))
+	
+	Globals.spawn_scenes(World, Globals.scene_particle_special2_multiple, 1, position, 4.0)
+	Globals.spawn_scenes(World, Globals.scene_particle_special_multiple, 1, position, 4.0)
+	
+	animation_general.stop()
+	animation_general.speed_scale = 2.0
+	animation_general.play("rotate_away_up_right")
+
+func effect_death_self_destruct_timed():
+	pass
+
+func effect_death_crush():
+	pass
+
+func effect_death_burn():
+	pass
+
+func effect_death_electrocute():
+	pass
+
+
 func handle_effects_hit():
 	sfx_manager.sfx_play(Globals.sfx_mechanical2)
 	animation_general.stop()
@@ -1077,7 +1102,8 @@ func handle_effects_bounce():
 func handle_friction(delta):
 	if effect_thrownAway_active : return
 	
-	velocity.x = move_toward(velocity.x, 0, delta * 1.5 * friction * friction_multiplier_x)
+	if is_on_floor() : velocity.x = move_toward(velocity.x, 0, delta * friction * friction_multiplier_x)
+	else : velocity.x = move_toward(velocity.x, 0, delta / 4 * friction * friction_multiplier_x)
 
 
 var walk_alt_loop_number = 0
@@ -1087,7 +1113,6 @@ func _on_sprite_animation_looped():
 	
 	if anim_alternate_walk:
 		var anim_name = sprite.animation
-		Globals.dm(sprite.animation)
 		
 		if anim_name == "walk":
 			walk_alt_loop_number += 1
@@ -1256,51 +1281,83 @@ func handle_effects_collected():
 
 
 func handle_reset_puzzle():
+	reset_puzzle_first_time = false
+	
 	await reset_puzzle_delete_entities()
-	#reset_puzzle_activated.emit()
+	
+	collectable = false
+	hittable = false
+	
+	for entity in reset_puzzle_nodes_inside_zone:
+		if entity.reset_puzzle_delete_node_queued:
+			entity.reset_puzzle_block_movement = true
 	
 	await get_tree().create_timer(0.5, true).timeout
+	
+	sfx_manager.sfx_play(Globals.sfx_beam_enabled)
 	
 	for entity in reset_puzzle_nodes_inside_zone:
 		
 		if entity.reset_puzzle_delete_node_queued:
 			entity.reset_all()
 			Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 3, position)
-			
-			sfx_manager.sfx_play([Globals.sfx_powerUp, Globals.sfx_powerUp2].pick_random(), randf_range(0.8, 1.2), randf_range(0.9, 1.1))
 		
 		else:
 			entity.animation_general.play("reflect_straight")
 		
-		await get_tree().create_timer(0.1, true).timeout
+		await get_tree().create_timer(0.05, true).timeout
 	
 	
 	Globals.level_score = reset_puzzle_saved_score
 	Globals.score_reduced.emit()
 	
 	reset_puzzle_delete_entities2()
-
+	
+	await get_tree().create_timer(2.0, true).timeout
+	
+	collectable = true
+	hittable = true
+	
+	Globals.World.reset_puzzle_all_nodes_ready.emit()
 
 func reset_all():
 	call_deferred("spawn_entity_copy")
 	
 	Globals.spawn_scenes(Globals.World, Globals.scene_particle_splash, 1, position)
 
+func reset_puzzle_queue():
+	if not reset_puzzle_inside_zone : return
+	if self in reset_puzzle_master_node.reset_puzzle_nodes_inside_zone : return
+	
+	Globals.dm("Updating the list of nodes in a 'reset_puzzle' entity.", 1)
+	
+	reset_puzzle_master_node.reset_puzzle_nodes_inside_zone.append(self)
+	reset_puzzle_delete_node_queued = true
+	reset_puzzle_master_node.reset_puzzle_activated.connect(reset_puzzle_delete_entities)
 
 signal reset_puzzle_all_nodes_ready
 
 func spawn_entity_copy():
 	var filepath : String = scene_file_path
 	var entity = load(filepath).instantiate()
-	entity.position = position
+	
+	entity.reset_puzzle_restored = true
+	entity.reset_puzzle_block_movement = true
+	entity.reset_puzzle_first_time = false
 	entity.reset_puzzle_inside_zone = reset_puzzle_inside_zone
-	entity.reset_puzzle_line_visible = reset_puzzle_line_visible
 	entity.reset_puzzle_master_node = reset_puzzle_master_node
+	entity.reset_puzzle_line_visible = reset_puzzle_line_visible
+	entity.position = start_pos
+	
 	Globals.World.reset_puzzle_line_visible = reset_puzzle_line_visible
 	Globals.World.reset_puzzle_line_start = reset_puzzle_master_node.position
-	Globals.World.reset_puzzle_line_end = position
+	Globals.World.reset_puzzle_line_end = start_pos
+	
 	Globals.World.add_child(entity)
+	
 	entity.effects_reset()
+	
+	queue_free()
 
 func effects_reset():
 	Globals.dm("An entity (%s, %s) was covered by a 'reset_puzzle' entity. It had just been reset.")
@@ -1308,7 +1365,7 @@ func effects_reset():
 	#animation_color.play("pulse_red_normal")
 	modulate *= 10
 	animation_general.play("reflect_straight")
-	sfx_manager.sfx_play(Globals.sfx_beam_enabled)
+	sfx_manager.sfx_play([Globals.sfx_powerUp, Globals.sfx_powerUp2].pick_random(), randf_range(0.8, 1.2), randf_range(0.9, 1.1))
 	Globals.World.reset_puzzle_line_visible = true
 	
 	await get_tree().create_timer(1.0, true).timeout
@@ -1320,7 +1377,6 @@ func effects_reset():
 	await get_tree().create_timer(1.0, true).timeout
 	modulate = Color(1,1,1,1)
 	if start_animation != "none" : animation_all.play(start_animation)
-
 
 func handle_effects_collected_multiple():
 	set_hitbox(false, true)
@@ -1346,7 +1402,6 @@ func effect_collected_multiple(delta):
 	sprite.speed_scale += delta
 	sprite.play("collected")
 
-
 func _on_scan_reset_puzzle_coverage_area_entered(area: Area2D) -> void:
 	if not reset_puzzle : return
 	if not area.is_in_group("scan_always_active") : return
@@ -1354,14 +1409,13 @@ func _on_scan_reset_puzzle_coverage_area_entered(area: Area2D) -> void:
 	if area.get_parent().is_in_group("entity"):
 		var entity = area.get_parent()
 		
-		Globals.dm("An entity is being assigned to a 'reset_puzzle' entity's zone.")
+		Globals.dm("An entity is being assigned to a 'reset_puzzle' entity's zone.", 99)
 		
 		if not entity.reset_puzzle:
 			entity.reset_puzzle_inside_zone = true
 			entity.reset_puzzle_master_node = self
 			Globals.World.reset_puzzle_line_start = entity.position
 			Globals.World.reset_puzzle_line_end = position
-
 
 func reset_puzzle_delete_entities():
 	for entity in reset_puzzle_nodes_inside_zone:
@@ -1376,7 +1430,7 @@ func reset_puzzle_delete_entities2():
 
 
 func _on_cooldown_death_timeout() -> void:
-	handle_death()
+	handle_death("self_destruct")
 
 func _on_cooldown_change_ignore_gravity_timeout() -> void:
 	ignore_gravity = Globals.opposite_bool(ignore_gravity)
@@ -1387,13 +1441,13 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 
 
 func handle_bounce():
-	if not is_on_floor() : return
+	if is_on_floor():
+		if on_floor_bounce:
+			velocity.y = -velocity_last_y
 	
-	if on_floor_bounce:
-		velocity.y = -velocity_last_y
-	
-	if on_wall_bounce:
-		velocity.x = -velocity_last_x
+	if is_on_wall():
+		if on_wall_bounce:
+			velocity.x = -velocity_last_x
 
 
 func _on_cooldown_on_death_effect_thrownAway_timeout() -> void:

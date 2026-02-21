@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://ck8hejss7023o"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_gymcb"]
+[ext_resource type="SpriteFrames" uid="uid://bamqicuy1s8xk" path="res://Assets/Graphics/sprites/packed/collectibles/coin.tres" id="2_gymcb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gymcb"]
+size = Vector2(32, 32)
+
+[node name="coin_timed" instance=ExtResource("1_gymcb")]
+on_death_effect_thrownAway = true
+on_death_effect_thrownAway_cooldown = 4.0
+can_move = true
+can_move_x = true
+can_move_y = true
+ignore_gravity = false
+on_timeout_change_ignore_gravity_cooldown = 4.0
+on_timeout_death = true
+start_animation = "none"
+entity_name = "coin_timed"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_gymcb")
+animation = &"idle"
+
+[node name="collision_main" parent="." index="1"]
+shape = SubResource("RectangleShape2D_gymcb")

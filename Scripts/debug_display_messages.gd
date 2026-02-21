@@ -137,11 +137,11 @@ func correct_messages_order():
 		label.position.y = letter_y * highest_message_id
 		label.scale = Vector2(1, 1)
 		
-		if highest_message_id >= len(list_messages) -3: # Last three messages will be enlarged.
+		if highest_message_id >= len(list_messages) -10: # Last three messages will be enlarged.
 			label.scale = Vector2(2, 2)
 			
 			if active_messages > 1:
-				label.position.y += letter_y * (highest_message_id - active_messages + 3)
+				label.position.y += letter_y * (highest_message_id - active_messages + 10)
 		
 		if highest_message_id == 0:
 			update_bg(label.text, 0)

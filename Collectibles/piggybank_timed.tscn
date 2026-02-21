@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://b17i5uq6owibc"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_8dmkk"]
+[ext_resource type="SpriteFrames" uid="uid://j2i2jftj1ger" path="res://Assets/Graphics/sprites/packed/boxes/piggybank.tres" id="2_8dmkk"]
+
+[node name="piggybank_timed" instance=ExtResource("1_8dmkk")]
+collectable = false
+hittable = true
+health_value = 1
+score_value = 45
+damage_from_entity = true
+can_move = true
+can_move_x = true
+can_move_y = true
+ignore_gravity = false
+breakable_on_death_spawn_entity = true
+breakable_on_death_spawn_entity_scene_filepath = "uid://c85my28akyfi0"
+breakable_on_death_spawn_entity_quantity = 5
+breakable_on_death_spawn_entity_pos_offset_range = [Vector2(-24, -24), Vector2(24, 24)]
+breakable_on_death_spawn_entity_add_velocity_range = [Vector2(-600, -800), Vector2(600, -50)]
+start_animation = "none"
+sfx_self_death_filepath = "uid://e4sfw1k3t8ac"
+on_death_effect_shrink = false
+entity_name = "pineapple"
+entity_type = "box"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_8dmkk")
+animation = &"idle"

@@ -1,14 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://cqexb17415a1l"]
 
-[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="1_d3rgn"]
-[ext_resource type="Texture2D" uid="uid://bdqpgn6k6hk6u" path="res://Assets/Graphics/other/icon.svg" id="2_53d0g"]
+[ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="1_6v4pg"]
+[ext_resource type="Texture2D" uid="uid://bdqpgn6k6hk6u" path="res://Assets/Graphics/other/icon.svg" id="2_mmt78"]
 
 [node name="behavior_button" type="Control"]
 custom_minimum_size = Vector2(64, 64)
 layout_mode = 3
 anchors_preset = 0
 
-[node name="btn_increase" parent="." instance=ExtResource("1_d3rgn")]
+[node name="btn_increase" parent="." instance=ExtResource("1_6v4pg")]
 layout_mode = 1
 offset_left = -112.0
 offset_top = 64.0
@@ -17,7 +17,7 @@ offset_bottom = 128.0
 text_manager_message = "-"
 decoration_base_size = Vector2(64, 64)
 
-[node name="btn_decrease" parent="." instance=ExtResource("1_d3rgn")]
+[node name="btn_decrease" parent="." instance=ExtResource("1_6v4pg")]
 layout_mode = 1
 offset_left = -16.0
 offset_top = 64.0
@@ -28,7 +28,7 @@ decoration_base_size = Vector2(64, 64)
 
 [node name="property_icon" type="Sprite2D" parent="."]
 z_index = 1
-texture = ExtResource("2_53d0g")
+texture = ExtResource("2_mmt78")
 
 [connection signal="pressed" from="btn_increase" to="." method="_on_btn_increase_pressed"]
 [connection signal="pressed" from="btn_decrease" to="." method="_on_btn_decrease_pressed"]

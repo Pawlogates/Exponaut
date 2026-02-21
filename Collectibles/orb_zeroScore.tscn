@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://cuxplgh41ahnt"]
+[gd_scene load_steps=3 format=3 uid="uid://cuxplgh41ahnt"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_sofbr"]
+[ext_resource type="SpriteFrames" uid="uid://c7v0pqujkeomb" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_orb_blue.tres" id="2_4kauy"]
 
 [node name="orb_zeroScore" instance=ExtResource("1_sofbr")]
 on_collected_effect_thrownAway = true
@@ -13,3 +14,7 @@ on_collected_spawn_orb_orange = false
 on_collected_spawn_homing_square_yellow = false
 sfx_self_collected_filepath = "uid://b6l5kgi6auj8j"
 entity_name = "orb_zeroScore"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_4kauy")
+animation = &"idle"

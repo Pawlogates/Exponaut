@@ -1,0 +1,54 @@
+[gd_scene load_steps=7 format=3 uid="uid://chamwi5bkuimn"]
+
+[ext_resource type="Script" uid="uid://dqoghb2caf7ur" path="res://Triggers/zone_hidden.gd" id="1_kk7kp"]
+[ext_resource type="Texture2D" uid="uid://c013wfrryywqo" path="res://Assets/Graphics/other/tiles_hidden.png" id="2_v0urb"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_v0urb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v0urb"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bsvfe"]
+size = Vector2(96, 96)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6q3v3"]
+size = Vector2(54, 54)
+
+[node name="zone_hidden" type="Node2D" groups=["zone_hidden"]]
+script = ExtResource("1_kk7kp")
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_v0urb")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="scan" type="Area2D" parent="."]
+modulate = Color(1, 1, 0, 0)
+collision_layer = 8
+collision_mask = 8
+
+[node name="collision" type="CollisionShape2D" parent="scan"]
+shape = SubResource("RectangleShape2D_v0urb")
+
+[node name="timer_hidden" type="Timer" parent="."]
+one_shot = true
+
+[node name="sfx_manager" parent="." instance=ExtResource("3_v0urb")]
+
+[node name="scan_connected" type="Area2D" parent="." groups=["zone_hidden_scan_connected"]]
+collision_layer = 8
+collision_mask = 8
+
+[node name="collision" type="CollisionShape2D" parent="scan_connected"]
+shape = SubResource("RectangleShape2D_bsvfe")
+
+[node name="scan_exact" type="Area2D" parent="." groups=["zone_hidden_scan_exact"]]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="scan_exact"]
+shape = SubResource("RectangleShape2D_6q3v3")
+
+[connection signal="area_entered" from="scan" to="." method="_on_scan_area_entered"]
+[connection signal="timeout" from="timer_hidden" to="." method="_on_timer_hidden_timeout"]
+[connection signal="area_entered" from="scan_connected" to="." method="_on_scan_connected_area_entered"]
+[connection signal="area_entered" from="scan_exact" to="." method="_on_scan_exact_area_entered"]

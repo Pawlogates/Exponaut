@@ -64,9 +64,9 @@ const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
 const l_button_color = ["ORANGE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN"]
 const l_color = ["AQUA", "AQUAMARINE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN", "CORAL", "HOT_PINK", "ORANGE_RED", "YELLOW_GREEN", "DARK_MAGENTA", "INDIAN_RED", "LIGHT_CORAL", "GOLD", "MEDIUM_PURPLE", "MAROON", "MISTY_ROSE", "YELLOW_GREEN", "MIDNIGHT_BLUE", "PERU", "LIGHT_SEA_GREEN", "LIME_GREEN"]
 
-const l_entity_movement_main = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
-const l_entity_movement_limited = ["move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "chase_player_x", "chase_player_y", "chase_player_xy", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy"]
-const l_entity_movement_all = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_X", "wave_Y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
+const l_entity_movement_main = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
+const l_entity_movement_limited = ["normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "chase_player_x", "chase_player_y", "chase_player_xy", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy"]
+const l_entity_movement_all = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
 
 const l_entity_type = ["collectible", "enemy", "projectile", "box", "block"]
 const l_entity_family = ["Player", "Enemy", "none", "all"]
@@ -112,7 +112,6 @@ const sfx_player_damage : String = "res://Assets/Sounds/sfx/robot_damage.wav"
 const sfx_player_death : String = "res://Assets/Sounds/sfx/rabbit_death.wav"
 const sfx_player_heal : String = "res://Assets/Sounds/sfx/heal.wav"
 
-const sfx_collect : String = "res://Assets/Sounds/sfx/collect.wav"
 const sfx_mechanical : String = "res://Assets/Sounds/sfx/mechanical.wav"
 const sfx_mechanical2 : String = "res://Assets/Sounds/sfx/mechanical2.wav"
 const sfx_mechanical3 : String = "res://Assets/Sounds/sfx/mechanical3.wav"
@@ -140,6 +139,11 @@ const sfx_jewel_collect2 : String = d_sfx + "/" + "jewel_collect2.wav"
 const sfx_jewel_collect3 : String = d_sfx + "/" + "jewel_collect3.wav"
 
 const sfx_slash : String = d_sfx + "/" + "slash.wav"
+const sfx_secret : String = d_sfx + "/" + "secret.wav"
+const sfx_teleport : String = d_sfx + "/" + "teleport.wav"
+const sfx_collect : String = d_sfx + "/" + "collect.wav"
+const sfx_collect2 : String = d_sfx + "/" + "collect2.wav"
+const sfx_collect3 : String = d_sfx + "/" + "collect3.wav"
 
 
 # Other files:
@@ -174,6 +178,8 @@ const style_button_round_toggle = "res://Other/Styles/button_round_toggle.tres"
 # Main scenes:
 const scene_start_screen = preload("res://Other/Scenes/start_screen.tscn")
 const scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
+
+const scene_debug_level = preload("res://Levels/debug_level.tscn")
 
 
 # Other scenes:
@@ -292,6 +298,9 @@ func handle_actions(delta):
 		handle_spawn_menu(true)
 		
 		if Input.is_action_pressed("1"):
+			change_main_scene(scene_debug_level)
+		
+		elif Input.is_action_pressed("2"):
 			change_main_scene(scene_levelSet_screen)
 	
 	
@@ -430,7 +439,7 @@ var total_majorCollectibles_module_in_currentLevel = 0
 var total_majorCollectibles_key_in_currentLevel = 0
 var total_enemies_in_currentLevel = 0
 
-var weapon : Dictionary = {"none" : -1} # All the property values needed to construct the main projectile.
+var weapon : Dictionary = {"apply_default" : true} # All the property values needed to construct the main projectile.
 var secondaryWeapon = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
 
 var weapon_blocked = false
@@ -776,7 +785,7 @@ func prepare_list_all(directory_path : String, exclude : Array):
 		var filenames = dir.get_files()
 		
 		for filename in filenames:
-			if not filename.ends_with(".import") and not filename.ends_with(".gd"):
+			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".tmp") and not filename.ends_with(".uid"):
 				list.append(dir_path + "/" + filename)
 		
 		var count = -1
@@ -802,6 +811,15 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 		else : node = filepath.instantiate()
 		
 		node.position += pos_offset
+		
+		if pos_offset_range != [Vector2(0, 0), Vector2(0, 0)]:
+			node.position.x += randi_range(pos_offset_range[0].x, pos_offset_range[1].x)
+			node.position.y += randi_range(pos_offset_range[0].y, pos_offset_range[1].y)
+		
+		if add_velocity_range != [Vector2(0, 0), Vector2(0, 0)]:
+			node.velocity.x += randi_range(add_velocity_range[0].x, add_velocity_range[1].x)
+			node.velocity.y += randi_range(add_velocity_range[0].y, add_velocity_range[1].y)
+		
 		node.modulate += add_modulate
 		node.scale += add_scale
 		node.z_index += add_z_index
@@ -893,7 +911,6 @@ func prepare_lists():
 	
 	
 	l_entity = l_collectible + l_box + l_enemy + l_projectile
-	print(l_entity)
 	
 	l_entity_blacklist_enemy = l_collectible + l_box + l_projectile
 	l_entity_blacklist_enemy_projectile = l_collectible + l_box
@@ -1139,3 +1156,13 @@ func reload_level_scene(keep_player_pos : bool = false):
 	await get_tree().create_timer(1.0, false).timeout
 	
 	if keep_player_pos : Player.position = previous_player_pos
+
+
+func is_valid_entity(target_node : Node, valid_group_names : Array = ["Player"]):
+	var valid = false
+	
+	for group_name in valid_group_names:
+		if target_node.get_parent().is_in_group(group_name) : return true
+	
+	if valid : return true
+	else : return false

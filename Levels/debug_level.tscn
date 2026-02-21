@@ -1,0 +1,24 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdg38we643pot"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_pwdqq"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_2f8hp"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_ow0im"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_0frgg"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_g0ydq"]
+
+[node name="World" instance=ExtResource("1_pwdqq")]
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_2f8hp")]
+layer_0/tile_data = PackedInt32Array(196604, 0, 10, 196605, 0, 10, 196606, 0, 10, 196607, 0, 10, 131072, 0, 10, 131073, 0, 10, 131074, 0, 10, 131075, 0, 10, 131076, 0, 10, 131077, 0, 10, 131078, 0, 10, 131079, 0, 10, 196603, 0, 10, 196602, 0, 10, 196601, 0, 10, 196600, 0, 10, 196599, 0, 10, 196598, 0, 10, 196597, 0, 10, 196596, 0, 10, 196595, 0, 10, 196594, 0, 10, 196593, 0, 10, 196592, 0, 10, 196591, 0, 10, 196590, 0, 10, 196589, 0, 10, 196588, 0, 10, 196587, 0, 10, 196586, 0, 10, 196585, 0, 10, 196584, 0, 10, 196583, 0, 10, 196582, 0, 10, 196581, 0, 10, 196580, 0, 10, 196579, 0, 10, 196578, 0, 10, 196577, 0, 10, 196576, 0, 10, 196575, 0, 10, 131039, 0, 10, 65503, 0, 10, -33, 0, 10, -65569, 0, 10, -131105, 0, 10, -196641, 0, 10, -262177, 0, 10, -327713, 0, 10, -393249, 0, 10, -458785, 0, 10, -524321, 0, 10, -589857, 0, 10, -655393, 0, 10, -720929, 0, 10, -786465, 0, 10, 131080, 0, 10, 131081, 0, 10, 131082, 0, 10, 131083, 0, 10, 131084, 0, 10, 131085, 0, 10, 131086, 0, 10, 131087, 0, 10, 131088, 0, 10, 131089, 0, 10, 131090, 0, 10, 131091, 0, 10, 131092, 0, 10, 131093, 0, 10, 131094, 0, 10, 131095, 0, 10, 131096, 0, 10, 131097, 0, 10, 131098, 0, 10, 131099, 0, 10, 65563, 0, 10, 27, 0, 10, -65509, 0, 10, -131045, 0, 10, -196581, 0, 10, -262117, 0, 10, -327653, 0, 10, -1048549, 0, 10, -983013, 0, 10, -917477, 0, 10, -851941, 0, 10, -786405, 0, 10, -720869, 0, 10, -655333, 0, 10, -589797, 0, 10, -524261, 0, 10, -458725, 0, 10, -393189, 0, 10, -1245157, 0, 10, -1179621, 0, 10, -1114085, 0, 10)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_ow0im")]
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_0frgg")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_g0ydq")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]

@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cskb3d0dg2faj"]
+
+[ext_resource type="Script" uid="uid://bmakvcwg1rpn5" path="res://Scripts/object_remover.gd" id="1_xpsg2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j00qu"]
+size = Vector2(64, 64)
+
+[node name="zone_delete_target" type="Area2D"]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource("1_xpsg2")
+
+[node name="cooldown_delete_target" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="collision" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_j00qu")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="cooldown_delete_target" to="." method="_on_timer_timeout"]

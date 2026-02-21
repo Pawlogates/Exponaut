@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://bixrhaa8e5a4r"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_a1rcj"]
+[ext_resource type="SpriteFrames" uid="uid://cath3wbw0b8w4" path="res://Assets/Graphics/sprites/packed/collectibles/pineapple.tres" id="2_vedn4"]
+
+[node name="jewel_pineapple_timed" instance=ExtResource("1_a1rcj")]
+can_move = true
+can_move_x = true
+can_move_y = true
+ignore_gravity = false
+on_timeout_death = true
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
+on_death_spawn_entity_quantity = 10
+start_animation = "none"
+entity_name = "jewel_pineapple_timed"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_vedn4")
+animation = &"idle"

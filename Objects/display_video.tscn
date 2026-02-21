@@ -1,9 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dssex4c1v434v"]
 
 [ext_resource type="Script" uid="uid://7i6bqh88w6q1" path="res://Scripts/display_video.gd" id="1_3x6i3"]
-
-[sub_resource type="VideoStreamTheora" id="VideoStreamTheora_rogi7"]
-file = "res://Assets/Videos/tutorial1.ogv"
+[ext_resource type="VideoStream" uid="uid://cc7awv2pwp1xr" path="res://Assets/Videos/tutorial1.ogv" id="2_ymvv0"]
 
 [sub_resource type="Animation" id="Animation_glwdq"]
 length = 0.001
@@ -17,7 +15,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_2pyap"]
@@ -46,7 +44,6 @@ z_index = 100
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("1_3x6i3")
-video_file = SubResource("VideoStreamTheora_rogi7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
@@ -61,7 +58,7 @@ offset_top = 10.0
 offset_right = 970.0
 offset_bottom = 550.0
 scale = Vector2(0.781434, 0.796334)
-stream = SubResource("VideoStreamTheora_rogi7")
+stream = ExtResource("2_ymvv0")
 volume_db = -80.0
 expand = true
 loop = true
@@ -83,4 +80,4 @@ offset_right = 975.0
 offset_bottom = 555.0
 color = Color(0, 0, 0, 1)
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
