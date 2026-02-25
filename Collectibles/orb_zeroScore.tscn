@@ -5,15 +5,8 @@
 
 [node name="orb_zeroScore" instance=ExtResource("1_sofbr")]
 on_collected_effect_thrownAway = true
-on_collected_decoration_nodes_effect_thrownAway = true
 score_value = 0
-on_collected_anim_name = "none"
-on_collected_spawn_star = false
-on_collected_spawn_star2 = false
-on_collected_spawn_orb_orange = false
-on_collected_spawn_homing_square_yellow = false
-sfx_self_collected_filepath = "uid://b6l5kgi6auj8j"
-entity_name = "orb_zeroScore"
+sfx_self_collected_filepath = "uid://bypu2n6tdxni4"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_4kauy")

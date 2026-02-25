@@ -188,3 +188,14 @@ func slot_left_fill_reset():
 	slot_left_fill.rotation_degrees = 0
 	slot_left_fill.scale = Vector2(1, 1)
 	slot_left_fill.visible = true
+
+
+func debug_show():
+	$"debug_charges +".visible = true
+	$"debug_charges +10".visible = true
+	$"debug_charges_max +".visible = true
+	$"debug_charges -".visible = true
+	$"debug_charges -10".visible = true
+	$"debug_charges_max -".visible = true
+	$slots_max.visible = true
+	$slots_active.visible = true

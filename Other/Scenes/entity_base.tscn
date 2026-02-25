@@ -15,7 +15,7 @@ size = Vector2(62, 62)
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i18mk"]
-size = Vector2(384, 64)
+size = Vector2(512, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjle6"]
 size = Vector2(2048, 2048)
@@ -27,7 +27,6 @@ size = Vector2(64, 64)
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
-on_wall_change_velocity = false
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
 sprite_frames = ExtResource("3_fjle6")
@@ -66,9 +65,7 @@ debug_color = Color(0, 0.595, 0.7, 0)
 layout_mode = 3
 anchors_preset = 0
 
-[node name="cooldown_jump" type="Timer" parent="."]
-
-[node name="timer_invincible" type="Timer" parent="."]
+[node name="cooldown_change_invincible2" type="Timer" parent="."]
 
 [node name="scan_ledge" type="RayCast2D" parent="."]
 position = Vector2(32, 0)
@@ -79,8 +76,12 @@ position = Vector2(0, -32)
 target_position = Vector2(0, 64)
 
 [node name="cooldown_collidable" type="Timer" parent="."]
+one_shot = true
 
 [node name="cooldown_remove_corpse" type="Timer" parent="."]
+
+[node name="cooldown_on_death_effect_thrownAway" type="Timer" parent="."]
+one_shot = true
 
 [node name="sfx_manager" parent="." instance=ExtResource("3_c3p0q")]
 
@@ -91,7 +92,6 @@ scale = Vector2(51.2, 51.2)
 
 [node name="cooldown_sfx_idle" type="Timer" parent="."]
 wait_time = 2.0
-one_shot = true
 
 [node name="scan_patrolling_vision" type="Area2D" parent="."]
 collision_layer = 8
@@ -131,30 +131,43 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="scan_always_active"]
 shape = SubResource("RectangleShape2D_spxko")
 
+[node name="cooldown_jump" type="Timer" parent="."]
+one_shot = true
+
+[node name="cooldown_spawn_entity" type="Timer" parent="."]
+one_shot = true
+
 [node name="cooldown_death" type="Timer" parent="."]
-wait_time = 2.5
 one_shot = true
 
 [node name="cooldown_change_ignore_gravity" type="Timer" parent="."]
-wait_time = 1.5
 one_shot = true
 
-[node name="cooldown_on_death_effect_thrownAway" type="Timer" parent="."]
+[node name="cooldown_change_invincible" type="Timer" parent="."]
+one_shot = true
+
+[node name="cooldown_change_direction_x" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="animation_looped" from="sprite" to="." method="_on_sprite_animation_looped"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
+[connection signal="timeout" from="cooldown_change_invincible2" to="." method="_on_timer_invincible_timeout"]
 [connection signal="timeout" from="cooldown_collidable" to="." method="_on_cooldown_collidable_timeout"]
 [connection signal="timeout" from="cooldown_remove_corpse" to="." method="_on_cooldown_remove_corpse_timeout"]
+[connection signal="timeout" from="cooldown_on_death_effect_thrownAway" to="." method="_on_cooldown_on_death_effect_thrownAway_timeout"]
 [connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]
 [connection signal="screen_exited" from="scan_visible" to="." method="_on_scan_visible_screen_exited"]
+[connection signal="timeout" from="cooldown_sfx_idle" to="." method="_on_cooldown_sfx_idle_timeout"]
 [connection signal="area_entered" from="scan_patrolling_vision" to="." method="_on_scan_patrolling_area_entered"]
 [connection signal="area_exited" from="scan_patrolling_vision" to="." method="_on_scan_patrolling_area_exited"]
 [connection signal="timeout" from="cooldown_patrolling_target_spotted_queue" to="." method="_on_cooldown_patrolling_target_spotted_queue_timeout"]
 [connection signal="timeout" from="cooldown_patrolling_target_spotted" to="." method="_on_cooldown_patrolling_target_spotted_timeout"]
 [connection signal="timeout" from="cooldown_patrolling_change_direction" to="." method="_on_cooldown_patrolling_change_direction_timeout"]
 [connection signal="area_entered" from="scan_reset_puzzle_coverage" to="." method="_on_scan_reset_puzzle_coverage_area_entered"]
+[connection signal="timeout" from="cooldown_jump" to="." method="_on_cooldown_jump_timeout"]
+[connection signal="timeout" from="cooldown_spawn_entity" to="." method="_on_cooldown_spawn_scene_timeout"]
 [connection signal="timeout" from="cooldown_death" to="." method="_on_cooldown_death_timeout"]
 [connection signal="timeout" from="cooldown_change_ignore_gravity" to="." method="_on_cooldown_change_ignore_gravity_timeout"]
-[connection signal="timeout" from="cooldown_on_death_effect_thrownAway" to="." method="_on_cooldown_on_death_effect_thrownAway_timeout"]
+[connection signal="timeout" from="cooldown_change_invincible" to="." method="_on_cooldown_change_invincible_timeout"]
+[connection signal="timeout" from="cooldown_change_direction_x" to="." method="_on_cooldown_change_direction_x_timeout"]

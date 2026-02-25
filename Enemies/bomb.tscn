@@ -1,0 +1,32 @@
+[gd_scene load_steps=3 format=3 uid="uid://oxvewjp1soes"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_vnyyt"]
+[ext_resource type="SpriteFrames" uid="uid://c5t7xftw3kkck" path="res://Assets/Graphics/sprites/packed/collectibles/bomb.tres" id="2_r0vmc"]
+
+[node name="bomb" instance=ExtResource("1_vnyyt")]
+on_death_effect_thrownAway = true
+collectable = false
+can_move = true
+ignore_gravity = false
+on_timeout_death = true
+on_timeout_death_cooldown = 3.5
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://nlbbhgnny7rs"
+on_death_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
+on_spawn_show_text = true
+start_animation = "none"
+text_message = "[anim_rotate_around_y_fade_out]321"
+text_message_visible = "321"
+text_spawn_cooldown = 0.0
+text_delete_cooldown = 0.5
+text_anim_speed_scale = 2.0
+text_anim_backwards = true
+text_next_character_cooldown = 0.5
+text_add_scale = Vector2(1, 1)
+text_add_pos = Vector2(0, 0)
+entity_name = "bomb"
+entity_type = "projectile"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_r0vmc")
+animation = &"idle"

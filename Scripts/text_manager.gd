@@ -5,8 +5,8 @@ extends Control
 @export var text_full = "" # This is the main text property which should be targeted when instantiating this scene.
 @export var text_alignment = 0
 @export var text_animation_sync = true
-@export var cooldown_next_character : float = 0.01
 
+@export var cooldown_next_character : float = 0.01
 @export var cooldown_remove_message : float = -1.0
 @export var cooldown_create_message : float = -1.0
 
@@ -42,14 +42,15 @@ func _ready() -> void:
 	if text_alignment : $row1.alignment = text_alignment
 	
 	if text_full != "":
-		create_message(text_full) # This rarely if ever actually executes. Most of the time, the "create_message()" function is requested by the node instantiating the Text Manager.
+		await create_message(text_full) # This rarely if ever actually executes. Most of the time, the "create_message()" function is requested by the node instantiating the Text Manager.
 	
 	if cooldown_remove_message != -1.0: # It should only ever be equal to "0" if the message consists of a single visible character, otherwise the text is not ready for this delay.
 		if cooldown_remove_message != 0.0 : await get_tree().create_timer(cooldown_remove_message, true).timeout
 		
 		for character in $row1.get_children():
 			character.removable = true
-			await get_tree().create_timer(cooldown_next_character, true).timeout
+			character.animation_player.stop()
+			await get_tree().create_timer(clamp(cooldown_next_character, 0.01, 0.25), true).timeout
 		
 		await get_tree().create_timer(4, true).timeout
 		queue_free()
@@ -65,7 +66,7 @@ var current_rule = "none"
 func create_message(message : String = text_full):
 	if message == "none" : return
 	
-	if cooldown_create_message != -1.0:
+	if cooldown_create_message != -1.0 and not cooldown_create_message == 0.0:
 		Globals.message_debug(str("Text Manager's message creation has been delayed by %s") % cooldown_create_message, 3)
 		c_create_message.wait_time = cooldown_create_message
 		c_create_message.start()
@@ -98,8 +99,8 @@ func create_message(message : String = text_full):
 		
 		#if current_rule == "[anim_fade_out_up]" or current_rule == "[/]" or current_rule == "":
 		#Globals.message_debug("A specific rule is causing a text container letter to delay the spawn of the rest.")
-		
-		await get_tree().create_timer(0.01, true).timeout
+		print(cooldown_next_character)
+		await get_tree().create_timer(cooldown_next_character, true).timeout
 
 
 func add_letter(character):

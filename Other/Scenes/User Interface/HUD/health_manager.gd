@@ -15,6 +15,7 @@ var health_max = 100
 
 
 func _ready() -> void:
+	Globals.player_damage.connect(change_health_value)
 	Globals.update_player_health.connect(update_display)
 	update_display()
 
@@ -67,5 +68,21 @@ func _on_debug_hp_subtract_pressed() -> void:
 	for x in range(10):
 		health -= 1
 		Globals.update_player_health.emit()
-		await get_tree().create_timer(0.05, false).timeout
+		await get_tree().create_timer(0.01, false).timeout
 		update_display()
+
+
+func change_health_value(value : int = 1):
+	for x in range(abs(value)):
+		if value > 0 : health += 1
+		if value < 0 : health -= 1
+		await get_tree().create_timer(0.01, false).timeout
+		update_display()
+		Globals.update_player_health.emit()
+	
+	Globals.player_health = health
+
+
+func debug_show():
+	$"debug_hp +".visible = true
+	$"debug_hp -".visible = true

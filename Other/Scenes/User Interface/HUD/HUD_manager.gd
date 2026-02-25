@@ -1,8 +1,12 @@
 extends CanvasLayer
 
+@onready var player_main: Control = $player_main
+
 @onready var animation_player: AnimationPlayer = $animation_ui
 
+
 var active = false
+
 
 func _ready() -> void:
 	Globals.HUD_update_general.connect(update_general)

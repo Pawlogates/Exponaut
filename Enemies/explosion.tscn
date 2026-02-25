@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://nlbbhgnny7rs"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_ay3p7"]
+[ext_resource type="SpriteFrames" uid="uid://bgg2exqowwp4f" path="res://Assets/Graphics/sprites/packed/collectibles/explosion.tres" id="2_ay3p7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ay3p7"]
+size = Vector2(128, 128)
+
+[node name="explosion" instance=ExtResource("1_ay3p7")]
+collectable = false
+damage_value = 25
+family = "enemy"
+on_timeout_death = true
+on_timeout_death_cooldown = 1.0
+on_spawn_sfx_death = true
+start_animation = "none"
+entity_name = "explosion"
+entity_type = "projectile"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_ay3p7")
+animation = &"idle"
+
+[node name="collision_main" parent="." index="1"]
+disabled = true
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_ay3p7")

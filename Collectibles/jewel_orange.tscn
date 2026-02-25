@@ -7,14 +7,6 @@
 size = Vector2(32, 32)
 
 [node name="jewel_orange" instance=ExtResource("1_511gd")]
-score_value = 75
-can_move = true
-can_move_x = true
-can_move_y = true
-ignore_gravity = false
-start_animation = "none"
-on_spawn_effect_grow = false
-entity_name = "pineapple"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_mgfat")

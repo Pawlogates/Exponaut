@@ -4,6 +4,4 @@ extends StaticBody2D
 
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("Player"):
-		Globals.sign_message_text = str(message_text)
-		
-		Globals.sign_message_touched.emit()
+		Globals.message(str(message_text))

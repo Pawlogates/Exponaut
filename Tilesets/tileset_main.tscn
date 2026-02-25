@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://c04omo3n0mpkt" path="res://Tilesets/tileset_main.tres" id="1_m3yry"]
 
 [node name="tileset_main" type="TileMap"]
-visibility_layer = 2
+light_mask = 512
 z_index = -1
 texture_filter = 1
 tile_set = ExtResource("1_m3yry")

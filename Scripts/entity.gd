@@ -29,6 +29,12 @@ func _ready():
 	reassign_general()
 	reassign_movement_type_id()
 	
+	if on_spawn_show_text:
+		text_show()
+	
+	if on_spawn_sfx_death:
+		sfx_manager.sfx_play("res://Assets/Sounds/sfx/break.wav", 3.0, 1.0)
+	
 	if scan_reset_puzzle_coverage_collision_size != Vector2(-1, -1):
 		scan_reset_puzzle_coverage_collision.shape.size = scan_reset_puzzle_coverage_collision_size
 	
@@ -57,8 +63,10 @@ func _ready():
 	
 	# Prepare patrolling
 	if patrolling:
-		collision_patrolling.shape.size = patrolling_vision_size
-		collision_patrolling.position = patrolling_vision_pos
+		
+		if patrolling_vision_size != Vector2(384, 64): # If not set to default value.
+			collision_patrolling.shape.size = patrolling_vision_size
+			collision_patrolling.position = patrolling_vision_pos
 		
 		c_patrolling_change_direction.wait_time = patrolling_change_direction_cooldown
 		c_patrolling_change_direction.start()
@@ -89,7 +97,7 @@ func _ready():
 
 func _process(delta):
 	handle_movement(delta)
-	
+	if entity_name == "batron" : print(direction_x)
 	if copy_direction_x_player:
 		if copy_direction_x_active_player:
 			direction_x = Globals.player_direction_x_active
@@ -100,7 +108,7 @@ func _process(delta):
 	if abs(velocity.x) > 0.0 : velocity_last_x = velocity.x
 	if abs(velocity.y) > 0.0 : velocity_last_y = velocity.y
 	
-	if on_death_effect_thrownAway or on_collected_decoration_nodes_effect_thrownAway : effect_thrownAway(delta)
+	if on_death_effect_thrownAway or on_collected_effect_thrownAway : effect_thrownAway(delta)
 	
 	if effect_collected_multiple_active : effect_collected_multiple(delta)
 	
@@ -131,21 +139,35 @@ func _process(delta):
 	if on_collected_effect_special:
 		position = lerp(position, World.player.position + random_position_offset, delta)
 	
-	
-	if is_on_wall():
+	if is_on_wall() and is_collidable:
 		wall_normal = get_wall_normal()
+		is_collidable = false
+		c_collidable.wait_time = collidable_cooldown
+		c_collidable.start()
 		
-		if is_collidable:
-			if on_wall_bounce or on_floor_bounce:
-				if not gravity or ignore_gravity:
-					
-					# Handle slope surface bounce
-					if not reflect_straight() : reflect_slope()
-					
-					if direction_y > 0:
-						rotation_degrees = 90
-					elif direction_y < 0:
-						rotation_degrees = -90
+		reverse_direction_x(wall_normal)
+		
+		if on_wall_jump_velocity: # If not equal to "0".
+			velocity.y = on_wall_jump_velocity
+			effects_reflect_straight()
+		
+		if on_wall_change_velocity:
+			velocity *= on_wall_change_velocity_multiplier
+		
+		if on_wall_change_speed:
+			if variable_speed:
+				speed *= on_wall_change_speed_multiplier
+		
+		
+		if ignore_gravity:
+			if reflect_straight or reflect_slope:
+				# Handle slope surface bounce
+				if not handle_reflect_straight() : handle_reflect_slope()
+				
+				if direction_y > 0:
+					rotation_degrees = 90
+				elif direction_y < 0:
+					rotation_degrees = -90
 	
 	
 	handle_bounce()
@@ -235,8 +257,21 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if not rotten or target.family != "Player":
 			handle_collectable(target)
 	
-	if hittable and damage_from_entity and damage_from_entity_contact:
-		handle_hittable(target)
+	# Tries to HIT the entity.
+	if family == "Player" and target.family == "enemy" or family == "enemy" and target.family == "Player":
+		if breakable : handle_breakable(target)
+	
+	if target.is_in_group("entity"):
+		if hittable and damage_from_entity and damage_from_entity_contact:
+			handle_hittable(target)
+	
+	if target.is_in_group("Player"):
+		if hittable and damage_from_player and damage_from_player_contact:
+			handle_hittable(target)
+		
+		if family == "enemy":
+			#Overlay.HUD.player_main.player_health.change_health_value(damage_value)
+			Globals.player_damage.emit(-damage_value)
 
 func _on_hitbox_area_exited(target: Area2D) -> void:
 	inside_check_exit(target)
@@ -320,10 +355,6 @@ func inside_check_enter(body):
 			Globals.message_debug("Player entered an entity " + "(" + entity_name + ").")
 		else:
 			Globals.message_debug("An entity " + "(" + body.entity_name + "). has entered another entity " + "(" + entity_name + ").")
-		
-		collidable = false
-		cooldown_collidable.wait_time = collidable_cooldown
-		cooldown_collidable.start()
 		
 		if enteredFromAboveAndNotMoving_enable and body.position.y <= position.y and abs(body.velocity.x) < 25:
 				
@@ -632,8 +663,14 @@ func change_direction_x(value):
 func change_direction_y(value):
 	direction_y = value
 
-func reverse_direction_x():
-	direction_x *= -1
+func reverse_direction_x(wall_normal):
+	if wall_normal == Vector2(-1, 0): #right
+		direction_x = -1
+	
+	elif wall_normal == Vector2(1, 0): #left
+		direction_x = 1
+	
+	velocity.x = direction_x * 100
 
 func reverse_direction_y():
 	direction_y *= -1
@@ -650,8 +687,6 @@ func effect_thrownAway(delta):
 		if rolled_effect_thrownAway_scale_to_front : z_index += 10
 		else : z_index -= 10
 		collision_main.disabled = true
-		
-		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position)
 		
 		# Correct for potential anim player changes.
 		sprite.scale = abs(sprite.scale)
@@ -748,6 +783,14 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 	
 	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
 	
+	if on_collected_spawn_entity:
+		spawn_entity(on_collected_spawn_entity_scene_filepath, on_collected_spawn_entity_quantity, on_collected_spawn_entity_add_velocity, on_collected_spawn_entity_add_velocity_range, on_collected_spawn_entity_pos_offset, on_collected_spawn_entity_pos_offset_range)
+	if on_collected_spawn_entity2:
+		spawn_entity(on_collected_spawn_entity2_scene_filepath, on_collected_spawn_entity2_quantity, on_collected_spawn_entity2_add_velocity, on_collected_spawn_entity2_add_velocity_range, on_collected_spawn_entity2_pos_offset, on_collected_spawn_entity2_pos_offset_range)
+	if on_collected_spawn_entity3:
+		spawn_entity(on_collected_spawn_entity3_scene_filepath, on_collected_spawn_entity3_quantity, on_collected_spawn_entity3_add_velocity, on_collected_spawn_entity3_add_velocity_range, on_collected_spawn_entity3_pos_offset, on_collected_spawn_entity3_pos_offset_range)
+	
+	
 	reset_puzzle_queue()
 	
 	if not collectable_multiple:
@@ -808,8 +851,6 @@ func handle_hittable(target):
 	
 	if family == "Player" and target.family == "enemy" or family == "enemy" and target.family == "Player":
 		handle_hit(target)
-	
-	if breakable : handle_breakable(target)
 
 
 func handle_collidable(body):
@@ -845,6 +886,11 @@ func handle_hit(target):
 	
 	if on_hit_spawn_entity:
 		spawn_entity(on_hit_spawn_entity_scene_filepath, on_hit_spawn_entity_quantity, on_hit_spawn_entity_add_velocity, on_hit_spawn_entity_add_velocity_range, on_hit_spawn_entity_pos_offset, on_hit_spawn_entity_pos_offset_range)
+	if on_hit_spawn_entity2:
+		spawn_entity(on_hit_spawn_entity2_scene_filepath, on_hit_spawn_entity2_quantity, on_hit_spawn_entity2_add_velocity, on_hit_spawn_entity2_add_velocity_range, on_hit_spawn_entity2_pos_offset, on_hit_spawn_entity2_pos_offset_range)
+	if on_hit_spawn_entity3:
+		spawn_entity(on_hit_spawn_entity3_scene_filepath, on_hit_spawn_entity3_quantity, on_hit_spawn_entity3_add_velocity, on_hit_spawn_entity3_add_velocity_range, on_hit_spawn_entity3_pos_offset, on_hit_spawn_entity3_pos_offset_range)
+	
 	
 	if on_hit_gain_movement != "none":
 		
@@ -896,7 +942,9 @@ func handle_death(type : String = "normal"):
 	handle_effects_death(type)
 
 
-func reflect_slope():
+func handle_reflect_slope():
+	if not reflect_slope : return
+	
 	Globals.dm(str("An entity (%s) is Slope Reflecting.") % entity_name)
 	
 	if direction_y:
@@ -935,20 +983,12 @@ func reflect_slope():
 			direction_x = 0
 			direction_y = 1
 
-func reflect_straight():
+func handle_reflect_straight():
+	if not reflect_straight : return
+	
 	Globals.dm(str("An entity (%s) is Straight Reflecting.") % entity_name)
 	
 	effects_reflect_straight()
-	
-	if on_wall_jump_velocity: # If not equal to "0".
-		velocity.y = on_wall_jump_velocity
-	
-	if on_wall_change_velocity:
-		velocity *= on_wall_change_velocity_multiplier
-	
-	if on_wall_change_speed:
-		if variable_speed:
-			speed *= on_wall_change_speed_multiplier
 	
 	if get_wall_normal() == Vector2(0, -1): #bottom
 		direction_x = 0
@@ -1007,6 +1047,19 @@ func handle_damage(value, type : String = "normal"):
 	
 	if breakable_on_hit_spawn_entity:
 		spawn_entity(breakable_on_hit_spawn_entity_scene_filepath, breakable_on_hit_spawn_entity_quantity, breakable_on_hit_spawn_entity_add_velocity, breakable_on_hit_spawn_entity_add_velocity_range, breakable_on_hit_spawn_entity_pos_offset, breakable_on_hit_spawn_entity_pos_offset_range)
+	#if breakable_on_hit_spawn_entity:
+		#spawn_entity(breakable_on_hit_spawn_entity2_scene_filepath, breakable_on_hit_spawn_entity2_quantity, breakable_on_hit_spawn_entity2_add_velocity, breakable_on_hit_spawn_entity2_add_velocity_range, breakable_on_hit_spawn_entity2_pos_offset, breakable_on_hit_spawn_entity2_pos_offset_range)
+	#if breakable_on_hit_spawn_entity:
+		#spawn_entity(breakable_on_hit_spawn_entity3_scene_filepath, breakable_on_hit_spawn_entity3_quantity, breakable_on_hit_spawn_entity3_add_velocity, breakable_on_hit_spawn_entity3_add_velocity_range, breakable_on_hit_spawn_entity3_pos_offset, breakable_on_hit_spawn_entity3_pos_offset_range)
+	
+	# delete as soon as possible
+	if not damage_from_player_contact:
+		if on_hit_spawn_entity:
+			spawn_entity(on_hit_spawn_entity_scene_filepath, on_hit_spawn_entity_quantity, on_hit_spawn_entity_add_velocity, on_hit_spawn_entity_add_velocity_range, on_hit_spawn_entity_pos_offset, on_hit_spawn_entity_pos_offset_range)
+		if on_hit_spawn_entity2:
+			spawn_entity(on_hit_spawn_entity2_scene_filepath, on_hit_spawn_entity2_quantity, on_hit_spawn_entity2_add_velocity, on_hit_spawn_entity2_add_velocity_range, on_hit_spawn_entity2_pos_offset, on_hit_spawn_entity2_pos_offset_range)
+		if on_hit_spawn_entity3:
+			spawn_entity(on_hit_spawn_entity3_scene_filepath, on_hit_spawn_entity3_quantity, on_hit_spawn_entity3_add_velocity, on_hit_spawn_entity3_add_velocity_range, on_hit_spawn_entity3_pos_offset, on_hit_spawn_entity3_pos_offset_range)
 	
 	if anim_alternate_walk_hittable_only_during:
 		if sprite.animation == "walk_alt":
@@ -1113,18 +1166,21 @@ func _on_sprite_animation_looped():
 	
 	if anim_alternate_walk:
 		var anim_name = sprite.animation
+		print(walk_alt_loop_number)
 		
 		if anim_name == "walk":
 			walk_alt_loop_number += 1
 		
 		elif anim_name == "walk_alt":
 			sprite.play("walk")
+			if on_alt_walk_show_text : text_show(on_alt_walk_text_message, on_alt_walk_text_message_visible, on_alt_walk_text_spawn_cooldown, on_alt_walk_text_delete_cooldown, on_alt_walk_text_anim_speed_scale, on_alt_walk_text_anim_backwards, on_alt_walk_text_anim_add_offset, on_alt_walk_text_next_character_cooldown, on_alt_walk_text_add_scale, on_alt_walk_text_add_pos)
 		
-		if walk_alt_loop_number >= 5:
+		if walk_alt_loop_number >= 10:
 			sprite.play("walk_alt")
-			walk_alt_loop_number = 0
-			
 			animation_color.play("pulse_red_normal_slight")
+			if on_alt_walk_alt_show_text : text_show(on_alt_walk_alt_text_message, on_alt_walk_alt_text_message_visible, on_alt_walk_alt_text_spawn_cooldown, on_alt_walk_alt_text_delete_cooldown, on_alt_walk_alt_text_anim_speed_scale, on_alt_walk_alt_text_anim_backwards, on_alt_walk_alt_text_anim_add_offset, on_alt_walk_alt_text_next_character_cooldown, on_alt_walk_alt_text_add_scale, on_alt_walk_alt_text_add_pos)
+			
+			walk_alt_loop_number = 0
 
 
 func sprite_animation():
@@ -1142,8 +1198,12 @@ func sprite_animation():
 				sprite.play("idle")
 		
 	elif is_on_floor():
-		if velocity.x and sprite.animation == "idle":
+		if not ignore_gravity and velocity.x and not sprite.animation == "walk_alt":
 			sprite.play("walk")
+	
+	if not is_on_floor():
+		if ignore_gravity:
+			sprite.play("flight")
 	
 	if dead : sprite.play("dead")
 
@@ -1202,6 +1262,7 @@ func _on_cooldown_patrolling_target_spotted_timeout() -> void: # When the entity
 	c_patrolling_change_direction.stop()
 
 func _on_cooldown_patrolling_target_spotted_queue_timeout() -> void: # When the entity sees the player.
+	spawn_entity(on_patrolling_spotted_spawn_entity_scene_filepath, on_patrolling_spotted_spawn_entity_quantity, on_patrolling_spotted_spawn_entity_add_velocity, on_patrolling_spotted_spawn_entity_add_velocity_range, on_patrolling_spotted_spawn_entity_pos_offset, on_patrolling_spotted_spawn_entity_pos_offset_range)
 	velocity.y = on_wall_jump_velocity
 	Globals.spawn_scenes(self, Globals.scene_particle_star, 5)
 	sfx_manager.sfx_play(sfx_spotted_filepath, 1.0, randf_range(0.95, 1.2))
@@ -1246,18 +1307,20 @@ func _on_cooldown_patrolling_change_direction_timeout() -> void:
 
 func handle_effects_collected():
 	sfx_manager.sfx_play(sfx_self_collected_filepath, 1.0, randf_range(0.9, 1.1) + (0.025 * (Globals.combo_streak)))
-	if on_collected_anim_name != "none" : animation_general.play("fade_out_up")
+	if on_collected_anim_name != "none" : animation_all.play(on_collected_anim_name)
 	
 	spawn_display_score(score_value)
 	
-	if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)
-	elif Globals.debug_mode : spawn_display_score_bonus(Globals.combo_score, -Vector2(-0.5, -0.5))
+	if Globals.random_bool(4, 1):
+		if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)
+		elif Globals.debug_mode : spawn_display_score_bonus(Globals.combo_score, -Vector2(-0.5, -0.5))
 	
 	if on_collected_spawn_star : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_orb_blue : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_dust : Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position)
 	
 	# Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier and other player-related changes).
 	if Globals.combo_streak == 20:
@@ -1443,12 +1506,58 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 func handle_bounce():
 	if is_on_floor():
 		if on_floor_bounce:
-			velocity.y = -velocity_last_y
+			velocity.y = -velocity_last_y * on_floor_bounce_velocity_multiplier
 	
 	if is_on_wall():
 		if on_wall_bounce:
-			velocity.x = -velocity_last_x
+			velocity.x = -velocity_last_x * on_wall_bounce_velocity_multiplier
 
 
 func _on_cooldown_on_death_effect_thrownAway_timeout() -> void:
 	effect_thrownAway_active = true
+
+
+func text_show(text_message : String = text_message, text_message_visible : String = text_message_visible, text_spawn_cooldown : float = text_spawn_cooldown, text_delete_cooldown : float = text_delete_cooldown, text_anim_speed_scale : float = text_anim_speed_scale, text_anim_backwards : bool = text_anim_backwards, text_anim_add_offset : float = text_anim_add_offset, text_next_character_cooldown : float = text_next_character_cooldown, text_add_scale : Vector2 = text_add_scale, text_add_pos : Vector2 = text_add_pos):
+	var confusion_text_node = load("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn").instantiate()
+	
+	confusion_text_node.text_full = text_message
+	confusion_text_node.text_visible = text_message_visible
+	confusion_text_node.cooldown_create_message = text_spawn_cooldown
+	confusion_text_node.cooldown_remove_message = text_delete_cooldown
+	confusion_text_node.character_anim_speed_scale = text_anim_speed_scale
+	confusion_text_node.character_anim_backwards = text_anim_backwards
+	confusion_text_node.text_animation_add_offset = text_anim_add_offset
+	confusion_text_node.cooldown_next_character = text_next_character_cooldown
+	confusion_text_node.scale += text_add_scale
+	confusion_text_node.position += Vector2(text_add_pos.x * direction_x, text_add_pos.y)
+	
+	text_container.add_child(confusion_text_node)
+
+
+func _on_cooldown_jump_timeout() -> void:
+	await get_tree().create_timer(randf_range(0.01, 0.5), true).timeout
+	
+	velocity.y = on_timeout_jump_velocity
+	
+	c_jump.wait_time = on_timeout_jump_cooldown
+	c_jump.start()
+
+func _on_cooldown_spawn_scene_timeout() -> void:
+	await get_tree().create_timer(randf_range(0.01, 0.5), true).timeout
+	
+	spawn_entity(on_timeout_spawn_entity_scene_filepath, on_timeout_spawn_entity_quantity, on_timeout_spawn_entity_add_velocity, on_timeout_spawn_entity_add_velocity_range, on_timeout_spawn_entity_pos_offset, on_timeout_spawn_entity_pos_offset_range)
+	
+	c_spawn_entity.wait_time = on_timeout_spawn_entity_cooldown
+	c_spawn_entity.start()
+
+func _on_cooldown_change_invincible_timeout() -> void:
+	await get_tree().create_timer(randf_range(0.01, 0.5), true).timeout
+	
+	c_change_invincible.wait_time = on_timeout_change_invincible_cooldown
+	c_change_invincible.start()
+
+func _on_cooldown_change_direction_x_timeout() -> void:
+	await get_tree().create_timer(randf_range(0.01, 0.5), true).timeout
+	
+	c_change_direction_x.wait_time = on_timeout_change_direction_x_cooldown
+	c_change_direction_x.start()

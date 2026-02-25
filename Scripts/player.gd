@@ -13,6 +13,13 @@ extends CharacterBody2D
 @export var air_slowdown = -400.0
 @export var air_acceleration = 1400.0
 
+@export var hitbox_size : Vector2 = Vector2(20, 56)
+@export var hitbox_pos_offset : Vector2 = Vector2(0, 0)
+
+@export var dash_hitbox_size : Vector2 = Vector2(20, 28)
+@export var dash_hitbox_pos_offset : Vector2 = Vector2(0, 28)
+
+
 var base_speed_x = speed_x
 var base_speed_y = speed_y
 var base_jump_velocity = jump_velocity
@@ -49,7 +56,7 @@ var gravity = Globals.gravity
 @onready var combo_manager = $"Combo Manager"
 
 @onready var collision_main = $CollisionShape2D
-@onready var hitbox = $hitbox_main/CollisionShape2D
+@onready var collision_hitbox = $hitbox_main/CollisionShape2D
 
 @onready var c_attack: Timer = %cooldown_attack
 @onready var c_secondaryAttack: Timer = %cooldown_secondaryAttack
@@ -169,8 +176,8 @@ func _ready():
 	Globals.levelSet_loaded.connect(on_levelSet_loaded)
 	
 	Globals.player_damage.connect(reduce_health)
+	Globals.player_heal.connect(increase_health)
 	Globals.player_kill.connect(kill)
-	Globals.player_heal.connect(heal)
 	
 	Globals.projectile_charged.connect(charged_effect)
 	Globals.projectile_shot.connect(cancel_effect)
@@ -225,11 +232,11 @@ func _process(delta):
 	handle_air_slowdown(delta)
 	
 	if not debug_movement:
-		#DASHING LOGIC
+		# DASHING LOGIC
 		if can_dash:
 			handle_dash()
 		
-		#CROUCHING LOGIC
+		# CROUCHING LOGIC
 		if ability_crouch:
 			handle_crouch()
 	
@@ -282,21 +289,21 @@ func _on_timer_dash_timeout():
 	dash_active = false
 	
 	if can_stand_up == 0:
-		collision_main.shape.size = Vector2(20, 56)
-		collision_main.position = Vector2(0, 0)
+		collision_main.shape.extents = dash_hitbox_size
+		collision_main.position = dash_hitbox_pos_offset
 		
-		hitbox.shape.extents = Vector2(16, 40)
-		hitbox.position = Vector2(0, 0)
+		collision_hitbox.shape.extents = dash_hitbox_size * 0.8
+		collision_hitbox.position = dash_hitbox_pos_offset * 0.8
 		
 		can_dash = true
 	
 	else:
 		await safe_standUp
-		collision_main.shape.extents = Vector2(40, 112)
-		collision_main.position = Vector2(0, 0)
+		collision_main.shape.extents = hitbox_size
+		collision_main.position = hitbox_pos_offset
 		
-		hitbox.shape.extents = Vector2(16, 40)
-		hitbox.position = Vector2(0, 0)
+		collision_hitbox.shape.extents = hitbox_size * 0.8
+		collision_hitbox.position = hitbox_pos_offset * 0.8
 		
 		can_dash = true
 	
@@ -487,6 +494,7 @@ func handle_jump(delta):
 		velocity.x = base_speed_x * 4.5 * direction_x
 		
 		state_jump = 1
+		state_crouch = 0
 	
 	
 	# Regular jump:
@@ -621,7 +629,7 @@ func _on_timer_state_shoot():
 # Player crouch/dash logic:
 func handle_crouch():
 	if can_dash and is_on_floor():
-		if Input.is_action_pressed("move_down") and not crouch_walk_active:
+		if Input.is_action_pressed("move_down") and not crouch_walk_active and not crouch_active:
 			Globals.message_debug("player crouch")
 			c_crouch_walk.start()
 			c_crouch_walk_correct_collision.start()
@@ -639,7 +647,7 @@ func handle_crouch():
 		
 		
 		if crouch_walk_active:
-			sprite.play("crouch_walk")
+			state_crouch_walk = 1
 			crouch_active = false
 			
 			crouch_walk_multiplier = 0.4
@@ -648,11 +656,11 @@ func handle_crouch():
 			raycast_top.enabled = false
 	
 	if not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_walk_active or not is_on_floor() and can_stand_up == 0 and crouch_walk_active:
-		collision_main.shape.extents = Vector2(20, 56)
-		collision_main.position = Vector2(0, 0)
+		collision_main.shape.extents = hitbox_size
+		collision_main.position = hitbox_pos_offset
 		
-		hitbox.shape.extents = Vector2(16, 40)
-		hitbox.position = Vector2(0, 0)
+		collision_hitbox.shape.extents = hitbox_size * 0.8
+		collision_hitbox.position = hitbox_pos_offset * 0.8
 		
 		
 		crouch_active = false
@@ -661,8 +669,9 @@ func handle_crouch():
 		c_crouch_walk_correct_collision.stop()
 		speed_x = base_speed_x
 		crouch_walk_multiplier = 1
-		
 		raycast_top.enabled = true
+		state_crouch_walk = 0
+		state_crouch = 0
 
 func _on_cooldown_crouch_walk_timeout():
 	if ability_crouch_walk:
@@ -670,24 +679,27 @@ func _on_cooldown_crouch_walk_timeout():
 		crouch_walk_active = true
 
 func _on_cooldown_crouch_walk_correct_collision_timeout():
-	collision_main.shape.extents = Vector2(20, 20)
-	collision_main.position += Vector2(0, 36)
-	hitbox.shape.extents = Vector2(20, 20)
-	hitbox.position += Vector2(0, 28)
+	collision_main.shape.extents = dash_hitbox_size
+	collision_main.position += dash_hitbox_pos_offset
+	
+	collision_hitbox.shape.extents = dash_hitbox_size * 0.8
+	collision_hitbox.position += dash_hitbox_pos_offset * 0.8
 
 func handle_dash():
 	if can_dash and Input.is_action_just_pressed("dash") and is_on_floor() and dash_active == false and not crouch_walk_active and not crouch_active:
-		Globals.message_debug("player dash")
-		dash_end_slowdown_canceled = false
+		Globals.message_debug("Player is now performing a dash.")
+		
 		dash_active = true
 		can_dash = false
+		dash_end_slowdown_canceled = false
 		t_dash.start()
+		state_crouch = 1
 		
-		collision_main.shape.extents = Vector2(20, 20)
-		collision_main.position += Vector2(0, 36)
+		collision_main.shape.extents = dash_hitbox_size
+		collision_main.position += dash_hitbox_pos_offset
 		
-		hitbox.shape.extents = Vector2(20, 20)
-		hitbox.position += Vector2(0, 28)
+		collision_hitbox.shape.extents = dash_hitbox_size * 0.8
+		collision_hitbox.position += dash_hitbox_pos_offset * 0.8
 		
 		raycast_top.enabled = false
 
@@ -708,8 +720,8 @@ func saveState_loaded():
 	collision_main.shape.extents = Vector2(20, 56)
 	collision_main.position = Vector2(0, 0)
 	
-	hitbox.shape.extents = Vector2(16, 40)
-	hitbox.position = Vector2(0, 0)
+	collision_hitbox.shape.extents = Vector2(16, 40)
+	collision_hitbox.position = Vector2(0, 0)
 	
 	dead_anim_active = false
 	
@@ -804,29 +816,47 @@ func _on_dash_check_timeout():
 
 # Attack (main and secondary): - [START]
 func handle_shoot():
+	if dead : return
 	if Globals.weapon_blocked : return
 	
-	if not dead and Input.is_action_pressed("attack_main"):
+	if Input.is_action_pressed("attack_main"):
 		if c_attack.time_left > 0.0 : return
 		c_attack.start()
 		
 		if Globals.weapon is Dictionary:
 			attack_spawn_scene("res://Projectiles/base.tscn")
 		
-		#var projectile_phaser = scene_projectile_phaser.instantiate()
-		#add_child(projectile_phaser)
 		
 		#SHOOTING ANIMATION
 		state_shoot = 1
 		t_state_shoot.start()
 		
-		sprite.play("shoot")
 		sfx_manager.sfx_play(Globals.sfx_slash)
 		
 		if direction_x != 0:
 			sprite.flip_h = (direction_x < 0)
+	
+	
+	elif Input.is_action_just_pressed("attack_secondary"):
+		if c_attack.time_left > 0.0 : return
+		c_attack.wait_time = 0.1
+		c_attack.start()
 		
-		return
+		var scene = load("res://Other/Scenes/player_projectile_charged_phaser.tscn").instantiate()
+		
+		scene.set_player_attack_cooldown = true
+		scene.family = "Player"
+		
+		add_child(scene)
+		
+		if direction_x != 0:
+			sprite.flip_h = (direction_x < 0)
+		
+		#SHOOTING ANIMATION
+		state_shoot = 1
+		t_state_shoot.start()
+		
+		sfx_manager.sfx_play(Globals.sfx_slash)
 
 func attack_spawn_scene(filepath):
 	if filepath == "res://Projectiles/base.tscn":
@@ -842,9 +872,6 @@ func attack_spawn_scene(filepath):
 			scene.set(property_name, Globals.weapon[property_name])
 		
 		World.add_child(scene)
-	
-	if direction_x != 0:
-		sprite.flip_h = (direction_x < 0)
 
 func secondaryAttack_spawn_scene(filepath):
 	pass
@@ -1105,7 +1132,7 @@ func reduce_health(value):
 	sfx(Globals.sfx_player_damage, 1.0, 0.0)
 
 
-func heal(value):
+func increase_health(value):
 	Globals.player_health += value
 	invincible = true
 	t_invincible.start()
@@ -1207,8 +1234,12 @@ func _on_timer_await_jump_timeout() -> void:
 	pass # Replace with function body.
 
 func _on_timer_state_shoot_timeout() -> void:
-	pass # Replace with function body.
+	state_shoot = 0
 
 
 func _on_timer_state_damage_timeout() -> void:
+	pass # Replace with function body.
+
+
+func _on_timer_invincible_timeout() -> void:
 	pass # Replace with function body.

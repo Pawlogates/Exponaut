@@ -1,12 +1,16 @@
 extends StaticBody2D
 
+@onready var l_target_score: Label = $label_target_score
+@onready var l_target_score_animation_general: AnimationPlayer = $label_target_score/animation_general
+@onready var animation_color: AnimationPlayer = $animation_color
+
 var activated = false
 @export var target_score = 1000
 @export var respawn_player_on_fail = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	$Label.text = str(target_score)
+	l_target_score.text = str(target_score)
 
 func _on_area_2d_area_entered(area):
 	if area.is_in_group("Player"):
@@ -19,7 +23,8 @@ func _on_area_2d_area_entered(area):
 		if Globals.level_score >= target_score:
 			activated = true
 			$CollisionShape2D.set_deferred("disabled", true)
-			$AnimationPlayer.play("unlock")
+			animation_color.play("pulse_red_normal")
+			l_target_score_animation_general.play("loop_scale")
 		
 		else:
-			$AnimationPlayer.play("locked")
+			animation_color.play("fade_out")

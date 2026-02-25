@@ -95,6 +95,11 @@ signal reset_puzzle_all_nodes_ready
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	for scene in Globals.l_entity:
+		ResourceLoader.load(scene, "PackedScene", 2)
+	
+	ResourceLoader.load(scene_file_path, "PackedScene", 2)
+	
 	uncover_matching_id.connect(on_uncover_matching_id)
 	
 	Globals.gameState_level = true

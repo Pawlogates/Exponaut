@@ -5,15 +5,6 @@
 
 [node name="puzzle_reset_zone" instance=ExtResource("1_bsrt3")]
 texture_filter = 5
-can_collect = true
-collectable_multiple = true
-collectable_multiple_health = -1
-immortal = true
-award_score = false
-reset_puzzle = true
-on_collected_reset_puzzle = true
-start_animation = "general/loop_up_down_slight"
-can_change_sprite_anim = true
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_bbww4")

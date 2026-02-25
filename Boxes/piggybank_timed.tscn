@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b17i5uq6owibc"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_dte46"]
+[ext_resource type="SpriteFrames" uid="uid://j2i2jftj1ger" path="res://Assets/Graphics/sprites/packed/boxes/piggybank.tres" id="2_ieprp"]
+
+[node name="piggybank_timed" instance=ExtResource("1_dte46")]
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_ieprp")
+animation = &"idle"

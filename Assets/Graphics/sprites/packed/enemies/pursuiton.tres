@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=32 format=3 uid="uid://cem520dxph8vh"]
+[gd_resource type="SpriteFrames" load_steps=33 format=3 uid="uid://cem520dxph8vh"]
 
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_s6gec"]
 
@@ -77,6 +77,10 @@ region = Rect2(704, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_forvi"]
 atlas = ExtResource("1_s6gec")
 region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5a5d4"]
+atlas = ExtResource("1_s6gec")
+region = Rect2(832, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iirea"]
 atlas = ExtResource("1_s6gec")
@@ -191,6 +195,9 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_forvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5a5d4")
 }],
 "loop": true,
 "name": &"dead",

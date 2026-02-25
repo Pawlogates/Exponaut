@@ -509,30 +509,48 @@ on_death_effect_thrownAway = true
 on_death_decoration_nodes_effect_thrownAway = true
 collectable = false
 hittable = true
+health_value = 10
 score_value = 100
 movement_type = "move_x"
 speed = 200
 family = "enemy"
-damage_from_entity = true
 can_move = true
-can_move_x = true
-can_move_y = true
 ignore_gravity = false
-on_wall_change_velocity_multiplier = Vector2(0.01, 0.5)
-on_ledge_turn = true
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://oxvewjp1soes"
+on_death_spawn_entity_quantity = 2
+on_hit_spawn_entity = true
+on_hit_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
+on_hit_spawn_entity_quantity = 3
+on_hit_spawn_entity2 = true
+on_hit_spawn_entity2_scene_filepath = "uid://oxvewjp1soes"
+breakable = true
 anim_alternate_walk = true
 anim_alternate_walk_hittable_only_during = true
-on_wall_jump_velocity = -200
 start_animation = "none"
 can_change_sprite_anim = true
 idle_sfx = true
 idle_sfx_randomize_cooldown = true
+on_alt_walk_alt_show_text = true
+on_alt_walk_alt_text_message = "[anim_reflect_straight]vulnerable!"
+on_alt_walk_alt_text_message_visible = "vulnerable!"
+on_alt_walk_alt_text_delete_cooldown = 1.0
+on_alt_walk_alt_text_anim_speed_scale = 0.5
+on_alt_walk_alt_text_add_scale = Vector2(1, 1)
+on_alt_walk_alt_text_add_pos = Vector2(48, 120)
+on_alt_walk_show_text = true
+on_alt_walk_text_message = "not anymore... [anim_loop_up_down]bummer init!!!!!!"
+on_alt_walk_text_message_visible = "not anymore... bummer init!!!!!!"
+on_alt_walk_text_delete_cooldown = 1.0
+on_alt_walk_text_anim_speed_scale = 1.5
+on_alt_walk_text_anim_add_offset = 3.0
+on_alt_walk_text_next_character_cooldown = 0.025
 entity_name = "togglebot"
-entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_i7pjj")
 animation = &"walk_alt"
+frame_progress = 0.184327
 
 [node name="animation_general" parent="sprite" index="1"]
 libraries = {
@@ -543,13 +561,10 @@ libraries = {
 z_index = -4
 position = Vector2(-21, -5)
 scale = Vector2(0.085, 0.085)
+randomize_anim_name_limited = true
 
 [node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("3_i7pjj")]
 z_index = -4
-position = Vector2(-21, -5)
+position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)
-
-[node name="decoration_gear6" parent="sprite/container_effect_thrownAway" index="2" instance=ExtResource("3_i7pjj")]
-z_index = -4
-position = Vector2(-21, -5)
-scale = Vector2(0.085, 0.085)
+randomize_anim_name_limited = true

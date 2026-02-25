@@ -21,3 +21,5 @@ func _physics_process(delta: float) -> void:
 			
 			var instance2 = scene2.instantiate()
 			Overlay.add_child(instance2)
+		
+		Globals.debug_refresh.emit()

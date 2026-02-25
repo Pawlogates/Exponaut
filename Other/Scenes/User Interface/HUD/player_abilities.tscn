@@ -535,6 +535,7 @@ anchors_preset = 0
 anchors_preset = 0
 
 [node name="debug_charges +" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 16.0
 offset_top = -64.0
@@ -544,6 +545,7 @@ theme = ExtResource("3_x6dem")
 text = "+1"
 
 [node name="debug_charges +10" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_top = -144.0
 offset_right = 64.0
@@ -552,6 +554,7 @@ theme = ExtResource("3_x6dem")
 text = "+10"
 
 [node name="debug_charges_max +" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = -144.0
 offset_top = -64.0
@@ -561,6 +564,7 @@ theme = ExtResource("3_x6dem")
 text = "max+1"
 
 [node name="debug_charges -" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 80.0
 offset_top = -64.0
@@ -570,6 +574,7 @@ theme = ExtResource("3_x6dem")
 text = "-1"
 
 [node name="debug_charges -10" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 80.0
 offset_top = -144.0
@@ -579,6 +584,7 @@ theme = ExtResource("3_x6dem")
 text = "-10"
 
 [node name="debug_charges_max -" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = -144.0
 offset_top = -128.0
@@ -588,6 +594,7 @@ theme = ExtResource("3_x6dem")
 text = "max-1"
 
 [node name="slots_max" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = -208.0
 offset_top = -96.0
@@ -599,6 +606,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="slots_active" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 144.0
 offset_top = -96.0

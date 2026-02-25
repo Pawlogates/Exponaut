@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://cvnxdkf18th3o" path="res://Tilesets/tileset_main_precise.tres" id="1_bdm3k"]
 
 [node name="tileset_main_precise" type="TileMap"]
-visibility_layer = 2
+light_mask = 512
 z_index = -1
 texture_filter = 1
 tile_set = ExtResource("1_bdm3k")

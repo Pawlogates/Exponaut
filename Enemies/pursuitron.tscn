@@ -1,27 +1,36 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjiup7b3smvl7"]
+[gd_scene load_steps=4 format=3 uid="uid://cjiup7b3smvl7"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_f4vxg"]
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_0njdk"]
 [ext_resource type="SpriteFrames" uid="uid://cem520dxph8vh" path="res://Assets/Graphics/sprites/packed/enemies/pursuiton.tres" id="3_12ie6"]
 
 [node name="pursuitron" instance=ExtResource("1_f4vxg")]
+on_death_effect_thrownAway = true
 collectable = false
 hittable = true
-health_value = 5
+score_value = 150
 movement_type = "follow_player_x_if_spotted"
 family = "enemy"
-damage_from_entity = true
 can_move = true
-can_move_x = true
-can_move_y = true
 ignore_gravity = false
-friction_multiplier_x = 0.4
 patrolling = true
-patrolling_vision_size = Vector2(384, 128)
+breakable = true
 start_animation = "none"
 can_change_sprite_anim = true
+idle_sfx = true
+idle_sfx_randomize_cooldown = true
 entity_name = "pursuitron"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("3_12ie6")
-animation = &"attack"
+animation = &"idle"
+
+[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_0njdk")]
+z_index = -4
+position = Vector2(-18, -24)
+scale = Vector2(0.085, 0.085)
+randomize_anim_name_limited = true
+
+[node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
+position = Vector2(256, 0)

@@ -56,7 +56,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if removable:
-		character.modulate.a = move_toward(character.modulate.a, 0, delta * randf_range(0.25, 4))
+		character.modulate.a = move_toward(character.modulate.a, 0, delta * 2)
 		character.rotation_degrees = move_toward(character.rotation_degrees, rolled_rotation, delta * 10)
 		character.pivot_offset.x = move_toward(character.modulate.a, rolled_pivot_offset.x, delta * 10)
 		character.pivot_offset.y = move_toward(character.modulate.a, rolled_pivot_offset.y, delta * 10)

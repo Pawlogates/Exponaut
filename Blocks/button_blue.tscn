@@ -80,7 +80,7 @@ region_rect = Rect2(0, 832, 64, 64)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="button_blue/Sprite2D"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_l3fps")
+&"": SubResource("AnimationLibrary_l3fps")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_blue"]

@@ -44,9 +44,9 @@ const l_animation_type_main : Array = ["general", "gear"] # The most generally r
 const l_animation_type_limited : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
 const l_animation_type_all : Array = ["general, gear, ui"] # Includes absolutely every animation type.
 
-const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
-const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
-const l_animation_name_general_all : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
+const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8", "reflect_straight"]
+const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2"]
+const l_animation_name_general_all : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
 
 const l_animation_name_gear_main : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
 const l_animation_name_gear_limited : Array = ["rotate", "rotate_back", "rotate_back_in", "rotate_back_in", "rotate_forwardAndBack"]
@@ -144,6 +144,8 @@ const sfx_teleport : String = d_sfx + "/" + "teleport.wav"
 const sfx_collect : String = d_sfx + "/" + "collect.wav"
 const sfx_collect2 : String = d_sfx + "/" + "collect2.wav"
 const sfx_collect3 : String = d_sfx + "/" + "collect3.wav"
+
+const sfx_break : String = d_sfx + "/" + "break.wav"
 
 
 # Other files:
@@ -486,6 +488,8 @@ signal playerData_saved # Various otherworld player info like health, score, unl
 signal playerData_loaded
 signal levelSet_saved # Information about every Level Set in the game.
 signal levelSet_loaded
+signal gameState_changed
+signal debug_refresh # Emitted on pressing the "`" key (spawn debug tools).
 
 # Emitting these signals from anywhere will cause the game to perform an action.
 signal player_damage(value)
@@ -502,7 +506,6 @@ signal quickload(slot_number : int)
 
 signal play_music_random
 
-signal gameState_changed
 
 var settings_quicksaves = false
 var settings_volume_music = 0.2
@@ -641,7 +644,8 @@ signal stop_playback
 
 # Text displays:
 # Only one message can be displayed at a time. Message display is located in the (global) Overlay node.
-var display_messages_queued : Array = []
+@onready var display_messages_queued : Array = []
+
 signal messages_refresh # Forces all message displays to refresh when emitted.
 signal messages_added
 signal messages_removed
@@ -649,6 +653,7 @@ signal messages_debug_added
 signal messages_debug_removed
 
 func message(text):
+	print(text)
 	display_messages_queued.append(str(text))
 	messages_added.emit() # This is a signal from this script (Globals.gd).
 

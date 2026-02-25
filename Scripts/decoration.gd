@@ -9,6 +9,7 @@ extends Node2D
 
 @onready var glow_light: PointLight2D = $glow_light
 
+
 @export var anim_name : String = "loop_right_left"
 @export var anim_speed : float = 1.0
 @export var anim_reverse : bool = false
@@ -36,6 +37,7 @@ extends Node2D
 @export var randomize_anim_reverse2 : bool = false
 
 @export var randomize_modulate_dark : bool = false
+
 
 var is_near_edge = 0 # Directional ("-1" = left, "1" = right).
 var near_edge_offset = 0
@@ -128,7 +130,7 @@ func randomize_anim():
 		if randomize_anim_name_limited:
 			anim_name = Globals.l_animation_name_general_limited.pick_random()
 		else:
-			anim_name = Globals.l_animation_name_general.pick_random()
+			anim_name = Globals.l_animation_name_general_main.pick_random()
 	
 	if randomize_anim_speed : anim_speed = randf_range(0.05 * randomize_multiplier, 2 * randomize_multiplier)
 	if randomize_anim_reverse : anim_reverse = Globals.random_bool(1, 1)
@@ -138,7 +140,7 @@ func randomize_anim():
 		if randomize_anim_name2_limited:
 			anim_name2 = Globals.l_animation_name_gear_limited.pick_random()
 		else:
-			anim_name2 = Globals.l_animation_name_gear.pick_random()
+			anim_name2 = Globals.l_animation_name_gear_main.pick_random()
 	
 	if randomize_anim_speed2 : anim_speed2 = randf_range(0.05 * randomize_multiplier2, 2 * randomize_multiplier2)
 	if randomize_anim_reverse2 : anim_reverse2 = Globals.random_bool(1, 1)
@@ -154,11 +156,11 @@ func randomize_anim():
 
 func set_randomize_everything():
 	randomize_anim_name = true
-	randomize_anim_name_limited = true
+	#randomize_anim_name_limited = true
 	randomize_anim_reverse = true
 	randomize_anim_speed = true
 	randomize_anim_name2 = true
-	randomize_anim_name2_limited = true
+	#randomize_anim_name2_limited = true
 	randomize_anim_reverse2 = true
 	randomize_anim_speed2 = true
 	randomize_modulate_dark = true

@@ -97,6 +97,8 @@ var random_cooldown_fade_range : float = 600.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	layer1_max_volume = 0.05 # DEBUG
+	
 	Globals.play_music_random.connect(play_music_random)
 	Globals.refreshed0_5.connect(update_is_playing)
 	

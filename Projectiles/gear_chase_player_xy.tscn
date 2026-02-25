@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://ci74wlv3i43aa"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_23cr2"]
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="2_qr303"]
+
+[node name="gear_chase_player_xy" instance=ExtResource("1_23cr2")]
+on_death_effect_thrownAway = true
+on_death_effect_thrownAway_cooldown = 1.0
+effect_thrownAway_randomize_velocity_multiplier_x = 0.25
+effect_thrownAway_randomize_velocity_multiplier_y = 0.5
+collectable = false
+hittable = true
+health_value = 1
+movement_type = "chase_player_xy"
+always_max_speed = true
+family = "none"
+can_move = true
+on_spawn_copy_direction_x_player = true
+on_timeout_death = true
+on_timeout_death_cooldown = 12.0
+on_timeout_spawn_entity = true
+on_timeout_spawn_entity_cooldown = 4.0
+on_timeout_spawn_entity_scene_filepath = "uid://nlbbhgnny7rs"
+start_animation = "none"
+effect_shrink_target_scale = Vector2(0.5, 0.5)
+effect_shrink_delete = false
+entity_name = "gear_chase_player_xy"
+entity_type = "projectile"
+
+[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("2_qr303")]
+z_index = -4
+position = Vector2(-16, 16)
+scale = Vector2(0.125, 0.125)
+randomize_anim_name_limited = true
+
+[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("2_qr303")]
+z_index = -4
+position = Vector2(16, 2.86102e-06)
+scale = Vector2(0.085, 0.085)
+randomize_anim_name_limited = true
+
+[node name="decoration_gear6" parent="sprite/container_effect_thrownAway" index="2" instance=ExtResource("2_qr303")]
+z_index = -4
+position = Vector2(-2.86102e-06, -16)
+scale = Vector2(0.1, 0.1)
+randomize_anim_name_limited = true

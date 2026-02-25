@@ -531,6 +531,7 @@ offset_bottom = 64.0
 texture = SubResource("AtlasTexture_3m55f")
 
 [node name="debug_hp +" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 112.0
 offset_top = 96.0
@@ -540,6 +541,7 @@ theme = ExtResource("3_wts6p")
 text = "+"
 
 [node name="debug_hp -" type="Button" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 176.0
 offset_top = 96.0
@@ -551,9 +553,9 @@ clip_text = true
 
 [node name="label_hp" type="Label" parent="."]
 layout_mode = 0
-offset_left = 112.0
+offset_left = 72.0
 offset_top = 14.0
-offset_right = 224.0
+offset_right = 184.0
 offset_bottom = 48.0
 theme = ExtResource("3_wts6p")
 theme_override_font_sizes/font_size = 24

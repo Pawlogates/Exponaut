@@ -6,6 +6,8 @@ extends CanvasLayer
 @onready var animation_player = $AnimationPlayer
 
 func _ready():
+	Globals.gameState_changed.connect(reassign_general)
+	
 	if Globals.gameState_debug:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	

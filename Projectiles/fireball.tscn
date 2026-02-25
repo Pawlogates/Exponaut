@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://dm74yhyxifdwa"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_dwhak"]
+
+[node name="fireball" instance=ExtResource("1_dwhak")]
+on_death_effect_thrownAway = true
+on_death_effect_thrownAway_cooldown = 1.0
+effect_thrownAway_randomize_velocity_multiplier_x = 0.25
+effect_thrownAway_randomize_velocity_multiplier_y = 0.5
+collectable = false
+hittable = true
+health_value = 1
+movement_type = "move_x"
+always_max_speed = true
+family = "none"
+can_move = true
+on_spawn_copy_direction_x_player = true
+on_timeout_death = true
+on_timeout_death_cooldown = 1.5
+start_animation = "none"
+effect_shrink_target_scale = Vector2(0.5, 0.5)
+effect_shrink_delete = false
+entity_name = "fireball"
+entity_type = "projectile"
