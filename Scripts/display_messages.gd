@@ -15,14 +15,15 @@ func _ready():
 	Globals.messages_added.connect(message_show)
 
 
-func message_show():
-	message_text = Globals.display_messages_queued[0]
-	Globals.display_messages_queued.erase(Globals.display_messages_queued[0])
-	message_size = Vector2(23 * message_text.length(), int(message_text.length() / 40 * 23))
-	l_message_text.text = str(message_text)
+func message_show(message : String = "none", anim_speed_scale : float = 1.0):
+	animation_player.speed_scale = anim_speed_scale
+	#message_text = Globals.display_messages_queued[0]
+	#Globals.display_messages_queued.erase(Globals.display_messages_queued[0])
+	message_size = Vector2(23 * message.length(), int(message.length() / 40 * 23))
+	l_message_text.text = str(message)
 	
-	if len(message_text) < 56:
-		bg.size.x = 24 * len(message_text) + 24
+	if len(message) < 56:
+		bg.size.x = 24 * len(message) + 24
 		bg.position.x = (container_message.size.x - bg.size.x) / 2
 		
 		$container_message/bg/decoration_gear.visible = false
@@ -40,10 +41,9 @@ func message_show():
 		$container_message/bg/decoration_gear4.visible = true
 	
 	bg.size.y = container_message.size.y
-	container_message.size.y = 64 * len(message_text) / 56
-	container_message.position.y = 896.0 - len(message_text) / 56 * 56
+	container_message.size.y = 64 * len(message) / 56
+	container_message.position.y = 896.0 - len(message) / 56 * 56
 	animation_player.play("show")
-	print("HERE", message_text)
 	c_hide.start()
 
 

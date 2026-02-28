@@ -5,7 +5,6 @@
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_h5dqg"]
 
 [node name="menu_entity_editor_choices" instance=ExtResource("1_hg37m")]
-modulate = Color(1, 1, 1, 1)
 z_index = 150
 anchors_preset = 8
 anchor_left = 0.5

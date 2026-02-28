@@ -27,7 +27,7 @@ var menu : Node
 @export var text_manager_letter_alignment = 0
 @export var text_manager_letter_animation_sync = true
 @export var text_manager_cooldown_create_message : float = -1.0
-@export var text_manager_cooldown_next_character : float = 0.01
+@export var text_manager_cooldown_next_character : float = 0.025
 @export var text_manager_text_offset = Vector2(0, 0)
 
 @export var decoration_base_size = Vector2(720, 64)
@@ -91,8 +91,7 @@ func _ready() -> void:
 	button_container = get_parent()
 	menu = button_container.get_parent()
 	
-	mouse_filter = 0
-	decoration.mouse_filter = 0
+	mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
 	id = get_index() + 1
 	menu.button_quantity += 1
@@ -121,8 +120,7 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
-	mouse_filter = 1
-	decoration.mouse_filter = 1
+	mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	if menu.type == "Array_choice":
 		text_manager.create_message(str(choice))
@@ -130,7 +128,7 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	if animation_player.is_playing() : return
+	if stabilized and animation_player.is_playing() : return
 	
 	if correct_pivot_offset or is_focused : decoration.pivot_offset = decoration.size / 2
 	

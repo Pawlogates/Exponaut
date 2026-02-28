@@ -5,7 +5,7 @@ extends CharacterBody2D
 
 @export var speed_x = 400.0
 @export var speed_y = 400.0
-@export var jump_velocity = -550.0
+@export var jump_velocity = -575.0
 @export var acceleration = 1200.0
 @export var friction = 1200.0
 @export var fall_speed = 1000.0
@@ -100,7 +100,7 @@ var crouch_active = false
 var crouch_walk_active = false
 var crouch_walk_multiplier = 1
 
-# If can_stand_up is equal to 0, there is nothing blocking the player
+# If "can_stand_up" is equal to 0, there is nothing blocking the player's collision.
 var can_stand_up = 0
 
 var rng = RandomNumberGenerator.new()
@@ -158,6 +158,8 @@ signal player_just_left_wind
 
 
 func _ready():
+	World = Globals.reassign_general()[0]
+	
 	base_speed_x = speed_x
 	base_speed_y = speed_y
 	base_jump_velocity = jump_velocity
@@ -202,6 +204,14 @@ func _ready():
 
 
 func _process(delta):
+	# Handle JUST (1/3):
+	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
+	# Handle JUST (2/3):
+	just_update() # The word "just" refers to something very specific. Check out the function for the explanation.
+	
+	if on_wall:
+		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 4, Color(0, 1, 0, 0), Vector2(0, 0), 10)
+	
 	if Globals.debug_mode:
 		if Input.is_action_pressed("LMB"):
 			position = get_global_mouse_position()
@@ -217,12 +227,13 @@ func _process(delta):
 	else:
 		handle_gravity(delta)
 		
-		if can_jump and not dead:
-			if not handle_jump(delta):
-				if can_wall_jump:
-					handle_wall_jump()
+		if not dead:
+			if can_jump or can_air_jump:
+				if not handle_jump(delta):
+					if can_wall_jump:
+						handle_wall_jump()
 		
-		handle_move_x(delta)
+		if on_floor : handle_walk(delta)
 		handle_air_acceleration(delta)
 	
 	#SHOOTING LOGIC
@@ -263,9 +274,7 @@ func _process(delta):
 	#HANDLE STUCK IN WALL
 	handle_stuck()
 	
-	# Handle JUST.
-	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
-	just_update() # The word "just" refers to something very specific. Check out the function for the explanation.
+	# Handle JUST (3/3):
 	just_handle()
 
 #MAIN END
@@ -289,13 +298,16 @@ func _on_timer_dash_timeout():
 	dash_active = false
 	
 	if can_stand_up == 0:
-		collision_main.shape.extents = dash_hitbox_size
-		collision_main.position = dash_hitbox_pos_offset
+		collision_main.shape.extents = hitbox_size
+		collision_main.position = hitbox_pos_offset
 		
-		collision_hitbox.shape.extents = dash_hitbox_size * 0.8
-		collision_hitbox.position = dash_hitbox_pos_offset * 0.8
+		collision_hitbox.shape.extents = hitbox_size * 0.8
+		collision_hitbox.position = hitbox_pos_offset * 0.8
 		
 		can_dash = true
+		
+		state_crouch = 0
+		state_crouch_walk = 0
 	
 	else:
 		await safe_standUp
@@ -306,6 +318,9 @@ func _on_timer_dash_timeout():
 		collision_hitbox.position = hitbox_pos_offset * 0.8
 		
 		can_dash = true
+		
+		state_crouch = 0
+		state_crouch_walk = 1
 	
 	raycast_top.enabled = true
 
@@ -341,6 +356,8 @@ func _on_hitbox_dash_scan_solid_body_exited(_body):
 
 
 func handle_gravity(delta):
+	if not on_floor : state_jump = 1
+	
 	if not on_floor and not dash_active or dash_end_slowdown_active:
 		if not flight:
 			if Input.is_action_pressed("jump"):
@@ -437,7 +454,7 @@ func handle_friction(delta):
 
 
 func handle_air_slowdown(delta):
-	if direction_x == 0 and not is_on_floor():
+	if direction_x == 0 and not on_floor:
 		velocity.x = move_toward(velocity.x, 0, air_slowdown * delta)
 
 
@@ -459,11 +476,11 @@ func handle_air_acceleration(delta):
 
 func handle_walk(delta):
 	handle_move_x(delta)
-	state_walk = 5
 
 
 func handle_move_x(delta):
-	if not on_floor or not direction_x:
+	if not direction_x:
+		state_jump = 0
 		state_idle = 1
 		return
 	
@@ -483,7 +500,7 @@ func handle_move_x(delta):
 
 func handle_jump(delta):
 	if just_landed:
-		if dash_active and can_air_jump:
+		if dash_active and can_jump:
 			dash_just_landed = false
 			dash_end_slowdown_await_jump = true
 			%timer_await_jump.start()
@@ -492,15 +509,18 @@ func handle_jump(delta):
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
 		velocity.x = base_speed_x * 4.5 * direction_x
+		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(1, 1), 10)
+		Globals.spawn_scenes(World, Globals.scene_particle_special, 12, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(0, 0), 10)
 		
 		state_jump = 1
 		state_crouch = 0
 	
 	
 	# Regular jump:
-	if can_jump and on_floor and t_leniency_jump.time_left > 0.0:
+	if can_jump and on_floor or can_jump and t_leniency_jump.time_left > 0.0:
 		
 		if Input.is_action_just_pressed("jump"):
+			print("jumped")
 			Globals.message_debug("player jump")
 			can_jump = false
 			
@@ -533,8 +553,10 @@ func handle_jump(delta):
 	elif not on_floor and not on_wall and not t_leniency_wall_jump.time_left > 0.0 or not on_floor and on_wall and not can_wall_jump and t_leniency_wall_jump.time_left > 0.0:
 		if Input.is_action_just_released("jump") and velocity.y < jump_velocity / 2:
 			velocity.y = jump_velocity / 2
+			Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(0, 0), 10)
 		if can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_down"):
 			Globals.message_debug("player air jump")
+			print("player air jump")
 			if inside_water:
 				velocity.y = jump_velocity * 0.8 * inside_water_multiplier_x
 			else:
@@ -573,11 +595,15 @@ func handle_wall_jump():
 	
 	if Input.is_action_just_pressed("jump") and can_wall_jump:
 		Globals.message_debug("player wall jump")
+		print(("player wall jump"))
 		velocity.x = on_wall_normal.x * speed_x
 		if inside_water:
 			velocity.y = jump_velocity * 1 * inside_water_multiplier_x
 		else:
 			velocity.y = jump_velocity * 1
+		
+		Globals.spawn_scenes(World, Globals.scene_particle_special, 4, position + Vector2(24 * -Globals.player_direction_x_active, 40), 4, Color(0, 1, 0, 0), Vector2(0, 0), 10)
+		Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 4, position + Vector2(24 * -Globals.player_direction_x_active, 40), 4, Color(0, 1, 0, 0), Vector2(-0.5, -0.5), 10)
 		
 		can_wall_jump = false
 		
@@ -592,9 +618,9 @@ func handle_wall_jump():
 			%animation_player_sprite_general.stop()
 			%animation_player_sprite_general.speed_scale = 1
 			if direction_x == -1:
-				%animation_player_sprite_general.play("rotate_right")
-			if direction_x == 1:
 				%animation_player_sprite_general.play("rotate_left")
+			if direction_x == 1:
+				%animation_player_sprite_general.play("rotate_right")
 
 
 # Player damage (Received by player).
@@ -655,7 +681,7 @@ func handle_crouch():
 			
 			raycast_top.enabled = false
 	
-	if not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_walk_active or not is_on_floor() and can_stand_up == 0 and crouch_walk_active:
+	if not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_walk_active or not on_floor and can_stand_up == 0 and crouch_walk_active:
 		collision_main.shape.extents = hitbox_size
 		collision_main.position = hitbox_pos_offset
 		
@@ -733,7 +759,7 @@ func _on_cooldown_effect_dust_timeout():
 	spawn_dust_effect = true
 
 
-func _on_just_landed_delay_timeout():
+func _on_cooldown_just_landed_timeout():
 	recently_landed = false
 	q_just_landed = true
 
@@ -865,6 +891,7 @@ func attack_spawn_scene(filepath):
 		scene.position = position + attack_pos_offset * Globals.player_direction_x_active
 		scene.set_player_attack_cooldown = true
 		scene.family = "Player"
+		scene.always_active = true
 		
 		for property_name in Globals.weapon:
 			if property_name == "none" : continue
@@ -872,6 +899,8 @@ func attack_spawn_scene(filepath):
 			scene.set(property_name, Globals.weapon[property_name])
 		
 		World.add_child(scene)
+		
+		Globals.projectile_shot.emit()
 
 func secondaryAttack_spawn_scene(filepath):
 	pass
@@ -1035,7 +1064,7 @@ func get_basic_player_values():
 
 
 func handle_spawn_dust():
-	if is_on_floor() and direction_x and spawn_dust_effect:
+	if on_floor and direction_x and spawn_dust_effect:
 		spawn_dust_effect = false
 		$cooldown_effect_dust.start()
 		
@@ -1043,7 +1072,7 @@ func handle_spawn_dust():
 		dust.position = Globals.player_position - Vector2(0, -48)
 		get_parent().add_child(dust)
 		
-	elif not is_on_floor():
+	elif not on_floor:
 		spawn_dust_effect = true
 		$cooldown_effect_dust.stop()
 
@@ -1072,7 +1101,7 @@ func handle_inside_zone():
 
 func handle_manual_player_death():
 	if Input.is_action_just_pressed("back"):
-		SaveData.load_levelState(Globals.level_id)
+		Globals.player_damage.emit(-99)
 
 
 func handle_flight(delta):
@@ -1101,7 +1130,7 @@ func on_combo_reset():
 	animation_player_sprite_color.play("streak_reset")
 
 
-func on_on_block_movement_full_timeout() -> void:
+func _on_block_movement_full_timeout() -> void:
 	block_movement_full = false
 	velocity = Vector2(0, 0)
 
@@ -1130,6 +1159,11 @@ func reduce_health(value):
 	invincible = true
 	t_invincible.start()
 	sfx(Globals.sfx_player_damage, 1.0, 0.0)
+	
+	if Globals.player_health <= 0:
+		dead = true
+		World.retry_checkpoint()
+
 
 
 func increase_health(value):
@@ -1179,7 +1213,7 @@ func just_queue():
 
 func just_update():
 	if q_just_landed:
-		if is_on_floor():
+		if on_floor:
 			just_landed = true
 			q_just_landed = false
 
@@ -1208,7 +1242,6 @@ func on_just_bounced():
 	can_air_jump = true
 	can_wall_jump = true
 	sprite.modulate.g = 0.8
-	recently_bounced = false
 
 
 func _on_timer_recently_landed_timeout() -> void:
@@ -1231,7 +1264,7 @@ func update_can(): # The "can" refers to player's movement options that are not 
 
 
 func _on_timer_await_jump_timeout() -> void:
-	pass # Replace with function body.
+	dash_end_slowdown_await_jump = false
 
 func _on_timer_state_shoot_timeout() -> void:
 	state_shoot = 0

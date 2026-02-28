@@ -1,4 +1,4 @@
-extends CenterContainer
+extends Control
 
 var can_quit = true
 
@@ -39,12 +39,10 @@ func start_new_game(): #starts a brand new playthrough and deletes save files
 
 func display_stretch_viewport_on():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
-	print(get_window().content_scale_mode)
 
 
 func display_stretch_viewport_off():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
-	print(get_window().content_scale_mode)
 
 
 func last_area_filePath_load():

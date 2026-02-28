@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=12 format=3 uid="uid://dnk24klf8y4dl"]
+[gd_resource type="SpriteFrames" load_steps=16 format=3 uid="uid://dnk24klf8y4dl"]
 
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_gwgck"]
 
@@ -6,15 +6,31 @@
 atlas = ExtResource("1_gwgck")
 region = Rect2(0, 192, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_10ee7"]
+atlas = ExtResource("1_gwgck")
+region = Rect2(256, 192, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_nb0lg"]
 atlas = ExtResource("1_gwgck")
 region = Rect2(64, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k8b74"]
+atlas = ExtResource("1_gwgck")
+region = Rect2(320, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kramp"]
 atlas = ExtResource("1_gwgck")
 region = Rect2(128, 192, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ggq85"]
+atlas = ExtResource("1_gwgck")
+region = Rect2(192, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6coqe"]
+atlas = ExtResource("1_gwgck")
+region = Rect2(128, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ggrd5"]
 atlas = ExtResource("1_gwgck")
 region = Rect2(192, 192, 64, 64)
 
@@ -49,7 +65,13 @@ animations = [{
 "texture": SubResource("AtlasTexture_jmgxb")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_10ee7")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_nb0lg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8b74")
 }],
 "loop": true,
 "name": &"attack",
@@ -64,14 +86,44 @@ animations = [{
 }],
 "loop": true,
 "name": &"damage",
-"speed": 5.0
-}, {
-"frames": [],
-"loop": false,
-"name": &"dead",
-"speed": 7.0
+"speed": 10.0
 }, {
 "frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6coqe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ggrd5")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 1.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aotuu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2janm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aotuu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2janm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aotuu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2janm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aotuu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2janm")
+}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_aotuu")
 }, {

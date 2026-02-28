@@ -25,6 +25,14 @@ var block_buttons = false
 func _ready() -> void:
 	await get_tree().create_timer(0.5, false).timeout
 	
+	add_charges(-20)
+	
+	Globals.refreshed4_0.connect(_on_debug_charges_add_pressed)
+	Globals.entity_collected.connect(_on_debug_charges_max_add_pressed)
+	Globals.entity_killed.connect(_on_debug_charges_add_10_pressed)
+	Globals.player_damage.connect(_on_debug_charges_subtract_10_pressed)
+	Globals.projectile_shot.connect(_on_debug_charges_subtract_pressed)
+	
 	check_projectile_charges()
 
 func _physics_process(delta: float) -> void:
@@ -106,6 +114,8 @@ func _on_debug_charges_subtract_pressed() -> void:
 	add_charges(-1)
 
 func _on_debug_charges_max_add_pressed() -> void:
+	add_slots(randi_range(-10, 10))
+	
 	if block_buttons : return
 	block_buttons = true
 	

@@ -59,7 +59,7 @@ var l_Array_Vector2_range_button_info : Dictionary = {"behavior_name" : "Object'
 # Unused: - [END]
 
 var choosen_movement_type = "move_x"
-var choosen_family = "player"
+var choosen_family = "Player"
 
 
 func _ready():
@@ -125,7 +125,7 @@ func _ready():
 				container_behavior_buttons.add_child(behavior_button)
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("0"):
+	if Input.is_action_just_pressed("quickselect"):
 		Globals.weapon_blocked = false
 		queue_free()
 

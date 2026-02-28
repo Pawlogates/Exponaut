@@ -1,12 +1,12 @@
 extends menu_general
 
-var current_preview_scene = preload("res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn")
+var current_preview_scene = Globals.scene_screen_decoration_gears
 
 
 func _ready() -> void:
 	for levelSet_id in Globals.l_levelSet_id:
 		
-		var button = Globals.scene_UI_button_general.instantiate()
+		var button = load(Globals.scene_UI_button_general).instantiate()
 		
 		button.button_levelSet_id = levelSet_id
 		button.button_levelSet_name = Globals.l_levelSet_name[levelSet_id]

@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=127 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=128 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_38g62"]
@@ -88,6 +88,7 @@
 [ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="78_2cubl"]
 [ext_resource type="PackedScene" uid="uid://cjiup7b3smvl7" path="res://Enemies/pursuitron.tscn" id="78_bc0rc"]
 [ext_resource type="PackedScene" uid="uid://b1yp3474kdoii" path="res://Collectibles/puzzle_reset_zone_x.tscn" id="79_2kxln"]
+[ext_resource type="PackedScene" uid="uid://cxoirmq0nsnci" path="res://Collectibles/kit_health.tscn" id="79_t1q83"]
 [ext_resource type="PackedScene" uid="uid://csipyeliwxa3r" path="res://Blocks/random_decoration_block.tscn" id="79_woovg"]
 [ext_resource type="PackedScene" uid="uid://dxg5hja7ahyvf" path="res://Collectibles/puzzle_reset_zone_y.tscn" id="80_6cobq"]
 [ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://Objects/Decorations/glow_fog_gradient_colorful.tscn" id="80_npeql"]
@@ -196,6 +197,7 @@ scenes/3/scene = ExtResource("74_77evu")
 scenes/4/scene = ExtResource("75_pvlly")
 scenes/5/scene = ExtResource("76_33lkw")
 scenes/6/scene = ExtResource("77_mrtos")
+scenes/7/scene = ExtResource("79_t1q83")
 scenes/8/scene = ExtResource("79_2kxln")
 scenes/9/scene = ExtResource("80_6cobq")
 scenes/10/scene = ExtResource("73_2kxln")

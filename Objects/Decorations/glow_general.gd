@@ -1,6 +1,8 @@
 extends Node2D
 
 func _ready() -> void:
+	await get_tree().create_timer(1.0, true).timeout
+	
 	for glow in get_children():
 		glow.range_z_max = 0
 		glow.range_z_min = 0

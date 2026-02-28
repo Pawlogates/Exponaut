@@ -27,16 +27,17 @@ extends Node2D
 @export var randomize_multiplier2 : float = 1.0
 
 @export var randomize_anim_name : bool = false
-@export var randomize_anim_name_limited : bool = false
+@export var randomize_anim_name_limited : bool = true
 @export var randomize_anim_speed : bool = false
 @export var randomize_anim_reverse : bool = false
 
 @export var randomize_anim_name2 : bool = false
-@export var randomize_anim_name2_limited : bool = false
+@export var randomize_anim_name2_limited : bool = true
 @export var randomize_anim_speed2 : bool = false
 @export var randomize_anim_reverse2 : bool = false
 
 @export var randomize_modulate_dark : bool = false
+@export var randomize_opacity : bool = false
 
 
 var is_near_edge = 0 # Directional ("-1" = left, "1" = right).
@@ -75,7 +76,7 @@ func _process(delta: float) -> void:
 	
 	scale.x = lerp(scale.x, effect_thrownAway_scale[0], delta)
 	scale.y = lerp(scale.y, effect_thrownAway_scale[1], delta)
-	skew = lerp(skew, deg_to_rad(60 * randf_range(-10, 10)), deg_to_rad(delta * 100))
+	#skew = lerp(skew, deg_to_rad(60 * randf_range(-10, 10)), deg_to_rad(delta * 100))
 	rotation_degrees = lerp(float(rotation_degrees), float(effect_thrownAway_rotation), delta)
 	position += delta * effect_thrownAway_velocity / 5
 
@@ -149,10 +150,10 @@ func randomize_anim():
 	if randomize_modulate_dark:
 		if Globals.random_bool(3, 1):
 			modulate = Color(0, 0, 0, 1)
-		else:
-			if Globals.random_bool(3, 1):
-				var rolled_value = randf_range(0, 1)
-				modulate = Color(rolled_value, rolled_value, rolled_value, 1)
+	
+	if randomize_opacity:
+		var rolled_value = randf_range(0, 1)
+		modulate = Color(rolled_value, rolled_value, rolled_value, 1)
 
 func set_randomize_everything():
 	randomize_anim_name = true
@@ -164,6 +165,7 @@ func set_randomize_everything():
 	randomize_anim_reverse2 = true
 	randomize_anim_speed2 = true
 	randomize_modulate_dark = true
+	#randomize_opacity = true
 
 
 func reassign_general():

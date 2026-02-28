@@ -13,7 +13,7 @@ dest_files=["res://.godot/imported/music_forest.mp3-c24924316d68f91584f2ce518fd0
 [params]
 
 loop=true
-loop_offset=0
-bpm=0
+loop_offset=0.0
+bpm=0.0
 beat_count=0
 bar_beats=4

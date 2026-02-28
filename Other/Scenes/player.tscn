@@ -21,6 +21,7 @@ texture_filter = 6
 collision_layer = 2
 floor_constant_speed = true
 floor_max_angle = 1.0472
+floor_snap_length = 10.0
 safe_margin = 0.1
 script = ExtResource("1_gy5p5")
 
@@ -76,8 +77,6 @@ shape = SubResource("RectangleShape2D_ct51a")
 debug_color = Color(0.984314, 0, 0.329412, 0.419608)
 
 [node name="hitbox_dash_scan_solid" type="Area2D" parent="." groups=["player_exact"]]
-collision_layer = 8
-collision_mask = 8
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_dash_scan_solid"]
@@ -204,8 +203,8 @@ one_shot = true
 [connection signal="timeout" from="cooldown_attack" to="." method="_on_cooldown_attack_timeout"]
 [connection signal="timeout" from="cooldown_secondaryAttack" to="." method="_on_cooldown_secondaryAttack_timeout"]
 [connection signal="timeout" from="timer_recently_landed" to="." method="_on_timer_recently_landed_timeout"]
-[connection signal="timeout" from="timer_recently_bounced" to="." method="_on_timer_state_recently_bounced_timeout"]
-[connection signal="timeout" from="timer_recently_left_wind" to="." method="_on_just_left_wind_timeout"]
+[connection signal="timeout" from="timer_recently_bounced" to="." method="_on_timer_recently_bounced_timeout"]
+[connection signal="timeout" from="timer_recently_left_wind" to="." method="_on_timer_recently_left_wind_timeout"]
 [connection signal="timeout" from="timer_powerUp" to="." method="_on_powerup_timer_timeout"]
 [connection signal="timeout" from="block_movement_full" to="." method="_on_block_movement_full_timeout"]
 [connection signal="timeout" from="timer_invincible" to="." method="_on_timer_invincible_timeout"]

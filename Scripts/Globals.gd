@@ -44,7 +44,7 @@ const l_animation_type_main : Array = ["general", "gear"] # The most generally r
 const l_animation_type_limited : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
 const l_animation_type_all : Array = ["general, gear, ui"] # Includes absolutely every animation type.
 
-const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8", "reflect_straight"]
+const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8", "reflect_straight", "rotate_away_up_right"]
 const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2"]
 const l_animation_name_general_all : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
 
@@ -208,6 +208,8 @@ var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/m
 var scene_effect_score_value = load("res://Other/Scenes/display_score.tscn")
 var scene_effect_score_bonus = load("res://Other/Scenes/score_value.tscn")
 
+var scene_screen_decoration_gears = "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"
+
 
 # Entity editor - [START]
 var scene_entity_editor = "res://Other/Scenes/Entity Editor/entity_editor.tscn"
@@ -249,6 +251,9 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 
 func _ready() -> void:
+	SaveData.load_playerData()
+	SaveData.load_levelSet()
+	
 	prepare_lists()
 	
 	gameState_changed.connect(on_gameState_changed)
@@ -388,8 +393,10 @@ func handle_actions(delta):
 
 
 func reassign_general():
-	if has_node("/root/World") : World = $/root/World
-	if World.has_node("Player") : Player = World.get_node("Player")
+	if has_node("/root/World"):
+		World = $/root/World
+		if World.has_node("Player"):
+			Player = World.get_node("Player")
 	
 	return [World, Player]
 	
@@ -401,7 +408,9 @@ func change_main_scene(scene, instant : bool = false, anim_name : String = "blac
 	Globals.message_debug("Changing the Main Scene to %s" % scene)
 	
 	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
-	get_tree().change_scene_to_packed(scene)
+	
+	if scene is PackedScene : get_tree().change_scene_to_packed(scene)
+	elif scene is String : get_tree().change_scene_to_packed(load(scene))
 
 
 # Important gameplay-related properties.
@@ -652,10 +661,11 @@ signal messages_removed
 signal messages_debug_added
 signal messages_debug_removed
 
-func message(text):
-	print(text)
-	display_messages_queued.append(str(text))
-	messages_added.emit() # This is a signal from this script (Globals.gd).
+func message(text, anim_speed_scale : float = 1.0):
+	#display_messages_queued.append(str(text))
+	#messages_added.emit() # This is a signal from this script (Globals.gd).
+	Overlay.reassign_general()
+	Overlay.display_messages.message_show(str(text), anim_speed_scale)
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
@@ -806,7 +816,9 @@ func prepare_list_all(directory_path : String, exclude : Array):
 	return list
 
 
-func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = [], add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)]):
+func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = [], add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], variable_delay : bool = false):
+	if not is_instance_valid(target) : return
+	
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
@@ -835,9 +847,13 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 			
 			node.set(properties_name[y], properties_value[y])
 		
+		if not is_instance_valid(target) : return
+		
 		target.add_child(node)
 		
 		spawned_nodes.append(node)
+		
+		if variable_delay : await get_tree().create_timer(randf_range(0.01, 0.25), true).timeout
 	
 	
 	if remove_cooldown != -1:
@@ -992,17 +1008,23 @@ func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none
 func handle_spawn_menu(manual_request : bool = false):
 	for menu in get_tree().get_nodes_in_group("menu_main") : menu.queue_free()
 	
-	if gameState_debug and debug_mode:
-		spawn_menu()
+	if manual_request:
+		
+		if gameState_level:
+			spawn_menu()
+			return
+		
+		if gameState_debug and debug_mode:
+			spawn_menu()
+			return
+	
+	if gameState_levelSet_screen:
+		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set screen", "Select Level Set", "Quit Game"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 		return
 	
-	if gameState_level:
-		if manual_request:
-			spawn_menu()
-	elif gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set screen", "Select Level Set", "Quit Game"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 	elif gameState_start_screen:
 		spawn_menu(scene_menu_main, ["Resume Game", "Select Set screen", "Quit to Main Menu"])
+		return
 
 
 func on_gameState_changed():
@@ -1010,6 +1032,8 @@ func on_gameState_changed():
 	dm(str("Game State has changed: Level - %s, Start screen - %s, Level Set screen - %s, Debug - %s" % [gameState_level, gameState_start_screen, gameState_levelSet_screen, gameState_debug]), "ORANGE")
 	handle_spawn_menu(false)
 	prepare_lists()
+	SaveData.load_playerData()
+	SaveData.load_levelSet()
 
 
 # Constant global refresh timers:
@@ -1037,7 +1061,7 @@ func refresh2_0():
 func refresh4_0():
 	await get_tree().create_timer(4.0, false).timeout
 	refreshed4_0.emit()
-	refresh4_0
+	refresh4_0()
 
 func on_refreshed0_5():
 	pass
@@ -1150,6 +1174,11 @@ func get_filepath(file, details : bool = false):
 
 
 func reload_level_scene(keep_player_pos : bool = false):
+	for scene in Globals.l_entity:
+		ResourceLoader.load(scene, "PackedScene", 2)
+	
+	ResourceLoader.load(World.scene_file_path, "PackedScene", 2)
+	
 	load_levelSet = false
 	load_levelState = false
 	load_playerData = false

@@ -4,7 +4,6 @@
 
 [node name="menu_core" type="Control" groups=["menu_main"]]
 process_mode = 3
-modulate = Color(1, 1, 1, 0)
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2

@@ -11,6 +11,7 @@ region = Rect2(576, 896, 64, 64)
 size = Vector2(64, 64)
 
 [node name="checkpoint" type="StaticBody2D" groups=["checkpoint"]]
+z_index = 1
 script = ExtResource("1_142kj")
 
 [node name="checkpoint" type="Sprite2D" parent="."]

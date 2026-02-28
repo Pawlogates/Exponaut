@@ -1,11 +1,12 @@
-[gd_scene load_steps=10 format=3 uid="uid://c370w0v3janyp"]
+[gd_scene load_steps=12 format=3 uid="uid://c370w0v3janyp"]
 
-[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_q74v4"]
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_screen.gd" id="2_2hc0d"]
 [ext_resource type="AudioStream" uid="uid://dfoqdahqfeem3" path="res://Assets/Sounds/music/factory3.mp3" id="3_ooxfa"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_q74v4"]
 [ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_mmt5r"]
-[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_front_jungle2.png" id="6_r0lxw"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="7_jqjnh"]
+[ext_resource type="Material" uid="uid://b6n3mjh3jswls" path="res://Other/Materials/palette_change.tres" id="7_2hc0d"]
+[ext_resource type="PackedScene" uid="uid://bs1uryh81tn0f" path="res://Other/Scenes/Level Set/screen_decoration_gears.tscn" id="7_q74v4"]
+[ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="8_2hc0d"]
 
 [sub_resource type="Gradient" id="Gradient_pk7t1"]
 offsets = PackedFloat32Array(0, 0.497797, 1)
@@ -26,13 +27,17 @@ shader_parameter/cycleRate = 30.0
 shader_parameter/cycleOffset = 0.0
 shader_parameter/colorBlending = true
 
-[node name="Start Screen" type="CenterContainer"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ooxfa"]
+atlas = ExtResource("8_2hc0d")
+region = Rect2(1056, 384, 352, 160)
+
+[node name="Start Screen" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_q74v4")
 script = ExtResource("2_2hc0d")
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
@@ -46,9 +51,10 @@ unique_name_in_owner = true
 z_index = -2
 material = SubResource("ShaderMaterial_htqtk")
 custom_minimum_size = Vector2(1920, 1080)
-layout_mode = 2
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
 mouse_filter = 2
-texture = ExtResource("6_r0lxw")
 expand_mode = 1
 
 [node name="Polygon2D" type="Polygon2D" parent="background"]
@@ -63,19 +69,25 @@ polygon = PackedVector2Array(528, 224, 1520, 352, 1624, 728, 296, 888)
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
-theme = ExtResource("7_jqjnh")
+anchors_preset = 0
+offset_left = 960.0
+offset_top = 540.0
+offset_right = 960.0
+offset_bottom = 540.0
+theme = ExtResource("4_q74v4")
 
 [node name="Label" type="Label" parent="Control"]
 layout_mode = 2
-offset_left = 160.0
-offset_top = 324.0
-offset_right = 768.0
-offset_bottom = 476.0
+offset_left = 568.0
+offset_top = -428.0
+offset_right = 944.0
+offset_bottom = -270.0
 theme_override_constants/line_spacing = 8
 text = "Exponaut
-By: Pawlogates
+Created by: Pawlogates
 Thanks for playing!
-BETA-v0.9"
+BETA - v0.9.4 (post refactor)"
+horizontal_alignment = 1
 
 [node name="block_button_sounds" type="Timer" parent="."]
 process_mode = 3
@@ -90,6 +102,192 @@ one_shot = true
 [node name="quit_delay" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 2
+offset_left = 196.0
+offset_top = 912.0
+offset_right = 1037.0
+offset_bottom = 1019.0
+theme = ExtResource("4_q74v4")
+theme_override_font_sizes/font_size = 20
+text = "Press ESC to open menu. (do it a few times!)
+Also press tilde (~) for cool stuff.
+Press Shift + tilde for debug mode, don't do it on your first time though :)"
+
+[node name="screen_decoration_gears" parent="." instance=ExtResource("7_q74v4")]
+layout_mode = 1
+
+[node name="Control2" type="Control" parent="."]
+z_index = -15
+material = ExtResource("7_2hc0d")
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Control2"]
+z_index = -10
+material = ExtResource("7_2hc0d")
+layout_mode = 0
+offset_left = -776.0
+offset_top = -692.0
+offset_right = 680.0
+offset_bottom = -204.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect2" type="TextureRect" parent="Control2"]
+z_index = -10
+layout_mode = 0
+offset_left = -264.0
+offset_top = -292.0
+offset_right = 544.0
+offset_bottom = 196.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect3" type="TextureRect" parent="Control2"]
+z_index = -10
+layout_mode = 0
+offset_left = 488.0
+offset_top = -292.0
+offset_right = 840.0
+offset_bottom = 208.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect4" type="TextureRect" parent="Control2"]
+z_index = -10
+layout_mode = 0
+offset_left = 816.0
+offset_top = -196.0
+offset_right = 1568.0
+offset_bottom = 292.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect5" type="TextureRect" parent="Control2"]
+z_index = -9
+layout_mode = 0
+offset_left = 564.0
+offset_top = -532.0
+offset_right = 1668.0
+offset_bottom = -32.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect6" type="TextureRect" parent="Control2"]
+z_index = -10
+layout_mode = 0
+offset_left = -680.0
+offset_top = -20.0
+offset_right = 344.0
+offset_bottom = 812.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect7" type="TextureRect" parent="Control2"]
+z_index = -10
+layout_mode = 0
+offset_left = -1336.0
+offset_top = -396.0
+offset_right = -136.0
+offset_bottom = 76.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect8" type="TextureRect" parent="Control2"]
+z_index = -10
+layout_mode = 0
+offset_left = -1216.0
+offset_top = -996.0
+offset_right = -360.0
+offset_bottom = -268.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect14" type="TextureRect" parent="Control2"]
+z_index = -9
+layout_mode = 0
+offset_left = -1812.0
+offset_top = -796.0
+offset_right = -616.0
+offset_bottom = -68.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect9" type="TextureRect" parent="Control2"]
+z_index = -11
+material = ExtResource("7_2hc0d")
+layout_mode = 0
+offset_left = -992.0
+offset_top = -28.0
+offset_right = -640.0
+offset_bottom = 588.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect10" type="TextureRect" parent="Control2"]
+z_index = -10
+layout_mode = 0
+offset_left = -1448.0
+offset_top = 300.0
+offset_right = -424.0
+offset_bottom = 1132.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect11" type="TextureRect" parent="Control2"]
+z_index = -10
+material = ExtResource("7_2hc0d")
+layout_mode = 0
+offset_left = -1656.0
+offset_top = -204.0
+offset_right = -944.0
+offset_bottom = 420.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect12" type="TextureRect" parent="Control2"]
+z_index = -11
+material = ExtResource("7_2hc0d")
+layout_mode = 0
+offset_left = 264.0
+offset_top = 108.0
+offset_right = 976.0
+offset_bottom = 732.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="TextureRect13" type="TextureRect" parent="Control2"]
+z_index = -10
+material = ExtResource("7_2hc0d")
+layout_mode = 0
+offset_left = 928.0
+offset_top = -148.0
+offset_right = 1944.0
+offset_bottom = 788.0
+texture = SubResource("AtlasTexture_ooxfa")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -10
+layout_mode = 0
+offset_left = -20.0
+offset_top = -1116.0
+offset_right = 1900.0
+offset_bottom = -36.0
+rotation = 0.293131
+color = Color(0.25098, 0.666667, 0.819608, 0.298039)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+z_index = -10
+layout_mode = 0
+offset_left = -696.0
+offset_top = 1900.0
+offset_right = 1224.0
+offset_bottom = 2980.0
+rotation = -0.888365
+color = Color(0.788235, 0.564706, 0.196078, 0.196078)
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_ooxfa")
+autoplay = true
 
 [connection signal="timeout" from="block_button_sounds" to="." method="_on_block_button_sounds_timeout"]
 [connection signal="timeout" from="block_buttons" to="." method="_on_buttons_blocked_timeout"]

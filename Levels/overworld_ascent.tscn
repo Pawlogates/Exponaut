@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="3_m0g8j"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="5_ljgc4"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="7_y6mvm"]
-[ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="8_gxha1"]
+[ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_level_transition.tscn" id="8_gxha1"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="9_ylxfu"]
 [ext_resource type="Texture2D" uid="uid://dnkumwh3w5j5g" path="res://Assets/Graphics/backgrounds/bg_front_clouds.png" id="10_xjj5x"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="11_xgaeo"]

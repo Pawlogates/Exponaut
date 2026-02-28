@@ -76,7 +76,7 @@ var layer1_alt_is_playing = false
 @export var cooldown_layer4_toggle_fade : float = 120.0
 
 
-@export var layer1_max_volume : float = 0.25
+@export var layer1_max_volume : float = 1.0
 @export var layer2_max_volume : float = 1.0
 @export var layer3_max_volume : float = 1.0
 @export var layer4_max_volume : float = 1.0
@@ -97,7 +97,7 @@ var random_cooldown_fade_range : float = 600.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	layer1_max_volume = 0.05 # DEBUG
+	#layer1_max_volume = 0.05 # DEBUG
 	
 	Globals.play_music_random.connect(play_music_random)
 	Globals.refreshed0_5.connect(update_is_playing)
@@ -322,7 +322,7 @@ func layer_play(target_id : String, interrupt : bool = false):
 
 
 # Only the first layer can have its music tracks smoothly transition between eachother.
-func music_change(filepath, layer_id : String = "1", smooth_transition : bool = true):
+func music_change(filepath, smooth_transition : bool = true, volume : float = 1.0, layer_id : String = "1"):
 	Globals.dm("Changing main music layer's music track file to: " + Globals.get_filepath(filepath, false), "PINK")
 	
 	var layer = get("layer" + layer_id)
@@ -355,6 +355,9 @@ func music_change(filepath, layer_id : String = "1", smooth_transition : bool = 
 			layer1_alt_fade_active = true
 			layer1_alt_fade_direction = 0
 			layer_play("all")
+	
+	if not smooth_transition:
+		layer1.volume_linear = volume
 
 
 # This function should not set anything to "true", as that should be done at the time of reassigning a music track file.

@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://1yrqwkydp78d"]
+[gd_scene load_steps=10 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Script" uid="uid://bgd2v1alhdml" path="res://Scripts/levelSet_screen.gd" id="2_7kq8d"]
 [ext_resource type="AudioStream" uid="uid://bwf4nucobwg4x" path="res://Assets/Sounds/music/intense1.mp3" id="3_e37xu"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_icvp0"]
 
 [sub_resource type="Gradient" id="Gradient_uas2u"]
 colors = PackedColorArray(0.618933, 1.73271e-06, 3.85046e-07, 1, 0, 0, 0, 1)
@@ -35,7 +36,6 @@ position = Vector2(960, 540)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_e37xu")
-volume_db = -23.853
 autoplay = true
 
 [node name="background" type="TextureRect" parent="."]
@@ -75,3 +75,12 @@ shape = SubResource("RectangleShape2D_hirpx")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="blocked_zone"]
 position = Vector2(-760, 896)
 shape = SubResource("RectangleShape2D_8nxm7")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 96.0
+offset_top = 64.0
+offset_right = 518.0
+offset_bottom = 97.5
+theme = ExtResource("3_icvp0")
+text = "hover over a level icon to see its info"

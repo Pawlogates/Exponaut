@@ -77,6 +77,10 @@ func destabilize_buttons_randomize(d_pos_x : bool = true, d_pos_y : bool = true,
 		
 		destabilize_type = l_destabilize_type.pick_random()
 		
+		if destabilize_type != "scale": # This type should be the most common, as it looks the coolest.
+			if randi_range(0, 2):
+				continue
+		
 		if destabilize_type == "pos_y" or destabilize_type == "pos_xy":
 			Globals.message_debug(str("Rolled an uncommon destabilization type (%s). There is now a 50 percent chance for it to be considered valid." % str(destabilize_type)), 1)
 			if randi_range(0, 20) > 10 : valid = false ; Globals.message_debug("The 50 percent chance roll has failed. Retrying...", 2)
@@ -169,7 +173,6 @@ var ready_buttons = 0
 
 func on_button_ready():
 	ready_buttons += 1
-	print(type, "SUP")
 	Globals.message_debug(str("Ready menu buttons: %s/%s" % [ready_buttons, len(container_buttons.get_children())]))
 	if ready_buttons == len(container_buttons.get_children()) or type == "Array_choice":
 		if randomize_default_preset : destabilize_buttons_randomize() # No arguments means: "default preset".
@@ -289,11 +292,14 @@ func _on_btn_start_new_game_pressed(block_buttons_time : float = 1.0) -> void:
 	Globals.change_main_scene(Globals.scene_start_area)
 
 func _on_btn_continue_pressed(block_buttons_time : float = 1.0) -> void:
-	pass # Replace with function body.
+	Globals.change_main_scene(SaveData.saved_last_level_filepath)
 
 func _on_btn_select_level_set_pressed(block_buttons_time : float = 1.0) -> void:
 	Globals.spawn_menu(Globals.scene_menu_select_levelSet, [], Globals.window_size / 2)
 	queue_free()
+
+func _on_btn_close_pressed() -> void:
+	delete_menu()
 
 # MAIN MENU - [END]
 

@@ -45,6 +45,7 @@ visible_characters = 0
 visible_ratio = 0.0
 
 [node name="TotalCollectibles_collected" type="CenterContainer" parent="."]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0
@@ -67,6 +68,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="filler_TotalCollectibles_collected" type="CenterContainer" parent="."]
+visible = false
 anchors_preset = 3
 anchor_left = 1.0
 anchor_top = 1.0

@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://cxoirmq0nsnci"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_w2s4c"]
+[ext_resource type="SpriteFrames" uid="uid://cypmue75lyx5w" path="res://Assets/Graphics/sprites/packed/collectibles/kit_health.tres" id="2_j5soa"]
+
+[node name="kit_health" instance=ExtResource("1_w2s4c")]
+score_value = 10
+is_healthItem = true
+heal_player = true
+heal_value = 25
+award_score = false
+entity_name = "apple"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_j5soa")
+animation = &"anim"
+frame_progress = 0.640815

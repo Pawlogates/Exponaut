@@ -13,6 +13,7 @@ movement_type = "follow_player_x_if_spotted"
 family = "enemy"
 can_move = true
 ignore_gravity = false
+on_wall_change_velocity = true
 patrolling = true
 breakable = true
 start_animation = "none"
@@ -24,13 +25,11 @@ entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("3_12ie6")
-animation = &"idle"
 
 [node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_0njdk")]
 z_index = -4
 position = Vector2(-18, -24)
 scale = Vector2(0.085, 0.085)
-randomize_anim_name_limited = true
 
 [node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
 position = Vector2(256, 0)

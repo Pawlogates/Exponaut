@@ -1,0 +1,134 @@
+[gd_scene load_steps=4 format=3 uid="uid://bs1uryh81tn0f"]
+
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="1_l8myi"]
+[ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="2_o1adl"]
+[ext_resource type="Texture2D" uid="uid://mb1sy1wnniyj" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_o1adl"]
+
+[node name="screen_decoration_gears" type="Control"]
+z_index = 50
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="decoration_gear" parent="." instance=ExtResource("1_l8myi")]
+position = Vector2(-968, 212)
+
+[node name="decoration_gear3" parent="." instance=ExtResource("1_l8myi")]
+position = Vector2(104, -572)
+scale = Vector2(0.75, 0.75)
+
+[node name="decoration_gear5" parent="." instance=ExtResource("1_l8myi")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(488, -572)
+scale = Vector2(0.5, 0.5)
+
+[node name="decoration_gear6" parent="." instance=ExtResource("1_l8myi")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(-1016, -44)
+scale = Vector2(0.75, 0.75)
+
+[node name="decoration_gear7" parent="." instance=ExtResource("1_l8myi")]
+modulate = Color(0, 0, 0, 1)
+position = Vector2(56, 580)
+
+[node name="decoration_gear4" parent="." instance=ExtResource("1_l8myi")]
+z_index = -5
+position = Vector2(560, 516)
+
+[node name="decoration_gear2" parent="." instance=ExtResource("1_l8myi")]
+position = Vector2(944, 508)
+scale = Vector2(2, 2)
+
+[node name="gear" parent="." instance=ExtResource("2_o1adl")]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+position = Vector2(520, 708)
+rotation = 0.0921124
+scale = Vector2(3.85082, 1.58079)
+
+[node name="gear2" parent="." instance=ExtResource("2_o1adl")]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+position = Vector2(1336, 108)
+rotation = -1.08243
+scale = Vector2(3.99801, 2.82346)
+
+[node name="gear3" parent="." instance=ExtResource("2_o1adl")]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+position = Vector2(824, 428)
+rotation = -1.08243
+
+[node name="gear4" parent="." instance=ExtResource("2_o1adl")]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+position = Vector2(-1216, 308)
+rotation = -0.423527
+scale = Vector2(2.18453, 3.76366)
+
+[node name="gear5" parent="." instance=ExtResource("2_o1adl")]
+modulate = Color(0, 0, 0, 1)
+z_index = 10
+position = Vector2(312, -780)
+rotation = -0.993025
+scale = Vector2(1.96582, 1.48284)
+
+[node name="TextureRect" type="TextureRect" parent="."]
+light_mask = 0
+z_index = 15
+layout_mode = 0
+offset_left = -880.0
+offset_top = 404.0
+offset_right = 1040.0
+offset_bottom = 944.0
+rotation = -0.279048
+texture = ExtResource("3_o1adl")
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+light_mask = 0
+z_index = 15
+layout_mode = 0
+offset_left = -1352.0
+offset_top = -148.0
+offset_right = 568.0
+offset_bottom = 392.0
+rotation = 0.333093
+texture = ExtResource("3_o1adl")
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+light_mask = 0
+z_index = 15
+layout_mode = 0
+offset_left = -1352.0
+offset_top = -148.0
+offset_right = 568.0
+offset_bottom = 392.0
+rotation = 0.333093
+texture = ExtResource("3_o1adl")
+
+[node name="TextureRect4" type="TextureRect" parent="."]
+light_mask = 0
+z_index = 15
+layout_mode = 0
+offset_left = -896.0
+offset_top = -1044.0
+offset_right = 1024.0
+offset_bottom = -504.0
+rotation = 1.34764
+texture = ExtResource("3_o1adl")
+
+[node name="TextureRect5" type="TextureRect" parent="."]
+light_mask = 0
+z_index = 15
+layout_mode = 0
+offset_left = 1000.0
+offset_top = 4.00002
+offset_right = 2920.0
+offset_bottom = 544.0
+rotation = 3.43593
+texture = ExtResource("3_o1adl")

@@ -4,7 +4,6 @@
 
 [node name="tileset_main" type="TileMap"]
 light_mask = 512
-z_index = -1
 texture_filter = 1
 tile_set = ExtResource("1_m3yry")
 rendering_quadrant_size = 64

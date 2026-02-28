@@ -6,6 +6,7 @@
 [node name="bomb" instance=ExtResource("1_vnyyt")]
 on_death_effect_thrownAway = true
 collectable = false
+family = "enemy"
 can_move = true
 ignore_gravity = false
 on_timeout_death = true
@@ -29,4 +30,3 @@ entity_type = "projectile"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_r0vmc")
-animation = &"idle"

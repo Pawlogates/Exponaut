@@ -509,16 +509,17 @@ on_death_effect_thrownAway = true
 on_death_decoration_nodes_effect_thrownAway = true
 collectable = false
 hittable = true
-health_value = 10
+health_value = 100
 score_value = 100
 movement_type = "move_x"
 speed = 200
 family = "enemy"
 can_move = true
 ignore_gravity = false
+on_wall_change_velocity = true
+on_ledge_turn = true
 on_death_spawn_entity = true
 on_death_spawn_entity_scene_filepath = "uid://oxvewjp1soes"
-on_death_spawn_entity_quantity = 2
 on_hit_spawn_entity = true
 on_hit_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
 on_hit_spawn_entity_quantity = 3
@@ -545,12 +546,12 @@ on_alt_walk_text_delete_cooldown = 1.0
 on_alt_walk_text_anim_speed_scale = 1.5
 on_alt_walk_text_anim_add_offset = 3.0
 on_alt_walk_text_next_character_cooldown = 0.025
+on_wall_sprite_anim_reflect_straight = true
 entity_name = "togglebot"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_i7pjj")
-animation = &"walk_alt"
-frame_progress = 0.184327
+animation = &"attack"
 
 [node name="animation_general" parent="sprite" index="1"]
 libraries = {
@@ -561,10 +562,11 @@ libraries = {
 z_index = -4
 position = Vector2(-21, -5)
 scale = Vector2(0.085, 0.085)
-randomize_anim_name_limited = true
 
 [node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("3_i7pjj")]
 z_index = -4
 position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)
-randomize_anim_name_limited = true
+
+[node name="text_container" parent="." index="3"]
+scale = Vector2(0.5, 0.5)

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://blmkkjnhipek" path="res://Scripts/trigger_positional.gd" id="1_2kcyo"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7bp8d"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v5wis"]
 size = Vector2(64, 64)
 
 [node name="trigger_positional" type="Area2D"]
@@ -14,7 +14,7 @@ zoomCamera = false
 
 [node name="shape" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
-shape = SubResource("RectangleShape2D_7bp8d")
+shape = SubResource("RectangleShape2D_v5wis")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0

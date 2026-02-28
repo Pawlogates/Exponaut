@@ -14,12 +14,12 @@ on_timeout_death = true
 on_timeout_death_cooldown = 1.0
 on_spawn_sfx_death = true
 start_animation = "none"
+override_death_type = "instant"
 entity_name = "explosion"
 entity_type = "projectile"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_ay3p7")
-animation = &"idle"
 
 [node name="collision_main" parent="." index="1"]
 disabled = true

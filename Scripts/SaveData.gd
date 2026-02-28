@@ -288,9 +288,18 @@ var saved_ambience_active = false
 var never_saved = true
 
 
+func _ready() -> void:
+	pass
+
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("5"):
+		load_playerData()
+
+
 # Player-related information, mostly used in the overworld levels.
 func save_playerData(save_player_position):
 	Globals.reassign_general()
+	saved_last_level_filepath = Globals.World.level_filepath
 	
 	if save_player_position: # Doesn't save current player position if a save is triggered by entering a portal.
 		if Globals.Player.last_checkpoint_pos == Vector2(0, 0):
@@ -346,15 +355,17 @@ func save_playerData(save_player_position):
 	never_saved = false
 	
 	# Save all above properties to the playerData.save file.
-	save_file("user://playerData.save", "data_playerData")
+	save_file(Globals.d_playerData.replace("[replace_with_slot_id]", slot_current) + "/playerData" + ".save", "data_playerData")
 
 
 func load_playerData():
-	if not FileAccess.file_exists("user://saves/playerData/playerData.save"):
+	var filepath : String = Globals.d_playerData.replace("[replace_with_slot_id]", slot_current) + "/playerData" + ".save"
+	
+	if not FileAccess.file_exists(filepath):
 		Globals.message_debug("Couldn't find the playerData.save file.")
 		return
 		
-	var file = FileAccess.open("user://saves/playerData.save", FileAccess.READ)
+	var file = FileAccess.open(filepath, FileAccess.READ)
 	while file.get_position() < file.get_length():
 		var json = JSON.new()
 		var json_line = file.get_line() # A "line" in this case refers to the entirety of json's contents.
@@ -405,7 +416,7 @@ func load_playerData():
 
 
 # Resets saved player-related properties (applied in overworld levels):
-func reset_playerData(slot_id : String, levelSet_id: String):
+func reset_playerData(slot_id : String = slot_current, levelSet_id : String = Globals.levelSet_id):
 	saved_last_level_filepath = "none"
 	
 	saved_position_x = 0 # Saved overworld player position, to be applied when loading back into any of the overworld-type levels.
@@ -440,9 +451,11 @@ func reset_playerData(slot_id : String, levelSet_id: String):
 	never_saved = true
 
 
-func delete_playerData(slot_id : String, property_name : String):
+func delete_playerData(slot_id : String = slot_current, property_name : String = "all"):
 	var dir : DirAccess
-	if FileAccess.file_exists(Globals.d_playerData) : dir = DirAccess.open(Globals.d_playerData)
+	var dirpath : String = Globals.d_playerData.replace("[replace_with_slot_id]", slot_id)
+	
+	if FileAccess.file_exists(dirpath) : dir = DirAccess.open(dirpath)
 	else : Globals.dm("The 'playerData' save file directory doesn't exist.") ; return
 	
 	if slot_id == "all":
@@ -505,7 +518,7 @@ func save_levelSet(list_levelSet_id):
 		save_file(Globals.d_levelSet + "/levelSet_" + levelSet_id + ".save", "data_levelSet")
 
 
-func load_levelSet(list_levelSet_id):
+func load_levelSet(list_levelSet_id : Array = ["MAIN"]):
 	for levelSet in list_levelSet_id:
 		var save_filepath = Globals.dirpath_saves + "/levelSet_" + levelSet
 		if not FileAccess.file_exists(save_filepath):
@@ -549,10 +562,12 @@ func reset_levelSet(slot_id : String, levelSet_id: String): # Example id: "MAIN,
 			set("saved_" + levelSet_id + str(level_number), default_saved_level)
 
 
-func delete_levelSet(slot_id : String, levelSet_id: String):
+func delete_levelSet(slot_id : String = slot_current, levelSet_id: String = "none"):
 	var dir : DirAccess
-	if FileAccess.file_exists(Globals.d_levelSet) : dir = DirAccess.open(Globals.d_levelSet)
-	else : Globals.dm("The 'levelSet' save file directory doesn't exist.") ; return
+	var dirpath : String = Globals.d_levelSet.replace("[replace_with_slot_id]", slot_id)
+	
+	if FileAccess.file_exists(dirpath) : dir = DirAccess.open(dirpath)
+	else : print("The 'levelSet' save file directory doesn't exist.") ; return
 	
 	if slot_id == "all":
 		for filename in dir.get_files():
@@ -713,7 +728,6 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 		Globals.combo_tier = 1
 		Globals.combo_streak = 0
 	
-	print(levelState_slot_player_position_x[quicksave_slot_id])
 	Globals.levelState_loaded.emit()
 
 
@@ -726,14 +740,29 @@ func save_file(filepath : String, data_function : String):
 
 
 # Functions that delete the game's save files.
-func delete_levelState(level_id : String, slot_id : String = slot_current): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
-	var dir : DirAccess
-	if FileAccess.file_exists(Globals.d_levelState) : dir = DirAccess.open(Globals.d_levelState)
-	else : Globals.dm("The 'levelState' save file directory doesn't exist.") ; return
+func delete_levelState(slot_id : String = slot_current, level_id : String = "none"): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
+	var dirpath : String = Globals.d_levelState.replace("[replace_with_slot_id]", slot_id)
 	
-	if slot_id == "all":
+	var dir = DirAccess.open(dirpath)
+	
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				print("Found directory: " + file_name)
+			else:
+				print("Found file: " + file_name)
+			file_name = dir.get_next()
+	else:
+		print("Nothing was found at the specified path.")
+		Globals.dm("The 'levelState' save file directory doesn't exist.")
+		return
+	
+	if level_id == "all":
 		for filename in dir.get_files():
 			delete_file(filename, dir)
+			Globals.dm("Deleted file: '%s'." % filename)
 	
 	else:
 		delete_file("levelState_" + level_id + "_" + slot_id, dir)
@@ -780,8 +809,8 @@ func delete_slot(id : String): # Deletes save files from the game's data folder.
 	delete_levelSet(id, "all")
 
 func wipe_slot(id : String):
-	reset_slot("all")
-	delete_slot("all")
+	reset_slot(id)
+	delete_slot(id)
 
 
 func create_save_directories():

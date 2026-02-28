@@ -81,6 +81,12 @@ layout_mode = 2
 text_manager_message = "[/]Quit Game"
 decoration_base_size_multiplier = Vector2(0.4, 1)
 
+[node name="btn_Close" parent="container_buttons" index="10" instance=ExtResource("2_0mlty")]
+z_index = 25
+layout_mode = 2
+text_manager_message = "[/]Close"
+decoration_base_size_multiplier = Vector2(0.4, 1)
+
 [node name="debug_real_size_container_buttons" parent="." index="4"]
 color = Color(0, 0, 0, 0.365)
 
@@ -94,3 +100,4 @@ color = Color(0, 0, 0, 0.365)
 [connection signal="pressed" from="container_buttons/btn_Settings" to="." method="_on_btn_settings_pressed" binds= [2.0]]
 [connection signal="pressed" from="container_buttons/btn_Quit to Main Menu" to="." method="_on_btn_quit_to_main_menu_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Quit Game" to="." method="_on_btn_quit_game_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_Close" to="." method="_on_btn_close_pressed"]

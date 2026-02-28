@@ -40,6 +40,7 @@ func _ready() -> void:
 			timer_hidden.start()
 
 func _process(delta: float) -> void:
+	collision.scale = uncover_on_proximity_distance
 	if is_hidden : modulate.a = move_toward(modulate.a, hidden_opacity, delta / 2)
 	else : modulate.a = move_toward(modulate.a, uncovered_opacity, delta / 2)
 
@@ -49,6 +50,7 @@ func _on_scan_area_entered(area: Area2D) -> void:
 	if not is_hidden : return
 	
 	Globals.dm("Player has entered a Hidden Zone.")
+	print("ENTERED")
 	
 	if uncover_on_timeout:
 		if uncover_on_timeout_start_on_proximity:

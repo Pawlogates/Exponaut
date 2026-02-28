@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="7_kaxye"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="8_m1ei6"]
 [ext_resource type="PackedScene" uid="uid://bjvqua2q6ukcb" path="res://Objects/Decorations/deco_cloud.tscn" id="9_1ptj4"]
-[ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_areaTransition.tscn" id="10_ys34a"]
+[ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_level_transition.tscn" id="10_ys34a"]
 
 [node name="World" instance=ExtResource("1_uxcd1")]
 

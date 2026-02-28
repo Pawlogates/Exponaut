@@ -6,8 +6,8 @@ extends CharacterBody2D
 
 @onready var sprite = $sprite
 
-@onready var timer_attacking: Timer = $sprite/timer_attacking
-@onready var timer_attacked: Timer = $sprite/timer_attacked
+@onready var t_state_attacking: Timer = $sprite/timer_state_attacking
+@onready var t_state_damage: Timer = $sprite/timer_state_damage
 
 @onready var c_jump: Timer = $cooldown_jump
 @onready var c_spawn_entity: Timer = $cooldown_spawn_entity
@@ -99,6 +99,8 @@ var only_visual = false
 
 var removable = false
 
+var always_active = false
+
 signal collected_majorCollectible_module
 signal collected_majorCollectible_key
 
@@ -114,6 +116,7 @@ var wall_normal = Vector2(99, 99)
 var reset_puzzle_inside_zone = false # Right after the level is loaded, a "reset_puzzle" entity will look for nodes inside its coverage area ("scan_reset_puzzle_coverage" : "area2D") and add them all to the list ("reset_puzzle_nodes_inside_zone") which should NEVER change after that, for the entire playthrough.
 var reset_puzzle_delete_node_queued = false
 var reset_puzzle_nodes_inside_zone : Array
+var reset_puzzle_scan_active = true
 var reset_puzzle_block_movement = false
 var reset_puzzle_restored = false
 var reset_puzzle_first_time = true
@@ -143,11 +146,11 @@ var effect_collected_multiple_active = false
 
 @export_group("Main information.") # Section start.
 
-@export var health_value = 3
+@export var health_value = 30
 @export var damage_value = 10
 @export var score_value = 25
 
-@export_enum("stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var movement_type : String = "normal"
+@export_enum("stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var movement_type : String = "normal"
 
 @export var speed = 500
 @export var jump_velocity = -600
@@ -198,17 +201,59 @@ var effect_collected_multiple_active = false
 @export var gravity_multiplier_x = 1.0
 @export var gravity_multiplier_y = 1.0
 
+# Behavior triggered on touching the wall:
+@export var on_wall_change_direction = true
 @export var on_wall_change_direction_x = true
+@export var on_wall_change_direction_y = false
+
 @export var on_wall_change_speed = false
 @export var on_wall_change_speed_multiplier = 0.5
-@export var on_wall_change_velocity = true
+
+@export var on_wall_change_velocity = false
+@export var on_wall_change_velocity_x = true
+@export var on_wall_change_velocity_y = true
+@export var on_wall_change_velocity_value : Vector2 = Vector2(0, -250) # Disabled if equal to "-1".
 @export var on_wall_change_velocity_multiplier = Vector2(0.5, 0.5)
 @export var on_wall_float = false
 @export var on_wall_death = false
 
+# Behavior triggered on touching the floor:
+@export var on_floor_change_direction = false
+@export var on_floor_change_direction_x = false
+@export var on_floor_change_direction_y = true
+@export var on_floor_change_speed = false
+@export var on_floor_change_speed_multiplier = 0.5
+
+@export var on_floor_change_velocity = false
+@export var on_floor_change_velocity_x = true
+@export var on_floor_change_velocity_y = true
+@export var on_floor_change_velocity_value : Vector2 = Vector2(0, -250) # Disabled if equal to "-1".
+@export var on_floor_change_velocity_multiplier = Vector2(0.5, 0.5)
+@export var on_floor_float = false
+@export var on_floor_death = false
+
 @export var on_ledge_turn = false
 @export var on_ledge_speed_multiplier = 1.0
 @export var on_ledge_death = false
+
+# Behavior triggered on touching the wall:
+@export var on_hit_change_direction_x_copy_entity = false
+@export var on_hit_change_direction_y_copy_entity = false
+@export var on_hit_change_direction_x = false
+@export var on_hit_change_direction_y = false
+@export var on_hit_change_speed = false
+@export var on_hit_change_speed_multiplier = 0.5
+
+@export var on_hit_change_velocity_x_copy_entity = true
+@export var on_hit_change_velocity_y_copy_entity = false
+@export var on_hit_change_velocity_x_copy_entity_multiplier : float = 0.5
+@export var on_hit_change_velocity_y_copy_entity_multiplier : float = 0.5
+@export var on_hit_change_velocity_x = false
+@export var on_hit_change_velocity_y = true
+@export var on_hit_change_velocity_value : Vector2 = Vector2(0, -500) # Disabled if equal to "-1".
+@export var on_hit_change_velocity_multiplier = Vector2(0.5, 0.5)
+@export var on_hit_float = false
+@export var on_hit_death = false
 
 @export var ascending = false
 
@@ -631,8 +676,6 @@ var effect_collected_multiple_active = false
 @export var anim_alternate_walk = false
 @export var anim_alternate_walk_hittable_only_during = false
 
-@export var on_wall_jump_velocity : float = -250
-
 @export_group("") # End of section.
 
 
@@ -648,6 +691,8 @@ var effect_collected_multiple_active = false
 
 @export var disable_sprite_anims = ["none"]
 @export var disable_anims = ["none"]
+
+@export var override_death_type : String = "none"
 
 @export var idle_sfx = false
 @export var idle_sfx_cooldown = 4.0
@@ -722,10 +767,14 @@ var effect_collected_multiple_active = false
 
 @export var on_spawn_effect_grow = true
 @export var effect_grow_target_scale = Vector2(1, 1)
+@export var effect_grow_speed_multiplier : float = 1.0
 
 @export var on_death_effect_shrink = true
-@export var effect_shrink_target_scale = Vector2(1, 1)
+@export var effect_shrink_target_scale = Vector2(0.01, 0.01)
+@export var effect_shrink_speed_multiplier : float = 1.0
 @export var effect_shrink_delete : bool = true
+
+@export var on_wall_sprite_anim_reflect_straight : bool = false
 
 
 @export_group("") # End of section.
@@ -814,6 +863,8 @@ func basic_on_spawn():
 
 # Executes on entity entering the camera view.
 func basic_on_inactive():
+	if always_active : return
+	
 	active = false
 	
 	Globals.dm(str("Entity %s has been made INACTIVE." % entity_name), "ORANGE_RED")
@@ -831,8 +882,8 @@ func basic_on_inactive():
 	
 	collision_main.disabled = true
 	
-	timer_attacking.set_paused(true)
-	timer_attacked.set_paused(true)
+	t_state_attacking.set_paused(true)
+	t_state_damage.set_paused(true)
 	
 	#$jumpTimer.set_paused(true)
 	
@@ -846,6 +897,8 @@ func basic_on_inactive():
 
 # Executes on entity leaving the camera view.
 func basic_on_active():
+	if dead or collected : return
+	
 	active = true
 	
 	Globals.dm(str("Entity %s has been made ACTIVE." % entity_name), "ORANGE")
@@ -863,8 +916,8 @@ func basic_on_active():
 	
 	collision_main.disabled = false
 	
-	timer_attacking.set_paused(false)
-	timer_attacked.set_paused(false)
+	t_state_attacking.set_paused(false)
+	t_state_damage.set_paused(false)
 	
 	#$jumpTimer.set_paused(false)
 	
@@ -878,6 +931,8 @@ func basic_on_active():
 	
 	hitbox.set_monitorable(true)
 	hitbox.set_monitoring(true)
+	
+	reset_puzzle_restored = false
 
 
 func enemy_stunned():
@@ -888,11 +943,24 @@ func enemy_stunned():
 	hitbox.monitorable = true
 
 func basic_sprite_flipDirection():
-	if not dead:
-		if direction_active_x > 0:
-			sprite.flip_h = false
-		else:
+	if dead : return
+	
+	if direction_active_x > 0:
+		sprite.flip_h = false
+	else:
+		sprite.flip_h = true
+	
+	if look_at_player_x:
+		if position.x < Player.position.x:
 			sprite.flip_h = true
+		else:
+			sprite.flip_h = false
+	
+	if look_at_player_y:
+		if position.y < Player.position.y:
+			sprite.flip_v = true
+		else:
+			sprite.flip_v = false
 
 
 # Randomize every single property.

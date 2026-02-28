@@ -1,6 +1,7 @@
 extends CanvasLayer
 
-@onready var HUD = $HUD
+@onready var HUD : Node
+@onready var display_messages : Node
 
 @onready var screen_black = $screen_black
 @onready var animation_player = $AnimationPlayer
@@ -35,3 +36,4 @@ func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_
 
 func reassign_general():
 	HUD = $HUD
+	display_messages = $display_messages

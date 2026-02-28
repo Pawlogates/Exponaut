@@ -1,7 +1,7 @@
 extends Control
 
-var health = 100
-var health_max = 100
+var health = 25
+var health_max = 120
 
 @onready var health_left: Control = %health_left
 @onready var health_middle: ColorRect = %health_middle
@@ -16,6 +16,7 @@ var health_max = 100
 
 func _ready() -> void:
 	Globals.player_damage.connect(change_health_value)
+	Globals.player_heal.connect(change_health_value)
 	Globals.update_player_health.connect(update_display)
 	update_display()
 
@@ -73,6 +74,8 @@ func _on_debug_hp_subtract_pressed() -> void:
 
 
 func change_health_value(value : int = 1):
+	health = Globals.player_health
+	
 	for x in range(abs(value)):
 		if value > 0 : health += 1
 		if value < 0 : health -= 1

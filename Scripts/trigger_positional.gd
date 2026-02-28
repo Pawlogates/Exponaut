@@ -78,18 +78,18 @@ func _process(delta):
 			#$/root/World.music.volume_db = trigger value
 			
 			if RESET_OFFSET and RESET_ZOOM:
-				Globals.World.camera.position[0] = lerp(Globals.World.camera.position[0], 0.0, delta)
-				Globals.World.camera.position[1] = lerp(Globals.World.camera.position[1], 0.0, delta)
-				Globals.World.camera.zoom = Globals.World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+				Globals.World.camera.position[0] = lerp(Globals.World.camera.position[0], 0.0, delta * 20)
+				Globals.World.camera.position[1] = lerp(Globals.World.camera.position[1], 0.0, delta * 20)
+				Globals.World.camera.zoom = Globals.World.camera.zoom.lerp(Vector2(1.0, 1.0), delta * 20)
 				return
 			
 			if RESET_OFFSET:
-				$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
-				$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
+				$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta * 20)
+				$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta * 20)
 				return
 				
 			if RESET_ZOOM:
-				$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+				$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta * 20)
 				return
 			
 			if moveCamera:

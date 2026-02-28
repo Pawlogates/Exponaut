@@ -1,11 +1,15 @@
 extends Node2D
 
+@onready var label: Label = $Label
+
 var input_log = []  # Stores all inputs
 
 var recording_active = false
 var playback_active = false
 
 var log_number = 0
+
+var selected_playback_id = 0
 
 @onready var player = Node2D
 @onready var world = Node2D

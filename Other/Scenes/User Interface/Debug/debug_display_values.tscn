@@ -206,6 +206,43 @@ text = "X"
 
 [node name="animation_ui" parent="." instance=ExtResource("4_qdv36")]
 
+[node name="shortcuts" type="Label" parent="."]
+z_index = 15
+offset_left = 1344.0
+offset_top = 608.0
+offset_right = 1874.0
+offset_bottom = 1037.83
+theme = ExtResource("2_osdyr")
+theme_override_font_sizes/font_size = 20
+text = "List of useful shortcuts:
+
+Tilde (~) : Show debug tools
+Shift + Tilde (~) : Toggle debug mode
+Forward Slash (/) : Show all collisions
+Ctrl + R : Restart current level
+Alt + 1 : Restart current level and ignore save state files
+Ctrl + 2 : Unlock camera from the player
+Ctrl + - : Zoom camera out
+Ctrl + + (nice) : Zoom camera in
+1/2/3/4... : Context sensitive debug functions
+(works only if debug mode is active - Shift + Tilde (~)
+F5 : Quicksave
+F6 : Quickload
+Shift + 1/2/3/4... : Quicksave at specific slot
+Ctrl + 1/2/3/4... : Quickload at specific slot
+LMB + RMB : Delete all debug messages"
+horizontal_alignment = 1
+
+[node name="hint" type="Label" parent="."]
+z_index = 15
+offset_top = 992.0
+offset_right = 752.0
+offset_bottom = 1024.0
+theme = ExtResource("2_osdyr")
+theme_override_font_sizes/font_size = 20
+text = "To hide the debug tools, click the buttons in the top right of the screen."
+horizontal_alignment = 1
+
 [connection signal="timeout" from="cooldown_refresh" to="." method="_on_cooldown_refresh_timeout"]
 [connection signal="pressed" from="close" to="." method="_on_close_pressed"]
 [connection signal="animation_finished" from="animation_ui" to="." method="_on_animation_ui_animation_finished"]

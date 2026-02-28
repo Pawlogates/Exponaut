@@ -39,3 +39,11 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.341176)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 256.0
+offset_top = 842.0
+offset_right = 796.0
+offset_bottom = 878.0
+text = "press Q or MIDDLEMOUSE to close the entity editor"

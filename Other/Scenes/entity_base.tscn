@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="3_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_c3p0q"]
-[ext_resource type="SpriteFrames" uid="uid://fvwbdon5rq11" path="res://Assets/Graphics/sprites/packed/projectiles/fireball.tres" id="3_fjle6"]
+[ext_resource type="SpriteFrames" uid="uid://cath3wbw0b8w4" path="res://Assets/Graphics/sprites/packed/collectibles/pineapple.tres" id="3_fjle6"]
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_84r7y"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_fjle6"]
 
@@ -12,7 +12,7 @@
 size = Vector2(62, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
-size = Vector2(32, 32)
+size = Vector2(64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_i18mk"]
 size = Vector2(512, 128)
@@ -24,13 +24,14 @@ size = Vector2(2048, 2048)
 size = Vector2(64, 64)
 
 [node name="base" type="CharacterBody2D" groups=["entity", "persistent"]]
+z_index = 1
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
 sprite_frames = ExtResource("3_fjle6")
-animation = &"anim"
+animation = &"idle"
 
 [node name="animation_all" parent="sprite" instance=ExtResource("4_84r7y")]
 unique_name_in_owner = true
@@ -41,9 +42,11 @@ unique_name_in_owner = true
 [node name="animation_color" parent="sprite" instance=ExtResource("5_fjle6")]
 unique_name_in_owner = true
 
-[node name="timer_attacking" type="Timer" parent="sprite"]
+[node name="timer_state_attacking" type="Timer" parent="sprite"]
+one_shot = true
 
-[node name="timer_attacked" type="Timer" parent="sprite"]
+[node name="timer_state_damage" type="Timer" parent="sprite"]
+one_shot = true
 
 [node name="cooldown_particles" type="Timer" parent="sprite"]
 
@@ -150,6 +153,9 @@ one_shot = true
 one_shot = true
 
 [connection signal="animation_looped" from="sprite" to="." method="_on_sprite_animation_looped"]
+[connection signal="timeout" from="sprite/timer_state_attacking" to="." method="_on_timer_state_attacking_timeout"]
+[connection signal="timeout" from="sprite/timer_state_damage" to="." method="_on_timer_state_damage_timeout"]
+[connection signal="timeout" from="sprite/cooldown_particles" to="." method="_on_cooldown_particles_timeout"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="timeout" from="cooldown_change_invincible2" to="." method="_on_timer_invincible_timeout"]

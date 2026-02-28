@@ -231,7 +231,14 @@ animations = [{
 "speed": 3.0
 }]
 
-[node name="pursuitron" instance=ExtResource("1_pd0id")]
+[node name="rabbot" instance=ExtResource("1_pd0id")]
+collectable = false
+hittable = true
+movement_type = "wave_x"
+family = "enemy"
+can_move = true
+sfx_self_collected_filepath = "uid://dlk43sxjkevef"
+entity_name = "rabbot"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_ti236")

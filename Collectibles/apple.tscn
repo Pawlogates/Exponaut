@@ -4,6 +4,8 @@
 [ext_resource type="SpriteFrames" uid="uid://dxklhfxjvxsjo" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_apple.tres" id="2_ylj0o"]
 
 [node name="apple" instance=ExtResource("1_p17no")]
+score_value = 10
+entity_name = "apple"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_ylj0o")

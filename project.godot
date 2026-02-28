@@ -15,7 +15,7 @@ warnings/check_invalid_track_paths=false
 [application]
 
 config/name="Exponaut v0.9"
-run/main_scene="uid://1ahj48o4tkw0"
+run/main_scene="uid://c370w0v3janyp"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/use_filter=false
 config/icon="res://Assets/Graphics/other/icon.svg"

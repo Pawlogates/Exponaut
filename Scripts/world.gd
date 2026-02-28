@@ -16,7 +16,7 @@ var debug_screen: Control # Added and deleted on demand.
 @onready var hud_collected_keys = Node
 @onready var hud_total_keys = Node
 
-var level_filepath = scene_file_path
+var level_filepath : String = "none"
 
 var level_time = 0
 var level_time_displayed = 0
@@ -36,7 +36,7 @@ var level_start_time = 0.0
 
 @export var final_level = false
 
-@export var player_start_health = 3
+@export var player_start_health = 100
 
 var total_keys = 0
 var total_collectibles = 0
@@ -95,10 +95,7 @@ signal reset_puzzle_all_nodes_ready
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	for scene in Globals.l_entity:
-		ResourceLoader.load(scene, "PackedScene", 2)
-	
-	ResourceLoader.load(scene_file_path, "PackedScene", 2)
+	level_filepath = scene_file_path
 	
 	uncover_matching_id.connect(on_uncover_matching_id)
 	
@@ -154,7 +151,7 @@ func _ready():
 		Globals.worldState_leftStartArea = true
 	
 	
-	last_area_filePath_save()
+	#last_area_filePath_save()
 	
 	if Globals.mode_scoreAttack:
 		var mode_scoreAttack_manager = load("res://Other/Scenes/Game Modes/mode_score_attack.tscn").instantiate()
@@ -240,15 +237,11 @@ func _ready():
 	
 	
 	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
-	if not level_type == "levelSet" and Globals.transition_triggered and Globals.transition_next != 0:
-		var areaTransition = get_node("%areaTransition" + str(Globals.transition_next))
-		if areaTransition.spawn_position != Vector2(0, 0):
-			print(areaTransition.spawn_position)
-			Player.position = areaTransition.spawn_position
-		else:
-			print(areaTransition.position)
-			Player.position = areaTransition.position
-	
+	if not level_type == "levelSet" and Globals.transition_triggered and Globals.transition_next != -1:
+		var level_transition_target = get_tree().get_first_node_in_group("level_transition" + str(Globals.transition_next))
+		
+		Player.position = level_transition_target.position + level_transition_target.transition_pos_offset
+		print("transition", Globals.transition_next)
 	
 	Player.camera.position_smoothing_enabled = false
 	
@@ -860,13 +853,16 @@ func change_main_scene_menu_start():
 
 
 func retry_checkpoint():
-	Overlay.animation("fade_black", false, 1.0, true)
+	await Overlay.animation("black_fade_in", 0.25, false, true)
 	
 	SaveData.load_levelState(Globals.level_id)
 	SaveData.load_playerData()
 	
 	Globals.player_health = player_start_health
+	Globals.player_heal.emit(player_start_health)
 	Player.dead = false
+	
+	Overlay.animation("black_fade_out", 0.25, false, false)
 
 
 func effect_stars():
@@ -881,12 +877,12 @@ func effect_stars():
 	add_child(star)
 
 
-# Save progress loaded from the main menu screen.
-func last_area_filePath_save():
-	if level_type != "overworld":
-		return
-	
-	SaveData.saved_last_level_filepath = level_filepath
+## Save progress loaded from the main menu screen.
+#func last_area_filePath_save():
+	#if level_type != "overworld":
+		#return
+	#
+	#SaveData.saved_last_level_filepath = level_filepath
 
 
 func reassign_player():
