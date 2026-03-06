@@ -90,6 +90,7 @@ var value20 = "none"
 
 
 func _ready() -> void:
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	update_labels()
 	animation_ui.play("show")
 

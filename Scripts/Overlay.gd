@@ -3,7 +3,7 @@ extends CanvasLayer
 @onready var HUD : Node
 @onready var display_messages : Node
 
-@onready var screen_black = $screen_black
+@onready var screen_color = $screen_color
 @onready var animation_player = $AnimationPlayer
 
 func _ready():
@@ -12,7 +12,7 @@ func _ready():
 	if Globals.gameState_debug:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
-	screen_black.color.a = 0.0
+	screen_color.color.a = 0.0
 
 func _physics_process(_delta: float) -> void:
 	pass

@@ -89,6 +89,7 @@ score_value = 250
 fall_speed = 250
 can_move = true
 ignore_gravity = false
+on_floor_death = true
 start_animation = "none"
 on_collected_anim_name = "general/rotate_around_y_fade_out"
 sfx_self_collected_filepath = "uid://dmuqg0hpa2bg2"
@@ -97,7 +98,6 @@ entity_name = "gem_timed"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_itbk8")
-animation = &"idle"
 frame_progress = 0.684993
 
 [node name="collision_main" parent="." index="1"]

@@ -4,7 +4,24 @@
 [ext_resource type="SpriteFrames" uid="uid://j2i2jftj1ger" path="res://Assets/Graphics/sprites/packed/boxes/piggybank.tres" id="2_ieprp"]
 
 [node name="piggybank_timed" instance=ExtResource("1_dte46")]
+collectable = false
+hittable = true
+family = "enemy"
+damage_to_player = false
+pushable_by_player = true
+can_move = true
+ignore_gravity = false
+breakable = true
+breakable_on_death_spawn_entity = true
+breakable_on_death_spawn_entity_scene_filepath = "uid://bq2hygqo7c6kk"
+breakable_on_death_spawn_entity_quantity = 12
+breakable_on_death_spawn_entity_pos_offset_range = [Vector2(-64, -128), Vector2(64, 128)]
+breakable_advanced_on_death_spawn_entity = true
+breakable_advanced_on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
+breakable_advanced_on_death_spawn_entity_quantity = 8
+start_animation = "none"
+entity_name = "piggybank_timed"
+entity_type = "box"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_ieprp")
-animation = &"idle"

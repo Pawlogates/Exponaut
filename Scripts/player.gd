@@ -51,7 +51,7 @@ var on_wall_normal = Vector2.ZERO
 var gravity = Globals.gravity
 
 @onready var sprite = $AnimatedSprite2D
-@onready var camera = $Camera2D
+@onready var camera = $camera
 @onready var sfx_manager = $sfx_manager
 @onready var combo_manager = $"Combo Manager"
 
@@ -89,8 +89,8 @@ var gravity = Globals.gravity
 @onready var hitbox_dash_scan_solid = $hitbox_dash_scan_solid
 
 
-@export var damage_value = 1 # Used when bouncing off an entity, NOT when attacking with a projectile/weapon.
-@export var health_value = 15 # So far it's handled through Global signals, and the value is Global too.
+@export var damage_value = 10 # Used when bouncing off an entity, NOT when attacking with a projectile/weapon.
+@export var health_value = 120 # So far it's handled through Global signals, and the value is Global too.
 
 
 # Properties:
@@ -190,7 +190,7 @@ func _ready():
 	Globals.max_scoreMultiplier_reached.connect(on_max_scoreMultiplier_reached)
 	Globals.combo_reset.connect(on_combo_reset)
 	
-	
+	await get_tree().create_timer(1.0, true).timeout
 	if World.camera_boundary_left != 0.0 or World.camera_boundary_right != 0.0 or World.camera_boundary_top != 0.0 or World.camera_boundary_bottom != 0.0:
 		camera.limit_left = World.camera_boundary_left
 		camera.limit_right = World.camera_boundary_right
@@ -204,6 +204,28 @@ func _ready():
 
 
 func _process(delta):
+	# delete this hack as soon as possible... and replace it
+	# hack - [start]
+	if dead:
+		sprite.position.y = 36
+		sprite.modulate = Color.RED
+		sprite.rotation_degrees = move_toward(sprite.rotation_degrees, 100, delta * 100)
+	elif sprite.modulate != Color(0,0,0,0):
+		sprite.position.y = -24
+		sprite.modulate.r = move_toward(sprite.modulate.r, 1, delta / 4)
+		sprite.modulate.g = move_toward(sprite.modulate.g, 1, delta / 4)
+		sprite.modulate.b = move_toward(sprite.modulate.b, 1, delta / 4)
+		sprite.rotation_degrees = 0
+	
+	if dead:
+		if on_floor:
+			velocity.y = randi_range(200, -2000)
+			velocity.x = randi_range(-2000, 2000)
+		if on_wall:
+			velocity.y = randi_range(200, -2000)
+			velocity.x = randi_range(-2000, 2000)
+	# hack - [end]
+	
 	# Handle JUST (1/3):
 	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
 	# Handle JUST (2/3):
@@ -520,6 +542,7 @@ func handle_jump(delta):
 	if can_jump and on_floor or can_jump and t_leniency_jump.time_left > 0.0:
 		
 		if Input.is_action_just_pressed("jump"):
+			Globals.spawn_scenes(World, Globals.scene_particle_special, 3, position + Vector2(24 * Globals.player_direction_x_active, 64), 8, Color(1, 1, 9, 0), Vector2(-0.6, -0.6), 10)
 			print("jumped")
 			Globals.message_debug("player jump")
 			can_jump = false
@@ -557,10 +580,12 @@ func handle_jump(delta):
 		if can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_down"):
 			Globals.message_debug("player air jump")
 			print("player air jump")
+			Globals.spawn_scenes(World, Globals.scene_particle_special, 12, position + Vector2(0, 24), 8, Color(0, 1, 0, 0), Vector2(-0.6, -0.6), 10)
 			if inside_water:
 				velocity.y = jump_velocity * 0.8 * inside_water_multiplier_x
 			else:
 				velocity.y = jump_velocity * 0.8
+			if Globals.player_direction_x : velocity.x = 200 * Globals.player_direction_x
 			
 			can_air_jump = false
 			
@@ -624,11 +649,11 @@ func handle_wall_jump():
 
 
 # Player damage (Received by player).
-func health_decrease(value):
-	if invulnerable or invincible or dead:
-		sfx(Globals.sfx_player_damage, 1.0, 0.0)
-		state_damage = true
-		t_state_damage.start()
+#func health_decrease(value):
+	#if invulnerable or invincible or dead:
+		#sfx(Globals.sfx_player_damage, 1.0, 0.0)
+		#state_damage = true
+		#t_state_damage.start()
 
 
 func charged_effect():
@@ -739,9 +764,9 @@ func _on_hitbox_main_area_entered(area):
 
 
 func saveState_loaded():
-	$Camera2D.position_smoothing_enabled = false
+	camera.position_smoothing_enabled = false
 	await get_tree().create_timer(0.1, false).timeout
-	$Camera2D.position_smoothing_enabled = true
+	camera.position_smoothing_enabled = true
 	
 	collision_main.shape.extents = Vector2(20, 56)
 	collision_main.position = Vector2(0, 0)
@@ -1101,7 +1126,7 @@ func handle_inside_zone():
 
 func handle_manual_player_death():
 	if Input.is_action_just_pressed("back"):
-		Globals.player_damage.emit(-99)
+		Globals.player_damage.emit(-99999, self)
 
 
 func handle_flight(delta):
@@ -1154,17 +1179,32 @@ func on_levelSet_loaded():
 	pass
 
 
-func reduce_health(value):
-	Globals.player_health -= value
+func reduce_health(value : int, source : Node):
+	Globals.player_health -= abs(value)
+	print(value)
+	print("reducing hp ", Globals.player_health)
+	if is_instance_valid(source) and not source.is_in_group("Player"):
+		if not source.can_move or source.velocity == Vector2(0, 0):
+			if position.x > source.position.x:
+				velocity.x = 500
+			else:
+				velocity.x = -500
+		else:
+			velocity.x = source.velocity.x * 2
+			velocity.y = -500
+	
 	invincible = true
 	t_invincible.start()
-	sfx(Globals.sfx_player_damage, 1.0, 0.0)
+	sfx(Globals.sfx_electric, 7.0, randf_range(0.5, 1.5))
+	sprite.modulate = Color.DARK_RED
 	
 	if Globals.player_health <= 0:
 		dead = true
 		World.retry_checkpoint()
-
-
+		Globals.player_health = health_value
+		
+		velocity.x = randi_range(-2000, 2000)
+		velocity.y = randi_range(-500, -3000)
 
 func increase_health(value):
 	Globals.player_health += value
@@ -1172,14 +1212,14 @@ func increase_health(value):
 	t_invincible.start()
 	sfx(Globals.sfx_player_heal, 1.0, 0.0)
 
-
 func kill():
 	Globals.player_health = 0
 	dead = true
 	sfx(Globals.sfx_player_death, 1.0, 0.0)
 
+
 func sfx(file, volume, pitch):
-	sfx_manager.sfx_play(Globals.sfx_player_jump, 1.0, 1.0)
+	sfx_manager.sfx_play(file, volume, pitch)
 
 
 func _on_timer_leniency_jump_timeout() -> void:
@@ -1275,4 +1315,4 @@ func _on_timer_state_damage_timeout() -> void:
 
 
 func _on_timer_invincible_timeout() -> void:
-	pass # Replace with function body.
+	invincible = false

@@ -165,8 +165,13 @@ var effect_collected_multiple_active = false
 
 @export var damage_from_entity = true
 @export var damage_from_entity_contact = true
-@export var damage_from_player = false
+@export var damage_from_player = true
 @export var damage_from_player_contact = false
+
+@export var damage_to_entity = true
+@export var damage_to_entity_contact = true
+@export var damage_to_player = true
+@export var damage_to_player_contact = true
 
 @export var pushable_by_entity = false
 @export var pushable_by_player = false
@@ -250,7 +255,7 @@ var effect_collected_multiple_active = false
 @export var on_hit_change_velocity_y_copy_entity_multiplier : float = 0.5
 @export var on_hit_change_velocity_x = false
 @export var on_hit_change_velocity_y = true
-@export var on_hit_change_velocity_value : Vector2 = Vector2(0, -500) # Disabled if equal to "-1".
+@export var on_hit_change_velocity_value : Vector2 = Vector2(0, -400) # Disabled if equal to "-1".
 @export var on_hit_change_velocity_multiplier = Vector2(0.5, 0.5)
 @export var on_hit_float = false
 @export var on_hit_death = false
@@ -775,6 +780,7 @@ var effect_collected_multiple_active = false
 @export var effect_shrink_delete : bool = true
 
 @export var on_wall_sprite_anim_reflect_straight : bool = false
+@export var on_hit_disable_anim : bool = false
 
 
 @export_group("") # End of section.
@@ -821,6 +827,8 @@ func remove_if_corpse():
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
 	basic_on_inactive()
+	
+	delete_unneeded_nodes()
 	
 	if on_timeout_jump:
 		c_jump.wait_time = on_timeout_jump_cooldown
@@ -1140,6 +1148,23 @@ func set_hitbox(active : bool, deferred : bool = true):
 	else:
 		hitbox.set_monitorable(active)
 		hitbox.set_monitoring(active)
+
+
+func delete_unneeded_nodes():
+	if not patrolling:
+		$scan_patrolling_vision
+		$cooldown_patrolling_target_spotted_queue.queue_free()
+		$cooldown_patrolling_target_spotted.queue_free()
+		$cooldown_patrolling_change_direction.queue_free()
+	
+	if not reset_puzzle:
+		$scan_reset_puzzle_coverage.queue_free()
+	
+	if not on_ledge_turn:
+		$scan_ledge.queue_free()
+	
+	if not can_move:
+		$scan_stuck.queue_free()
 
 
 func save():

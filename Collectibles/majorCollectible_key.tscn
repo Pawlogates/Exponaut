@@ -1,0 +1,25 @@
+[gd_scene load_steps=6 format=3 uid="uid://ck4qhhoir2pvj"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_lklcy"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_lpwhx"]
+[ext_resource type="SpriteFrames" uid="uid://b28a58gcuub2p" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_bigApple.tres" id="3_ou2qp"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_isidq"]
+shader = ExtResource("2_lpwhx")
+shader_parameter/Shift_Hue = 0.14
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="majorCollectible_key" instance=ExtResource("1_lklcy")]
+majorCollectible_key = true
+on_collected_effect_special = true
+entity_name = "majorCollectible_key"
+
+[node name="sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_isidq")
+sprite_frames = ExtResource("3_ou2qp")
+animation = &"anim"
+
+[node name="collision_main" parent="." index="1"]
+shape = SubResource("RectangleShape2D_511gd")

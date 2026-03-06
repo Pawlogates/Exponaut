@@ -522,7 +522,6 @@ on_death_spawn_entity = true
 on_death_spawn_entity_scene_filepath = "uid://oxvewjp1soes"
 on_hit_spawn_entity = true
 on_hit_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
-on_hit_spawn_entity_quantity = 3
 on_hit_spawn_entity2 = true
 on_hit_spawn_entity2_scene_filepath = "uid://oxvewjp1soes"
 breakable = true
@@ -533,25 +532,18 @@ can_change_sprite_anim = true
 idle_sfx = true
 idle_sfx_randomize_cooldown = true
 on_alt_walk_alt_show_text = true
-on_alt_walk_alt_text_message = "[anim_reflect_straight]vulnerable!"
-on_alt_walk_alt_text_message_visible = "vulnerable!"
+on_alt_walk_alt_text_message = "[anim_rotate_around_y_fade_out]++++++++++"
 on_alt_walk_alt_text_delete_cooldown = 1.0
-on_alt_walk_alt_text_anim_speed_scale = 0.5
-on_alt_walk_alt_text_add_scale = Vector2(1, 1)
-on_alt_walk_alt_text_add_pos = Vector2(48, 120)
-on_alt_walk_show_text = true
-on_alt_walk_text_message = "not anymore... [anim_loop_up_down]bummer init!!!!!!"
-on_alt_walk_text_message_visible = "not anymore... bummer init!!!!!!"
-on_alt_walk_text_delete_cooldown = 1.0
-on_alt_walk_text_anim_speed_scale = 1.5
-on_alt_walk_text_anim_add_offset = 3.0
-on_alt_walk_text_next_character_cooldown = 0.025
+on_alt_walk_alt_text_anim_speed_scale = 3.0
+on_alt_walk_alt_text_add_scale = Vector2(-0.4, -0.4)
+on_alt_walk_alt_text_add_pos = Vector2(0, 0)
 on_wall_sprite_anim_reflect_straight = true
 entity_name = "togglebot"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_i7pjj")
-animation = &"attack"
+animation = &"walk_alt"
+frame_progress = 0.0560121
 
 [node name="animation_general" parent="sprite" index="1"]
 libraries = {
@@ -568,5 +560,8 @@ z_index = -4
 position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)
 
-[node name="text_container" parent="." index="3"]
-scale = Vector2(0.5, 0.5)
+[node name="scan_visible" parent="." index="11"]
+modulate = Color(1, 1, 1, 0.01)
+
+[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
+debug_color = Color(0.87254, 0.318312, 0.37752, 0)

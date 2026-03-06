@@ -1,8 +1,8 @@
 [gd_scene load_steps=16 format=3 uid="uid://l83a5sjf2kck"]
 
 [ext_resource type="Script" uid="uid://bgivwbaf6ik1f" path="res://Scripts/display_messages.gd" id="1_2jl23"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_fu4h4"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_i808q"]
-[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/text_ui.tres" id="3_1wtwk"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="4_fu4h4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lf3p6"]
@@ -1836,6 +1836,7 @@ _data = {
 }
 
 [node name="display_messages" type="CanvasLayer"]
+layer = 125
 script = ExtResource("1_2jl23")
 
 [node name="container_message" type="Control" parent="."]
@@ -1846,6 +1847,7 @@ offset_left = 256.0
 offset_top = 896.0
 offset_right = 1664.0
 offset_bottom = 960.0
+mouse_filter = 2
 
 [node name="label_message_text" type="Label" parent="container_message"]
 modulate = Color(1, 1, 1, 0)
@@ -1863,7 +1865,7 @@ offset_right = 600.0
 offset_bottom = 9.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("3_1wtwk")
+theme = ExtResource("2_fu4h4")
 theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_constants/line_spacing = 16
 theme_override_font_sizes/font_size = 24
@@ -1883,6 +1885,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("AtlasTexture_lf3p6")
 expand_mode = 1
 

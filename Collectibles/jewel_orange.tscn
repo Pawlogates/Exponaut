@@ -10,7 +10,6 @@ size = Vector2(32, 32)
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_mgfat")
-animation = &"idle"
 
 [node name="collision_main" parent="." index="1"]
 shape = SubResource("RectangleShape2D_511gd")

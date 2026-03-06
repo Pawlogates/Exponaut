@@ -131,14 +131,16 @@ offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
 theme = ExtResource("1_p5ssb")
+flat = true
 script = ExtResource("1_gn7yy")
 
 [node name="icon" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 position = Vector2(32, 32)
+scale = Vector2(0.5, 0.5)
 texture = ExtResource("2_7sswb")
 region_enabled = true
-region_rect = Rect2(0, 448, 64, 64)
+region_rect = Rect2(768, 640, 128, 128)
 
 [node name="decoration_glow" type="Sprite2D" parent="icon"]
 unique_name_in_owner = true

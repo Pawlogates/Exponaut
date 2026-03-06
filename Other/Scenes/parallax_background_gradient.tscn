@@ -28,5 +28,6 @@ modulate = Color(1, 1, 1, 0.392157)
 texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 1080.0
+mouse_filter = 2
 texture = ExtResource("2_nkdpl")
 metadata/_edit_use_anchors_ = true

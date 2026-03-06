@@ -26,13 +26,14 @@ func _process(_delta):
 	pass
 
 
-func _on_area_2d_body_entered(body):
-	if body.is_in_group("Player"):
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	print(1)
+	if area.is_in_group("Player"):
 		var collectedItems = 0
 		var requiredItems = required_item_amount
 		
 		if item_type == "golden apple":
-			collectedItems = Globals.collected_goldenApples
+			collectedItems = Globals.collected_majorCollectibles_key
 			
 		
 		if collectedItems <= 0:

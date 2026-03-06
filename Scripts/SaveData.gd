@@ -3,7 +3,7 @@ extends Node2D
 const default_saved_levelSet = [-1, 0, 0]
 const default_saved_level = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 const default_info_levelSet = ["Main Levels", 12, "Pawlogates", "none", "none", Globals.d_backgrounds + "/bg_levelSet_MAIN.png", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
-const default_info_level = ["Training Tunnel", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
+const default_info_level = ["Level name", 0, -460, 40, 180000, 60, "Level description", "creator", "difficulty", "type"]
 const default_unlock_levelSet = [false, "none", "none", "none", "none", "none", "none", "none"]
 const default_unlock_level = [false, "none", "none", "none", "none", "none", "none", "none"]
 const default_collectibles_level = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] # A levelSet counterpart is not needed.
@@ -98,11 +98,11 @@ var saved_BONUS_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
-var info_BONUS = ["BONUS Levels", 10, "Pawlogates", "none", "none", Globals.d_backgrounds + "/bg_levelSet_BONUS.png", "res://Other/Scenes/Level Set/levelSet_decoration_BONUS.tscn"]
+var info_BONUS = ["BONUS Levels", 3, "Pawlogates", "none", "none", "res://Assets/Graphics/backgrounds/bg_desert.png", "res://Other/Scenes/Level Set/screen_decoration_gears2.tscn"]
 
 # Level information (static):
 # info_[levelSet_id]_[level_number] : [name, icon_id, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
-const info_BONUS_1 = ["Training Tunnel", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
+const info_BONUS_1 = ["This level set's creation has not even actually started...", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
 const info_BONUS_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "something", "Pawlogates", "beginner", "regular"]
 const info_BONUS_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "hello", "Pawlogates", "beginner", "regular"]
 const info_BONUS_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "will update later idk", "Pawlogates", "beginner", "regular"]
@@ -167,12 +167,12 @@ var saved_DEBUG_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
-var info_DEBUG = ["DEBUG Levels", 10, "Pawlogates", "none", "none", Globals.d_backgrounds + "/bg_levelSet_DEBUG.png", "res://Other/Scenes/Level Set/levelSet_decoration_DEBUG.tscn"]
+var info_DEBUG = ["DEBUG Levels", 5, "Pawlogates", "none", "none", "res://Assets/Graphics/other/levelSelect_screen.png", "res://Other/Scenes/Level Set/screen_decoration_gears.tscn"]
 
 # Level information (static):
 # info_[levelSet_id]_[level_number] : [name, icon_id, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
-const info_DEBUG_1 = ["Training Tunnel", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
-const info_DEBUG_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "something", "Pawlogates", "beginner", "regular"]
+const info_DEBUG_1 = ["Not made yet so idk what its about!", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
+const info_DEBUG_2 = ["Rest of the names will be changed when I make the actual levels.", 2, -360, 80, 75000, 60, "something", "Pawlogates", "beginner", "regular"]
 const info_DEBUG_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "hello", "Pawlogates", "beginner", "regular"]
 const info_DEBUG_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "will update later idk", "Pawlogates", "beginner", "regular"]
 const info_DEBUG_5 = ["Chilling Exercise", 1, -120, -100, 4000, 60, "none", "Pawlogates", "beginner", "regular"]

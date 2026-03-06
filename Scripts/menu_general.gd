@@ -41,6 +41,8 @@ func on_ready():
 	
 	Globals.debug4.connect(debug_destabilize_buttons_randomize)
 	
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
 	disable_buttons()
 	
 	button_color = Globals.l_color.pick_random()

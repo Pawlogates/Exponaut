@@ -14,12 +14,14 @@ family = "enemy"
 can_move = true
 ignore_gravity = false
 on_wall_change_velocity = true
+on_floor_change_velocity = true
 patrolling = true
 breakable = true
 start_animation = "none"
 can_change_sprite_anim = true
 idle_sfx = true
 idle_sfx_randomize_cooldown = true
+sfx_self_death_filepath = "uid://dgfidsnqko8cu"
 entity_name = "pursuitron"
 entity_type = "enemy"
 

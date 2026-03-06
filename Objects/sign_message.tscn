@@ -29,4 +29,9 @@ collision_mask = 8
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("RectangleShape2D_gq8ok")
 
+[node name="timer_effect_inactive" type="Timer" parent="."]
+wait_time = 20.0
+one_shot = true
+
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="timer_effect_inactive" to="." method="_on_timer_effect_inactive_timeout"]

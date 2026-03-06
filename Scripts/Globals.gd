@@ -186,6 +186,7 @@ const scene_debug_level = preload("res://Levels/debug_level.tscn")
 
 # Other scenes:
 const scene_portal = preload("res://Objects/shrine_portal.tscn")
+const scene_portal_particle = preload("res://Other/Particles/orb_portal.tscn")
 const scene_debug_message = preload("res://Other/Scenes/User Interface/Debug/debug_message.tscn")
 const scene_levelSet_display_level_info = preload("res://Other/Scenes/Level Set/levelSet_display_level_info.tscn")
 const scene_levelSet_level_icon = preload("res://Other/Scenes/Level Set/levelSet_level_icon.tscn")
@@ -257,6 +258,8 @@ func _ready() -> void:
 	prepare_lists()
 	
 	gameState_changed.connect(on_gameState_changed)
+	
+	#if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
 	refreshed0_5.connect(on_refreshed0_5)
 	refreshed1_0.connect(on_refreshed1_0)
 	refreshed2_0.connect(on_refreshed2_0)
@@ -302,13 +305,24 @@ func handle_actions(delta):
 		change_main_scene(scene_start_screen)
 	
 	elif Input.is_action_just_pressed("menu"):
-		handle_spawn_menu(true)
 		
 		if Input.is_action_pressed("1"):
 			change_main_scene(scene_debug_level)
 		
 		elif Input.is_action_pressed("2"):
+			levelSet_id = "MAIN"
 			change_main_scene(scene_levelSet_screen)
+		
+		elif Input.is_action_pressed("3"):
+			levelSet_id = "BONUS"
+			change_main_scene(scene_levelSet_screen)
+		
+		elif Input.is_action_pressed("4"):
+			levelSet_id = "DEBUG"
+			change_main_scene(scene_levelSet_screen)
+		
+		else:
+			handle_spawn_menu(true)
 	
 	
 	elif Input.is_action_just_pressed("pause"):
@@ -322,10 +336,12 @@ func handle_actions(delta):
 		if debug_mode:
 			message_debug("Debug mode is active.")
 			Overlay.animation("white_fade_out", 2.0)
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 			
 		else:
 			message_debug("Debug mode is disabled.")
 			Overlay.animation("black_fade_out", 2.0)
+			Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 		
 		#if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
 		if Player : Globals.player_heal.emit(999)
@@ -661,11 +677,11 @@ signal messages_removed
 signal messages_debug_added
 signal messages_debug_removed
 
-func message(text, anim_speed_scale : float = 1.0):
+func message(message_text, pause_duration : float = 0.0, message_add_pos : Vector2 = Vector2(0, 0), anim_hide_cooldown : float = 8.0, anim_speed_scale : float = 1.0, camera_target_offset : Vector2 = Vector2(64, 64), camera_target_zoom : Vector2 = Vector2(3, 3), camera_target_rotation : float = 10.0, camera_start_speed_multiplier : float = 0.01):
 	#display_messages_queued.append(str(text))
 	#messages_added.emit() # This is a signal from this script (Globals.gd).
 	Overlay.reassign_general()
-	Overlay.display_messages.message_show(str(text), anim_speed_scale)
+	Overlay.display_messages.message_show(str(message_text), pause_duration, message_add_pos, anim_hide_cooldown, anim_speed_scale, camera_target_offset, camera_target_zoom, camera_target_rotation, camera_start_speed_multiplier)
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
@@ -822,6 +838,8 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
+		if variable_delay : await get_tree().create_timer(randf_range(0.01, 0.25), true).timeout
+		
 		var node
 		
 		if filepath is String : node = load(filepath).instantiate()
@@ -852,8 +870,6 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 		target.add_child(node)
 		
 		spawned_nodes.append(node)
-		
-		if variable_delay : await get_tree().create_timer(randf_range(0.01, 0.25), true).timeout
 	
 	
 	if remove_cooldown != -1:
@@ -1023,7 +1039,8 @@ func handle_spawn_menu(manual_request : bool = false):
 		return
 	
 	elif gameState_start_screen:
-		spawn_menu(scene_menu_main, ["Resume Game", "Select Set screen", "Quit to Main Menu"])
+		spawn_menu(scene_menu_main)
+		#spawn_menu(scene_menu_main, ["Level Set screen", "Enable Score Attack mode", "Level Set Screen", "Resume game", "Back to Overworld", "Quit to Main Menu"])
 		return
 
 

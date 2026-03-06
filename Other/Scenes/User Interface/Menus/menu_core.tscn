@@ -4,6 +4,7 @@
 
 [node name="menu_core" type="Control" groups=["menu_main"]]
 process_mode = 3
+z_index = 50
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
@@ -27,7 +28,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
-color = Color(0, 0, 0, 1)
+color = Color(0, 0, 0, 0.15)
 
 [node name="cooldown_toggle_button_destabilize_modulate_reversed" type="Timer" parent="."]
 wait_time = 8.0

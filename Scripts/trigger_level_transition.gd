@@ -24,7 +24,7 @@ func _on_area_entered(area):
 	Globals.transition_triggered = true
 	SaveData.save_playerData(false)
 	
-	Overlay.animation("black_fade_in")
+	#Overlay.animation("black_fade_in")
 	get_tree().change_scene_to_packed(target_level)
 	
 	Globals.dm("Player has entered a level transition leading to: " + str(target_level_filepath))

@@ -15,23 +15,10 @@ func _on_retry_btn_pressed():
 	retry.emit()
 
 func _on_continue_btn_pressed():
-	if Globals.delete_saves:
-		SaveData.saved_last_area_filePath = "res://Levels/overworld_infected_glades.tscn"
-	
-	elif SaveData.saved_last_area_filePath == "res://Levels/empty.tscn":
-		_on_level_select_btn_pressed()
-		return
-	
-	var saved_level = load(SaveData.saved_last_area_filePath)
-	Overlay.animation("fade_black", 0, 1.0, true)
-	Globals.transitioned = false
-	get_tree().change_scene_to_packed(saved_level)
+	Globals.change_main_scene(SaveData.saved_last_level_filepath)
 
 func _on_level_select_btn_pressed():
-	Overlay.animation("fade_black", 0, 1.0, true)
-	get_tree().paused = false
-	get_tree().change_scene_to_packed(Globals.scene_levelSet_screen)
-	Overlay.animation("fade_black", 0, 1.0, true)
+	Globals.change_main_scene(Globals.scene_levelSet_screen)
 
 
 var score_counted_emitted = false
@@ -41,7 +28,6 @@ func _ready():
 	saved_progress = SaveData
 	
 	set_process(false)
-	score_counted.connect(after_score_counted)
 	
 	%"Golden Apple Reward 1".modulate.a = 0.2
 	%"Golden Apple Reward 2".modulate.a = 0.2
@@ -83,43 +69,15 @@ var first_time_clear = false
 var topRankScore = 0
 
 func exit_reached():
-	var level_saved_state = saved_progress.get("state_" + Globals.current_level_ID)
-	var level_saved_score = saved_progress.get("state_" + Globals.current_level_ID)
+	var level_saved_state = saved_progress.get("saved_" + Globals.level_id)[0]
+	var level_saved_score = saved_progress.get("saved_" + Globals.level_id)[1]
 	
-	var level_info = saved_progress.get("info_" + Globals.current_level_ID)
+	var level_info = saved_progress.get("info_" + Globals.level_id)
 	
 	level_score = Globals.level_score
 	topRankScore = level_info[4]
 	
 	%top_rank_label.text = "Top Rank: " + str(topRankScore)
-	
-	
-	if not Globals.mode_scoreAttack and not Globals.selected_episode == "Debug Levels":
-		if level_saved_state < 1:
-			first_time_clear = true
-		
-		if get_tree().get_nodes_in_group("Collectibles").size() == 0:
-			if level_saved_state < 3:
-				saved_progress.set("state_" + str(Globals.current_level_ID), 3)
-		
-		elif get_tree().get_nodes_in_group("specialCollectible").size() <= 0:
-			if level_saved_state < 2:
-				saved_progress.set("state_" + str(Globals.current_level_ID), 2)
-		
-		elif get_tree().get_nodes_in_group("Collectibles").size() >= 0:
-			if level_saved_state < 1:
-				saved_progress.set("state_" + str(Globals.current_level_ID), 1)
-		
-		if level_saved_score < level_score:
-			saved_progress.set("score_" + str(Globals.current_level_ID), level_score)
-	
-	
-		if Globals.selected_episode == "Bonus Levels":
-			if Globals.current_level_number == saved_progress.next_level_BONUS:
-				saved_progress.next_level_BONUS += 1
-	
-	
-		Globals.save_progress.emit()
 	
 	
 	if $/root/World.final_level:
@@ -151,7 +109,7 @@ var rank = "D" #possible ranks: D, C, B, A, S (no reward), S+ (no reward)
 var rank_value = -1
 
 func calculate_rank():
-	var rank_info = saved_progress.calculate_rank(topRankScore, level_score)
+	var rank_info = saved_progress.calculate_rank_level(Globals.level_id)
 	rank = rank_info[0]
 	rank_value = rank_info[1]
 	
@@ -172,26 +130,6 @@ func calculate_rank():
 	if rank_value >= 5:
 		await get_tree().create_timer(0.5, true).timeout
 		%"Golden Apple Reward 5".modulate.a = 1.0
-
-
-func after_score_counted():
-	if Globals.current_levelSet_ID == "MAIN":
-		saved_progress.count_total_score(Globals.current_levelSet_ID, 7)
-	elif Globals.current_levelSet_ID == "BONUS":
-		saved_progress.count_total_score(Globals.current_levelSet_ID, 99)
-	
-	await get_tree().create_timer(1, true).timeout
-	if Globals.current_levelSet_ID != "DEBUG":
-		displayed_totalScore = saved_progress.get("total_score_" + Globals.current_levelSet_ID)
-	
-	#print(LevelTransition.get_node("%saved_progress").get("total_score_" + Globals.current_levelSet_ID))
-	#print(("total_score_" + Globals.current_levelSet_ID))
-	
-	#if mode is something: then count various stuff and give points for them
-		#await get_tree().create_timer(0.5, true).timeout
-		#count_hp()
-		#await get_tree().create_timer(0.5, true).timeout
-		#count_inventoryItems()
 
 
 var displayedBonus_hp = 0

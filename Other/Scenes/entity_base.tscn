@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="3_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_c3p0q"]
-[ext_resource type="SpriteFrames" uid="uid://cath3wbw0b8w4" path="res://Assets/Graphics/sprites/packed/collectibles/pineapple.tres" id="3_fjle6"]
+[ext_resource type="SpriteFrames" uid="uid://br58pfg6ajcpt" path="res://Assets/Graphics/sprites/packed/collectibles/gem.tres" id="3_fjle6"]
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_84r7y"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_fjle6"]
 
@@ -67,6 +67,7 @@ debug_color = Color(0, 0.595, 0.7, 0)
 [node name="text_container" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="cooldown_change_invincible2" type="Timer" parent="."]
 
@@ -125,7 +126,7 @@ monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="scan_reset_puzzle_coverage"]
 shape = SubResource("RectangleShape2D_fjle6")
-debug_color = Color(0, 0.6, 0.701961, 0)
+debug_color = Color(0, 0.644, 0.294, 0.01)
 
 [node name="scan_always_active" type="Area2D" parent="." groups=["scan_always_active"]]
 collision_layer = 8
@@ -133,6 +134,7 @@ collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="scan_always_active"]
 shape = SubResource("RectangleShape2D_spxko")
+debug_color = Color(0.702762, 0.272784, 1, 0)
 
 [node name="cooldown_jump" type="Timer" parent="."]
 one_shot = true

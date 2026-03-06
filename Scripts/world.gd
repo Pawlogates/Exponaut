@@ -95,6 +95,10 @@ signal reset_puzzle_all_nodes_ready
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.exit_activated.connect(show_screen_levelFinished)
+	
+	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+	
 	level_filepath = scene_file_path
 	
 	uncover_matching_id.connect(on_uncover_matching_id)
@@ -116,7 +120,9 @@ func _ready():
 	
 	Globals.level_started.emit()
 	
-	Overlay.animation("black_fade_out", 1.0, false, false)
+	camera.effect(Vector2(randi_range(-2000, 2000), randi_range(-2000, 0)), Vector2(2, 2), randi_range(-15, 15), 10)
+	
+	Overlay.animation("black_fade_out", 0.2, false, false, 0)
 	
 	#if Globals.gameState_debug: # False if the game is currently being worked on.
 		#SaveData.delete_progress()
@@ -143,8 +149,6 @@ func _ready():
 	
 	if random_music:
 		play_music_random()
-	
-	Overlay.screen_black.color.a = 1.0
 	
 	
 	if Globals.level_id != "factory_a_1": # This should not be the main way to check whether the current game was started for the first time.
@@ -272,7 +276,9 @@ func _ready():
 		else:
 			$whiteBlocks_make_rainbow.play("fade_in")
 	
-	await get_tree().create_timer(0.2, false).timeout
+	await get_tree().create_timer(0.25, false).timeout
+	
+	camera.effect(Vector2(0, 0), Vector2(1, 1), 0)
 	
 	#if not Globals.transition_triggered:
 		#save_game()
@@ -410,7 +416,7 @@ func _on_exitReached_next_level():
 	Globals.level_score = 0
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
-	Globals.collected_in_cycle = 0
+	Globals.combo_streak = 0
 	
 	go_to_next_level()
 
@@ -420,11 +426,12 @@ func _on_exitReached_retry():
 
 
 func show_screen_levelFinished():
-	
+	print("hi")
 	if not Globals.mode_scoreAttack:
+		screen_levelFinished = Overlay.HUD.get_node("Level Finished")
 		screen_levelFinished.show()
 		screen_levelFinished.retry_btn.grab_focus()
-		%"Level Finished".exit_reached()
+		Overlay.HUD.get_node("Level Finished").exit_reached()
 		
 		get_tree().paused = true
 	

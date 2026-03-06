@@ -10,6 +10,10 @@ func _ready():
 	modulate.a = 0.0
 	$VideoStreamPlayer.stream = video_file
 
+#func _process(delta: float) -> void:
+	#queue_free()
+
+
 # The collision node has to be added manually to this ("Video Display") node.
 func _on_area_entered(area: Area2D) -> void:
 	if not Globals.is_valid_entity(area) : return

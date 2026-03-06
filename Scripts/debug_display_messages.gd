@@ -17,6 +17,8 @@ const letter_y = 18
 
 
 func _ready():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
 	insert_queued_messages()
 	Globals.messages_refresh.connect(insert_queued_messages)
 	Globals.messages_debug_added.connect(insert_queued_messages)

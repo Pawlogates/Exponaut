@@ -95,7 +95,7 @@ func _ready():
 		reset_puzzle_queue()
 
 func _process(delta):
-	handle_movement(delta)
+	if can_move : handle_movement(delta)
 	
 	if copy_direction_x_player:
 		if copy_direction_x_active_player:
@@ -104,8 +104,9 @@ func _process(delta):
 		else:
 			direction_x = Globals.player_direction_x
 	
-	if abs(velocity.x) > 0.0 : velocity_last_x = velocity.x
-	if abs(velocity.y) > 0.0 : velocity_last_y = velocity.y
+	if can_move:
+		if abs(velocity.x) > 0.0 : velocity_last_x = velocity.x
+		if abs(velocity.y) > 0.0 : velocity_last_y = velocity.y
 	
 	if direction_x != 0:
 		direction_active_x = direction_x
@@ -120,42 +121,43 @@ func _process(delta):
 		delete_entity()
 	
 	if on_collected_effect_special:
-		position = lerp(position, World.player.position + random_position_offset, delta)
+		position = lerp(position, World.Player.position + random_position_offset, delta)
 	
-	if is_on_wall() and is_collidable:
-		wall_normal = get_wall_normal()
-		is_collidable = false
-		c_collidable.wait_time = collidable_cooldown
-		c_collidable.start()
-		
-		reverse_direction_x(wall_normal)
-		
-		if on_wall_change_velocity:
-			if on_wall_change_velocity_value.y != -1:
-				velocity.y = on_wall_change_velocity_value.y
+	if can_move:
+		if is_on_wall() and is_collidable:
+			wall_normal = get_wall_normal()
+			is_collidable = false
+			c_collidable.wait_time = collidable_cooldown
+			c_collidable.start()
 			
-			velocity.y *= on_wall_change_velocity_multiplier.y
-		
-		if on_wall_change_velocity:
-			if on_wall_change_velocity_value.x != -1:
-				velocity.x = on_wall_change_velocity_value.x
+			reverse_direction_x(wall_normal)
 			
-			velocity.x *= on_wall_change_velocity_multiplier.x
-		
-		if on_wall_change_speed:
-			if variable_speed:
-				speed *= on_wall_change_speed_multiplier
-		
-		
-		if ignore_gravity:
-			if reflect_straight or reflect_slope:
-				# Handle slope surface bounce
-				if not handle_reflect_straight() : handle_reflect_slope()
+			if on_wall_change_velocity:
+				if on_wall_change_velocity_value.y != -1:
+					velocity.y = on_wall_change_velocity_value.y
 				
-				if direction_y > 0:
-					rotation_degrees = 90
-				elif direction_y < 0:
-					rotation_degrees = -90
+				velocity.y *= on_wall_change_velocity_multiplier.y
+			
+			if on_wall_change_velocity:
+				if on_wall_change_velocity_value.x != -1:
+					velocity.x = on_wall_change_velocity_value.x
+				
+				velocity.x *= on_wall_change_velocity_multiplier.x
+			
+			if on_wall_change_speed:
+				if variable_speed:
+					speed *= on_wall_change_speed_multiplier
+			
+			
+			if ignore_gravity:
+				if reflect_straight or reflect_slope:
+					# Handle slope surface bounce
+					if not handle_reflect_straight() : handle_reflect_slope()
+					
+					if direction_y > 0:
+						rotation_degrees = 90
+					elif direction_y < 0:
+						rotation_degrees = -90
 	
 	
 	if effect_grow:
@@ -177,10 +179,11 @@ func _process(delta):
 	
 	if patrolling : handle_patrolling()
 	
-	if is_on_floor() : handle_on_floor()
-	if is_on_wall() : handle_on_wall()
-	
-	handle_bounce()
+	if can_move:
+		if is_on_floor() : handle_on_floor()
+		if is_on_wall() : handle_on_wall()
+		
+		handle_bounce()
 	
 	if on_death_effect_thrownAway or on_collected_effect_thrownAway : effect_thrownAway(delta)
 	
@@ -188,7 +191,7 @@ func _process(delta):
 	
 	sprite_animation()
 	
-	move_and_slide()
+	if can_move or effect_thrownAway_active : move_and_slide()
 
 
 func handle_gravity(delta):
@@ -241,6 +244,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	var target = area.get_parent()
 	
 	if reset_puzzle_block_movement : return
+	if dead : return
 	
 	# Assigns an "inside" variable depending on the node that just entered this entity. Used mostly for the pushing movement logic.
 	inside_check_enter(target)
@@ -263,8 +267,10 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 			handle_hittable(target)
 		
 		if family == "enemy":
-			#Overlay.HUD.player_main.player_health.change_health_value(damage_value)
-			Globals.player_damage.emit(-damage_value)
+			if damage_to_player:
+				if damage_to_player_contact:
+					#Overlay.HUD.player_main.player_health.change_health_value(damage_value)
+					Globals.player_damage.emit(-damage_value, self)
 
 func _on_hitbox_area_exited(target: Area2D) -> void:
 	inside_check_exit(target)
@@ -480,12 +486,12 @@ func movement_follow_player_xy(delta):
 
 
 func movement_follow_player_x_if_spotted(delta):
-	if patrolling_target_spotted_active and not dead:
-		direction_toward_target_x(Player)
-		move_in_direction_x(delta)
-	
-	else:
-		handle_friction(delta)
+	if not dead:
+		if patrolling_target_spotted_active:
+			direction_toward_target_x(Player)
+			move_in_direction_x(delta)
+		else:
+			move_toward_zero_velocity(delta)
 
 func movement_follow_player_y_if_spotted(delta):
 	if patrolling_target_spotted_active and not dead:
@@ -742,6 +748,7 @@ func spawn_particles(scene, quantity, offset, scale):
 
 func spawn_portal():
 	var portal = Globals.scene_portal.instantiate()
+	
 	portal.level_id = breakable_advanced_portal_level_id
 	portal.particle_quantity = breakable_advanced_portal_particle_quantity
 	portal.position = start_pos
@@ -811,12 +818,12 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 	if reset_puzzle and on_collected_reset_puzzle : handle_reset_puzzle()
 	
 	if majorCollectible_module:
-		var value = Globals.score_multiplier * Globals.combo_multiplier
-		Globals.collected_majorCollectible_module.emit(value)
+		var value = Globals.combo_tier
+		Globals.collected_majorCollectibles_module += value
 	
 	if majorCollectible_key:
-		var value = Globals.score_multiplier * Globals.combo_multiplier
-		Globals.collected_majorCollectible_key.emit(value)
+		var value = Globals.combo_tier
+		Globals.collected_majorCollectibles_key += value
 	
 	
 	if heal_player:
@@ -890,22 +897,23 @@ func handle_hit(target):
 	
 	if on_hit_gain_movement != "none":
 		
-		can_move = true
 		movement_type = on_hit_gain_movement
+		reassign_movement_type_id()
+		can_move = true
 	
 	if inside_projectile:
 		
 		if target.direction_x:
 			
 			if on_hit_change_velocity_x_copy_entity:
-				velocity.x = target.velocity.x * on_hit_change_velocity_x_copy_entity_multiplier
+				velocity.x = target.velocity.x * on_hit_change_velocity_x_copy_entity_multiplier * randf_range(1.05, 0.95)
 			elif on_hit_change_velocity_x:
-				velocity.x = on_hit_change_velocity_value.x
+				velocity.x = on_hit_change_velocity_value.x * randf_range(1.05, 0.95)
 			
 			if on_hit_change_velocity_y_copy_entity:
-				velocity.y = -target.velocity.y * on_hit_change_velocity_y_copy_entity_multiplier * 2
+				velocity.y = -target.velocity.y * on_hit_change_velocity_y_copy_entity_multiplier * 2 * randf_range(1.05, 0.95)
 			elif on_hit_change_velocity_y:
-				velocity.y = on_hit_change_velocity_value.y
+				velocity.y = on_hit_change_velocity_value.y * randf_range(1.05, 0.95)
 		
 		else:
 			if on_hit_change_velocity_x_copy_entity:
@@ -937,15 +945,17 @@ func handle_death(type : String = "normal"):
 	
 	hitbox.monitoring = false
 	scan_patrolling_vision.monitoring = false
-	scan_ledge.enabled = false
-	scan_stuck.enabled = false
+	if is_instance_valid(scan_ledge):
+		scan_ledge.enabled = false
+	if is_instance_valid(scan_stuck):
+		scan_stuck.enabled = false
 	
 	if breakable_advanced_portal_on_death_open:
 		
 		spawn_portal()
 		
 		if breakable_advanced_portal_level_id != "none" and SaveData.get("state_" + str(breakable_advanced_portal_level_id)) == 0:
-			SaveData.set(("state_" + str(breakable_advanced_portal_level_id)), -1)
+			SaveData.set(("state_" + str(breakable_advanced_portal_level_id)), 0)
 			Globals.save_progress.emit()
 	
 	if override_death_type != "none" : handle_effects_death(override_death_type)
@@ -1029,7 +1039,6 @@ func handle_breakable(target):
 	
 	Globals.dm("An entity is handling its BREAKABLE logic.", "ORANGE")
 	
-	
 	if breakable_requires_velocity_y:
 		if target.velocity.y >= breakable_requires_velocity_y_range[0] and target.velocity.y <= breakable_requires_velocity_y_range[1]:
 			if Input.is_action_pressed("jump"):
@@ -1047,6 +1056,9 @@ func handle_breakable(target):
 				handle_damage(target.damage_value, "break")
 				
 				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y_jump), "YELLOW", 0.5)
+			
+			Player.can_air_jump = true
+			Player.can_wall_jump = true
 		
 		else:
 			Globals.dm(str("Target's velocity.y (%s) was not within the range (%s) required by this entity to bounce off of." % [int(target.velocity.y), breakable_requires_velocity_y_range]), "YELLOW", 0.5)
@@ -1057,6 +1069,12 @@ func handle_damage(value, type : String = "normal"):
 	
 	state_damage = true
 	t_state_damage.start()
+	
+	if on_hit_disable_anim:
+		animation_all.stop()
+		animation_all.play("general/RESET")
+		animation_general.stop()
+		animation_general.play("RESET")
 	
 	if breakable_on_hit_spawn_entity:
 		spawn_entity(breakable_on_hit_spawn_entity_scene_filepath, breakable_on_hit_spawn_entity_quantity, breakable_on_hit_spawn_entity_add_velocity, breakable_on_hit_spawn_entity_add_velocity_range, breakable_on_hit_spawn_entity_pos_offset, breakable_on_hit_spawn_entity_pos_offset_range)
@@ -1110,7 +1128,7 @@ func handle_effects_death(type : String = "normal"): # Death types: "normal", "b
 
 
 func effect_death_normal():
-	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, randf_range(0.75, 1.25))
+	sfx_manager.sfx_play(sfx_self_death_filepath, 5.0, randf_range(0.75, 1.25))
 	
 	Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, position, -1)
 	Globals.spawn_scenes(World, Globals.scene_effect_dead_enemy, 1, position, -1)
@@ -1173,6 +1191,7 @@ func handle_effects_hit(target):
 	animation_color.play("pulse_red_normal_long")
 	
 	velocity = Vector2(0, 0)
+	
 	if on_collected_spawn_star : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
@@ -1187,12 +1206,11 @@ func handle_effects_bounce():
 	animation_all.play("other_general/air_jumped")
 
 
-func handle_friction(delta):
-	return
+func move_toward_zero_velocity(delta):
 	if effect_thrownAway_active : return
 	
-	if is_on_floor() : velocity.x = move_toward(velocity.x, 0, delta * friction * friction_multiplier_x)
-	else : velocity.x = move_toward(velocity.x, 0, delta / 4 * friction * friction_multiplier_x)
+	if is_on_floor() : velocity.x = move_toward(velocity.x, 0, delta / 1.5 * friction * friction_multiplier_x)
+	else : velocity.x = move_toward(velocity.x, 0, delta / 6 * friction * friction_multiplier_x)
 
 
 var walk_alt_loop_number = 0
@@ -1302,7 +1320,7 @@ func _on_cooldown_patrolling_target_spotted_timeout() -> void: # When the entity
 	c_patrolling_change_direction.stop()
 
 func _on_cooldown_patrolling_target_spotted_queue_timeout() -> void: # When the entity sees the player.
-	spawn_entity(on_patrolling_spotted_spawn_entity_scene_filepath, on_patrolling_spotted_spawn_entity_quantity, on_patrolling_spotted_spawn_entity_add_velocity, on_patrolling_spotted_spawn_entity_add_velocity_range, on_patrolling_spotted_spawn_entity_pos_offset, on_patrolling_spotted_spawn_entity_pos_offset_range)
+	if on_patrolling_spotted_spawn_entity : spawn_entity(on_patrolling_spotted_spawn_entity_scene_filepath, on_patrolling_spotted_spawn_entity_quantity, on_patrolling_spotted_spawn_entity_add_velocity, on_patrolling_spotted_spawn_entity_add_velocity_range, on_patrolling_spotted_spawn_entity_pos_offset, on_patrolling_spotted_spawn_entity_pos_offset_range)
 	if on_floor_change_velocity : velocity.y = on_wall_change_velocity_value.y
 	Globals.spawn_scenes(self, Globals.scene_particle_star, 5)
 	sfx_manager.sfx_play(sfx_spotted_filepath, 1.0, randf_range(0.95, 1.2))
@@ -1332,10 +1350,11 @@ func handle_patrolling():
 	elif direction_active_x < 0 : scan_patrolling_vision.scale.x = -1.0
 	
 	if patrolling_target_spotted_active:
-		if Globals.random_bool(1, 1):
-			sfx_manager.sfx_play(Globals.sfx_footstep_mechanical, 1.0, randf_range(0.75, 1.25))
-		else:
-			sfx_manager.sfx_play(Globals.sfx_footstep_mechanical2, 1.0, randf_range(0.75, 1.25))
+		if Globals.random_bool(19, 1):
+			if Globals.random_bool(1, 1):
+				sfx_manager.sfx_play(Globals.sfx_footstep_mechanical, 1.0, randf_range(0.75, 1.25))
+			else:
+				sfx_manager.sfx_play(Globals.sfx_footstep_mechanical2, 1.0, randf_range(0.75, 1.25))
 
 func _on_cooldown_patrolling_change_direction_timeout() -> void:
 	if direction_x : direction_x *= -1
@@ -1357,8 +1376,8 @@ func handle_effects_collected():
 	
 	if on_collected_spawn_star : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if on_collected_spawn_orb_blue : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1, position, 4.0)
+	if on_collected_spawn_orb_blue : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1, position, 4.0)
 	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_dust : Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position)
 	

@@ -208,16 +208,17 @@ text = "X"
 
 [node name="shortcuts" type="Label" parent="."]
 z_index = 15
-offset_left = 1344.0
-offset_top = 608.0
-offset_right = 1874.0
-offset_bottom = 1037.83
+offset_left = 1168.0
+offset_top = 520.0
+offset_right = 1698.0
+offset_bottom = 1071.67
 theme = ExtResource("2_osdyr")
 theme_override_font_sizes/font_size = 20
 text = "List of useful shortcuts:
 
 Tilde (~) : Show debug tools
 Shift + Tilde (~) : Toggle debug mode
+
 Forward Slash (/) : Show all collisions
 Ctrl + R : Restart current level
 Alt + 1 : Restart current level and ignore save state files

@@ -44,7 +44,7 @@ func reset_combo_tier():
 	Globals.combo_score = 0
 
 
-func refresh_combo_streak_timer(duration : float = 2.0):
+func refresh_combo_streak_timer(duration : float = 4.0):
 	timer_combo_streak_active.wait_time = duration
 	timer_combo_streak_active.start()
 

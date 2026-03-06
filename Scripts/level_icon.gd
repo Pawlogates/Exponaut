@@ -52,12 +52,14 @@ func _ready():
 	await get_tree().create_timer(0.5, true).timeout
 	
 	update_level_info()
+	icon_level_filepath = "res://Levels/" + level_id + ".tscn"
+	
 	position = Vector2(level_icon_position_x, level_icon_position_y)
 	
 	if level_state > -1 : unlocked = true
 	
 	position = icon_position
-	%icon.region_rect = Rect2(64 * icon_image_id, 448, 64, 64)
+	%icon.region_rect = Rect2(128 * level_number, 640, 128, 128)
 	%AnimationPlayer.advance((abs(position.x) / 100))
 	
 	position = Vector2(level_icon_position_x, level_icon_position_y)
@@ -75,25 +77,18 @@ func _physics_process(delta: float) -> void:
 	pass
 
 func _on_pressed():
-	if unlocked or Globals.debug_mode:
-		Globals.transition_next = 0
-		%level_start.play()
-		Overlay.animation("fade_black", true, true, 1.0)
-		get_tree().change_scene_to_packed(load(icon_level_filepath))
-		Overlay.animation("fade_black", false, true, 1.0)
+	if unlocked or Globals.debug_mode or Globals.gameState_debug:
+		if FileAccess.file_exists(icon_level_filepath):
+			%sfx_start.play()
+			Globals.transition_next = 0
+			Globals.level_id = level_id
+			Globals.levelSet_id = levelSet_id
+			Globals.change_main_scene(icon_level_filepath)
 		
-		if Globals.selected_episode == "Main Levels":
-			Globals.current_level_ID = str("MAIN_", level_number)
-			Globals.current_level_number = level_number
-		
-		elif Globals.selected_episode == "Bonus Levels":
-			Globals.current_level_ID = str("BONUS_", level_number)
-			Globals.current_level_number = level_number
-		
-		elif Globals.selected_episode == "Debug Levels":
-			Globals.current_level_ID = str("DEBUG_", level_number)
-			Globals.current_level_number = level_number
-		
+		else:
+			%sfx_locked.play()
+			Globals.message("The selected level doesn't exist. bummer! try other ones cause i had to abandon random ones due to some being more tied to stuff removed/remade during the major refactor. gotta rebuild them from scratch later ig")
+	
 	else:
 		%sfx_locked.play()
 

@@ -105,15 +105,16 @@ one_shot = true
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-offset_left = 196.0
-offset_top = 912.0
-offset_right = 1037.0
-offset_bottom = 1019.0
+offset_left = 208.0
+offset_top = 928.0
+offset_right = 1049.0
+offset_bottom = 1035.0
 theme = ExtResource("4_q74v4")
 theme_override_font_sizes/font_size = 20
 text = "Press ESC to open menu. (do it a few times!)
 Also press tilde (~) for cool stuff.
 Press Shift + tilde for debug mode, don't do it on your first time though :)"
+horizontal_alignment = 1
 
 [node name="screen_decoration_gears" parent="." instance=ExtResource("7_q74v4")]
 layout_mode = 1

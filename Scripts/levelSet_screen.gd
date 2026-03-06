@@ -25,7 +25,7 @@ func _ready():
 		levelSet_unlock = SaveData.get("unlock_" + levelSet_id)
 		
 		place_level_icons(levelSet_id)
-		
+		print(levelSet_info)
 		background.texture = load(levelSet_info[5])
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

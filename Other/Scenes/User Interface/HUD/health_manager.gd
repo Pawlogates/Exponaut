@@ -24,7 +24,9 @@ func _physics_process(delta: float) -> void:
 	pass
 
 
-func update_display():
+func update_display(): # The "health" variable represents the visible health value on the player's HUD. The "Globals.player_health" is the actual player health.
+	if health == Globals.player_health : return
+	
 	label_hp.text = str(health)
 	
 	if health < 8:
@@ -73,17 +75,15 @@ func _on_debug_hp_subtract_pressed() -> void:
 		update_display()
 
 
-func change_health_value(value : int = 1):
+func change_health_value(value : int = 1, source : Node = self):
 	health = Globals.player_health
-	
+	print("changing hp value")
 	for x in range(abs(value)):
 		if value > 0 : health += 1
 		if value < 0 : health -= 1
 		await get_tree().create_timer(0.01, false).timeout
 		update_display()
 		Globals.update_player_health.emit()
-	
-	Globals.player_health = health
 
 
 func debug_show():
