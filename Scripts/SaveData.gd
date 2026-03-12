@@ -594,7 +594,7 @@ func data_levelSet(id):
 func save_levelState(level_id : String, quicksave_slot_id : int = -1): # If the value of "quicksave_slot_id" is left at "-1", the function will perform a regular save, otherwise it will perform a quicksave.
 	if Globals.level_id == "none" : return
 	
-	create_save_directories()
+	create_dir_saves()
 	
 	var filepath : String
 	
@@ -699,10 +699,12 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 		
 		var new_object = load(saved_object_properties["filename"]).instantiate()
 		get_node(saved_object_properties["parent"]).add_child(new_object)
+		
 		new_object.position = Vector2(saved_object_properties["pos_x"], saved_object_properties["pos_y"])
+		new_object.start_pos = Vector2(saved_object_properties["start_pos_x"], saved_object_properties["start_pos_y"])
 		
 		for x in saved_object_properties.keys():
-			if x == "filename" or x == "parent" or x == "pos_x" or x == "pos_y":
+			if x == "filename" or x == "parent" or x == "pos_x" or x == "pos_y" or x == "start_pos_x" or x == "start_pos_y":
 				continue
 			
 			new_object.set(x, saved_object_properties[x])
@@ -813,7 +815,7 @@ func wipe_slot(id : String):
 	delete_slot(id)
 
 
-func create_save_directories():
+func create_dir_saves():
 	var dir = DirAccess.open("user://")
 	dir.make_dir("saves")
 	

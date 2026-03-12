@@ -5,6 +5,7 @@ extends Node2D
 @onready var sfx_manager: Node2D = $sfx_manager
 
 func _ready():
+	Globals.combo_end.connect(reset_combo_tier)
 	Globals.entity_collected.connect(on_entity_collected)
 	Globals.entity_hit.connect(on_entity_hit)
 	Globals.entity_killed.connect(on_entity_killed)

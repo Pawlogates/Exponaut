@@ -1,0 +1,61 @@
+[gd_scene load_steps=11 format=3 uid="uid://cap55wnfapd22"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_sdymc"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_ropq8"]
+[ext_resource type="PackedScene" uid="uid://b5ttksvnw4fj5" path="res://Levels/DEBUG_6.tscn" id="2_wtd17"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_wtd17"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_3y8oh"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_3nswe"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_syqi4"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_mu5w8"]
+[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_wpcro"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="10_ropq8"]
+
+[node name="World" instance=ExtResource("1_sdymc")]
+level_type = "debug"
+next_level = ExtResource("2_wtd17")
+levelSet_id = "DEBUG"
+level_number = 1
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_ropq8")]
+layer_0/tile_data = PackedInt32Array(131064, 0, 10, 131065, 0, 10, 131066, 0, 10, 131067, 0, 10, 131068, 0, 10, 131069, 0, 10, 131070, 0, 10, 131071, 0, 10, 65536, 0, 10, 65537, 0, 10, 65538, 0, 10, 65539, 0, 10, 65540, 0, 10, 65541, 0, 10, 65542, 0, 10, 65543, 0, 10, 65544, 0, 10, 65545, 0, 10, 65546, 0, 10, 65547, 0, 10, 65548, 0, 10, 65549, 0, 10, 65550, 0, 10, 65551, 0, 10, 65552, 0, 10, 65553, 0, 10, 65554, 0, 10, 65555, 0, 10, 65556, 0, 10, 131063, 0, 10, 131062, 0, 10, 131061, 0, 10, 131060, 0, 10, 131059, 0, 10, 131058, 0, 10, 131057, 0, 10, 131056, 0, 10, 131055, 0, 10, 131054, 0, 10, 65518, 0, 10, -18, 0, 10, -65554, 0, 10, -131090, 0, 10, -196626, 0, 10, -262162, 0, 10, -327698, 0, 10, -393234, 0, 10, -458770, 0, 10, -524306, 0, 10, -589842, 0, 10, -655378, 0, 10, -720914, 0, 10, -786450, 0, 10, -851986, 0, 10, -196601, 0, 10, -196600, 0, 10, -196599, 0, 10, -196598, 0, 10, -196597, 0, 10, -196596, 0, 10, -196595, 0, 10, -262147, 0, 10, -262148, 0, 10, -262149, 0, 10, -262150, 0, 10, -65545, 0, 10, -65546, 0, 10, -65547, 0, 10, -65548, 0, 10, -65549, 0, 10, -65550, 0, 10, 3, 0, 10, -327691, 0, 10, -327690, 0, 10, -458769, 0, 10, -458749, 0, 10, -458748, 0, 10, -262133, 0, 10, 65557, 0, 10, 65558, 0, 10, 65559, 0, 10, 65560, 0, 10, 65561, 0, 10, 25, 0, 10, -65511, 0, 10, -720871, 0, 10, -655335, 0, 10, -589799, 0, 10, -524263, 0, 10, -458727, 0, 10, -393191, 0, 10, -327655, 0, 10, -262119, 0, 10, -196583, 0, 10, -131047, 0, 10, -393195, 0, 10, -393194, 0, 10, -393193, 0, 10, -393192, 0, 10, -131053, 0, 10, -131052, 0, 10, -589807, 0, 10, -786407, 0, 10, -851943, 0, 10, -917479, 0, 10, -983015, 0, 10, -1048551, 0, 10)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_wtd17")]
+layer_0/tile_data = PackedInt32Array(-589841, 1, 65536, -589840, 1, 65536, -655376, 1, 65536, -655377, 1, 65536, -262124, 1, 196608, -262125, 1, 196608, -524267, 1, 196608, -524266, 1, 196608, -524265, 1, 196608, -524264, 1, 196608, -720879, 1, 196608, -327673, 1, 196608, -327672, 1, 196608, -327671, 1, 196608, -327670, 1, 196608, -393205, 1, 196608, -327668, 1, 196608, -327667, 1, 196608, -589820, 1, 196608, -589821, 1, 196608, -393219, 1, 196608, -393220, 1, 196608, -393221, 1, 196608, -393222, 1, 196608, -458762, 1, 196608, -458763, 1, 196608, -196622, 1, 196608, -196621, 1, 196608, -196620, 1, 196608, -196619, 1, 196608, -196618, 1, 196608, -196617, 1, 196608, -65513, 1, 65536, -131050, 1, 65536, -196585, 1, 65536, -131048, 1, 65536, -786423, 1, 65536, -786424, 1, 131072, -851959, 1, 131072, -786422, 1, 131072, -720887, 1, 131072, -851960, 1, 393216, -851958, 1, 393216, -720886, 1, 393216, -720888, 1, 393216, -16, 1, 393216, -589802, 1, 458752, -589801, 1, 458752, -655338, 1, 458752, -655337, 1, 458752, -131069, 1, 458752, -196606, 1, 458752, -196604, 1, 458752, -262141, 1, 458752, -196605, 1, 393216, -1376268, 1, 327680, -1376267, 1, 327680, -1376266, 1, 327680, -1376265, 1, 327680, -1376264, 1, 327680, -1376263, 1, 327680, -1376262, 1, 327680, -1376261, 1, 327680, -1376260, 1, 327680, -1376259, 1, 327680, -1376258, 1, 327680, -1376257, 1, 327680, -1441792, 1, 327680, -1441791, 1, 327680, -1703926, 1, 327680, -1703925, 1, 327680, -1703924, 1, 327680, -1703923, 1, 327680, -1638390, 1, 327680, -1638389, 1, 327680, -1638388, 1, 327680, -1638387, 1, 327680, -1638386, 1, 327680, -1638385, 1, 327680, -1638384, 1, 327680, -1638383, 1, 327680, -1638382, 1, 327680, -1638381, 1, 327680, -1638380, 1, 327680, -1638379, 1, 327680, -1638378, 1, 327680, -1835011, 1, 327680, -1835010, 1, 327680, -1835009, 1, 327680, -1900544, 1, 327680, -1900543, 1, 327680, -1900542, 1, 327680, -1900541, 1, 327680, -1835012, 1, 327680, -851977, 2, 262144, -786431, 2, 262144, -851948, 2, 262144, -131085, 2, 131072, -458729, 2, 131072, -1179637, 2, 131072, -327685, 2, 65536, -1114115, 2, 65536, 9, 2, 65536, 16, 2, 65536, -393226, 2, 65536, -786437, 3, 131072, -786409, 3, 131072)
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_3y8oh")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_3nswe")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("6_syqi4")]
+
+[node name="trigger_bgMove" parent="triggers" index="1" instance=ExtResource("7_mu5w8")]
+
+[node name="trigger_musicChange" parent="triggers" index="2" instance=ExtResource("8_wpcro")]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]
+
+[node name="info_sign" parent="." index="15" instance=ExtResource("10_ropq8")]
+position = Vector2(-160, 32)
+message_text = "Press Q or MIDDLE MOUSE BUTTON to open the entity editor! Here, you can customize various aspects of your \"projectile\". See what you made, by pressing X or LEFT MOUSE BUTTON!"
+anim_hide_cooldown = 16.0
+pause_duration = 10.0
+camera_target_zoom = Vector2(8, 8)
+
+[node name="info_sign2" parent="." index="16" instance=ExtResource("10_ropq8")]
+position = Vector2(544, -224)
+message_text = "Press Q or MIDDLE MOUSE BUTTON to open the entity editor! Here, you can customize various aspects of your \"projectile\". See what you made, by pressing X or LEFT MOUSE BUTTON!"
+anim_hide_cooldown = 16.0
+pause_duration = 4.0
+camera_target_zoom = Vector2(8, 8)
+
+[node name="info_sign3" parent="." index="17" instance=ExtResource("10_ropq8")]
+position = Vector2(-1056, -544)
+message_text = "Press Q or MIDDLE MOUSE BUTTON to open the entity editor! Here, you can customize various aspects of your \"projectile\". See what you made, by pressing X or LEFT MOUSE BUTTON!"
+anim_hide_cooldown = 16.0
+pause_duration = 4.0
+camera_target_zoom = Vector2(8, 8)

@@ -378,3 +378,7 @@ func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
 
 func delete_menu(): # Will add some menu deletion effect making heavy use of the general tween tool (doesn't exist yet) for each button.
 	queue_free()
+
+
+func _on_btn_level_chain_pressed() -> void:
+	Globals.change_main_scene(load("res://Levels/DEBUG_1.tscn"))

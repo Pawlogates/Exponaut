@@ -10,6 +10,7 @@ region = Rect2(320, 256, 64, 64)
 light_mask = 2
 visibility_layer = 2
 texture_filter = 1
+use_parent_material = true
 offset_right = 64.0
 offset_bottom = 64.0
 mouse_filter = 2

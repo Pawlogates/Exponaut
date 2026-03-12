@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b75xmiutrqrh8"
-path="res://.godot/imported/sprites_player.png-4298206ceb2d026fdf437843a773074f.ctex"
+uid="uid://2faeksb7ftqh"
+path="res://.godot/imported/bg_front_challenge.png-5baf774ae16cd6671deda7fd3dcd8419.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/sprites/sprites_player.png"
-dest_files=["res://.godot/imported/sprites_player.png-4298206ceb2d026fdf437843a773074f.ctex"]
+source_file="res://Assets/Graphics/backgrounds/bg_front_challenge.png"
+dest_files=["res://.godot/imported/bg_front_challenge.png-5baf774ae16cd6671deda7fd3dcd8419.ctex"]
 
 [params]
 

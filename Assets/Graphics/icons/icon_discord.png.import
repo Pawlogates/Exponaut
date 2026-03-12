@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b75xmiutrqrh8"
-path="res://.godot/imported/sprites_player.png-4298206ceb2d026fdf437843a773074f.ctex"
+uid="uid://bl3hgxl8owky7"
+path="res://.godot/imported/icon_discord.png-a516f358506c86128f1723258e655c64.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Graphics/sprites/sprites_player.png"
-dest_files=["res://.godot/imported/sprites_player.png-4298206ceb2d026fdf437843a773074f.ctex"]
+source_file="res://Assets/Graphics/icons/icon_discord.png"
+dest_files=["res://.godot/imported/icon_discord.png-a516f358506c86128f1723258e655c64.ctex"]
 
 [params]
 

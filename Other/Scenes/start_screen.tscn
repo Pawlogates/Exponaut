@@ -111,7 +111,7 @@ offset_right = 1049.0
 offset_bottom = 1035.0
 theme = ExtResource("4_q74v4")
 theme_override_font_sizes/font_size = 20
-text = "Press ESC to open menu. (do it a few times!)
+text = "Press ESC to open menu, do it a few times now!
 Also press tilde (~) for cool stuff.
 Press Shift + tilde for debug mode, don't do it on your first time though :)"
 horizontal_alignment = 1

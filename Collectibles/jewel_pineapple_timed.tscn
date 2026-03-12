@@ -21,4 +21,3 @@ entity_name = "jewel_pineapple_timed"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_a1rcj")
-animation = &"idle"

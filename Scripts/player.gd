@@ -1062,6 +1062,7 @@ func get_basic_player_values():
 	Globals.player_direction_x = direction_x
 	if direction_x : Globals.player_direction_x_active = direction_x
 	
+	Globals.player_position = position
 	Globals.player_velocity = velocity
 	
 	
@@ -1195,13 +1196,15 @@ func reduce_health(value : int, source : Node):
 	
 	invincible = true
 	t_invincible.start()
-	sfx(Globals.sfx_electric, 7.0, randf_range(0.5, 1.5))
+	sfx(Globals.sfx_electric, 1.0, randf_range(0.5, 1.5))
 	sprite.modulate = Color.DARK_RED
 	
 	if Globals.player_health <= 0:
 		dead = true
 		World.retry_checkpoint()
 		Globals.player_health = health_value
+		
+		if Globals.World.level_type == "debug" : Globals.message("You can't die in these levels! Just have some fun <3 (also press CTRL + R to restart a level)")
 		
 		velocity.x = randi_range(-2000, 2000)
 		velocity.y = randi_range(-500, -3000)

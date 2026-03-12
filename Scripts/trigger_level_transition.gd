@@ -33,7 +33,8 @@ func _on_area_entered(area):
 
 
 func _on_area_exited(_area):
-	active = true
+	pass
+	#active = true
 
 func _on_timer_timeout():
 	active = true

@@ -1,0 +1,127 @@
+[gd_scene load_steps=12 format=3 uid="uid://dkjcwmiq26wq6"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_ljr0p"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_j5m2y"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_ndbs5"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_31yal"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_lok1q"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_0spo3"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_y4l3x"]
+[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_ljmii"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="9_xu5le"]
+[ext_resource type="PackedScene" uid="uid://xtsa3kj57iry" path="res://Boxes/gem_level_portal.tscn" id="10_j5m2y"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="11_ndbs5"]
+
+[node name="World" instance=ExtResource("1_ljr0p")]
+level_type = "debug"
+levelSet_id = "DEBUG"
+level_number = 1
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_j5m2y")]
+layer_0/tile_data = PackedInt32Array(-65538, 0, 10, -2, 0, 10, 65534, 0, 10, 131070, 0, 10, -131074, 0, 10, -131073, 0, 10, -196608, 0, 10, -196607, 0, 10, -131071, 0, 10, -65535, 0, 10, 1, 0, 10, 65537, 0, 10, 131073, 0, 10, 196606, 0, 10, 262142, 0, 10, 327678, 0, 10, 393214, 0, 10, 458750, 0, 10, 196609, 0, 10, 262145, 0, 10, 327681, 0, 10, 393217, 0, 10, 524286, 0, 10, 589822, 0, 10, 655358, 0, 10, 720894, 0, 10, 786430, 0, 10, 851966, 0, 10, 917502, 0, 10, 983038, 0, 10, 458753, 0, 10, 524289, 0, 10, 589825, 0, 10, 655361, 0, 10, 720897, 0, 10, 786433, 0, 10, 851969, 0, 10, 917505, 0, 10, 1048574, 0, 10, 1114110, 0, 10, 1179646, 0, 10, 1245182, 0, 10, 1310718, 0, 10, 1376254, 0, 10, 1441790, 0, 10, 983041, 0, 10, 1048577, 0, 10, 1114113, 0, 10, 1179649, 0, 10, 1245185, 0, 10, 1310721, 0, 10, 1376257, 0, 10, 851967, 0, 10, 1245184, 0, 10, 1507326, 0, 10, 1572862, 0, 10, 1638398, 0, 10, 1703934, 0, 10, 1703935, 0, 10, 1638400, 0, 10, 1638401, 0, 10, 1638402, 0, 10, 1638403, 0, 10, 1638404, 0, 10, 1638405, 0, 10, 1638406, 0, 10, 1638407, 0, 10, 1638408, 0, 10, 1638409, 0, 10, 1638410, 0, 10, 1638411, 0, 10, 1638412, 0, 10, 1638413, 0, 10, 1638414, 0, 10, 1441793, 0, 10, 1638415, 0, 10, 1638416, 0, 10, 1638417, 0, 10, 1638418, 0, 10, 1638419, 0, 10, 1638420, 0, 10, 1638421, 0, 10, 1638422, 0, 10, 1638423, 0, 10, 1638424, 0, 10, 1638425, 0, 10, 1638426, 0, 10, 1638427, 0, 10, 1638428, 0, 10, 1638429, 0, 10, 1638430, 0, 10, 1638431, 0, 10, 1638432, 0, 10, 1638433, 0, 10, 1638434, 0, 10, 1638435, 0, 10, 1638436, 0, 10, 1638437, 0, 10, 1638438, 0, 10, 1638439, 0, 10, 1638440, 0, 10, 1638441, 0, 10, 1638442, 0, 10, 1638443, 0, 10, 1638444, 0, 10, 1638445, 0, 10, 1572909, 0, 10, 1507373, 0, 10, 1441837, 0, 10, 1376301, 0, 10, 1310765, 0, 10, 1245229, 0, 10, 1179693, 0, 10, 1114157, 0, 10, 1048621, 0, 10, 983085, 0, 10, 917549, 0, 10, 852013, 0, 10, 786477, 0, 10, 720941, 0, 10, 655405, 0, 10, 589869, 0, 10, 524333, 0, 10)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_ndbs5")]
+layer_0/tile_data = PackedInt32Array(786431, 2, 65536, 1179648, 2, 131072)
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_31yal")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_lok1q")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("6_0spo3")]
+
+[node name="trigger_bgMove" parent="triggers" index="1" instance=ExtResource("7_y4l3x")]
+
+[node name="trigger_musicChange" parent="triggers" index="2" instance=ExtResource("8_ljmii")]
+
+[node name="trigger_positional" parent="triggers" index="3" instance=ExtResource("9_xu5le")]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]
+
+[node name="gem_level_portal" parent="." index="15" instance=ExtResource("10_j5m2y")]
+position = Vector2(544, 1504)
+breakable_advanced_portal_level_id = "DEBUG_3"
+
+[node name="gem_level_portal2" parent="." index="16" instance=ExtResource("10_j5m2y")]
+position = Vector2(864, 1504)
+score_value = 4000
+on_hit_spawn_entity = true
+on_hit_spawn_entity_scene_filepath = "uid://oxvewjp1soes"
+on_hit_spawn_entity_quantity = 5
+breakable_advanced_portal_particle_quantity = 100
+breakable_advanced_portal_level_id = "DEBUG_4"
+
+[node name="gem_level_portal3" parent="." index="17" instance=ExtResource("10_j5m2y")]
+position = Vector2(1088, 1504)
+on_hit_spawn_entity = true
+on_hit_spawn_entity_scene_filepath = "uid://c85my28akyfi0"
+on_hit_spawn_entity_quantity = 15
+on_hit_spawn_entity_add_velocity_range = [Vector2(-4000, -2000), Vector2(800, -50)]
+breakable_on_hit_spawn_entity = true
+breakable_on_hit_spawn_entity_scene_filepath = "uid://bp1c8almrnogl"
+breakable_on_hit_spawn_entity_quantity = 10
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal4" parent="." index="18" instance=ExtResource("10_j5m2y")]
+position = Vector2(1456, 1504)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal5" parent="." index="19" instance=ExtResource("10_j5m2y")]
+position = Vector2(1504, 1504)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal6" parent="." index="20" instance=ExtResource("10_j5m2y")]
+position = Vector2(1552, 1504)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal7" parent="." index="21" instance=ExtResource("10_j5m2y")]
+position = Vector2(1584, 1504)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal8" parent="." index="22" instance=ExtResource("10_j5m2y")]
+position = Vector2(1616, 1504)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal9" parent="." index="23" instance=ExtResource("10_j5m2y")]
+position = Vector2(1648, 1488)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal10" parent="." index="24" instance=ExtResource("10_j5m2y")]
+position = Vector2(1680, 1488)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal11" parent="." index="25" instance=ExtResource("10_j5m2y")]
+position = Vector2(1696, 1472)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal12" parent="." index="26" instance=ExtResource("10_j5m2y")]
+position = Vector2(1728, 1472)
+movement_type = "chase_player_xy"
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal13" parent="." index="27" instance=ExtResource("10_j5m2y")]
+position = Vector2(1776, 1472)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal14" parent="." index="28" instance=ExtResource("10_j5m2y")]
+position = Vector2(1824, 1472)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal15" parent="." index="29" instance=ExtResource("10_j5m2y")]
+position = Vector2(1856, 1488)
+breakable_advanced_portal_particle_quantity = 5
+
+[node name="gem_level_portal16" parent="." index="30" instance=ExtResource("10_j5m2y")]
+position = Vector2(2352, 1440)
+can_move = true
+breakable_advanced_portal_particle_quantity = 250
+breakable_advanced_portal_level_id = "MAIN_4"
+on_floor_bounce = true
+on_floor_bounce_velocity_multiplier = 1.05
+
+[node name="info_sign" parent="." index="31" instance=ExtResource("11_ndbs5")]
+position = Vector2(1216, 1568)
+message_text = "press X or LMB to shoot the gems."

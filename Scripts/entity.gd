@@ -255,7 +255,8 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 			handle_collectable(target)
 	
 	# Tries to HIT the entity.
-	if family == "Player" and target.family == "enemy" or family == "enemy" and target.family == "Player":
+	#if family == "Player" and target.family == "enemy" or family == "enemy" and target.family == "Player":
+	if target.is_in_group("entity") or target.is_in_group("Player"):
 		if breakable : handle_breakable(target)
 	
 	if target.is_in_group("entity"):
@@ -309,6 +310,7 @@ var inside_block_all : Array = []
 var is_collidable = true
 
 func inside_check_enter(body):
+	if entity_type == "jewel_orange" : print("yes")
 	if body.is_in_group("Player"):
 		
 		inside_player += 1
@@ -347,6 +349,8 @@ func inside_check_enter(body):
 	if body.is_in_group("Player") and not pushable_by_player : return
 	if body.is_in_group("entity") and not pushable_by_entity : return
 	
+	if body.is_in_group("entity"):
+		if body.entity_name != entity_name : velocity.x = 125 * body.direction_x
 	
 	if collidable and is_collidable:
 		
@@ -1128,7 +1132,7 @@ func handle_effects_death(type : String = "normal"): # Death types: "normal", "b
 
 
 func effect_death_normal():
-	sfx_manager.sfx_play(sfx_self_death_filepath, 5.0, randf_range(0.75, 1.25))
+	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, randf_range(0.75, 1.25))
 	
 	Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, position, -1)
 	Globals.spawn_scenes(World, Globals.scene_effect_dead_enemy, 1, position, -1)
@@ -1386,7 +1390,7 @@ func handle_effects_collected():
 		var max_multiplier_particle_amount = 50
 		while max_multiplier_particle_amount > 0:
 			max_multiplier_particle_amount -= 1
-			call_deferred("spawn_particle_score", 2)
+			#call_deferred("spawn_particle_score", 2)
 	
 	# Handle double score particles (while a temporary powerup is active).
 	if get_node_or_null("$/root/World/player"):
@@ -1418,17 +1422,25 @@ func handle_reset_puzzle():
 	
 	sfx_manager.sfx_play(Globals.sfx_beam_enabled)
 	
+	if len(reset_puzzle_nodes_inside_zone):
+		Globals.Player.camera.enabled = false
+		Globals.World.camera.enabled = true
+	
 	for entity in reset_puzzle_nodes_inside_zone:
 		
 		if entity.reset_puzzle_delete_node_queued:
 			entity.reset_all()
 			Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 3, position)
+			
+			Globals.World.camera.position = entity.position
 		
 		else:
 			entity.animation_general.play("reflect_straight")
 		
-		await get_tree().create_timer(0.05, true).timeout
+		await get_tree().create_timer(clamp(0.5 / (len(reset_puzzle_nodes_inside_zone) / 10), 0.05, 0.5), true).timeout
 	
+	Globals.Player.camera.enabled = true
+	Globals.World.camera.enabled = false
 	
 	Globals.level_score = reset_puzzle_saved_score
 	Globals.score_reduced.emit()

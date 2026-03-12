@@ -82,12 +82,12 @@ var info_DEBUG_15 = ["area_castle", 2, 0, 0, -1, 60]
 var info_DEBUG_16 = ["area_ascent", 2, 0, 0, -1, 60]
 
 
-func _ready():
-	Globals.save_progress.connect(save_progress)
+#func _ready():
+	#Globals.save_progress.connect(save_progress)
 
 
-func save_progress():
-	save_game()
+#func save_progress():
+	#save_game()
 
 
 var current_level = 0

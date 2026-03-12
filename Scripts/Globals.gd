@@ -22,6 +22,8 @@ const d_playerData = d_slot_id + "/playerData"
 const d_levelSet = d_slot_id + "/levelSet"
 const d_levelState = d_slot_id + "/levelState"
 
+const dirpath_recordings = "user://recordings"
+
 const dirpath_assets = "res://Assets"
 const dirpath_graphics = dirpath_assets + "/Graphics"
 const d_backgrounds = dirpath_graphics + "/backgrounds"
@@ -361,9 +363,9 @@ func handle_actions(delta):
 	
 	
 	if Input.is_action_just_pressed("quicksave"):
-		SaveData.save_levelState(level_id, SaveData.slot_current)
+		SaveData.save_levelState(level_id, int(SaveData.slot_current))
 	elif Input.is_action_just_pressed("quickload"):
-		SaveData.load_levelState(level_id, SaveData.slot_current)
+		SaveData.load_levelState(level_id, int(SaveData.slot_current))
 	
 	
 	elif Input.is_action_pressed("ctrl"):
@@ -531,6 +533,8 @@ signal quickload(slot_number : int)
 
 signal play_music_random
 
+signal combo_end
+
 
 var settings_quicksaves = false
 var settings_volume_music = 0.2
@@ -659,7 +663,7 @@ var test4
 
 
 # Recording:
-var recording_autostart = false
+var recording_autostart = true
 
 signal start_recording
 signal start_playback
@@ -1217,3 +1221,8 @@ func is_valid_entity(target_node : Node, valid_group_names : Array = ["Player"])
 	
 	if valid : return true
 	else : return false
+
+
+func set_mouse_mode(visible : bool = true):
+	if visible : Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	else : Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN

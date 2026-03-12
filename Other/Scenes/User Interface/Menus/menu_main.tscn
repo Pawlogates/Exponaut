@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://cj0l75s18h1yo"]
+[gd_scene load_steps=5 format=3 uid="uid://cj0l75s18h1yo"]
 
 [ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_78nwv"]
 [ext_resource type="PackedScene" uid="uid://cw2j64pbmrk6p" path="res://Other/Scenes/User Interface/General/UI_button_general.tscn" id="2_0mlty"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_4o7a4"]
+[ext_resource type="PackedScene" uid="uid://bftpinyt3ba4w" path="res://Other/Scenes/display_information.tscn" id="4_0mlty"]
 
 [node name="menu_core" instance=ExtResource("1_78nwv")]
 anchors_preset = 15
@@ -87,6 +88,23 @@ layout_mode = 2
 text_manager_message = "[/]Close"
 decoration_base_size_multiplier = Vector2(0.4, 1)
 
+[node name="display_information" parent="." index="6" instance=ExtResource("4_0mlty")]
+layout_mode = 1
+offset_left = 48.0
+offset_top = 48.0
+offset_right = -1488.0
+offset_bottom = -648.0
+
+[node name="btn_level_chain" type="Button" parent="." index="7"]
+layout_mode = 0
+offset_left = 1504.0
+offset_top = 384.0
+offset_right = 1792.0
+offset_bottom = 480.0
+text = "Press this button when you get
+bored of, or get stuck somewhere
+in the main game."
+
 [connection signal="pressed" from="container_buttons/btn_Start New Game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Continue" to="." method="_on_btn_continue_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Resume game" to="." method="_on_btn_resume_game_pressed" binds= [2.0]]
@@ -98,3 +116,4 @@ decoration_base_size_multiplier = Vector2(0.4, 1)
 [connection signal="pressed" from="container_buttons/btn_Quit to Main Menu" to="." method="_on_btn_quit_to_main_menu_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Quit Game" to="." method="_on_btn_quit_game_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Close" to="." method="_on_btn_close_pressed"]
+[connection signal="pressed" from="btn_level_chain" to="." method="_on_btn_level_chain_pressed"]

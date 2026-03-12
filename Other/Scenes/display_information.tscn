@@ -1,0 +1,287 @@
+[gd_scene load_steps=8 format=3 uid="uid://bftpinyt3ba4w"]
+
+[ext_resource type="Script" uid="uid://bo73bryxhfnk8" path="res://Other/Scenes/display_information.gd" id="1_fvvwl"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_ky7ft"]
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_2twy5"]
+[ext_resource type="PackedScene" uid="uid://41015ioi3b3" path="res://Other/Scenes/User Interface/Menus/menu_single_button_display_information.tscn" id="3_fvvwl"]
+[ext_resource type="Texture2D" uid="uid://bl3hgxl8owky7" path="res://Assets/Graphics/icons/icon_discord.png" id="5_yy13d"]
+
+[sub_resource type="Gradient" id="Gradient_2twy5"]
+colors = PackedColorArray(0.0846572, 0, 0.00411024, 1, 0.254171, 9.56599e-07, 0.0181539, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fvvwl"]
+gradient = SubResource("Gradient_2twy5")
+fill_from = Vector2(0, 0.410256)
+
+[node name="display_information" type="Control"]
+z_index = 100
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1536.0
+offset_bottom = -696.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_fvvwl")
+
+[node name="bg" type="TextureRect" parent="."]
+z_index = -5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_fvvwl")
+
+[node name="text_main" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 24.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ky7ft")
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 7
+theme_override_constants/shadow_outline_size = 0
+theme_override_font_sizes/font_size = 12
+text = "Thank you so much for playing Exponaut <3
+
+I would like to make this game the best I'm able to, and to
+that end I would like to ask You to consider telling me
+about your experience with it in its current form!
+
+You can join the Exponaut discord server, or send
+me a private message there (my nickname is \"pawlogates\") to
+ask me about something in the game, or just let me know
+that You've played it or got stuck, thanks!"
+horizontal_alignment = 1
+
+[node name="text_secondary" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 240.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_ky7ft")
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 7
+theme_override_constants/shadow_outline_size = 0
+theme_override_font_sizes/font_size = 18
+text = "Join the discord server, to share sick
+replays of combos you managed
+to pull off, or to check how the game's
+development is going!"
+horizontal_alignment = 1
+
+[node name="image_main" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="image_secondary" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="outline" type="Control" parent="."]
+z_index = -1
+anchors_preset = 0
+mouse_filter = 2
+
+[node name="border" type="Node2D" parent="outline"]
+
+[node name="half" type="Polygon2D" parent="outline/border"]
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(0, 16, 384, 0, 384, 8, 0, 16)
+
+[node name="half2" type="Polygon2D" parent="outline/border"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(0, 16, 384, -3.33786e-05, 384, 16, 0, 16)
+
+[node name="border2" type="Node2D" parent="outline"]
+modulate = Color(0.800491, 0.800491, 0.800491, 1)
+position = Vector2(384, 0)
+rotation = 1.5708
+
+[node name="half" type="Polygon2D" parent="outline/border2"]
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(0, 4, 384, 16, 384, -3.05176e-05, 0, 0)
+
+[node name="half2" type="Polygon2D" parent="outline/border2"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(0, 3.05176e-05, 384, 16, 384, 16, 0, 16)
+
+[node name="border3" type="Node2D" parent="outline"]
+modulate = Color(0.505344, 0.505344, 0.505344, 1)
+position = Vector2(360, 400)
+rotation = 3.14159
+
+[node name="half" type="Polygon2D" parent="outline/border3"]
+position = Vector2(-7.62939e-06, 3.8147e-06)
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(0, 16, 384, 0, 400, 48, 0, 16)
+vertex_colors = PackedColorArray(0, 0, 0, 1, 0.288159, 3.27891e-07, 6.01634e-08, 1, 0.288159, 5.56512e-07, 9.62615e-08, 1, 0, 0, 0, 1)
+
+[node name="half2" type="Polygon2D" parent="outline/border3"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(0, 16, 408, -24.0001, 408, -6.10352e-05, 0, 16)
+
+[node name="border4" type="Node2D" parent="outline"]
+modulate = Color(0.728822, 0.728822, 0.728822, 1)
+position = Vector2(8, 0)
+rotation = 1.5708
+
+[node name="half" type="Polygon2D" parent="outline/border4"]
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(6.99382e-07, 16, 384, 0, 384, -3.05176e-05, 3.49691e-07, 8)
+
+[node name="half2" type="Polygon2D" parent="outline/border4"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(24, 1.23978e-05, 384, 7.99994, 384, 16, 0, 16)
+vertex_colors = PackedColorArray(0.324505, 8.63345e-07, 0.0425609, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1)
+
+[node name="outline2" type="Control" parent="."]
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+anchors_preset = 0
+offset_left = -5.0
+offset_top = -1.0
+offset_right = -5.0
+offset_bottom = -1.0
+mouse_filter = 2
+
+[node name="border" type="Node2D" parent="outline2"]
+
+[node name="half" type="Polygon2D" parent="outline2/border"]
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(0, 16, 384, 0, 384, 8, 0, 16)
+
+[node name="half2" type="Polygon2D" parent="outline2/border"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(0, 16, 384, -3.33786e-05, 384, 16, 0, 16)
+
+[node name="border2" type="Node2D" parent="outline2"]
+modulate = Color(0.800491, 0.800491, 0.800491, 1)
+position = Vector2(384, 0)
+rotation = 1.5708
+
+[node name="half" type="Polygon2D" parent="outline2/border2"]
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(0, 4, 384, 16, 384, -3.05176e-05, 0, 0)
+
+[node name="half2" type="Polygon2D" parent="outline2/border2"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(0, 3.05176e-05, 384, 16, 384, 16, 0, 16)
+
+[node name="border3" type="Node2D" parent="outline2"]
+modulate = Color(0.505344, 0.505344, 0.505344, 1)
+position = Vector2(360, 400)
+rotation = 3.14159
+
+[node name="half" type="Polygon2D" parent="outline2/border3"]
+position = Vector2(-7.62939e-06, 3.8147e-06)
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(0, 16, 384, 0, 400, 48, 0, 16)
+vertex_colors = PackedColorArray(0, 0, 0, 1, 0.288159, 3.27891e-07, 6.01634e-08, 1, 0.288159, 5.56512e-07, 9.62615e-08, 1, 0, 0, 0, 1)
+
+[node name="half2" type="Polygon2D" parent="outline2/border3"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(0, 16, 408, -24.0001, 408, -6.10352e-05, 0, 16)
+
+[node name="border4" type="Node2D" parent="outline2"]
+modulate = Color(0.728822, 0.728822, 0.728822, 1)
+position = Vector2(8, 0)
+rotation = 1.5708
+
+[node name="half" type="Polygon2D" parent="outline2/border4"]
+color = Color(0.433006, 0, 0.0703824, 1)
+polygon = PackedVector2Array(6.99382e-07, 16, 384, 0, 384, -3.05176e-05, 3.49691e-07, 8)
+
+[node name="half2" type="Polygon2D" parent="outline2/border4"]
+position = Vector2(384, 16)
+rotation = -3.14159
+color = Color(0.510217, 1.3236e-07, 0.09022, 1)
+polygon = PackedVector2Array(24, 1.23978e-05, 384, 7.99994, 384, 16, 0, 16)
+vertex_colors = PackedColorArray(0.324505, 8.63345e-07, 0.0425609, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1)
+
+[node name="decoration_gear" parent="." instance=ExtResource("3_2twy5")]
+modulate = Color(0.0646965, 0.0646965, 0.0646965, 1)
+z_index = -4
+position = Vector2(-24, 408)
+scale = Vector2(0.25, 0.25)
+
+[node name="decoration_gear4" parent="." instance=ExtResource("3_2twy5")]
+z_index = -8
+position = Vector2(16, 384)
+scale = Vector2(0.2, 0.2)
+
+[node name="decoration_gear2" parent="." instance=ExtResource("3_2twy5")]
+z_index = -8
+position = Vector2(272, 5.68434e-14)
+scale = Vector2(0.15, 0.15)
+
+[node name="decoration_gear3" parent="." instance=ExtResource("3_2twy5")]
+modulate = Color(0.277528, 0.277528, 0.277528, 1)
+z_index = 4
+position = Vector2(360, 360)
+scale = Vector2(0.2, 0.2)
+
+[node name="LinkButton" type="LinkButton" parent="."]
+z_index = 500
+layout_mode = 0
+offset_left = 48.0
+offset_top = 400.0
+offset_right = 336.0
+offset_bottom = 496.0
+theme = ExtResource("1_ky7ft")
+underline = 1
+uri = "https://discord.gg/TCYFZfZ373"
+
+[node name="menu_single_button" parent="." instance=ExtResource("3_fvvwl")]
+layout_mode = 1
+offset_top = 384.0
+offset_bottom = 128.0
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 0
+offset_left = 392.0
+offset_right = 472.0
+offset_bottom = 42.0
+theme = ExtResource("1_ky7ft")
+text = "Close"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -8
+position = Vector2(192, 536)
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("5_yy13d")
+
+[connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

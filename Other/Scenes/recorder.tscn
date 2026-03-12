@@ -1,29 +1,27 @@
-[gd_scene load_steps=3 format=3 uid="uid://d3wws0b2jjsyt"]
+[gd_scene load_steps=4 format=3 uid="uid://d3wws0b2jjsyt"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_c0mqp"]
 [ext_resource type="Script" uid="uid://ckfwa3k0hsyg4" path="res://Scripts/recorder.gd" id="1_esys6"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_hggyr"]
 
-[node name="recorder" type="Control"]
+[node name="recorder" type="Control" groups=["recorder"]]
 z_index = 50
-texture_filter = 3
 layout_mode = 3
-anchors_preset = 0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("1_c0mqp")
 script = ExtResource("1_esys6")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -208.0
-offset_top = -128.0
-offset_right = 208.0
-offset_bottom = 128.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_left = 64.0
+offset_top = 64.0
+offset_right = 512.0
+offset_bottom = 320.0
 
 [node name="Control" type="Control" parent="VBoxContainer"]
 layout_mode = 2
@@ -42,6 +40,8 @@ offset_right = 192.0
 offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
 theme_override_font_sizes/font_size = 24
 text = "start recording"
 
@@ -62,6 +62,8 @@ offset_right = 192.0
 offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
 theme_override_font_sizes/font_size = 24
 text = "stop recording"
 
@@ -100,6 +102,8 @@ offset_right = 24.0
 offset_bottom = 24.5
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
 theme_override_font_sizes/font_size = 24
 text = "-"
 
@@ -120,6 +124,8 @@ offset_right = 32.0
 offset_bottom = 24.5
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
 theme_override_font_sizes/font_size = 24
 text = "0"
 
@@ -140,6 +146,8 @@ offset_right = 24.0
 offset_bottom = 24.5
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
 theme_override_font_sizes/font_size = 24
 text = "+"
 
@@ -160,10 +168,71 @@ offset_right = 192.0
 offset_bottom = 24.0
 grow_horizontal = 2
 grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
 theme_override_font_sizes/font_size = 24
 text = "start playback"
 
-[node name="Label" type="Label" parent="."]
+[node name="Control5" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="stop playback" type="Button" parent="VBoxContainer/Control5"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -192.0
+offset_top = -24.0
+offset_right = 192.0
+offset_bottom = 24.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
+theme_override_font_sizes/font_size = 24
+text = "stop playback"
+
+[node name="label_info" type="Label" parent="."]
 layout_mode = 0
-offset_right = 40.0
-offset_bottom = 32.0
+offset_left = 16.0
+offset_right = 1904.0
+offset_bottom = 48.0
+theme = ExtResource("3_hggyr")
+text = "none"
+vertical_alignment = 1
+
+[node name="btn_close" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -704.0
+offset_top = -204.0
+offset_right = -640.0
+offset_bottom = -140.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+theme = ExtResource("3_hggyr")
+theme_override_font_sizes/font_size = 40
+text = "x"
+
+[node name="timer_block_upload_files_to_server" type="Timer" parent="."]
+wait_time = 60.0
+one_shot = true
+autostart = true
+
+[connection signal="pressed" from="VBoxContainer/Control/start recording" to="." method="_on_start_recording_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control2/stop recording" to="." method="_on_stop_recording_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control3/HBoxContainer/Control/playback -" to="." method="_on_playback_back_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control3/HBoxContainer/Control2/playback id" to="." method="_on_playback_id_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control3/HBoxContainer/Control3/playback +" to="." method="_on_playback_forward_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control4/start playback" to="." method="_on_start_playback_pressed"]
+[connection signal="pressed" from="VBoxContainer/Control5/stop playback" to="." method="_on_stop_playback_pressed"]
+[connection signal="pressed" from="btn_close" to="." method="_on_btn_close_pressed"]
+[connection signal="timeout" from="timer_block_upload_files_to_server" to="." method="_on_timer_timeout"]

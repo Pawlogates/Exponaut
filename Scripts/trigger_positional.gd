@@ -78,56 +78,56 @@ func _process(delta):
 			#$/root/World.music.volume_db = trigger value
 			
 			if RESET_OFFSET and RESET_ZOOM:
-				Globals.World.camera.position[0] = lerp(Globals.World.camera.position[0], 0.0, delta)
-				Globals.World.camera.position[1] = lerp(Globals.World.camera.position[1], 0.0, delta)
-				Globals.World.camera.zoom = Globals.World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+				Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
+				Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
+				Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
 				return
 			
 			if RESET_OFFSET:
-				$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
-				$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
+				Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
+				Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
 				return
 				
 			if RESET_ZOOM:
-				$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+				Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
 				return
 			
 			if moveCamera:
 				offsetValue = float(clamp(camera_baseOffset * trigger_value, minOffset, maxOffset))
 				offsetValue_Y = float(clamp(camera_baseOffset_Y * trigger_value, minOffset_Y, maxOffset_Y))
-				$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], offsetValue, 5 * delta)
-				$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], offsetValue_Y, 5 * delta)
+				Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], offsetValue, 5 * delta)
+				Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], offsetValue_Y, 5 * delta)
 			
 			if zoomCamera:
 				zoomValue = clamp(camera_baseZoom * trigger_value, minZoom, maxZoom)
-				$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
+				Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
 			
 			return
 	
 	#if RESET_OFFSET and RESET_ZOOM:
-		#$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
-		#$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
-		#$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+		#Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
+		#Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
+		#Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
 		#return
 #
 	#if RESET_OFFSET:
-		#$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], 0.0, delta)
-		#$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], 0.0, delta)
+		#Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
+		#Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
 		#return
 		#
 	#if RESET_ZOOM:
-		#$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+		#Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
 		#return
 	#
 	#
 	#if moveCamera:
-		#if $/root/World.camera.position[0] != offsetValue:
-			#$/root/World.camera.position[0] = lerp($/root/World.camera.position[0], offsetValue, delta)
-		#if $/root/World.camera.position[1] != offsetValue_Y:
-			#$/root/World.camera.position[1] = lerp($/root/World.camera.position[1], offsetValue_Y, delta)
+		#if Globals.Player.camera.position[0] != offsetValue:
+			#Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], offsetValue, delta)
+		#if Globals.Player.camera.position[1] != offsetValue_Y:
+			#Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], offsetValue_Y, delta)
 	#if zoomCamera:
-		#if $/root/World.camera.zoom != Vector2(zoomValue, zoomValue):
-			#$/root/World.camera.zoom = $/root/World.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
+		#if Globals.Player.camera.zoom != Vector2(zoomValue, zoomValue):
+			#Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
 
 
 func _on_body_entered(body):

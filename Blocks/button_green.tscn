@@ -80,7 +80,7 @@ region_rect = Rect2(64, 832, 64, 64)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="button_green/Sprite2D"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_l3fps")
+&"": SubResource("AnimationLibrary_l3fps")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_green"]
@@ -89,13 +89,14 @@ shape = SubResource("RectangleShape2D_gk7p3")
 
 [node name="Area2D" type="Area2D" parent="button_green"]
 collision_layer = 0
+collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_green/Area2D"]
 shape = SubResource("RectangleShape2D_iushe")
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 30.0
+wait_time = 10.0
 one_shot = true
 
 [node name="sound_buttonPressed" type="AudioStreamPlayer2D" parent="."]

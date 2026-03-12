@@ -19,9 +19,10 @@ func _on_area_2d_area_entered(area):
 	if area.is_in_group("Player"):
 		if activated:
 			return
-		
+		Globals.combo_end.emit()
 		Overlay.HUD.get_node("ScoreDisplay").displayScore = Globals.level_score + Globals.combo_score
-		await get_tree().create_timer(0.1, false).timeout
+		
+		await get_tree().create_timer(0.25, false).timeout
 		
 		if Globals.level_score >= target_score:
 			activated = true
@@ -32,6 +33,7 @@ func _on_area_2d_area_entered(area):
 		else:
 			animation_color.play("fade_out")
 			animation_color.play("pulse_red_normal")
+			target_score_animation_general.speed_scale = randf_range(0.25, 0.5)
 			target_score_animation_general.play("loop_scale")
 			$sfx_manager.sfx_play(Globals.sfx_electric_disabled, 1.0, 0.85)
 			

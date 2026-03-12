@@ -25,6 +25,10 @@ var score_counted_emitted = false
 signal score_counted()
 
 func _ready():
+	Globals.gameState_changed.connect(on_gameState_changed)
+	
+	Globals.set_mouse_mode(true)
+	
 	saved_progress = SaveData
 	
 	set_process(false)
@@ -147,3 +151,7 @@ func count_hp():
 func count_inventoryItems():
 	if Globals.inventory_currentItemCount > 0:
 		displayedBonus_items += 1000
+
+
+func on_gameState_changed():
+	visible = false

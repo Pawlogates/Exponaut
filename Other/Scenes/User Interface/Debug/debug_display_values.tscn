@@ -222,11 +222,11 @@ Shift + Tilde (~) : Toggle debug mode
 Forward Slash (/) : Show all collisions
 Ctrl + R : Restart current level
 Alt + 1 : Restart current level and ignore save state files
-Ctrl + 2 : Unlock camera from the player
+Alt + 2 : Unlock camera from the player
 Ctrl + - : Zoom camera out
 Ctrl + + (nice) : Zoom camera in
 1/2/3/4... : Context sensitive debug functions
-(works only if debug mode is active - Shift + Tilde (~)
+(works only if debug mode is active --> Shift + Tilde (~)
 F5 : Quicksave
 F6 : Quickload
 Shift + 1/2/3/4... : Quicksave at specific slot

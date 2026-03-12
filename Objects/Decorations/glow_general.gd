@@ -9,5 +9,6 @@ func _ready() -> void:
 		
 		if not Globals.gameState_levelSet_screen : return
 		
-		glow.range_z_max += 20 + (5 * get_parent().get_parent().get_parent().get_parent().id)
-		glow.range_z_min + glow.range_z_min - 5
+		if "id" in get_parent().get_parent().get_parent().get_parent():
+			glow.range_z_max += 20 + (5 * get_parent().get_parent().get_parent().get_parent().id)
+			glow.range_z_min + glow.range_z_min - 5

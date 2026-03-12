@@ -173,8 +173,8 @@ var effect_collected_multiple_active = false
 @export var damage_to_player = true
 @export var damage_to_player_contact = true
 
-@export var pushable_by_entity = false
-@export var pushable_by_player = false
+@export var pushable_by_entity = true
+@export var pushable_by_player = true
 
 @export var set_player_attack_cooldown = false
 @export var set_player_attack_cooldown_value = 1.5
@@ -673,7 +673,7 @@ var effect_collected_multiple_active = false
 
 @export var on_floor_bounce = false
 @export var on_floor_bounce_velocity_multiplier : float = 0.5
-@export var on_wall_bounce = false
+@export var on_wall_bounce = true
 @export var on_wall_bounce_velocity_multiplier : float = 0.5
 
 @export var variable_speed = false
@@ -1173,6 +1173,8 @@ func save():
 		"parent" : get_parent().get_path(),
 		"pos_x" : position.x, # Note: Unfortunately, Vector2 is not supported by JSON.
 		"pos_y" : position.y,
+		"start_pos_x" : start_pos.x,
+		"start_pos_y" : start_pos.y,
 		"test" : [position.x, position.y],
 		"collected" : collected,
 		"dead" : dead,

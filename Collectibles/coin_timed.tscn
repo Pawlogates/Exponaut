@@ -19,7 +19,6 @@ entity_name = "coin_timed"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_syj8d")
-animation = &"idle"
 
 [node name="collision_main" parent="." index="1"]
 shape = SubResource("RectangleShape2D_gymcb")

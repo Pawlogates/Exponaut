@@ -1,0 +1,69 @@
+[gd_scene load_steps=13 format=3 uid="uid://b5ttksvnw4fj5"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_ett3p"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_6fvxo"]
+[ext_resource type="PackedScene" uid="uid://dfsoasc4xc08b" path="res://Levels/DEBUG_7.tscn" id="2_jc15n"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_jc15n"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_jmerk"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_sqo47"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_bpgpi"]
+[ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_xa5xx"]
+[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_vi182"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="9_eprlj"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="11_jc15n"]
+[ext_resource type="PackedScene" uid="uid://bmnsg0hl7qcpu" path="res://Objects/gate_score.tscn" id="12_jmerk"]
+
+[node name="World" instance=ExtResource("1_ett3p")]
+level_type = "debug"
+next_level = ExtResource("2_jc15n")
+levelSet_id = "DEBUG"
+level_number = 1
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_6fvxo")]
+layer_0/tile_data = PackedInt32Array(131068, 0, 10, 131069, 0, 10, 131070, 0, 10, 131071, 0, 10, 65536, 0, 10, 65537, 0, 10, 65538, 0, 10, 65539, 0, 10, 65540, 0, 10, 65541, 0, 10, 65542, 0, 10, -458748, 0, 10, -458747, 0, 10, -458746, 0, 10, -458745, 0, 10, -458744, 0, 10, -458743, 0, 10, -458742, 0, 10, -458741, 0, 10, -458740, 0, 10, -458739, 0, 10, -458738, 0, 10, -458737, 0, 10, -458736, 0, 10, -458735, 0, 10, -458734, 0, 10, -458733, 0, 10, -458732, 0, 10, -458731, 0, 10, -458730, 0, 10, -458729, 0, 10, -458728, 0, 10, -458727, 0, 10, -458726, 0, 10, -458725, 0, 10, -458724, 0, 10, -458723, 0, 10, -458722, 0, 10, 65568, 0, 10, 65567, 0, 10, 65566, 0, 10, 65565, 0, 10, 65564, 0, 10, 65563, 0, 10, 65562, 0, 10, 65561, 0, 10, 65560, 0, 10, 65559, 0, 10, 65558, 0, 10, 65557, 0, 10, 65556, 0, 10, 65555, 0, 10, 65554, 0, 10, 65553, 0, 10, 65552, 0, 10, 65551, 0, 10, 65550, 0, 10, 65549, 0, 10, 65548, 0, 10, 65547, 0, 10, 65546, 0, 10, 65545, 0, 10, 65544, 0, 10, 65543, 0, 10, -131042, 0, 10, -196578, 0, 10, -262114, 0, 10, 32, 0, 10, -65504, 0, 10, -131040, 0, 10, -196576, 0, 10, -458721, 0, 10, -458720, 0, 10, -458719, 0, 10, -458718, 0, 10, -393182, 0, 10, -327646, 0, 10, -262110, 0, 10, -196574, 0, 10, -196575, 0, 10, -262115, 0, 10, -262116, 0, 10, -262117, 0, 10, -262118, 0, 10, -262119, 0, 10, -262120, 0, 10, -262121, 0, 10, -262122, 0, 10, -262123, 0, 10, -262124, 0, 10, -196588, 0, 10, -262128, 0, 10, -327664, 0, 10, -393200, 0, 10, -196591, 0, 10, -196590, 0, 10, -196589, 0, 10, -196592, 0, 10, 131067, 0, 10, 131066, 0, 10, 131065, 0, 10, 131064, 0, 10, 131063, 0, 10, 131062, 0, 10, 131061, 0, 10, -458749, 0, 10, -524285, 0, 10, -524286, 0, 10, -524287, 0, 10, -524288, 0, 10, -458753, 0, 10, -458754, 0, 10, -458755, 0, 10, -458756, 0, 10, -458757, 0, 10, -458758, 0, 10, -458759, 0, 10, -458760, 0, 10, -458761, 0, 10, -458762, 0, 10, -458763, 0, 10, -458764, 0, 10, -458765, 0, 10, -393229, 0, 10, -327693, 0, 10, -262157, 0, 10, -196621, 0, 10, -131085, 0, 10, -65549, 0, 10, -13, 0, 10, 65523, 0, 10, 131059, 0, 10, 131060, 0, 10)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_jc15n")]
+layer_0/tile_data = PackedInt32Array(-65531, 1, 65536, -65530, 1, 65536, -65529, 1, 65536, -65528, 1, 65536, -65527, 1, 65536, -65526, 1, 196608, -65525, 1, 196608, -65524, 1, 196608, -65523, 1, 196608, -65522, 1, 196608, -65521, 1, 196608, -65520, 1, 196608, -65519, 1, 196608, -65518, 1, 196608, -65517, 1, 196608, -65516, 1, 196608, -65515, 1, 196608, -65514, 1, 196608, -65513, 1, 196608, -65512, 1, 196608, -327662, 1, 524288, -11, 3, 131072, -65547, 3, 131072, -131083, 3, 131072, -196619, 3, 131072, -262155, 3, 131072, -327691, 3, 131072)
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_jmerk")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_sqo47")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("6_bpgpi")]
+
+[node name="trigger_bgChange2" parent="triggers" index="1" instance=ExtResource("6_bpgpi")]
+position = Vector2(2016, -32)
+bg_main_filepath = "uid://beb3y6aq46map"
+bg_front_filepath = "uid://brb8qm5tbxwnl"
+bg_back_filepath = "uid://bp4hnv1jrobst"
+bg_back2_filepath = "uid://dfphbqyrmgmmu"
+
+[node name="trigger_bgMove" parent="triggers" index="2" instance=ExtResource("7_xa5xx")]
+
+[node name="trigger_musicChange" parent="triggers" index="3" instance=ExtResource("8_vi182")]
+
+[node name="trigger_musicChange2" parent="triggers" index="4" instance=ExtResource("8_vi182")]
+position = Vector2(1280, -320)
+music_file = "uid://dlf4vd8plh8ey"
+
+[node name="trigger_positional" parent="triggers" index="5" instance=ExtResource("9_eprlj")]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]
+
+[node name="info_sign" parent="." index="15" instance=ExtResource("11_jc15n")]
+position = Vector2(2112, -224)
+message_text = "Look at your score. Now try collecting the items in a different order, and take note of the score difference!"
+
+[node name="info_sign2" parent="." index="16" instance=ExtResource("11_jc15n")]
+position = Vector2(1504, -288)
+message_text = "The combo system is quite involved... but in short, order of collected items will have a major difference in terms of your score, due to the first item only STARTING the combo streak, and the rest have their value added to the main score, as well as the temporary combo score! The combo score can also be multiplied depending on how many items you've collected while the streak is active. s h o r t"
+anim_hide_cooldown = 12.0
+pause_duration = 8.0
+
+[node name="score_gate" parent="." index="17" instance=ExtResource("12_jmerk")]
+position = Vector2(-448, -192)
+target_score = 12000

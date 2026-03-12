@@ -2,7 +2,7 @@ extends Node2D
 
 @onready var Player = $Player
 
-@onready var camera = Player.camera
+@onready var camera = $camera
 @onready var music_manager: Node2D = $"Music Manager"
 @onready var ambience_manager: Node2D = $"Ambience Manager"
 
@@ -37,6 +37,8 @@ var level_start_time = 0.0
 @export var final_level = false
 
 @export var player_start_health = 100
+
+@export var on_start_camera_effect : bool = true
 
 var total_keys = 0
 var total_collectibles = 0
@@ -120,7 +122,7 @@ func _ready():
 	
 	Globals.level_started.emit()
 	
-	camera.effect(Vector2(randi_range(-2000, 2000), randi_range(-2000, 0)), Vector2(2, 2), randi_range(-15, 15), 10)
+	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-2000, 2000), randi_range(-2000, 0)), Vector2(2, 2), randi_range(-15, 15), 10)
 	
 	Overlay.animation("black_fade_out", 0.2, false, false, 0)
 	
@@ -171,10 +173,10 @@ func _ready():
 	#$tileset_objectsSmall.queue_free() #DEBUG
 	
 	if camera_boundary_left != 0.0 or camera_boundary_right != 0.0 or camera_boundary_top != 0.0 or camera_boundary_bottom != 0.0:
-		Player.camera.limit_left = camera_boundary_left
-		Player.camera.limit_right = camera_boundary_right
-		Player.camera.limit_bottom = camera_boundary_bottom
-		Player.camera.limit_top = camera_boundary_top
+		Globals.Player.camera.limit_left = camera_boundary_left
+		Globals.Player.camera.limit_right = camera_boundary_right
+		Globals.Player.camera.limit_bottom = camera_boundary_bottom
+		Globals.Player.camera.limit_top = camera_boundary_top
 	
 	
 	get_tree().paused = false
@@ -230,9 +232,9 @@ func _ready():
 		Globals.player_health = 250
 	
 	if weather_rain == true:
-		Player.camera.add_child(scene_rain.instantiate())
+		Globals.Player.camera.add_child(scene_rain.instantiate())
 	if weather_leaves == true:
-		Player.camera.add_child(scene_leaves.instantiate())
+		Globals.Player.camera.add_child(scene_leaves.instantiate())
 	
 	#Globals.cheated_state = false
 	
@@ -247,7 +249,7 @@ func _ready():
 		Player.position = level_transition_target.position + level_transition_target.transition_pos_offset
 		print("transition", Globals.transition_next)
 	
-	Player.camera.position_smoothing_enabled = false
+	Globals.Player.camera.position_smoothing_enabled = false
 	
 	
 	if force_mode_memeMode:
@@ -278,14 +280,14 @@ func _ready():
 	
 	await get_tree().create_timer(0.25, false).timeout
 	
-	camera.effect(Vector2(0, 0), Vector2(1, 1), 0)
+	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0)
 	
 	#if not Globals.transition_triggered:
 		#save_game()
 	
 	Globals.transition_triggered = false
 	
-	if Globals.level_type == "overworld" and Globals.level_id != "none":
+	if level_type == "overworld" and Globals.level_id != "none":
 		
 		if Globals.load_levelState:
 			SaveData.load_levelState(Globals.level_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
@@ -297,7 +299,7 @@ func _ready():
 	
 	handle_night()
 	
-	Player.camera.position_smoothing_enabled = true
+	Globals.Player.camera.position_smoothing_enabled = true
 	
 	if delete_background_layers:
 		bg_deleted = true
@@ -306,7 +308,7 @@ func _ready():
 		$ParallaxBackgroundGradient.queue_free()
 	
 	if force_mode_memeMode:
-		var memeMode_background_video_player = preload("res://Other/Game Modes/Meme Mode/background_video_Player.tscn").instantiate()
+		var memeMode_background_video_player = load("res://Other/Game Modes/Meme Mode/background_video_player.tscn").instantiate()
 		memeMode_background_video_player.position = Player.position + Vector2(-960, -540)
 		add_child(memeMode_background_video_player)
 	
@@ -410,52 +412,21 @@ func handle_player_death():
 		retry_checkpoint()
 
 
-# HANDLE LEVEL EXIT REACHED (unused?)
-func _on_exitReached_next_level():
-	#Globals.total_score = Globals.total_score + Globals.level_score
-	Globals.level_score = 0
-	Globals.combo_score = 0
-	Globals.combo_tier = 1
-	Globals.combo_streak = 0
-	
-	go_to_next_level()
-
-
 func _on_exitReached_retry():
 	retry()
 
 
 func show_screen_levelFinished():
-	print("hi")
-	if not Globals.mode_scoreAttack:
+	if not next_level:
 		screen_levelFinished = Overlay.HUD.get_node("Level Finished")
 		screen_levelFinished.show()
 		screen_levelFinished.retry_btn.grab_focus()
+		screen_levelFinished.visible = true
 		Overlay.HUD.get_node("Level Finished").exit_reached()
 		
 		get_tree().paused = true
-	
-	
-	elif Globals.mode_scoreAttack:
-		if scoreAttack_target_collectible_amount != -1:
-			if Globals.collected_collectibles >= scoreAttack_target_collectible_amount:
-				screen_levelFinished.show()
-				screen_levelFinished.retry_btn.grab_focus()
-				
-				get_tree().paused = true
-		
-			else:
-				Globals.infoSign_current_text = "You need at least 750 collectibles to finish the level!"
-				Globals.infoSign_current_size = 2
-				Globals.info_sign_touched.emit()
-		
-		
-		else:
-			screen_levelFinished.show()
-			screen_levelFinished.retry_btn.grab_focus()
-			%"Level Finished".exit_reached()
-			
-			get_tree().paused = true
+	else:
+		Globals.change_main_scene(next_level)
 
 
 func go_to_next_level(): #unused?

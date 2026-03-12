@@ -34,13 +34,15 @@ var menu : Node
 @export var decoration_base_size_multiplier = Vector2(1.0, 1.0)
 @export var decoration_base_scale = Vector2(1, 1)
 @export var decoration_base_rotation = 1
-@export var decoration_base_position = Vector2(0, 0)
+@export var decoration_base_position = Vector2(-32, 0)
 
 @export var adjust_decoration_size : bool = false # Decoration size will match the text manager message length. Base size will be ignored if this is set to "true".
 @export var adjust_decoration_position : bool = false # Causes the decoration to adjust its position based on its parent's horizontal width.
 
 @export var decoration_edge_base_change_scale = false
 @export var decoration_edge_base_scale = Vector2(0.1, 0.1)
+
+@export var ignore_mouse : bool = false
 
 
 var is_pressed = false
@@ -120,7 +122,8 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
-	mouse_filter = Control.MOUSE_FILTER_STOP
+	if not ignore_mouse:
+		mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	if menu.type == "Array_choice":
 		text_manager.create_message(str(choice))
