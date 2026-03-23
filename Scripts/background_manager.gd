@@ -113,9 +113,18 @@ func _ready():
 	
 	fade_multiplier = 20.0
 	
-	for l_property_name in list_l_property_name:
-		var bg_layer = get(l_property_name)
+	
+	for l_node_name in list_l_A_node_name:
+		
+		var bg_layer = get_node(l_node_name)
+		
 		bg_layer.visible = true
+	
+	for l_node_name in list_l_node_name:
+		
+		var bg_layer = get_node(l_node_name)
+		
+		bg_layer.scroll_base_offset.y = 1200
 	
 	
 	await get_tree().create_timer(1.0, true).timeout

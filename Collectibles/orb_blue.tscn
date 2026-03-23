@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://c85my28akyfi0"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_udy7q"]
+[ext_resource type="SpriteFrames" uid="uid://c2o7mkue64ht6" path="res://Assets/Graphics/sprites/packed/collectibles/orb.tres" id="2_bwaxh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="orb_blue" instance=ExtResource("1_udy7q")]
+score_value = 10
+can_move = true
+ignore_gravity = false
+on_floor_bounce = true
+on_floor_bounce_velocity_multiplier = 0.6
+start_animation = "none"
+sfx_self_collected_filepath = "uid://bypu2n6tdxni4"
+sfx_self_bounced_filepath = "uid://c6esa6bpc6d6r"
+entity_name = "orb"
+
+[node name="sprite" parent="." index="0"]
+scale = Vector2(0.2, 0.2)
+sprite_frames = ExtResource("2_bwaxh")
+
+[node name="collision_main" parent="." index="1"]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_511gd")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+scale = Vector2(0.5, 0.5)

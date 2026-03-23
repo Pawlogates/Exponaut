@@ -261,16 +261,16 @@ func _ready() -> void:
 	
 	gameState_changed.connect(on_gameState_changed)
 	
-	#if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
-	refreshed0_5.connect(on_refreshed0_5)
-	refreshed1_0.connect(on_refreshed1_0)
-	refreshed2_0.connect(on_refreshed2_0)
-	refreshed4_0.connect(on_refreshed4_0)
-	
-	refresh0_5()
-	refresh1_0()
-	refresh2_0()
-	refresh4_0()
+	if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
+		refreshed0_5.connect(on_refreshed0_5)
+		refreshed1_0.connect(on_refreshed1_0)
+		refreshed2_0.connect(on_refreshed2_0)
+		refreshed4_0.connect(on_refreshed4_0)
+		
+		refresh0_5()
+		refresh1_0()
+		refresh2_0()
+		refresh4_0()
 	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -603,7 +603,7 @@ var gameState_level = false
 var gameState_levelSet_screen = false
 var gameState_start_screen = false
 
-var gameState_debug = true
+var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
 
 
 # Sound effects manager should be the main way used to play short sounds. Note that each entity has its own sound manager, and that the world node has a single music manager, as well as one ambience manager.
@@ -663,7 +663,7 @@ var test4
 
 
 # Recording:
-var recording_autostart = true
+var recording_autostart = false
 
 signal start_recording
 signal start_playback
@@ -836,32 +836,46 @@ func prepare_list_all(directory_path : String, exclude : Array):
 	return list
 
 
-func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = [], add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], variable_delay : bool = false):
+func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = [], add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale_range_equal : bool = true, spawn_cooldown : float = 0.0, spawn_cooldown_range : Array = [0.0, 0.0], master_node : Node = target):
 	if not is_instance_valid(target) : return
 	
 	var spawned_nodes : Array
 	
 	for x in range(quantity):
-		if variable_delay : await get_tree().create_timer(randf_range(0.01, 0.25), true).timeout
+		if spawn_cooldown : await get_tree().create_timer(spawn_cooldown, true).timeout
+		if spawn_cooldown_range != [0.0, 0.0] : await get_tree().create_timer(randf_range(spawn_cooldown_range[0], spawn_cooldown_range[1])).timeout
 		
 		var node
 		
 		if filepath is String : node = load(filepath).instantiate()
 		else : node = filepath.instantiate()
 		
-		node.position += pos_offset
+		if master_node != target : node.master_node = master_node
+		
+		if pos_offset : node.position += pos_offset
 		
 		if pos_offset_range != [Vector2(0, 0), Vector2(0, 0)]:
 			node.position.x += randi_range(pos_offset_range[0].x, pos_offset_range[1].x)
 			node.position.y += randi_range(pos_offset_range[0].y, pos_offset_range[1].y)
 		
+		if add_velocity : node.velocity += add_velocity
+		
 		if add_velocity_range != [Vector2(0, 0), Vector2(0, 0)]:
 			node.velocity.x += randi_range(add_velocity_range[0].x, add_velocity_range[1].x)
 			node.velocity.y += randi_range(add_velocity_range[0].y, add_velocity_range[1].y)
 		
+		if add_scale : node.scale += add_scale
+		
+		if add_scale_range != [Vector2(0, 0), Vector2(0, 0)]:
+			node.scale.x += randf_range(add_scale_range[0].x, add_scale_range[1].x)
+			node.scale.y += randf_range(add_scale_range[0].y, add_scale_range[1].y)
+		
+		if add_scale_range_equal : node.scale.y = node.scale.x
+		
+		
 		node.modulate += add_modulate
-		node.scale += add_scale
 		node.z_index += add_z_index
+		
 		
 		var y = -1
 		for property_name in properties_name:
@@ -871,7 +885,7 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 		
 		if not is_instance_valid(target) : return
 		
-		target.add_child(node)
+		target.call_deferred("add_child", node)
 		
 		spawned_nodes.append(node)
 	
@@ -1214,6 +1228,8 @@ func reload_level_scene(keep_player_pos : bool = false):
 
 
 func is_valid_entity(target_node : Node, valid_group_names : Array = ["Player"]):
+	if target_node.is_in_group("scan_patrolling_vision") : return false
+	
 	var valid = false
 	
 	for group_name in valid_group_names:

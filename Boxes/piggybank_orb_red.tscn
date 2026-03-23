@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://bkcka0v37j3sl"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_bgohy"]
+[ext_resource type="SpriteFrames" uid="uid://j2i2jftj1ger" path="res://Assets/Graphics/sprites/packed/boxes/piggybank.tres" id="3_j0bsc"]
+
+[node name="piggybank_orb_red" instance=ExtResource("1_bgohy")]
+collectable = false
+hittable = true
+family = "enemy"
+damage_to_player = false
+can_move = true
+ignore_gravity = false
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://4dddq1sty5h7"
+on_death_spawn_entity_quantity = 10
+on_death_spawn_entity_add_velocity_range = [Vector2(-250, -500), Vector2(250, -250)]
+on_hit_spawn_entity3_scene_filepath = "uid://c85my28akyfi0"
+breakable = true
+start_animation = "none"
+entity_name = "piggybank_orbs"
+entity_type = "box"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("3_j0bsc")
+frame_progress = 0.241877

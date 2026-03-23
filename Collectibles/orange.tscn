@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://cp2fvwcb40i4y"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_ampap"]
+[ext_resource type="SpriteFrames" uid="uid://bn0r5f03h1mh" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_orange.tres" id="2_iuxoh"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="orange" instance=ExtResource("1_ampap")]
+score_value = 45
+can_move = true
+ignore_gravity = false
+on_floor_bounce = true
+start_animation = "none"
+entity_name = "jewel_orange"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_iuxoh")
+
+[node name="collision_main" parent="." index="1"]
+shape = SubResource("RectangleShape2D_511gd")

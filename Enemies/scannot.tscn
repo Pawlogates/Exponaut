@@ -1,17 +1,18 @@
-[gd_scene load_steps=5 format=3 uid="uid://bb52wg803hnl8"]
+[gd_scene load_steps=5 format=3 uid="uid://rpgaf3ib74ux"]
 
-[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_yvjy2"]
-[ext_resource type="SpriteFrames" uid="uid://cp5hoa5re7e1b" path="res://Assets/Graphics/sprites/packed/enemies/scannot.tres" id="2_xhf0r"]
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_bbcu5"]
+[ext_resource type="SpriteFrames" uid="uid://cp5hoa5re7e1b" path="res://Assets/Graphics/sprites/packed/enemies/scannot.tres" id="2_bbcu5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yvjy2"]
 size = Vector2(62, 31)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xhf0r"]
-size = Vector2(128, 512)
+size = Vector2(128, 384)
 
-[node name="batron" instance=ExtResource("1_yvjy2")]
+[node name="scannot" instance=ExtResource("1_bbcu5")]
 texture_filter = 3
 collision_layer = 0
+patrolling_anim_while_queued = true
 collectable = false
 hittable = true
 movement_type = "follow_player_x"
@@ -24,20 +25,22 @@ limit_spawn_entity = true
 on_patrolling_spotted_spawn_entity = true
 on_patrolling_spotted_spawn_entity_scene_filepath = "uid://ci74wlv3i43aa"
 on_patrolling_spotted_spawn_entity_quantity = 2
-on_patrolling_spotted_spawn_entity_pos_offset_range = [Vector2(-1024, -1024), Vector2(1024, 1024)]
+on_patrolling_spotted_spawn_entity_pos_offset_range = [Vector2(-1024, -256), Vector2(1024, 256)]
 start_animation = "none"
 can_change_sprite_anim = true
 on_death_effect_shrink = false
-entity_name = "batron"
+entity_name = "scannot"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
-sprite_frames = ExtResource("2_xhf0r")
+position = Vector2(0, 112)
+sprite_frames = ExtResource("2_bbcu5")
 animation = &"flight"
+frame_progress = 0.978773
 
 [node name="collision_main" parent="." index="1"]
 shape = SubResource("RectangleShape2D_yvjy2")
 
 [node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
-position = Vector2(0, 256)
+position = Vector2(0, 192)
 shape = SubResource("RectangleShape2D_xhf0r")

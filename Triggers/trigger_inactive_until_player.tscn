@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://nr612sjkrecu"]
+
+[ext_resource type="Script" uid="uid://clehf61m4i55g" path="res://Triggers/trigger_inactive_until_player.gd" id="1_2077n"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1y1uk"]
+size = Vector2(64, 64)
+
+[node name="trigger_inactive_until_player" type="Node2D"]
+script = ExtResource("1_2077n")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("RectangleShape2D_1y1uk")
+debug_color = Color(0.978, 0, 0.399, 0.127)
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

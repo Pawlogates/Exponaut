@@ -186,7 +186,7 @@ script = ExtResource("3_7jow7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_dduox")
+&"": SubResource("AnimationLibrary_dduox")
 }
 
 [connection signal="animation_finished" from="AnimationPlayer" to="Sprite2D" method="_on_animation_player_animation_finished"]

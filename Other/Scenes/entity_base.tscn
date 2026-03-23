@@ -1,10 +1,9 @@
-[gd_scene load_steps=13 format=3 uid="uid://wgtcgh1uo037"]
+[gd_scene load_steps=12 format=3 uid="uid://wgtcgh1uo037"]
 
 [ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://Scripts/entity.gd" id="1_wx0ek"]
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="3_1y7wk"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_c3p0q"]
-[ext_resource type="SpriteFrames" uid="uid://br58pfg6ajcpt" path="res://Assets/Graphics/sprites/packed/collectibles/gem.tres" id="3_fjle6"]
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_84r7y"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_fjle6"]
 
@@ -30,7 +29,6 @@ floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
-sprite_frames = ExtResource("3_fjle6")
 animation = &"idle"
 
 [node name="animation_all" parent="sprite" instance=ExtResource("4_84r7y")]
@@ -97,7 +95,7 @@ scale = Vector2(51.2, 51.2)
 [node name="cooldown_sfx_idle" type="Timer" parent="."]
 wait_time = 2.0
 
-[node name="scan_patrolling_vision" type="Area2D" parent="."]
+[node name="scan_patrolling_vision" type="Area2D" parent="." groups=["scan_patrolling_vision"]]
 collision_layer = 8
 collision_mask = 8
 

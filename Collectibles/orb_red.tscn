@@ -1,0 +1,35 @@
+[gd_scene load_steps=6 format=3 uid="uid://4dddq1sty5h7"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_sb5g5"]
+[ext_resource type="SpriteFrames" uid="uid://c2o7mkue64ht6" path="res://Assets/Graphics/sprites/packed/collectibles/orb.tres" id="2_fpa70"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_i0op4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vm2mn"]
+shader = ExtResource("2_i0op4")
+shader_parameter/Shift_Hue = 0.45
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="orb_red" instance=ExtResource("1_sb5g5")]
+score_value = 250
+fall_speed = 200
+can_move = true
+ignore_gravity = false
+on_floor_death = true
+start_animation = "none"
+sfx_self_collected_filepath = "uid://bptgfsgsmkddo"
+block_effect_dead = true
+entity_name = "orb"
+
+[node name="sprite" parent="." index="0"]
+material = SubResource("ShaderMaterial_vm2mn")
+scale = Vector2(0.2, 0.2)
+sprite_frames = ExtResource("2_fpa70")
+
+[node name="collision_main" parent="." index="1"]
+scale = Vector2(0.75, 0.75)
+shape = SubResource("RectangleShape2D_511gd")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+scale = Vector2(0.5, 0.5)

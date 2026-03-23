@@ -875,7 +875,7 @@ func handle_shoot():
 		c_attack.start()
 		
 		if Globals.weapon is Dictionary:
-			attack_spawn_scene("res://Projectiles/base.tscn")
+			attack_spawn_scene("res://Projectiles/fireball.tscn")
 		
 		
 		#SHOOTING ANIMATION
@@ -910,7 +910,7 @@ func handle_shoot():
 		sfx_manager.sfx_play(Globals.sfx_slash)
 
 func attack_spawn_scene(filepath):
-	if filepath == "res://Projectiles/base.tscn":
+	if filepath == "res://Projectiles/fireball.tscn":
 		var scene = load(filepath).instantiate()
 		
 		scene.position = position + attack_pos_offset * Globals.player_direction_x_active

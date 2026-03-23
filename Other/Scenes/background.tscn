@@ -125,6 +125,7 @@ libraries = {
 
 [node name="bg_main_A" type="ParallaxBackground" parent="."]
 layer = -10
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_main_A"]
@@ -142,6 +143,7 @@ expand_mode = 1
 
 [node name="bg_front_A" type="ParallaxBackground" parent="."]
 layer = -9
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front_A"]
@@ -161,12 +163,13 @@ expand_mode = 1
 
 [node name="bg_front2_A" type="ParallaxBackground" parent="."]
 layer = -8
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front2_A"]
 z_index = 2
 texture_repeat = 3
-motion_scale = Vector2(0.95, 0.3)
+motion_scale = Vector2(0.95, 0.25)
 motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
@@ -180,6 +183,7 @@ expand_mode = 1
 
 [node name="bg_back_A" type="ParallaxBackground" parent="."]
 layer = -11
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back_A"]
@@ -199,6 +203,7 @@ expand_mode = 1
 
 [node name="bg_back2_A" type="ParallaxBackground" parent="."]
 layer = -12
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back2_A"]
@@ -262,7 +267,7 @@ scroll_ignore_camera_zoom = true
 [node name="layer" type="ParallaxLayer" parent="bg_front2_B"]
 z_index = 2
 texture_repeat = 3
-motion_scale = Vector2(0.95, 0.3)
+motion_scale = Vector2(0.95, 0.25)
 motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
@@ -323,6 +328,7 @@ one_shot = true
 
 [node name="bg_main_edge_top" type="ParallaxBackground" parent="."]
 layer = -10
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_main_edge_top"]
@@ -341,6 +347,7 @@ texture = ExtResource("3_wrhkf")
 
 [node name="bg_front_edge_top" type="ParallaxBackground" parent="."]
 layer = -9
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front_edge_top"]
@@ -360,6 +367,7 @@ texture = ExtResource("3_wrhkf")
 
 [node name="bg_front2_edge_top" type="ParallaxBackground" parent="."]
 layer = -8
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front2_edge_top"]
@@ -379,6 +387,7 @@ texture = ExtResource("3_wrhkf")
 
 [node name="bg_back_edge_top" type="ParallaxBackground" parent="."]
 layer = -11
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back_edge_top"]
@@ -398,6 +407,7 @@ texture = ExtResource("3_wrhkf")
 
 [node name="bg_back2_edge_top" type="ParallaxBackground" parent="."]
 layer = -12
+visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back2_edge_top"]

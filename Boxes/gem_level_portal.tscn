@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://xtsa3kj57iry"]
+[gd_scene load_steps=3 format=3 uid="uid://xtsa3kj57iry"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_vjqak"]
+[ext_resource type="SpriteFrames" uid="uid://br58pfg6ajcpt" path="res://Assets/Graphics/sprites/packed/collectibles/gem.tres" id="2_psgc5"]
 
 [node name="gem_level_portal" instance=ExtResource("1_vjqak")]
 collectable = false
@@ -23,4 +24,4 @@ entity_name = "gem_level_portal"
 entity_type = "box"
 
 [node name="sprite" parent="." index="0"]
-frame_progress = 0.916958
+sprite_frames = ExtResource("2_psgc5")

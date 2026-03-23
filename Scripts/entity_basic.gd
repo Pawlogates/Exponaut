@@ -40,6 +40,9 @@ extends CharacterBody2D
 
 
 # Patrolling - [START]
+var block_spawn_entity = false
+var master_node : Node = self
+
 @onready var scan_patrolling_vision: Area2D = $scan_patrolling_vision
 @onready var collision_patrolling: CollisionShape2D = $scan_patrolling_vision/collision_patrolling
 @onready var c_patrolling_target_spotted_queue: Timer = $cooldown_patrolling_target_spotted_queue
@@ -47,6 +50,10 @@ extends CharacterBody2D
 @onready var c_patrolling_change_direction: Timer = $cooldown_patrolling_change_direction
 
 var patrolling_target_spotted_active = false
+var patrolling_target_spotted_queued = false
+
+@export var patrolling_anim_while_queued = false
+
 # Patrolling - [END]
 
 @onready var scan_always_active: Area2D = $scan_always_active
@@ -65,7 +72,8 @@ var patrolling_target_spotted_active = false
 @onready var sfx4 = $sfx_manager/sfx4
 
 
-var active = false
+var active = false # It becomes "true" if the entity enters the camera view.
+var enabled = true # It becomes "false" when set by various other objects, such as the "inactive_until_player" trigger. Prevents "basic_on_active()" from being executed.
 
 # States an entity can be in, used mainly for managing sprite animations. Note that an entity can be in multiple states at the same time.
 var attacked = false
@@ -88,6 +96,10 @@ var velocity_last_x = 25
 var velocity_last_y = -25
 
 var start_pos = Vector2(-1, -1) # If equal to Vector2(-1, -1), it will be assigned at _ready().
+var start_scale = Vector2(-1, -1)
+
+var sprite_start_pos = Vector2(-1, -1)
+var sprite_start_scale = Vector2(-1, -1)
 
 var collected = false
 var dead = false
@@ -197,6 +209,9 @@ var effect_collected_multiple_active = false
 @export var ignore_gravity = true
 @export var on_death_ignore_gravity_stop = true
 
+@export var ignore_collision = false
+@export var on_death_ignore_collision_stop = true
+
 @export var speed_multiplier_x = 1.0
 @export var speed_multiplier_y = 1.0
 @export var acceleration_multiplier_x = 1.0
@@ -223,9 +238,10 @@ var effect_collected_multiple_active = false
 @export var on_wall_death = false
 
 # Behavior triggered on touching the floor:
-@export var on_floor_change_direction = false
 @export var on_floor_change_direction_x = false
-@export var on_floor_change_direction_y = true
+@export var on_floor_change_direction_y = false
+@export var on_floor_reverse_velocity_x = false
+@export var on_floor_reverse_velocity_y = false
 @export var on_floor_change_speed = false
 @export var on_floor_change_speed_multiplier = 0.5
 
@@ -267,6 +283,13 @@ var effect_collected_multiple_active = false
 @export var on_spawn_copy_direction_x_player = false
 @export var on_spawn_copy_direction_x_active_player = true
 
+
+# These properties affect all "on_[event]_spawn_entity" type behaviors.
+@export var spawn_entity_delay_range : Array = [0.0, 0.0]
+@export var spawn_entity_add_scale_range : Array = [Vector2(0.0, 1.0), Vector2(0.0, 1.0)]
+@export var spawn_entity_add_scale_range_keep_equal : bool = true # If equal to "true", the entity's "scale.y" will copy its "scale.x".
+
+
 # Timer-based behavior:
 @export var on_timeout_jump = false
 @export var on_timeout_jump_cooldown = 4.0
@@ -305,11 +328,28 @@ var effect_collected_multiple_active = false
 @export var on_death_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
 @export var on_death_spawn_entity_cooldown = 0.5
 
+@export var on_death_spawn_entity2 = false
+@export_file("*.tscn") var on_death_spawn_entity2_scene_filepath = "res://Enemies/togglebot.tscn"
+@export var on_death_spawn_entity2_quantity = 1
+@export var on_death_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
+@export var on_death_spawn_entity2_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
+@export var on_death_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
+@export var on_death_spawn_entity2_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var on_death_spawn_entity2_cooldown = 0.5
+
+@export var on_death_spawn_entity3 = false
+@export_file("*.tscn") var on_death_spawn_entity3_scene_filepath = "res://Enemies/togglebot.tscn"
+@export var on_death_spawn_entity3_quantity = 1
+@export var on_death_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
+@export var on_death_spawn_entity3_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
+@export var on_death_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
+@export var on_death_spawn_entity3_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var on_death_spawn_entity3_cooldown = 0.5
+
 @export var on_death_toggle_toggleBlocks = false
 @export var on_death_toggle_toggleBlocks_id = 0
 
-@export var on_death_disappearInstantly = false # Spawns some particles and removes the entity right after.
-
+@export var on_death_delete_instantly = false # Spawns some particles and removes the entity right after.
 
 # Behavior triggered on entity hit:
 @export var on_hit_spawn_entity = false
@@ -346,8 +386,8 @@ var effect_collected_multiple_active = false
 @export var patrolling_vision_size = Vector2(384, 64)
 @export var patrolling_vision_pos = Vector2(192, 0)
 
-@export var on_patrolling_spotted_spawn_entity_offset = Vector2(0, 0)
 @export_enum("Player", "enemy", "none", "all") var on_patrolling_spotted_spawn_entity_family: String = "enemy"
+@export var limit_spawn_entity = false
 @export var patrolling_change_direction_cooldown : float = 4.0
 @export var on_patrolling_show_text : bool = true
 
@@ -431,35 +471,12 @@ var effect_collected_multiple_active = false
 @export var breakable = false
 
 # On death:
-@export var breakable_on_death_spawn_entity = false
-@export_file("*.tscn") var breakable_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
-@export var breakable_on_death_spawn_entity_quantity = 1
-@export var breakable_on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_on_death_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
-@export var breakable_on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
-@export var breakable_on_death_spawn_entity_cooldown = 0.0
-
 @export var breakable_on_death_player_velocity_y = -200
 @export var breakable_on_death_player_velocity_y_jump = -600
 
-@export_enum("Player", "enemy", "none", "all") var breakable_on_death_spawn_entity_family: String = "all"
-
 # On hit:
-@export var breakable_on_hit_spawn_entity = false
-@export_file("*.tscn") var breakable_on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
-@export var breakable_on_hit_spawn_entity_quantity = 1
-@export var breakable_on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
-@export var breakable_on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
-@export var breakable_on_hit_spawn_entity_cooldown = 0.0
-
 @export var breakable_on_hit_player_velocity_y = -400
 @export var breakable_on_hit_player_velocity_y_jump = -600
-
-@export_enum("Player", "enemy", "none", "all") var breakable_on_hit_spawn_entity_family: String = "all"
-
 
 # Only breakable while these conditions are satisfied.
 @export var breakable_requires_velocity_x = true
@@ -488,32 +505,7 @@ var effect_collected_multiple_active = false
 @export var score_value4 = 125
 @export var score_value5 = 125
 
-@export var breakable_advanced_on_death_spawn_entity = false
-@export_file("*.tscn") var breakable_advanced_on_death_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
-@export var breakable_advanced_on_death_spawn_entity_quantity = 1
-@export var breakable_advanced_on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_death_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
-@export var breakable_advanced_on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_death_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
-@export var breakable_advanced_on_death_spawn_entity_cooldown = 0.0
-
-@export var breakable_advanced_on_death_player_velocity = -400
-@export var breakable_advanced_on_death_player_velocity_jump = -600
-
-
-@export var breakable_advanced_on_hit_spawn_entity = false
-@export_file("*.tscn") var breakable_advanced__on_hit_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
-@export var breakable_advanced_on_hit_spawn_entity_quantity = 1
-@export var breakable_advanced_on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
-@export var breakable_advanced_on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var breakable_advanced_on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
-@export var breakable_advanced_on_hit_spawn_entity_cooldown = 0.0
-
-@export var breakable_advanced_on_hit_player_velocity = -400
-@export var breakable_advanced_on_hit_player_velocity_jump = -600
-
-
+# Level portal:
 @export var breakable_advanced_portal_on_death_open = false
 @export var breakable_advanced_portal_particle_quantity = 25
 @export var breakable_advanced_portal_level_id = "none" # Example: "MAIN_1"
@@ -752,7 +744,7 @@ var effect_collected_multiple_active = false
 @export_file("*.mp3", "*.wav") var sfx_self_hit_filepath = Globals.d_sfx + "/" + "player_attack.wav"
 @export_file("*.mp3", "*.wav") var sfx_self_shot_filepath = Globals.d_sfx + "/" + "laser_shot.wav"
 @export_file("*.mp3", "*.wav") var sfx_self_death_filepath = Globals.d_sfx + "/" + "laser_shot.wav"
-@export_file("*.mp3", "*.wav") var sfx_self_bounced_filepath = Globals.d_sfx + "/" + "error.wav"
+@export_file("*.mp3", "*.wav") var sfx_self_bounced_filepath = Globals.d_sfx + "/" + "count.wav"
 @export_file("*.mp3", "*.wav") var sfx_self_spotted_filepath = Globals.d_sfx + "/" + "error.wav"
 
 # Without the alternatives:
@@ -771,7 +763,7 @@ var effect_collected_multiple_active = false
 
 
 @export var on_spawn_effect_grow = true
-@export var effect_grow_target_scale = Vector2(1, 1)
+@export var effect_grow_target_scale = Vector2(-1, -1) # Uses the "start_scale" property's value if set to "Vector2(-1, -1)".
 @export var effect_grow_speed_multiplier : float = 1.0
 
 @export var on_death_effect_shrink = true
@@ -781,6 +773,8 @@ var effect_collected_multiple_active = false
 
 @export var on_wall_sprite_anim_reflect_straight : bool = false
 @export var on_hit_disable_anim : bool = false
+
+@export var block_effect_dead : bool = false
 
 
 @export_group("") # End of section.
@@ -850,6 +844,10 @@ func basic_on_spawn():
 		c_change_direction_x.start()
 	
 	if start_pos == Vector2(-1, -1) : start_pos = position
+	if start_scale == Vector2(-1, -1) : start_scale = scale
+	
+	if sprite_start_pos == Vector2(-1, -1) : sprite_start_pos = sprite.position
+	if sprite_start_scale == Vector2(-1, -1) : sprite_start_scale = sprite.scale
 	
 	if collidable_cooldown != -1.0 and collidable_cooldown != 0.0:
 		c_collidable.wait_time = collidable_cooldown
@@ -867,6 +865,10 @@ func basic_on_spawn():
 	if on_timeout_change_ignore_gravity:
 		c_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown
 		c_change_ignore_gravity.start()
+	
+	
+	if effect_grow_target_scale == Vector2(-1, -1):
+		effect_grow_target_scale = sprite_start_scale
 
 
 # Executes on entity entering the camera view.
@@ -893,7 +895,9 @@ func basic_on_inactive():
 	t_state_attacking.set_paused(true)
 	t_state_damage.set_paused(true)
 	
-	#$jumpTimer.set_paused(true)
+	for node in get_children():
+		if node is Timer:
+			node.set_paused(true)
 	
 	remove_if_corpse()
 	
@@ -906,6 +910,7 @@ func basic_on_inactive():
 # Executes on entity leaving the camera view.
 func basic_on_active():
 	if dead or collected : return
+	if not enabled : return
 	
 	active = true
 	
@@ -922,12 +927,14 @@ func basic_on_active():
 	sprite.play()
 	sprite.visible = true
 	
-	collision_main.disabled = false
+	if not ignore_collision : collision_main.disabled = false
 	
 	t_state_attacking.set_paused(false)
 	t_state_damage.set_paused(false)
 	
-	#$jumpTimer.set_paused(false)
+	for node in get_children():
+		if node is Timer:
+			node.set_paused(false)
 	
 	synchronize_animation()
 	

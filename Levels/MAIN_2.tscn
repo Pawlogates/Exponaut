@@ -1,0 +1,33 @@
+[gd_scene load_steps=8 format=3 uid="uid://7pa3c6hxa2fv"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_40cuw"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_csoaf"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_1064q"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_6cylh"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_ujerq"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_dpeio"]
+[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="7_cix7c"]
+
+[node name="World" instance=ExtResource("1_40cuw")]
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_csoaf")]
+layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 65536, 0, 131069, 65536, 0, 65537, 65536, 0, 65538, 65536, 0, 131068, 0, 0, 65539, 131072, 0, 196604, 0, 1, 131075, 131072, 1, 196611, 131072, 2, 196605, 65536, 1, 196606, 65536, 1, 196607, 65536, 1, 131072, 65536, 1, 131073, 65536, 1, 131074, 65536, 1, 262143, 65536, 2, 196608, 65536, 2, 196609, 65536, 2, 196610, 65536, 2, 262140, 0, 2, 262141, 65536, 2, 262142, 65536, 2)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_1064q")]
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_6cylh")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_ujerq")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("6_dpeio")]
+
+[node name="trigger_musicChange" parent="triggers" index="1" instance=ExtResource("7_cix7c")]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]
+
+[node name="background" parent="." index="7"]
+script = null
