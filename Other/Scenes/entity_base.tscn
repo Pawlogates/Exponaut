@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://wgtcgh1uo037"]
+[gd_scene load_steps=14 format=3 uid="uid://wgtcgh1uo037"]
 
 [ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://Scripts/entity.gd" id="1_wx0ek"]
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
@@ -6,14 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_c3p0q"]
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_84r7y"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_fjle6"]
+[ext_resource type="Script" uid="uid://12wkcbpatg3w" path="res://Enemies/general_timers_core.gd" id="7_fjle6"]
+[ext_resource type="PackedScene" uid="uid://wn4ag4k6r2t5" path="res://Other/Entity Behaviors/scan_patrolling_vision.tscn" id="7_spxko"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
 size = Vector2(62, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
-size = Vector2(64, 64)
+size = Vector2(32, 32)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i18mk"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_84r7y"]
 size = Vector2(512, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjle6"]
@@ -29,7 +31,6 @@ floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
-animation = &"idle"
 
 [node name="animation_all" parent="sprite" instance=ExtResource("4_84r7y")]
 unique_name_in_owner = true
@@ -95,13 +96,11 @@ scale = Vector2(51.2, 51.2)
 [node name="cooldown_sfx_idle" type="Timer" parent="."]
 wait_time = 2.0
 
-[node name="scan_patrolling_vision" type="Area2D" parent="." groups=["scan_patrolling_vision"]]
-collision_layer = 8
-collision_mask = 8
+[node name="scan_patrolling_vision" parent="." instance=ExtResource("7_spxko")]
 
 [node name="collision_patrolling" type="CollisionShape2D" parent="scan_patrolling_vision"]
-position = Vector2(192, 0)
-shape = SubResource("RectangleShape2D_i18mk")
+position = Vector2(256, 0)
+shape = SubResource("RectangleShape2D_84r7y")
 debug_color = Color(0, 0.595, 0.7, 0)
 
 [node name="cooldown_patrolling_target_spotted_queue" type="Timer" parent="."]
@@ -152,6 +151,30 @@ one_shot = true
 [node name="cooldown_change_direction_x" type="Timer" parent="."]
 one_shot = true
 
+[node name="general_timers_core" type="Node2D" parent="."]
+script = ExtResource("7_fjle6")
+
+[node name="t1" type="Timer" parent="general_timers_core"]
+one_shot = true
+
+[node name="t2" type="Timer" parent="general_timers_core"]
+one_shot = true
+
+[node name="t3" type="Timer" parent="general_timers_core"]
+one_shot = true
+
+[node name="t4" type="Timer" parent="general_timers_core"]
+one_shot = true
+
+[node name="t5" type="Timer" parent="general_timers_core"]
+one_shot = true
+
+[node name="t6" type="Timer" parent="general_timers_core"]
+one_shot = true
+
+[node name="cooldown_attack_limit" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="animation_looped" from="sprite" to="." method="_on_sprite_animation_looped"]
 [connection signal="timeout" from="sprite/timer_state_attacking" to="." method="_on_timer_state_attacking_timeout"]
 [connection signal="timeout" from="sprite/timer_state_damage" to="." method="_on_timer_state_damage_timeout"]
@@ -177,3 +200,10 @@ one_shot = true
 [connection signal="timeout" from="cooldown_change_ignore_gravity" to="." method="_on_cooldown_change_ignore_gravity_timeout"]
 [connection signal="timeout" from="cooldown_change_invincible" to="." method="_on_cooldown_change_invincible_timeout"]
 [connection signal="timeout" from="cooldown_change_direction_x" to="." method="_on_cooldown_change_direction_x_timeout"]
+[connection signal="timeout" from="general_timers_core/t1" to="." method="t1_trigger"]
+[connection signal="timeout" from="general_timers_core/t2" to="." method="t2_trigger"]
+[connection signal="timeout" from="general_timers_core/t3" to="." method="t3_trigger"]
+[connection signal="timeout" from="general_timers_core/t4" to="." method="t4_trigger"]
+[connection signal="timeout" from="general_timers_core/t5" to="." method="t5_trigger"]
+[connection signal="timeout" from="general_timers_core/t6" to="." method="t6_trigger"]
+[connection signal="timeout" from="cooldown_attack_limit" to="." method="_on_cooldown_attack_limit_timeout"]

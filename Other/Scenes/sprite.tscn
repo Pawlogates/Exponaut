@@ -1,6 +1,74 @@
-[gd_scene load_steps=2 format=3 uid="uid://v151qvyxpbng"]
+[gd_scene load_steps=3 format=3 uid="uid://v151qvyxpbng"]
 
-[ext_resource type="SpriteFrames" uid="uid://dxklhfxjvxsjo" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_apple.tres" id="1_5a00w"]
+[ext_resource type="SpriteFrames" uid="uid://duy25bi4iddng" path="res://Assets/Graphics/sprites/packed/enemies/enemy_tank.tres" id="1_xb8wd"]
+[ext_resource type="Script" uid="uid://cj6o5cuba8ieh" path="res://Other/Scenes/sprite_general.gd" id="2_xb8wd"]
 
 [node name="sprite" type="AnimatedSprite2D"]
-sprite_frames = ExtResource("1_5a00w")
+texture_filter = 1
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+script = ExtResource("2_xb8wd")
+
+[node name="outline1" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(-1, 0)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline2" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, 1)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline3" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(1, 0)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline4" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, -1)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline5" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(100, 100, 100, 1)
+z_index = -2
+position = Vector2(-2, 0)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline6" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(100, 100, 100, 1)
+z_index = -2
+position = Vector2(0, -2)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline7" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(100, 100, 100, 1)
+z_index = -2
+position = Vector2(2, 0)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline8" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(100, 100, 100, 1)
+z_index = -2
+position = Vector2(0, 2)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"

@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=137 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=142 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_38g62"]
@@ -107,20 +107,25 @@
 [ext_resource type="PackedScene" uid="uid://vbijka3yorms" path="res://Enemies/rabbot.tscn" id="88_bsyvx"]
 [ext_resource type="PackedScene" uid="uid://flag654itsqj" path="res://Objects/Decorations/rect_gradient.tscn" id="89_85dpa"]
 [ext_resource type="PackedScene" uid="uid://bb52wg803hnl8" path="res://Enemies/batron.tscn" id="89_t1q83"]
-[ext_resource type="PackedScene" uid="uid://oxvewjp1soes" path="res://Enemies/bomb.tscn" id="90_j0ohk"]
+[ext_resource type="PackedScene" uid="uid://oxvewjp1soes" path="res://Projectiles/bomb.tscn" id="90_j0ohk"]
 [ext_resource type="PackedScene" uid="uid://d3rvirb8422f7" path="res://Objects/Decorations/deco_clipped_black_circle_2_LEFT.tscn" id="90_jr2bc"]
 [ext_resource type="PackedScene" uid="uid://b17i5uq6owibc" path="res://Boxes/piggybank_timed.tscn" id="91_2kxln"]
-[ext_resource type="PackedScene" uid="uid://nlbbhgnny7rs" path="res://Enemies/explosion.tscn" id="91_lvi3k"]
+[ext_resource type="PackedScene" uid="uid://nlbbhgnny7rs" path="res://Projectiles/explosion.tscn" id="91_lvi3k"]
 [ext_resource type="PackedScene" uid="uid://te8fh170lfh3" path="res://Objects/Decorations/deco_clipped_black_circle_3_LEFT_DOWN.tscn" id="91_npjo7"]
+[ext_resource type="PackedScene" uid="uid://dl5rmfn0uwiny" path="res://Enemies/tank.tscn" id="92_31gdt"]
 [ext_resource type="PackedScene" uid="uid://dvnkjcyuugq3n" path="res://Objects/Decorations/deco_clipped_black_circle_3_RIGHT_UP.tscn" id="92_38gbs"]
 [ext_resource type="PackedScene" uid="uid://bvlq4mlnesa8a" path="res://Objects/Decorations/deco_black_gear.tscn" id="93_icj73"]
+[ext_resource type="PackedScene" uid="uid://q2qs8i8y1ohx" path="res://Enemies/waver.tscn" id="93_mj1yx"]
 [ext_resource type="PackedScene" uid="uid://rpgaf3ib74ux" path="res://Enemies/scannot.tscn" id="94_fh3ff"]
 [ext_resource type="PackedScene" uid="uid://cvsvcd3o2wh6y" path="res://Objects/Decorations/deco_clipped_black_gear_2_LEFT.tscn" id="94_lviww"]
+[ext_resource type="PackedScene" uid="uid://cdr0hhmywmwnx" path="res://Enemies/slammer.tscn" id="94_mj1yx"]
+[ext_resource type="PackedScene" uid="uid://o6g4kgbs434v" path="res://Enemies/slammer_spawn_spiky_ball.tscn" id="95_5djqn"]
 [ext_resource type="PackedScene" uid="uid://byymdvbfugma2" path="res://Objects/Decorations/deco_clipped_black_gear_2_RIGHT.tscn" id="95_8jerk"]
 [ext_resource type="PackedScene" uid="uid://bwgekhrjg7e48" path="res://Objects/Decorations/deco_clipped_black_gear_3_LEFT_DOWN.tscn" id="96_npkal"]
 [ext_resource type="PackedScene" uid="uid://2y43xaryl123" path="res://Objects/Decorations/deco_clipped_black_gear_3_RIGHT_UP.tscn" id="97_gn086"]
 [ext_resource type="PackedScene" uid="uid://xtsa3kj57iry" path="res://Boxes/gem_level_portal.tscn" id="97_j0ohk"]
 [ext_resource type="PackedScene" uid="uid://bkcka0v37j3sl" path="res://Boxes/piggybank_orb_red.tscn" id="99_e4rav"]
+[ext_resource type="PackedScene" uid="uid://bj2ap2m7h7t47" path="res://Enemies/hopper.tscn" id="100_5djqn"]
 [ext_resource type="PackedScene" uid="uid://crlaglwdng51c" path="res://Boxes/piggybank_orb_green.tscn" id="100_fh3ff"]
 [ext_resource type="PackedScene" uid="uid://bkr47sjn2wse7" path="res://Boxes/piggybank_orb_blue.tscn" id="101_p3m2n"]
 
@@ -247,6 +252,12 @@ scenes/4/scene = ExtResource("89_t1q83")
 scenes/5/scene = ExtResource("90_j0ohk")
 scenes/6/scene = ExtResource("91_lvi3k")
 scenes/7/scene = ExtResource("94_fh3ff")
+scenes/8/scene = ExtResource("100_5djqn")
+scenes/9/scene = ExtResource("88_bsyvx")
+scenes/10/scene = ExtResource("92_31gdt")
+scenes/11/scene = ExtResource("93_mj1yx")
+scenes/12/scene = ExtResource("94_mj1yx")
+scenes/13/scene = ExtResource("95_5djqn")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_slwwi"]
 resource_name = "objects"

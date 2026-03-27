@@ -916,6 +916,7 @@ func attack_spawn_scene(filepath):
 		scene.position = position + attack_pos_offset * Globals.player_direction_x_active
 		scene.set_player_attack_cooldown = true
 		scene.family = "Player"
+		scene.direction_x = Globals.player_direction_x_active
 		scene.always_active = true
 		
 		for property_name in Globals.weapon:

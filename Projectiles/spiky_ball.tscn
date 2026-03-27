@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cx4apwxxxnfjg"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_a4xbi"]
+[ext_resource type="SpriteFrames" uid="uid://bfaiomnl40ouy" path="res://Assets/Graphics/sprites/packed/projectiles/spiky_ball.tres" id="2_4w7hp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="spiky_ball" instance=ExtResource("1_a4xbi")]
+scale = Vector2(0.5, 0.5)
+collectable = false
+hittable = true
+family = "enemy"
+can_move = true
+ignore_gravity = false
+on_floor_bounce = true
+start_animation = "none"
+entity_name = "spiky_ball"
+entity_type = "projectile"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_4w7hp")
+animation = &"anim"
+
+[node name="collision_main" parent="." index="1"]
+shape = SubResource("RectangleShape2D_511gd")

@@ -1,0 +1,64 @@
+[gd_scene load_steps=6 format=3 uid="uid://cdr0hhmywmwnx"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_33bmu"]
+[ext_resource type="SpriteFrames" uid="uid://b5iajv70nuehv" path="res://Assets/Graphics/sprites/packed/enemies/enemy_crow.tres" id="2_n4va1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hdeh8"]
+size = Vector2(62, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mpujj"]
+size = Vector2(32, 48)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_33bmu"]
+size = Vector2(768, 80)
+
+[node name="slammer" instance=ExtResource("1_33bmu")]
+texture_filter = 3
+collision_layer = 0
+patrolling_anim_while_queued = true
+collectable = false
+hittable = true
+score_value = 75
+movement_type = "move_around_startPosition_x_if_not_spotted"
+speed = 300
+acceleration = 400
+friction = 100
+family = "enemy"
+pushable_by_entity = false
+pushable_by_player = false
+can_move = true
+ignore_gravity = false
+spawn_entity_add_z_index = -1
+on_timeout_jump = true
+patrolling = true
+on_landed_spawn_entity = true
+on_landed_spawn_entity_scene_filepath = "uid://nlbbhgnny7rs"
+on_landed_spawn_entity_pos_offset = Vector2(0, 64)
+on_landed_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
+on_landed_spawn_entity_add_velocity_range = [Vector2(0, 0), Vector2(0, 0)]
+start_animation = "none"
+can_change_sprite_anim = true
+on_death_effect_shrink = false
+entity_name = "slammer"
+entity_type = "enemy"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_n4va1")
+
+[node name="collision_main" parent="." index="1"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_hdeh8")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_mpujj")
+
+[node name="collision_patrolling" parent="scan_patrolling_vision" index="2"]
+position = Vector2(384, 8)
+shape = SubResource("RectangleShape2D_33bmu")
+
+[node name="Label" type="Label" parent="." index="26"]
+offset_left = 80.0
+offset_top = 48.0
+offset_right = 120.0
+offset_bottom = 70.3333

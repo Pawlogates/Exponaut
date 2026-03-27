@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://dm74yhyxifdwa"]
+[gd_scene load_steps=3 format=3 uid="uid://6rqn4cllqylw"]
 
-[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_dwhak"]
-[ext_resource type="SpriteFrames" uid="uid://fvwbdon5rq11" path="res://Assets/Graphics/sprites/packed/projectiles/fireball.tres" id="2_w0vbj"]
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_nib33"]
+[ext_resource type="SpriteFrames" uid="uid://fvwbdon5rq11" path="res://Assets/Graphics/sprites/packed/projectiles/fireball.tres" id="2_cqwhi"]
 
-[node name="fireball" instance=ExtResource("1_dwhak")]
+[node name="bullet_into_bomb" instance=ExtResource("1_nib33")]
 on_death_effect_thrownAway = true
 on_death_effect_thrownAway_cooldown = 1.0
 effect_thrownAway_randomize_velocity_multiplier_x = 0.25
@@ -15,14 +15,12 @@ movement_type = "move_x"
 speed = 500
 always_max_speed = true
 family = "none"
-damage_from_entity = false
-damage_from_entity_contact = false
-damage_from_player = false
 can_move = true
 on_timeout_death = true
 on_timeout_death_cooldown = 1.5
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://oxvewjp1soes"
 can_collect = true
-immortal = true
 start_animation = "none"
 effect_shrink_target_scale = Vector2(0.5, 0.5)
 effect_shrink_delete = false
@@ -30,5 +28,5 @@ entity_name = "fireball"
 entity_type = "projectile"
 
 [node name="sprite" parent="." index="0"]
-sprite_frames = ExtResource("2_w0vbj")
+sprite_frames = ExtResource("2_cqwhi")
 animation = &"anim"

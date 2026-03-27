@@ -13,7 +13,6 @@ movement_type = "follow_player_x_if_spotted"
 family = "enemy"
 can_move = true
 ignore_gravity = false
-on_wall_change_velocity = true
 on_floor_change_velocity = true
 patrolling = true
 breakable = true
@@ -33,6 +32,3 @@ animation = &"attack"
 z_index = -4
 position = Vector2(-18, -24)
 scale = Vector2(0.085, 0.085)
-
-[node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
-position = Vector2(256, 0)

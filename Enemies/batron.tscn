@@ -1,30 +1,24 @@
-[gd_scene load_steps=5 format=3 uid="uid://bb52wg803hnl8"]
+[gd_scene load_steps=4 format=3 uid="uid://bb52wg803hnl8"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_yvjy2"]
-[ext_resource type="SpriteFrames" uid="uid://cp5hoa5re7e1b" path="res://Assets/Graphics/sprites/packed/enemies/scannot.tres" id="2_xhf0r"]
+[ext_resource type="SpriteFrames" uid="uid://dnk24klf8y4dl" path="res://Assets/Graphics/sprites/packed/enemies/enemy_bat.tres" id="2_xhf0r"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yvjy2"]
 size = Vector2(62, 31)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhf0r"]
-size = Vector2(128, 512)
 
 [node name="batron" instance=ExtResource("1_yvjy2")]
 texture_filter = 3
 collision_layer = 0
 collectable = false
 hittable = true
-movement_type = "follow_player_x"
-acceleration = 300
+score_value = 75
+movement_type = "move_x"
+speed = 150
 family = "enemy"
+pushable_by_entity = false
+pushable_by_player = false
 can_move = true
 on_hit_change_velocity_y = false
-patrolling = true
-limit_spawn_entity = true
-on_patrolling_spotted_spawn_entity = true
-on_patrolling_spotted_spawn_entity_scene_filepath = "uid://ci74wlv3i43aa"
-on_patrolling_spotted_spawn_entity_quantity = 2
-on_patrolling_spotted_spawn_entity_pos_offset_range = [Vector2(-1024, -1024), Vector2(1024, 1024)]
 start_animation = "none"
 can_change_sprite_anim = true
 on_death_effect_shrink = false
@@ -33,11 +27,6 @@ entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_xhf0r")
-animation = &"flight"
 
 [node name="collision_main" parent="." index="1"]
 shape = SubResource("RectangleShape2D_yvjy2")
-
-[node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
-position = Vector2(0, 256)
-shape = SubResource("RectangleShape2D_xhf0r")

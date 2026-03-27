@@ -19,7 +19,7 @@ var rolled_effect_thrownAway_scale = randf_range(0.1, 6)
 var rolled_effect_thrownAway_scale_to_front = Globals.random_bool(1, 3)
 var effect_thrownAway_scale = Vector2(rolled_effect_thrownAway_scale, rolled_effect_thrownAway_scale)
 var effect_thrownAway_rotation = randi_range(-720, 720)
-var effect_thrownAway_velocity = Vector2(randi_range(-1000 * effect_thrownAway_randomize_velocity_multiplier_x, 1000 * effect_thrownAway_randomize_velocity_multiplier_x), randi_range(-500 * effect_thrownAway_randomize_velocity_multiplier_y, -1000 * effect_thrownAway_randomize_velocity_multiplier_y))
+var effect_thrownAway_velocity : Vector2 = Vector2(0, 0)
 var effect_thrownAway_applied_velocity = false
 
 var unique_number = randi_range(0, 999)
@@ -28,6 +28,23 @@ func _ready():
 	basic_on_spawn()
 	reassign_general()
 	reassign_movement_type_id()
+	
+	c_attack_limit.wait_time = cooldown_attack_limit
+	
+	if general_timers_enabled:
+		general_timers_core.t1.wait_time = t1_cooldown
+		general_timers_core.t1.start()
+		general_timers_core.t2.wait_time = t2_cooldown
+		general_timers_core.t2.start()
+		general_timers_core.t3.wait_time = t3_cooldown
+		general_timers_core.t3.start()
+		general_timers_core.t4.wait_time = t4_cooldown
+		general_timers_core.t4.start()
+		general_timers_core.t5.wait_time = t5_cooldown
+		general_timers_core.t5.start()
+		general_timers_core.t6.wait_time = t6_cooldown
+		general_timers_core.t6.start()
+	
 	
 	if on_spawn_show_text:
 		text_show()
@@ -58,8 +75,11 @@ func _ready():
 	
 	synchronize_animation()
 	
-	if on_death_effect_thrownAway and on_death_effect_thrownAway_cooldown:
-		c_on_death_effect_thrownAway.wait_time = on_death_effect_thrownAway_cooldown
+	if on_death_effect_thrownAway:
+		
+		effect_thrownAway_velocity = Vector2(randi_range(-1000 * effect_thrownAway_randomize_velocity_multiplier_x, 1000 * effect_thrownAway_randomize_velocity_multiplier_x), randi_range(-500 * effect_thrownAway_randomize_velocity_multiplier_y, -1000 * effect_thrownAway_randomize_velocity_multiplier_y))
+		if on_death_effect_thrownAway_cooldown:
+			c_on_death_effect_thrownAway.wait_time = on_death_effect_thrownAway_cooldown
 	
 	# Prepare patrolling
 	if patrolling:
@@ -68,8 +88,8 @@ func _ready():
 			collision_patrolling.shape.size = patrolling_vision_size
 			collision_patrolling.position = patrolling_vision_pos
 		
-		c_patrolling_change_direction.wait_time = patrolling_change_direction_cooldown
-		c_patrolling_change_direction.start()
+		if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.wait_time = patrolling_change_direction_cooldown
+		if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.start()
 	
 	else:
 		scan_patrolling_vision.monitoring = false
@@ -94,10 +114,30 @@ func _ready():
 		if not reset_puzzle_first_time : await Globals.World.reset_puzzle_all_nodes_ready
 		reset_puzzle_queue()
 
+@onready var debug_label = $Label
+
 func _process(delta):
-	#if entity_name == "scannot" : $Label.text = str(patrolling_target_spotted_queued)
-	#if entity_name == "scannot" : print(sprite.animation)
+	if is_instance_valid(debug_label) : debug_label.text = str(sprite.animation)
+	
+	if dead : modulate.a = move_toward(modulate.a, 0.5, delta / 4)
+	
+	if is_on_floor() : on_floor = true
+	else : on_floor = false
+	
+	if is_on_wall() : on_wall = true
+	else : on_wall = false
+	
 	if can_move : handle_movement(delta)
+	
+	# Handle JUST (1/3):
+	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
+	# Handle JUST (2/3):
+	just_update() # The word "just" refers to something very specific. Check out the function for the explanation.
+	
+	if is_on_ceiling():
+		if ascending:
+			if velocity_last_y < -100:
+				velocity.y = -velocity_last_y * 0.8
 	
 	if copy_direction_x_player:
 		if copy_direction_x_active_player:
@@ -134,17 +174,21 @@ func _process(delta):
 			
 			reverse_direction_x(wall_normal)
 			
-			if on_wall_change_velocity:
-				if on_wall_change_velocity_value.y != -1:
-					velocity.y = on_wall_change_velocity_value.y
-				
-				velocity.y *= on_wall_change_velocity_multiplier.y
 			
 			if on_wall_change_velocity:
-				if on_wall_change_velocity_value.x != -1:
-					velocity.x = on_wall_change_velocity_value.x
-				
-				velocity.x *= on_wall_change_velocity_multiplier.x
+				if on_wall_change_velocity_x:
+					if on_wall_change_velocity_value.x != -1:
+						velocity.x = on_wall_change_velocity_value.x
+					
+					velocity.x *= on_wall_change_velocity_multiplier.x
+			
+			if on_wall_change_velocity:
+				if on_wall_change_velocity_y:
+					if on_wall_change_velocity_value.y != -1:
+						velocity.y = on_wall_change_velocity_value.y
+					
+					velocity.y *= on_wall_change_velocity_multiplier.y
+			
 			
 			if on_wall_change_speed:
 				if variable_speed:
@@ -194,6 +238,10 @@ func _process(delta):
 	sprite_animation()
 	
 	if can_move or effect_thrownAway_active : move_and_slide()
+	
+	
+	# Handle JUST (3/3):
+	just_handle()
 
 
 func handle_gravity(delta):
@@ -274,11 +322,14 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if hittable and damage_from_player and damage_from_player_contact:
 			handle_hittable(target)
 		
+		# THIS SECTION IS A HACK AND SHOULD BE REPLACED ASAP
 		if family == "enemy":
 			if damage_to_player:
 				if damage_to_player_contact:
 					#Overlay.HUD.player_main.player_health.change_health_value(damage_value)
 					Globals.player_damage.emit(-damage_value, self)
+					state_attacking = true
+					t_state_attacking.start()
 
 func _on_hitbox_area_exited(target: Area2D) -> void:
 	inside_check_exit(target)
@@ -356,7 +407,8 @@ func inside_check_enter(body):
 	if body.is_in_group("entity") and not pushable_by_entity : return
 	
 	if body.is_in_group("entity"):
-		if body.entity_name != entity_name : body.velocity.x = clamp(body.velocity.x - velocity.x * 0.8, body.velocity.x, velocity.x * 0.95)
+		if body.entity_name != entity_name:
+			body.velocity.x += velocity.x * 0.8
 	
 	if collidable and is_collidable:
 		
@@ -416,7 +468,12 @@ func handle_movement(delta):
 	call(movement_function_name, delta)
 	#call("movement_" + str(Globals.l_entity_movement[movement_type_id]), delta)
 	if dead : direction_x = 0
-	handle_gravity(delta) # Also handles every type of "can_move".
+	if ascending:
+		velocity.y = lerp(velocity.y, float(jump_velocity_y), delta)
+		sprite.modulate = Color.RED
+	else:
+		handle_gravity(delta) # Also handles every type of "can_move".
+		sprite.modulate = Color.WHITE
 
 
 # Movement types:
@@ -544,28 +601,15 @@ func movement_chase_player_xy_if_spotted(delta):
 
 
 # Wave-like movement on the axis opposite to the straight line movement happening alongside it.
-# Note: This movement type (wave_x and wave_y) is best used alongside the "can_move_y" or "can_move_x" being set to false.
-var w_target_velocity_x = -100
+# Note (this not is not true anymore...): This movement type (wave_x and wave_y) is best used alongside the "can_move_y" or "can_move_x" being set to false.
+var w_target_velocity_y = 150
 
 func movement_wave_x(delta):
 	if not dead:
-		if velocity.y in range(direction_y * w_target_velocity_x,direction_y * w_target_velocity_x * 100):
+		if velocity.y == w_target_velocity_y:
 			
 			direction_y *= -1
-	
-	velocity.y = move_toward(velocity.y, w_target_velocity_x, delta * speed * speed_multiplier_y)
-	
-	if not dead:
-		movement_move_x(delta)
-
-
-var w_target_velocity_y = 100
-
-func movement_wave_y(delta):
-	if not dead:
-		if velocity.y in range(direction_y * w_target_velocity_y,direction_y * w_target_velocity_y * 100):
-			
-			direction_y *= -1
+			w_target_velocity_y *= -1
 	
 	velocity.y = move_toward(velocity.y, w_target_velocity_y, delta * speed * speed_multiplier_y)
 	
@@ -573,17 +617,35 @@ func movement_wave_y(delta):
 		movement_move_x(delta)
 
 
-#"move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"
-func move_around_startPosition_x(delta):
+var w_target_velocity_x = 150
+
+func movement_wave_y(delta):
 	if not dead:
-		if position.x < start_pos.x:
-			direction_x = -1
-		else:
-			direction_x = 1
-		
+		if velocity.x == w_target_velocity_x:
+			
+			direction_x *= -1
+			w_target_velocity_x *= -1
+	
+	velocity.x = move_toward(velocity.x, w_target_velocity_x, delta * speed * speed_multiplier_x)
+	
+	if not dead:
 		movement_move_x(delta)
 
-func move_around_startPosition_y(delta):
+
+#"move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"
+func movement_move_around_startPosition_x(delta):
+	if not dead:
+		if abs(start_pos.x - position.x) > 100:
+			if position.x < start_pos.x:
+				direction_x = 1
+			else:
+				direction_x = -1
+		else:
+			velocity.x = 0
+		
+		move_in_direction_x(delta)
+
+func movement_move_around_startPosition_y(delta):
 	if not dead:
 		if position.x < start_pos.x:
 			direction_x = -1
@@ -593,7 +655,7 @@ func move_around_startPosition_y(delta):
 		movement_move_x(delta)
 		movement_move_y(delta)
 
-func move_around_startPosition_xy(delta):
+func movement_move_around_startPosition_xy(delta):
 	if not dead:
 		if position.x < start_pos.x:
 			direction_x = -1
@@ -609,17 +671,19 @@ func move_around_startPosition_xy(delta):
 		movement_move_y(delta)
 
 
-func move_around_startPosition_x_if_not_spotted(delta):
-	if patrolling_target_spotted_active and not dead:
-		move_around_startPosition_x(delta)
+func movement_move_around_startPosition_x_if_not_spotted(delta):
+	if not patrolling_target_spotted_active:
+		movement_move_around_startPosition_x(delta)
+	else:
+		movement_follow_player_x(delta)
 
 func move_around_startPosition_y_if_not_spotted(delta):
-	if patrolling_target_spotted_active and not dead:
-		move_around_startPosition_y(delta)
+	if not patrolling_target_spotted_active:
+		movement_move_around_startPosition_y(delta)
 
 func move_around_startPosition_xy_if_not_spotted(delta):
-	if patrolling_target_spotted_active and not dead:
-		move_around_startPosition_x(delta)
+	if not patrolling_target_spotted_active:
+		movement_move_around_startPosition_x(delta)
 
 # Movement types - [END]
 
@@ -681,7 +745,6 @@ func reverse_direction_x(wall_normal : Vector2 = Vector2(0, 0)):
 	if wall_normal == Vector2(0, 0):
 		
 		direction_x *= -1
-		print(direction_x)
 	
 	
 	else:
@@ -925,7 +988,6 @@ func handle_hit(target):
 		can_move = true
 	
 	if inside_projectile:
-		
 		if target.direction_x:
 			
 			if on_hit_change_velocity_x_copy_entity:
@@ -968,8 +1030,10 @@ func handle_death(type : String = "normal"):
 	
 	Globals.entity_hit.emit()
 	
-	hitbox.monitoring = false
-	scan_patrolling_vision.monitoring = false
+	if is_instance_valid(hitbox):
+		hitbox.monitoring = false
+	if is_instance_valid(scan_patrolling_vision):
+		scan_patrolling_vision.monitoring = false
 	if is_instance_valid(scan_ledge):
 		scan_ledge.enabled = false
 	if is_instance_valid(scan_stuck):
@@ -1199,14 +1263,12 @@ func effect_death_electrocute():
 
 func handle_effects_hit(target):
 	if not target.dead:
-		state_attacking = true
-		t_state_attacking.start()
+		state_damage = true
+		t_state_damage.start()
 	
 	sfx_manager.sfx_play(Globals.sfx_mechanical2)
 	animation_color.stop()
 	animation_color.play("pulse_red_normal_long")
-	
-	velocity = Vector2(0, 0)
 	
 	if on_collected_spawn_star : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
@@ -1258,6 +1320,8 @@ func _on_sprite_animation_looped():
 
 
 func sprite_animation():
+	if dead : if sprite.sprite_frames.has_animation("dead") : sprite.play("dead") ; return
+	
 	basic_sprite_flipDirection()
 	
 	if not can_change_sprite_anim : return
@@ -1275,27 +1339,37 @@ func sprite_animation():
 						else:
 							sprite.play("walk")
 			else:
+				
 				if patrolling_target_spotted_active:
 					sprite.play("attack")
+				
 				else:
-					if abs(velocity.x) > 75:
-						sprite.play("attack")
-					else:
-						sprite.play("idle")
+					if movement_type == "follow_player_x_if_spotted":
+						if abs(velocity.x) > 50:
+							sprite.play("attack")
+						else:
+							sprite.play("idle")
 				
 			if is_on_floor():
-				if not ignore_gravity and velocity.x and not sprite.animation == "walk_alt":
-					sprite.play("walk")
+				if not ignore_gravity and abs(velocity.x) > 50 and not sprite.animation == "walk_alt":
+					if not sprite.animation == "jump" or sprite.animation == "jump" and sprite.frame == 3:
+						if not state_attacking:
+							sprite.play("walk")
+						elif sprite.frame == 2:
+								sprite.play("walk")
+				else:
+					if not state_attacking and not state_damage : sprite.play("idle")
+		
 		
 		if not is_on_floor():
 			if ignore_gravity:
-				if not sprite.animation == "attack":
+				#if not sprite.animation == "attack":
+				if not patrolling_anim_while_queued:
 					if sprite.sprite_frames.has_animation("flight") : sprite.play("flight")
 	
-	if state_damage : state_attacking = false
-	if state_attacking : sprite.play("attack")
-	if state_damage : sprite.play("damage")
 	if dead : sprite.play("dead")
+	elif state_damage : sprite.play("damage")
+	elif state_attacking : sprite.play("attack")
 
 
 func _on_cooldown_sfx_idle_timeout() -> void:
@@ -1331,7 +1405,7 @@ func _on_scan_patrolling_area_entered(area: Area2D) -> void:
 
 func _on_scan_patrolling_area_exited(area: Area2D) -> void:
 	if not patrolling : return
-	if block_spawn_entity : return
+	#if block_spawn_entity : return
 	
 	var target = area.get_parent()
 	
@@ -1342,7 +1416,7 @@ func _on_scan_patrolling_area_exited(area: Area2D) -> void:
 			patrolling_target_spotted_active = false
 			patrolling_target_spotted_queued = false
 			
-			c_patrolling_change_direction.start()
+			if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.start()
 			
 			c_patrolling_target_spotted.stop()
 			c_patrolling_target_spotted_queue.stop()
@@ -1360,8 +1434,26 @@ func _on_cooldown_patrolling_target_spotted_timeout() -> void: # When the entity
 	c_patrolling_change_direction.stop()
 
 func _on_cooldown_patrolling_target_spotted_queue_timeout() -> void: # When the entity sees the player.
+	handle_on_spotted()
+
+
+func handle_patrolling():
+	if direction_active_x > 0 : scan_patrolling_vision.scale.x = 1.0
+	elif direction_active_x < 0 : scan_patrolling_vision.scale.x = -1.0
+	
+	if patrolling_target_spotted_active:
+		if Globals.random_bool(19, 1):
+			if Globals.random_bool(1, 1):
+				sfx_manager.sfx_play(Globals.sfx_footstep_mechanical, 1.0, randf_range(0.75, 1.25))
+			else:
+				sfx_manager.sfx_play(Globals.sfx_footstep_mechanical2, 1.0, randf_range(0.75, 1.25))
+
+func handle_on_spotted():
 	if on_patrolling_spotted_spawn_entity : spawn_entity(on_patrolling_spotted_spawn_entity_scene_filepath, on_patrolling_spotted_spawn_entity_quantity, on_patrolling_spotted_spawn_entity_add_velocity, on_patrolling_spotted_spawn_entity_add_velocity_range, on_patrolling_spotted_spawn_entity_pos_offset, on_patrolling_spotted_spawn_entity_pos_offset_range)
-	if limit_spawn_entity : block_spawn_entity = true
+	if on_patrolling_spotted_jump : handle_jump()
+	if on_patrolling_spotted_jump_and_move : handle_jump(jump_velocity_y, jump_velocity_x * direction_active_x)
+	
+	if limit_spawn_entity_repeat : block_spawn_entity = true
 	
 	if on_floor_change_velocity : velocity.y = on_wall_change_velocity_value.y
 	Globals.spawn_scenes(self, Globals.scene_particle_star, 5)
@@ -1387,22 +1479,13 @@ func _on_cooldown_patrolling_target_spotted_queue_timeout() -> void: # When the 
 	c_patrolling_change_direction.stop()
 
 
-func handle_patrolling():
-	if direction_active_x > 0 : scan_patrolling_vision.scale.x = 1.0
-	elif direction_active_x < 0 : scan_patrolling_vision.scale.x = -1.0
-	
-	if patrolling_target_spotted_active:
-		if Globals.random_bool(19, 1):
-			if Globals.random_bool(1, 1):
-				sfx_manager.sfx_play(Globals.sfx_footstep_mechanical, 1.0, randf_range(0.75, 1.25))
-			else:
-				sfx_manager.sfx_play(Globals.sfx_footstep_mechanical2, 1.0, randf_range(0.75, 1.25))
-
 func _on_cooldown_patrolling_change_direction_timeout() -> void:
 	if direction_x : direction_x *= -1
 	else : direction_x = direction_active_x * -1
 	
-	c_patrolling_change_direction.start()
+	if direction_x : direction_active_x = direction_x
+	
+	if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.start()
 
 
 func handle_effects_collected():
@@ -1453,7 +1536,7 @@ func handle_reset_puzzle():
 	hittable = false
 	
 	for entity in reset_puzzle_nodes_inside_zone:
-		if entity.reset_puzzle_delete_node_queued:
+		if entity.reset_puzzle_delete_node_queued and entity.enabled:
 			entity.reset_puzzle_block_movement = true
 	
 	await get_tree().create_timer(0.5, true).timeout
@@ -1466,16 +1549,17 @@ func handle_reset_puzzle():
 	
 	for entity in reset_puzzle_nodes_inside_zone:
 		
-		if entity.reset_puzzle_delete_node_queued and entity.enabled:
-			entity.reset_all()
-			Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 3, position)
+		if entity.enabled:
+			if entity.reset_puzzle_delete_node_queued:
+				entity.reset_all()
+				Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 3, position)
+				
+				Globals.World.camera.position = entity.position
 			
-			Globals.World.camera.position = entity.position
-		
-		elif entity.enabled:
-			entity.animation_general.play("reflect_straight")
-		
-		await get_tree().create_timer(clamp(0.5 / (len(reset_puzzle_nodes_inside_zone) / 10), 0.05, 0.5), true).timeout
+			else:
+				entity.animation_general.play("reflect_straight")
+			
+			await get_tree().create_timer(clamp(0.5 / (len(reset_puzzle_nodes_inside_zone) / 10), 0.05, 0.5), true).timeout
 	
 	Globals.Player.camera.enabled = true
 	Globals.World.camera.enabled = false
@@ -1588,7 +1672,10 @@ func _on_scan_reset_puzzle_coverage_area_entered(area: Area2D) -> void:
 	if not area.is_in_group("scan_always_active") : return
 	
 	if area.get_parent().is_in_group("entity"):
+		
 		var entity = area.get_parent()
+		
+		#if not entity.enabled : return
 		
 		Globals.dm("An entity is being assigned to a 'reset_puzzle' entity's zone.", 99)
 		
@@ -1618,7 +1705,27 @@ func _on_cooldown_change_ignore_gravity_timeout() -> void:
 
 
 func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset : Vector2 = Vector2(0, 0), pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale : Vector2 = Vector2(0, 0), add_scale_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale_range_keep_equal : bool = true, delay_range : Array = [0.0, 0.0], master_node : Node = self):
-	Globals.spawn_scenes(World, scene_filepath, quantity, position + pos_offset, -1, Color(0, 0, 0, 0), add_scale, 0, [], [], add_velocity, add_velocity_range, pos_offset_range, spawn_entity_add_scale_range, spawn_entity_add_scale_range_keep_equal, 0.0, spawn_entity_delay_range, master_node)
+	if limit_spawn_entity_cooldown:
+		if block_spawn_entity : return
+		else : c_attack_limit.start()
+	
+	var spawned_scenes : Array
+	
+	spawned_scenes = await Globals.spawn_scenes(World, scene_filepath, quantity, position + pos_offset, -1, Color(0, 0, 0, 0), add_scale, 0, [], [], add_velocity, add_velocity_range, pos_offset_range, spawn_entity_add_scale_range, spawn_entity_add_scale_range_keep_equal, 0.0, spawn_entity_delay_range, master_node)
+	
+	if spawn_entity_family_copy_entity:
+		for entity in spawned_scenes:
+			entity.family = family
+			Globals.dm(str("Spawned entity has copied its master entity's family (%s)." % family), 5)
+	
+	if spawn_entity_direction_copy_entity:
+		for entity in spawned_scenes:
+			entity.direction_x = direction_x
+			Globals.dm(str("Spawned entity has copied its master entity's direction (%s)." % direction_x), 10)
+	
+	if spawn_entity_add_z_index:
+		for entity in spawned_scenes:
+			entity.z_index = spawn_entity_add_z_index
 
 
 func handle_bounce():
@@ -1685,7 +1792,27 @@ func _on_cooldown_change_direction_x_timeout() -> void:
 	c_change_direction_x.start()
 
 
+func handle_jump(value_y : int = jump_velocity_y, value_x : int = 0):
+	if not can_jump_in_air and not is_on_floor() : return
+	
+	if value_y : velocity.y = value_y
+	if value_x : velocity.x = value_x
+	
+	sprite.play("jump")
+
+
 func handle_on_floor():
+	if on_landed_spawn_entity:
+		if just_landed:
+			spawn_entity_general("on_landed_spawn_entity")
+			
+			Player.camera.effect(Vector2(-1, -1), Vector2(2, 2), randf_range(-10, 10), 1)
+			await get_tree().create_timer(0.1, true).timeout
+			Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 0.1)
+	
+	if on_floor_spawn_entity:
+		spawn_entity_general("on_floor_spawn_entity")
+	
 	if on_ledge_turn:
 		if is_collidable and not scan_ledge.is_colliding():
 			direction_x *= -1
@@ -1702,6 +1829,10 @@ func handle_on_floor():
 
 func handle_on_wall():
 	if on_wall_death : handle_death()
+	
+	if on_ledge_turn:
+		if direction_active_x > 0 : scan_ledge.position.x = -32
+		elif direction_active_x < 0 : scan_ledge.position.x = 32
 
 
 func _on_cooldown_particles_timeout() -> void:
@@ -1716,3 +1847,113 @@ func _on_timer_state_attacking_timeout() -> void:
 
 func _on_timer_state_damage_timeout() -> void:
 	state_damage = false
+
+
+# Activated on their respective general timer's timeout.
+func t1_trigger() -> void:
+	t_trigger(1)
+	general_timers_core.t1.start()
+
+func t2_trigger() -> void:
+	t_trigger(2)
+	general_timers_core.t2.start()
+
+func t3_trigger() -> void:
+	t_trigger(3)
+	general_timers_core.t3.start()
+
+func t4_trigger() -> void:
+	t_trigger(4)
+	general_timers_core.t4.start()
+
+func t5_trigger() -> void:
+	t_trigger(5)
+	general_timers_core.t5.start()
+
+func t6_trigger() -> void:
+	t_trigger(6)
+	general_timers_core.t6.start()
+
+
+func t_trigger(id : int = 0):
+	# If a general timer times out, the behaviors with matching id will execute.
+	
+	if t1_on_timeout_randomize_cooldown : general_timers_core.t1.wait_time = randf_range(0.25, 12)
+	if t2_on_timeout_randomize_cooldown : general_timers_core.t2.wait_time = randf_range(0.25, 12)
+	if t3_on_timeout_randomize_cooldown : general_timers_core.t3.wait_time = randf_range(0.25, 12)
+	if t4_on_timeout_randomize_cooldown : general_timers_core.t4.wait_time = randf_range(0.25, 12)
+	if t5_on_timeout_randomize_cooldown : general_timers_core.t5.wait_time = randf_range(0.25, 12)
+	if t6_on_timeout_randomize_cooldown : general_timers_core.t6.wait_time = randf_range(0.25, 12)
+	
+	
+	if t_trigger_ascend == id:
+		ascending = Globals.opposite_bool(ascending)
+	
+	if t_trigger_change_direction == id:
+		reverse_direction_x()
+	
+	if t_trigger_jump == id:
+		handle_jump()
+	
+	if t_trigger_jump_and_move == id:
+		handle_jump(jump_velocity_y, jump_velocity_x * direction_x)
+		print(jump_velocity_y)
+	
+	if t_trigger_randomize_speed_and_jump_velocity == id:
+		speed = randi_range(0, 1000)
+		jump_velocity_x = randi_range(-200, 1200)
+		jump_velocity_x = randi_range(-1200, 1200)
+	
+	
+	if t_trigger_spawn_entity == id:
+		spawn_entity_general("t_trigger_spawn_entity")
+	
+	if t_trigger_spawn_entity2 == id:
+		spawn_entity_general("t_trigger_spawn_entity2")
+	
+	if t_trigger_spawn_entity3 == id:
+		spawn_entity_general("t_trigger_spawn_entity3")
+	
+	
+	if t_trigger_self_destruct_and_spawn_entity == id:
+		spawn_entity_general("t_trigger_spawn_entity")
+		handle_death("self_destruct")
+	
+	if t_trigger_self_destruct_and_spawn_entity2 == id:
+		spawn_entity_general("t_trigger_spawn_entity2")
+		handle_death("self_destruct")
+	
+	if t_trigger_self_destruct_and_spawn_entity3 == id:
+		spawn_entity_general("t_trigger_spawn_entity3")
+		handle_death("self_destruct")
+
+
+func spawn_entity_general(event_name : String):
+	spawn_entity(get(event_name + "_scene_filepath"), get(event_name + "_quantity"), get(event_name + "_add_velocity"), get(event_name + "_add_velocity_range"), get(event_name + "_pos_offset"), get(event_name + "_pos_offset_range"))
+
+
+var on_floor : bool = false
+var on_wall : bool = false
+
+var q_just_landed : bool = false
+var just_landed : bool = false
+
+func just_queue():
+	if not on_floor:
+		q_just_landed = true
+
+func just_update():
+	if q_just_landed:
+		if on_floor:
+			just_landed = true
+			q_just_landed = false
+
+func just_handle():
+	#if just_landed : player_just_landed.emit()
+	#if just_bounced : player_just_bounced.emit()
+	
+	just_landed = false
+
+
+func _on_cooldown_attack_limit_timeout() -> void:
+	block_spawn_entity = false

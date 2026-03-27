@@ -891,12 +891,17 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 	
 	
 	if remove_cooldown != -1:
-		
-		await get_tree().create_timer(remove_cooldown, true).timeout
-		
-		for node in spawned_nodes:
-			if node:
-				node.queue_free()
+		spawn_scenes_delete(spawned_nodes, remove_cooldown)
+	
+	
+	return spawned_nodes
+
+func spawn_scenes_delete(p_spawned_nodes, p_remove_cooldown):
+	if p_remove_cooldown : await get_tree().create_timer(p_remove_cooldown, true).timeout
+	
+	for node in p_spawned_nodes:
+		if node:
+			node.queue_free()
 
 
 func anim_glow(target : Node, material, duration):

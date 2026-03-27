@@ -19,6 +19,10 @@ extends CharacterBody2D
 @onready var c_collidable: Timer = $cooldown_collidable
 @onready var c_on_death_effect_thrownAway: Timer = $cooldown_on_death_effect_thrownAway
 
+@onready var c_attack_limit: Timer = $cooldown_attack_limit
+
+@onready var general_timers_core: Node2D = $general_timers_core
+
 @onready var scan_ledge = $scan_ledge
 @onready var scan_stuck = $scan_stuck
 
@@ -162,10 +166,11 @@ var effect_collected_multiple_active = false
 @export var damage_value = 10
 @export var score_value = 25
 
-@export_enum("stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var movement_type : String = "normal"
+@export_enum("normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var movement_type : String = "normal"
 
-@export var speed = 500
-@export var jump_velocity = -600
+@export var speed = 250
+@export var jump_velocity_y = -600
+@export var jump_velocity_x = 400 # This is only used when a modified jump is executed, and is ignored when the normal jump is activated (which is most of the time, an exception being one of the general timer behaviors for example).
 @export var acceleration = 200
 @export var friction = 400
 @export var fall_speed = 1000
@@ -187,6 +192,8 @@ var effect_collected_multiple_active = false
 
 @export var pushable_by_entity = true
 @export var pushable_by_player = true
+
+@export var cooldown_attack_limit : float = 1.5
 
 @export var set_player_attack_cooldown = false
 @export var set_player_attack_cooldown_value = 1.5
@@ -210,7 +217,9 @@ var effect_collected_multiple_active = false
 @export var on_death_ignore_gravity_stop = true
 
 @export var ignore_collision = false
-@export var on_death_ignore_collision_stop = true
+@export var on_death_change_ignore_collision = true
+
+@export var can_jump_in_air : bool = true
 
 @export var speed_multiplier_x = 1.0
 @export var speed_multiplier_y = 1.0
@@ -229,9 +238,9 @@ var effect_collected_multiple_active = false
 @export var on_wall_change_speed = false
 @export var on_wall_change_speed_multiplier = 0.5
 
-@export var on_wall_change_velocity = false
+@export var on_wall_change_velocity = true
 @export var on_wall_change_velocity_x = true
-@export var on_wall_change_velocity_y = true
+@export var on_wall_change_velocity_y = false
 @export var on_wall_change_velocity_value : Vector2 = Vector2(0, -250) # Disabled if equal to "-1".
 @export var on_wall_change_velocity_multiplier = Vector2(0.5, 0.5)
 @export var on_wall_float = false
@@ -281,13 +290,19 @@ var effect_collected_multiple_active = false
 @export var copy_direction_x_player = false
 @export var copy_direction_x_active_player = false
 @export var on_spawn_copy_direction_x_player = false
-@export var on_spawn_copy_direction_x_active_player = true
+@export var on_spawn_copy_direction_x_active_player = false
 
 
 # These properties affect all "on_[event]_spawn_entity" type behaviors.
 @export var spawn_entity_delay_range : Array = [0.0, 0.0]
 @export var spawn_entity_add_scale_range : Array = [Vector2(0.0, 1.0), Vector2(0.0, 1.0)]
 @export var spawn_entity_add_scale_range_keep_equal : bool = true # If equal to "true", the entity's "scale.y" will copy its "scale.x".
+@export var spawn_entity_family_copy_entity : bool = false # Should be disabled if the entity spawns collectibles.
+@export var spawn_entity_direction_copy_entity : bool = false
+@export var spawn_entity_add_z_index : int = 0
+
+@export var limit_spawn_entity_cooldown = false
+@export var limit_spawn_entity_repeat = false
 
 
 # Timer-based behavior:
@@ -387,9 +402,11 @@ var effect_collected_multiple_active = false
 @export var patrolling_vision_pos = Vector2(192, 0)
 
 @export_enum("Player", "enemy", "none", "all") var on_patrolling_spotted_spawn_entity_family: String = "enemy"
-@export var limit_spawn_entity = false
 @export var patrolling_change_direction_cooldown : float = 4.0
 @export var on_patrolling_show_text : bool = true
+
+@export var on_patrolling_spotted_jump : bool = false
+@export var on_patrolling_spotted_jump_and_move : bool = false
 
 @export var on_patrolling_spotted_spawn_entity = false
 @export_file("*.tscn") var on_patrolling_spotted_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
@@ -571,33 +588,43 @@ var effect_collected_multiple_active = false
 # The values (int) of these properties correspond to a specific general timer, which will look for a behavior matching its ID number on timeout.
 # A value of -1 means that this behavior will not match any general timer.
 @export var t_trigger_jump = -1
-@export var t_trigger_jumpAndMove = -1
+@export var t_trigger_jump_and_move = -1
 @export var t_trigger_change_direction = -1
-@export var t_trigger_selfDestruct = -1
-@export var t_trigger_selfDestructAndSpawnEntity = -1
+@export var t_trigger_self_destruct = -1
+@export var t_trigger_self_destruct_and_spawn_entity = -1
+@export var t_trigger_self_destruct_and_spawn_entity2 = -1
+@export var t_trigger_self_destruct_and_spawn_entity3 = -1
 @export var t_trigger_sfx = -1
-@export var t_trigger_randomize_speedAndJumpVelocity = -1
+@export var t_trigger_randomize_speed_and_jump_velocity = -1
+@export var t_trigger_ascend = -1
 
-@export var t_trigger_spawnEntity = -1
-@export var t_trigger_spawnEntity_scene_filepath = "res://Enemies/togglebot.tscn"
-@export var t_trigger_spawnEntity_quantity = 4
-@export var t_trigger_spawnEntity_velocity = Vector2(200, -400)
-@export var t_trigger_spawnEntity_velocity_random = true
-@export var t_trigger_spawnEntity_velocity_random_variance = Vector2(randi_range(-200, 200), randi_range(-200, 200))
+@export var t_trigger_spawn_entity = -1
+@export_file("*.tscn") var t_trigger_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export var t_trigger_spawn_entity_quantity = 1
+@export var t_trigger_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
+@export var t_trigger_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
+@export var t_trigger_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
+@export var t_trigger_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var t_trigger_spawn_entity_cooldown = 0.5
 
-@export var t_trigger_spawnEntity2 = -1
-@export var t_trigger_spawnEntity2_scene_filepath = "res://Enemies/togglebot.tscn"
-@export var t_trigger_spawnEntity2_quantity = 4
-@export var t_trigger_spawnEntity2_velocity = Vector2(200, -400)
-@export var t_trigger_spawnEntity2_velocity_random = true
-@export var t_trigger_spawnEntity2_velocity_random_variance = Vector2(randi_range(-200, 200), randi_range(-200, 200))
+@export var t_trigger_spawn_entity2 = -1
+@export_file("*.tscn") var t_trigger_spawn_entity2_scene_filepath = "res://Enemies/togglebot.tscn"
+@export var t_trigger_spawn_entity2_quantity = 1
+@export var t_trigger_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
+@export var t_trigger_spawn_entity2_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
+@export var t_trigger_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
+@export var t_trigger_spawn_entity2_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var t_trigger_spawn_entity2_cooldown = 0.5
 
-@export var t_trigger_spawnEntity3 = -1
-@export var t_trigger_spawnEntity3_scene_filepath = "res://Enemies/togglebot.tscn"
-@export var t_trigger_spawnEntity3_quantity = 4
-@export var t_trigger_spawnEntity3_velocity = Vector2(200, -400)
-@export var t_trigger_spawnEntity3_velocity_random = true
-@export var t_trigger_spawnEntity3_velocity_random_variance = Vector2(randi_range(-200, 200), randi_range(-200, 200))
+@export var t_trigger_spawn_entity3 = -1
+@export_file("*.tscn") var t_trigger_spawn_entity3_scene_filepath = "res://Enemies/togglebot.tscn"
+@export var t_trigger_spawn_entity3_quantity = 1
+@export var t_trigger_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
+@export var t_trigger_spawn_entity3_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
+@export var t_trigger_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
+@export var t_trigger_spawn_entity3_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var t_trigger_spawn_entity3_cooldown = 0.5
+
 
 # These properties decide whether or not a specific particle will be spawned:
 @export var particle_star = true
@@ -667,6 +694,24 @@ var effect_collected_multiple_active = false
 @export var on_floor_bounce_velocity_multiplier : float = 0.5
 @export var on_wall_bounce = true
 @export var on_wall_bounce_velocity_multiplier : float = 0.5
+
+@export var on_landed_spawn_entity : bool = false
+@export_file("*.tscn") var on_landed_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export var on_landed_spawn_entity_quantity = 1
+@export var on_landed_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
+@export var on_landed_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
+@export var on_landed_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
+@export var on_landed_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var on_landed_spawn_entity_cooldown = 0.5
+
+@export var on_floor_spawn_entity : bool = false
+@export_file("*.tscn") var on_floor_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
+@export var on_floor_spawn_entity_quantity = 1
+@export var on_floor_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
+@export var on_floor_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
+@export var on_floor_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
+@export var on_floor_spawn_entity_add_velocity_range : Array = [Vector2(-800, -800), Vector2(800, -50)]
+@export var on_floor_spawn_entity_cooldown = 0.5
 
 @export var variable_speed = false
 
@@ -820,6 +865,9 @@ func remove_if_corpse():
 
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
+	if direction_active_x < 0 : scan_ledge.position.x = -32
+	elif direction_active_x > 0 : scan_ledge.position.x = 32
+	
 	basic_on_inactive()
 	
 	delete_unneeded_nodes()
@@ -938,7 +986,7 @@ func basic_on_active():
 	
 	synchronize_animation()
 	
-	await get_tree().create_timer(0.5, false).timeout
+	await get_tree().create_timer(0.25, false).timeout
 	
 	if reset_puzzle_restored:
 		await Globals.World.reset_puzzle_all_nodes_ready
@@ -1159,7 +1207,7 @@ func set_hitbox(active : bool, deferred : bool = true):
 
 func delete_unneeded_nodes():
 	if not patrolling:
-		$scan_patrolling_vision
+		$scan_patrolling_vision.queue_free()
 		$cooldown_patrolling_target_spotted_queue.queue_free()
 		$cooldown_patrolling_target_spotted.queue_free()
 		$cooldown_patrolling_change_direction.queue_free()

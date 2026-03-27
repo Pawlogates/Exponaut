@@ -514,9 +514,10 @@ score_value = 100
 movement_type = "move_x"
 speed = 100
 family = "enemy"
+pushable_by_entity = false
+pushable_by_player = false
 can_move = true
 ignore_gravity = false
-on_wall_change_velocity = true
 on_ledge_turn = true
 on_death_spawn_entity = true
 on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
@@ -545,7 +546,7 @@ sprite_frames = ExtResource("2_i7pjj")
 animation = &"walk_alt"
 frame_progress = 0.0560121
 
-[node name="animation_general" parent="sprite" index="1"]
+[node name="animation_general" parent="sprite" index="9"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w5jm")
 }

@@ -6,8 +6,8 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yvjy2"]
 size = Vector2(62, 31)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xhf0r"]
-size = Vector2(128, 384)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bbcu5"]
+size = Vector2(144, 384)
 
 [node name="scannot" instance=ExtResource("1_bbcu5")]
 texture_filter = 3
@@ -20,8 +20,8 @@ acceleration = 300
 family = "enemy"
 can_move = true
 on_hit_change_velocity_y = false
+limit_spawn_entity_repeat = true
 patrolling = true
-limit_spawn_entity = true
 on_patrolling_spotted_spawn_entity = true
 on_patrolling_spotted_spawn_entity_scene_filepath = "uid://ci74wlv3i43aa"
 on_patrolling_spotted_spawn_entity_quantity = 2
@@ -35,12 +35,12 @@ entity_type = "enemy"
 [node name="sprite" parent="." index="0"]
 position = Vector2(0, 112)
 sprite_frames = ExtResource("2_bbcu5")
-animation = &"flight"
-frame_progress = 0.978773
+animation = &"attack"
+outline_enabled = false
 
 [node name="collision_main" parent="." index="1"]
 shape = SubResource("RectangleShape2D_yvjy2")
 
-[node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
-position = Vector2(0, 192)
-shape = SubResource("RectangleShape2D_xhf0r")
+[node name="collision_patrolling" parent="scan_patrolling_vision" index="2"]
+position = Vector2(-40, 192)
+shape = SubResource("RectangleShape2D_bbcu5")

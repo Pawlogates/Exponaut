@@ -1,0 +1,51 @@
+[gd_scene load_steps=4 format=3 uid="uid://dl5rmfn0uwiny"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_r5poc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hdeh8"]
+size = Vector2(62, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mpujj"]
+size = Vector2(32, 32)
+
+[node name="tank" instance=ExtResource("1_r5poc")]
+texture_filter = 3
+collision_layer = 0
+collectable = false
+hittable = true
+score_value = 75
+movement_type = "move_x"
+speed = 200
+family = "enemy"
+pushable_by_entity = false
+pushable_by_player = false
+can_move = true
+ignore_gravity = false
+spawn_entity_family_copy_entity = true
+spawn_entity_direction_copy_entity = true
+patrolling = true
+patrolling_change_direction_cooldown = -1.0
+on_patrolling_spotted_spawn_entity = true
+on_patrolling_spotted_spawn_entity_scene_filepath = "uid://dfrnc1hre55bn"
+on_patrolling_spotted_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
+on_patrolling_spotted_spawn_entity_add_velocity_range = [Vector2(0, 0), Vector2(0, 0)]
+start_animation = "none"
+can_change_sprite_anim = true
+on_death_effect_shrink = false
+entity_name = "tank"
+entity_type = "enemy"
+
+[node name="sprite" parent="." index="0"]
+animation = &"jump"
+
+[node name="collision_main" parent="." index="1"]
+shape = SubResource("RectangleShape2D_hdeh8")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_mpujj")
+
+[node name="Label" type="Label" parent="." index="26"]
+offset_left = 64.0
+offset_top = 48.0
+offset_right = 104.0
+offset_bottom = 70.3333

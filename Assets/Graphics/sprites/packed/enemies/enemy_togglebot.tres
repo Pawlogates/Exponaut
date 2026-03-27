@@ -242,8 +242,14 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_y18s0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_751ys")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t7ogb")
 }],
 "loop": true,
 "name": &"walk_alt",
-"speed": 3.0
+"speed": 5.0
 }]

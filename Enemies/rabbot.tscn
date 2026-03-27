@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://vbijka3yorms"]
+[gd_scene load_steps=34 format=3 uid="uid://vbijka3yorms"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_pd0id"]
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="2_pd0id"]
@@ -48,6 +48,26 @@ atlas = ExtResource("2_pd0id")
 region = Rect2(384, 320, 64, 128)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fvhwv"]
+atlas = ExtResource("2_pd0id")
+region = Rect2(448, 320, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ti236"]
+atlas = ExtResource("2_pd0id")
+region = Rect2(256, 320, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q50kk"]
+atlas = ExtResource("2_pd0id")
+region = Rect2(320, 320, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n761p"]
+atlas = ExtResource("2_pd0id")
+region = Rect2(1152, 320, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsljp"]
+atlas = ExtResource("2_pd0id")
+region = Rect2(384, 320, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n2qib"]
 atlas = ExtResource("2_pd0id")
 region = Rect2(448, 320, 64, 128)
 
@@ -148,10 +168,40 @@ animations = [{
 "name": &"dead",
 "speed": 3.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ti236")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q50kk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n761p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsljp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n2qib")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n761p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsljp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q50kk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ti236")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q50kk")
+}],
 "loop": true,
 "name": &"flight",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -231,15 +281,47 @@ animations = [{
 "speed": 3.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_84cpj"]
+size = Vector2(62, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pifsg"]
+size = Vector2(32, 48)
+
 [node name="rabbot" instance=ExtResource("1_pd0id")]
 collectable = false
 hittable = true
-movement_type = "wave_x"
+movement_type = "move_x"
+speed = 100
 family = "enemy"
 can_move = true
+ignore_gravity = false
+can_jump_in_air = false
+general_timers_enabled = true
+t2_cooldown = 5.0
+t3_cooldown = 8.25
+t_trigger_jump = 1
+t_trigger_jump_and_move = 2
+t_trigger_ascend = 3
+t_trigger_spawn_entity = 3
+t_trigger_spawn_entity_scene_filepath = "uid://oxvewjp1soes"
+start_animation = "none"
 sfx_self_collected_filepath = "uid://dlk43sxjkevef"
 entity_name = "rabbot"
 
 [node name="sprite" parent="." index="0"]
+position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_ti236")
-animation = &"walk"
+animation = &"flight"
+frame_progress = 0.0632136
+
+[node name="collision_main" parent="." index="1"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_84cpj")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_pifsg")
+
+[node name="Label" type="Label" parent="." index="26"]
+offset_right = 40.0
+offset_bottom = 22.3333

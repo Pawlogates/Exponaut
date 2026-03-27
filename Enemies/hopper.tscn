@@ -1,0 +1,51 @@
+[gd_scene load_steps=5 format=3 uid="uid://bj2ap2m7h7t47"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_iqren"]
+[ext_resource type="SpriteFrames" uid="uid://bau6lhr8h8wm6" path="res://Assets/Graphics/sprites/packed/enemies/enemy_pig.tres" id="2_y0rft"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hdeh8"]
+size = Vector2(62, 62)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mpujj"]
+size = Vector2(32, 32)
+
+[node name="hopper" instance=ExtResource("1_iqren")]
+texture_filter = 3
+collision_layer = 0
+patrolling_anim_while_queued = true
+collectable = false
+hittable = true
+score_value = 75
+speed = 200
+family = "enemy"
+pushable_by_entity = false
+pushable_by_player = false
+can_move = true
+ignore_gravity = false
+patrolling = true
+on_patrolling_spotted_jump_and_move = true
+on_patrolling_spotted_spawn_entity = true
+on_patrolling_spotted_spawn_entity_scene_filepath = "uid://ci74wlv3i43aa"
+t1_cooldown = 5.0
+t2_cooldown = 5.0
+t_trigger_jump_and_move = 1
+t_trigger_change_direction = 1
+start_animation = "none"
+can_change_sprite_anim = true
+on_death_effect_shrink = false
+entity_name = "hopper"
+entity_type = "enemy"
+
+[node name="sprite" parent="." index="0"]
+sprite_frames = ExtResource("2_y0rft")
+frame_progress = 0.585592
+
+[node name="collision_main" parent="." index="1"]
+shape = SubResource("RectangleShape2D_hdeh8")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_mpujj")
+
+[node name="Label" type="Label" parent="." index="27"]
+offset_right = 40.0
+offset_bottom = 22.3333

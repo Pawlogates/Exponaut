@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://oxvewjp1soes"]
 
-[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_vnyyt"]
-[ext_resource type="SpriteFrames" uid="uid://c5t7xftw3kkck" path="res://Assets/Graphics/sprites/packed/collectibles/bomb.tres" id="2_r0vmc"]
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_yvemg"]
+[ext_resource type="SpriteFrames" uid="uid://c5t7xftw3kkck" path="res://Assets/Graphics/sprites/packed/collectibles/bomb.tres" id="2_em0fv"]
 
-[node name="bomb" instance=ExtResource("1_vnyyt")]
+[node name="bomb" instance=ExtResource("1_yvemg")]
 on_death_effect_thrownAway = true
 collectable = false
 family = "enemy"
@@ -29,4 +29,4 @@ entity_name = "bomb"
 entity_type = "projectile"
 
 [node name="sprite" parent="." index="0"]
-sprite_frames = ExtResource("2_r0vmc")
+sprite_frames = ExtResource("2_em0fv")
