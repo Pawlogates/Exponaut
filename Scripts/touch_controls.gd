@@ -31,10 +31,13 @@ func _process(_delta: float) -> void:
 
 func _on_timer_timeout() -> void:
 	$AnimationPlayer.play("disappear")
-	await $AnimationPlayer.animation_finished
-	queue_free()
 
 
 func _input(event):
 	if "Screen" in str(event):
 		$Timer.start()
+		modulate.a = 1
+
+
+func _on_button_pressed() -> void:
+	queue_free()

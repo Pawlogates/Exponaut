@@ -14,11 +14,14 @@ warnings/check_invalid_track_paths=false
 
 [application]
 
-config/name="Exponaut v0.9"
-run/main_scene="uid://1s2ji4jr3kxb"
+config/name="Exponaut v0.9.4"
+config/version="0.9.4"
+run/main_scene="uid://c370w0v3janyp"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/use_filter=false
-config/icon="res://Assets/Graphics/other/icon.svg"
+config/icon="uid://c75ytmnmu5s8f"
+config/macos_native_icon="uid://c75ytmnmu5s8f"
+config/windows_native_icon="uid://c75ytmnmu5s8f"
 
 [autoload]
 
@@ -355,6 +358,10 @@ recorder={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":84,"key_label":0,"unicode":116,"location":0,"echo":false,"script":null)
 ]
 }
+
+[input_devices]
+
+pointing/emulate_touch_from_mouse=true
 
 [rendering]
 

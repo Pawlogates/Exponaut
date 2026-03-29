@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b5wkfwqag4nd7"]
+[gd_scene load_steps=3 format=3 uid="uid://b5wkfwqag4nd7"]
 
 [ext_resource type="Script" uid="uid://cpbay8ywvd0rd" path="res://Other/Scenes/Entity Editor/entity_editor.gd" id="1_jb7cl"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_a0mot"]
 
 [node name="entity_editor" type="Control" groups=["entity_editor"]]
 z_index = 100
@@ -42,8 +43,10 @@ color = Color(0, 0, 0, 0.341176)
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 256.0
-offset_top = 842.0
-offset_right = 796.0
-offset_bottom = 878.0
-text = "press Q or MIDDLEMOUSE to close the entity editor"
+offset_left = 180.0
+offset_top = 786.0
+offset_right = 1377.0
+offset_bottom = 853.0
+theme = ExtResource("2_a0mot")
+theme_override_font_sizes/font_size = 48
+text = "Press Q or MIDDLEMOUSE to close the entity editor!"

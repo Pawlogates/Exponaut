@@ -1,5 +1,8 @@
 extends StaticBody2D
 
+var entered : bool = false
+var active : bool = false
+
 @onready var t_effect_inactive: Timer = $timer_effect_inactive
 
 
@@ -16,12 +19,29 @@ extends StaticBody2D
 @export var camera_target_rotation : float = 10.0
 @export var camera_start_speed_multiplier : float = 0.01
 
+@export var start_hidden : bool = false
+
 
 var effect_active = true # Must be equal to "true" for the pause and camera-based effects to be triggered.
 
 
+func _ready() -> void:
+	if start_hidden : modulate.a = 0 ; $Area2D.scale = Vector2(12, 12)
+
+func _physics_process(delta: float) -> void:
+	if active : modulate.a = move_toward(modulate.a, 1, delta)
+
 func _on_area_2d_area_entered(area):
 	if not Globals.is_valid_entity(area) : return
+	
+	if start_hidden:
+		set_active_after_cooldown()
+	else:
+		active = true
+	
+	entered = true
+	
+	if not active : return
 	
 	if effect_active : Globals.message(str(message_text), pause_duration, message_add_pos, anim_hide_cooldown, anim_speed_scale, camera_target_offset, camera_target_zoom, camera_target_rotation, camera_start_speed_multiplier)
 	else : Globals.message(str(message_text), 0.0)
@@ -32,3 +52,9 @@ func _on_area_2d_area_entered(area):
 
 func _on_timer_effect_inactive_timeout() -> void:
 	effect_active = true
+
+func set_active_after_cooldown():
+	if entered : return
+	await get_tree().create_timer(15, true).timeout
+	active = true
+	$Area2D.scale = Vector2(1, 1)

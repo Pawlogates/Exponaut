@@ -118,6 +118,6 @@ animations = [{
 "texture": SubResource("AtlasTexture_trmi6")
 }],
 "loop": true,
-"name": &"anim",
+"name": &"idle",
 "speed": 15.0
 }]

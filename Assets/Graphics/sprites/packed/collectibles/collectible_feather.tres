@@ -2,17 +2,17 @@
 
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="1_asjg0"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_itn01"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_xw0h8"]
 atlas = ExtResource("1_asjg0")
-region = Rect2(192, 588, 48, 48)
+region = Rect2(384, 64, 32, 64)
 
 [resource]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_itn01")
+"texture": SubResource("AtlasTexture_xw0h8")
 }],
 "loop": true,
-"name": &"anim",
+"name": &"idle",
 "speed": 15.0
 }]

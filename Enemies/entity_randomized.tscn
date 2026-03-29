@@ -1,8 +1,9 @@
-[gd_scene load_steps=16 format=3 uid="uid://hq4cxsvbv03l"]
+[gd_scene load_steps=17 format=3 uid="uid://dk7a7juo42qwa"]
 
-[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_5yskg"]
-[ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_togglebot.tres" id="2_i7pjj"]
-[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_i7pjj"]
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_6qv3i"]
+[ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_togglebot.tres" id="2_obhb2"]
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_5dpri"]
+[ext_resource type="PackedScene" uid="uid://bhwjga0npb11v" path="res://Objects/entity_randomizator.tscn" id="4_obhb2"]
 
 [sub_resource type="Animation" id="Animation_snhod"]
 length = 0.001
@@ -502,7 +503,7 @@ _data = {
 &"rotate_around_y_fade_out": SubResource("Animation_75qk4")
 }
 
-[node name="togglebot" instance=ExtResource("1_5yskg")]
+[node name="togglebot" instance=ExtResource("1_6qv3i")]
 collision_layer = 0
 on_death_effect_thrownAway = true
 on_death_decoration_nodes_effect_thrownAway = true
@@ -541,7 +542,7 @@ entity_name = "togglebot"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="0"]
-sprite_frames = ExtResource("2_i7pjj")
+sprite_frames = ExtResource("2_obhb2")
 animation = &"walk_alt"
 frame_progress = 0.0560121
 
@@ -550,12 +551,12 @@ libraries = {
 &"": SubResource("AnimationLibrary_5w5jm")
 }
 
-[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_i7pjj")]
+[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_5dpri")]
 z_index = -4
 position = Vector2(-21, -5)
 scale = Vector2(0.085, 0.085)
 
-[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("3_i7pjj")]
+[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("3_5dpri")]
 z_index = -4
 position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)
@@ -565,3 +566,5 @@ modulate = Color(1, 1, 1, 0.01)
 
 [node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
 debug_color = Color(0.87254, 0.318312, 0.37752, 0)
+
+[node name="entity_randomizator" parent="." index="27" instance=ExtResource("4_obhb2")]

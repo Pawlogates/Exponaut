@@ -382,3 +382,11 @@ func delete_menu(): # Will add some menu deletion effect making heavy use of the
 
 func _on_btn_level_chain_pressed() -> void:
 	Globals.change_main_scene(load("res://Levels/DEBUG_1.tscn"))
+
+
+func _on_btn_press_this_button_pressed() -> void:
+	Globals.change_main_scene(load("res://Levels/entity_showcase_single.tscn"))
+
+
+func _on_btn_touch_controls_pressed() -> void:
+	Globals.spawn_scenes(Overlay, "res://Other/Scenes/touch_controls.tscn", 1, Vector2(0, 0), -1)

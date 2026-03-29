@@ -19,10 +19,14 @@ damage_from_entity = false
 damage_from_entity_contact = false
 damage_from_player = false
 can_move = true
+on_timeout_change_ignore_gravity = true
+on_timeout_change_ignore_gravity_cooldown = 1.0
 on_timeout_death = true
-on_timeout_death_cooldown = 1.5
+on_timeout_death_cooldown = 6.0
 can_collect = true
 immortal = true
+on_floor_bounce = true
+on_floor_bounce_velocity_multiplier = 0.95
 start_animation = "none"
 effect_shrink_target_scale = Vector2(0.5, 0.5)
 effect_shrink_delete = false
@@ -31,4 +35,3 @@ entity_type = "projectile"
 
 [node name="sprite" parent="." index="0"]
 sprite_frames = ExtResource("2_w0vbj")
-animation = &"anim"

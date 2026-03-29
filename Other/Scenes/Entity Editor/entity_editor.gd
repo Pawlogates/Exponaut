@@ -19,7 +19,7 @@ var l_on_timeout_change_ignore_gravity_cooldown_button_info : Dictionary = {"beh
 var l_movement_type_button_info : Dictionary = {"behavior_name" : "Movement type", "behavior_value" : "move_x", "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity_movement_limited}
 
 var l_on_timeout_death_button_info : Dictionary = {"behavior_name" : "Destroy after a delay", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
-var l_on_timeout_death_cooldown_button_info : Dictionary = {"behavior_name" : "Destruction cooldown", "behavior_value" : 1.5, "behavior_value_step" : 0.25, "behavior_value_min" : 0.0, "behavior_value_max" : 12.0, "behavior_available_options" : ["none"]}
+var l_on_timeout_death_cooldown_button_info : Dictionary = {"behavior_name" : "Destruction cooldown", "behavior_value" : 6, "behavior_value_step" : 0.25, "behavior_value_min" : 0.0, "behavior_value_max" : 12.0, "behavior_available_options" : ["none"]}
 
 var l_on_death_spawn_entity_button_info : Dictionary = {"behavior_name" : "Leave object after death", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
 var l_on_death_spawn_entity_scene_filepath_button_info : Dictionary = {"behavior_name" : "Chosen object", "behavior_value" : "res://Enemies/pursuitron.tscn", "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity}

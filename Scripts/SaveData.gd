@@ -733,10 +733,18 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 	Globals.levelState_loaded.emit()
 
 
-func save_file(filepath : String, data_function : String):
+func save_file(filepath : String, data, make_readable : bool = false):
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
-	var data = call(data_function)
-	var json_contents = JSON.stringify(data)
+	
+	var json_contents
+	
+	if data is not Dictionary and data in self: # If "data" is a valid function name, the saved contents get replaced with that function's output.
+		data = call(data)
+	
+	if make_readable:
+		json_contents = JSON.stringify(data, "\t")
+	else:
+		json_contents = JSON.stringify(data)
 	
 	file.store_line(json_contents)
 

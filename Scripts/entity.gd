@@ -25,6 +25,13 @@ var effect_thrownAway_applied_velocity = false
 var unique_number = randi_range(0, 999)
 
 func _ready():
+	basic_on_inactive()
+	
+	#if on_spawn_randomize_everything : Globals.spawn_scenes(self, load("res://Objects/entity_randomizator.tscn"))
+	
+	await get_tree().create_timer(0.5, true).timeout
+	scan_visible.visible = true
+	
 	basic_on_spawn()
 	reassign_general()
 	reassign_movement_type_id()
@@ -75,9 +82,10 @@ func _ready():
 	
 	synchronize_animation()
 	
-	if on_death_effect_thrownAway:
+	if on_death_effect_thrownAway or on_collected_effect_thrownAway:
 		
 		effect_thrownAway_velocity = Vector2(randi_range(-1000 * effect_thrownAway_randomize_velocity_multiplier_x, 1000 * effect_thrownAway_randomize_velocity_multiplier_x), randi_range(-500 * effect_thrownAway_randomize_velocity_multiplier_y, -1000 * effect_thrownAway_randomize_velocity_multiplier_y))
+		
 		if on_death_effect_thrownAway_cooldown:
 			c_on_death_effect_thrownAway.wait_time = on_death_effect_thrownAway_cooldown
 	
@@ -88,11 +96,13 @@ func _ready():
 			collision_patrolling.shape.size = patrolling_vision_size
 			collision_patrolling.position = patrolling_vision_pos
 		
-		if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.wait_time = patrolling_change_direction_cooldown
-		if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.start()
+		if is_instance_valid(c_patrolling_change_direction):
+			if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.wait_time = patrolling_change_direction_cooldown
+			if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.start()
 	
 	else:
-		scan_patrolling_vision.monitoring = false
+		if is_instance_valid(scan_patrolling_vision):
+			scan_patrolling_vision.monitoring = false
 	
 	
 	if movement_type == "move_y" or movement_type == "move_xy" or movement_type == "follow_player_y" or movement_type == "follow_player_y_if_spotted":
@@ -102,8 +112,9 @@ func _ready():
 	await get_tree().create_timer(0.5, true).timeout
 	
 	if reset_puzzle:
-		scan_reset_puzzle_coverage.monitorable = true
-		scan_reset_puzzle_coverage.monitoring = true
+		if is_instance_valid(scan_reset_puzzle_coverage):
+			scan_reset_puzzle_coverage.monitorable = true
+			scan_reset_puzzle_coverage.monitoring = true
 	
 	await get_tree().create_timer(0.5, true).timeout
 	
@@ -424,7 +435,7 @@ func inside_check_enter(body):
 		
 		elif on_entityEntered_change_direction_copyEntity:
 			
-			direction_x = body.direction
+			direction_x = body.direction_x
 		
 		elif on_entityEntered_change_direction_basedOnPosition:
 			
@@ -464,6 +475,7 @@ var handle_gravity_in_movement_type = false # If true, the gravity is not handle
 @onready var movement_function_name = "movement_" + movement_type
 
 func handle_movement(delta):
+	if entity_name == "orb_zeroScore" : return
 	if reset_puzzle_block_movement : return
 	call(movement_function_name, delta)
 	#call("movement_" + str(Globals.l_entity_movement[movement_type_id]), delta)
@@ -774,7 +786,7 @@ func effect_thrownAway(delta):
 		if rolled_effect_thrownAway_scale_to_front : z_index += 10
 		else : z_index -= 10
 		collision_main.disabled = true
-		
+		print(velocity)
 		# Correct for potential anim player changes.
 		sprite.scale = abs(sprite.scale)
 		sprite.skew = rad_to_deg(0)
@@ -918,13 +930,13 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 		Globals.spawn_scenes(World, Globals.scene_particle_star, 12, position, 12.0, Color(0, 0, 0, 0), Vector2(0, 0), 5, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(-8, -64), Vector2(8, 64)], [Vector2(0, 0), Vector2(0, 0)])
 		Globals.spawn_scenes(World, Globals.scene_particle_feather_multiple, 4, position, 12.0, Color(0, 0, 0, 0), Vector2(0, 0), 5, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(-8, -64), Vector2(8, 64)])
 	
-	if inventory_item:
-		if get_tree().get_nodes_in_group("inventory_item").size() < 10:
-			var item = Globals.scene_inventory_item.instantiate()
-			Overlay.HUD.add_child(item)
-		
-		Overlay.HUD.check_inventory()
-		get_tree().call_group("inventory_item", "selected_check")
+	#if inventory_item:
+		#if get_tree().get_nodes_in_group("inventory_item").size() < 10:
+			#var item = Globals.scene_inventory_item.instantiate()
+			#Overlay.HUD.add_child(item)
+		#
+		#Overlay.HUD.check_inventory()
+		#get_tree().call_group("inventory_item", "selected_check")
 	
 	# I NEED TO KNOW WHY THIS CHECK WAS EVER NEEDED
 	#if not reset_puzzle_inside_zone:
@@ -1438,8 +1450,9 @@ func _on_cooldown_patrolling_target_spotted_queue_timeout() -> void: # When the 
 
 
 func handle_patrolling():
-	if direction_active_x > 0 : scan_patrolling_vision.scale.x = 1.0
-	elif direction_active_x < 0 : scan_patrolling_vision.scale.x = -1.0
+	if is_instance_valid(scan_patrolling_vision):
+		if direction_active_x > 0 : scan_patrolling_vision.scale.x = 1.0
+		elif direction_active_x < 0 : scan_patrolling_vision.scale.x = -1.0
 	
 	if patrolling_target_spotted_active:
 		if Globals.random_bool(19, 1):
@@ -1536,8 +1549,9 @@ func handle_reset_puzzle():
 	hittable = false
 	
 	for entity in reset_puzzle_nodes_inside_zone:
-		if entity.reset_puzzle_delete_node_queued and entity.enabled:
-			entity.reset_puzzle_block_movement = true
+		if is_instance_valid(entity):
+			if entity.reset_puzzle_delete_node_queued and entity.enabled:
+				entity.reset_puzzle_block_movement = true
 	
 	await get_tree().create_timer(0.5, true).timeout
 	
@@ -1549,6 +1563,8 @@ func handle_reset_puzzle():
 	
 	for entity in reset_puzzle_nodes_inside_zone:
 		
+		if not is_instance_valid(entity) : continue
+		
 		if entity.enabled:
 			if entity.reset_puzzle_delete_node_queued:
 				entity.reset_all()
@@ -1559,7 +1575,7 @@ func handle_reset_puzzle():
 			else:
 				entity.animation_general.play("reflect_straight")
 			
-			await get_tree().create_timer(clamp(0.5 / (len(reset_puzzle_nodes_inside_zone) / 10), 0.05, 0.5), true).timeout
+			if is_instance_valid(self) : await get_tree().create_timer(clamp(0.5 / (len(reset_puzzle_nodes_inside_zone) / 10), 0.05, 0.5), true).timeout
 	
 	Globals.Player.camera.enabled = true
 	Globals.World.camera.enabled = false
@@ -1621,7 +1637,7 @@ func effects_reset():
 	
 	#animation_color.play("pulse_red_normal")
 	modulate *= 10
-	animation_general.play("reflect_straight")
+	if is_instance_valid(animation_general) : animation_general.play("reflect_straight")
 	sfx_manager.sfx_play([Globals.sfx_powerUp, Globals.sfx_powerUp2].pick_random(), randf_range(0.8, 1.2), randf_range(0.9, 1.1))
 	Globals.World.reset_puzzle_line_visible = true
 	
@@ -1687,10 +1703,11 @@ func _on_scan_reset_puzzle_coverage_area_entered(area: Area2D) -> void:
 
 func reset_puzzle_delete_entities():
 	for entity in reset_puzzle_nodes_inside_zone:
-		if entity.reset_puzzle_delete_node_queued : continue
-		
-		reset_puzzle_nodes_inside_zone.erase(entity)
-		entity.delete_entity()
+		if is_instance_valid(entity):
+			if entity.reset_puzzle_delete_node_queued : continue
+			
+			reset_puzzle_nodes_inside_zone.erase(entity)
+			entity.delete_entity()
 
 func reset_puzzle_delete_entities2():
 	for entity in reset_puzzle_nodes_inside_zone:

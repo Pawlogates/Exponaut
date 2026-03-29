@@ -1,0 +1,82 @@
+[gd_scene load_steps=11 format=3 uid="uid://c821xq2c0r3w6"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_uoma1"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_wh033"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_doa4r"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_pffn4"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_af5i8"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_qqfk4"]
+[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="7_4pgf3"]
+[ext_resource type="Script" uid="uid://bpkrb3l1ip1aa" path="res://Scripts/deleteThis_restart_level_timer.gd" id="8_wh033"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="9_doa4r"]
+[ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_level_transition.tscn" id="10_pffn4"]
+
+[node name="World" instance=ExtResource("1_uoma1")]
+on_start_camera_effect = false
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("2_wh033")]
+layer_0/tile_data = PackedInt32Array(131064, 0, 10, 131065, 0, 10, 131066, 0, 10, 131067, 0, 10, 131068, 0, 10, 131069, 0, 10, 131070, 0, 10, 131071, 0, 10, 65536, 0, 10, 65537, 0, 10, 65538, 0, 10, 65539, 0, 10, 65540, 0, 10, 65541, 0, 10, 65542, 0, 10, 65543, 0, 10, 65544, 0, 10, 65545, 0, 10, 65546, 0, 10, 65547, 0, 10, 131063, 0, 10, 131062, 0, 10, 131061, 0, 10, 131060, 0, 10, 131059, 0, 10, 131058, 0, 10, 131057, 0, 10, 65521, 0, 10, -15, 0, 10, -65551, 0, 10, -131087, 0, 10, -196623, 0, 10, -262159, 0, 10, -327695, 0, 10, -393231, 0, 10, -458767, 0, 10, -524303, 0, 10, -589839, 0, 10, -655375, 0, 10, -720911, 0, 10, 65548, 0, 10, 65549, 0, 10, 65550, 0, 10, 14, 0, 10, -65522, 0, 10, -131058, 0, 10, -196594, 0, 10, -262130, 0, 10, -327666, 0, 10, -393202, 0, 10, -458738, 0, 10, -524274, 0, 10, -589810, 0, 10, -655346, 0, 10, -720882, 0, 10, -786418, 0, 10, -851954, 0, 10, -786447, 0, 10, -786446, 0, 10, -786445, 0, 10, -786444, 0, 10, -786443, 0, 10, -786442, 0, 10, -786441, 0, 10, -786440, 0, 10, -786439, 0, 10, -786438, 0, 10, -786437, 0, 10, -786436, 0, 10, -786435, 0, 10, -786434, 0, 10, -786433, 0, 10, -851968, 0, 10, -851967, 0, 10, -851966, 0, 10, -851965, 0, 10, -851964, 0, 10, -851963, 0, 10, -851962, 0, 10, -851961, 0, 10, -851960, 0, 10, -851959, 0, 10, -851958, 0, 10, -851957, 0, 10, -851956, 0, 10, -851955, 0, 10, -131065, 0, 10, -131064, 0, 10, -131063, 0, 10, -131062, 0, 10, -262153, 0, 10, -262152, 0, 10, -786428, 0, 10, -720892, 0, 10, -655356, 0, 10, -589820, 0, 10, -458743, 0, 10, -393207, 0, 10, -327671, 0, 10, -262135, 0, 10, -196599, 0, 10, -327667, 0, 10, -262143, 0, 10, -262144, 0, 10, -196609, 0, 10, -196610, 0, 10, -14, 0, 10, 65522, 0, 10, 65523, 0, 10, -458757, 0, 10, -524302, 0, 10, -524301, 0, 10, -524300, 0, 10, 65529, 0, 10)
+
+[node name="tileset_objects" parent="." index="1" instance=ExtResource("3_doa4r")]
+position = Vector2(1, 0)
+layer_0/tile_data = PackedInt32Array(3, 3, 786432, -720884, 1, 65536, -655348, 1, 65536, -655349, 1, 65536, -720885, 1, 65536)
+
+[node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_pffn4")]
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_af5i8")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]
+
+[node name="trigger_bg_change" parent="." index="15" instance=ExtResource("6_qqfk4")]
+bg_main_filepath = "uid://bpevvq03p3otx"
+bg_front_filepath = "uid://bpevvq03p3otx"
+bg_front2_filepath = "uid://bpevvq03p3otx"
+bg_back_filepath = "uid://bpevvq03p3otx"
+bg_back2_filepath = "uid://bpevvq03p3otx"
+
+[node name="trigger_positional" parent="." index="16" instance=ExtResource("7_4pgf3")]
+scale = Vector2(8.75902, 3.38534)
+right_to_left = true
+minOffset_Y = -500
+maxOffset_Y = -250
+
+[node name="trigger_positional2" parent="." index="17" instance=ExtResource("7_4pgf3")]
+position = Vector2(-596, -41)
+scale = Vector2(8.75902, 3.38534)
+vertical = true
+minOffset = 500
+maxOffset = 700
+minOffset_Y = -500
+maxOffset_Y = -250
+camera_baseZoom = 0.5
+maxZoom = 0.5
+
+[node name="Timer" type="Timer" parent="." index="18"]
+script = ExtResource("8_wh033")
+
+[node name="Label" type="Label" parent="." index="19"]
+visible = false
+offset_left = -880.0
+offset_top = 163.0
+offset_right = 894.0
+offset_bottom = 378.5
+theme = ExtResource("9_doa4r")
+text = "Press the R key to manually reroll the entity properties.
+
+This here, is a showcase of the E.N.T.I.T.Y system. All objects (well, almost) are technically THE SAME object, but
+with 600+ behaviors (about 300 being quite minor though) being able to be adjusted from the base state. This here, is an extreme example, made to show
+that none of these properties negate any of the others. There will be an ENTITY EDITOR at some point, but for now if you wish to create
+your own entities, just copy any already existing entity scene, and adjust its properties (on the right of the screen) within the godot editor."
+
+[node name="trigger_level_transition" parent="." index="20" instance=ExtResource("10_pffn4")]
+position = Vector2(793, -676)
+scale = Vector2(3.37811, 3.60738)
+target_level_filepath = "uid://by7nj8fjoo7ta"
+transition_next = 0
+valid_target = false
+
+[connection signal="timeout" from="Timer" to="Timer" method="_on_timeout"]

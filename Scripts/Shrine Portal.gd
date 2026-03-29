@@ -21,20 +21,18 @@ var level_rank_value = 1
 @export var checkpoint_offset = Vector2(320, -64)
 
 func _ready():
+	if Globals.level_number == -1 : level_id = "DEBUG_7"
+	
 	level_filePath = str("res://Levels/%s.tscn" % level_id)
 	
 	await get_tree().create_timer(0,5, false).timeout
-	print(level_id + "YES")
 	level_info = SaveData.get("info_"+level_id)
-	print(level_id + "YES")
-	print("YESSIR")
 	shrineGem_portal_level_number = int(level_id.split("_")[-1])
 	level_displayedName = SaveData.get("info_"+level_id)[0]
 	topRankScore = SaveData.get("info_"+level_id)[4]
 	level_completionState = SaveData.get("saved_"+level_id)[0]
 	level_score = SaveData.get("saved_"+level_id)[1]
 	
-
 	print(level_rank)
 	print(level_score)
 	print(level_displayedName)

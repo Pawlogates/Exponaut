@@ -54,7 +54,7 @@ func message_show(message_text, pause_duration : float = 4.0, message_add_pos : 
 		
 		await get_tree().create_timer(pause_duration, true).timeout
 		
-		Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0.0, 0.5)
+		if is_instance_valid(Globals.Player.camera) : Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0.0, 0.5)
 		Overlay.animation("black_transparent_fade_out")
 		get_tree().paused = false
 		

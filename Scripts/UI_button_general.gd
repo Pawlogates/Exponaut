@@ -44,6 +44,8 @@ var menu : Node
 
 @export var ignore_mouse : bool = false
 
+@export var on_hover_message_text : String = "none"
+
 
 var is_pressed = false
 var is_focused = false
@@ -250,6 +252,8 @@ func _on_focus_exited() -> void:
 
 func _on_mouse_entered() -> void: # This does trigger on hovering over the button with mouse...
 	if not enabled : return
+	
+	if on_hover_message_text != "none" : Globals.message(on_hover_message_text, 0, Vector2(0, 0), 4, 2)
 	
 	is_focused = true
 	menu.button_is_focused = true

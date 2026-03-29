@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=142 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=143 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_38g62"]
@@ -128,6 +128,7 @@
 [ext_resource type="PackedScene" uid="uid://bj2ap2m7h7t47" path="res://Enemies/hopper.tscn" id="100_5djqn"]
 [ext_resource type="PackedScene" uid="uid://crlaglwdng51c" path="res://Boxes/piggybank_orb_green.tscn" id="100_fh3ff"]
 [ext_resource type="PackedScene" uid="uid://bkr47sjn2wse7" path="res://Boxes/piggybank_orb_blue.tscn" id="101_p3m2n"]
+[ext_resource type="PackedScene" uid="uid://dk7a7juo42qwa" path="res://Enemies/entity_randomized.tscn" id="105_q3fc0"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_kxjp3"]
 resource_name = "everything"
@@ -272,6 +273,7 @@ scenes/8/scene = ExtResource("50_uphpl")
 scenes/9/scene = ExtResource("49_14gli")
 scenes/10/scene = ExtResource("77_rg5m4")
 scenes/11/scene = ExtResource("78_2cubl")
+scenes/12/scene = ExtResource("105_q3fc0")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_yfn55"]
 resource_name = "blocks"
