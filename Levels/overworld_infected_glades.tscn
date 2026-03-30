@@ -665,3 +665,10 @@ position = Vector2(-1824, -1056)
 
 [node name="gem_level_portal" parent="." index="106" instance=ExtResource("24_j4wbg")]
 position = Vector2(-6688, -1920)
+
+[node name="trigger_level_transition" parent="." index="108" instance=ExtResource("18_ng3ta")]
+position = Vector2(-2960, -600)
+scale = Vector2(4, 24)
+target_level_filepath = "uid://1s2ji4jr3kxb"
+transition_next = 0
+valid_target = false

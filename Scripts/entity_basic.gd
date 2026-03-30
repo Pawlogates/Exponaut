@@ -331,7 +331,7 @@ var effect_collected_multiple_active = false
 @export var on_timeout_change_invincible = false
 @export var on_timeout_change_invincible_cooldown = 2.5
 
-@export var collidable_cooldown = 0.35
+@export var collidable_cooldown = 0.1
 
 # Behavior triggered on entity death:
 @export var on_death_spawn_entity = false

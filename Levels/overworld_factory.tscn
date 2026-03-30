@@ -125,7 +125,7 @@ pause_duration = 0.0
 [node name="info_sign2" parent="." index="20" instance=ExtResource("13_a6ra1")]
 position = Vector2(1952, 32)
 message_text = "Press the jump key while touching a wall, to perform a wall jump. Remember to HOLD the direction until you actually bounce off the wall."
-camera_target_offset = Vector2(256, -64)
+camera_target_offset = Vector2(200, -64)
 start_hidden = true
 
 [node name="info_sign3" parent="." index="21" instance=ExtResource("13_a6ra1")]
@@ -203,6 +203,7 @@ anim_hide_cooldown = 10.0
 camera_target_offset = Vector2(-256, -640)
 camera_target_zoom = Vector2(4, 4)
 start_hidden = true
+start_hidden_show_cooldown = 45.0
 
 [node name="info_sign18" parent="." index="32" instance=ExtResource("13_a6ra1")]
 position = Vector2(2368, -1952)
@@ -214,6 +215,7 @@ camera_target_offset = Vector2(-256, 120)
 camera_target_zoom = Vector2(4, 6)
 camera_target_rotation = 0.0
 start_hidden = true
+start_hidden_show_cooldown = 90.0
 
 [node name="info_sign9" parent="." index="33" instance=ExtResource("13_a6ra1")]
 position = Vector2(2656, -2432)

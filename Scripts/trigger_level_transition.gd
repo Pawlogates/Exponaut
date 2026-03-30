@@ -4,7 +4,7 @@ var active = false # Used to prevent transitioning right after being loaded into
 var entered = false # Each transition can only be entered once before changing the loaded level.
 var enabled = true # Whether or not the transition should be one-way.
 
-@export_file("*.tscn") var target_level_filepath : String = "res://Levels/debug_level.tscn"
+@export_file("*.tscn") var target_level_filepath : String = "none"
 @export var transition_next = -1
 @export var transition_pos_offset = Vector2(0, 0)
 @export var valid_target : bool = true
@@ -16,6 +16,7 @@ func _ready() -> void:
 
 func _on_area_entered(area):
 	if not Globals.is_valid_entity(area) : return
+	if target_level_filepath == "none" : return
 	if not active or entered : return
 	entered = true
 	

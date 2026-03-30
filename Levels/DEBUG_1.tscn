@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://bvkrr7e5jdex6"]
+[gd_scene load_steps=12 format=3 uid="uid://bvkrr7e5jdex6"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_0tnfu"]
 [ext_resource type="PackedScene" uid="uid://durmwd8klls41" path="res://Levels/DEBUG_2.tscn" id="2_ccx6a"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_olnfn"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_80vpq"]
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="11_ccx6a"]
+[ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_level_transition.tscn" id="11_flhwk"]
 
 [node name="World" instance=ExtResource("1_0tnfu")]
 level_type = "debug"
@@ -63,4 +64,6 @@ message_text = "Gotta HOLD the button to jump higher than usual!"
 
 [node name="zones" type="Node2D" parent="." index="6"]
 
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[node name="trigger_level_transition" parent="." index="15" instance=ExtResource("11_flhwk")]
+position = Vector2(-112, -960)
+transition_next = 0

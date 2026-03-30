@@ -35,5 +35,5 @@ func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_
 
 
 func reassign_general():
-	HUD = $HUD
-	display_messages = $display_messages
+	HUD = get_tree().get_first_node_in_group("HUD")
+	display_messages = get_tree().get_first_node_in_group("display_messages")

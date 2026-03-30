@@ -255,6 +255,8 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 
 func _ready() -> void:
+	SaveData.create_dir_saves()
+	
 	SaveData.load_playerData()
 	SaveData.load_levelSet()
 	
@@ -418,8 +420,6 @@ func reassign_general():
 			Player = World.get_node("Player")
 	
 	return [World, Player]
-	
-	window_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
 
 
 func change_main_scene(scene, instant : bool = false, anim_name : String = "black_fade_in", anim_delay : float = 0.0):
@@ -1040,7 +1040,7 @@ func handle_pause():
 		Globals.message_debug("Game resumed.")
 
 
-@onready var window_size : Vector2 = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
+@onready var window_size : Vector2 = Vector2(-1, -1)
 
 func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none"], add_position : Vector2 = window_size * 0, button_size_multiplier : Vector2 = Vector2(1, 1)):
 	spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
@@ -1075,6 +1075,14 @@ func on_gameState_changed():
 	prepare_lists()
 	SaveData.load_playerData()
 	SaveData.load_levelSet()
+	
+	#window_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
+	window_size = get_viewport().get_visible_rect().size
+	
+	if window_size == Vector2(1920.0, 1080.0):
+		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	else:
+		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
 
 
 # Constant global refresh timers:
@@ -1248,3 +1256,13 @@ func is_valid_entity(target_node : Node, valid_group_names : Array = ["Player"])
 func set_mouse_mode(visible : bool = true):
 	if visible : Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else : Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+
+
+func reload_node(target : Node):
+	print(target.scene_file_path)
+	var target_filepath : String = target.scene_file_path
+	var target_parent : Node = target.get_parent()
+	var new_node = load(target_filepath).instantiate()
+	
+	target_parent.add_child(new_node)
+	target.queue_free()

@@ -26,7 +26,7 @@ func _ready():
 			
 			
 			if entity.get(property_name) is bool:
-				entity.set(property_name, Globals.random_bool(1, 5))
+				entity.set(property_name, Globals.random_bool(1, 4))
 			
 			elif entity.get(property_name) is float or entity.get(property_name) is int:
 				if "cooldown" in property_name:
@@ -51,6 +51,15 @@ func _ready():
 						entity.set(property_name, Globals.l_entity.pick_random())
 					else:
 						entity.set(property_name, "res://Enemies/entity_randomized.tscn")
+				
+				elif property_name == "text_message":
+					if Globals.random_bool(1, 3):
+						entity.set(property_name, Globals.l_color_all.pick_random())
+					else:
+						entity.set(property_name, str("[anim_%s]" % Globals.l_animation_name_general_limited.pick_random()) + Globals.l_color_all.pick_random())
+					
+				elif property_name == "text_message_visible":
+					entity.set(property_name, Globals.l_color_all.pick_random())
 			
 			elif entity.get(property_name) is Array:
 				if entity.get(property_name)[0] is int or entity.get(property_name)[0] is float:
@@ -61,7 +70,7 @@ func _ready():
 				
 				elif entity.get(property_name)[0] is String:
 					if property_name == "movement_type":
-						entity.set(property_name, Globals.l_entity_movement_limited.pick_random())
+						entity.set(property_name, Globals.l_entity_movement_all.pick_random())
 			
 			if property_name == "limit_spawn_entity_cooldown":
 				entity.set(property_name, Globals.random_bool(1, 23))
@@ -71,5 +80,12 @@ func _ready():
 			
 			if property_name == "breakable_advanced_portal_on_death_open":
 				entity.set(property_name, Globals.random_bool(23, 1))
+			
+			elif property_name == "text_spawn_cooldown":
+				entity.set(property_name, randf_range(0.25, 16))
+			elif property_name == "text_delete_cooldown":
+				entity.set(property_name, randf_range(2, 24))
+			elif property_name == "text_next_character_cooldown":
+				entity.set(property_name, randf_range(0.01, 2))
 	
 	SaveData.save_file(Globals.dirpath_saves + "/" + "properties.json", d_properties_all, true)

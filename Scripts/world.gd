@@ -992,3 +992,9 @@ func on_uncover_matching_id(id):
 			zone_hidden.uncover(false)
 			
 			uncovered_quantity += 1
+
+
+func _on_cooldown_check_entity_count_timeout() -> void:
+	var entities : Array = get_tree().get_nodes_in_group("entity")
+	if len(entities) > 250 : retry() ; print("RESTARTING DUE TO ENTITY COUNT")
+	else : print("ENTITY COUNT IS ACCEPTABLE")

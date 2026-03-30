@@ -20,13 +20,15 @@ var active : bool = false
 @export var camera_start_speed_multiplier : float = 0.01
 
 @export var start_hidden : bool = false
+@export var start_hidden_show_cooldown : float = 15.0
+@export var start_hidden_trigger_size_multiplier : float = 12.0
 
 
 var effect_active = true # Must be equal to "true" for the pause and camera-based effects to be triggered.
 
 
 func _ready() -> void:
-	if start_hidden : modulate.a = 0 ; $Area2D.scale = Vector2(12, 12)
+	if start_hidden : modulate.a = 0 ; $Area2D.scale *= start_hidden_trigger_size_multiplier
 
 func _physics_process(delta: float) -> void:
 	if active : modulate.a = move_toward(modulate.a, 1, delta)
@@ -55,6 +57,6 @@ func _on_timer_effect_inactive_timeout() -> void:
 
 func set_active_after_cooldown():
 	if entered : return
-	await get_tree().create_timer(15, true).timeout
+	await get_tree().create_timer(start_hidden_show_cooldown, true).timeout
 	active = true
 	$Area2D.scale = Vector2(1, 1)

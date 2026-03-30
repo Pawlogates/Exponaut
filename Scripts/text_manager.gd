@@ -66,6 +66,7 @@ func create_message(message : String = text_full):
 	if message == "none" : return
 	
 	text_full = message
+	print(text_full)
 	
 	if cooldown_create_message != -1.0 and not cooldown_create_message == 0.0:
 		Globals.message_debug(str("Text Manager's message creation has been delayed by %s") % cooldown_create_message, 3)
@@ -108,7 +109,7 @@ func add_letter(character):
 	
 	$row1.add_child(letter)
 	
-	letter.character.text = str(character)
+	if is_instance_valid(letter.character) : letter.character.text = str(character)
 	
 	for anim_name in Globals.l_animation_name_general_main:
 		if current_rule == str("[anim_%s]" % anim_name):

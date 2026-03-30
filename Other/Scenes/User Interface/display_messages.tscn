@@ -1835,7 +1835,7 @@ _data = {
 &"show_3": SubResource("Animation_y3qsj")
 }
 
-[node name="display_messages" type="CanvasLayer"]
+[node name="display_messages" type="CanvasLayer" groups=["display_messages"]]
 layer = 125
 script = ExtResource("1_2jl23")
 

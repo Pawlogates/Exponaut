@@ -53,9 +53,6 @@ func _ready():
 		general_timers_core.t6.start()
 	
 	
-	if on_spawn_show_text:
-		text_show()
-	
 	if on_spawn_sfx_death:
 		sfx_manager.sfx_play("res://Assets/Sounds/sfx/break.wav", 3.0, 1.0)
 	
@@ -124,6 +121,10 @@ func _ready():
 	if can_move:
 		if not reset_puzzle_first_time : await Globals.World.reset_puzzle_all_nodes_ready
 		reset_puzzle_queue()
+	
+	
+	if on_spawn_show_text:
+		text_show()
 
 @onready var debug_label = $Label
 
@@ -482,10 +483,8 @@ func handle_movement(delta):
 	if dead : direction_x = 0
 	if ascending:
 		velocity.y = lerp(velocity.y, float(jump_velocity_y), delta)
-		sprite.modulate = Color.RED
 	else:
 		handle_gravity(delta) # Also handles every type of "can_move".
-		sprite.modulate = Color.WHITE
 
 
 # Movement types:
@@ -1747,16 +1746,18 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 
 func handle_bounce():
 	if is_on_floor():
-		if velocity_last_y > 100:
-			if on_floor_bounce:
-				velocity.y = -velocity_last_y * on_floor_bounce_velocity_multiplier
-				handle_effects_bounce()
+		if is_collidable:
+			if velocity_last_y > 100:
+				if on_floor_bounce:
+					velocity.y = -velocity_last_y * on_floor_bounce_velocity_multiplier
+					handle_effects_bounce()
 	
 	if is_on_wall():
-		if abs(velocity_last_x) > 100:
-			if on_wall_bounce:
-				velocity.x = -velocity_last_x * on_wall_bounce_velocity_multiplier
-				handle_effects_bounce()
+		if is_collidable:
+			if abs(velocity_last_x) > 100:
+				if on_wall_bounce:
+					velocity.x = -velocity_last_x * on_wall_bounce_velocity_multiplier
+					handle_effects_bounce()
 
 
 func _on_cooldown_on_death_effect_thrownAway_timeout() -> void:

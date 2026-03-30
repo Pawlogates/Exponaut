@@ -79,4 +79,9 @@ target_level_filepath = "uid://by7nj8fjoo7ta"
 transition_next = 0
 valid_target = false
 
+[node name="cooldown_check_entity_count" type="Timer" parent="." index="21"]
+wait_time = 4.0
+autostart = true
+
 [connection signal="timeout" from="Timer" to="Timer" method="_on_timeout"]
+[connection signal="timeout" from="cooldown_check_entity_count" to="." method="_on_cooldown_check_entity_count_timeout"]
