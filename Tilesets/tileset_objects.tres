@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=143 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=144 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_38g62"]
@@ -101,6 +101,7 @@
 [ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="83_tjqtu"]
 [ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="84_bgsy0"]
 [ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://Objects/Decorations/glow_shadow_orb_soft.tscn" id="85_68lvl"]
+[ext_resource type="PackedScene" uid="uid://ipxu84h85b68" path="res://Collectibles/rock.tscn" id="86_1p4cu"]
 [ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://Objects/Decorations/wavingDeco_grass.tscn" id="86_6huxx"]
 [ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://Objects/Decorations/darkDecoParallax_grass.tscn" id="87_k0uh2"]
 [ext_resource type="PackedScene" uid="uid://cmncqo0vv0lwj" path="res://Objects/Decorations/hanging_deco_vines.tscn" id="88_0ylkg"]
@@ -220,9 +221,11 @@ scenes/11/scene = ExtResource("74_lvi3k")
 scenes/12/scene = ExtResource("75_p3m2n")
 scenes/13/scene = ExtResource("76_a1g0i")
 scenes/14/scene = ExtResource("77_4ma8r")
+scenes/15/scene = ExtResource("86_1p4cu")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bdx2g"]
 resource_name = "switches"
+scenes/1/scene = ExtResource("86_1p4cu")
 scenes/3/scene = ExtResource("41_ixusj")
 scenes/4/scene = ExtResource("40_uxcaa")
 scenes/5/scene = ExtResource("61_rrovp")

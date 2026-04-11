@@ -23,66 +23,13 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="3"]
-_import_path = NodePath("")
-unique_name_in_owner = true
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="tileset_objectsSmall_back" parent="." index="4"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-z_index = -5
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="tileset_objectsSmall_front" parent="." index="5"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-z_index = 5
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="kill_area" parent="." index="14" instance=ExtResource("6_g6dxm")]
+[node name="kill_area" parent="." index="10" instance=ExtResource("6_g6dxm")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
 
-[node name="trigger_bgChange" parent="." index="15" instance=ExtResource("7_atwxk")]
+[node name="trigger_bgChange" parent="." index="11" instance=ExtResource("7_atwxk")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
 
-[node name="info_sign" parent="." index="17" instance=ExtResource("8_43u20")]
+[node name="info_sign" parent="." index="12" instance=ExtResource("8_43u20")]
 position = Vector2(3488, -2144)
-displayedText = "Hold DOWN direction while shooting, to perform a downward shot."
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

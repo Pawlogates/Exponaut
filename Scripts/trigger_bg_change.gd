@@ -36,8 +36,6 @@ func _on_area_entered(area):
 	Globals.dm("The main layer's top edge filepath is: " + str(bg_main_repeat_y) + " (2160px).", "LIGHT_BLUE")
 	
 	# Texture filepath.
-	if bg_main_filepath != Globals.bg_main_filepath:
-		Globals.bg_main_filepath = bg_main_filepath
 	
 	if bg_front_filepath != Globals.bg_front_filepath:
 		Globals.bg_front_filepath = bg_front_filepath
@@ -77,5 +75,7 @@ func _on_area_entered(area):
 	if bg_back2_edge_top_filepath != Globals.bg_back2_edge_top_filepath:
 		Globals.bg_back2_edge_top_filepath = bg_back2_edge_top_filepath
 	
-	
-	Globals.trigger_bg_change_entered.emit()
+	if bg_main_filepath != Globals.bg_main_filepath:
+		Globals.bg_main_filepath = bg_main_filepath
+		
+		Globals.trigger_bg_change_entered.emit()

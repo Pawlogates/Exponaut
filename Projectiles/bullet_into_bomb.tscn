@@ -27,6 +27,6 @@ effect_shrink_delete = false
 entity_name = "fireball"
 entity_type = "projectile"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_cqwhi")
 animation = &"anim"

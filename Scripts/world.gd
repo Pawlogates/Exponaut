@@ -105,6 +105,8 @@ func _ready():
 	
 	uncover_matching_id.connect(on_uncover_matching_id)
 	
+	Player.block_movement_full = true
+	
 	Globals.gameState_level = true
 	Globals.gameState_levelSet_screen = false
 	Globals.gameState_start_screen = false
@@ -335,6 +337,12 @@ func _ready():
 	
 	if Globals.level_id != "overworld_factory":
 		SaveData.never_saved = false
+	
+	
+	await get_tree().create_timer(1.5, false).timeout
+	
+	Player.block_movement_full = false
+	Player.velocity = Vector2(0, 0)
 
 
 #MAIN START

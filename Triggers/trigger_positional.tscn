@@ -1,6 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://cvwfwuqqw6vpo"]
+[gd_scene load_steps=3 format=3 uid="uid://cbt6crrcy7rqj"]
 
-[ext_resource type="Script" uid="uid://blmkkjnhipek" path="res://Scripts/trigger_positional_alt.gd" id="1_2kcyo"]
+[ext_resource type="Script" uid="uid://yfrvtjvesfn0" path="res://Scripts/trigger_positional.gd" id="1_q443k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v5wis"]
 size = Vector2(64, 64)
@@ -8,7 +8,7 @@ size = Vector2(64, 64)
 [node name="trigger_positional" type="Area2D"]
 collision_layer = 8
 collision_mask = 8
-script = ExtResource("1_2kcyo")
+script = ExtResource("1_q443k")
 
 [node name="shape" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true

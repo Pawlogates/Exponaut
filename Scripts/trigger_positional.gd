@@ -4,39 +4,29 @@ var active = false
 
 var trigger_value = 0.0
 
-var trigger_value_X = 0.0
-var trigger_value_Y = 0.0
-
 var width = 0.0
 var height = 0.0
-var distance_X = 0.0
-var distance_Y = 0.0
+var distance_x = 0.0 # Distance between the player and the trigger's edge.
+var distance_y = 0.0
 
 var offsetValue = 0.0
 var offsetValue_Y = 0.0
 var zoomValue = 1.0
 
-@export var RESET_OFFSET = false
-@export var RESET_ZOOM = false
+@export var reset_camera_offset = false
+@export var reset_camera_zoom = false
 
-@export var horizontal = true
-@export var vertical = false
+@export var horizontal = true # The left edge of the trigger applies the value of "0", while the right edge applies the value of "1".
+@export var vertical = false  # The bottom edge of the trigger applies the value of "0", while the top edge applies the value of "1".
 
-@export var right_to_left = false
-@export var bottom_to_top = false
+@export var right_to_left = false # By default, the starting point (value of "0") is considered to be the left side, and the end point is the right side (value of "1"). This property will reverse that relation.
+@export var top_to_bottom = false # By default, the starting point (value of "0") is considered to be the bottom side.
 
-@export var moveCamera = true
-@export var camera_baseOffset = 250
-@export var minOffset = -250
-@export var maxOffset = 250
-@export var camera_baseOffset_Y = 250
-@export var minOffset_Y = -250
-@export var maxOffset_Y = 250
+@export var camera_offset = true
+@export var camera_add_offset : Vector2 = Vector2(256, -128)
 
-@export var zoomCamera = true
-@export var camera_baseZoom = 2.0
-@export var minZoom = 0.5
-@export var maxZoom = 1.5
+@export var camera_zoom = false
+@export var camera_add_zoom : Vector2 = Vector2(2, 2) # In addition to the base zoom value ("Vector2(1,1)").
 
 
 # Called when the node enters the scene tree for the first time.
@@ -50,85 +40,47 @@ func _process(delta):
 	if not active:
 		return
 	
-	for area in get_overlapping_areas():
-		if area.is_in_group("Player"):
-			if horizontal:
-				distance_X = area.get_parent().position[0] - position.x
-				width = %shape.shape.size[0]
-				trigger_value = clamp(distance_X / width / scale[0] * 2, -1, 1) * -1
-				if right_to_left:
-					trigger_value *= -1
-				trigger_value_X = trigger_value
-					
-			if vertical:
-				distance_Y = area.get_parent().position[1] - position.y
-				height = %shape.shape.size[1]
-				trigger_value = clamp(distance_Y / height / scale[1] * 2, -1, 1)
-				if bottom_to_top:
-					trigger_value *= -1
-				trigger_value_Y = trigger_value
-			
-			if horizontal and vertical:
-				trigger_value = (trigger_value_X + trigger_value_Y) / 2
+	if Globals.debug_mode:
+		$Label.text = str(trigger_value)
+		$Label.visible = true
+	else:
+		$Label.visible = false
 	
-			#$Label.text = str(area.get_parent().position[0] - position.x)
-			#$Label2.text = str(trigger_value)
-			#$Label3.text = str(area.get_parent().position[0])
+	for area in get_overlapping_areas():
+		if Globals.is_valid_entity(area):
+			if horizontal:
+				if right_to_left:
+					width = %shape.shape.size.x
+					distance_x = area.get_parent().position.x - (position.x - (width / 2 * scale.x))
+					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
+					trigger_value = 1 - clamp(distance_x / (width * scale.x), 0, 1)
+				
+				else:
+					width = %shape.shape.size.x
+					distance_x = area.get_parent().position.x - (position.x - (width / 2 * scale.x))
+					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
+					trigger_value = clamp(distance_x / (width * scale.x), 0, 1)
 			
-			#$/root/World.music.volume_db = trigger value
+			if vertical:
+				if not top_to_bottom:
+					height = %shape.shape.size.y
+					distance_y = area.get_parent().position.y - (position.y - (height / 2 * scale.y))
+					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
+					trigger_value = clamp(distance_y / (height * scale.y), 0, 1)
 			
-			if RESET_OFFSET and RESET_ZOOM:
-				Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
-				Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
-				Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
-				return
-			
-			if RESET_OFFSET:
-				Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
-				Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
+			if reset_camera_offset:
+				Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1))
 				return
 				
-			if RESET_ZOOM:
-				Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
+			if reset_camera_zoom:
+				Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1))
 				return
 			
-			if moveCamera:
-				offsetValue = float(clamp(camera_baseOffset * trigger_value, minOffset, maxOffset))
-				offsetValue_Y = float(clamp(camera_baseOffset_Y * trigger_value, minOffset_Y, maxOffset_Y))
-				Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], offsetValue, 5 * delta)
-				Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], offsetValue_Y, 5 * delta)
+			if camera_offset:
+				Globals.Player.camera.effect(camera_add_offset * trigger_value, Vector2(-1, -1), 0, 1)
 			
-			if zoomCamera:
-				zoomValue = clamp(camera_baseZoom * trigger_value, minZoom, maxZoom)
-				Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
-			
-			return
-	
-	#if RESET_OFFSET and RESET_ZOOM:
-		#Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
-		#Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
-		#Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
-		#return
-#
-	#if RESET_OFFSET:
-		#Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], 0.0, delta)
-		#Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], 0.0, delta)
-		#return
-		#
-	#if RESET_ZOOM:
-		#Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(1.0, 1.0), delta)
-		#return
-	#
-	#
-	#if moveCamera:
-		#if Globals.Player.camera.position[0] != offsetValue:
-			#Globals.Player.camera.position[0] = lerp(Globals.Player.camera.position[0], offsetValue, delta)
-		#if Globals.Player.camera.position[1] != offsetValue_Y:
-			#Globals.Player.camera.position[1] = lerp(Globals.Player.camera.position[1], offsetValue_Y, delta)
-	#if zoomCamera:
-		#if Globals.Player.camera.zoom != Vector2(zoomValue, zoomValue):
-			#Globals.Player.camera.zoom = Globals.Player.camera.zoom.lerp(Vector2(zoomValue, zoomValue), delta)
-
+			if camera_zoom:
+				Globals.Player.camera.effect(Vector2(-1, -1), camera_add_zoom * trigger_value + Vector2(1, 1), -1, 1)
 
 func _on_body_entered(body):
 	if body.is_in_group("Player"):

@@ -32,3 +32,6 @@ animation = &"attack"
 z_index = -4
 position = Vector2(-18, -24)
 scale = Vector2(0.085, 0.085)
+
+[node name="collision_patrolling" parent="scan_patrolling_vision" index="2"]
+position = Vector2(512, 0)

@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://ipxu84h85b68"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_eblmw"]
+[ext_resource type="SpriteFrames" uid="uid://bn0r5f03h1mh" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_orange.tres" id="2_fpdmr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="rock" instance=ExtResource("1_eblmw")]
+modulate = Color(0.31802, 0.31802, 0.31802, 1)
+collectable = false
+score_value = 45
+can_move = true
+ignore_gravity = false
+on_floor_bounce = true
+start_animation = "none"
+sprite_rotation_copy_velocity_x = true
+entity_name = "rock"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_fpdmr")
+
+[node name="collision_main" parent="." index="2"]
+shape = SubResource("RectangleShape2D_511gd")
+
+[node name="Label" type="Label" parent="." index="21"]
+offset_right = 40.0
+offset_bottom = 22.3333

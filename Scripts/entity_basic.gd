@@ -9,12 +9,13 @@ extends CharacterBody2D
 @onready var t_state_attacking: Timer = $sprite/timer_state_attacking
 @onready var t_state_damage: Timer = $sprite/timer_state_damage
 
-@onready var c_jump: Timer = $cooldown_jump
-@onready var c_spawn_entity: Timer = $cooldown_spawn_entity
-@onready var c_death: Timer = $cooldown_death
-@onready var c_change_ignore_gravity: Timer = $cooldown_change_ignore_gravity
-@onready var c_change_invincible: Timer = $cooldown_change_invincible
-@onready var c_change_direction_x: Timer = $cooldown_change_direction_x
+@onready var c_jump: Timer = $timeout_basic/cooldown_jump
+@onready var c_spawn_entity: Timer = $timeout_basic/cooldown_spawn_entity
+@onready var c_death: Timer = $timeout_basic/cooldown_death
+@onready var c_change_ignore_gravity: Timer = $timeout_basic/cooldown_change_ignore_gravity
+@onready var c_change_invincible: Timer = $timeout_basic/cooldown_change_invincible
+@onready var c_change_direction_x: Timer = $timeout_basic/cooldown_change_direction_x
+@onready var c_change_movement_type: Timer = $timeout_basic/cooldown_change_movement_type
 
 @onready var c_collidable: Timer = $cooldown_collidable
 @onready var c_on_death_effect_thrownAway: Timer = $cooldown_on_death_effect_thrownAway
@@ -126,6 +127,7 @@ var effect_grow = false
 var effect_shrink = false
 
 var wall_normal = Vector2(99, 99)
+var floor_normal = Vector2(99, 99)
 
 
 # Reset Puzzle (an entity that resets all entities in its zone, used for retrying puzzles). - [START]
@@ -231,14 +233,12 @@ var effect_collected_multiple_active = false
 @export var gravity_multiplier_y = 1.0
 
 # Behavior triggered on touching the wall:
-@export var on_wall_change_direction = true
 @export var on_wall_change_direction_x = true
 @export var on_wall_change_direction_y = false
 
 @export var on_wall_change_speed = false
 @export var on_wall_change_speed_multiplier = 0.5
 
-@export var on_wall_change_velocity = true
 @export var on_wall_change_velocity_x = true
 @export var on_wall_change_velocity_y = false
 @export var on_wall_change_velocity_value : Vector2 = Vector2(0, -250) # Disabled if equal to "-1".
@@ -249,8 +249,10 @@ var effect_collected_multiple_active = false
 # Behavior triggered on touching the floor:
 @export var on_floor_change_direction_x = false
 @export var on_floor_change_direction_y = false
+
 @export var on_floor_reverse_velocity_x = false
 @export var on_floor_reverse_velocity_y = false
+
 @export var on_floor_change_speed = false
 @export var on_floor_change_speed_multiplier = 0.5
 
@@ -331,7 +333,13 @@ var effect_collected_multiple_active = false
 @export var on_timeout_change_invincible = false
 @export var on_timeout_change_invincible_cooldown = 2.5
 
+@export var on_timeout_change_movement_type = false
+@export var on_timeout_change_movement_type_cooldown = 2.5
+@export_enum("normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var on_timeout_change_movement_type_name : String = "normal"
+
+
 @export var collidable_cooldown = 0.1
+
 
 # Behavior triggered on entity death:
 @export var on_death_spawn_entity = false
@@ -469,6 +477,9 @@ var effect_collected_multiple_active = false
 @export var look_at_player_rotate = false
 @export var look_at_player_rotate_offset = 0
 
+@export var force_direction_x : bool = false
+@export var force_direction_y : bool = false
+
 @export var on_entityEntered_change_direction_copyEntity = false
 @export var on_entityEntered_change_direction_basedOnPosition = false
 
@@ -502,7 +513,7 @@ var effect_collected_multiple_active = false
 # Velocity ranges in which a box can be broken. Note: Set to -1 for "never".
 # Single range:
 @export var breakable_requires_velocity_x_range = Vector2(-1, -1)
-@export var breakable_requires_velocity_y_range = Vector2(200, 100000)
+@export var breakable_requires_velocity_y_range = Vector2(400, 100000)
 
 # Multiple ranges:
 # Example: 1 - [Vector2(-100000, -400) and 2 - [Vector2(400, 100000)] will make the box break only if an entity (or the player) moves into it very fast horizontally.
@@ -730,6 +741,8 @@ var effect_collected_multiple_active = false
 @export_enum("none", "general/fade_out_up", "general/rotate_around_y_fade_out", "general/reflect_straight") var on_collected_anim_name : String = "general/fade_out_up"
 
 @export var can_change_sprite_anim : bool = false
+@export var sprite_anim_speed_copy_velocity_x : bool = false
+@export var sprite_rotation_copy_velocity_x : bool = false
 
 @export var disable_sprite_anims = ["none"]
 @export var disable_anims = ["none"]
@@ -828,7 +841,7 @@ var effect_collected_multiple_active = false
 @export var entity_name = "none"
 @export_enum("collectible", "enemy", "projectile", "box", "block") var entity_type : String = "collectible"
 @export var direction_x = 1
-@export var direction_y = -1
+@export var direction_y = 0
 
 @export var on_spawn_randomize_everything = false
 # End of properties.
@@ -890,12 +903,13 @@ func basic_on_spawn():
 	if on_timeout_change_direction_x:
 		c_change_direction_x.wait_time = on_timeout_change_direction_x_cooldown
 		c_change_direction_x.start()
+	if on_timeout_change_movement_type:
+		c_change_movement_type.wait_time = on_timeout_change_movement_type_cooldown
+		c_change_movement_type.start()
+	#if on_timeout_action:
+		#c_action.wait_time = on_timeout_action_cooldown
+		#c_action.start()
 	
-	if start_pos == Vector2(-1, -1) : start_pos = position
-	if start_scale == Vector2(-1, -1) : start_scale = scale
-	
-	if sprite_start_pos == Vector2(-1, -1) : sprite_start_pos = sprite.position
-	if sprite_start_scale == Vector2(-1, -1) : sprite_start_scale = sprite.scale
 	
 	if collidable_cooldown != -1.0 and collidable_cooldown != 0.0:
 		c_collidable.wait_time = collidable_cooldown
@@ -913,10 +927,6 @@ func basic_on_spawn():
 	if on_timeout_change_ignore_gravity:
 		c_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown
 		c_change_ignore_gravity.start()
-	
-	
-	if effect_grow_target_scale == Vector2(-1, -1):
-		effect_grow_target_scale = sprite_start_scale
 
 
 # Executes on entity entering the camera view.
@@ -960,17 +970,15 @@ func basic_on_active():
 	if dead or collected : return
 	if not enabled : return
 	
-	active = true
-	
 	Globals.dm(str("Entity %s has been made ACTIVE." % entity_name), "ORANGE")
 	
 	set_process(true)
 	set_physics_process(true)
 	
-	set_process_input(true)
-	set_process_internal(true)
-	set_process_unhandled_input(true)
-	set_process_unhandled_key_input(true)
+	#set_process_input(true)
+	#set_process_internal(true)
+	#set_process_unhandled_input(true)
+	#set_process_unhandled_key_input(true)
 	
 	sprite.play()
 	sprite.visible = true
@@ -996,6 +1004,9 @@ func basic_on_active():
 	hitbox.set_monitoring(true)
 	
 	reset_puzzle_restored = false
+	
+	
+	active = true
 
 
 func enemy_stunned():

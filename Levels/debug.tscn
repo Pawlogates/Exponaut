@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c42npvd5td777"]
+[gd_scene load_steps=8 format=3 uid="uid://c42npvd5td777"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_5agn5"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_h35e0"]
@@ -6,8 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_b31uc"]
 [ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_6k4f8"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_5agn5"]
-[ext_resource type="PackedScene" uid="uid://bixrhaa8e5a4r" path="res://Collectibles/jewel_pineapple_timed.tscn" id="8_wupxo"]
-[ext_resource type="PackedScene" uid="uid://hq4cxsvbv03l" path="res://Enemies/togglebot.tscn" id="9_6k4f8"]
 [ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="9_b31uc"]
 
 [node name="World" instance=ExtResource("1_5agn5")]
@@ -18,6 +16,7 @@ layer_0/tile_data = PackedInt32Array(131064, 0, 10, 131065, 0, 10, 131066, 0, 10
 
 [node name="tileset_objects" parent="." index="1" instance=ExtResource("3_wupxo")]
 position = Vector2(1, 0)
+layer_0/tile_data = PackedInt32Array(-65534, 1, 983040)
 
 [node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_b31uc")]
 
@@ -41,14 +40,3 @@ scale = Vector2(8.75902, 3.38534)
 right_to_left = true
 minOffset_Y = -500
 maxOffset_Y = -250
-
-[node name="jewel_pineapple_timed" parent="." index="17" instance=ExtResource("8_wupxo")]
-position = Vector2(400, -304)
-on_spawn_show_text = true
-text_message = "ppppppo"
-text_message_visible = "why"
-
-[node name="togglebot" parent="." index="18" instance=ExtResource("9_6k4f8")]
-position = Vector2(-608, -80)
-on_spawn_show_text = true
-text_message = "whyyy12"

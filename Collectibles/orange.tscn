@@ -12,10 +12,11 @@ can_move = true
 ignore_gravity = false
 on_floor_bounce = true
 start_animation = "none"
+sprite_rotation_copy_velocity_x = true
 entity_name = "jewel_orange"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_iuxoh")
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_511gd")

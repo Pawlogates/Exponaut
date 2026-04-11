@@ -67,9 +67,9 @@ const l_color_all = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure",
 const l_button_color = ["ORANGE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN"]
 const l_color = ["AQUA", "AQUAMARINE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN", "CORAL", "HOT_PINK", "ORANGE_RED", "YELLOW_GREEN", "DARK_MAGENTA", "INDIAN_RED", "LIGHT_CORAL", "GOLD", "MEDIUM_PURPLE", "MAROON", "MISTY_ROSE", "YELLOW_GREEN", "MIDNIGHT_BLUE", "PERU", "LIGHT_SEA_GREEN", "LIME_GREEN"]
 
-const l_entity_movement_main = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
+const l_entity_movement_main = ["normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
 const l_entity_movement_limited = ["normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "chase_player_x", "chase_player_y", "chase_player_xy", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy"]
-const l_entity_movement_all = ["stationary", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
+const l_entity_movement_all = ["normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_x", "wave_y", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted"]
 
 const l_entity_type = ["collectible", "enemy", "projectile", "box", "block"]
 const l_entity_family = ["Player", "Enemy", "none", "all"]
@@ -149,6 +149,7 @@ const sfx_collect2 : String = d_sfx + "/" + "collect2.wav"
 const sfx_collect3 : String = d_sfx + "/" + "collect3.wav"
 
 const sfx_break : String = d_sfx + "/" + "break.wav"
+const sfx_count : String = d_sfx + "/" + "count.wav"
 
 
 # Other files:
@@ -278,6 +279,14 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	reassign_general()
+	
+	#window_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
+	window_size = get_viewport().get_visible_rect().size
+	
+	if window_size == Vector2(1920.0, 1080.0):
+		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+	else:
+		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
 
 func _physics_process(delta):
 	handle_actions(delta) # Handles global functions executed on triggering an action.
@@ -604,7 +613,7 @@ var gameState_level = false
 var gameState_levelSet_screen = false
 var gameState_start_screen = false
 
-var gameState_debug = false # This should only ever be equal to "true" if the game is currently being edited.
+var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
 
 
 # Sound effects manager should be the main way used to play short sounds. Note that each entity has its own sound manager, and that the world node has a single music manager, as well as one ambience manager.
@@ -664,7 +673,7 @@ var test4
 
 
 # Recording:
-var recording_autostart = true
+var recording_autostart = false
 
 signal start_recording
 signal start_playback
@@ -692,6 +701,14 @@ func message(message_text, pause_duration : float = 0.0, message_add_pos : Vecto
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
 
 func message_debug(text, importance = "none", remove_cooldown : float = -1.0):
+	if gameState_debug:
+		
+		if not importance is String : return
+		else:
+			if importance != "debug" : return
+		
+		importance = "none"
+	
 	display_messages_debug_queued.append(str(text) + str("[/BREAK/]%si" % importance) + str("[/BREAK/]%st" % remove_cooldown)) # Note that the "%s" is replaced by what is after the "%" at the end.
 	Globals.messages_debug_added.emit()
 
@@ -1075,14 +1092,6 @@ func on_gameState_changed():
 	prepare_lists()
 	SaveData.load_playerData()
 	SaveData.load_levelSet()
-	
-	#window_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
-	window_size = get_viewport().get_visible_rect().size
-	
-	if window_size == Vector2(1920.0, 1080.0):
-		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
-	else:
-		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
 
 
 # Constant global refresh timers:
@@ -1247,7 +1256,7 @@ func is_valid_entity(target_node : Node, valid_group_names : Array = ["Player"])
 	var valid = false
 	
 	for group_name in valid_group_names:
-		if target_node.get_parent().is_in_group(group_name) : return true
+		if target_node.get_parent().is_in_group(group_name) : valid = true
 	
 	if valid : return true
 	else : return false

@@ -540,7 +540,7 @@ on_wall_sprite_anim_reflect_straight = true
 entity_name = "togglebot"
 entity_type = "enemy"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_i7pjj")
 animation = &"walk_alt"
 frame_progress = 0.0560121

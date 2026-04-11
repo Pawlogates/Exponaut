@@ -16,7 +16,7 @@ size = Vector2(62, 62)
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84r7y"]
-size = Vector2(512, 128)
+size = Vector2(1024, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjle6"]
 size = Vector2(2048, 2048)
@@ -29,6 +29,29 @@ z_index = 1
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
+
+[node name="timeout_basic" type="Node2D" parent="."]
+
+[node name="cooldown_jump" type="Timer" parent="timeout_basic"]
+one_shot = true
+
+[node name="cooldown_change_direction_x" type="Timer" parent="timeout_basic"]
+one_shot = true
+
+[node name="cooldown_spawn_entity" type="Timer" parent="timeout_basic"]
+one_shot = true
+
+[node name="cooldown_death" type="Timer" parent="timeout_basic"]
+one_shot = true
+
+[node name="cooldown_change_ignore_gravity" type="Timer" parent="timeout_basic"]
+one_shot = true
+
+[node name="cooldown_change_invincible" type="Timer" parent="timeout_basic"]
+one_shot = true
+
+[node name="cooldown_change_movement_type" type="Timer" parent="timeout_basic"]
+one_shot = true
 
 [node name="sprite" parent="." instance=ExtResource("2_1y7wk")]
 
@@ -58,6 +81,8 @@ debug_color = Color(0, 0.595, 0.7, 0)
 [node name="hitbox" type="Area2D" parent="." groups=["entity_hitbox"]]
 collision_layer = 8
 collision_mask = 8
+monitoring = false
+monitorable = false
 
 [node name="collision_hitbox" type="CollisionShape2D" parent="hitbox"]
 shape = SubResource("RectangleShape2D_c3p0q")
@@ -67,8 +92,6 @@ debug_color = Color(0, 0.595, 0.7, 0)
 layout_mode = 3
 anchors_preset = 0
 mouse_filter = 2
-
-[node name="cooldown_change_invincible2" type="Timer" parent="."]
 
 [node name="scan_ledge" type="RayCast2D" parent="."]
 position = Vector2(32, 0)
@@ -99,6 +122,8 @@ scale = Vector2(51.2, 51.2)
 wait_time = 2.0
 
 [node name="scan_patrolling_vision" parent="." instance=ExtResource("7_spxko")]
+monitoring = false
+monitorable = false
 
 [node name="collision_patrolling" type="CollisionShape2D" parent="scan_patrolling_vision"]
 position = Vector2(256, 0)
@@ -135,24 +160,6 @@ collision_mask = 8
 shape = SubResource("RectangleShape2D_spxko")
 debug_color = Color(0.702762, 0.272784, 1, 0)
 
-[node name="cooldown_jump" type="Timer" parent="."]
-one_shot = true
-
-[node name="cooldown_spawn_entity" type="Timer" parent="."]
-one_shot = true
-
-[node name="cooldown_death" type="Timer" parent="."]
-one_shot = true
-
-[node name="cooldown_change_ignore_gravity" type="Timer" parent="."]
-one_shot = true
-
-[node name="cooldown_change_invincible" type="Timer" parent="."]
-one_shot = true
-
-[node name="cooldown_change_direction_x" type="Timer" parent="."]
-one_shot = true
-
 [node name="general_timers_core" type="Node2D" parent="."]
 script = ExtResource("7_fjle6")
 
@@ -177,13 +184,19 @@ one_shot = true
 [node name="cooldown_attack_limit" type="Timer" parent="."]
 one_shot = true
 
+[connection signal="timeout" from="timeout_basic/cooldown_jump" to="." method="_on_cooldown_jump_timeout"]
+[connection signal="timeout" from="timeout_basic/cooldown_change_direction_x" to="." method="_on_cooldown_change_direction_x_timeout"]
+[connection signal="timeout" from="timeout_basic/cooldown_spawn_entity" to="." method="_on_cooldown_spawn_scene_timeout"]
+[connection signal="timeout" from="timeout_basic/cooldown_death" to="." method="_on_cooldown_death_timeout"]
+[connection signal="timeout" from="timeout_basic/cooldown_change_ignore_gravity" to="." method="_on_cooldown_change_ignore_gravity_timeout"]
+[connection signal="timeout" from="timeout_basic/cooldown_change_invincible" to="." method="_on_cooldown_change_invincible_timeout"]
+[connection signal="timeout" from="timeout_basic/cooldown_change_movement_type" to="." method="_on_cooldown_change_movement_type_timeout"]
 [connection signal="animation_looped" from="sprite" to="." method="_on_sprite_animation_looped"]
 [connection signal="timeout" from="sprite/timer_state_attacking" to="." method="_on_timer_state_attacking_timeout"]
 [connection signal="timeout" from="sprite/timer_state_damage" to="." method="_on_timer_state_damage_timeout"]
 [connection signal="timeout" from="sprite/cooldown_particles" to="." method="_on_cooldown_particles_timeout"]
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
-[connection signal="timeout" from="cooldown_change_invincible2" to="." method="_on_timer_invincible_timeout"]
 [connection signal="timeout" from="cooldown_collidable" to="." method="_on_cooldown_collidable_timeout"]
 [connection signal="timeout" from="cooldown_remove_corpse" to="." method="_on_cooldown_remove_corpse_timeout"]
 [connection signal="timeout" from="cooldown_on_death_effect_thrownAway" to="." method="_on_cooldown_on_death_effect_thrownAway_timeout"]
@@ -196,12 +209,6 @@ one_shot = true
 [connection signal="timeout" from="cooldown_patrolling_target_spotted" to="." method="_on_cooldown_patrolling_target_spotted_timeout"]
 [connection signal="timeout" from="cooldown_patrolling_change_direction" to="." method="_on_cooldown_patrolling_change_direction_timeout"]
 [connection signal="area_entered" from="scan_reset_puzzle_coverage" to="." method="_on_scan_reset_puzzle_coverage_area_entered"]
-[connection signal="timeout" from="cooldown_jump" to="." method="_on_cooldown_jump_timeout"]
-[connection signal="timeout" from="cooldown_spawn_entity" to="." method="_on_cooldown_spawn_scene_timeout"]
-[connection signal="timeout" from="cooldown_death" to="." method="_on_cooldown_death_timeout"]
-[connection signal="timeout" from="cooldown_change_ignore_gravity" to="." method="_on_cooldown_change_ignore_gravity_timeout"]
-[connection signal="timeout" from="cooldown_change_invincible" to="." method="_on_cooldown_change_invincible_timeout"]
-[connection signal="timeout" from="cooldown_change_direction_x" to="." method="_on_cooldown_change_direction_x_timeout"]
 [connection signal="timeout" from="general_timers_core/t1" to="." method="t1_trigger"]
 [connection signal="timeout" from="general_timers_core/t2" to="." method="t2_trigger"]
 [connection signal="timeout" from="general_timers_core/t3" to="." method="t3_trigger"]

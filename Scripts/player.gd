@@ -259,7 +259,7 @@ func _process(delta):
 		handle_air_acceleration(delta)
 	
 	#SHOOTING LOGIC
-	handle_shoot()
+	handle_attack_main()
 	
 	handle_friction(delta)
 	handle_air_slowdown(delta)
@@ -866,7 +866,7 @@ func _on_dash_check_timeout():
 
 
 # Attack (main and secondary): - [START]
-func handle_shoot():
+func handle_attack_main():
 	if dead : return
 	if Globals.weapon_blocked : return
 	
@@ -875,7 +875,7 @@ func handle_shoot():
 		c_attack.start()
 		
 		if Globals.weapon is Dictionary:
-			attack_spawn_scene("res://Projectiles/fireball.tscn")
+			attack_main_spawn_scene("res://Projectiles/fireball.tscn")
 		
 		
 		#SHOOTING ANIMATION
@@ -909,7 +909,7 @@ func handle_shoot():
 		
 		sfx_manager.sfx_play(Globals.sfx_slash)
 
-func attack_spawn_scene(filepath):
+func attack_main_spawn_scene(filepath):
 	if filepath == "res://Projectiles/fireball.tscn":
 		var scene = load(filepath).instantiate()
 		
@@ -918,6 +918,20 @@ func attack_spawn_scene(filepath):
 		scene.family = "Player"
 		scene.direction_x = Globals.player_direction_x_active
 		scene.always_active = true
+		
+		if Input.is_action_pressed("move_down"):
+			if not scene.direction_y: # If "direction_y" is equal to "0".
+				scene.direction_y = 1
+				scene.direction_x = 0
+		
+		elif Input.is_action_pressed("move_up"):
+			if not scene.direction_y:
+				scene.direction_y = -1
+				scene.direction_x = 0
+				scene.movement_type = "normal"
+				scene.ignore_gravity = false
+				scene.velocity.y = -scene.speed * 1.5
+		
 		
 		for property_name in Globals.weapon:
 			if property_name == "none" : continue

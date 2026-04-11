@@ -25,11 +25,28 @@ var effect_thrownAway_applied_velocity = false
 var unique_number = randi_range(0, 999)
 
 func _ready():
+	if start_pos == Vector2(-1, -1) : start_pos = position
+	if start_scale == Vector2(-1, -1) : start_scale = scale
+	
+	if sprite_start_pos == Vector2(-1, -1) : sprite_start_pos = sprite.position
+	if sprite_start_scale == Vector2(-1, -1) : sprite_start_scale = sprite.scale
+	
+	if effect_grow_target_scale == Vector2(-1, -1):
+		effect_grow_target_scale = sprite_start_scale
+	
 	basic_on_inactive()
 	
-	#if on_spawn_randomize_everything : Globals.spawn_scenes(self, load("res://Objects/entity_randomizator.tscn"))
+	if entity_type == "projectile":
+		if ignore_gravity : modulate = Color(2, 2, 2, 1)
+		else : modulate = Color.WHITE
 	
-	await get_tree().create_timer(0.5, true).timeout
+	if on_spawn_effect_grow:
+		effect_grow = true
+		sprite.scale *= Vector2(0.1, 0.1)
+	
+	if on_spawn_randomize_everything : Globals.spawn_scenes(self, load("res://Objects/entity_randomizator.tscn"))
+	
+	await get_tree().create_timer(0.05, true).timeout
 	scan_visible.visible = true
 	
 	basic_on_spawn()
@@ -58,10 +75,6 @@ func _ready():
 	
 	if scan_reset_puzzle_coverage_collision_size != Vector2(-1, -1):
 		scan_reset_puzzle_coverage_collision.shape.size = scan_reset_puzzle_coverage_collision_size
-	
-	if on_spawn_effect_grow:
-		effect_grow = true
-		sprite.scale *= Vector2(0.1, 0.1)
 	
 	if on_spawn_copy_direction_x_player:
 		if on_spawn_copy_direction_x_active_player:
@@ -127,9 +140,58 @@ func _ready():
 		text_show()
 
 @onready var debug_label = $Label
+@onready var debug_label2 = $Label2
+@onready var debug_label3 = $Label3
+@onready var debug_label4 = $Label4
 
 func _process(delta):
-	if is_instance_valid(debug_label) : debug_label.text = str(sprite.animation)
+	if is_instance_valid(scan_ledge):
+		if direction_active_x > 0 : scan_ledge.position.x = -32
+		elif direction_active_x < 0 : scan_ledge.position.x = 32
+	
+	if can_move:
+		
+		if is_on_wall() and is_collidable:
+			set_not_collidable_queue()
+			
+			wall_normal = get_wall_normal()
+		
+		if is_on_floor() and is_collidable:
+			set_not_collidable_queue()
+			
+			floor_normal = get_floor_normal()
+	
+	
+	if Globals.gameState_debug:
+		z_index = 100
+		
+		if is_instance_valid(debug_label4):
+			debug_label.text = "Velocity x/y: " + str(int(velocity.x)) + "/" + str(int(velocity.y))
+			debug_label2.text = "Direction x/y: " + str(direction_x) + "/" + str(direction_y)
+			debug_label3.text = "Movement type: " + movement_type
+			debug_label4.text = "Entity name: " + entity_name
+		
+		else:
+			var new_debug_label = Label.new()
+			add_child(new_debug_label)
+			new_debug_label.position.y = 0
+			debug_label = new_debug_label
+			
+			new_debug_label = Label.new()
+			add_child(new_debug_label)
+			new_debug_label.position.y = 16
+			debug_label2 = new_debug_label
+			
+			new_debug_label = Label.new()
+			add_child(new_debug_label)
+			new_debug_label.position.y = 32
+			debug_label3 = new_debug_label
+			
+			new_debug_label = Label.new()
+			add_child(new_debug_label)
+			new_debug_label.position.y = 48
+			debug_label4 = new_debug_label
+	
 	
 	if dead : modulate.a = move_toward(modulate.a, 0.5, delta / 4)
 	
@@ -178,28 +240,18 @@ func _process(delta):
 		position = lerp(position, World.Player.position + random_position_offset, delta)
 	
 	if can_move:
-		if is_on_wall() and is_collidable:
-			wall_normal = get_wall_normal()
-			is_collidable = false
-			c_collidable.wait_time = collidable_cooldown
-			c_collidable.start()
-			
-			reverse_direction_x(wall_normal)
-			
-			
-			if on_wall_change_velocity:
-				if on_wall_change_velocity_x:
-					if on_wall_change_velocity_value.x != -1:
-						velocity.x = on_wall_change_velocity_value.x
+		if on_wall and is_collidable:
+			if on_wall_change_velocity_x:
+				if on_wall_change_velocity_value.x != -1:
+					velocity.x = on_wall_change_velocity_value.x
 					
-					velocity.x *= on_wall_change_velocity_multiplier.x
+				velocity.x *= on_wall_change_velocity_multiplier.x
 			
-			if on_wall_change_velocity:
-				if on_wall_change_velocity_y:
-					if on_wall_change_velocity_value.y != -1:
-						velocity.y = on_wall_change_velocity_value.y
-					
-					velocity.y *= on_wall_change_velocity_multiplier.y
+			if on_wall_change_velocity_y:
+				if on_wall_change_velocity_value.y != -1:
+					velocity.y = on_wall_change_velocity_value.y
+				
+				velocity.y *= on_wall_change_velocity_multiplier.y
 			
 			
 			if on_wall_change_speed:
@@ -217,10 +269,9 @@ func _process(delta):
 					elif direction_y < 0:
 						rotation_degrees = -90
 	
-	
 	if effect_grow:
-		sprite.scale.x = move_toward(sprite.scale.x, effect_grow_target_scale.x, delta * 4 * effect_grow_speed_multiplier)
-		sprite.scale.y = move_toward(sprite.scale.y, effect_grow_target_scale.y, delta * 4 * effect_grow_speed_multiplier)
+		sprite.scale.x = move_toward(sprite.scale.x, effect_grow_target_scale.x, delta * 2 * effect_grow_speed_multiplier)
+		sprite.scale.y = move_toward(sprite.scale.y, effect_grow_target_scale.y, delta * 2 * effect_grow_speed_multiplier)
 		
 		if effect_grow and sprite.scale >= effect_grow_target_scale : effect_grow = false
 	
@@ -238,8 +289,8 @@ func _process(delta):
 	if patrolling : handle_patrolling()
 	
 	if can_move:
-		if is_on_floor() : handle_on_floor()
-		if is_on_wall() : handle_on_wall()
+		if on_floor : handle_on_floor()
+		if on_wall : handle_on_wall()
 		
 		handle_bounce()
 	
@@ -249,11 +300,40 @@ func _process(delta):
 	
 	sprite_animation()
 	
+	if abs(velocity.x) < 250:
+		
+		if pushable_by_player:
+			if inside_player > 0:
+				if Player.direction_x:
+					velocity.x += Globals.player_direction_x_active * 200
+				else:
+					velocity.x += Globals.player_direction_x_active * 5
+		
+		if pushable_by_entity:
+			if inside_entity > 0 and is_instance_valid(inside_entity_last):
+				if abs(inside_entity_last.velocity.x) < 250 and abs(inside_entity_last.velocity.x) > 5:
+					if abs(inside_entity_last.velocity.x) < 75:
+						if inside_entity_last.velocity_last_x > 0:
+							velocity.x += randf_range(-1, 4)
+						elif inside_entity_last.velocity_last_x < 0:
+							velocity.x += randf_range(-4, 1)
+					else:
+						if inside_entity_last.velocity_last_x > 0:
+							velocity.x += randf_range(-10, abs(inside_entity_last.velocity.x)) / 10
+						elif inside_entity_last.velocity_last_x < 0:
+							velocity.x += randf_range(-abs(inside_entity_last.velocity.x), 10) / 10
+	
+	
 	if can_move or effect_thrownAway_active : move_and_slide()
 	
 	
 	# Handle JUST (3/3):
 	just_handle()
+	
+	
+	if set_not_collidable:
+		is_collidable = false
+		set_not_collidable = false # The property is set at the very end of the "_process()" function, because there are multiple events that can affect it, and they would be cancelled otherwise.
 
 
 func handle_gravity(delta):
@@ -309,7 +389,7 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 	if dead : return
 	
 	# Assigns an "inside" variable depending on the node that just entered this entity. Used mostly for the pushing movement logic.
-	inside_check_enter(target)
+	inside_check_enter(area)
 	
 	# Tries to COLLECT the entity.
 	if collectable and not collected and target.can_collect:
@@ -343,16 +423,22 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 					state_attacking = true
 					t_state_attacking.start()
 
-func _on_hitbox_area_exited(target: Area2D) -> void:
-	inside_check_exit(target)
+func _on_hitbox_area_exited(area: Area2D) -> void:
+	# Executes only if the node is a valid one to interact with.
+	if not area.is_in_group("player_hitbox") and not area.is_in_group("entity_hitbox") : return
+	else : Globals.dm(str("Player's Main Hitbox has entered an entity's Main Hitbox (%s, %s)" % [entity_name, entity_type]), "CRIMSON")
+	
+	inside_check_exit(area)
 	
 	if breakable_advanced_on_touch_modulate != Color(1, 1, 1, 1):
 		if inside_player:
 			sprite.modulate = breakable_advanced_on_touch_modulate
 
 
-func reassign_movement_type_id():
-	movement_type_id = Globals.l_entity_movement_all.find(movement_type)
+func reassign_movement_type_id(movement_type_name : String = movement_type):
+	movement_type = movement_type_name
+	movement_type_id = Globals.l_entity_movement_all.find(movement_type_name)
+	movement_function_name = "movement_" + movement_type
 
 
 # Functionality around entities being inside other entities, which causes them to modify their movement. This is the case when this entity's HITBOX is inside another entity's MAIN COLLISION.
@@ -378,69 +464,132 @@ var inside_block_last = Node
 var inside_block_all : Array = []
 
 var is_collidable = true
+var set_not_collidable = false
 
-func inside_check_enter(body):
-	if body.is_in_group("Player"):
+func inside_check_enter(area):
+	if area.get_parent() == self : return
+	if not Globals.is_valid_entity(area, ["Player", "entity"]) : return
+	
+	
+	var target : Node
+	
+	if area.get_parent().is_in_group("Player"):
+		target = Player
 		
 		inside_player += 1
-		inside_player_last = body
-		inside_player_all.append(body)
+		inside_player_last = target
+		inside_player_all.append(target)
 	
-	elif body.is_in_group("entity"):
+	elif area.get_parent().is_in_group("entity"):
+		target = area.get_parent()
 		
 		inside_entity += 1
-		inside_entity_last = body
-		inside_entity_all.append(body)
+		inside_entity_last = target
+		inside_entity_all.append(target)
 		
-		if body.entity_type == "projectile":
+		if target.entity_type == "projectile":
 			inside_projectile += 1
-			inside_projectile_last = body
-			inside_projectile_all.append(body)
+			inside_projectile_last = target
+			inside_projectile_all.append(target)
 		
-		if body.entity_type == "enemy":
+		if target.entity_type == "enemy":
 			inside_enemy += 1
-			inside_enemy_last = body
-			inside_enemy_all.append(body)
+			inside_enemy_last = target
+			inside_enemy_all.append(target)
 		
-		if body.entity_type == "box":
+		if target.entity_type == "box":
 			inside_box += 1
-			inside_box_last = body
-			inside_box_all.append(body)
+			inside_box_last = target
+			inside_box_all.append(target)
 		
-		if body.entity_type == "block":
+		if target.entity_type == "block":
 			inside_block += 1
-			inside_block_last = body
-			inside_block_all.append(body)
+			inside_block_last = target
+			inside_block_all.append(target)
 	
 	else:
 		return
 	
-	if body.is_in_group("Player") and not pushable_by_player : return
-	if body.is_in_group("entity") and not pushable_by_entity : return
+	if target.is_in_group("Player") and not pushable_by_player : return
+	if target.is_in_group("entity"):
+		if not pushable_by_entity and target.entity_type != "projectile": return
+		else:
+			if not target.can_move : return
+			if target.dead : return
+			if target.collected : return
 	
-	if body.is_in_group("entity"):
-		if body.entity_name != entity_name:
-			body.velocity.x += velocity.x * 0.8
+	if target.is_in_group("entity"):
+		if abs(target.velocity.x) > 300:
+			Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, Vector2(position.x + randf_range(-4, 4), position.y - 16 + randf_range(-4, 4)), 1, Color(0, 0, 0, -0.75), Vector2(-0.95, -0.95), 10)
+			sfx_manager.sfx_play(Globals.sfx_slash, 0.25)
+			
+			velocity.x += target.velocity.x * 0.9
+			if target.velocity.x > 0 : velocity.x = clamp(velocity.x, velocity.x / 4, target.velocity.x)
+			elif target.velocity.x < 0 : velocity.x = clamp(velocity.x, target.velocity.x, velocity.x / 4)
+		
+		else:
+			velocity.x += target.direction_x * 100
+		
+		if target.direction_y:
+			if abs(velocity.y) < 25:
+				velocity.y += target.direction_y * target.velocity.y * 4
+				if velocity.y > 0 : velocity.y *= -1
+				
+				if target.velocity.y > 0 : velocity.y = clamp(velocity.y, velocity.y / 4, direction_y * target.velocity.y * 2)
+				elif target.velocity.y < 0 : velocity.y = clamp(velocity.y, direction_y * target.velocity.y * 2, velocity.y / 4)
+				
+				sfx_manager.sfx_play("res://Assets/Sounds/sfx/collect3.wav")
+	
+	if target.is_in_group("Player"):
+		
+		if Globals.player_direction_x:
+			Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, Vector2(position.x, position.y - 16), 1, Color(0, 0, 0, 1), Vector2(-1.5, -1.5) + Vector2(0.1, 0.1) * abs(Player.velocity.x / 100), 10)
+			
+			if abs(Player.velocity.x) > 1800:
+				Globals.spawn_scenes(World, Globals.scene_particle_special, 25, position)
+				sfx_manager.sfx_play(Globals.sfx_slash, 1.0)
+			elif abs(Player.velocity.x) > 900:
+				Globals.spawn_scenes(World, Globals.scene_particle_special, 10, position)
+				sfx_manager.sfx_play(Globals.sfx_slash, 0.75)
+			elif abs(Player.velocity.x) > 300:
+				sfx_manager.sfx_play(Globals.sfx_slash, 0.5)
+			else:
+				sfx_manager.sfx_play(Globals.sfx_slash, 0.25)
+			
+			velocity.y = jump_velocity_y / 4 + randf_range(-0.5, 0.5)
+			
+			if abs(Player.velocity.x) > 250:
+				velocity.x += Player.velocity.x * 1.1 + randf_range(-5, 5)
+			else:
+				velocity.x += Globals.player_direction_x_active * 250 + randf_range(-5, 5)
+		
+		else:
+			
+			if abs(Player.velocity.x) > 250:
+				velocity.x += Player.velocity.x * 0.9 + randf_range(-5, 5)
+			else:
+				velocity.x += Globals.player_direction_x_active * 100 + randf_range(-5, 5)
+	
 	
 	if collidable and is_collidable:
 		
 		if inside_player > 0:
 			Globals.message_debug("Player entered an entity " + "(" + entity_name + ").")
 		else:
-			Globals.message_debug("An entity " + "(" + body.entity_name + "). has entered another entity " + "(" + entity_name + ").")
+			Globals.message_debug("An entity " + "(" + target.entity_name + "). has entered another entity " + "(" + entity_name + ").")
 		
-		if enteredFromAboveAndNotMoving_enable and body.position.y <= position.y and abs(body.velocity.x) < 25:
+		if enteredFromAboveAndNotMoving_enable and target.position.y <= position.y and abs(target.velocity.x) < 25:
 				
 				direction_x = 0
 				velocity.y = enteredFromAboveAndNotMoving_velocity
 		
 		elif on_entityEntered_change_direction_copyEntity:
 			
-			direction_x = body.direction_x
+			direction_x = target.direction_x
 		
 		elif on_entityEntered_change_direction_basedOnPosition:
 			
-			if body.position.x > position.x:
+			if target.position.x > position.x:
 				direction_x = 1
 				
 			else:
@@ -448,24 +597,32 @@ func inside_check_enter(body):
 
 
 func inside_check_exit(body):
-	if body.is_in_group("Player"):
+	if body.get_parent() == self : return
+	if not Globals.is_valid_entity(body, ["Player", "entity"]) : return
+	
+	
+	var target : Node
+	
+	if body.get_parent().is_in_group("Player"):
+		target = Player
 		
 		inside_player -= 1
-		inside_player_last = body
-		inside_player_all.erase(body)
+		inside_player_last = target
+		inside_player_all.erase(target)
 	
-	elif body.is_in_group("entity"):
+	elif body.get_parent().is_in_group("entity"):
+		target = body.get_parent()
 		
 		inside_entity -= 1
-		inside_entity_last = body
-		inside_entity_all.erase(body)
+		inside_entity_last = target
+		inside_entity_all.erase(target)
 	
 	else:
 		return
 	
 	
-	if not inside_player and not inside_entity:
-		direction_x = 0
+	#if not inside_player and not inside_entity:
+		#direction_x = 0
 
 
 var handle_gravity_in_movement_type = false # If true, the gravity is not handled for every movement type, and needs to be called by each movement type's function.
@@ -476,6 +633,15 @@ var handle_gravity_in_movement_type = false # If true, the gravity is not handle
 @onready var movement_function_name = "movement_" + movement_type
 
 func handle_movement(delta):
+	if force_direction_x:
+		if not direction_x:
+			direction_x = direction_active_x # Active means "last value considered active", which in case of velocity, would be anything except 0 (but in this case its actually everything between -25 and 25).
+	
+	if force_direction_y:
+		if not direction_y:
+			direction_y = direction_active_y
+	
+	
 	if entity_name == "orb_zeroScore" : return
 	if reset_puzzle_block_movement : return
 	call(movement_function_name, delta)
@@ -492,36 +658,22 @@ func handle_movement(delta):
 # The entity doesn't move by itself, it just falls down to the ground and can be affected by other entities and the player.
 func movement_normal(delta):
 	direction_x = 0
+	direction_y = 0
 	
 	move_in_direction_x(delta)
 
 # The entity always attempts to move horizontally, as it's direction can never be equal to 0.
 func movement_move_x(delta):
-	if not direction_x:
-		direction_x = direction_active_x # Active means "last value considered active", which in case of velocity, would be anything except 0 (but in this case its actually everything between -25 and 25).
-	
 	move_in_direction_x(delta)
 
 # Same as above, but vertical.
 func movement_move_y(delta):
-	if direction_y == 0:
-		direction_y = direction_active_y
-	
-	if not dead:
-		move_in_direction_x(delta)
-		move_in_direction_y(delta)
+	move_in_direction_y(delta)
 
 # Same as above, but both horizontal and vertical.
 func movement_move_xy(delta):
-	if direction_x == 0:
-		direction_x = direction_active_x
-	
-	if direction_y == 0:
-		direction_y = direction_active_y
-	
-	if not dead:
-		move_in_direction_y(delta)
-		move_in_direction_x(delta)
+	move_in_direction_y(delta)
+	move_in_direction_x(delta)
 
 # Entity moves horizontally, towards the player.
 func movement_follow_player_x(delta):
@@ -729,9 +881,16 @@ func move_in_direction_x(delta):
 		move_toward_zero_velocity(delta)
 
 func move_in_direction_y(delta):
-	if dead : direction_y = 0
+	if dead:
+		direction_y = 0
+		#move_toward_zero_velocity(delta)
 	
-	velocity.y = move_toward(velocity.y, direction_y * speed * speed_multiplier_y, delta * acceleration * acceleration_multiplier_y)
+	if direction_y:
+		if always_max_speed:
+			velocity.y = direction_y * speed * speed_multiplier_y
+		else:
+			velocity.y = move_toward(velocity.y, direction_y * speed * speed_multiplier_y, delta * acceleration * acceleration_multiplier_y)
+
 
 func chase_target_x(delta, target : Node):
 	position.x = lerp(position.x, target.position.x, delta)
@@ -746,29 +905,40 @@ func chase_target_xy(delta, target : Node):
 	velocity = Vector2(0, 0)
 
 
-func change_direction_x(value):
-	direction_x = value
+#func change_direction_x(value):
+	#direction_x = value
+#
+#func change_direction_y(value):
+	#direction_y = value
 
-func change_direction_y(value):
-	direction_y = value
-
-func reverse_direction_x(wall_normal : Vector2 = Vector2(0, 0)):
-	if wall_normal == Vector2(0, 0):
-		
+func change_direction_x(floor_normal : Vector2 = Vector2(0, 0)):
+	if floor_normal == Vector2(0, 0):
 		direction_x *= -1
-	
 	
 	else:
 		
 		if on_wall_sprite_anim_reflect_straight : effects_reflect_straight()
 		
-		if wall_normal == Vector2(-1, 0): #right
+		if floor_normal == Vector2(-1, 0): #right
 			direction_x = -1
 		
-		elif wall_normal == Vector2(1, 0): #left
+		elif floor_normal == Vector2(1, 0): #left
 			direction_x = 1
+
+func change_direction_y(wall_normal : Vector2 = Vector2(0, 0)):
+	if wall_normal == Vector2(0, 0):
+		direction_y *= -1
+	
+	else:
 		
-		velocity.x = direction_x * 100
+		if on_wall_sprite_anim_reflect_straight : effects_reflect_straight()
+		
+		if wall_normal == Vector2(0, -1): #bottom
+			direction_y = -1
+		
+		elif wall_normal == Vector2(0, 1): #top
+			direction_y = 1
+
 
 func reverse_direction_y():
 	direction_y *= -1
@@ -1076,37 +1246,37 @@ func handle_reflect_slope():
 	
 	if direction_y:
 		
-		if get_wall_normal()[0] < 0 and get_wall_normal()[1] < 0: #45deg-left up
+		if wall_normal[0] < 0 and wall_normal[1] < 0: #45deg-left up
 			direction_x = -1
 			direction_y = 0
 		
-		elif get_wall_normal()[0] > 0 and get_wall_normal()[1] < 0: #45deg-right up
+		elif wall_normal[0] > 0 and wall_normal[1] < 0: #45deg-right up
 			direction_x = 1
 			direction_y = 0
 		
-		elif get_wall_normal()[0] > 0 and get_wall_normal()[1] > 0: #45deg-right down
+		elif wall_normal[0] > 0 and wall_normal[1] > 0: #45deg-right down
 			direction_x = 1
 			direction_y = 0
 		
-		elif get_wall_normal()[0] < 0 and get_wall_normal()[1] > 0: #45deg-left down
+		elif wall_normal[0] < 0 and wall_normal[1] > 0: #45deg-left down
 			direction_x = -1
 			direction_y = 0
 	
 	else:
 		
-		if get_wall_normal()[0] < 0 and get_wall_normal()[1] < 0: #45deg-left up
+		if wall_normal[0] < 0 and wall_normal[1] < 0: #45deg-left up
 			direction_x = 0
 			direction_y = -1
 		
-		elif get_wall_normal()[0] > 0 and get_wall_normal()[1] < 0: #45deg-right up
+		elif wall_normal[0] > 0 and wall_normal[1] < 0: #45deg-right up
 			direction_x = 0
 			direction_y = -1
 		
-		elif get_wall_normal()[0] > 0 and get_wall_normal()[1] > 0: #45deg-right down
+		elif wall_normal[0] > 0 and wall_normal[1] > 0: #45deg-right down
 			direction_x = 0
 			direction_y = 1
 		
-		elif get_wall_normal()[0] < 0 and get_wall_normal()[1] > 0: #45deg-left down
+		elif wall_normal[0] < 0 and wall_normal[1] > 0: #45deg-left down
 			direction_x = 0
 			direction_y = 1
 
@@ -1117,22 +1287,22 @@ func handle_reflect_straight():
 	
 	effects_reflect_straight()
 	
-	if get_wall_normal() == Vector2(0, -1): #bottom
+	if wall_normal == Vector2(0, -1): #bottom
 		direction_x = 0
 		direction_y = -1
 		return true
 	
-	elif get_wall_normal() == Vector2(0, 1): #top
+	elif wall_normal == Vector2(0, 1): #top
 		direction_x = 0
 		direction_y = 1
 		return true
 	
-	elif get_wall_normal() == Vector2(-1, 0): #right
+	elif wall_normal == Vector2(-1, 0): #right
 		direction_x = -1
 		direction_y = 0
 		return true
 	
-	elif get_wall_normal() == Vector2(1, 0): #left
+	elif wall_normal == Vector2(1, 0): #left
 		direction_x = 1
 		direction_y = 0
 		return true
@@ -1142,11 +1312,12 @@ func handle_reflect_straight():
 
 # Breakable logic should later become split into BOUNCABLE and BREAKABLE.
 func handle_breakable(target):
-	if not inside_player and target.effect_thrownAway_active : return
+	#if not inside_player and target.effect_thrownAway_active : return
 	
 	Globals.dm("An entity is handling its BREAKABLE logic.", "ORANGE")
 	
 	if breakable_requires_velocity_y:
+		print("YES")
 		if target.velocity.y >= breakable_requires_velocity_y_range[0] and target.velocity.y <= breakable_requires_velocity_y_range[1]:
 			if Input.is_action_pressed("jump"):
 				target.velocity.y = breakable_on_hit_player_velocity_y_jump
@@ -1191,6 +1362,16 @@ func handle_damage(value, type : String = "normal"):
 	
 	if health_value <= 0:
 		handle_death(type)
+	
+	get_tree().paused = true
+	set_process(false)
+	set_physics_process(false)
+	Globals.Player.camera.effect((position - Globals.player_position) * 2, Vector2(3, 3), randi_range(-10, 10), 4)
+	await get_tree().create_timer(0.2, true).timeout
+	get_tree().paused = false
+	set_process(true)
+	set_physics_process(true)
+	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
 
 
 func handle_effects_death(type : String = "normal"): # Death types: "normal", "break", "self_destruct", "self_destruct_timed", "crush", "burn", "electrocute".
@@ -1331,6 +1512,19 @@ func _on_sprite_animation_looped():
 
 
 func sprite_animation():
+	if sprite_rotation_copy_velocity_x:
+		if velocity.x > 0:
+			if velocity.x > 15:
+				sprite.rotation_degrees = -velocity.x + unique_number
+			else:
+				sprite.rotation_degrees = randf_range(-25, 25) + unique_number
+		
+		elif velocity.x < 0:
+			if velocity.x < -15:
+				sprite.rotation_degrees = -velocity.x + unique_number
+			else:
+				sprite.rotation_degrees = randf_range(-25, 25) + unique_number
+	
 	if dead : if sprite.sprite_frames.has_animation("dead") : sprite.play("dead") ; return
 	
 	basic_sprite_flipDirection()
@@ -1718,6 +1912,12 @@ func _on_cooldown_death_timeout() -> void:
 
 func _on_cooldown_change_ignore_gravity_timeout() -> void:
 	ignore_gravity = Globals.opposite_bool(ignore_gravity)
+	
+	if entity_type == "projectile":
+		if ignore_gravity : modulate = Color(2, 2, 2, 1)
+		else : modulate = Color.WHITE
+		
+		effects_reflect_straight()
 
 
 func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset : Vector2 = Vector2(0, 0), pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale : Vector2 = Vector2(0, 0), add_scale_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale_range_keep_equal : bool = true, delay_range : Array = [0.0, 0.0], master_node : Node = self):
@@ -1747,14 +1947,14 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 func handle_bounce():
 	if is_on_floor():
 		if is_collidable:
-			if velocity_last_y > 100:
+			if velocity_last_y > 50:
 				if on_floor_bounce:
 					velocity.y = -velocity_last_y * on_floor_bounce_velocity_multiplier
 					handle_effects_bounce()
 	
 	if is_on_wall():
 		if is_collidable:
-			if abs(velocity_last_x) > 100:
+			if abs(velocity_last_x) > 50:
 				if on_wall_bounce:
 					velocity.x = -velocity_last_x * on_wall_bounce_velocity_multiplier
 					handle_effects_bounce()
@@ -1820,6 +2020,13 @@ func handle_jump(value_y : int = jump_velocity_y, value_x : int = 0):
 
 
 func handle_on_floor():
+	if on_floor_change_speed:
+		speed_multiplier_x *= on_floor_change_speed_multiplier
+		speed_multiplier_y *= on_floor_change_speed_multiplier
+	
+	if on_floor_change_direction_y:
+		change_direction_y(floor_normal)
+	
 	if on_landed_spawn_entity:
 		if just_landed:
 			spawn_entity_general("on_landed_spawn_entity")
@@ -1833,24 +2040,20 @@ func handle_on_floor():
 	
 	if on_ledge_turn:
 		if is_collidable and not scan_ledge.is_colliding():
-			direction_x *= -1
-			velocity.x = 0
-			is_collidable = false
-			c_collidable.start()
+			set_not_collidable_queue()
 			
-			if direction_active_x > 0 : scan_ledge.position.x = -32
-			elif direction_active_x < 0 : scan_ledge.position.x = 32
+			change_direction_x()
+			velocity.x = 0
 	
 	if on_floor_death : handle_death()
-	if on_floor_change_direction_x : reverse_direction_x()
+	if on_floor_change_direction_x : change_direction_x()
 	if on_floor_reverse_velocity_x : velocity.x = -velocity_last_x
 
 func handle_on_wall():
 	if on_wall_death : handle_death()
 	
-	if on_ledge_turn:
-		if direction_active_x > 0 : scan_ledge.position.x = -32
-		elif direction_active_x < 0 : scan_ledge.position.x = 32
+	if on_wall_change_direction_x:
+		change_direction_x(wall_normal)
 
 
 func _on_cooldown_particles_timeout() -> void:
@@ -1908,7 +2111,7 @@ func t_trigger(id : int = 0):
 		ascending = Globals.opposite_bool(ascending)
 	
 	if t_trigger_change_direction == id:
-		reverse_direction_x()
+		change_direction_x()
 	
 	if t_trigger_jump == id:
 		handle_jump()
@@ -1975,3 +2178,15 @@ func just_handle():
 
 func _on_cooldown_attack_limit_timeout() -> void:
 	block_spawn_entity = false
+
+
+func set_not_collidable_queue():
+	set_not_collidable = true
+	c_collidable.wait_time = collidable_cooldown
+	c_collidable.start()
+
+
+func _on_cooldown_change_movement_type_timeout() -> void:
+	reassign_movement_type_id(on_timeout_change_movement_type_name)
+	c_change_movement_type.wait_time = on_timeout_change_movement_type_cooldown
+	c_change_movement_type.start()
