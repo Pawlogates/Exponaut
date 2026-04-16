@@ -655,6 +655,10 @@ uncover_on_timeout_start_on_proximity = true
 position = Vector2(4704, -5472)
 message_text = "Remember that you can open the ENTITY EDITOR by pressing Q or MMB (middle mouse button)"
 
+[node name="trigger_level_transition" parent="." index="85" instance=ExtResource("16_osfq0")]
+position = Vector2(-288, -128)
+transition_next = 10
+
 [connection signal="area_entered" from="checkpoint/checkpoint/Area2D" to="checkpoint" method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="checkpoint2/checkpoint/Area2D" to="checkpoint2" method="_on_area_2d_area_entered"]
 [connection signal="area_entered" from="checkpoint3/checkpoint/Area2D" to="checkpoint3" method="_on_area_2d_area_entered"]

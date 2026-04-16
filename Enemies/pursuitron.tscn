@@ -24,7 +24,7 @@ sfx_self_death_filepath = "uid://dgfidsnqko8cu"
 entity_name = "pursuitron"
 entity_type = "enemy"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("3_12ie6")
 animation = &"attack"
 

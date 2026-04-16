@@ -37,6 +37,7 @@ extends Node2D
 @export var randomize_anim_reverse2 : bool = false
 
 @export var randomize_modulate_dark : bool = false
+@export var randomize_modulate_dark_chance : float = 75.0
 @export var randomize_opacity : bool = false
 
 
@@ -148,7 +149,7 @@ func randomize_anim():
 	
 	
 	if randomize_modulate_dark:
-		if Globals.random_bool(3, 1):
+		if Globals.random_bool(100 - randomize_modulate_dark_chance, randomize_modulate_dark_chance):
 			modulate = Color(0, 0, 0, 1)
 	
 	if randomize_opacity:

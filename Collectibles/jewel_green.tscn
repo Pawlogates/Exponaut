@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://bi6616wjon13k"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_pxg3w"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_nflu2"]
+[ext_resource type="SpriteFrames" uid="uid://cod6ur5olro2y" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_Jewel_yellow.tres" id="3_smf8m"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1iey2"]
+shader = ExtResource("2_nflu2")
+shader_parameter/Shift_Hue = 0.15
+
+[node name="jewel" instance=ExtResource("1_pxg3w")]
+scale = Vector2(1.5, 1.5)
+score_value = 25000
+sfx_self_collected_filepath = "uid://bo45uwl5danjl"
+entity_name = "jewel_red"
+
+[node name="sprite" parent="." index="1"]
+material = SubResource("ShaderMaterial_1iey2")
+sprite_frames = ExtResource("3_smf8m")

@@ -29,7 +29,7 @@ effect_shrink_delete = false
 entity_name = "gear_chase_player_xy"
 entity_type = "projectile"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_7ifc4")
 
 [node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("2_qr303")]

@@ -32,53 +32,45 @@ text_manager_message = "[/]Start New Game"
 decoration_base_size_multiplier = Vector2(0.5, 1)
 on_hover_message_text = "duh?"
 
-[node name="btn_Press this button" parent="container_buttons" index="1" instance=ExtResource("2_0mlty")]
-layout_mode = 2
-text_manager_message = "[anim_loop_up_down_slight]Press this button"
-text_manager_letter_alignment = 1
-text_manager_letter_animation_sync = false
-decoration_base_size_multiplier = Vector2(0.65, 1)
-on_hover_message_text = "Just do it already!"
-
-[node name="btn_Continue" parent="container_buttons" index="2" instance=ExtResource("2_0mlty")]
+[node name="btn_Continue" parent="container_buttons" index="1" instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Continue"
 decoration_base_size_multiplier = Vector2(0.4, 1)
 on_hover_message_text = "Continue your game from the point you left it at. Don't try to be funny and press it right after booting this up for the first time..."
 
-[node name="btn_Resume game" parent="container_buttons" index="3" instance=ExtResource("2_0mlty")]
+[node name="btn_Resume game" parent="container_buttons" index="2" instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Resume game"
 decoration_base_size_multiplier = Vector2(0.5, 1)
 on_hover_message_text = "Resume the game. As in, stop it from being paused. Also works as a pause button... actually its more of a \"pause toggle\" for now. It shouldnt exist on the start screen but"
 
-[node name="btn_Level Set screen" parent="container_buttons" index="4" instance=ExtResource("2_0mlty")]
+[node name="btn_Level Set screen" parent="container_buttons" index="3" instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Level Set screen"
 decoration_base_size_multiplier = Vector2(0.6, 1)
 on_hover_message_text = "Level Set screen is where you choose one out of many levels present within a \"Level Set\"."
 
-[node name="btn_Select Level Set" parent="container_buttons" index="5" instance=ExtResource("2_0mlty")]
+[node name="btn_Select Level Set" parent="container_buttons" index="4" instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Select Level Set"
 decoration_base_size_multiplier = Vector2(0.6, 1)
 on_hover_message_text = "Choose one out of the currently hardcoded level sets. I mean it IS well prepared for not being hardcoded into the game itself but I won't take the final step for quite some time because like I've got enough stuff that needs doing already without it lil g"
 
-[node name="btn_Back to Overworld" parent="container_buttons" index="6" instance=ExtResource("2_0mlty")]
+[node name="btn_Back to Overworld" parent="container_buttons" index="5" instance=ExtResource("2_0mlty")]
 z_index = 5
 layout_mode = 2
 text_manager_message = "[/]Back to Overworld"
 decoration_base_size_multiplier = Vector2(0.7, 1)
 on_hover_message_text = "How funny would it be to press this thing before ever having been in the Overworld. not very much"
 
-[node name="btn_Enable Score Attack mode" parent="container_buttons" index="7" instance=ExtResource("2_0mlty")]
+[node name="btn_Enable Score Attack mode" parent="container_buttons" index="6" instance=ExtResource("2_0mlty")]
 z_index = 10
 layout_mode = 2
 text_manager_message = "[/]Enable Score Attack mode"
 decoration_base_size_multiplier = Vector2(0.9, 1)
 on_hover_message_text = "It's literally just not reimplemented after the refactor broke it. This button is here only because it makes the randomized menu look way nicer (press ESC a few times to see how different it can look!)."
 
-[node name="btn_Settings" parent="container_buttons" index="8" instance=ExtResource("2_0mlty")]
+[node name="btn_Settings" parent="container_buttons" index="7" instance=ExtResource("2_0mlty")]
 z_index = 15
 layout_mode = 2
 theme = ExtResource("3_4o7a4")
@@ -86,28 +78,28 @@ text_manager_message = "[/]Settings"
 decoration_base_size_multiplier = Vector2(0.3, 1)
 on_hover_message_text = "Not reimplemented after being broken by the refactor. bummer!!"
 
-[node name="btn_Quit to Main Menu" parent="container_buttons" index="9" instance=ExtResource("2_0mlty")]
+[node name="btn_Quit to Main Menu" parent="container_buttons" index="8" instance=ExtResource("2_0mlty")]
 z_index = 20
 layout_mode = 2
 text_manager_message = "[/]Quit to Main Menu"
 decoration_base_size_multiplier = Vector2(0.7, 1)
 on_hover_message_text = "How funny would it be to-"
 
-[node name="btn_Quit Game" parent="container_buttons" index="10" instance=ExtResource("2_0mlty")]
+[node name="btn_Quit Game" parent="container_buttons" index="9" instance=ExtResource("2_0mlty")]
 z_index = 25
 layout_mode = 2
 text_manager_message = "[/]Quit Game"
 decoration_base_size_multiplier = Vector2(0.4, 1)
 on_hover_message_text = "Please... PLEASE do not do it to me :("
 
-[node name="btn_Close" parent="container_buttons" index="11" instance=ExtResource("2_0mlty")]
+[node name="btn_Close" parent="container_buttons" index="10" instance=ExtResource("2_0mlty")]
 z_index = 25
 layout_mode = 2
 text_manager_message = "[/]Close"
 decoration_base_size_multiplier = Vector2(0.4, 1)
 on_hover_message_text = "Closes the MENU. You thought pressing ESC would do that? lil fella how silly of you"
 
-[node name="btn_Touch controls" parent="container_buttons" index="12" instance=ExtResource("2_0mlty")]
+[node name="btn_Touch controls" parent="container_buttons" index="11" instance=ExtResource("2_0mlty")]
 modulate = Color(0.87798, 0.696571, 0, 1)
 z_index = 25
 layout_mode = 2
@@ -133,7 +125,6 @@ bored of, or get stuck somewhere
 in the main game."
 
 [connection signal="pressed" from="container_buttons/btn_Start New Game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Press this button" to="." method="_on_btn_press_this_button_pressed"]
 [connection signal="pressed" from="container_buttons/btn_Continue" to="." method="_on_btn_continue_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Resume game" to="." method="_on_btn_resume_game_pressed" binds= [2.0]]
 [connection signal="pressed" from="container_buttons/btn_Level Set screen" to="." method="_on_btn_level_set_screen_pressed" binds= [10.0]]

@@ -7,5 +7,5 @@
 score_value = 1000
 entity_name = "jewel"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_yelo0")

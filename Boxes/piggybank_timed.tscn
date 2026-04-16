@@ -18,5 +18,5 @@ start_animation = "none"
 entity_name = "piggybank_timed"
 entity_type = "box"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_ieprp")

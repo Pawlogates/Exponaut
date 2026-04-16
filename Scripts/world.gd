@@ -97,6 +97,8 @@ signal reset_puzzle_all_nodes_ready
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Globals.bg_main_filepath = "none"
+	
 	Globals.exit_activated.connect(show_screen_levelFinished)
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
@@ -438,7 +440,6 @@ func show_screen_levelFinished():
 
 
 func go_to_next_level(): #unused?
-	
 	if not next_level is PackedScene: return
 	
 	Overlay.animation("fade_black", true, 1.0, true)

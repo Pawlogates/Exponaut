@@ -17,10 +17,10 @@ on_collected_anim_name = "none"
 sfx_self_collected_filepath = "uid://co5hmcavxpvpa"
 entity_name = "coin_timed"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("2_syj8d")
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 scale = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_gymcb")

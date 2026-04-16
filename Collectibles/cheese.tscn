@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://ev6ylwrrq8ku"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_7qair"]
+[ext_resource type="SpriteFrames" uid="uid://cj5rykwf065g" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_cheese.tres" id="2_7qair"]
+
+[node name="cheese" instance=ExtResource("1_7qair")]
+score_value = 50
+sfx_self_collected_filepath = "uid://brdf61qp7ucnh"
+entity_name = "cheese"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_7qair")
+
+[node name="scan_visible" parent="." index="11"]
+modulate = Color(1, 1, 1, 0.01)
+
+[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
+debug_color = Color(0, 0.6, 0.7, 0.01)

@@ -2,6 +2,8 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	position.y = -2000
+	
 	if weather_type == "leaves":
 		$Timer.start()
 		$Timer2.start()
@@ -10,10 +12,8 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
-	if get_parent().zoom.y <= 0.5:
-		position.y = move_toward(position.y, -2250 + get_parent().zoom.y * 2000, 50)
-	else:
-		position.y = move_toward(position.y, -2250 + get_parent().zoom.y * 1500, 50)
+	position.x = Globals.player_position.x
+	pass
 
 
 var rng = RandomNumberGenerator.new()

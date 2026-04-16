@@ -4,5 +4,5 @@
 
 [resource]
 shader = ExtResource("1_1wkgm")
-shader_parameter/strength = 0.0
+shader_parameter/strength = 0.514
 shader_parameter/speed = 0.05

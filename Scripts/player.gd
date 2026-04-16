@@ -254,6 +254,8 @@ func _process(delta):
 				if not handle_jump(delta):
 					if can_wall_jump:
 						handle_wall_jump()
+					else:
+						handle_wall_run(delta)
 		
 		if on_floor : handle_walk(delta)
 		handle_air_acceleration(delta)
@@ -384,9 +386,9 @@ func handle_gravity(delta):
 		if not flight:
 			if Input.is_action_pressed("jump"):
 				if inside_water:
-					velocity.y += fall_speed * 1.0 * delta * gravity_multiplier * inside_water_multiplier_x
+					velocity.y += fall_speed * 0.85 * delta * gravity_multiplier * inside_water_multiplier_x
 				else:
-					velocity.y += fall_speed * 1.0 * delta * gravity_multiplier
+					velocity.y += fall_speed * 0.85 * delta * gravity_multiplier
 			
 			elif Input.is_action_pressed("move_down"):
 				if inside_water:
@@ -395,10 +397,12 @@ func handle_gravity(delta):
 					velocity.y += fall_speed * 4.0 * delta * gravity_multiplier
 			
 			else:
+				if velocity.y < -200 : velocity.y = -200
+				
 				if inside_water:
-					velocity.y += fall_speed * 1.5 * delta * gravity_multiplier * inside_water_multiplier_x
+					velocity.y += fall_speed * 1 * delta * gravity_multiplier * inside_water_multiplier_x
 				else:
-					velocity.y += fall_speed * 1.5 * delta * gravity_multiplier
+					velocity.y += fall_speed * 1 * delta * gravity_multiplier
 	
 	
 	if not dead and dash_active:
@@ -616,12 +620,17 @@ func handle_jump(delta):
 
 
 func handle_wall_jump():
-	if not is_on_wall_only() and t_leniency_wall_jump.time_left <= 0.0: return
+	if not is_on_wall_only() and t_leniency_wall_jump.time_left <= 0.0 : return
 	
 	if Input.is_action_just_pressed("jump") and can_wall_jump:
 		Globals.message_debug("player wall jump")
 		print(("player wall jump"))
-		velocity.x = on_wall_normal.x * speed_x
+		
+		if Globals.player_direction_x:
+			velocity.x = on_wall_normal.x * speed_x
+		else:
+			velocity.x = on_wall_normal.x * speed_x / 2
+		
 		if inside_water:
 			velocity.y = jump_velocity * 1 * inside_water_multiplier_x
 		else:
@@ -1334,3 +1343,37 @@ func _on_timer_state_damage_timeout() -> void:
 
 func _on_timer_invincible_timeout() -> void:
 	invincible = false
+
+
+var wall_run_speed_multiplier : float = 1.0
+
+func handle_wall_run(delta):
+	Engine.time_scale = 1
+	
+	if not on_wall:
+		state_crouch_walk = 0
+		wall_run_speed_multiplier = 1.0
+		return
+	
+	if Input.is_action_pressed("move_up"):
+		position.y += -4 * wall_run_speed_multiplier
+		wall_run_speed_multiplier += delta * 2
+		
+		state_crouch_walk = 10
+		
+		if wall_run_speed_multiplier >= 2.0:
+			wall_run_speed_multiplier = 1.0
+			can_wall_jump = true
+			
+			if Globals.player_direction_x:
+				velocity = Vector2(800 * on_wall_normal.x, -600)
+			else:
+				velocity = Vector2(400 * on_wall_normal.x, -600)
+				print("ye")
+			
+			state_crouch_walk = 0
+			if on_wall_normal.x < 0: animation_player_sprite_general.play("rotate_left")
+			elif on_wall_normal.x > 0: animation_player_sprite_general.play("rotate_right")
+		
+		else:
+			velocity.y = 0

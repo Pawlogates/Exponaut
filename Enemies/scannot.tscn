@@ -32,13 +32,13 @@ on_death_effect_shrink = false
 entity_name = "scannot"
 entity_type = "enemy"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 position = Vector2(0, 112)
 sprite_frames = ExtResource("2_bbcu5")
 animation = &"attack"
 outline_enabled = false
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_yvjy2")
 
 [node name="collision_patrolling" parent="scan_patrolling_vision" index="2"]

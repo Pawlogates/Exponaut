@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bvkrr7e5jdex6"]
+[gd_scene load_steps=123 format=3 uid="uid://bvkrr7e5jdex6"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_0tnfu"]
 [ext_resource type="PackedScene" uid="uid://durmwd8klls41" path="res://Levels/DEBUG_2.tscn" id="2_ccx6a"]
@@ -6,11 +6,322 @@
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_olnfn"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_80vpq"]
 [ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_ccx6a"]
+[ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="7_dlxyy"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_eqlhq"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="7_olnfn"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_80vpq"]
+[ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="8_fdn8h"]
+[ext_resource type="PackedScene" uid="uid://cytasj1drtxdw" path="res://Blocks/special_block_buttonSpikes_L.tscn" id="9_5t6jd"]
+[ext_resource type="PackedScene" uid="uid://b0hqcbo1da3sc" path="res://Blocks/special_block_buttonSpikes_R.tscn" id="10_1qyx0"]
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="11_ccx6a"]
 [ext_resource type="PackedScene" uid="uid://cbt6crrcy7rqj" path="res://Triggers/trigger_positional.tscn" id="11_flhwk"]
+[ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Blocks/move_block_h.tscn" id="11_qehic"]
+[ext_resource type="PackedScene" uid="uid://bc4lqr8ajy0k8" path="res://Objects/Decorations/deco_waterfall_bg.tscn" id="12_lq78n"]
+[ext_resource type="PackedScene" uid="uid://va38cadkefjo" path="res://Blocks/move_block_v.tscn" id="13_m6wbh"]
+[ext_resource type="PackedScene" uid="uid://dwsils121eero" path="res://Objects/Decorations/toxicWater_top.tscn" id="14_gcbv5"]
+[ext_resource type="PackedScene" uid="uid://n0ybyxp34qxe" path="res://Objects/Decorations/deco_chain_H.tscn" id="15_pe10s"]
+[ext_resource type="PackedScene" uid="uid://bpnieumlyk7ix" path="res://Objects/Decorations/deco_chain_V.tscn" id="16_8rpoo"]
+[ext_resource type="PackedScene" uid="uid://bn7os2imtdij8" path="res://Objects/Decorations/deco_tile_chain_V.tscn" id="17_qxske"]
+[ext_resource type="PackedScene" uid="uid://djxwn6oxqjm8o" path="res://Objects/Decorations/deco_chainLong_H_bg.tscn" id="18_b34vt"]
+[ext_resource type="PackedScene" uid="uid://cicdmjrqn10qb" path="res://Objects/Decorations/deco_chainLong_V_bg.tscn" id="19_7qcj8"]
+[ext_resource type="PackedScene" uid="uid://c5otdvm7o5jdy" path="res://Objects/Decorations/deco_tile_chain_H.tscn" id="20_7ooyl"]
+[ext_resource type="PackedScene" uid="uid://cwylhbfoqohrq" path="res://Objects/one_way_up.tscn" id="21_xits8"]
+[ext_resource type="PackedScene" uid="uid://do4845rlxd1y4" path="res://Blocks/move_block_v_pause.tscn" id="22_nl6ox"]
+[ext_resource type="PackedScene" uid="uid://bdjd80p8f5n7h" path="res://Blocks/move_block_h_pause.tscn" id="23_ud3co"]
+[ext_resource type="PackedScene" uid="uid://c6a6e6sqb52cr" path="res://Blocks/move_block_v2.tscn" id="24_bkce8"]
+[ext_resource type="PackedScene" uid="uid://cfv0k77wv0jto" path="res://Blocks/move_block_h2.tscn" id="25_geisj"]
+[ext_resource type="PackedScene" uid="uid://fsjwmefaqk18" path="res://Blocks/resetButton_blue.tscn" id="26_t0ogq"]
+[ext_resource type="PackedScene" uid="uid://dc4sqs8vg7pni" path="res://Blocks/resetButton_green.tscn" id="27_dflyn"]
+[ext_resource type="PackedScene" uid="uid://bh7qc60j36us4" path="res://Blocks/resetButton_red.tscn" id="28_i02lf"]
+[ext_resource type="PackedScene" uid="uid://cyr5jm2emqxqe" path="res://Objects/Spikes/spikes_AROUND.tscn" id="29_712oj"]
+[ext_resource type="PackedScene" uid="uid://nyr7qjtu4enc" path="res://Objects/Decorations/water_top.tscn" id="30_jixy5"]
+[ext_resource type="PackedScene" uid="uid://cfyac88tfnna7" path="res://Objects/Decorations/deco_clipped_black_circle_2_RIGHT.tscn" id="31_k57h1"]
+[ext_resource type="PackedScene" uid="uid://ctkto3f1mjxpo" path="res://Objects/Decorations/deco_waterfall.tscn" id="32_2nopx"]
+[ext_resource type="PackedScene" uid="uid://bkt7biape2erx" path="res://Objects/Decorations/deco_black_circle.tscn" id="33_4eae0"]
+[ext_resource type="PackedScene" uid="uid://cq5setetvq764" path="res://Objects/one_way_left.tscn" id="34_bdw6l"]
+[ext_resource type="PackedScene" uid="uid://d0l8ftjh4vi4l" path="res://Objects/one_way_right.tscn" id="35_odd8k"]
+[ext_resource type="PackedScene" uid="uid://do8d15pixb6ma" path="res://Objects/one_way_down.tscn" id="36_nswt8"]
+[ext_resource type="PackedScene" uid="uid://1vv072mxshuv" path="res://Blocks/special_block_toggleBlock_active.tscn" id="37_3837r"]
+[ext_resource type="PackedScene" uid="uid://rbwrv3rfagoa" path="res://Blocks/special_block_toggleBlock_inactive.tscn" id="38_5gkvo"]
+[ext_resource type="PackedScene" uid="uid://dokdy1bmohvt8" path="res://Blocks/conveyorBelt_L_start.tscn" id="39_71kfb"]
+[ext_resource type="PackedScene" uid="uid://d4gmvberj3p4w" path="res://Objects/checkpoint.tscn" id="40_gkak3"]
+[ext_resource type="PackedScene" uid="uid://dy5qma6ff8yd" path="res://Blocks/conveyorBelt_L_middle.tscn" id="41_kgye1"]
+[ext_resource type="PackedScene" uid="uid://p6n1l7q1hpaw" path="res://Blocks/conveyorBelt_L_end.tscn" id="42_dntll"]
+[ext_resource type="PackedScene" uid="uid://ce1g16bi5tcc8" path="res://Blocks/conveyorBelt_R_start.tscn" id="43_ygmpd"]
+[ext_resource type="PackedScene" uid="uid://bvtkevwm7c30c" path="res://Blocks/conveyorBelt_R_middle.tscn" id="44_ohiaj"]
+[ext_resource type="PackedScene" uid="uid://c1b5fg4bxpvwo" path="res://Blocks/conveyorBelt_R_end.tscn" id="45_raggl"]
+[ext_resource type="PackedScene" uid="uid://bfgw2irxn04m4" path="res://Blocks/button_blue.tscn" id="46_4nwec"]
+[ext_resource type="PackedScene" uid="uid://bqlpknsb0lrf7" path="res://Blocks/button_green.tscn" id="47_mdedd"]
+[ext_resource type="PackedScene" uid="uid://lgxgdhmqe0mu" path="res://Blocks/button_block_blue_UP.tscn" id="48_iaqhb"]
+[ext_resource type="PackedScene" uid="uid://cry8t6ojcoabt" path="res://Blocks/button_block_blue_DOWN.tscn" id="49_0fcis"]
+[ext_resource type="PackedScene" uid="uid://bedqky14s4a01" path="res://Blocks/button_block_green_LEFT.tscn" id="50_pxd1s"]
+[ext_resource type="PackedScene" uid="uid://cbw7wydf50ye3" path="res://Blocks/button_block_green_RIGHT.tscn" id="51_nsor2"]
+[ext_resource type="PackedScene" uid="uid://dgl6svqvfsnc0" path="res://Blocks/key_block.tscn" id="52_pd32p"]
+[ext_resource type="PackedScene" uid="uid://bms6jdadro303" path="res://Blocks/special_block.tscn" id="53_7kfi4"]
+[ext_resource type="PackedScene" uid="uid://doe182qfejctt" path="res://Objects/Teleporter_blue.tscn" id="54_3in6h"]
+[ext_resource type="PackedScene" uid="uid://qygd1xyixtnc" path="res://Objects/Teleporter_red.tscn" id="55_7wuh6"]
+[ext_resource type="PackedScene" uid="uid://bx654itr3jjdo" path="res://Objects/Teleporter_green.tscn" id="56_c6jpp"]
+[ext_resource type="PackedScene" uid="uid://b1vo4nnrb00mt" path="res://Objects/Decorations/water_top_dark.tscn" id="57_0ceh6"]
+[ext_resource type="PackedScene" uid="uid://dg0wrskruwis0" path="res://Objects/Decorations/deco_waterfall_dark.tscn" id="58_0sxy2"]
+[ext_resource type="PackedScene" uid="uid://cgto07gjwl6aq" path="res://Objects/Decorations/deco_tile_helicopter.tscn" id="59_ej1r1"]
+[ext_resource type="PackedScene" uid="uid://dnc0pcllxobv" path="res://Objects/Decorations/deco_tile_lantern.tscn" id="60_haqox"]
+[ext_resource type="PackedScene" uid="uid://bjj0ay2o1sxpn" path="res://Objects/Decorations/deco_tile_grass.tscn" id="61_ye5ll"]
+[ext_resource type="PackedScene" uid="uid://dl5i4pgp0735j" path="res://Objects/Decorations/godrays.tscn" id="62_mvrw3"]
+[ext_resource type="PackedScene" uid="uid://bvoawdfbl5xyy" path="res://Objects/Decorations/deco_tile_gear.tscn" id="63_hp66s"]
+[ext_resource type="PackedScene" uid="uid://3ggahom0go77" path="res://Objects/Decorations/deco_smog.tscn" id="64_pf5rm"]
+[ext_resource type="PackedScene" uid="uid://b77cpe5x67bko" path="res://Objects/Decorations/deco_waterBubbles.tscn" id="65_te2h5"]
+[ext_resource type="PackedScene" uid="uid://cbflprsbwlyac" path="res://Objects/Spikes/fire.tscn" id="66_a1kvo"]
+[ext_resource type="PackedScene" uid="uid://cs7hc4rry3lqm" path="res://Blocks/button_red.tscn" id="67_uotyf"]
+[ext_resource type="PackedScene" uid="uid://drhvrsgn5k85d" path="res://Objects/Decorations/deco_chainLong_V.tscn" id="68_75p1a"]
+[ext_resource type="PackedScene" uid="uid://b2r3wvp75fxdf" path="res://Objects/Decorations/deco_chainLong_H.tscn" id="69_fx5p2"]
+[ext_resource type="PackedScene" uid="uid://tro6l8nm38dv" path="res://Blocks/special_block_destructibleCube.tscn" id="70_bs2fd"]
+[ext_resource type="PackedScene" uid="uid://dctah68au68co" path="res://Objects/level_exit.tscn" id="71_a3giu"]
+[ext_resource type="PackedScene" uid="uid://drcp4ieuafadr" path="res://Blocks/special_block_spikes_L.tscn" id="72_bs6hp"]
+[ext_resource type="PackedScene" uid="uid://gpqg0klvbb8f" path="res://Blocks/special_block_spikes_R.tscn" id="73_fkuff"]
+[ext_resource type="PackedScene" uid="uid://crr2fqhcvmv80" path="res://Blocks/special_block_spikes_UP.tscn" id="74_67553"]
+[ext_resource type="PackedScene" uid="uid://c8nt24sv5y1kb" path="res://Blocks/special_block_spikes_DOWN.tscn" id="75_nx2we"]
+[ext_resource type="PackedScene" uid="uid://doof5g6lsehx4" path="res://Blocks/special_block_buttonSpikes_DOWN.tscn" id="76_2d5cu"]
+[ext_resource type="PackedScene" uid="uid://dpm11fdo256ld" path="res://Objects/Decorations/deco_toxicWaterfall.tscn" id="77_w6wee"]
+[ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="78_vx0um"]
+[ext_resource type="PackedScene" uid="uid://da0htgtcareps" path="res://Triggers/zone_wind_L.tscn" id="79_46grx"]
+[ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="80_853q0"]
+[ext_resource type="PackedScene" uid="uid://bmrqly8vl8m48" path="res://Triggers/zone_wind_UP.tscn" id="81_0aqpt"]
+[ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="82_hem08"]
+[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration.tscn" id="83_svusq"]
+[ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="84_gfn6o"]
+[ext_resource type="PackedScene" uid="uid://csipyeliwxa3r" path="res://Blocks/random_decoration_block.tscn" id="85_3fpxu"]
+[ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://Objects/Decorations/glow_fog_gradient_colorful.tscn" id="86_p1fsu"]
+[ext_resource type="PackedScene" uid="uid://fa1gibclq2wn" path="res://Objects/Decorations/glow_orb_heavy.tscn" id="87_hq5dg"]
+[ext_resource type="PackedScene" uid="uid://chykfjtli3g53" path="res://Objects/Decorations/glow_orb_soft.tscn" id="88_kh7m0"]
+[ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="89_bs3ug"]
+[ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="90_28lpe"]
+[ext_resource type="PackedScene" uid="uid://b3qso4fad7rgu" path="res://Objects/Decorations/glow_shadow_orb_soft.tscn" id="91_mhcp4"]
+[ext_resource type="PackedScene" uid="uid://3lia8an3pcj8" path="res://Objects/Decorations/wavingDeco_grass.tscn" id="92_7ka6v"]
+[ext_resource type="PackedScene" uid="uid://d3nhc5l53cc5a" path="res://Objects/Decorations/darkDecoParallax_grass.tscn" id="93_mxy2g"]
+[ext_resource type="PackedScene" uid="uid://cmncqo0vv0lwj" path="res://Objects/Decorations/hanging_deco_vines.tscn" id="94_c4f3a"]
+[ext_resource type="PackedScene" uid="uid://flag654itsqj" path="res://Objects/Decorations/rect_gradient.tscn" id="95_pgfbx"]
+[ext_resource type="PackedScene" uid="uid://d3rvirb8422f7" path="res://Objects/Decorations/deco_clipped_black_circle_2_LEFT.tscn" id="96_kw2wr"]
+[ext_resource type="PackedScene" uid="uid://te8fh170lfh3" path="res://Objects/Decorations/deco_clipped_black_circle_3_LEFT_DOWN.tscn" id="97_u4pfp"]
+[ext_resource type="PackedScene" uid="uid://dvnkjcyuugq3n" path="res://Objects/Decorations/deco_clipped_black_circle_3_RIGHT_UP.tscn" id="98_3h0gq"]
+[ext_resource type="PackedScene" uid="uid://bvlq4mlnesa8a" path="res://Objects/Decorations/deco_black_gear.tscn" id="99_sqfkp"]
+[ext_resource type="PackedScene" uid="uid://cvsvcd3o2wh6y" path="res://Objects/Decorations/deco_clipped_black_gear_2_LEFT.tscn" id="100_yx23i"]
+[ext_resource type="PackedScene" uid="uid://byymdvbfugma2" path="res://Objects/Decorations/deco_clipped_black_gear_2_RIGHT.tscn" id="101_5pai3"]
+[ext_resource type="PackedScene" uid="uid://bwgekhrjg7e48" path="res://Objects/Decorations/deco_clipped_black_gear_3_LEFT_DOWN.tscn" id="102_ncscv"]
+[ext_resource type="PackedScene" uid="uid://2y43xaryl123" path="res://Objects/Decorations/deco_clipped_black_gear_3_RIGHT_UP.tscn" id="103_54t0g"]
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_7p0oe"]
+resource_name = "everything"
+scenes/4/scene = ExtResource("40_gkak3")
+scenes/8/scene = ExtResource("62_mvrw3")
+scenes/9/scene = ExtResource("71_a3giu")
+scenes/10/scene = ExtResource("7_dlxyy")
+scenes/11/scene = ExtResource("11_qehic")
+scenes/12/scene = ExtResource("13_m6wbh")
+scenes/13/scene = ExtResource("21_xits8")
+scenes/14/scene = ExtResource("30_jixy5")
+scenes/15/scene = ExtResource("32_2nopx")
+scenes/16/scene = ExtResource("33_4eae0")
+scenes/35/scene = ExtResource("37_3837r")
+scenes/36/scene = ExtResource("38_5gkvo")
+scenes/39/scene = ExtResource("39_71kfb")
+scenes/40/scene = ExtResource("41_kgye1")
+scenes/41/scene = ExtResource("42_dntll")
+scenes/42/scene = ExtResource("43_ygmpd")
+scenes/43/scene = ExtResource("44_ohiaj")
+scenes/44/scene = ExtResource("45_raggl")
+scenes/45/scene = ExtResource("46_4nwec")
+scenes/46/scene = ExtResource("47_mdedd")
+scenes/47/scene = ExtResource("48_iaqhb")
+scenes/48/scene = ExtResource("49_0fcis")
+scenes/49/scene = ExtResource("50_pxd1s")
+scenes/50/scene = ExtResource("51_nsor2")
+scenes/51/scene = ExtResource("52_pd32p")
+scenes/57/scene = ExtResource("53_7kfi4")
+scenes/58/scene = ExtResource("54_3in6h")
+scenes/59/scene = ExtResource("55_7wuh6")
+scenes/60/scene = ExtResource("56_c6jpp")
+scenes/75/scene = ExtResource("57_0ceh6")
+scenes/76/scene = ExtResource("58_0sxy2")
+scenes/77/scene = ExtResource("59_ej1r1")
+scenes/78/scene = ExtResource("60_haqox")
+scenes/79/scene = ExtResource("61_ye5ll")
+scenes/80/scene = ExtResource("63_hp66s")
+scenes/81/scene = ExtResource("64_pf5rm")
+scenes/82/scene = ExtResource("65_te2h5")
+scenes/83/scene = ExtResource("66_a1kvo")
+scenes/84/scene = ExtResource("67_uotyf")
+scenes/85/scene = ExtResource("68_75p1a")
+scenes/86/scene = ExtResource("69_fx5p2")
+scenes/89/scene = ExtResource("70_bs2fd")
+scenes/94/scene = ExtResource("72_bs6hp")
+scenes/95/scene = ExtResource("73_fkuff")
+scenes/96/scene = ExtResource("74_67553")
+scenes/97/scene = ExtResource("75_nx2we")
+scenes/98/scene = ExtResource("76_2d5cu")
+scenes/99/scene = ExtResource("77_w6wee")
+scenes/100/scene = ExtResource("8_fdn8h")
+scenes/101/scene = ExtResource("9_5t6jd")
+scenes/102/scene = ExtResource("10_1qyx0")
+scenes/112/scene = ExtResource("12_lq78n")
+scenes/121/scene = ExtResource("14_gcbv5")
+scenes/123/scene = ExtResource("15_pe10s")
+scenes/124/scene = ExtResource("16_8rpoo")
+scenes/125/scene = ExtResource("17_qxske")
+scenes/126/scene = ExtResource("18_b34vt")
+scenes/127/scene = ExtResource("19_7qcj8")
+scenes/128/scene = ExtResource("20_7ooyl")
+scenes/132/scene = ExtResource("22_nl6ox")
+scenes/133/scene = ExtResource("23_ud3co")
+scenes/134/scene = ExtResource("24_bkce8")
+scenes/135/scene = ExtResource("25_geisj")
+scenes/136/scene = ExtResource("26_t0ogq")
+scenes/137/scene = ExtResource("27_dflyn")
+scenes/138/scene = ExtResource("28_i02lf")
+scenes/139/scene = ExtResource("29_712oj")
+scenes/140/scene = ExtResource("31_k57h1")
+scenes/301/scene = ExtResource("34_bdw6l")
+scenes/302/scene = ExtResource("35_odd8k")
+scenes/303/scene = ExtResource("36_nswt8")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_c48iw"]
+resource_name = "collectibles"
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_obtod"]
+resource_name = "switches"
+scenes/3/scene = ExtResource("47_mdedd")
+scenes/4/scene = ExtResource("46_4nwec")
+scenes/5/scene = ExtResource("67_uotyf")
+scenes/6/scene = ExtResource("27_dflyn")
+scenes/7/scene = ExtResource("26_t0ogq")
+scenes/8/scene = ExtResource("28_i02lf")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_0vhmv"]
+resource_name = "zones"
+scenes/1/scene = ExtResource("78_vx0um")
+scenes/2/scene = ExtResource("79_46grx")
+scenes/3/scene = ExtResource("80_853q0")
+scenes/4/scene = ExtResource("81_0aqpt")
+scenes/5/scene = ExtResource("82_hem08")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_0s6s8"]
+resource_name = "spikes"
+scenes/1/scene = ExtResource("66_a1kvo")
+scenes/2/scene = ExtResource("7_dlxyy")
+scenes/3/scene = ExtResource("29_712oj")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_2cgr4"]
+resource_name = "enemies"
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_8y47s"]
+resource_name = "objects"
+scenes/1/scene = ExtResource("40_gkak3")
+scenes/2/scene = ExtResource("71_a3giu")
+scenes/3/scene = ExtResource("34_bdw6l")
+scenes/4/scene = ExtResource("35_odd8k")
+scenes/5/scene = ExtResource("21_xits8")
+scenes/6/scene = ExtResource("36_nswt8")
+scenes/7/scene = ExtResource("54_3in6h")
+scenes/8/scene = ExtResource("56_c6jpp")
+scenes/9/scene = ExtResource("55_7wuh6")
+scenes/10/scene = ExtResource("83_svusq")
+scenes/11/scene = ExtResource("84_gfn6o")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_0qiqf"]
+resource_name = "blocks"
+scenes/1/scene = ExtResource("11_qehic")
+scenes/2/scene = ExtResource("23_ud3co")
+scenes/3/scene = ExtResource("25_geisj")
+scenes/4/scene = ExtResource("13_m6wbh")
+scenes/5/scene = ExtResource("22_nl6ox")
+scenes/6/scene = ExtResource("24_bkce8")
+scenes/7/scene = ExtResource("50_pxd1s")
+scenes/8/scene = ExtResource("51_nsor2")
+scenes/9/scene = ExtResource("49_0fcis")
+scenes/10/scene = ExtResource("48_iaqhb")
+scenes/11/scene = ExtResource("52_pd32p")
+scenes/12/scene = ExtResource("37_3837r")
+scenes/13/scene = ExtResource("38_5gkvo")
+scenes/14/scene = ExtResource("85_3fpxu")
+scenes/17/scene = ExtResource("39_71kfb")
+scenes/18/scene = ExtResource("41_kgye1")
+scenes/19/scene = ExtResource("42_dntll")
+scenes/20/scene = ExtResource("43_ygmpd")
+scenes/21/scene = ExtResource("44_ohiaj")
+scenes/22/scene = ExtResource("45_raggl")
+scenes/23/scene = ExtResource("53_7kfi4")
+scenes/24/scene = ExtResource("70_bs2fd")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_c37fx"]
+resource_name = "boxes"
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_403s6"]
+resource_name = "decorations"
+scenes/5/scene = ExtResource("15_pe10s")
+scenes/6/scene = ExtResource("16_8rpoo")
+scenes/7/scene = ExtResource("69_fx5p2")
+scenes/8/scene = ExtResource("68_75p1a")
+scenes/9/scene = ExtResource("18_b34vt")
+scenes/10/scene = ExtResource("19_7qcj8")
+scenes/11/scene = ExtResource("30_jixy5")
+scenes/12/scene = ExtResource("57_0ceh6")
+scenes/13/scene = ExtResource("32_2nopx")
+scenes/14/scene = ExtResource("58_0sxy2")
+scenes/15/scene = ExtResource("12_lq78n")
+scenes/16/scene = ExtResource("62_mvrw3")
+scenes/18/scene = ExtResource("20_7ooyl")
+scenes/19/scene = ExtResource("17_qxske")
+scenes/20/scene = ExtResource("63_hp66s")
+scenes/21/scene = ExtResource("61_ye5ll")
+scenes/22/scene = ExtResource("59_ej1r1")
+scenes/23/scene = ExtResource("60_haqox")
+scenes/24/scene = ExtResource("77_w6wee")
+scenes/26/scene = ExtResource("65_te2h5")
+scenes/27/scene = ExtResource("86_p1fsu")
+scenes/28/scene = ExtResource("87_hq5dg")
+scenes/29/scene = ExtResource("88_kh7m0")
+scenes/30/scene = ExtResource("89_bs3ug")
+scenes/31/scene = ExtResource("90_28lpe")
+scenes/32/scene = ExtResource("91_mhcp4")
+scenes/33/scene = ExtResource("92_7ka6v")
+scenes/34/scene = ExtResource("93_mxy2g")
+scenes/35/scene = ExtResource("94_c4f3a")
+scenes/36/scene = ExtResource("14_gcbv5")
+scenes/37/scene = ExtResource("95_pgfbx")
+scenes/50/scene = ExtResource("33_4eae0")
+scenes/51/scene = ExtResource("96_kw2wr")
+scenes/52/scene = ExtResource("31_k57h1")
+scenes/53/scene = ExtResource("97_u4pfp")
+scenes/54/scene = ExtResource("98_3h0gq")
+scenes/55/scene = ExtResource("99_sqfkp")
+scenes/56/scene = ExtResource("100_yx23i")
+scenes/57/scene = ExtResource("101_5pai3")
+scenes/58/scene = ExtResource("102_ncscv")
+scenes/59/scene = ExtResource("103_54t0g")
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ocwdt"]
+resource_name = "weapons"
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ej41k"]
+resource_name = "gifts"
+
+[sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_ayso7"]
+resource_name = "friendlies"
+
+[sub_resource type="TileSet" id="TileSet_8dv7h"]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetScenesCollectionSource_7p0oe")
+sources/1 = SubResource("TileSetScenesCollectionSource_c48iw")
+sources/2 = SubResource("TileSetScenesCollectionSource_2cgr4")
+sources/4 = SubResource("TileSetScenesCollectionSource_0qiqf")
+sources/5 = SubResource("TileSetScenesCollectionSource_c37fx")
+sources/6 = SubResource("TileSetScenesCollectionSource_403s6")
+sources/7 = SubResource("TileSetScenesCollectionSource_ocwdt")
+sources/8 = SubResource("TileSetScenesCollectionSource_ej41k")
+sources/9 = SubResource("TileSetScenesCollectionSource_ayso7")
+sources/10 = SubResource("TileSetScenesCollectionSource_obtod")
+sources/3 = SubResource("TileSetScenesCollectionSource_8y47s")
+sources/11 = SubResource("TileSetScenesCollectionSource_0vhmv")
+sources/12 = SubResource("TileSetScenesCollectionSource_0s6s8")
 
 [node name="World" instance=ExtResource("1_0tnfu")]
 level_type = "debug"
@@ -22,11 +333,12 @@ level_number = 1
 layer_0/tile_data = PackedInt32Array(65536, 0, 10, 131071, 0, 10, 131070, 0, 10, 131069, 0, 10, 131068, 0, 10, 131067, 0, 10, 131066, 0, 10, 131065, 0, 10, 131064, 0, 10, 131063, 0, 10, 131062, 0, 10, 131061, 0, 10, 131060, 0, 10, 65524, 0, 10, -12, 0, 10, -65548, 0, 10, -131084, 0, 10, -196620, 0, 10, -262156, 0, 10, -327692, 0, 10, -393228, 0, 10, -458764, 0, 10, -524300, 0, 10, -589836, 0, 10, -655372, 0, 10, -720908, 0, 10, -786444, 0, 10, -851980, 0, 10, -1245196, 0, 10, -1179660, 0, 10, -1114124, 0, 10, -1048588, 0, 10, -983052, 0, 10, -917516, 0, 10, -1310732, 0, 10, -1376268, 0, 10, -1441804, 0, 10, -1507340, 0, 10, -2097164, 0, 10, -2031628, 0, 10, -1966092, 0, 10, -1900556, 0, 10, -1835020, 0, 10, -1769484, 0, 10, -1703948, 0, 10, -1638412, 0, 10, -1572876, 0, 10, 65537, 0, 10, 65538, 0, 10, 65539, 0, 10, 65540, 0, 10, 65541, 0, 10, 65542, 0, 10, 65543, 0, 10, 65544, 0, 10, 65545, 0, 10, 65546, 0, 10, 65547, 0, 10, 65548, 0, 10, 65553, 0, 10, 65554, 0, 10, 65555, 0, 10, 65556, 0, 10, 65557, 0, 10, 65558, 0, 10, 65559, 0, 10, 65560, 0, 10, 65552, 0, 10, 65551, 0, 10, 65550, 0, 10, 65549, 0, 10, 24, 0, 10, 65561, 0, 10, 65562, 0, 10, 65563, 0, 10, 65564, 0, 10, 65565, 0, 10, 65566, 0, 10, 65567, 0, 10, 65568, 0, 10, 65569, 0, 10, 65570, 0, 10, 65571, 0, 10, 65572, 0, 10, 65573, 0, 10, 37, 0, 10, 65574, 0, 10, 65575, 0, 10, 65576, 0, 10, 65577, 0, 10, 65578, 0, 10, 65579, 0, 10, 65580, 0, 10, 65581, 0, 10, 65582, 0, 10, 65583, 0, 10, 65584, 0, 10, 65585, 0, 10, 65586, 0, 10, 65588, 0, 10, 65589, 0, 10, 65590, 0, 10, 65587, 0, 10, 65591, 0, 10, 65592, 0, 10, 65593, 0, 10, 65594, 0, 10, 65595, 0, 10, 65596, 0, 10, -65473, 0, 10, -65472, 0, 10, -65471, 0, 10, -65470, 0, 10, -65469, 0, 10, -65468, 0, 10, -65467, 0, 10, -65466, 0, 10, -65465, 0, 10, -131001, 0, 10, -196537, 0, 10, -196536, 0, 10, -196535, 0, 10, -196534, 0, 10, -196533, 0, 10, -196532, 0, 10, -196531, 0, 10, -196530, 0, 10, -196529, 0, 10, -196528, 0, 10, -196527, 0, 10, -196526, 0, 10, -196525, 0, 10, -196524, 0, 10, -196523, 0, 10, -196522, 0, 10, -196521, 0, 10, -196519, 0, 10, -196518, 0, 10, -196517, 0, 10, -196516, 0, 10, -196515, 0, 10, -196514, 0, 10, -196513, 0, 10, -196512, 0, 10, -196511, 0, 10, -196510, 0, 10, -196509, 0, 10, -196508, 0, 10, -196507, 0, 10, -196506, 0, 10, -130970, 0, 10, -65434, 0, 10, 102, 0, 10, 65638, 0, 10, 131174, 0, 10, 196710, 0, 10, 262246, 0, 10, 327782, 0, 10, 393318, 0, 10, 458854, 0, 10, -327575, 0, 10, -262039, 0, 10, -196503, 0, 10, -130967, 0, 10, -65431, 0, 10, 105, 0, 10, 65641, 0, 10, 131177, 0, 10, 196713, 0, 10, 262249, 0, 10, 327785, 0, 10, 393321, 0, 10, -393111, 0, 10, -458647, 0, 10, -524183, 0, 10, -589719, 0, 10, -655255, 0, 10, -720791, 0, 10, -786327, 0, 10, -786328, 0, 10, -786329, 0, 10, -786330, 0, 10, -786331, 0, 10, -786332, 0, 10, -786333, 0, 10, -786334, 0, 10, -786335, 0, 10, -786336, 0, 10, -786337, 0, 10, -786338, 0, 10, -851874, 0, 10, -917410, 0, 10, -982946, 0, 10, -1048482, 0, 10, -1114018, 0, 10, -1179554, 0, 10, -1245090, 0, 10, -1245091, 0, 10, -1245092, 0, 10, -1245093, 0, 10, -1245094, 0, 10, -1245095, 0, 10, -1245096, 0, 10, -1245097, 0, 10, -1245098, 0, 10, -1245099, 0, 10, -1245100, 0, 10, -1245101, 0, 10, -1245102, 0, 10, -1245103, 0, 10, -1245104, 0, 10, -1245105, 0, 10, -1245106, 0, 10, -1245107, 0, 10, -1245108, 0, 10, -1245109, 0, 10, -1179573, 0, 10, -1114037, 0, 10, -1048501, 0, 10, -982965, 0, 10, -917429, 0, 10, -851893, 0, 10, -786357, 0, 10, -720821, 0, 10, -589749, 0, 10, -589754, 0, 10, -589753, 0, 10, -589752, 0, 10, -589751, 0, 10, -589750, 0, 10, 524390, 0, 10, 589926, 0, 10, 655462, 0, 10, 458857, 0, 10, 524393, 0, 10, 589929, 0, 10, 655465, 0, 10, 720998, 0, 10, 393314, 0, 10, 327778, 0, 10, 262242, 0, 10, 196706, 0, 10, 196705, 0, 10, 196704, 0, 10, 196703, 0, 10, 196702, 0, 10, 196701, 0, 10, 196700, 0, 10, 196699, 0, 10, 196698, 0, 10, 196697, 0, 10, 196696, 0, 10, 131160, 0, 10, -196520, 0, 10, 65624, 0, 10, 65625, 0, 10, 65626, 0, 10, 65627, 0, 10, 65628, 0, 10, 65629, 0, 10, 65630, 0, 10, 65631, 0, 10, 65632, 0, 10, 65633, 0, 10, 65634, 0, 10, 65635, 0, 10, 65636, 0, 10, 65637, 0, 10, -458708, 0, 10, -458707, 0, 10, -458706, 0, 10, -458705, 0, 10, -458704, 0, 10, -720852, 0, 10, -720851, 0, 10, -720850, 0, 10, -720849, 0, 10, -720848, 0, 10, -720847, 0, 10, -720846, 0, 10, -720845, 0, 10, -458703, 0, 10, -524239, 0, 10, -524238, 0, 10, -524237, 0, 10, -720844, 0, 10, -720843, 0, 10, -655316, 0, 10, -589780, 0, 10, -524244, 0, 10, -720842, 0, 10, -655306, 0, 10, -589770, 0, 10, -524234, 0, 10, -458698, 0, 10, -393162, 0, 10, -327626, 0, 10, -458701, 0, 10, -393165, 0, 10, -327629, 0, 10, -262093, 0, 10, 393315, 0, 10, 393316, 0, 10, 393317, 0, 10, -131009, 0, 10, -65474, 0, 10, -65476, 0, 10, 60, 0, 10, -65475, 0, 10, -524222, 0, 10, -589758, 0, 10, -655294, 0, 10, -720830, 0, 10, -786366, 0, 10, -851902, 0, 10, -917438, 0, 10, -982974, 0, 10, -1114046, 0, 10, -1179582, 0, 10, -1048510, 0, 10, -1245118, 0, 10, -1245117, 0, 10, -1245116, 0, 10, -1245115, 0, 10, -1245114, 0, 10, -1245113, 0, 10, -1245112, 0, 10, -1245111, 0, 10, -1245110, 0, 10, -1048509, 0, 10, -1048508, 0, 10, -1048507, 0, 10, -1048506, 0, 10, -1048505, 0, 10, -1048504, 0, 10, -917430, 0, 10, -917431, 0, 10, -917432, 0, 10, -917433, 0, 10, -917434, 0, 10, -917435, 0, 10, -786365, 0, 10, -786364, 0, 10, -786363, 0, 10, -786362, 0, 10, -786361, 0, 10, -1048503, 0, 10, -589755, 0, 10, -524219, 0, 10, -589748, 0, 10, -589747, 0, 10, -589746, 0, 10, -589745, 0, 10, -589744, 0, 10)
 
 [node name="tileset_objects" parent="." index="1" instance=ExtResource("3_olnfn")]
-layer_0/tile_data = PackedInt32Array(-131081, 1, 196608, -65545, 1, 65536, -131080, 1, 65536, -65544, 1, 196608, -196617, 1, 65536, -196616, 1, 196608, -196615, 1, 65536, -131079, 1, 196608, -65543, 1, 65536, -8, 1, 131072, -131082, 1, 131072, -262152, 1, 131072, -131078, 1, 131072, 131162, 2, 131072, 28, 2, 65536, -458707, 4, 655360, -458706, 4, 655360, -458705, 4, 655360, -458704, 4, 655360, -524242, 2, 65536, -589774, 10, 65536, -589775, 10, 65536, -589773, 10, 65536, -327628, 4, 458752, -327627, 4, 524288, 11, 10, 65536, 15, 10, 65536, 33, 10, 65536, 589927, 3, 65536, 589928, 3, 65536, 327783, 4, 458752, 262247, 4, 458752, 196711, 4, 458752, 196712, 4, 524288, 262248, 4, 524288, 327784, 4, 524288, 393320, 4, 524288, 458856, 4, 524288, 393319, 4, 458752, 458855, 4, 458752, 327779, 10, 196608, 327780, 10, 196608, 327781, 10, 196608, 49, 10, 262144, 56, 10, 196608, -131003, 2, 131072, -262077, 1, 393216, -131007, 2, 131072, -655288, 2, 65536, -655290, 2, 65536, -1114044, 2, 655360, -851901, 1, 327680, -851900, 1, 327680, -851899, 1, 327680, -851898, 1, 327680, -851897, 1, 327680, -1114040, 1, 786432, -1114039, 1, 786432, -1114041, 1, 786432, -982970, 1, 786432, -982968, 1, 786432, -982966, 1, 786432, -982969, 1, 327680, -982967, 1, 327680, -655286, 2, 65536, -655287, 2, 65536, -655289, 2, 65536, -589757, 4, 458752, -589756, 4, 524288, -720827, 4, 589824, -1114042, 4, 655360, -1179574, 4, 589824, -131005, 10, 262144, -262071, 10, 196608, -655285, 4, 655360)
+layer_0/tile_data = PackedInt32Array(-131081, 1, 196608, -65545, 1, 65536, -131080, 1, 65536, -65544, 1, 196608, -196617, 1, 65536, -196616, 1, 196608, -196615, 1, 65536, -131079, 1, 196608, -65543, 1, 65536, -8, 1, 131072, -131082, 1, 131072, -262152, 1, 131072, -131078, 1, 131072, 131162, 2, 131072, 28, 2, 65536, -458707, 4, 655360, -458706, 4, 655360, -458705, 4, 655360, -458704, 4, 655360, -524242, 2, 65536, -589774, 10, 65536, -589775, 10, 65536, -589773, 10, 65536, -327628, 4, 458752, -327627, 4, 524288, 11, 10, 65536, 15, 10, 65536, 33, 10, 65536, 327783, 4, 458752, 262247, 4, 458752, 196711, 4, 458752, 196712, 4, 524288, 262248, 4, 524288, 327784, 4, 524288, 393320, 4, 524288, 458856, 4, 524288, 393319, 4, 458752, 458855, 4, 458752, 327779, 10, 196608, 327780, 10, 196608, 327781, 10, 196608, 49, 10, 262144, 56, 10, 196608, -131003, 2, 131072, -262077, 1, 393216, -131007, 2, 131072, -655288, 2, 65536, -655290, 2, 65536, -1114044, 2, 655360, -851901, 1, 327680, -851900, 1, 327680, -851899, 1, 327680, -851898, 1, 327680, -851897, 1, 327680, -1114040, 1, 786432, -1114039, 1, 786432, -1114041, 1, 786432, -982970, 1, 786432, -982968, 1, 786432, -982966, 1, 786432, -982969, 1, 327680, -982967, 1, 327680, -655286, 2, 65536, -655287, 2, 65536, -655289, 2, 65536, -589757, 4, 458752, -589756, 4, 524288, -720827, 4, 589824, -1114042, 4, 655360, -1179574, 4, 589824, -131005, 10, 262144, -262071, 10, 196608, -655285, 4, 655360, 589927, 0, 589824, 589928, 0, 589824)
 
 [node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_80vpq")]
 
 [node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("5_ccx6a")]
+tile_set = SubResource("TileSet_8dv7h")
 
 [node name="triggers" type="Node2D" parent="." index="4"]
 

@@ -28,5 +28,5 @@ text_add_pos = Vector2(0, 0)
 entity_name = "bomb"
 entity_type = "projectile"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_em0fv")

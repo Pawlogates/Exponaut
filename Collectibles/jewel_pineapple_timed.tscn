@@ -19,5 +19,5 @@ on_collected_spawn_entity3_pos_offset_range = [Vector2(-256, -128), Vector2(256,
 sfx_self_collected_filepath = "uid://bo45uwl5danjl"
 entity_name = "jewel_pineapple_timed"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_a1rcj")

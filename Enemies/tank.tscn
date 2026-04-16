@@ -35,16 +35,16 @@ on_death_effect_shrink = false
 entity_name = "tank"
 entity_type = "enemy"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 animation = &"jump"
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_hdeh8")
 
 [node name="collision_hitbox" parent="hitbox" index="0"]
 shape = SubResource("RectangleShape2D_mpujj")
 
-[node name="Label" type="Label" parent="." index="26"]
+[node name="Label" type="Label" parent="." index="21"]
 offset_left = 64.0
 offset_top = 48.0
 offset_right = 104.0

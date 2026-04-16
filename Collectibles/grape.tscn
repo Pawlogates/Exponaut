@@ -1,0 +1,28 @@
+[gd_scene load_steps=5 format=3 uid="uid://b5ij2v01jbsf6"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_bxfbp"]
+[ext_resource type="SpriteFrames" uid="uid://b5ml4yctaxix2" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_grape.tres" id="2_bxfbp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bxfbp"]
+size = Vector2(15, 15)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_batfo"]
+size = Vector2(16, 16)
+
+[node name="grape" instance=ExtResource("1_bxfbp")]
+score_value = 3
+can_move = true
+ignore_gravity = false
+on_floor_bounce = true
+start_animation = "none"
+sprite_rotation_copy_velocity_x = true
+entity_name = "grape"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_bxfbp")
+
+[node name="collision_main" parent="." index="2"]
+shape = SubResource("RectangleShape2D_bxfbp")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_batfo")

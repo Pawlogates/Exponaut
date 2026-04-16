@@ -162,7 +162,7 @@ func _process(delta):
 			floor_normal = get_floor_normal()
 	
 	
-	if Globals.gameState_debug:
+	if Globals.debug_mode:
 		z_index = 100
 		
 		if is_instance_valid(debug_label4):
@@ -191,6 +191,12 @@ func _process(delta):
 			add_child(new_debug_label)
 			new_debug_label.position.y = 48
 			debug_label4 = new_debug_label
+	
+	else:
+		if is_instance_valid(debug_label) : debug_label.queue_free()
+		if is_instance_valid(debug_label2) : debug_label2.queue_free()
+		if is_instance_valid(debug_label3) : debug_label3.queue_free()
+		if is_instance_valid(debug_label4) : debug_label4.queue_free()
 	
 	
 	if dead : modulate.a = move_toward(modulate.a, 0.5, delta / 4)
@@ -509,6 +515,9 @@ func inside_check_enter(area):
 	
 	else:
 		return
+	
+	
+	if not can_move or collected or dead : return
 	
 	if target.is_in_group("Player") and not pushable_by_player : return
 	if target.is_in_group("entity"):

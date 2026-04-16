@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://d2xjhu1myvqf5" path="res://Other/Scenes/ambience_manager.tscn" id="4_y15yt"]
 [ext_resource type="PackedScene" uid="uid://q4y4u3wm2et6" path="res://Other/Scenes/player.tscn" id="6_exop1"]
 [ext_resource type="PackedScene" uid="uid://bi5xs4kte6qai" path="res://Other/Scenes/parallax_background_gradient.tscn" id="7_3ull5"]
+[ext_resource type="Material" uid="uid://cibygnkedmq1k" path="res://Other/Materials/tiles_rainbow_slight.tres" id="7_bhvb8"]
 [ext_resource type="PackedScene" uid="uid://qvxb24kyh4pu" path="res://Other/Scenes/background.tscn" id="8_8ihao"]
 [ext_resource type="PackedScene" uid="uid://cnl3u7qcwj0nk" path="res://Other/Scenes/camera.tscn" id="8_bhvb8"]
-[ext_resource type="Material" uid="uid://dlr50cwxxnqam" path="res://Other/Materials/neon_rainbow.tres" id="19_eepji"]
 
 [sub_resource type="Animation" id="Animation_aveud"]
 length = 0.001
@@ -85,7 +85,7 @@ libraries = {
 }
 
 [node name="Node2D" type="Node2D" parent="whiteBlocks_make_rainbow"]
-material = ExtResource("19_eepji")
+material = ExtResource("7_bhvb8")
 
 [node name="Timer" type="Timer" parent="whiteBlocks_make_rainbow"]
 wait_time = 45.0

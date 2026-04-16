@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdpdpup0uxl3d"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_cdnqm"]
+[ext_resource type="SpriteFrames" uid="uid://o0hnej8b2duw" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_carrot.tres" id="2_cdnqm"]
+
+[node name="carrot" instance=ExtResource("1_cdnqm")]
+score_value = 15
+sfx_self_collected_filepath = "uid://brdf61qp7ucnh"
+entity_name = "carrot"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_cdnqm")
+
+[node name="scan_visible" parent="." index="11"]
+modulate = Color(1, 1, 1, 0.01)
+
+[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
+debug_color = Color(0, 0.6, 0.7, 0.01)

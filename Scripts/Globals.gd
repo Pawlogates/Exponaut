@@ -256,6 +256,8 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 
 func _ready() -> void:
+	if gameState_debug : Globals.debug_mode = true
+	
 	SaveData.create_dir_saves()
 	
 	SaveData.load_playerData()
@@ -613,7 +615,7 @@ var gameState_level = false
 var gameState_levelSet_screen = false
 var gameState_start_screen = false
 
-var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
+var gameState_debug = false # This should only ever be equal to "true" if the game is currently being edited.
 
 
 # Sound effects manager should be the main way used to play short sounds. Note that each entity has its own sound manager, and that the world node has a single music manager, as well as one ambience manager.
@@ -673,7 +675,7 @@ var test4
 
 
 # Recording:
-var recording_autostart = false
+var recording_autostart = true
 
 signal start_recording
 signal start_playback

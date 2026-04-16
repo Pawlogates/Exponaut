@@ -31,6 +31,8 @@ func _on_area_entered(area):
 	if not area.is_in_group("Player") : return
 	
 	print("bg change entered")
+	Globals.dm(str(bg_main_filepath), "debug")
+	
 	Globals.dm("A 'bg_change' trigger has been entered by the player. The main layer's filepath is: " + bg_main_filepath, "GREEN")
 	Globals.dm("The main layer's repeat is: " + str(bg_main_repeat_y) + " (2160px if true, 0px if false).", "AQUA")
 	Globals.dm("The main layer's top edge filepath is: " + str(bg_main_repeat_y) + " (2160px).", "LIGHT_BLUE")
@@ -75,7 +77,7 @@ func _on_area_entered(area):
 	if bg_back2_edge_top_filepath != Globals.bg_back2_edge_top_filepath:
 		Globals.bg_back2_edge_top_filepath = bg_back2_edge_top_filepath
 	
+	
 	if bg_main_filepath != Globals.bg_main_filepath:
 		Globals.bg_main_filepath = bg_main_filepath
-		
 		Globals.trigger_bg_change_entered.emit()

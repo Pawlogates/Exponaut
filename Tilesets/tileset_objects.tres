@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=144 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=146 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_38g62"]
@@ -92,10 +92,12 @@
 [ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="78_2cubl"]
 [ext_resource type="PackedScene" uid="uid://cjiup7b3smvl7" path="res://Enemies/pursuitron.tscn" id="78_bc0rc"]
 [ext_resource type="PackedScene" uid="uid://b1yp3474kdoii" path="res://Collectibles/puzzle_reset_zone_x.tscn" id="79_2kxln"]
+[ext_resource type="PackedScene" uid="uid://disgtpe2dwcq6" path="res://Collectibles/jewel_red.tscn" id="79_3l7io"]
 [ext_resource type="PackedScene" uid="uid://cxoirmq0nsnci" path="res://Collectibles/kit_health.tscn" id="79_t1q83"]
 [ext_resource type="PackedScene" uid="uid://csipyeliwxa3r" path="res://Blocks/random_decoration_block.tscn" id="79_woovg"]
 [ext_resource type="PackedScene" uid="uid://dxg5hja7ahyvf" path="res://Collectibles/puzzle_reset_zone_y.tscn" id="80_6cobq"]
 [ext_resource type="PackedScene" uid="uid://b80jiixq381qg" path="res://Objects/Decorations/glow_fog_gradient_colorful.tscn" id="80_npeql"]
+[ext_resource type="PackedScene" uid="uid://bi6616wjon13k" path="res://Collectibles/jewel_green.tscn" id="80_w6gbo"]
 [ext_resource type="PackedScene" uid="uid://fa1gibclq2wn" path="res://Objects/Decorations/glow_orb_heavy.tscn" id="81_e2p17"]
 [ext_resource type="PackedScene" uid="uid://chykfjtli3g53" path="res://Objects/Decorations/glow_orb_soft.tscn" id="82_6f3ax"]
 [ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="83_tjqtu"]
@@ -222,6 +224,8 @@ scenes/12/scene = ExtResource("75_p3m2n")
 scenes/13/scene = ExtResource("76_a1g0i")
 scenes/14/scene = ExtResource("77_4ma8r")
 scenes/15/scene = ExtResource("86_1p4cu")
+scenes/16/scene = ExtResource("79_3l7io")
+scenes/17/scene = ExtResource("80_w6gbo")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bdx2g"]
 resource_name = "switches"

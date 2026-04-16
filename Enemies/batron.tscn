@@ -25,8 +25,8 @@ on_death_effect_shrink = false
 entity_name = "batron"
 entity_type = "enemy"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_xhf0r")
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_yvjy2")

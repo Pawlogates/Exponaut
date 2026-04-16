@@ -18,10 +18,10 @@ override_death_type = "instant"
 entity_name = "explosion"
 entity_type = "projectile"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_568py")
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 disabled = true
 
 [node name="collision_hitbox" parent="hitbox" index="0"]

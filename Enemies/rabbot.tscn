@@ -308,13 +308,13 @@ start_animation = "none"
 sfx_self_collected_filepath = "uid://dlk43sxjkevef"
 entity_name = "rabbot"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_ti236")
 animation = &"flight"
 frame_progress = 0.0632136
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_84cpj")
 
@@ -322,6 +322,6 @@ shape = SubResource("RectangleShape2D_84cpj")
 position = Vector2(0, 8)
 shape = SubResource("RectangleShape2D_pifsg")
 
-[node name="Label" type="Label" parent="." index="26"]
+[node name="Label" type="Label" parent="." index="21"]
 offset_right = 40.0
 offset_bottom = 22.3333

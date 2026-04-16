@@ -3,7 +3,6 @@
 [ext_resource type="TileSet" uid="uid://c04omo3n0mpkt" path="res://Tilesets/tileset_main.tres" id="1_m3yry"]
 
 [node name="tileset_main" type="TileMap"]
-light_mask = 512
 texture_filter = 1
 tile_set = ExtResource("1_m3yry")
 rendering_quadrant_size = 64
