@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://o6uo5uffrku4"]
+
+[node name="menu_bg_edge" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="edge" type="Polygon2D" parent="."]
+polygon = PackedVector2Array(8, 0, 8, 5, 9, 11, 11, 16, 14, 20, 19, 23, 24, 24, 32, 24, 32, 32, 22, 32, 17, 31, 12, 30, 7, 27, 3, 21, 1, 15, 0, 9, 0, 0)

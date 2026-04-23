@@ -1,0 +1,109 @@
+[gd_scene load_steps=5 format=3 uid="uid://bdydhqjr2r5wx"]
+
+[ext_resource type="Script" uid="uid://ceh14ehgwdpsh" path="res://Other/Scenes/User Interface/Menus/menu_player_name.gd" id="1_ah1vr"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_ygdap"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_1ghu5"]
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_8dfgd"]
+
+[node name="menu_player_name" type="Control" groups=["menu_player_name"]]
+z_index = 250
+custom_minimum_size = Vector2(800, 400)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ah1vr")
+
+[node name="bg" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg" type="ColorRect" parent="bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.835294)
+
+[node name="ColorRect" type="ColorRect" parent="bg"]
+layout_mode = 0
+offset_top = -4.0
+offset_right = 8.0
+offset_bottom = 372.0
+
+[node name="ColorRect3" type="ColorRect" parent="bg"]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 388.0
+offset_right = 784.0
+offset_bottom = 396.0
+
+[node name="ColorRect4" type="ColorRect" parent="bg"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = -4.0
+offset_right = 792.0
+offset_bottom = 4.0
+
+[node name="ColorRect2" type="ColorRect" parent="bg"]
+layout_mode = 0
+offset_left = 792.0
+offset_top = -4.0
+offset_right = 800.0
+offset_bottom = 376.0
+
+[node name="Polygon2D" type="Polygon2D" parent="bg"]
+position = Vector2(-23, 362)
+polygon = PackedVector2Array(31, 10, 31, 18, 32, 22, 33, 24, 35, 25, 39, 26, 39, 34, 34, 34, 30, 33, 27, 31, 25, 29, 24, 26, 23, 19, 23, 10)
+
+[node name="Polygon2D2" type="Polygon2D" parent="bg"]
+position = Vector2(823, 362)
+scale = Vector2(-1, 1)
+polygon = PackedVector2Array(31, 10, 31, 18, 32, 22, 33, 24, 35, 25, 39, 26, 39, 34, 34, 34, 30, 33, 27, 31, 25, 29, 24, 26, 23, 19, 23, 10)
+
+[node name="insert_player_name" type="TextEdit" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_top = 76.0
+offset_right = 768.0
+offset_bottom = 140.0
+theme = ExtResource("2_ygdap")
+theme_override_font_sizes/font_size = 20
+placeholder_text = "Leave it empty for a random name... Please don't though :("
+caret_blink = true
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 40.0
+offset_top = 16.0
+offset_right = 760.0
+offset_bottom = 56.0
+theme = ExtResource("2_ygdap")
+text = "Type in your new username!"
+horizontal_alignment = 1
+
+[node name="sfx_manager" parent="." instance=ExtResource("3_1ghu5")]
+
+[node name="btn_confirm" type="Button" parent="."]
+layout_mode = 0
+offset_left = 272.0
+offset_top = 300.0
+offset_right = 528.0
+offset_bottom = 364.0
+theme = ExtResource("2_ygdap")
+text = "Confirm"
+
+[node name="animation_all" parent="." instance=ExtResource("4_8dfgd")]
+
+[connection signal="text_changed" from="insert_player_name" to="." method="_on_insert_player_name_text_changed"]
+[connection signal="pressed" from="btn_confirm" to="." method="_on_btn_confirm_pressed"]

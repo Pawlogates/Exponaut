@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://b6fwx0e2fx6ei" path="res://Scripts/menu_general.gd" id="1_dyb5u"]
 
-[node name="menu_core" type="Control" groups=["menu_main"]]
+[node name="menu_core" type="Control" groups=["menu_core"]]
 process_mode = 3
 z_index = 50
 layout_mode = 3

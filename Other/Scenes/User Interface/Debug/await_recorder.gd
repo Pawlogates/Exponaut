@@ -16,6 +16,8 @@ func _ready() -> void:
 		print("adding recorder")
 
 func _physics_process(delta: float) -> void:
+	if Globals.gameState_typing : return
+	
 	if Input.is_action_just_pressed(action_name):
 		if not has_node("./" + node_name):
 			if len(get_tree().get_nodes_in_group(node_group_name)) : return

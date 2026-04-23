@@ -1,5 +1,14 @@
 extends Node2D
 
+var player_name : String = "none"
+
+
+
+
+
+
+# Level Set data:
+
 const default_saved_levelSet = [-1, 0, 0]
 const default_saved_level = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 const default_info_levelSet = ["Main Levels", 12, "Pawlogates", "none", "none", Globals.d_backgrounds + "/bg_levelSet_MAIN.png", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
@@ -778,9 +787,15 @@ func delete_levelState(slot_id : String = slot_current, level_id : String = "non
 		delete_file("levelState_" + level_id + "_" + slot_id, dir)
 
 func delete_file(filename, dir):
-	if not dir.file_exists(filename) : return
+	if dir is String:
+		if FileAccess.file_exists(filename):
+			DirAccess.remove_absolute(filename)
+			Globals.message("A file has been deleted, at: ")
 	
-	dir.remove(filename)
+	else:
+		if not dir.file_exists(filename) : return
+		
+		dir.remove(filename)
 
 
 # Returns a score rank (or its int value), depending on target score (score needed for maximum rank).

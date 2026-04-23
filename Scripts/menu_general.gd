@@ -27,6 +27,11 @@ var button_is_focused = false
 
 
 func _ready() -> void:
+	if is_in_group("menu_main"):
+		for node in get_tree().get_nodes_in_group("menu_main"):
+			if node != self:
+				node.queue_free()
+	
 	on_ready()
 
 func _process(delta: float) -> void:
@@ -37,11 +42,12 @@ func _process(delta: float) -> void:
 	#debug_real_size_container_buttons.size = container_buttons.size
 
 func on_ready():
-	#Globals.gameState_changed.connect(delete_menu)
-	
-	Globals.debug4.connect(debug_destabilize_buttons_randomize)
+	Globals.gameState_changed.connect(delete_menu)
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+	
+	#Globals.gameState_changed.connect(delete_menu)
+	Globals.debug4.connect(debug_destabilize_buttons_randomize)
 	
 	disable_buttons()
 	
@@ -390,3 +396,8 @@ func _on_btn_press_this_button_pressed() -> void:
 
 func _on_btn_touch_controls_pressed() -> void:
 	Globals.spawn_scenes(Overlay, "res://Other/Scenes/touch_controls.tscn", 1, Vector2(0, 0), -1)
+
+
+func _on_btn_leaderboard_pressed() -> void:
+	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.tscn"), 1, Vector2(0, 0), -1)
+	queue_free()

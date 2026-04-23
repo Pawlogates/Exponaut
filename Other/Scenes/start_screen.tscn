@@ -118,6 +118,7 @@ horizontal_alignment = 1
 
 [node name="screen_decoration_gears" parent="." instance=ExtResource("7_q74v4")]
 layout_mode = 1
+mouse_filter = 2
 
 [node name="Control2" type="Control" parent="."]
 z_index = -15
@@ -134,6 +135,7 @@ offset_right = 20.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="Control2"]
 z_index = -10
@@ -143,6 +145,7 @@ offset_left = -776.0
 offset_top = -692.0
 offset_right = 680.0
 offset_bottom = -204.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect2" type="TextureRect" parent="Control2"]
@@ -152,6 +155,7 @@ offset_left = -264.0
 offset_top = -292.0
 offset_right = 544.0
 offset_bottom = 196.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect3" type="TextureRect" parent="Control2"]
@@ -161,6 +165,7 @@ offset_left = 488.0
 offset_top = -292.0
 offset_right = 840.0
 offset_bottom = 208.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect4" type="TextureRect" parent="Control2"]
@@ -170,6 +175,7 @@ offset_left = 816.0
 offset_top = -196.0
 offset_right = 1568.0
 offset_bottom = 292.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect5" type="TextureRect" parent="Control2"]
@@ -179,6 +185,7 @@ offset_left = 564.0
 offset_top = -532.0
 offset_right = 1668.0
 offset_bottom = -32.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect6" type="TextureRect" parent="Control2"]
@@ -188,6 +195,7 @@ offset_left = -680.0
 offset_top = -20.0
 offset_right = 344.0
 offset_bottom = 812.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect7" type="TextureRect" parent="Control2"]
@@ -197,6 +205,7 @@ offset_left = -1336.0
 offset_top = -396.0
 offset_right = -136.0
 offset_bottom = 76.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect8" type="TextureRect" parent="Control2"]
@@ -206,6 +215,7 @@ offset_left = -1216.0
 offset_top = -996.0
 offset_right = -360.0
 offset_bottom = -268.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect14" type="TextureRect" parent="Control2"]
@@ -215,6 +225,7 @@ offset_left = -1812.0
 offset_top = -796.0
 offset_right = -616.0
 offset_bottom = -68.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect9" type="TextureRect" parent="Control2"]
@@ -225,6 +236,7 @@ offset_left = -992.0
 offset_top = -28.0
 offset_right = -640.0
 offset_bottom = 588.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect10" type="TextureRect" parent="Control2"]
@@ -234,6 +246,7 @@ offset_left = -1448.0
 offset_top = 300.0
 offset_right = -424.0
 offset_bottom = 1132.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect11" type="TextureRect" parent="Control2"]
@@ -244,6 +257,7 @@ offset_left = -1656.0
 offset_top = -204.0
 offset_right = -944.0
 offset_bottom = 420.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect12" type="TextureRect" parent="Control2"]
@@ -254,6 +268,7 @@ offset_left = 264.0
 offset_top = 108.0
 offset_right = 976.0
 offset_bottom = 732.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="TextureRect13" type="TextureRect" parent="Control2"]
@@ -264,6 +279,7 @@ offset_left = 928.0
 offset_top = -148.0
 offset_right = 1944.0
 offset_bottom = 788.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_ooxfa")
 
 [node name="ColorRect" type="ColorRect" parent="."]
@@ -274,6 +290,7 @@ offset_top = -1116.0
 offset_right = 1900.0
 offset_bottom = -36.0
 rotation = 0.293131
+mouse_filter = 2
 color = Color(0.25098, 0.666667, 0.819608, 0.298039)
 
 [node name="ColorRect2" type="ColorRect" parent="."]
@@ -284,6 +301,7 @@ offset_top = 1900.0
 offset_right = 1224.0
 offset_bottom = 2980.0
 rotation = -0.888365
+mouse_filter = 2
 color = Color(0.788235, 0.564706, 0.196078, 0.196078)
 
 [node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]

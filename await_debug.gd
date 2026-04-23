@@ -9,7 +9,7 @@ const scene2 = preload("res://Other/Scenes/User Interface/Debug/debug_display_va
 const action_name = "debug_tools"
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed(action_name) and not Input.is_action_just_pressed("debug_mode"):
+	if Input.is_action_just_pressed(action_name) and not Input.is_action_just_pressed("debug_mode") and not Input.is_action_just_pressed("debug_game_state"):
 		if not has_node("./" + node_name):
 			if len(get_tree().get_nodes_in_group(node_name)) : return
 			

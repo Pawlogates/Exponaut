@@ -14,7 +14,7 @@ func _ready():
 	Globals.gameState_changed.connect(on_gameState_changed)
 	
 	if Globals.gameState_start_screen:
-		container_message.modulate = Color(0.5, 0.5, 0.5, 0.95)
+		bg.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
 	
 	await get_tree().create_timer(1.0, true).timeout
 	

@@ -21,6 +21,6 @@ start_animation = "none"
 entity_name = "piggybank_orbs"
 entity_type = "box"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("3_ivjbo")
 frame_progress = 0.241877

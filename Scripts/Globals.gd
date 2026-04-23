@@ -16,6 +16,7 @@ var Player : Node
 
 
 # Folder paths (String) for better readability:
+const dirpath_userdata = "user://"
 const dirpath_saves = "user://saves"
 const d_slot_id = dirpath_saves + "/slot_[replace_with_slot_id]" # Every time this directory path is used, it needs to be modified by replacing "[replace_with_slot_id]" with the currently active save slot ID number.
 const d_playerData = d_slot_id + "/playerData"
@@ -266,6 +267,7 @@ func _ready() -> void:
 	prepare_lists()
 	
 	gameState_changed.connect(on_gameState_changed)
+	main_scene_changed.connect(on_gameState_changed)
 	
 	if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
 		refreshed0_5.connect(on_refreshed0_5)
@@ -282,13 +284,16 @@ func _ready() -> void:
 	
 	reassign_general()
 	
-	#window_size = Vector2(ProjectSettings.get_setting("display/window/size/viewport_width"), ProjectSettings.get_setting("display/window/size/viewport_height"))
-	window_size = get_viewport().get_visible_rect().size
+	update_window_size(true)
 	
-	if window_size == Vector2(1920.0, 1080.0):
-		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
-	else:
-		get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
+	main_scene = get_tree().current_scene
+	main_scene_filepath = main_scene.scene_file_path
+	
+	spawn_camera_if_none()
+	
+	await get_tree().create_timer(4.0, true).timeout
+	
+	gameState_justStarted = false
 
 func _physics_process(delta):
 	handle_actions(delta) # Handles global functions executed on triggering an action.
@@ -321,24 +326,7 @@ func handle_actions(delta):
 		change_main_scene(scene_start_screen)
 	
 	elif Input.is_action_just_pressed("menu"):
-		
-		if Input.is_action_pressed("1"):
-			change_main_scene(scene_debug_level)
-		
-		elif Input.is_action_pressed("2"):
-			levelSet_id = "MAIN"
-			change_main_scene(scene_levelSet_screen)
-		
-		elif Input.is_action_pressed("3"):
-			levelSet_id = "BONUS"
-			change_main_scene(scene_levelSet_screen)
-		
-		elif Input.is_action_pressed("4"):
-			levelSet_id = "DEBUG"
-			change_main_scene(scene_levelSet_screen)
-		
-		else:
-			handle_spawn_menu(true)
+		handle_spawn_menu(true)
 	
 	
 	elif Input.is_action_just_pressed("pause"):
@@ -347,7 +335,9 @@ func handle_actions(delta):
 	
 	elif Input.is_action_just_pressed("debug_mode"):
 		
-		debug_mode = Globals.opposite_bool(debug_mode)
+		debug_mode = opposite_bool(debug_mode)
+		SaveData.delete_file("player_info.json", DirAccess.open(dirpath_userdata))
+		SaveData.player_name = "none"
 		
 		if debug_mode:
 			message_debug("Debug mode is active.")
@@ -362,6 +352,18 @@ func handle_actions(delta):
 		#if get_node_or_null("/root/World"): # Execute only if a level is currently loaded.
 		if Player : Globals.player_heal.emit(999)
 	
+	elif Input.is_action_just_pressed("debug_game_state"):
+		gameState_debug = opposite_bool(gameState_debug)
+		
+		if gameState_debug:
+			message_debug("Debug game state is active.")
+			Overlay.animation("white_fade_out", 2.0)
+			Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+			
+		else:
+			message_debug("Debug game state is disabled.")
+			Overlay.animation("black_fade_out", 2.0)
+			Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	
 	elif Input.is_action_just_pressed("debug_console"):
 		get_tree().debug_collisions_hint = opposite_bool(get_tree().debug_collisions_hint)
@@ -433,14 +435,26 @@ func reassign_general():
 	return [World, Player]
 
 
-func change_main_scene(scene, instant : bool = false, anim_name : String = "black_fade_in", anim_delay : float = 0.0):
-	if debug_mode : anim_name = "none" ; instant = true
-	Globals.message_debug("Changing the Main Scene to %s" % scene)
+# Do not change the required type of the "scene_filepath" variable, as there may still be calls passing it as a [PackedScene].
+func change_main_scene(scene_filepath, instant : bool = false, anim_name : String = "black_fade_in", anim_delay : float = 0.0):
+	if scene_filepath is PackedScene:
+		var scene = scene_filepath.instantiate()
+		scene_filepath = scene.scene_file_path
+	
+	if debug_mode:
+		anim_name = "none"
+		instant = true
+	
+	Globals.message_debug("Changing the Main Scene to %s" % scene_filepath)
 	
 	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
 	
-	if scene is PackedScene : get_tree().change_scene_to_packed(scene)
-	elif scene is String : get_tree().change_scene_to_packed(load(scene))
+	main_scene_previous_filepath = main_scene_filepath
+	main_scene_next_filepath = scene_filepath
+	
+	get_tree().change_scene_to_packed(load(scene_filepath))
+	
+	main_scene_changed.emit()
 
 
 # Important gameplay-related properties.
@@ -488,7 +502,8 @@ var weapon_blocked = false
 
 var gravity = 1.0
 
-var level_time = 0.0
+var level_time = 0.0 # Current level's playtime.
+var level_damage_taken = 0.0 # Current level's player damage.
 
 
 # Signals:
@@ -528,7 +543,13 @@ signal playerData_loaded
 signal levelSet_saved # Information about every Level Set in the game.
 signal levelSet_loaded
 signal gameState_changed
+signal main_scene_changed
 signal debug_refresh # Emitted on pressing the "`" key (spawn debug tools).
+signal debug_display_messages_opened
+signal debug_display_messages_closed
+signal debug_display_values_opened
+signal debug_display_values_closed
+signal player_death
 
 # Emitting these signals from anywhere will cause the game to perform an action.
 signal player_damage(value)
@@ -602,9 +623,11 @@ var bg_back2_repeat_y = false
 
 
 # Main scene refers to the current root scene (the parent node at the top of the node tree).
-@onready var mainScene = get_parent()
-@onready var mainScene_name = mainScene.name
-@onready var mainScene_filePath = mainScene.scene_file_path
+@onready var main_scene = get_parent()
+@onready var main_scene_filepath = main_scene.scene_file_path
+@onready var main_scene_next_filepath = main_scene.scene_file_path
+@onready var main_scene_previous_filepath = main_scene.scene_file_path
+
 
 # World states:
 var worldState_justStartedNewGame = false
@@ -615,7 +638,10 @@ var gameState_level = false
 var gameState_levelSet_screen = false
 var gameState_start_screen = false
 
-var gameState_debug = false # This should only ever be equal to "true" if the game is currently being edited.
+var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
+
+var gameState_typing = false # Should be true when the player is inputting text. Used to block the function of "letter" keys, like "P", used to pause the game.
+var gameState_justStarted = true
 
 
 # Sound effects manager should be the main way used to play short sounds. Note that each entity has its own sound manager, and that the world node has a single music manager, as well as one ambience manager.
@@ -913,8 +939,8 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 	if remove_cooldown != -1:
 		spawn_scenes_delete(spawned_nodes, remove_cooldown)
 	
-	
-	return spawned_nodes
+	if len(spawned_nodes) == 1 : return spawned_nodes[0]
+	else : return spawned_nodes
 
 func spawn_scenes_delete(p_spawned_nodes, p_remove_cooldown):
 	if p_remove_cooldown : await get_tree().create_timer(p_remove_cooldown, true).timeout
@@ -1051,6 +1077,8 @@ func on_action_4():
 
 
 func handle_pause():
+	if gameState_typing : return
+	
 	if get_tree().paused == false:
 		get_tree().paused = true
 		Globals.message_debug("Game paused.")
@@ -1062,10 +1090,14 @@ func handle_pause():
 @onready var window_size : Vector2 = Vector2(-1, -1)
 
 func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none"], add_position : Vector2 = window_size * 0, button_size_multiplier : Vector2 = Vector2(1, 1)):
-	spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
+	if gameState_justStarted : update_player_info(true)
+	else : update_player_info()
+	
+	if SaveData.player_name == "none" : Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
+	else : spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
 
 func handle_spawn_menu(manual_request : bool = false):
-	for menu in get_tree().get_nodes_in_group("menu_main") : menu.queue_free()
+	#for menu in get_tree().get_nodes_in_group("menu_main") : menu.queue_free()
 	
 	if manual_request:
 		
@@ -1089,12 +1121,19 @@ func handle_spawn_menu(manual_request : bool = false):
 
 func on_gameState_changed():
 	await get_tree().create_timer(0.25, true).timeout
+	
+	main_scene = get_tree().current_scene
+	main_scene_filepath = main_scene.scene_file_path
+	
+	spawn_camera_if_none()
+	
 	dm(str("Game State has changed: Level - %s, Start screen - %s, Level Set screen - %s, Debug - %s" % [gameState_level, gameState_start_screen, gameState_levelSet_screen, gameState_debug]), "ORANGE")
+	
 	handle_spawn_menu(false)
+	
 	prepare_lists()
 	SaveData.load_playerData()
 	SaveData.load_levelSet()
-
 
 # Constant global refresh timers:
 
@@ -1145,7 +1184,10 @@ var next_reassign_camera : bool = true
 func handle_zoom(delta):
 	if target_camera:
 		if camera_manual_active:
-			target_camera.position = lerp(target_camera.position, Player.get_local_mouse_position(), delta * 4)
+			if is_instance_valid(Player):
+				target_camera.position = lerp(target_camera.position, Player.get_local_mouse_position(), delta * 4)
+			else:
+				target_camera.position = lerp(target_camera.position, get_tree().current_scene.get_local_mouse_position(), delta * 4)
 	
 	if Input.is_action_pressed("zoom_out"):
 		
@@ -1234,22 +1276,29 @@ func get_filepath(file, details : bool = false):
 
 
 func reload_level_scene(keep_player_pos : bool = false):
-	for scene in Globals.l_entity:
-		ResourceLoader.load(scene, "PackedScene", 2)
+	if is_instance_valid(World):
+		for scene in Globals.l_entity:
+			ResourceLoader.load(scene, "PackedScene", 2)
+		
+		ResourceLoader.load(World.scene_file_path, "PackedScene", 2)
+		
+		load_levelSet = false
+		load_levelState = false
+		load_playerData = false
+		
+		var previous_player_pos = Player.position
+		
+		#World.get_tree().reload_current_scene()
+		get_tree().reload_current_scene()
+		
+		await get_tree().create_timer(1.0, false).timeout
+		
+		if keep_player_pos : Player.position = previous_player_pos
 	
-	ResourceLoader.load(World.scene_file_path, "PackedScene", 2)
-	
-	load_levelSet = false
-	load_levelState = false
-	load_playerData = false
-	
-	var previous_player_pos = Player.position
-	
-	World.get_tree().reload_current_scene()
-	
-	await get_tree().create_timer(1.0, false).timeout
-	
-	if keep_player_pos : Player.position = previous_player_pos
+	else:
+		get_tree().reload_current_scene()
+		await get_tree().create_timer(0.25, false).timeout
+		main_scene_changed.emit()
 
 
 func is_valid_entity(target_node : Node, valid_group_names : Array = ["Player"]):
@@ -1277,3 +1326,81 @@ func reload_node(target : Node):
 	
 	target_parent.add_child(new_node)
 	target.queue_free()
+
+
+func update_player_info(show_message : bool = false):
+	var filepath_player_info = dirpath_userdata + "/" + "player_info.json"
+	if FileAccess.file_exists(filepath_player_info):
+		var file = FileAccess.open(filepath_player_info, FileAccess.READ)
+		while file.get_position() < file.get_length():
+			var json = JSON.new()
+			var json_line = file.get_line() # A "line" in this case refers to the entirety of json's contents.
+			var parse_result = json.parse(json_line)
+			if not parse_result == OK:
+				print("JSON Parse Error: ", json.get_error_message(), " in ", json_line, " at line ", json.get_error_line())
+				continue
+			
+			
+			var data = json.get_data()
+			
+			SaveData.player_name = data["name"]
+			
+			await get_tree().create_timer(1.0, true).timeout
+			
+			if show_message : message("Welcome back, " + SaveData.player_name + "!", 0, Vector2(0, 0), 8, 4)
+
+
+func spawn_camera_if_none():
+	if len(get_tree().get_nodes_in_group("camera")) <= 0:
+		var new_camera = Camera2D.new()
+		new_camera.add_to_group("camera")
+		main_scene.add_child(new_camera)
+		#new_camera.zoom = Vector2(0.75, 0.75)
+		if "size" in main_scene : new_camera.offset = main_scene.size / 2
+		new_camera.enabled = true
+
+
+func update_window_size(handle_scaling : bool = false):
+	window_size = get_viewport().get_visible_rect().size
+	
+	if Globals.gameState_justStarted : await get_tree().create_timer(1.5, true).timeout
+	
+	if handle_scaling:
+		if abs(window_size.x - 1920) <= 9 or abs(window_size.y - 1080) <= 9:
+			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+			message(str("Display resolution is: %s. Scaling is disabled." % window_size))
+		else:
+			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
+			message(str("Display resolution is: %s. Scaling is enabled." % window_size))
+
+
+func get_files(dirpath : String):
+	var dir = DirAccess.open(dirpath)
+	
+	var list_filename : Array
+	
+	if dir != null:
+		
+		for filename in dir.get_files():
+			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".tmp") and not filename.ends_with(".uid"):
+				list_filename.append(filename)
+		
+		if len(dir.get_files()) > 0:
+			return list_filename
+		else:
+			return ["none"]
+
+func filepath_to_data(filepath : String):
+	if not FileAccess.file_exists(filepath):
+		print("Couldn't find the file: " + filepath + ".")
+		return
+	
+	var file = FileAccess.open(filepath, FileAccess.READ)
+	var file_data = file.get_as_text()
+	
+	return str_to_var(file_data)
+
+
+func update_main_scene():
+	Globals.main_scene = get_tree().current_scene
+	Globals.main_scene_filepath = Globals.main_scene.scene_file_path

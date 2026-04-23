@@ -1,0 +1,151 @@
+[gd_scene load_steps=6 format=3 uid="uid://b6qswotncgfjk"]
+
+[ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="1_31nnm"]
+[ext_resource type="Script" uid="uid://l0b1e8ll85n5" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.gd" id="1_smdru"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_budsj"]
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="4_5mtm8"]
+[ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="5_1qj11"]
+
+[node name="menu_leaderboard_level" type="Control" groups=["leaderboard_level"]]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -375.0
+offset_top = -500.0
+offset_right = 375.0
+offset_bottom = 500.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_smdru")
+
+[node name="menu_bg" parent="." instance=ExtResource("1_31nnm")]
+layout_mode = 1
+margin = Vector2(-25, -25)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_top = -2.0
+offset_bottom = 102.0
+grow_horizontal = 2
+theme = ExtResource("2_budsj")
+theme_override_font_sizes/font_size = 40
+text = "Leaderboard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="container_main_scroll" type="ScrollContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 39.0
+offset_top = 86.0
+offset_right = -39.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+follow_focus = true
+draw_focus_border = true
+
+[node name="container_main" type="VBoxContainer" parent="container_main_scroll"]
+custom_minimum_size = Vector2(672, 898)
+layout_mode = 2
+alignment = 1
+
+[node name="decoration_gear" parent="." instance=ExtResource("4_5mtm8")]
+z_index = -20
+position = Vector2(31, 312)
+scale = Vector2(0.5, 0.5)
+
+[node name="decoration_gear3" parent="." instance=ExtResource("4_5mtm8")]
+z_index = -25
+position = Vector2(735, 48)
+scale = Vector2(0.4, 0.4)
+
+[node name="decoration_gear4" parent="." instance=ExtResource("4_5mtm8")]
+z_index = -25
+position = Vector2(519, 936)
+scale = Vector2(0.5, 0.5)
+
+[node name="decoration_gear2" parent="." instance=ExtResource("4_5mtm8")]
+z_index = -25
+position = Vector2(39, 440)
+scale = Vector2(0.75, 0.75)
+
+[node name="gear" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(63, 368)
+scale = Vector2(0.5, 0.5)
+
+[node name="gear2" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(79, 400)
+rotation = -0.538223
+scale = Vector2(0.5, 0.5)
+
+[node name="gear3" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(679, 624)
+rotation = -0.426594
+scale = Vector2(0.5, 0.5)
+
+[node name="gear4" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(727, 976)
+rotation = -0.426594
+scale = Vector2(0.25, 0.25)
+
+[node name="gear5" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(15, 968)
+rotation = 0.561322
+scale = Vector2(0.2, 0.2)
+
+[node name="gear6" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(727, 24)
+rotation = 1.57605
+scale = Vector2(0.2, 0.2)
+
+[node name="gear7" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(47, 40)
+rotation = 1.57605
+scale = Vector2(0.4, 0.4)
+
+[node name="gear8" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(119, 64)
+rotation = 1.20847
+scale = Vector2(0.4, 0.4)
+
+[node name="gear9" parent="." instance=ExtResource("5_1qj11")]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+position = Vector2(143, 16)
+rotation = 1.20847
+scale = Vector2(0.2, 0.2)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+z_index = -30
+layout_mode = 0
+offset_left = -3409.0
+offset_top = -1720.0
+offset_right = -1489.0
+offset_bottom = -640.0
+scale = Vector2(4, 4)
+mouse_filter = 2
+color = Color(0, 0, 0, 0.443137)

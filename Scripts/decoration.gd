@@ -134,7 +134,7 @@ func randomize_anim():
 		else:
 			anim_name = Globals.l_animation_name_general_main.pick_random()
 	
-	if randomize_anim_speed : anim_speed = randf_range(0.05 * randomize_multiplier, 2 * randomize_multiplier)
+	if randomize_anim_speed : anim_speed = randf_range(0.05 * randomize_multiplier, 0.5 * randomize_multiplier)
 	if randomize_anim_reverse : anim_reverse = Globals.random_bool(1, 1)
 	
 	# Secondary animation:
@@ -144,7 +144,7 @@ func randomize_anim():
 		else:
 			anim_name2 = Globals.l_animation_name_gear_main.pick_random()
 	
-	if randomize_anim_speed2 : anim_speed2 = randf_range(0.05 * randomize_multiplier2, 2 * randomize_multiplier2)
+	if randomize_anim_speed2 : anim_speed2 = randf_range(0.05 * randomize_multiplier2, randomize_multiplier2)
 	if randomize_anim_reverse2 : anim_reverse2 = Globals.random_bool(1, 1)
 	
 	

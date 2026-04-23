@@ -1,0 +1,80 @@
+[gd_scene load_steps=4 format=3 uid="uid://bipymlvg6h0ns"]
+
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_fpsdl"]
+[ext_resource type="Script" uid="uid://di4mife107epl" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_level_entry.gd" id="1_xibwd"]
+[ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="3_nvhna"]
+
+[node name="leaderboard_level_entry" type="Control"]
+custom_minimum_size = Vector2(512, 96)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 512.0
+offset_bottom = 96.0
+script = ExtResource("1_xibwd")
+
+[node name="container_entry_data" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="container_main" type="HBoxContainer" parent="container_entry_data"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+alignment = 1
+
+[node name="label_player_name" type="Label" parent="container_entry_data/container_main"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme = ExtResource("1_fpsdl")
+theme_override_font_sizes/font_size = 24
+text = "player_name"
+horizontal_alignment = 1
+
+[node name="label_level_score" type="Label" parent="container_entry_data/container_main"]
+custom_minimum_size = Vector2(256, 0)
+layout_mode = 2
+theme = ExtResource("1_fpsdl")
+theme_override_font_sizes/font_size = 24
+text = "9999999"
+horizontal_alignment = 1
+
+[node name="container_secondary" type="HBoxContainer" parent="container_entry_data"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+alignment = 1
+
+[node name="label_level_time" type="Label" parent="container_entry_data/container_secondary"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme = ExtResource("1_fpsdl")
+theme_override_font_sizes/font_size = 16
+text = "info"
+horizontal_alignment = 1
+
+[node name="label_damage_taken" type="Label" parent="container_entry_data/container_secondary"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme = ExtResource("1_fpsdl")
+theme_override_font_sizes/font_size = 16
+text = "info"
+horizontal_alignment = 1
+
+[node name="label_entry_position" type="Label" parent="container_entry_data/container_secondary"]
+custom_minimum_size = Vector2(96, 0)
+layout_mode = 2
+theme = ExtResource("1_fpsdl")
+theme_override_font_sizes/font_size = 16
+text = "info"
+horizontal_alignment = 1
+
+[node name="menu_bg" parent="." instance=ExtResource("3_nvhna")]
+layout_mode = 1
+outline_top_width = 4.0
+outline_bottom_width = 4.0
+outline_left_width = 4.0
+outline_right_width = 4.0
+margin = Vector2(-100, -25)

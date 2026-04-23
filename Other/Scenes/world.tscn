@@ -60,7 +60,7 @@ _data = {
 &"fade_out": SubResource("Animation_gl8s0")
 }
 
-[node name="World" type="Node2D"]
+[node name="World" type="Node2D" groups=["World"]]
 texture_filter = 1
 script = ExtResource("1_25muh")
 

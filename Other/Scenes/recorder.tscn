@@ -5,7 +5,7 @@
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_hggyr"]
 
 [node name="recorder" type="Control" groups=["recorder"]]
-z_index = 50
+z_index = 500
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

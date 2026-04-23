@@ -1,9 +1,14 @@
-[gd_scene load_steps=16 format=3 uid="uid://l83a5sjf2kck"]
+[gd_scene load_steps=18 format=3 uid="uid://l83a5sjf2kck"]
 
 [ext_resource type="Script" uid="uid://bgivwbaf6ik1f" path="res://Scripts/display_messages.gd" id="1_2jl23"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_fu4h4"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_i808q"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="3_kesm7"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="4_fu4h4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eljp7"]
+shader = ExtResource("3_kesm7")
+shader_parameter/Shift_Hue = 0.35
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lf3p6"]
 atlas = ExtResource("2_i808q")
@@ -1878,6 +1883,7 @@ autowrap_mode = 2
 modulate = Color(1, 1, 1, 0)
 light_mask = 2
 z_index = 25
+material = SubResource("ShaderMaterial_eljp7")
 custom_minimum_size = Vector2(128, 64)
 layout_mode = 1
 anchors_preset = 15
@@ -1891,7 +1897,6 @@ expand_mode = 1
 
 [node name="decoration_gear" parent="container_message/bg" instance=ExtResource("4_fu4h4")]
 modulate = Color(1, 1, 1, 0)
-z_index = -5
 position = Vector2(176, 16)
 scale = Vector2(0.25, 0.25)
 skew = -1.56905

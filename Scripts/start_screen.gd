@@ -104,12 +104,12 @@ func deco_correct_polygons():
 			button.correct_polygons()
 
 
-func _process(_delta):
-	if Input.is_action_just_pressed("back"):
-		if not $Recording.visible:
-			$Recording.visible = true
-		else:
-			$Recording.visible = false
+#func _process(_delta):
+	#if Input.is_action_just_pressed("back"):
+		#if not $Recording.visible:
+			#$Recording.visible = true
+		#else:
+			#$Recording.visible = false
 
 
 @onready var block_button_sounds_timer = $block_button_sounds
