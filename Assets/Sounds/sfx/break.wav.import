@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dyody04ey8rq8"
+uid="uid://b5h2caqvndnvq"
 path="res://.godot/imported/break.wav-908ff03420a1e07d648cbf348dd9761a.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

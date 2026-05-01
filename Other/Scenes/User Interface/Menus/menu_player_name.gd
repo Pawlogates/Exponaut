@@ -55,7 +55,7 @@ func on_text_confirmed():
 	
 	var filepath = "user://player_info.json"
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
-	SaveData.save_file(filepath, {"name" : SaveData.player_name})
+	Globals.save_file(filepath, {"name" : SaveData.player_name})
 	
 	Globals.message("Player name has been set to: " + str(SaveData.player_name) + ".", -1, Vector2(0, 0), 4, 8)
 	
@@ -63,8 +63,12 @@ func on_text_confirmed():
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	Globals.gameState_typing = false
 	
-	
-	Globals.handle_spawn_menu(false)
+	if Globals.gameState_scoring_focus:
+		if Globals.gameState_levelSet_screen:
+			Globals.handle_spawn_menu(false)
+	else:
+		Globals.handle_spawn_menu(false)
+		
 	await get_tree().create_timer(0.5, true).timeout
 	effect_hide_active = true
 	await get_tree().create_timer(4, true).timeout

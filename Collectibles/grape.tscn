@@ -16,6 +16,7 @@ ignore_gravity = false
 on_floor_bounce = true
 start_animation = "none"
 sprite_rotation_copy_velocity_x = true
+sfx_self_collected_filepath = "uid://cvl56la70f8k3"
 entity_name = "grape"
 
 [node name="sprite" parent="." index="1"]

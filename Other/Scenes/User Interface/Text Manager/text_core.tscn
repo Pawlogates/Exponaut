@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=3 uid="uid://k8j15yb8rjxw"]
+
+[ext_resource type="Script" uid="uid://5h41r528wih6" path="res://Other/Scenes/User Interface/Text Manager/text_core.gd" id="1_gymkk"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_jhr2b"]
+
+[node name="text_core" type="RichTextLabel"]
+clip_contents = false
+offset_right = 1.0
+mouse_filter = 2
+theme = ExtResource("1_jhr2b")
+bbcode_enabled = true
+text = "none"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_gymkk")

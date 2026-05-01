@@ -77,7 +77,7 @@ func _physics_process(delta: float) -> void:
 	pass
 
 func _on_pressed():
-	if unlocked or Globals.debug_mode or Globals.gameState_debug:
+	if unlocked or Globals.debug_mode or Globals.gameState_debug or Globals.gameState_scoring_focus:
 		if FileAccess.file_exists(icon_level_filepath):
 			%sfx_start.play()
 			Globals.transition_next = 0

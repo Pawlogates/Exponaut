@@ -16,7 +16,7 @@ on_collected_spawn_entity2_add_velocity_range = [Vector2(-600, -600), Vector2(60
 on_collected_spawn_entity3_scene_filepath = "uid://bp1c8almrnogl"
 on_collected_spawn_entity3_quantity = 5
 on_collected_spawn_entity3_pos_offset_range = [Vector2(-256, -128), Vector2(256, 128)]
-sfx_self_collected_filepath = "uid://bo45uwl5danjl"
+sfx_self_collected_filepath = "uid://bakue81lh7xu7"
 entity_name = "jewel_pineapple_timed"
 
 [node name="sprite" parent="." index="1"]

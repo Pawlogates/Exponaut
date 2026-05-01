@@ -6,6 +6,8 @@ extends Node2D
 @onready var music_manager: Node2D = $"Music Manager"
 @onready var ambience_manager: Node2D = $"Ambience Manager"
 
+var label_level_time : Label
+
 
 var debug_screen: Control # Added and deleted on demand.
 
@@ -16,10 +18,12 @@ var debug_screen: Control # Added and deleted on demand.
 @onready var hud_collected_keys = Node
 @onready var hud_total_keys = Node
 
-var level_filepath : String = "none"
+var level_filepath : String = "default"
 
-var level_time = 0
-var level_time_displayed = 0
+var level_time : int = -1
+var level_time_seconds : int = -1
+var level_time_minutes : int = -1
+
 var level_start_time = 0.0
 
 
@@ -60,7 +64,7 @@ var scene_leaves = preload("res://Other/Scenes/Weather/leaves.tscn")
 @export var weather_rain = false
 @export var weather_leaves = false
 
-@export var next_level: PackedScene
+@export var next_level_filepath : String = "default"
 
 
 # Main level info:
@@ -94,12 +98,21 @@ signal uncover_matching_id(id)
 
 signal reset_puzzle_all_nodes_ready
 
+var is_ready : bool = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Globals.bg_main_filepath = "none"
+	set_process(false)
+	set_physics_process(false)
 	
-	Globals.exit_activated.connect(show_screen_levelFinished)
+	Globals.level_finished.connect(level_finished)
+	
+	Globals.level_collected_collectibles = 0
+	
+	level_start_time = Time.get_ticks_msec()
+	
+	Globals.bg_main_filepath = "none"
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	
@@ -137,9 +150,12 @@ func _ready():
 	if level_type == "levelSet":
 		Globals.levelSet_id = levelSet_id
 		Globals.level_number = level_number
-		Globals.level_id = levelSet_id + "_" + str(level_number)
+		Globals.level_id = levelSet_id + "_" + str(level_number) # This line makes sense, but looks off.
 		Globals.level_type = level_type
-		Globals.level_name = SaveData.get("info" + Globals.level_id)
+		Globals.level_name = SaveData.get("info_" + Globals.level_id)[0]
+		
+		if next_level_filepath == "default":
+			next_level_filepath = scene_file_path.replace(Globals.level_id, Globals.levelSet_id + "_" + str(level_number + 1))
 	
 	elif level_type == "overworld":
 		Globals.levelSet_id = levelSet_id
@@ -162,13 +178,6 @@ func _ready():
 	
 	
 	#last_area_filePath_save()
-	
-	if Globals.mode_scoreAttack:
-		var mode_scoreAttack_manager = load("res://Other/Scenes/Game Modes/mode_score_attack.tscn").instantiate()
-		add_child(mode_scoreAttack_manager)
-		%music.stream = preload("res://Assets/Sounds/music/mode_scoreAttack.mp3")
-		%music.volume_db = -3
-		%music.play()
 	
 	#%bg_current.queue_free() #DEBUG
 	#%bg_previous.queue_free() #DEBUG
@@ -208,11 +217,6 @@ func _ready():
 	#if not Player.scale.x == 1 or not Player.scale.y == 1:
 		#Player.scale.x = 1
 		#Player.scale.y = 1
-	
-	
-	level_start_time = Time.get_ticks_msec()
-	
-	Globals.level_finished.connect(show_screen_levelFinished)
 	
 	
 	#Globals.bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
@@ -282,7 +286,13 @@ func _ready():
 		else:
 			$whiteBlocks_make_rainbow.play("fade_in")
 	
-	await get_tree().create_timer(0.25, false).timeout
+	await get_tree().create_timer(0.25, true).timeout
+	
+	is_ready = true
+	set_process(true)
+	set_physics_process(true)
+	
+	label_level_time = Overlay.HUD.label_level_time
 	
 	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0)
 	
@@ -300,8 +310,6 @@ func _ready():
 	Globals.load_playerData = true
 	Globals.load_levelSet = true
 	
-	
-	handle_night()
 	
 	Globals.Player.camera.position_smoothing_enabled = true
 	
@@ -345,53 +353,60 @@ func _ready():
 	
 	Player.block_movement_full = false
 	Player.velocity = Vector2(0, 0)
+	
+	Globals.total_collectibles_level = len(get_tree().get_nodes_in_group("entity"))
 
 
 #MAIN START
 func _physics_process(delta):
 	
+	if Globals.random_bool(24, 1):
+		for x in get_tree().get_nodes_in_group("entity"):
+		#x.scale = Vector2(1, 4)
+			if Globals.random_bool(240, 1):
+				if not x.collected:
+					Globals.spawn_scenes(self, Globals.scene_particle_splash, 1, x.position)
+	
 	# Current level's playtime.
 	level_time = Time.get_ticks_msec() - level_start_time
-	level_time_displayed = level_time / 1000.0
-	Globals.level_time = level_time_displayed
+	level_time_seconds = level_time / 1000
+	level_time_minutes = level_time / 60
 	
-	#if level_time_displayed > 10000:
-		#level_timeDisplay.visible_characters = 7
-	#elif level_time_displayed > 1000:
-		#level_timeDisplay.visible_characters = 6
-	#elif level_time_displayed > 100:
-		#level_timeDisplay.visible_characters = 5
-	#elif level_time_displayed > 10:
-		#level_timeDisplay.visible_characters = 4
+	#if level_time > 10000:
+		#label_level_time.visible_characters = 9
+	#elif level_time > 1000:
+		#label_level_time.visible_characters = 8
+	#elif level_time > 100:
+		#label_level_time.visible_characters = 7
+	#elif level_time > 10:
+		#label_level_time.visible_characters = 6
 	#else:
-		#level_timeDisplay.visible_characters = 3
+		#label_level_time.visible_characters = 5
+	
+	label_level_time.text = str(level_time_seconds) + ":" + str(level_time - level_time_seconds * 1000)
+	
+	#if Globals.settings_quicksaves and Input.is_action_just_pressed("quicksave") and not quickload_blocked:
+		#quickload_blocked = true
+		#save_game()
+		#$QuickloadLimiter.start()
+		#Globals.is_saving = true
+		#
+		#await get_tree().create_timer(1.0, false).timeout
+		#Globals.is_saving = false
+	#
+	#if Globals.settings_quicksaves and Input.is_action_just_pressed("quickload") and not quickload_blocked:
+		#quickload_blocked = true
+		#load_game()
+		#$QuickloadLimiter.start()
+		#Globals.is_saving = true
+		#
+		#
+		#await get_tree().create_timer(1.0, false).timeout
+		#Globals.is_saving = false
 	
 	
-	if Globals.settings_quicksaves and Input.is_action_just_pressed("quicksave") and not quickload_blocked:
-		quickload_blocked = true
-		save_game()
-		$QuickloadLimiter.start()
-		Globals.is_saving = true
-		
-		await get_tree().create_timer(1.0, false).timeout
-		Globals.is_saving = false
-	
-	if Globals.settings_quicksaves and Input.is_action_just_pressed("quickload") and not quickload_blocked:
-		quickload_blocked = true
-		load_game()
-		$QuickloadLimiter.start()
-		Globals.is_saving = true
-		
-		
-		await get_tree().create_timer(1.0, false).timeout
-		Globals.is_saving = false
-	
-	
-	#HANDLE BACKGROUND MOVEMENT
-	bg_move(delta)
-	
-	if Input.is_action_just_pressed("restart"):
-		retry()
+	#HANDLE BACKGROUND MOVEMENT (on entering a bg_move trigger)
+	#bg_move(delta)
 	
 	if reset_puzzle_line_visible : queue_redraw()
 #MAIN END
@@ -422,53 +437,49 @@ func handle_player_death():
 		retry_checkpoint()
 
 
-func _on_exitReached_retry():
-	retry()
+var level_finished_active : bool = false
+var level_completion_state : int = -1
 
-
-func show_screen_levelFinished():
-	if not next_level:
-		screen_levelFinished = Overlay.HUD.get_node("Level Finished")
-		screen_levelFinished.show()
-		screen_levelFinished.retry_btn.grab_focus()
-		screen_levelFinished.visible = true
-		Overlay.HUD.get_node("Level Finished").exit_reached()
-		
-		get_tree().paused = true
-	else:
-		Globals.change_main_scene(next_level)
-
-
-func go_to_next_level(): #unused?
-	if not next_level is PackedScene: return
+func level_finished():
+	if level_finished_active : return
+	level_finished_active = true
 	
-	Overlay.animation("fade_black", true, 1.0, true)
+	if Globals.levelSet_id == "DEBUG" : return
+	
+	Globals.level_time = level_time
+	
+	if len(get_tree().get_nodes_in_group("collectible")) <= 0:
+		level_completion_state = 3
+	elif len(get_tree().get_nodes_in_group("majorCollectible")) <= 0:
+		level_completion_state = 2
+	else:
+		level_completion_state = 1
+	
+	
+	var screen_results = load("res://Other/Scenes/screen_results_level.tscn").instantiate()
+	screen_results.level_id = Globals.level_id
+	screen_results.levelSet_id = Globals.levelSet_id
+	Overlay.add_child(screen_results)
+	
+	await get_tree().create_timer(2, true).timeout
+	
+	SaveData.save_level(Globals.level_id, level_completion_state, Globals.level_score, Globals.level_time, [-1, 0, 1])
+	SaveData.save_levelSet(Globals.levelSet_id)
+	
+	get_tree().paused = true
+
+
+func go_to_next_level():
+	if not FileAccess.file_exists(next_level_filepath) : return
+	
 	get_tree().paused = false
-	get_tree().change_scene_to_packed(next_level)
+	
+	Globals.change_main_scene(next_level_filepath)
 	
 	Globals.level_score = 0
 	Globals.combo_score = 0
 	Globals.combo_tier = 1
 	Globals.collected_in_cycle = 0
-
-
-func retry():
-	get_tree().call_group("enemies", "queue_free")
-	get_tree().call_group("collectibles", "queue_free")
-	get_tree().call_group("bonusBox", "queue_free")
-	get_tree().call_group("Persist", "queue_free")
-	
-	get_tree().paused = true
-	Overlay.animation("fade_black", true, 1.0, true)
-	get_tree().reload_current_scene()
-	#get_tree().change_scene_to_file(scene_file_path)
-	
-	Globals.level_score = 0
-	Globals.combo_score = 0
-	Globals.combo_tier = 1
-	Globals.combo_streak = 0
-	
-	Globals.player_health = player_start_health
 
 
 func retry_loadSave(afterDelay):
@@ -702,103 +713,6 @@ func _on_debug_refresh_timeout():
 			#object.modulate.r = 1.0
 
 
-func set_night():
-	night_toggle = false
-	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
-	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 0.8
-
-
-func set_night2():
-	night_toggle = false
-	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
-	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 0.8
-
-
-func set_night3():
-	night_toggle = false
-	%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night3.png")
-	%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night3.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 0.8
-
-
-func set_day():
-	pass
-	#night_toggle = true
-	#%tileset_main.tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
-	#%tileset_main.tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
-	#for object in get_tree().get_nodes_in_group("Persist"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("player"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("button_block"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("button"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("bonusBox"):
-		#object.modulate.r = 1.0
-
-
-func handle_night():
-	pass
-	#await get_tree().create_timer(0.1, false).timeout
-	
-	#for object in get_tree().get_nodes_in_group("Persist"):
-		#object.modulate.r = 0.8
-	#for object in get_tree().get_nodes_in_group("player"):
-		#object.modulate.r = 0.8
-	#for object in get_tree().get_nodes_in_group("button_block"):
-		#object.modulate.r = 0.8
-	#for object in get_tree().get_nodes_in_group("button"):
-		#object.modulate.r = 0.8
-	#for object in get_tree().get_nodes_in_group("bonusBox"):
-		#object.modulate.r = 0.8
-	#
-	#
-	#$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.r = 0.1
-	#$ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.a = 0.2
-	#
-	#
-	#for object in get_tree().get_nodes_in_group("Persist"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("player"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("button_block"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("button"):
-		#object.modulate.r = 1.0
-	#for object in get_tree().get_nodes_in_group("bonusBox"):
-		#object.modulate.r = 1.0
-
-
 func teleporter_assign_ID():
 	
 	var teleporter_type = "blue"
@@ -1005,5 +919,5 @@ func on_uncover_matching_id(id):
 
 func _on_cooldown_check_entity_count_timeout() -> void:
 	var entities : Array = get_tree().get_nodes_in_group("entity")
-	if len(entities) > 250 : retry() ; print("RESTARTING DUE TO ENTITY COUNT")
+	if len(entities) > 250 : Globals.restart_level() ; print("RESTARTING DUE TO ENTITY COUNT")
 	else : print("ENTITY COUNT IS ACCEPTABLE")

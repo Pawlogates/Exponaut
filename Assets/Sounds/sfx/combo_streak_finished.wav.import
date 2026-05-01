@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://vn2emi73bj4f"
+uid="uid://dcktjoomo6ihg"
 path="res://.godot/imported/combo_streak_finished.wav-0af20b4908185a23537b6f958eb36ae7.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

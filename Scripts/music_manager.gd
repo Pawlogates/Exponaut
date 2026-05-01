@@ -41,7 +41,7 @@ var layer1_alt_is_playing = false
 # Is the layer currently playing its music track - [END]
 
 
-@export_file("*.mp3", "*.wav") var layer1_music_filepath = "res://Assets/Sounds/music/factory5.mp3"
+@export_file("*.mp3", "*.wav") var layer1_music_filepath = "none"
 @export_file("*.mp3", "*.wav")  var layer2_music_filepath = "none"
 @export_file("*.mp3", "*.wav")  var layer3_music_filepath = "none"
 @export_file("*.mp3", "*.wav")  var layer4_music_filepath = "none"
@@ -141,8 +141,8 @@ func _process(delta):
 			Globals.dm("Current main ('1_alt') music layer's volume: " + str(layer1_alt.volume_linear), "DARK_MAGENTA")
 			Globals.dm("Music layer_1's fade direction: " + str(layer1_fade_direction) + " (" + str(layer1_fade_active) + ").", 1, 0.5)
 			Globals.dm("Music layer_1_alt's fade direction: " + str(layer1_alt_fade_direction) + " (" + str(layer1_alt_fade_active) + ").", 2, 0.5)
-			Globals.dm("Music layer_1's music track's filepath: " + Globals.get_filepath(layer1_music_filepath, true), 3, 0.5)
-			Globals.dm("Music layer_1_alt's music track's filepath: " + Globals.get_filepath(layer1_alt_music_filepath, true), 4, 0.5)
+			Globals.dm("Music layer_1's music track's filepath: " + Globals.get_filepath(layer1_music_filepath), 3, 0.5)
+			Globals.dm("Music layer_1_alt's music track's filepath: " + Globals.get_filepath(layer1_alt_music_filepath), 4, 0.5)
 			
 			print_limit = 25
 			Globals.dm(str("Message print limit has been reset back to %s." % print_limit))
@@ -275,23 +275,23 @@ func handle_layer4_fade(delta):
 
 
 func update_layer_all_music_file():
-	if layer1_music_filepath != "none":
+	if layer1_music_filepath != "none" and FileAccess.file_exists(layer1_music_filepath):
 		if load(layer1_music_filepath).get_path() != layer1_last_filepath:
 			layer1.stream = load(layer1_music_filepath)
 	
-	if layer1_alt_music_filepath != "none":
+	if layer1_alt_music_filepath != "none" and FileAccess.file_exists(layer1_alt_music_filepath):
 		if load(layer1_alt_music_filepath).get_path() != layer1_alt_last_filepath:
 			layer1_alt.stream = load(layer1_alt_music_filepath)
 	
-	if layer2_music_filepath != "none":
+	if layer2_music_filepath != "none" and FileAccess.file_exists(layer2_music_filepath):
 		if load(layer2_music_filepath).get_path() != layer2_last_filepath:
 			layer2.stream = load(layer2_music_filepath)
 	
-	if layer3_music_filepath != "none":
+	if layer3_music_filepath != "none" and FileAccess.file_exists(layer3_music_filepath):
 		if load(layer3_music_filepath).get_path() != layer3_last_filepath:
 			layer3.stream = load(layer3_music_filepath)
 	
-	if layer4_music_filepath != "none":
+	if layer4_music_filepath != "none" and FileAccess.file_exists(layer4_music_filepath):
 		if load(layer4_music_filepath).get_path() != layer4_last_filepath:
 			layer4.stream = load(layer4_music_filepath)
 
@@ -323,7 +323,9 @@ func layer_play(target_id : String, interrupt : bool = false):
 
 # Only the first layer can have its music tracks smoothly transition between eachother.
 func music_change(filepath, smooth_transition : bool = true, volume : float = 1.0, layer_id : String = "1"):
-	Globals.dm("Changing main music layer's music track file to: " + Globals.get_filepath(filepath, false), "PINK")
+	if not FileAccess.file_exists(filepath) : return
+	
+	Globals.dm("Changing main music layer's music track file to: " + Globals.get_filepath(filepath), "PINK")
 	
 	var layer = get("layer" + layer_id)
 	

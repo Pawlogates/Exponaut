@@ -1,11 +1,9 @@
-[gd_scene load_steps=25 format=3 uid="uid://d0ev5ctdik86d"]
+[gd_scene load_steps=23 format=3 uid="uid://d0ev5ctdik86d"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_prtiu"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_g6gxa"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="3_pl8oi"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="4_okv10"]
-[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_uexjc"]
-[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="12_lp0ds"]
 [ext_resource type="PackedScene" uid="uid://ctu8tt5axyxdq" path="res://Triggers/zone_water.tscn" id="17_tqxbl"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_level_transition.tscn" id="18_ng3ta"]
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="20_ai846"]
@@ -74,60 +72,6 @@ position = Vector2(-5936, -2072)
 
 [node name="Triggers" type="Node2D" parent="." index="10"]
 
-[node name="trigger_bgChange3" parent="Triggers" index="0" instance=ExtResource("6_uexjc")]
-position = Vector2(3296, -1664)
-scale = Vector2(1, 30)
-
-[node name="trigger_bgChange8" parent="Triggers" index="1" instance=ExtResource("6_uexjc")]
-position = Vector2(1920, 6144)
-scale = Vector2(3, 3)
-
-[node name="trigger_bgChange6" parent="Triggers" index="2" instance=ExtResource("6_uexjc")]
-position = Vector2(3104, -1632)
-scale = Vector2(1, 31)
-
-[node name="trigger_bgChange4" parent="Triggers" index="3" instance=ExtResource("6_uexjc")]
-position = Vector2(4704, -3456)
-scale = Vector2(1, 32)
-
-[node name="trigger_bgChange10" parent="Triggers" index="4" instance=ExtResource("6_uexjc")]
-position = Vector2(6240, -2048)
-scale = Vector2(1, 14)
-
-[node name="trigger_bgChange5" parent="Triggers" index="5" instance=ExtResource("6_uexjc")]
-position = Vector2(5312, -1760)
-scale = Vector2(12, 1)
-
-[node name="trigger_musicChange" parent="Triggers" index="6" instance=ExtResource("12_lp0ds")]
-position = Vector2(3968, -1408)
-scale = Vector2(4, 4)
-music_file = "uid://cdigipeed08o3"
-
-[node name="trigger_musicChange5" parent="Triggers" index="7" instance=ExtResource("12_lp0ds")]
-position = Vector2(1920, 6144)
-scale = Vector2(4, 4)
-
-[node name="trigger_musicChange2" parent="Triggers" index="8" instance=ExtResource("12_lp0ds")]
-position = Vector2(3616, -1728)
-scale = Vector2(1, 20)
-
-[node name="trigger_musicChange3" parent="Triggers" index="9" instance=ExtResource("12_lp0ds")]
-position = Vector2(4704, -3456)
-scale = Vector2(1, 32)
-music_file = "uid://dgl0huovn44aa"
-
-[node name="trigger_musicChange4" parent="Triggers" index="10" instance=ExtResource("12_lp0ds")]
-position = Vector2(5280, -1632)
-scale = Vector2(11, 1)
-
-[node name="trigger_bgChange7" parent="Triggers" index="11" instance=ExtResource("6_uexjc")]
-position = Vector2(2112, -3744)
-scale = Vector2(1, 29)
-
-[node name="trigger_musicChange7" parent="Triggers" index="12" instance=ExtResource("12_lp0ds")]
-position = Vector2(2144, -3744)
-scale = Vector2(1, 29)
-
 [node name="Zones" type="Node2D" parent="." index="11"]
 
 [node name="water3" parent="Zones" index="0" instance=ExtResource("17_tqxbl")]
@@ -154,382 +98,328 @@ unique_name_in_owner = true
 position = Vector2(1920, 6144)
 scale = Vector2(12, 1)
 
-[node name="trigger_musicChange" parent="." index="14" instance=ExtResource("12_lp0ds")]
-position = Vector2(-8288, -1024)
-scale = Vector2(1, 8)
-music_file = "uid://jrrdb7mdfafc"
-
-[node name="trigger_musicChange5" parent="." index="15" instance=ExtResource("12_lp0ds")]
-position = Vector2(-4872, -2008)
-scale = Vector2(1, 8)
-music_file = "uid://dcjiojf8f5o6l"
-
-[node name="trigger_musicChange6" parent="." index="16" instance=ExtResource("12_lp0ds")]
-position = Vector2(-2168, -1608)
-scale = Vector2(1, 40)
-music_file = "uid://cu3e4pfj43wyo"
-
-[node name="trigger_musicChange2" parent="." index="17" instance=ExtResource("12_lp0ds")]
-position = Vector2(-5536, -2240)
-scale = Vector2(1, 8)
-
-[node name="trigger_musicChange3" parent="." index="18" instance=ExtResource("12_lp0ds")]
-position = Vector2(-1184, 0)
-scale = Vector2(1, 8)
-
-[node name="trigger_musicChange4" parent="." index="19" instance=ExtResource("12_lp0ds")]
-position = Vector2(-2016, -832)
-scale = Vector2(1, 8)
-
-[node name="trigger_bgChange" parent="." index="20" instance=ExtResource("6_uexjc")]
-position = Vector2(-11456, -960)
-scale = Vector2(3, 3)
-bg_main_filepath = "uid://bclbn3u7mm5c"
-bg_front_filepath = "uid://b6ykdc8w7hpm2"
-bg_front2_filepath = "uid://mb1sy1wnniyj"
-
-[node name="trigger_bgChange6" parent="." index="21" instance=ExtResource("6_uexjc")]
-position = Vector2(-6336, -2112)
-scale = Vector2(16, 10)
-
-[node name="trigger_bgChange2" parent="." index="22" instance=ExtResource("6_uexjc")]
-position = Vector2(-3584, -1792)
-scale = Vector2(2, 6)
-
-[node name="trigger_bgChange4" parent="." index="23" instance=ExtResource("6_uexjc")]
-position = Vector2(-3968, -1824)
-scale = Vector2(2, 11)
-
-[node name="trigger_bgChange5" parent="." index="24" instance=ExtResource("6_uexjc")]
-position = Vector2(-3584, -736)
-scale = Vector2(2, 19)
-
-[node name="trigger_bgChange3" parent="." index="25" instance=ExtResource("6_uexjc")]
-position = Vector2(-3040, -448)
-scale = Vector2(3, 18)
-
-[node name="water_area" parent="." index="26" instance=ExtResource("17_tqxbl")]
+[node name="water_area" parent="." index="14" instance=ExtResource("17_tqxbl")]
 position = Vector2(-672, -1984)
 scale = Vector2(17, 2)
 
-[node name="water_area2" parent="." index="27" instance=ExtResource("17_tqxbl")]
+[node name="water_area2" parent="." index="15" instance=ExtResource("17_tqxbl")]
 position = Vector2(-4000, 672)
 scale = Vector2(7, 5)
 
-[node name="water_area3" parent="." index="28" instance=ExtResource("17_tqxbl")]
+[node name="water_area3" parent="." index="16" instance=ExtResource("17_tqxbl")]
 position = Vector2(-3488, 672)
 scale = Vector2(3, 3)
 
-[node name="water_area4" parent="." index="29" instance=ExtResource("17_tqxbl")]
+[node name="water_area4" parent="." index="17" instance=ExtResource("17_tqxbl")]
 position = Vector2(5216, 192)
 scale = Vector2(11, 16)
 
-[node name="water_area5" parent="." index="30" instance=ExtResource("17_tqxbl")]
+[node name="water_area5" parent="." index="18" instance=ExtResource("17_tqxbl")]
 position = Vector2(5600, 960)
 scale = Vector2(15, 18)
 
-[node name="water_area6" parent="." index="31" instance=ExtResource("17_tqxbl")]
+[node name="water_area6" parent="." index="19" instance=ExtResource("17_tqxbl")]
 position = Vector2(5824, 1824)
 scale = Vector2(24, 13)
 
-[node name="water_area7" parent="." index="32" instance=ExtResource("17_tqxbl")]
+[node name="water_area7" parent="." index="20" instance=ExtResource("17_tqxbl")]
 position = Vector2(5280, 2480)
 scale = Vector2(25, 7.5)
 
-[node name="info_sign" parent="." index="33" instance=ExtResource("20_ai846")]
+[node name="info_sign" parent="." index="21" instance=ExtResource("20_ai846")]
 position = Vector2(-5760, 224)
 
-[node name="godrays" parent="." index="34" instance=ExtResource("21_e3x8y")]
+[node name="godrays" parent="." index="22" instance=ExtResource("21_e3x8y")]
 z_index = -5
 offset_left = -8616.0
 offset_top = -1408.0
 offset_right = -7363.0
 offset_bottom = -656.0
 
-[node name="info_sign2" parent="." index="35" instance=ExtResource("20_ai846")]
+[node name="info_sign2" parent="." index="23" instance=ExtResource("20_ai846")]
 position = Vector2(-992, -928)
 
-[node name="areaTransition4" parent="." index="36" instance=ExtResource("18_ng3ta")]
+[node name="areaTransition4" parent="." index="24" instance=ExtResource("18_ng3ta")]
 unique_name_in_owner = true
 position = Vector2(7104, 2176)
 scale = Vector2(4, 8)
 
-[node name="areaTransition2" parent="." index="37" instance=ExtResource("18_ng3ta")]
+[node name="areaTransition2" parent="." index="25" instance=ExtResource("18_ng3ta")]
 unique_name_in_owner = true
 position = Vector2(7168, -1760)
 scale = Vector2(2, 7)
 target_level_filepath = "uid://c7ie388q2umtx"
 transition_next = 1
 
-[node name="areaTransition5" parent="." index="38" instance=ExtResource("18_ng3ta")]
+[node name="areaTransition5" parent="." index="26" instance=ExtResource("18_ng3ta")]
 unique_name_in_owner = true
 position = Vector2(7136, -2912)
 scale = Vector2(3, 5)
 
-[node name="darkDecoParallax_grass" parent="." index="39" instance=ExtResource("22_s4u06")]
+[node name="darkDecoParallax_grass" parent="." index="27" instance=ExtResource("22_s4u06")]
 position = Vector2(-1712, 552)
 
-[node name="darkDecoParallax_grass2" parent="." index="40" instance=ExtResource("22_s4u06")]
+[node name="darkDecoParallax_grass2" parent="." index="28" instance=ExtResource("22_s4u06")]
 position = Vector2(608, 712)
 
-[node name="darkDecoParallax_grass3" parent="." index="41" instance=ExtResource("22_s4u06")]
+[node name="darkDecoParallax_grass3" parent="." index="29" instance=ExtResource("22_s4u06")]
 position = Vector2(-3960, 1104)
 
-[node name="darkDecoParallax_grass4" parent="." index="42" instance=ExtResource("22_s4u06")]
+[node name="darkDecoParallax_grass4" parent="." index="30" instance=ExtResource("22_s4u06")]
 position = Vector2(-5296, 760)
 
-[node name="darkDecoParallax_grass5" parent="." index="43" instance=ExtResource("22_s4u06")]
+[node name="darkDecoParallax_grass5" parent="." index="31" instance=ExtResource("22_s4u06")]
 position = Vector2(-8864, 224)
 
-[node name="darkDecoParallax_grass6" parent="." index="44" instance=ExtResource("22_s4u06")]
+[node name="darkDecoParallax_grass6" parent="." index="32" instance=ExtResource("22_s4u06")]
 position = Vector2(-8416, -2784)
 
-[node name="goldenApple_gate" parent="." index="45" instance=ExtResource("24_so3cm")]
+[node name="goldenApple_gate" parent="." index="33" instance=ExtResource("24_so3cm")]
 z_index = -3
 position = Vector2(-1536, -1216)
 required_item_amount = 3
 
-[node name="goldenApple_gate2" parent="." index="46" instance=ExtResource("24_so3cm")]
+[node name="goldenApple_gate2" parent="." index="34" instance=ExtResource("24_so3cm")]
 z_index = -3
 position = Vector2(2880, -4416)
 required_item_amount = 8
 
-[node name="glow_fogGradientColorful" parent="." index="47" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful" parent="." index="35" instance=ExtResource("25_6gvgw")]
 position = Vector2(-6032, 256)
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful2" parent="." index="48" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful2" parent="." index="36" instance=ExtResource("25_6gvgw")]
 position = Vector2(-7808, -120)
 rotation = 1.0472
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful3" parent="." index="49" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful3" parent="." index="37" instance=ExtResource("25_6gvgw")]
 position = Vector2(-6136, -2272)
 rotation = -0.261799
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful8" parent="." index="50" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful8" parent="." index="38" instance=ExtResource("25_6gvgw")]
 position = Vector2(-5360, -1704)
 rotation = 0.261799
 color = Color(1, 1, 0, 1)
 texture = null
 texture_scale = 0.75
 
-[node name="glow_fogGradientColorful9" parent="." index="51" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful9" parent="." index="39" instance=ExtResource("25_6gvgw")]
 position = Vector2(-3696, 768)
 rotation = 0.261799
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful4" parent="." index="52" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful4" parent="." index="40" instance=ExtResource("25_6gvgw")]
 position = Vector2(-5952, -888)
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful5" parent="." index="53" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful5" parent="." index="41" instance=ExtResource("25_6gvgw")]
 position = Vector2(-4520, -248)
 rotation = -0.523598
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful6" parent="." index="54" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful6" parent="." index="42" instance=ExtResource("25_6gvgw")]
 position = Vector2(-6768, -3016)
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful7" parent="." index="55" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful7" parent="." index="43" instance=ExtResource("25_6gvgw")]
 position = Vector2(-3864, -2000)
 rotation = 0.261799
 color = Color(1, 1, 0, 1)
 texture = null
 texture_scale = 0.75
 
-[node name="glow_orbSoft" parent="." index="56" instance=ExtResource("26_lkrdf")]
+[node name="glow_orbSoft" parent="." index="44" instance=ExtResource("26_lkrdf")]
 position = Vector2(-5576, 640)
 color = Color(1, 0.392157, 0, 1)
 texture = null
 texture_scale = 3.0
 
-[node name="glow_shadowOrbHeavy" parent="." index="57" instance=ExtResource("27_2u7le")]
+[node name="glow_shadowOrbHeavy" parent="." index="45" instance=ExtResource("27_2u7le")]
 position = Vector2(-6400, 936)
 color = Color(1, 1, 1, 0.607843)
 texture = null
 texture_scale = 2.0
 
-[node name="glow_shadowOrbHeavy2" parent="." index="58" instance=ExtResource("27_2u7le")]
+[node name="glow_shadowOrbHeavy2" parent="." index="46" instance=ExtResource("27_2u7le")]
 position = Vector2(-3336, 224)
 color = Color(1, 1, 1, 0.607843)
 texture = null
 texture_scale = 2.0
 
-[node name="glow_shadowFog" parent="." index="59" instance=ExtResource("28_g2wv0")]
+[node name="glow_shadowFog" parent="." index="47" instance=ExtResource("28_g2wv0")]
 position = Vector2(-6152, -904)
 rotation = 0.261799
 energy = 1.5
 texture = null
 texture_scale = 0.75
 
-[node name="glow_shadowOrbSoft" parent="." index="60" instance=ExtResource("29_hbqbo")]
+[node name="glow_shadowOrbSoft" parent="." index="48" instance=ExtResource("29_hbqbo")]
 position = Vector2(-5912, -2848)
 texture = null
 texture_scale = 2.0
 
-[node name="glow_shadowOrbSoft2" parent="." index="61" instance=ExtResource("29_hbqbo")]
+[node name="glow_shadowOrbSoft2" parent="." index="49" instance=ExtResource("29_hbqbo")]
 position = Vector2(-4648, -2536)
 energy = 0.5
 texture = null
 texture_scale = 2.0
 
-[node name="glow_shadowOrbSoft3" parent="." index="62" instance=ExtResource("29_hbqbo")]
+[node name="glow_shadowOrbSoft3" parent="." index="50" instance=ExtResource("29_hbqbo")]
 position = Vector2(-4272, -2616)
 rotation = -0.523598
 scale = Vector2(2, 1)
 energy = 0.5
 texture = null
 
-[node name="glow_shadowOrbSoft4" parent="." index="63" instance=ExtResource("29_hbqbo")]
+[node name="glow_shadowOrbSoft4" parent="." index="51" instance=ExtResource("29_hbqbo")]
 position = Vector2(-5840, -1792)
 rotation = 0.261799
 scale = Vector2(2, 1)
 energy = 0.5
 texture = null
 
-[node name="glow_shadowFog2" parent="." index="64" instance=ExtResource("28_g2wv0")]
+[node name="glow_shadowFog2" parent="." index="52" instance=ExtResource("28_g2wv0")]
 position = Vector2(-4176, -2936)
 rotation = 0.261799
 energy = 1.5
 texture = null
 
-[node name="glow_fogGradientColorful10" parent="." index="65" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful10" parent="." index="53" instance=ExtResource("25_6gvgw")]
 position = Vector2(-7264, -1696)
 color = Color(1, 1, 0, 1)
 texture = null
 
-[node name="glow_fogGradientColorful11" parent="." index="66" instance=ExtResource("25_6gvgw")]
+[node name="glow_fogGradientColorful11" parent="." index="54" instance=ExtResource("25_6gvgw")]
 position = Vector2(-5064, -2984)
 rotation = -0.523598
 color = Color(1, 1, 0, 1)
 texture = null
 texture_scale = 0.75
 
-[node name="deco_bush" parent="." index="67" instance=ExtResource("30_kvpf5")]
+[node name="deco_bush" parent="." index="55" instance=ExtResource("30_kvpf5")]
 layer = -90
 offset = Vector2(-5550, -925)
 transform = Transform2D(1, 0, 0, 1, -5550, -925)
 
-[node name="deco_bush2" parent="." index="68" instance=ExtResource("30_kvpf5")]
+[node name="deco_bush2" parent="." index="56" instance=ExtResource("30_kvpf5")]
 layer = -90
 offset = Vector2(-6500, -1775)
 transform = Transform2D(1, 0, 0, 1, -6500, -1775)
 
-[node name="deco_bush3" parent="." index="69" instance=ExtResource("30_kvpf5")]
+[node name="deco_bush3" parent="." index="57" instance=ExtResource("30_kvpf5")]
 layer = -90
 offset = Vector2(-4850, 450)
 transform = Transform2D(1, 0, 0, 1, -4850, 450)
 
-[node name="deco_treeBig" parent="." index="70" instance=ExtResource("31_0vjpg")]
+[node name="deco_treeBig" parent="." index="58" instance=ExtResource("31_0vjpg")]
 layer = -95
 offset = Vector2(-5500, -1150)
 transform = Transform2D(1, 0, 0, 1, -5500, -1150)
 
-[node name="deco_cloud" parent="." index="71" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud" parent="." index="59" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-6325, -1150)
 transform = Transform2D(1, 0, 0, 1, -6325, -1150)
 
-[node name="deco_cloud3" parent="." index="72" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud3" parent="." index="60" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-5850, -2375)
 scale = Vector2(0.8, 0.8)
 transform = Transform2D(0.8, 0, 0, 0.8, -5850, -2375)
 
-[node name="deco_cloud2" parent="." index="73" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud2" parent="." index="61" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-3750, -700)
 transform = Transform2D(1, 0, 0, 1, -3750, -700)
 
-[node name="deco_cloud6" parent="." index="74" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud6" parent="." index="62" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-5425, -125)
 transform = Transform2D(1, 0, 0, 1, -5425, -125)
 scroll_base_scale = Vector2(2, 2)
 
-[node name="deco_cloud7" parent="." index="75" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud7" parent="." index="63" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-7000, -700)
 scale = Vector2(0.8, 0.8)
 transform = Transform2D(0.8, 0, 0, 0.8, -7000, -700)
 
-[node name="deco_cloud4" parent="." index="76" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud4" parent="." index="64" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-5300, -2200)
 scale = Vector2(0.6, 0.6)
 transform = Transform2D(0.6, 0, 0, 0.6, -5300, -2200)
 
-[node name="deco_cloud5" parent="." index="77" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud5" parent="." index="65" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-4250, -275)
 scale = Vector2(0.8, 0.8)
 transform = Transform2D(0.8, 0, 0, 0.8, -4250, -275)
 scroll_base_scale = Vector2(2, 2)
 
-[node name="deco_cloud8" parent="." index="78" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud8" parent="." index="66" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-900, -850)
 transform = Transform2D(1, 0, 0, 1, -900, -850)
 
-[node name="deco_cloud9" parent="." index="79" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud9" parent="." index="67" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-1650, -100)
 scale = Vector2(1.2, 1.2)
 transform = Transform2D(1.2, 0, 0, 1.2, -1650, -100)
 scroll_base_scale = Vector2(2, 2)
 
-[node name="deco_cloud10" parent="." index="80" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud10" parent="." index="68" instance=ExtResource("32_qqfqw")]
 offset = Vector2(-400, -100)
 scale = Vector2(1.2, 1.2)
 transform = Transform2D(1.2, 0, 0, 1.2, -400, -100)
 
-[node name="deco_cloud11" parent="." index="81" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud11" parent="." index="69" instance=ExtResource("32_qqfqw")]
 offset = Vector2(1250, -600)
 scale = Vector2(0.8, 0.8)
 transform = Transform2D(0.8, 0, 0, 0.8, 1250, -600)
 
-[node name="deco_cloud12" parent="." index="82" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud12" parent="." index="70" instance=ExtResource("32_qqfqw")]
 offset = Vector2(1350, 750)
 scale = Vector2(1.2, 1.2)
 transform = Transform2D(1.2, 0, 0, 1.2, 1350, 750)
 
-[node name="deco_cloud13" parent="." index="83" instance=ExtResource("32_qqfqw")]
+[node name="deco_cloud13" parent="." index="71" instance=ExtResource("32_qqfqw")]
 offset = Vector2(2300, 2400)
 transform = Transform2D(1, 0, 0, 1, 2300, 2400)
 scroll_base_scale = Vector2(2, 2)
 
-[node name="deco_treeBig2" parent="." index="84" instance=ExtResource("33_q11u6")]
+[node name="deco_treeBig2" parent="." index="72" instance=ExtResource("33_q11u6")]
 offset = Vector2(-6150, -2025)
 transform = Transform2D(1, 0, 0, 1, -6150, -2025)
 
-[node name="deco_treeBig3" parent="." index="85" instance=ExtResource("31_0vjpg")]
+[node name="deco_treeBig3" parent="." index="73" instance=ExtResource("31_0vjpg")]
 offset = Vector2(-3100, -250)
 transform = Transform2D(1, 0, 0, 1, -3100, -250)
 
-[node name="deco_treeBig4" parent="." index="86" instance=ExtResource("31_0vjpg")]
+[node name="deco_treeBig4" parent="." index="74" instance=ExtResource("31_0vjpg")]
 offset = Vector2(-6675, -25)
 transform = Transform2D(1, 0, 0, 1, -6675, -25)
 
-[node name="deco_treeBig6" parent="." index="87" instance=ExtResource("31_0vjpg")]
+[node name="deco_treeBig6" parent="." index="75" instance=ExtResource("31_0vjpg")]
 offset = Vector2(-2000, -2000)
 transform = Transform2D(1, 0, 0, 1, -2000, -2000)
 
-[node name="deco_treeBig5" parent="." index="88" instance=ExtResource("33_q11u6")]
+[node name="deco_treeBig5" parent="." index="76" instance=ExtResource("33_q11u6")]
 offset = Vector2(-5900, -100)
 transform = Transform2D(1, 0, 0, 1, -5900, -100)
 
-[node name="deco_treeBig7" parent="." index="89" instance=ExtResource("33_q11u6")]
+[node name="deco_treeBig7" parent="." index="77" instance=ExtResource("33_q11u6")]
 offset = Vector2(-950, -2175)
 transform = Transform2D(1, 0, 0, 1, -950, -2175)
 
-[node name="score_gate" parent="." index="90" instance=ExtResource("34_t4wup")]
+[node name="score_gate" parent="." index="78" instance=ExtResource("34_t4wup")]
 z_index = -2
 position = Vector2(-3584, -1728)
 target_score = 100000
 respawn_player_on_fail = false
 
-[node name="trigger_positional" parent="." index="91" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional" parent="." index="79" instance=ExtResource("35_ots6b")]
 position = Vector2(-10336, -960)
 scale = Vector2(39, 6)
 camera_baseOffset = -250
@@ -540,7 +430,7 @@ camera_baseZoom = 2.5
 minZoom = 1.0
 maxZoom = 2.5
 
-[node name="trigger_positional2" parent="." index="92" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional2" parent="." index="80" instance=ExtResource("35_ots6b")]
 position = Vector2(-7936, -576)
 scale = Vector2(30, 22)
 minOffset = 0
@@ -551,7 +441,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional3" parent="." index="93" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional3" parent="." index="81" instance=ExtResource("35_ots6b")]
 position = Vector2(-4640, 0)
 scale = Vector2(13, 16)
 horizontal = false
@@ -564,7 +454,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional4" parent="." index="94" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional4" parent="." index="82" instance=ExtResource("35_ots6b")]
 position = Vector2(-4128, -1088)
 scale = Vector2(1, 12)
 RESET_OFFSET = true
@@ -575,7 +465,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional6" parent="." index="95" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional6" parent="." index="83" instance=ExtResource("35_ots6b")]
 position = Vector2(-5216, -608)
 scale = Vector2(1, 11)
 RESET_OFFSET = true
@@ -586,7 +476,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional7" parent="." index="96" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional7" parent="." index="84" instance=ExtResource("35_ots6b")]
 position = Vector2(-5600, -2272)
 scale = Vector2(1, 9)
 RESET_OFFSET = true
@@ -597,7 +487,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional10" parent="." index="97" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional10" parent="." index="85" instance=ExtResource("35_ots6b")]
 position = Vector2(-6752, -480)
 scale = Vector2(1, 11)
 RESET_OFFSET = true
@@ -608,7 +498,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional8" parent="." index="98" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional8" parent="." index="86" instance=ExtResource("35_ots6b")]
 position = Vector2(-4960, -2848)
 scale = Vector2(1, 7)
 RESET_OFFSET = true
@@ -619,7 +509,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional5" parent="." index="99" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional5" parent="." index="87" instance=ExtResource("35_ots6b")]
 position = Vector2(-5184, -2368)
 scale = Vector2(10, 8)
 horizontal = false
@@ -634,7 +524,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional9" parent="." index="100" instance=ExtResource("35_ots6b")]
+[node name="trigger_positional9" parent="." index="88" instance=ExtResource("35_ots6b")]
 position = Vector2(-5024, -2784)
 scale = Vector2(9, 5)
 right_to_left = true
@@ -647,28 +537,42 @@ maxOffset_Y = 0
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="info_sign3" parent="." index="101" instance=ExtResource("20_ai846")]
+[node name="info_sign3" parent="." index="89" instance=ExtResource("20_ai846")]
 position = Vector2(6208, -1632)
 
-[node name="info_sign7" parent="." index="102" instance=ExtResource("20_ai846")]
+[node name="info_sign7" parent="." index="90" instance=ExtResource("20_ai846")]
 position = Vector2(2208, 1632)
 
-[node name="goldenApple_gate3" parent="." index="103" instance=ExtResource("24_so3cm")]
+[node name="goldenApple_gate3" parent="." index="91" instance=ExtResource("24_so3cm")]
 position = Vector2(5824, -2048)
 required_item_amount = 4
 
-[node name="info_sign6" parent="." index="104" instance=ExtResource("20_ai846")]
+[node name="info_sign6" parent="." index="92" instance=ExtResource("20_ai846")]
 position = Vector2(-3648, -288)
 
-[node name="info_sign4" parent="." index="105" instance=ExtResource("20_ai846")]
+[node name="info_sign4" parent="." index="93" instance=ExtResource("20_ai846")]
 position = Vector2(-1824, -1056)
 
-[node name="gem_level_portal" parent="." index="106" instance=ExtResource("24_j4wbg")]
+[node name="gem_level_portal" parent="." index="94" instance=ExtResource("24_j4wbg")]
 position = Vector2(-6688, -1920)
 
-[node name="trigger_level_transition" parent="." index="108" instance=ExtResource("18_ng3ta")]
+[node name="trigger_level_transition" parent="." index="96" instance=ExtResource("18_ng3ta")]
 position = Vector2(-2960, -600)
 scale = Vector2(4, 24)
 target_level_filepath = "uid://1s2ji4jr3kxb"
 transition_next = 0
 valid_target = false
+
+[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27513" to="tileset_objects/@Area2D@27513" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27521" to="tileset_objects/@Area2D@27521" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27552" to="tileset_objects/@Area2D@27552" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27553" to="tileset_objects/@Area2D@27553" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27766" to="tileset_objects/@Area2D@27766" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27767" to="tileset_objects/@Area2D@27767" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27959" to="tileset_objects/@Area2D@27959" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27960" to="tileset_objects/@Area2D@27960" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27961" to="tileset_objects/@Area2D@27961" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27962" to="tileset_objects/@Area2D@27962" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@27963" to="tileset_objects/@Area2D@27963" method="_on_area_entered"]

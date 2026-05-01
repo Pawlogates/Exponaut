@@ -1,6 +1,6 @@
 extends Node2D
 
-var displayScore = 0
+var displayScore : int = 0
 
 var comboScore_deco_speed = 25
 
@@ -31,27 +31,33 @@ func _process(delta):
 	bg_comboScore.modulate.b = move_toward(bg_comboScore.modulate.b, 1, delta * 2)
 
 
-var count_direction = 1
-var display_difference = 0
+var count_direction : int = 1
+var display_difference : int = 0
+var count_multiplier : float = 1.0
 
 func count_score():
 	display_difference = abs(Globals.level_score - displayScore)
+	
+	if Globals.combo_streak > 0 : count_multiplier = 2.0
+	elif count_multiplier != 3.0 : count_multiplier = 1.0
+	
 	
 	if displayScore < Globals.level_score:
 		count_direction = 1
 	elif displayScore > Globals.level_score:
 		count_direction = -1
 	
+	
 	if display_difference > 25000:
-		displayScore += 251 * count_direction
+		displayScore += 1203 * count_direction * count_multiplier
 	elif display_difference > 10000:
-		displayScore += 121 * count_direction
+		displayScore += 601 * count_direction * count_multiplier
 	elif display_difference > 1000:
-		displayScore += 41 * count_direction
+		displayScore += 201 * count_direction * count_multiplier
 	elif display_difference > 100:
-		displayScore += 11 * count_direction
+		displayScore += 16 * count_direction * count_multiplier
 	elif display_difference > 10:
-		displayScore += 3 * count_direction
+		displayScore += 3 * count_direction # Multiplier is not applied because otherwise the counter would be able to exceed the target score.
 	elif display_difference > 0:
 		displayScore += 1 * count_direction
 	
@@ -59,6 +65,8 @@ func count_score():
 
 
 func _ready():
+	Globals.gameState_changed.connect(on_gameState_changed)
+	
 	Globals.levelState_loaded.connect(score_correct_saved)
 	
 	Globals.score_reduced.connect(score_correct)
@@ -98,3 +106,7 @@ func on_entity_killed():
 
 func on_combo_refreshed(time):
 	comboScore_updated(12.5)
+
+
+func on_gameState_changed():
+	count_multiplier = 3.0

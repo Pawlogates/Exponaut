@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://r30hf3sf46ot"]
+
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="1_0rtu7"]
+
+[node name="icon_majorCollectable" type="Control"]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+
+[node name="icon" type="Sprite2D" parent="."]
+position = Vector2(32, 32)
+scale = Vector2(0.999999, 1)
+texture = ExtResource("1_0rtu7")
+region_enabled = true
+region_rect = Rect2(1600, 896, 64, 64)

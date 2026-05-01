@@ -16,10 +16,10 @@ majorCollectible_key = true
 on_collected_effect_special = true
 entity_name = "majorCollectible_key"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_isidq")
 sprite_frames = ExtResource("3_ou2qp")
 animation = &"anim"
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_511gd")

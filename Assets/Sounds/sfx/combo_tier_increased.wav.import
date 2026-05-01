@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cmac2ex52vvly"
+uid="uid://btgcl26hx1bv8"
 path="res://.godot/imported/combo_tier_increased.wav-4566999486827295d724c77fd20a4f35.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

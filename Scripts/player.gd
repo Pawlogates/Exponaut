@@ -134,7 +134,7 @@ var debug_movement = false
 
 var spawn_dust_effect = true
 
-var block_movement = false # Blocks all inputs and makes the player stop smoothly.
+var block_movement = false # Blocks all player inputs.
 var block_movement_cutscene = false # Blocks all actual inputs but allows simulated inputs to still move the player.
 var block_movement_full = false # Blocks the move_and_slide() function.
 
@@ -196,12 +196,6 @@ func _ready():
 		camera.limit_right = World.camera_boundary_right
 		camera.limit_bottom = World.camera_boundary_bottom
 		camera.limit_top = World.camera_boundary_top
-	
-	
-	#total collectibles
-	await get_tree().create_timer(0.5, false).timeout
-	Globals.total_collectibles_in_currentLevel = get_tree().get_nodes_in_group("Collectibles").size() + (get_tree().get_nodes_in_group("bonusBox").size() * 10)
-
 
 func _process(delta):
 	# delete this hack as soon as possible... and replace it
@@ -593,7 +587,7 @@ func handle_jump(delta):
 			
 			can_air_jump = false
 			
-			sfx(Globals.sfx_player_jump, 1.0, 0.0)
+			sfx(Globals.sfx_player_jump, 1.0, 1.0)
 			
 			var x = randi_range(0, 1)
 			if x or not direction_x:
@@ -641,7 +635,7 @@ func handle_wall_jump():
 		
 		can_wall_jump = false
 		
-		sfx(Globals.sfx_player_wall_jump, 1.0, 0.0)
+		sfx(Globals.sfx_player_wall_jump, 1.0, 1.0)
 		
 		var x = randi_range(0, 1)
 		if x or not direction_x:
@@ -876,8 +870,9 @@ func _on_dash_check_timeout():
 
 # Attack (main and secondary): - [START]
 func handle_attack_main():
-	if dead : return
-	if Globals.weapon_blocked : return
+	if block_movement : return
+	elif dead : return
+	elif Globals.weapon_blocked : return
 	
 	if Input.is_action_pressed("attack_main"):
 		if c_attack.time_left > 0.0 : return

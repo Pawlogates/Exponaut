@@ -2,7 +2,7 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-uid="uid://bg2upw4crgnam"
+uid="uid://d1batquo1dog8"
 path="res://.godot/imported/ruins1.mp3-b6b79862864a90295cdc9fbc69bafcd8.mp3str"
 
 [deps]
@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/ruins1.mp3-b6b79862864a90295cdc9fbc69bafcd8.m
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
 bpm=0
 beat_count=0

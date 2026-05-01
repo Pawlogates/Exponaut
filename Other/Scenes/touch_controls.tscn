@@ -75,7 +75,7 @@ _data = {
 &"disappear": SubResource("Animation_hjmmm")
 }
 
-[node name="touch_controls" type="Control"]
+[node name="touch_controls" type="Control" groups=["touch_controls"]]
 z_index = 50
 layout_mode = 3
 anchors_preset = 0

@@ -11,7 +11,6 @@ shader_parameter/Shift_Hue = 0.15
 [node name="jewel" instance=ExtResource("1_pxg3w")]
 scale = Vector2(1.5, 1.5)
 score_value = 25000
-sfx_self_collected_filepath = "uid://bo45uwl5danjl"
 entity_name = "jewel_red"
 
 [node name="sprite" parent="." index="1"]

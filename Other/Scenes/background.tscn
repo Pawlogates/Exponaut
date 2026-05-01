@@ -5,12 +5,12 @@
 [ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/backgrounds/bg_back_fields.png" id="3_q05dr"]
 [ext_resource type="Texture2D" uid="uid://bpevvq03p3otx" path="res://Assets/Graphics/backgrounds/bg_empty.png" id="3_txf8u"]
 [ext_resource type="Texture2D" uid="uid://mb1sy1wnniyj" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_wrhkf"]
-[ext_resource type="Texture2D" uid="uid://ls6pinhlv18n" path="res://Assets/Graphics/backgrounds/bg_front_fields.png" id="4_1af2s"]
+[ext_resource type="Texture2D" path="res://Assets/Graphics/backgrounds/bg_front_fields.png" id="4_1af2s"]
 [ext_resource type="Texture2D" uid="uid://dps4meqqtaogn" path="res://Assets/Graphics/backgrounds/bg_back_clouds.png" id="6_uxftp"]
 [ext_resource type="Texture2D" uid="uid://brb8qm5tbxwnl" path="res://Assets/Graphics/backgrounds/bg_clouds.png" id="7_0vdwx"]
-[ext_resource type="Texture2D" uid="uid://dnkumwh3w5j5g" path="res://Assets/Graphics/backgrounds/bg_front_clouds.png" id="8_htje4"]
-[ext_resource type="Texture2D" uid="uid://b5qlexonnjpqo" path="res://Assets/Graphics/backgrounds/bg_front_jungle2.png" id="9_7vt02"]
-[ext_resource type="Texture2D" uid="uid://cvpcnuicbjb3u" path="res://Assets/Graphics/backgrounds/bg_swamp.png" id="10_tt6fo"]
+[ext_resource type="Texture2D" path="res://Assets/Graphics/backgrounds/bg_front_clouds.png" id="8_htje4"]
+[ext_resource type="Texture2D" path="res://Assets/Graphics/backgrounds/bg_front_jungle2.png" id="9_7vt02"]
+[ext_resource type="Texture2D" path="res://Assets/Graphics/backgrounds/bg_swamp.png" id="10_tt6fo"]
 
 [sub_resource type="Animation" id="Animation_cw6l6"]
 length = 0.001

@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=16 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
 [ext_resource type="PackedScene" uid="uid://bec60ts473x1w" path="res://Other/Scenes/User Interface/Debug/await_debug.tscn" id="3_xupot"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://ifj2hp6u65is" path="res://Other/Scenes/User Interface/Debug/await_HUD.tscn" id="4_cw5ax"]
 [ext_resource type="PackedScene" uid="uid://l83a5sjf2kck" path="res://Other/Scenes/User Interface/display_messages.tscn" id="5_2pv2x"]
 [ext_resource type="PackedScene" uid="uid://cg04s4qy3yjao" path="res://Other/Scenes/User Interface/Debug/await_recorder.tscn" id="6_050b7"]
+[ext_resource type="PackedScene" uid="uid://bm7mkpe0yeno5" path="res://Other/Scenes/recorder_level.tscn" id="7_gplty"]
 
 [sub_resource type="Animation" id="Animation_g0n3s"]
 length = 0.001
@@ -261,3 +262,5 @@ libraries = {
 [node name="await_entity_editor" parent="." instance=ExtResource("4_2pv2x")]
 
 [node name="await_recorder" parent="." instance=ExtResource("6_050b7")]
+
+[node name="recorder" parent="." instance=ExtResource("7_gplty")]

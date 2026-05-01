@@ -1,0 +1,162 @@
+[gd_scene load_steps=7 format=3 uid="uid://dijgiqym3g0vv"]
+
+[ext_resource type="Script" uid="uid://dhugjkxt3jd44" path="res://Scripts/level_finished.gd" id="1_w4h15"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_22p50"]
+[ext_resource type="PackedScene" uid="uid://k8j15yb8rjxw" path="res://Other/Scenes/User Interface/Text Manager/text_core.tscn" id="4_6ulxu"]
+[ext_resource type="PackedScene" uid="uid://r30hf3sf46ot" path="res://Other/Scenes/User Interface/Screens/icon_majorCollectable.tscn" id="5_wsjwu"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="6_v7v63"]
+[ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/animation_ui.tscn" id="7_ap76s"]
+
+[node name="screen_results_level" type="CanvasLayer" groups=["screen_results_level"]]
+process_mode = 3
+layer = 11
+script = ExtResource("1_w4h15")
+
+[node name="cooldown_show_results" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+autostart = true
+
+[node name="Background" type="ColorRect" parent="."]
+unique_name_in_owner = true
+modulate = Color(0.360784, 0.32549, 1, 1)
+z_index = -5
+custom_minimum_size = Vector2(1920, 1080)
+offset_right = 1920.0
+offset_bottom = 1080.0
+mouse_filter = 2
+color = Color(0.341176, 0, 0, 0.878431)
+
+[node name="container_results" type="VBoxContainer" parent="."]
+z_index = 5
+custom_minimum_size = Vector2(1200, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -476.0
+offset_right = 400.0
+offset_bottom = -76.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_22p50")
+
+[node name="label_score" parent="container_results" instance=ExtResource("4_6ulxu")]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 96
+text = "Level Score"
+
+[node name="label_score_previous_best" parent="container_results" instance=ExtResource("4_6ulxu")]
+modulate = Color(1, 1, 1, 0.196078)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+text = "Previous Best Score"
+text_insert_start = "Previous best score: "
+text_insert_end = ""
+
+[node name="label_score_total" parent="container_results" instance=ExtResource("4_6ulxu")]
+modulate = Color(1, 1, 1, 0.392157)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 64
+text = "Total Score"
+text_insert_start = "Total Score: "
+text_insert_end = ""
+
+[node name="label_time" parent="container_results" instance=ExtResource("4_6ulxu")]
+custom_minimum_size = Vector2(32, 64)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 24
+text = "Level Time"
+vertical_alignment = 2
+text_insert_start = ""
+text_insert_end = ""
+
+[node name="label_time_previous_best" parent="container_results" instance=ExtResource("4_6ulxu")]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 20
+text = "Previous Best Time"
+text_insert_start = ""
+text_insert_end = ""
+
+[node name="label_time_total" parent="container_results" instance=ExtResource("4_6ulxu")]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "Total Time"
+text_insert_start = ""
+text_insert_end = ""
+
+[node name="container_majorCollectables" type="HBoxContainer" parent="."]
+unique_name_in_owner = true
+offset_left = 16.0
+offset_top = 640.0
+offset_right = 1904.0
+offset_bottom = 704.0
+alignment = 1
+
+[node name="icon_majorCollectable" parent="container_majorCollectables" instance=ExtResource("5_wsjwu")]
+unique_name_in_owner = true
+layout_mode = 2
+
+[node name="container_rank" type="VBoxContainer" parent="."]
+unique_name_in_owner = true
+self_modulate = Color(1, 1, 1, 0)
+z_index = 1
+custom_minimum_size = Vector2(640, 64)
+offset_top = 768.0
+offset_right = 1920.0
+offset_bottom = 864.0
+size_flags_horizontal = 4
+
+[node name="label_rank" parent="container_rank" instance=ExtResource("4_6ulxu")]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 64
+text = "rank"
+
+[node name="label_next_rank_score" parent="container_rank" instance=ExtResource("4_6ulxu")]
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 32
+text = "next rank score"
+
+[node name="animation_ui" parent="." instance=ExtResource("7_ap76s")]
+
+[node name="container_level_finished" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="text_core" parent="container_level_finished" instance=ExtResource("4_6ulxu")]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 435.5
+offset_top = 430.5
+offset_right = 1444.5
+offset_bottom = 609.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/normal_font_size = 128
+text = "LEVEL FINISHED!"
+
+[node name="ColorRect" type="ColorRect" parent="container_level_finished/text_core"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -583.0
+offset_right = 584.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="sfx_manager" parent="." instance=ExtResource("6_v7v63")]
+
+[connection signal="timeout" from="cooldown_show_results" to="." method="_on_cooldown_show_results_timeout"]
+[connection signal="focus_entered" from="container_rank" to="container_rank" method="_on_focus_entered"]
+[connection signal="focus_exited" from="container_rank" to="container_rank" method="_on_focus_exited"]

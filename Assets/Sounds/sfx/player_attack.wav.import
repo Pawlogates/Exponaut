@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dlvig2qlrk412"
+uid="uid://p7oq4qc050u0"
 path="res://.godot/imported/player_attack.wav-96a08a5c817384e5484948794c7caf48.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

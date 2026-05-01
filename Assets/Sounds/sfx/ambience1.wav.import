@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cu0pw4couffrr"
+uid="uid://cjjlhwpwn0735"
 path="res://.godot/imported/ambience1.wav-4ee0fe7753049c4d697c9b7feb156627.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

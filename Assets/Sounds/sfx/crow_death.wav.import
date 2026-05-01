@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://b0etfmj2vqb4p"
+uid="uid://bidjrerq35tuu"
 path="res://.godot/imported/crow_death.wav-6eec3cbe88a227d4a82bbd0b42a4775e.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

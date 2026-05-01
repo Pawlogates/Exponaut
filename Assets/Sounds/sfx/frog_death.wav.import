@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://0255vwcuk1kd"
+uid="uid://clah2o013em25"
 path="res://.godot/imported/frog_death.wav-1ad506ae7f6da3f67f66715bae875b24.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

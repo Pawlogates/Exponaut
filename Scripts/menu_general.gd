@@ -4,6 +4,7 @@ extends Control
 # Note: The Level Set screen reuses "menu_main", with more buttons disabled (using exported properties), unlike the settings menu. The reason is that unlike Settings, the Level Set screen doesn't require many buttons, and all of the needed ones overlap with the Main Menu anyway.
 
 @onready var container_buttons = $container_buttons # It is crucial to add a container node to the menu core for the menu to work. It's not added by default only because it would limit the type of container used, to just one (nodes in inherited scenes do not allow you to change their type).
+@onready var bg: ColorRect = $bg
 
 @onready var t_destabilized: Timer = $timer_destabilized
 @onready var c_toggle_button_destabilize_modulate_reversed: Timer = $cooldown_toggle_button_destabilize_modulate_reversed
@@ -27,16 +28,31 @@ var button_is_focused = false
 
 
 func _ready() -> void:
-	if is_in_group("menu_main"):
-		for node in get_tree().get_nodes_in_group("menu_main"):
-			if node != self:
-				node.queue_free()
+	#Globals.message("Press ESC to close the menu.", 0, Vector2(0, 105), 2, 4)
+	
+	if Globals.gameState_scoring_focus:
+		if Globals.node_exists("screen_results_level"):
+			position += Vector2(-600, -300)
+	
+	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = true
+	
+	#if is_in_group("menu_main"):
+		#for node in get_tree().get_nodes_in_group("menu_main"):
+			#if node != self:
+				#node.queue_free()
 	
 	on_ready()
+	
+	await get_tree().create_timer(1, true).timeout
+	
+	if Globals.gameState_scoring_focus:
+		if Globals.node_exists("screen_results_level"):
+			bg.size *= 0.2
 
 func _process(delta: float) -> void:
-	if Input.is_action_just_pressed("0"):
-		queue_free()
+	if Input.is_action_just_pressed("menu"):
+		if ready_show:
+			delete_menu()
 	
 	#debug_real_size_container_buttons.position = container_buttons.position
 	#debug_real_size_container_buttons.size = container_buttons.size
@@ -297,7 +313,7 @@ func _on_btn_quit_game_pressed(block_buttons_time : float = 1.0) -> void:
 
 func _on_btn_start_new_game_pressed(block_buttons_time : float = 1.0) -> void:
 	SaveData.wipe_slot(SaveData.slot_current)
-	Globals.change_main_scene(load("res://Levels/level1.tscn"))
+	Globals.change_main_scene(Globals.scene_start_area)
 
 func _on_btn_continue_pressed(block_buttons_time : float = 1.0) -> void:
 	Globals.change_main_scene(SaveData.saved_last_level_filepath)
@@ -383,6 +399,7 @@ func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
 
 
 func delete_menu(): # Will add some menu deletion effect making heavy use of the general tween tool (doesn't exist yet) for each button.
+	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = false
 	queue_free()
 
 
@@ -401,3 +418,15 @@ func _on_btn_touch_controls_pressed() -> void:
 func _on_btn_leaderboard_pressed() -> void:
 	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.tscn"), 1, Vector2(0, 0), -1)
 	queue_free()
+
+
+func _on_btn_next_level_pressed() -> void:
+	Globals.change_main_scene(Globals.World.next_level_filepath)
+
+
+func _on_btn_retry_pressed() -> void:
+	if not FileAccess.file_exists(Globals.World.next_level_filepath) and SaveData.get_total_score(Globals.levelSet_id) < 1000000:
+		Globals.message("So you beat every level, but the real goal is to increase your TOTAL SCORE across all of them! There is a lot more content present in the game, but to access it you will to acquire... let's say: 1000000 TOTAL SCORE. My personal best is way higher than that, so I'm sure it's not too much to ask. Thats right! It is possible to acquire a total score of 1 000 000 across these very few little levels! There are no secret collectibles, just the crazy potential of mastering the scoring system. Good luck!", 6)
+		await get_tree().create_timer(8, true).timeout
+	else:
+		Globals.restart_level()

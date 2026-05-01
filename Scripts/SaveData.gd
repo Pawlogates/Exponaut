@@ -3,10 +3,6 @@ extends Node2D
 var player_name : String = "none"
 
 
-
-
-
-
 # Level Set data:
 
 const default_saved_levelSet = [-1, 0, 0]
@@ -107,7 +103,7 @@ var saved_BONUS_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
-var info_BONUS = ["BONUS Levels", 3, "Pawlogates", "none", "none", "res://Assets/Graphics/backgrounds/bg_desert.png", "res://Other/Scenes/Level Set/screen_decoration_gears2.tscn"]
+var info_BONUS = ["BONUS Levels", 6, "Pawlogates", "none", "none", "res://Assets/Graphics/backgrounds/bg_desert.png", "res://Other/Scenes/Level Set/screen_decoration_gears2.tscn"]
 
 # Level information (static):
 # info_[levelSet_id]_[level_number] : [name, icon_id, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
@@ -298,7 +294,9 @@ var never_saved = true
 
 
 func _ready() -> void:
-	pass
+	load_levelSet("MAIN")
+	load_levelSet("BONUS")
+	load_levelSet("DEBUG")
 
 func _physics_process(delta: float) -> void:
 	if Input.is_action_just_pressed("5"):
@@ -521,39 +519,37 @@ func data_playerData():
 
 # Level sets are collections of levels, shown together on their level set screen.
 # Each level set has its own save files ("levelSet.save") to store its level states (separate from the actual level's collectibles, enemies, etc. state files - "levelState.save"). Level set's level state refers to whether each level has been unlocked, finished, fully cleared, etc.
-func save_levelSet(list_levelSet_id):
-	for levelSet_id in list_levelSet_id:
-		# Save all above properties to the "levelSet[id].save" file.
-		save_file(Globals.d_levelSet + "/levelSet_" + levelSet_id + ".save", "data_levelSet")
+func save_levelSet(levelSet_id):
+	# Save all above properties to the "levelSet[id].save" file.
+	save_file(Globals.d_levelSet.replace("[replace_with_slot_id]", SaveData.slot_current) + "/levelSet_" + levelSet_id + ".save", "data_levelSet", [Globals.levelSet_id])
 
 
-func load_levelSet(list_levelSet_id : Array = ["MAIN"]):
-	for levelSet in list_levelSet_id:
-		var save_filepath = Globals.dirpath_saves + "/levelSet_" + levelSet
-		if not FileAccess.file_exists(save_filepath):
-			Globals.message_debug("Couldn't find the save file (levelSet.save - All of the LEVEL SET level completion states, scores, etc.) at " + save_filepath)
-			return
-			
-		var save_file = FileAccess.open(save_filepath, FileAccess.READ)
-		while save_file.get_position() < save_file.get_length():
-			var json_string = save_file.get_line()
-			var json = JSON.new()
-			var parse_result = json.parse(json_string)
-			
-			if not parse_result == OK:
-				print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-				continue
-			
-			var data = json.get_data()
-			
-			var level_number = 0
-			
-			for level_info in data:
-				level_number += 1
-				if level_number > get("info_" + levelSet)[1]:
-					break
-				else:
-					set("saved_" + levelSet + str(level_number), data[("saved_" + levelSet + str(level_number))])
+func load_levelSet(levelSet_id : String = "MAIN"):
+	var save_filepath = Globals.dirpath_saves + "/levelSet_" + levelSet_id
+	if not FileAccess.file_exists(save_filepath):
+		Globals.message_debug("Couldn't find the save file (levelSet.save - All of the LEVEL SET level completion states, scores, etc.) at " + save_filepath)
+		return
+		
+	var save_file = FileAccess.open(save_filepath, FileAccess.READ)
+	while save_file.get_position() < save_file.get_length():
+		var json_string = save_file.get_line()
+		var json = JSON.new()
+		var parse_result = json.parse(json_string)
+		
+		if not parse_result == OK:
+			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			continue
+		
+		var data = json.get_data()
+		
+		var level_number = 0
+		
+		for level_info in data:
+			level_number += 1
+			if level_number > get("info_" + levelSet_id)[1]:
+				break
+			else:
+				set("saved_" + levelSet_id + str(level_number), data[("saved_" + levelSet_id + str(level_number))])
 
 
 func reset_levelSet(slot_id : String, levelSet_id: String): # Example id: "MAIN, "BONUS", etc.
@@ -589,11 +585,11 @@ func delete_levelSet(slot_id : String = slot_current, levelSet_id: String = "non
 func data_levelSet(id):
 	var contents : Dictionary = {}
 	
-	for level_number in range(get("info_" + id)[2]):
+	for level_number in range(1, get("info_" + id)[1] + 1):
 		Globals.message_debug("Saving levelSet state for " + str(id) + "_" + str(level_number))
-		contents.get_or_add({
+		contents.get_or_add(str(level_number), {
 			# Saved states and scores of levels from various level sets.
-			"state_" + str(id) + "_" + str(level_number) : get("state_" + str(id) + "_" + str(level_number))
+			"state_" + str(id) + "_" + str(level_number) : get("saved_" + str(id) + "_" + str(level_number))
 		})
 	
 	
@@ -742,18 +738,19 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 	Globals.levelState_loaded.emit()
 
 
-func save_file(filepath : String, data, make_readable : bool = false):
+func save_file(filepath : String, data_func_name : String, list_data_func_arg : Array = ["none"]):
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
 	
+	var data
 	var json_contents
 	
-	if data is not Dictionary and data in self: # If "data" is a valid function name, the saved contents get replaced with that function's output.
-		data = call(data)
-	
-	if make_readable:
-		json_contents = JSON.stringify(data, "\t")
+	if list_data_func_arg == ["none"] : data = call(data_func_name)
 	else:
-		json_contents = JSON.stringify(data)
+		if len(list_data_func_arg) == 1 : data = call(data_func_name, list_data_func_arg[0])
+		elif len(list_data_func_arg) == 2 : data = call(data_func_name, list_data_func_arg[0], list_data_func_arg[1])
+		elif len(list_data_func_arg) == 3 : data = call(data_func_name, list_data_func_arg[0], list_data_func_arg[1], list_data_func_arg[2])
+	
+	json_contents = JSON.stringify(data)
 	
 	file.store_line(json_contents)
 
@@ -849,3 +846,44 @@ func create_dir_saves():
 	dir.make_dir("playerData")
 	dir.make_dir("levelSet")
 	dir.make_dir("levelState")
+
+
+func save_level(level_id : String, state : int, score : float, time : float, major_collectibles : Array):
+	Globals.dm(str("Saving levelSet level ('%s')'s state: %s, %s, %s, %s" % [level_id, state, score, time, major_collectibles]))
+	
+	for x in 100:
+		if level_id.ends_with(str(x)):
+			if get("saved_" + level_id.replace(str(x), str(x + 1)))[0] < 0:
+				get("saved_" + level_id.replace(str(x), str(x + 1)))[0] = 0
+			break
+	
+	var level_data : Array = get("saved" + "_" + level_id)
+	
+	if state > level_data[0] : level_data[0] = state
+	if score > level_data[1] : level_data[1] = score
+	if time > level_data[2] : level_data[2] = time
+	
+	var slot_position : int = 0
+	for slot in level_data[3]:
+		if level_data[3][slot_position]:
+			if major_collectibles[slot_position] > level_data[3][slot_position]:
+				level_data[3][slot_position] = major_collectibles[slot_position]
+		
+		slot_position += 1
+
+
+func get_total_score(levelSet_id : String = "MAIN"):
+	var total_score : float = 0
+	
+	var level_number = 1
+	for x in range(1, get("info_" + levelSet_id)[1] + 1):
+		var var_name : String = "saved_" + levelSet_id + "_" + str(level_number)
+		if not var_name in self : break
+		print(var_name)
+		print(get(var_name))
+		if get(var_name)[0] > 1: # If the level has been finished at least once.
+			total_score += get(var_name)[1]
+		
+		level_number += 1
+	
+	return total_score

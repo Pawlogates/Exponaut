@@ -1841,7 +1841,7 @@ _data = {
 }
 
 [node name="display_messages" type="CanvasLayer" groups=["display_messages"]]
-layer = 125
+layer = 101
 script = ExtResource("1_2jl23")
 
 [node name="container_message" type="Control" parent="."]

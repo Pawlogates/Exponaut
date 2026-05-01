@@ -7,8 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="5_5g8li"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="6_cuahx"]
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="6_surr2"]
-[ext_resource type="AudioStream" uid="uid://cp16up1kbcmju" path="res://Assets/Sounds/sfx/mechanical3.wav" id="7_07tce"]
-[ext_resource type="AudioStream" uid="uid://0o3x2xyj02bt" path="res://Assets/Sounds/sfx/powerUp2.wav" id="8_w4te2"]
+[ext_resource type="AudioStream" uid="uid://df3024t2gf8m5" path="res://Assets/Sounds/sfx/mechanical3.wav" id="7_07tce"]
+[ext_resource type="AudioStream" uid="uid://bcvju14b2s86w" path="res://Assets/Sounds/sfx/powerUp2.wav" id="8_w4te2"]
 
 [sub_resource type="Animation" id="Animation_jbag6"]
 length = 0.001

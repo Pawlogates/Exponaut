@@ -2,7 +2,7 @@
 
 importer="mp3"
 type="AudioStreamMP3"
-uid="uid://bisuymuc8i33s"
+uid="uid://ity7vnr8iuev"
 path="res://.godot/imported/underwater1.mp3-331add7b24b973476f7973cb82c2c3ca.mp3str"
 
 [deps]
@@ -12,7 +12,7 @@ dest_files=["res://.godot/imported/underwater1.mp3-331add7b24b973476f7973cb82c2c
 
 [params]
 
-loop=true
+loop=false
 loop_offset=0
 bpm=0
 beat_count=0

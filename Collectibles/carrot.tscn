@@ -5,7 +5,7 @@
 
 [node name="carrot" instance=ExtResource("1_cdnqm")]
 score_value = 15
-sfx_self_collected_filepath = "uid://brdf61qp7ucnh"
+sfx_self_collected_filepath = "uid://cvl56la70f8k3"
 entity_name = "carrot"
 
 [node name="sprite" parent="." index="1"]

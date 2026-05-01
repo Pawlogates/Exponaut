@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dqpoggicmdn2f"
+uid="uid://ra31d4a8kue6"
 path="res://.godot/imported/crow_idle.wav-b206ca98f855266a70fb3cf2b5a995dd.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

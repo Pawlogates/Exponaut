@@ -1,42 +1,39 @@
-[gd_scene load_steps=6 format=3 uid="uid://bl2wojdbpaurx"]
+[gd_scene load_steps=4 format=3 uid="uid://bl2wojdbpaurx"]
 
 [ext_resource type="Script" uid="uid://b6k31rfs2ykm0" path="res://Scripts/music_manager.gd" id="1_5q24m"]
-[ext_resource type="AudioStream" uid="uid://by7gw2q8yutm2" path="res://Assets/Sounds/ambience/ambience6.mp3" id="2_d2que"]
-[ext_resource type="AudioStream" uid="uid://chvi6ycadfi3x" path="res://Assets/Sounds/ambience/ambience_mysterious2.mp3" id="3_35147"]
-[ext_resource type="AudioStream" uid="uid://rangaccummiw" path="res://Assets/Sounds/ambience/ambience_mysterious5.mp3" id="4_q67ph"]
-[ext_resource type="AudioStream" uid="uid://c2ex1orqrippr" path="res://Assets/Sounds/ambience/ambience3.mp3" id="5_bjasv"]
+[ext_resource type="AudioStream" uid="uid://c7wvi7a0radm3" path="res://Assets/Sounds/music/mysterious.mp3" id="2_77hva"]
+[ext_resource type="AudioStream" uid="uid://c5tc05f5t21ft" path="res://Assets/Sounds/ambience/mysterious_loop.mp3" id="2_ss5m0"]
 
 [node name="Music Manager" type="Node2D"]
 script = ExtResource("1_5q24m")
 
 [node name="layer1" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("2_d2que")
+stream = ExtResource("2_ss5m0")
 
 [node name="cooldown_toggle_fade" type="Timer" parent="layer1"]
 one_shot = true
 
 [node name="layer1_alt" type="AudioStreamPlayer" parent="layer1"]
 unique_name_in_owner = true
-stream = ExtResource("2_d2que")
 
 [node name="layer2" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("3_35147")
+stream = ExtResource("2_77hva")
 
 [node name="cooldown_toggle_fade" type="Timer" parent="layer2"]
 one_shot = true
 
 [node name="layer3" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("4_q67ph")
+stream = ExtResource("2_77hva")
 
 [node name="cooldown_toggle_fade" type="Timer" parent="layer3"]
 one_shot = true
 
 [node name="layer4" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("5_bjasv")
+stream = ExtResource("2_77hva")
 
 [node name="cooldown_toggle_fade" type="Timer" parent="layer4"]
 one_shot = true

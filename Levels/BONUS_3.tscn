@@ -1,0 +1,40 @@
+[gd_scene load_steps=8 format=3 uid="uid://dn0h5dwya7eai"]
+
+[ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_1owri"]
+[ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="3_351se"]
+[ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_7bak4"]
+[ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="5_vrmcb"]
+[ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="6_t1n8g"]
+[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_ctlpg"]
+[ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_gmk3a"]
+
+[node name="World" instance=ExtResource("1_1owri")]
+levelSet_id = "BONUS"
+level_number = 3
+
+[node name="tileset_main" parent="." index="0" instance=ExtResource("3_351se")]
+light_mask = 512
+layer_0/tile_data = PackedInt32Array(196604, 0, 10, 196605, 0, 10, 196606, 0, 10, 196607, 0, 10, 131072, 0, 10, 131073, 0, 10, 131074, 0, 10, 131075, 0, 10, 131076, 0, 10, 131077, 0, 10, 131078, 0, 10, 131079, 0, 10, 131080, 0, 10, 131081, 0, 10, 131082, 0, 10, 131083, 0, 10, 65547, 0, 10, 11, 0, 10, -65525, 0, 10, -131061, 0, 10, -196597, 0, 10, 131068, 0, 10, 65532, 0, 10, -4, 0, 10, -65540, 0, 10)
+
+[node name="tileset_main_precise" parent="." index="1" instance=ExtResource("4_7bak4")]
+
+[node name="tileset_objects" parent="." index="2" instance=ExtResource("5_vrmcb")]
+layer_0/tile_data = PackedInt32Array(9, 3, 131072, -131068, 1, 196608, -131069, 1, 196608, -65533, 1, 196608, 2, 1, 196608, 3, 1, 196608, 4, 1, 196608, 5, 1, 196608, 6, 1, 196608, -65530, 1, 196608, -131066, 1, 196608, -131067, 1, 196608, -65532, 1, 196608, -65531, 1, 196608, -65534, 1, 196608, -131070, 1, 196608)
+
+[node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("6_t1n8g")]
+
+[node name="triggers" type="Node2D" parent="." index="4"]
+
+[node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("7_ctlpg")]
+bg_main_filepath = "uid://cc4eult8odint"
+bg_front_filepath = "uid://brb8qm5tbxwnl"
+bg_front2_filepath = "uid://bpevvq03p3otx"
+bg_back_filepath = "uid://dps4meqqtaogn"
+bg_back2_filepath = "uid://bpevvq03p3otx"
+
+[node name="trigger_musicChange" parent="triggers" index="1" instance=ExtResource("8_gmk3a")]
+music_file = "uid://cjxg3tkhv8lbg"
+
+[node name="objects" type="Node2D" parent="." index="5"]
+
+[node name="zones" type="Node2D" parent="." index="6"]

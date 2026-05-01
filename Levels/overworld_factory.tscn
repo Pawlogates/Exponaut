@@ -76,7 +76,6 @@ bg_front2_filepath = "uid://bpevvq03p3otx"
 bg_back_filepath = "uid://bpevvq03p3otx"
 bg_back2_filepath = "uid://bpevvq03p3otx"
 bg_main_repeat_y = true
-bg_main_edge_top_filepath = "uid://bpevvq03p3otx"
 
 [node name="trigger_bg_change2" parent="." index="11" instance=ExtResource("7_nen1n")]
 position = Vector2(10304, -3712)
@@ -226,12 +225,12 @@ camera_target_offset = Vector2(-640, 720)
 [node name="trigger_musicChange" parent="." index="34" instance=ExtResource("14_b80mc")]
 position = Vector2(3040, -2016)
 scale = Vector2(1, 3)
-music_file = "uid://cqqx8r32t301b"
+music_file = "uid://cmjj47ie148ct"
 
 [node name="trigger_musicChange2" parent="." index="35" instance=ExtResource("14_b80mc")]
 position = Vector2(-96, -3744)
 scale = Vector2(1, 5)
-music_file = "uid://cbm5sgx3jfj23"
+music_file = "uid://c5tc05f5t21ft"
 set_volume = true
 
 [node name="score_gate4" parent="." index="36" instance=ExtResource("11_y58wk")]
@@ -356,6 +355,7 @@ maxZoom = 3.0
 [node name="trigger_positional5" parent="." index="50" instance=ExtResource("26_clhao")]
 position = Vector2(1632, -128)
 scale = Vector2(9, 6)
+right_to_left = true
 moveCamera = false
 minZoom = 1.0
 maxZoom = 2.0
@@ -365,6 +365,7 @@ position = Vector2(2080, -288)
 scale = Vector2(3, 3)
 RESET_OFFSET = true
 RESET_ZOOM = true
+zoomCamera = false
 
 [node name="trigger_positional24" parent="." index="52" instance=ExtResource("26_clhao")]
 position = Vector2(1888, -416)
@@ -374,20 +375,15 @@ maxOffset = 400
 camera_baseOffset_Y = 100
 minOffset_Y = -100
 maxOffset_Y = 0
-
-[node name="trigger_positional23" parent="." index="53" instance=ExtResource("26_clhao")]
-position = Vector2(1600, -128)
-scale = Vector2(12, 6)
-right_to_left = true
-maxOffset_Y = 0
 zoomCamera = false
 
-[node name="trigger_positional6" parent="." index="54" instance=ExtResource("26_clhao")]
+[node name="trigger_positional6" parent="." index="53" instance=ExtResource("26_clhao")]
 position = Vector2(2432, -608)
 scale = Vector2(6, 3)
 right_to_left = true
+zoomCamera = false
 
-[node name="trigger_positional7" parent="." index="55" instance=ExtResource("26_clhao")]
+[node name="trigger_positional7" parent="." index="54" instance=ExtResource("26_clhao")]
 position = Vector2(2304, -832)
 scale = Vector2(24, 10)
 horizontal = false
@@ -399,7 +395,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional8" parent="." index="56" instance=ExtResource("26_clhao")]
+[node name="trigger_positional8" parent="." index="55" instance=ExtResource("26_clhao")]
 position = Vector2(3584, -512)
 scale = Vector2(10, 8)
 horizontal = false
@@ -411,7 +407,7 @@ camera_baseZoom = 4.0
 minZoom = 1.0
 maxZoom = 4.0
 
-[node name="trigger_positional9" parent="." index="57" instance=ExtResource("26_clhao")]
+[node name="trigger_positional9" parent="." index="56" instance=ExtResource("26_clhao")]
 position = Vector2(3680, -1792)
 scale = Vector2(11, 4)
 horizontal = false
@@ -422,7 +418,7 @@ maxOffset = 100
 camera_baseZoom = 1.5
 minZoom = 1.0
 
-[node name="trigger_positional10" parent="." index="58" instance=ExtResource("26_clhao")]
+[node name="trigger_positional10" parent="." index="57" instance=ExtResource("26_clhao")]
 position = Vector2(3200, -2176)
 scale = Vector2(2, 8)
 vertical = true
@@ -432,7 +428,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional15" parent="." index="59" instance=ExtResource("26_clhao")]
+[node name="trigger_positional15" parent="." index="58" instance=ExtResource("26_clhao")]
 position = Vector2(2816, -2000)
 scale = Vector2(6, 1)
 vertical = true
@@ -440,8 +436,9 @@ camera_baseOffset = 0
 camera_baseOffset_Y = 500
 minOffset_Y = 0
 maxOffset_Y = 500
+zoomCamera = false
 
-[node name="trigger_positional26" parent="." index="60" instance=ExtResource("26_clhao")]
+[node name="trigger_positional26" parent="." index="59" instance=ExtResource("26_clhao")]
 position = Vector2(2560, -2208)
 scale = Vector2(8, 9)
 camera_baseOffset = 400
@@ -453,7 +450,7 @@ maxOffset_Y = -350
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional16" parent="." index="61" instance=ExtResource("26_clhao")]
+[node name="trigger_positional16" parent="." index="60" instance=ExtResource("26_clhao")]
 position = Vector2(1728, -1952)
 scale = Vector2(8, 1)
 vertical = true
@@ -465,14 +462,14 @@ minOffset_Y = 0
 maxOffset_Y = 100
 zoomCamera = false
 
-[node name="trigger_positional20" parent="." index="62" instance=ExtResource("26_clhao")]
+[node name="trigger_positional20" parent="." index="61" instance=ExtResource("26_clhao")]
 position = Vector2(2848, -2208)
 scale = Vector2(3, 3)
 RESET_OFFSET = true
 RESET_ZOOM = true
 vertical = true
 
-[node name="trigger_positional31" parent="." index="63" instance=ExtResource("26_clhao")]
+[node name="trigger_positional31" parent="." index="62" instance=ExtResource("26_clhao")]
 position = Vector2(2816, -2400)
 scale = Vector2(6, 3)
 vertical = true
@@ -480,7 +477,7 @@ camera_baseZoom = 3.0
 minZoom = 1.5
 maxZoom = 3.0
 
-[node name="trigger_positional22" parent="." index="64" instance=ExtResource("26_clhao")]
+[node name="trigger_positional22" parent="." index="63" instance=ExtResource("26_clhao")]
 position = Vector2(4224, -1216)
 scale = Vector2(12, 4)
 right_to_left = true
@@ -491,7 +488,7 @@ maxOffset_Y = 0
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional17" parent="." index="65" instance=ExtResource("26_clhao")]
+[node name="trigger_positional17" parent="." index="64" instance=ExtResource("26_clhao")]
 position = Vector2(-352, -2000)
 scale = Vector2(11, 1)
 horizontal = false
@@ -504,7 +501,7 @@ minOffset_Y = 0
 maxOffset_Y = 50
 zoomCamera = false
 
-[node name="trigger_positional18" parent="." index="66" instance=ExtResource("26_clhao")]
+[node name="trigger_positional18" parent="." index="65" instance=ExtResource("26_clhao")]
 position = Vector2(-704, -2176)
 scale = Vector2(2, 2)
 RESET_OFFSET = true
@@ -513,7 +510,7 @@ horizontal = false
 moveCamera = false
 zoomCamera = false
 
-[node name="trigger_positional30" parent="." index="67" instance=ExtResource("26_clhao")]
+[node name="trigger_positional30" parent="." index="66" instance=ExtResource("26_clhao")]
 position = Vector2(-672, -2880)
 scale = Vector2(7, 16)
 horizontal = false
@@ -523,7 +520,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional19" parent="." index="68" instance=ExtResource("26_clhao")]
+[node name="trigger_positional19" parent="." index="67" instance=ExtResource("26_clhao")]
 position = Vector2(1408, -2240)
 scale = Vector2(1, 10)
 RESET_OFFSET = true
@@ -532,7 +529,7 @@ horizontal = false
 moveCamera = false
 zoomCamera = false
 
-[node name="trigger_positional11" parent="." index="69" instance=ExtResource("26_clhao")]
+[node name="trigger_positional11" parent="." index="68" instance=ExtResource("26_clhao")]
 position = Vector2(5376, -4320)
 scale = Vector2(14, 17)
 right_to_left = true
@@ -541,7 +538,7 @@ maxOffset = 700
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional12" parent="." index="70" instance=ExtResource("26_clhao")]
+[node name="trigger_positional12" parent="." index="69" instance=ExtResource("26_clhao")]
 position = Vector2(5600, -5024)
 scale = Vector2(5, 3)
 minOffset = -500
@@ -553,7 +550,7 @@ camera_baseZoom = 3.0
 minZoom = 1.0
 maxZoom = 3.0
 
-[node name="trigger_positional13" parent="." index="71" instance=ExtResource("26_clhao")]
+[node name="trigger_positional13" parent="." index="70" instance=ExtResource("26_clhao")]
 position = Vector2(5344, -5184)
 scale = Vector2(4, 8)
 RESET_OFFSET = true
@@ -562,7 +559,7 @@ vertical = true
 moveCamera = false
 zoomCamera = false
 
-[node name="trigger_positional14" parent="." index="72" instance=ExtResource("26_clhao")]
+[node name="trigger_positional14" parent="." index="71" instance=ExtResource("26_clhao")]
 position = Vector2(5856, -5184)
 scale = Vector2(4, 8)
 RESET_OFFSET = true
@@ -571,7 +568,7 @@ vertical = true
 moveCamera = false
 zoomCamera = false
 
-[node name="trigger_positional32" parent="." index="73" instance=ExtResource("26_clhao")]
+[node name="trigger_positional32" parent="." index="72" instance=ExtResource("26_clhao")]
 position = Vector2(6800, -4240)
 scale = Vector2(4, 8)
 RESET_OFFSET = true
@@ -580,7 +577,7 @@ vertical = true
 moveCamera = false
 zoomCamera = false
 
-[node name="trigger_positional33" parent="." index="74" instance=ExtResource("26_clhao")]
+[node name="trigger_positional33" parent="." index="73" instance=ExtResource("26_clhao")]
 position = Vector2(6952, -4832)
 scale = Vector2(4, 8)
 RESET_OFFSET = true
@@ -589,12 +586,12 @@ vertical = true
 moveCamera = false
 zoomCamera = false
 
-[node name="info_sign12" parent="." index="75" instance=ExtResource("13_a6ra1")]
+[node name="info_sign12" parent="." index="74" instance=ExtResource("13_a6ra1")]
 position = Vector2(7424, -3680)
 message_text = "Come back here before the button timers run out!"
 camera_target_offset = Vector2(0, -320)
 
-[node name="trigger_positional21" parent="." index="76" instance=ExtResource("26_clhao")]
+[node name="trigger_positional21" parent="." index="75" instance=ExtResource("26_clhao")]
 position = Vector2(4736, -1504)
 scale = Vector2(4, 9)
 right_to_left = true
@@ -604,7 +601,7 @@ camera_baseOffset_Y = 0
 minZoom = 1.0
 maxZoom = 2.0
 
-[node name="trigger_positional27" parent="." index="77" instance=ExtResource("26_clhao")]
+[node name="trigger_positional27" parent="." index="76" instance=ExtResource("26_clhao")]
 position = Vector2(4128, -512)
 scale = Vector2(4, 4)
 minOffset = 0
@@ -613,7 +610,7 @@ minOffset_Y = -600
 maxOffset_Y = 0
 minZoom = 1.0
 
-[node name="trigger_positional28" parent="." index="78" instance=ExtResource("26_clhao")]
+[node name="trigger_positional28" parent="." index="77" instance=ExtResource("26_clhao")]
 position = Vector2(3520, -1088)
 scale = Vector2(4, 4)
 RESET_OFFSET = true
@@ -621,7 +618,7 @@ RESET_ZOOM = true
 vertical = true
 moveCamera = false
 
-[node name="trigger_positional29" parent="." index="79" instance=ExtResource("26_clhao")]
+[node name="trigger_positional29" parent="." index="78" instance=ExtResource("26_clhao")]
 position = Vector2(4224, -800)
 scale = Vector2(4, 4)
 RESET_OFFSET = true
@@ -629,7 +626,7 @@ RESET_ZOOM = true
 vertical = true
 moveCamera = false
 
-[node name="zone_hidden" parent="." index="80" instance=ExtResource("21_in8gr")]
+[node name="zone_hidden" parent="." index="79" instance=ExtResource("21_in8gr")]
 position = Vector2(2592, -2656)
 sprite_texture_region = Rect2(384, 64, 64, 64)
 uncover_on_proximity_distance = Vector2(12, 12)
@@ -637,25 +634,25 @@ uncover_on_timeout = true
 uncover_on_timeout_cooldown = 8.0
 uncover_on_timeout_start_on_proximity = true
 
-[node name="zone_hidden2" parent="." index="81" instance=ExtResource("21_in8gr")]
+[node name="zone_hidden2" parent="." index="80" instance=ExtResource("21_in8gr")]
 position = Vector2(2592, -2592)
 sprite_texture_region = Rect2(384, 64, 64, 64)
 uncover_on_timeout = true
 uncover_on_timeout_cooldown = 20.0
 uncover_on_timeout_start_on_proximity = true
 
-[node name="zone_hidden3" parent="." index="82" instance=ExtResource("21_in8gr")]
+[node name="zone_hidden3" parent="." index="81" instance=ExtResource("21_in8gr")]
 position = Vector2(2592, -2528)
 sprite_texture_region = Rect2(384, 64, 64, 64)
 uncover_on_timeout = true
 uncover_on_timeout_cooldown = 20.0
 uncover_on_timeout_start_on_proximity = true
 
-[node name="info_sign17" parent="." index="83" instance=ExtResource("13_a6ra1")]
+[node name="info_sign17" parent="." index="82" instance=ExtResource("13_a6ra1")]
 position = Vector2(4704, -5472)
 message_text = "Remember that you can open the ENTITY EDITOR by pressing Q or MMB (middle mouse button)"
 
-[node name="trigger_level_transition" parent="." index="85" instance=ExtResource("16_osfq0")]
+[node name="trigger_level_transition" parent="." index="84" instance=ExtResource("16_osfq0")]
 position = Vector2(-288, -128)
 transition_next = 10
 

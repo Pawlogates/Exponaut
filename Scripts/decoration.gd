@@ -37,7 +37,7 @@ extends Node2D
 @export var randomize_anim_reverse2 : bool = false
 
 @export var randomize_modulate_dark : bool = false
-@export var randomize_modulate_dark_chance : float = 75.0
+@export var randomize_modulate_dark_chance : float = 20.0
 @export var randomize_opacity : bool = false
 
 
@@ -55,6 +55,8 @@ var effect_thrownAway_velocity = Vector2(randi_range(-1000, 1000), randi_range(-
 func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 3 to a Decoration Core, with the target function being 'debug_show_anim_names'.")
 	Globals.debug3.connect(debug_show_anim_names)
+	
+	if Globals.gameState_level : randomize_modulate_dark_chance = 75.0
 	
 	if decoration == null : return
 	

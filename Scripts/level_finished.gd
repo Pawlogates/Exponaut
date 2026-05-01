@@ -1,157 +1,153 @@
-extends ColorRect
+extends CanvasLayer
 
-signal retry()
-
-@onready var retry_btn = %RetryBtn
-@onready var level_select_btn = %LevelSelectBtn
-
-var level_score = 0
-var displayed_totalScore = 0
-var displayed_score = 0
-
-var saved_progress = Node2D
-
-func _on_retry_btn_pressed():
-	retry.emit()
-
-func _on_continue_btn_pressed():
-	Globals.change_main_scene(SaveData.saved_last_level_filepath)
-
-func _on_level_select_btn_pressed():
-	Globals.change_main_scene(Globals.scene_levelSet_screen)
+@onready var sfx_manager: Node2D = $sfx_manager
+@onready var container_results: VBoxContainer = $container_results
+@onready var label_score: RichTextLabel = $container_results/label_score
+@onready var label_score_total: RichTextLabel = $container_results/label_score_total
+@onready var label_time: RichTextLabel = $container_results/label_time
+@onready var container_majorCollectables: HBoxContainer = %container_majorCollectables
+@onready var container_rank: VBoxContainer = %container_rank
+@onready var label_rank: RichTextLabel = $container_rank/label_rank
+@onready var label_next_rank_score: RichTextLabel = $container_rank/label_next_rank_score
+@onready var animation_ui: AnimationPlayer = $animation_ui
+@onready var container_level_finished: Control = $container_level_finished
+@onready var label_score_previous_best: RichTextLabel = $container_results/label_score_previous_best
+@onready var label_time_previous_best: RichTextLabel = $container_results/label_time_previous_best
 
 
-var score_counted_emitted = false
-signal score_counted()
+var level_id : String = "DEBUG_-1"
+var levelSet_id : String = "DEBUG"
+
+var level_data : Array = [-1, -1, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+
+var level_score : float = -1
+var level_time : float = -1
+var level_majorCollectables : Array = [0, 0, 0]
+
+var level_previous_best_score : float = -1
+var level_previous_best_time : float = -1
+var total_score : float = 0
+
+var rank : String = "none"
+var rank_value : int = -1
+
+var score_current : bool = true # Whether the score was aquired right now, or is just being viewed.
+
 
 func _ready():
-	Globals.gameState_changed.connect(on_gameState_changed)
+	Globals.gameState_changed.connect(delete)
 	
 	Globals.set_mouse_mode(true)
 	
-	saved_progress = SaveData
-	
 	set_process(false)
 	
-	%"Golden Apple Reward 1".modulate.a = 0.2
-	%"Golden Apple Reward 2".modulate.a = 0.2
-	%"Golden Apple Reward 3".modulate.a = 0.2
-	%"Golden Apple Reward 4".modulate.a = 0.2
-	%"Golden Apple Reward 5".modulate.a = 0.2
+	level_data = SaveData.get("saved_" + level_id)
+	
+	if score_current:
+		level_score = Globals.level_score
+		level_previous_best_score = int(level_data[1])
+	
+	else:
+		level_score = int(level_data[1])
+		label_score_previous_best.queue_free()
+	
+	
+	level_time = level_data[2]
+	level_majorCollectables = level_data[3]
+	
+	total_score = SaveData.get_total_score(levelSet_id)
+	
+	container_results.modulate.a = 0
+	container_majorCollectables.modulate.a = 0
+	container_rank.modulate.a = 0
+	
+	animation_ui.play("show")
+	
+	var rank_data = SaveData.calculate_rank_level(level_id)
+	rank = rank_data[0]
+	rank_value = rank_data[1]
+	
+	label_score_previous_best.text = str(int(level_previous_best_score))
+	label_score_previous_best.update_text()
+	
+	label_rank.text = rank
+	label_rank.update_text()
+	
+	label_score_total.text = str(int(total_score))
+	label_score_total.update_text()
+	label_time.text = str(level_time / 1000)
+	label_time.update_text()
 
+
+var level_score_displayed = 0
 
 func _process(_delta):
-	if displayed_score != level_score and level_score - displayed_score <= 10:
-		displayed_score += 1
-		
-	if displayed_score != level_score and level_score - displayed_score <= 100 and level_score - displayed_score > 10:
-		displayed_score += 3
-	
-	if displayed_score != level_score and level_score - displayed_score <= 1000 and level_score - displayed_score > 100:
-		displayed_score += 11
-		
-	if displayed_score != level_score and level_score - displayed_score > 1000:
-		displayed_score += 41
-		
-	if displayed_score != level_score and level_score - displayed_score > 10000:
-		displayed_score += 121
-		
-	if displayed_score != level_score and level_score - displayed_score > 25000:
-		displayed_score += 251
-	
-	
-	%"Level Score Label".text = str(displayed_score)
-	%"Total Score Label".text = str(displayed_totalScore)
-	
-	
-	if not score_counted_emitted and displayed_score == level_score:
-		score_counted.emit()
-		score_counted_emitted = true
+	if Input.is_action_just_pressed("menu") : queue_free()
+	handle_count_score()
 
 
-var first_time_clear = false
-var topRankScore = 0
+func delete():
+	animation_ui.play("hide")
+	await animation_ui.animation_finished
+	queue_free()
 
-func exit_reached():
-	var level_saved_state = saved_progress.get("saved_" + Globals.level_id)[0]
-	var level_saved_score = saved_progress.get("saved_" + Globals.level_id)[1]
-	
-	var level_info = saved_progress.get("info_" + Globals.level_id)
-	
-	level_score = Globals.level_score
-	topRankScore = level_info[4]
-	
-	%top_rank_label.text = "Top Rank: " + str(topRankScore)
-	
-	
-	if $/root/World.final_level:
-		if first_time_clear:
-			Overlay.animation("fade_black", 0, 1.0, true)
-			await get_tree().create_timer(2, true).timeout
-			var credits = load("res://Other/Scenes/screen_credits.tscn")
-			get_tree().change_scene_to_packed(credits)
-			
-			return
-	
-	$AudioStreamPlayer.play()
-	$level_finished_text_hide.start()
-	await $level_finished_text_hide.timeout
-	Overlay.animation("fade_black", 0, 1.0, true)
-	%"Level Finished Label".visible = false
-	%"Button Container".visible = true
-	%Background.visible = true
-	%"End Screen".visible = true
-	%"End Screen Values".visible = true
-	Overlay.animation("fade_black", 0, 1.0, true)
-	%ContinueBtn.grab_focus()
+
+func _on_cooldown_show_results_timeout() -> void:
+	container_results.modulate.a = 1
+	container_majorCollectables.modulate.a = 1
+	container_level_finished.modulate.a = 0
 	
 	set_process(true)
-	calculate_rank()
 
 
-var rank = "D" #possible ranks: D, C, B, A, S (no reward), S+ (no reward)
-var rank_value = -1
+var level_score_displayed_set : bool = false
 
-func calculate_rank():
-	var rank_info = saved_progress.calculate_rank_level(Globals.level_id)
-	rank = rank_info[0]
-	rank_value = rank_info[1]
+func handle_count_score():
+	if level_score_displayed_set : return
 	
-	%achieved_rank_label.text = rank
+	if level_score_displayed != level_score:
+		if level_score - level_score_displayed <= 50:
+			level_score_displayed += 1
+			sfx_manager.sfx_play(Globals.l_sfx_menu_stabilize.pick_random(), randf_range(0.25, 0.4), randf_range(0.05, 10))
+			
+		elif level_score - level_score_displayed <= 250:
+			level_score_displayed += 3
+			sfx_manager.sfx_play(Globals.l_sfx_menu_stabilize.pick_random(), randf_range(0.25, 0.5), randf_range(0.05, 10))
+		
+		elif level_score - level_score_displayed <= 500:
+			level_score_displayed += 11
+			sfx_manager.sfx_play(Globals.l_sfx_menu_stabilize.pick_random(), randf_range(0.25, 0.6), randf_range(0.05, 10))
+			
+		elif level_score - level_score_displayed <= 2500:
+			level_score_displayed += 41
+			sfx_manager.sfx_play(Globals.l_sfx_menu_stabilize.pick_random(), randf_range(0.25, 0.7), randf_range(0.05, 10))
+			
+		elif level_score - level_score_displayed <= 10000:
+			level_score_displayed += 121
+			sfx_manager.sfx_play(Globals.l_sfx_menu_stabilize.pick_random(), randf_range(0.25, 0.8), randf_range(0.05, 10))
+			
+		elif level_score - level_score_displayed <= 25000:
+			level_score_displayed += 251
+			sfx_manager.sfx_play(Globals.l_sfx_menu_stabilize.pick_random(), randf_range(0.25, 0.9), randf_range(0.05, 10))
+		
+		else:
+			level_score_displayed += 1234
+			sfx_manager.sfx_play(Globals.l_sfx_menu_stabilize.pick_random(), randf_range(0.25, 1), randf_range(0.05, 10))
+		
+		label_score.text = str(int(level_score_displayed))
 	
-	if rank_value >= 1:
-		await get_tree().create_timer(0.5, true).timeout
-		%"Golden Apple Reward 1".modulate.a = 1.0
-	if rank_value >= 2:
-		await get_tree().create_timer(0.5, true).timeout
-		%"Golden Apple Reward 2".modulate.a = 1.0
-	if rank_value >= 3:
-		await get_tree().create_timer(0.5, true).timeout
-		%"Golden Apple Reward 3".modulate.a = 1.0
-	if rank_value >= 4:
-		await get_tree().create_timer(0.5, true).timeout
-		%"Golden Apple Reward 4".modulate.a = 1.0
-	if rank_value >= 5:
-		await get_tree().create_timer(0.5, true).timeout
-		%"Golden Apple Reward 5".modulate.a = 1.0
-
-
-var displayedBonus_hp = 0
-var displayedBonus_time = 0
-var displayedBonus_items = 0
-
-func count_hp():
-	while Globals.playerHP > 0:
-		print(Globals.playerHP)
-		Globals.playerHP -= 1
-		displayedBonus_hp += 1000
-		await get_tree().create_timer(0.5, true).timeout
-
-
-func count_inventoryItems():
-	if Globals.inventory_currentItemCount > 0:
-		displayedBonus_items += 1000
-
-
-func on_gameState_changed():
-	visible = false
+	else:
+		if level_score > level_previous_best_score:
+			label_score.text = str(int(level_score_displayed)) + " (New best!)"
+		else:
+			label_score.text = str(int(level_score_displayed))
+		label_score.update_text()
+		
+		container_rank.modulate.a = 1
+		
+		level_score_displayed_set = true
+		total_score = SaveData.get_total_score(levelSet_id)
+		label_score_total.text = str(int(total_score))
+		label_score_total.update_text()
+		await get_tree().create_timer(1.0, true).timeout
+		Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))

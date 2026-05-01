@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Script" uid="uid://bgd2v1alhdml" path="res://Scripts/levelSet_screen.gd" id="2_7kq8d"]
-[ext_resource type="AudioStream" uid="uid://bwf4nucobwg4x" path="res://Assets/Sounds/music/intense1.mp3" id="3_e37xu"]
+[ext_resource type="AudioStream" uid="uid://bwgduvlnr0i3n" path="res://Assets/Sounds/music/dungeon1.mp3" id="3_e37xu"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_icvp0"]
 
 [sub_resource type="Gradient" id="Gradient_uas2u"]

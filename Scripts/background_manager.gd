@@ -303,6 +303,8 @@ func toggle_layer_id():
 
 
 func bg_update_texture_filepath():
+	if not FileAccess.file_exists(Globals.bg_main_filepath) : return
+	
 	Globals.dm("Updating textures for all Background layers.", "LIME_GREEN")
 	Globals.dm("Main layer's filepath: " + load(Globals.bg_main_filepath).get_path())
 	

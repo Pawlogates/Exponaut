@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://u5krhs30o3ik" path="res://Scripts/level_icon.gd" id="1_gn7yy"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_p5ssb"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_7sswb"]
-[ext_resource type="AudioStream" uid="uid://bj7k1b4g32e6q" path="res://Assets/Sounds/sfx/moo.wav" id="3_6faij"]
-[ext_resource type="AudioStream" uid="uid://cxrgbraey7ntm" path="res://Assets/Sounds/sfx/rooster_cockcrow.wav" id="3_b50wd"]
+[ext_resource type="AudioStream" uid="uid://br4vgarvwnes0" path="res://Assets/Sounds/sfx/secret.wav" id="4_p5ssb"]
+[ext_resource type="AudioStream" uid="uid://careq2vp35t2d" path="res://Assets/Sounds/sfx/alert_loop.wav" id="5_21urg"]
 
 [sub_resource type="Animation" id="Animation_w47hc"]
 length = 0.001
@@ -180,11 +180,11 @@ texture = SubResource("AtlasTexture_8xhdh")
 
 [node name="sfx_start" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("3_b50wd")
+stream = ExtResource("4_p5ssb")
 
 [node name="sfx_locked" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("3_6faij")
+stream = ExtResource("5_21urg")
 
 [node name="icon_rank" type="Sprite2D" parent="."]
 texture = SubResource("AtlasTexture_vdhfg")

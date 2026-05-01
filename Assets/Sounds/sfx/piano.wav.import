@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cwyd16lu3kan6"
+uid="uid://7ix3e3xajqs4"
 path="res://.godot/imported/piano.wav-ef7627c63d0a1efb3b00a63cc9cb01de.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

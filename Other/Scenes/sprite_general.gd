@@ -1,9 +1,12 @@
 extends AnimatedSprite2D
 
+var master_node : Node
+
 @export var outline_enabled : bool = true
 
 
 func _ready() -> void:
+	master_node = get_parent()
 	
 	await get_tree().create_timer(1.5, true).timeout
 	

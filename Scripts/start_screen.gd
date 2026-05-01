@@ -22,6 +22,10 @@ func _ready():
 		#$Continue.grab_focus()
 	
 	RenderingServer.set_default_clear_color(Color.BLACK)
+	
+	await get_tree().create_timer(1.0, true).timeout
+	
+	$AudioStreamPlayer2D.play()
 
 
 func start_new_game(): #starts a brand new playthrough and deletes save files

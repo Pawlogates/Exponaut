@@ -14,11 +14,11 @@ on_collected_reset_puzzle = true
 start_animation = "general/loop_up_down_slight"
 can_change_sprite_anim = true
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_bbww4")
 animation = &"collected"
 
-[node name="collision_patrolling" parent="scan_patrolling_vision" index="0"]
+[node name="collision_patrolling" parent="scan_patrolling_vision" index="2"]
 debug_color = Color(1, 0, 0, 0)
 
 [node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]

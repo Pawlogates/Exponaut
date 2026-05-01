@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://c4abnorpa10f6"
+uid="uid://dl14an60uq1o7"
 path="res://.godot/imported/rooster_damage.wav-cf4f71942346d2e50ee605d204116ff5.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

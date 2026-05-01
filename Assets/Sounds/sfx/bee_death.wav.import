@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://dnxlofo4yg4ji"
+uid="uid://v1en65q6ermy"
 path="res://.godot/imported/bee_death.wav-78908bc0b185ac0280db0b1bd2d9aa3b.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

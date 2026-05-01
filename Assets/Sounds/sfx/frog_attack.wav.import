@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://kadmgekic7s0"
+uid="uid://p2de83jwridn"
 path="res://.godot/imported/frog_attack.wav-4a454b6b29f2402c812fd1840ca6061e.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

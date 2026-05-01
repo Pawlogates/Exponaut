@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://e1nkyjfvl32a"
+uid="uid://dq52u54stx00o"
 path="res://.godot/imported/wolf_death.wav-370e6a1d113a95e630fb9c409c421a11.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

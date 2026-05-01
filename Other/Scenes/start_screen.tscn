@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_screen.gd" id="2_2hc0d"]
-[ext_resource type="AudioStream" uid="uid://dfoqdahqfeem3" path="res://Assets/Sounds/music/factory3.mp3" id="3_ooxfa"]
+[ext_resource type="AudioStream" uid="uid://cs85yxtndpdf6" path="res://Assets/Sounds/music/exponaut.mp3" id="2_ooxfa"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_q74v4"]
 [ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_mmt5r"]
 [ext_resource type="Material" uid="uid://b6n3mjh3jswls" path="res://Other/Materials/palette_change.tres" id="7_2hc0d"]
@@ -44,7 +44,8 @@ script = ExtResource("2_2hc0d")
 position = Vector2(960, 540)
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_ooxfa")
+stream = ExtResource("2_ooxfa")
+volume_db = -5.0
 
 [node name="background" type="TextureRect" parent="."]
 unique_name_in_owner = true
@@ -105,15 +106,15 @@ one_shot = true
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 2
-offset_left = 128.0
-offset_top = 944.0
-offset_right = 969.0
-offset_bottom = 1051.0
+offset_left = 11.0
+offset_top = 915.0
+offset_right = 946.0
+offset_bottom = 1022.0
 theme = ExtResource("4_q74v4")
-theme_override_font_sizes/font_size = 16
-text = "Press ESC to open menu, do it a few times now!
-Also press tilde (~) for cool stuff.
-Press Shift + tilde for debug mode, don't do it on your first time though :)"
+theme_override_font_sizes/font_size = 14
+text = "Press ESC to open menu anywhere and T to spawn a recorder.. Also press tilde (~) for cool stuff.
+Press Shift + tilde for debug mode, and Alt + tilde to toggle the \"debug\" game state.
+Don't do it on your first time though :)"
 horizontal_alignment = 1
 
 [node name="screen_decoration_gears" parent="." instance=ExtResource("7_q74v4")]
@@ -303,10 +304,6 @@ offset_bottom = 2980.0
 rotation = -0.888365
 mouse_filter = 2
 color = Color(0.788235, 0.564706, 0.196078, 0.196078)
-
-[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_ooxfa")
-autoplay = true
 
 [node name="Label2" type="Label" parent="."]
 z_index = 500

@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://ccvt0hxuu5ohm"
+uid="uid://ci5g1ss6fjtua"
 path="res://.godot/imported/beehive_idle.wav-68c600fafb036d53b5324c07a8d4c0d6.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://06mnrt474pfx"
+uid="uid://xakbsr4d145g"
 path="res://.godot/imported/bird_idle.wav-4dc62a9a92aed04f43aa905e0103acbb.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

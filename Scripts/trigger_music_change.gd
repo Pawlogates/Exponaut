@@ -1,6 +1,6 @@
 extends Area2D
 
-@export_file("*.mp3", "*.wav") var music_file = "res://Assets/Sounds/ambience/ambience_loop1.mp3"
+@export_file("*.mp3", "*.wav") var music_file = "none"
 
 @export var set_volume = false # The volume is handled just fine without this property being equal to "true". Setting it to "true" will disable smooth music transition.
 @export var set_volume_value = 1.0

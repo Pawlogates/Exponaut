@@ -16,9 +16,9 @@ var menu : Node
 @onready var text_manager: Control = $text_manager
 @onready var animation_player: AnimationPlayer = $AnimationPlayer
 @onready var cooldown_active: Timer = $cooldown_active
-@onready var sfx_stabilize: AudioStreamPlayer2D = $sfx_stabilize
-@onready var sfx_focused: AudioStreamPlayer2D = $sfx_focused
-@onready var sfx_clicked: AudioStreamPlayer2D = $sfx_clicked
+@onready var sfx_stabilize = $sfx_stabilize
+@onready var sfx_focused = $sfx_focused
+@onready var sfx_clicked = $sfx_clicked
 
 @onready var entity_editor : Node
 
@@ -29,6 +29,10 @@ var menu : Node
 @export var text_manager_cooldown_create_message : float = -1.0
 @export var text_manager_cooldown_next_character : float = 0.025
 @export var text_manager_text_offset = Vector2(0, 0)
+@export var text_manager_cooldown_remove_message : float = -1.0
+@export var text_manager_character_anim_speed_scale : float = 1.0
+@export var text_manager_character_anim_backwards : bool = false
+@export var text_manager_text_animation_add_offset : float = -1.0
 
 @export var decoration_base_size = Vector2(720, 64)
 @export var decoration_base_size_multiplier = Vector2(1.0, 1.0)
@@ -77,6 +81,8 @@ var debug_markers : Array
 
 var button_quantity : int = 0
 
+var next_level_data : Array
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -87,6 +93,20 @@ func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 2 to a General UI Button, with the target function being 'debug_show_real_size'.")
 	Globals.debug2.connect(debug_show_real_size)
 	Globals.refreshed2_0.connect(on_refreshed2_0)
+	
+	if is_in_group("UI_button_next_level"):
+		if "saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)) in SaveData:
+			next_level_data = SaveData.get("saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)))
+			if next_level_data[0] < 0:
+				queue_free()
+		
+		else:
+			queue_free()
+	
+	if is_in_group("UI_button_retry"):
+		if is_instance_valid(Globals.World) and not FileAccess.file_exists(Globals.World.next_level_filepath) and SaveData.get_total_score(Globals.levelSet_id) < 1000000:
+			text_manager_message = str(int(SaveData.get_total_score(Globals.levelSet_id))) + " / " + "1000000"
+			decoration_base_size_multiplier = 0.8
 	
 	entity_editor = get_tree().get_first_node_in_group("entity_editor")
 	
@@ -106,6 +126,9 @@ func _ready() -> void:
 	text_manager.text_animation_sync = text_manager_letter_animation_sync
 	text_manager.cooldown_next_character = text_manager_cooldown_next_character
 	text_manager.text_offset = text_manager_text_offset
+	text_manager.character_anim_speed_scale = text_manager_character_anim_speed_scale
+	text_manager.character_anim_backwards = text_manager_character_anim_backwards
+	text_manager.text_animation_add_offset = text_manager_text_animation_add_offset
 	
 	if text_manager_cooldown_create_message != -1.0:
 		text_manager.cooldown_create_message = text_manager_cooldown_create_message

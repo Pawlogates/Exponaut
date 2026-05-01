@@ -122,8 +122,6 @@ scale = Vector2(51.2, 51.2)
 wait_time = 2.0
 
 [node name="scan_patrolling_vision" parent="." instance=ExtResource("7_spxko")]
-monitoring = false
-monitorable = false
 
 [node name="collision_patrolling" type="CollisionShape2D" parent="scan_patrolling_vision"]
 position = Vector2(256, 0)

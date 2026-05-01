@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://do5lbhvey2ou"
+uid="uid://ctmddm34hw5fe"
 path="res://.godot/imported/projectile_eggShoot.wav-90d460816974834650406d7ae2eb3ade.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

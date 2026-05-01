@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cke3v4dxdahkn"
+uid="uid://careq2vp35t2d"
 path="res://.godot/imported/alert_loop.wav-644a5ace1c204c8d881d58bc9dcb96f8.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

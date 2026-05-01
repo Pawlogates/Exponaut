@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://brdf61qp7ucnh"
+uid="uid://oicsqp5xn0gr"
 path="res://.godot/imported/apple_bite.wav-ce41ff563f81df233e7b2e6f8fa86846.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

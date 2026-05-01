@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://bufovexlvwosp"
+uid="uid://brjlssosq6k2t"
 path="res://.godot/imported/keyBlock_open.wav-4b7bb2b8f1fd34dbc1cf5d1bd4e71e66.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cy2j1txps8t0w"
+uid="uid://snctea3so3qm"
 path="res://.godot/imported/chicken_death.wav-e0052e0dd1939eed0869834917179901.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

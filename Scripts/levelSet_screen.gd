@@ -17,8 +17,9 @@ func _ready():
 	
 	Overlay.animation("black_fade_out", 1.0, false, false)
 	
-	SaveData.load_levelSet(Globals.l_levelSet_id)
+	SaveData.load_levelSet(Globals.levelSet_id)
 	
+	print(Globals.levelSet_id)
 	if levelSet_id != "none":
 		levelSet_saved = SaveData.get("saved_" + levelSet_id)
 		levelSet_info = SaveData.get("info_" + levelSet_id)
@@ -39,10 +40,7 @@ func _physics_process(delta: float) -> void:
 
 
 func place_level_icons(levelSet_id):
-	var level_number = 0
-	for icon in range(1, SaveData.get("info_" + levelSet_id)[1]):
-		level_number += 1
-		
+	for level_number in range(1, SaveData.get("info_" + levelSet_id)[1] + 1):
 		var level_icon = Globals.scene_levelSet_level_icon.instantiate()
 		level_icon.level_number = level_number
 		$level_icon_container.add_child(level_icon)

@@ -79,5 +79,5 @@ region_rect = Rect2(0, 0, 448, 96)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_gna4q")
+&"": SubResource("AnimationLibrary_gna4q")
 }

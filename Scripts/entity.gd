@@ -139,10 +139,10 @@ func _ready():
 	if on_spawn_show_text:
 		text_show()
 
-@onready var debug_label = $Label
-@onready var debug_label2 = $Label2
-@onready var debug_label3 = $Label3
-@onready var debug_label4 = $Label4
+@onready var debug_label : Label
+@onready var debug_label2 : Label
+@onready var debug_label3 : Label
+@onready var debug_label4 : Label
 
 func _process(delta):
 	if is_instance_valid(scan_ledge):
@@ -1059,6 +1059,9 @@ func reassign_player():
 func handle_collectable(body): # The main function of the "collectible" entity type. The word "collectable" refers to a MAIN BEHAVIOR type, while "collectible" is (most of the time) the entity TYPE of ones with that main behavior type.
 	if dead : return
 	
+	Globals.level_collected_collectibles += 1
+	Globals.total_collected_collectibles += 1
+	
 	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
 	
 	if on_collected_spawn_entity:
@@ -1600,7 +1603,7 @@ func effects_reflect_straight():
 # Patrolling:
 func _on_scan_patrolling_area_entered(area: Area2D) -> void:
 	if not patrolling : return
-	if block_spawn_entity : return
+	#if block_spawn_entity : return
 	
 	var target = area.get_parent()
 	

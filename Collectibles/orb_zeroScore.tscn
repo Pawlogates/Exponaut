@@ -7,7 +7,7 @@
 on_collected_effect_thrownAway = true
 score_value = 0
 on_collected_anim_name = "none"
-sfx_self_collected_filepath = "uid://bypu2n6tdxni4"
+sfx_self_collected_filepath = "uid://br4vgarvwnes0"
 entity_name = "orb_zeroScore"
 
 [node name="sprite" parent="." index="1"]

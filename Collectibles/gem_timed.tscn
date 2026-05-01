@@ -92,7 +92,6 @@ ignore_gravity = false
 on_floor_death = true
 start_animation = "none"
 on_collected_anim_name = "general/rotate_around_y_fade_out"
-sfx_self_collected_filepath = "uid://dmuqg0hpa2bg2"
 effect_grow_target_scale = Vector2(0.5, 0.5)
 entity_name = "gem_timed"
 

@@ -24,6 +24,7 @@ const d_levelSet = d_slot_id + "/levelSet"
 const d_levelState = d_slot_id + "/levelState"
 
 const dirpath_recordings = "user://recordings"
+const d_recordings_best = "user://recordings/best"
 
 const dirpath_assets = "res://Assets"
 const dirpath_graphics = dirpath_assets + "/Graphics"
@@ -252,12 +253,12 @@ const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 
 
 # Various lists (General):
-# Note: This section needs to be at the bottom because it creates references to many variables, and needs them all to be ready at the time of its turn.
+# Note: This section needs to be at the bottom because it creates references to many variables, and needs them all to be ready at the time it does.
 var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechanical2, sfx_powerUp, sfx_powerUp2]
 
 
 func _ready() -> void:
-	if gameState_debug : Globals.debug_mode = true
+	#if gameState_debug : Globals.debug_mode = true
 	
 	SaveData.create_dir_saves()
 	
@@ -300,6 +301,10 @@ func _physics_process(delta):
 	get_mouse_position()
 
 func _input(event: InputEvent) -> void:
+	if event is InputEventScreenTouch:
+		if len(get_tree().get_nodes_in_group("touch_controls")) == 0:
+			Globals.spawn_scenes(Overlay, "res://Other/Scenes/touch_controls.tscn", 1, Vector2(0, 0), -1)
+	
 	if gameState_debug:
 		
 		if event is InputEventMouseButton:
@@ -322,6 +327,9 @@ func _input(event: InputEvent) -> void:
 
 
 func handle_actions(delta):
+	if Input.is_action_just_pressed("restart"):
+		restart_level()
+	
 	if Input.is_action_just_pressed("menu_start_screen"):
 		change_main_scene(scene_start_screen)
 	
@@ -407,24 +415,26 @@ func handle_actions(delta):
 		if Input.is_action_just_pressed("1"):
 			reload_level_scene(true)
 		
-		if Input.is_action_just_pressed("2"):
+		elif Input.is_action_just_pressed("2"):
 			if not target_camera:
 				target_camera = get_tree().get_first_node_in_group("camera")
 				dm("Reassigning the camera target node.")
 				camera_manual_active = true
 				target_camera.position_smoothing_enabled = false
 			
-			elif camera_manual_active:
+			if camera_manual_active:
 				camera_manual_active = false
 				target_camera.position_smoothing_enabled = true
 				target_camera.position = Vector2(0, 0)
 			
-			elif not camera_manual_active:
+			else:
 				camera_manual_active = true
 				target_camera.position_smoothing_enabled = false
 			
 			dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
-
+		
+		elif Input.is_action_just_pressed("3"):
+			Globals.level_score = randi_range(-50000, 999999)
 
 func reassign_general():
 	if has_node("/root/World"):
@@ -460,39 +470,44 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 # Important gameplay-related properties.
 
 # Player:
-var player_health = 100
+var player_health : int = 100
 
-var player_position = Vector2(0, 0)
-var player_velocity = Vector2(0, 0)
+var player_position : Vector2 = Vector2(0, 0)
+var player_velocity : Vector2 = Vector2(0, 0)
 
-var player_direction_x = 0 # Only horizontal.
-var player_direction_x_active = 1 # Can never be equal to 0 (standing still).
-var player_direction_y = 0 # Only vertical.
-var player_direction_y_active = -1 # Can never be equal to 0 (floating in place).
+var player_direction_x : int = 0 # Only horizontal.
+var player_direction_x_active : int = 1 # Can never be equal to 0 (standing still).
+var player_direction_y : int = 0 # Only vertical.
+var player_direction_y_active : int = -1 # Can never be equal to 0 (floating in place).
 
 # Score:
-var level_score = 0 # Current level's score.
-var score_multiplier = 1 # Main score multiplier, increased by means other than the combo system. It affects both combo score as well as the actual score.
-var combo_score = 0
-var combo_streak = 0 # Combo starts on collecting a collectible, damaging an enemy or various other actions performed by the player. It lasts a different amount of time depending on the action that started/prolonged it. The combo can be prolonged if player performs another action while it's already active, resetting the combo timer.
-var combo_tier = 1
-var combo_multiplier = 1 # Increases by 1 every 5 collectibles collected (or other specific actions performed) by the player during a combo, up to 10. (x1 during 1-5, x2 during 6-10, x3 during 11-15, x4 during 16-20, x5 during 21-25, x6 during 26-30, x7 during 31-35, x8 during 36-40, x9 during 41-45, and finally x10 during 46-50. The final - x11
+var level_score : int = 0 # Current level's score.
+var score_multiplier : int = 1 # Main score multiplier, increased by means other than the combo system. It affects both combo score as well as the actual score.
+var combo_score : int = 0
+var combo_streak : int = 0 # Combo starts on collecting a collectible, damaging an enemy or various other actions performed by the player. It lasts a different amount of time depending on the action that started/prolonged it. The combo can be prolonged if player performs another action while it's already active, resetting the combo timer.
+var combo_tier : int = 1
+var combo_multiplier : int = 1 # Increases by 1 every 5 collectibles collected (or other specific actions performed) by the player during a combo, up to 10. (x1 during 1-5, x2 during 6-10, x3 during 11-15, x4 during 16-20, x5 during 21-25, x6 during 26-30, x7 during 31-35, x8 during 36-40, x9 during 41-45, and finally x10 during 46-50. The final - x11
 
-var total_score = 0 # Current save slot's total score, combined across all overworld segments and all of the overworld's level set levels.
-var total_collected_collectibles = 0 # Collectibles collected in the current level.
-var total_collected_majorCollectibles_module = 0
-var total_collected_majorCollectibles_key = 0
-var total_killed_enemies = 0
+var level_collected_collectibles : int = 0 # Collectibles collected in the current level.
+var level_collected_majorCollectibles_module : int = 0
+var level_collected_majorCollectibles_key : int = 0
+var level_killed_enemies : int = 0
 
-var collected_collectibles = 0 # Collectibles collected in the current level.
-var collected_majorCollectibles_module = 0
-var collected_majorCollectibles_key = 0
-var killed_enemies = 0
+var total_score : int = 0 # Current save slot's total score, combined across all overworld segments and all of the overworld's level set levels.
+var total_collected_collectibles : int = 0 # Collectibles collected in the current level set.
+var total_collected_majorCollectibles_module : int = 0
+var total_collected_majorCollectibles_key : int = 0
+var total_killed_enemies : int = 0
 
-var total_collectibles_in_currentLevel = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
-var total_majorCollectibles_module_in_currentLevel = 0
-var total_majorCollectibles_key_in_currentLevel = 0
-var total_enemies_in_currentLevel = 0
+var total_collectibles_level : int = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var total_majorCollectibles_module_level : int = 0
+var total_majorCollectibles_key_level : int = 0
+var total_enemies_level : int = 0
+
+var total_collectibles_levelSet : int = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var total_majorCollectibles_module_levelSet : int = 0
+var total_majorCollectibles_key_levelSet : int = 0
+var total_enemies_levelSet : int = 0
 
 var weapon : Dictionary = {"apply_default" : true} # All the property values needed to construct the main projectile.
 var secondaryWeapon = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
@@ -643,6 +658,8 @@ var gameState_debug = true # This should only ever be equal to "true" if the gam
 var gameState_typing = false # Should be true when the player is inputting text. Used to block the function of "letter" keys, like "P", used to pause the game.
 var gameState_justStarted = true
 
+var gameState_scoring_focus = true
+
 
 # Sound effects manager should be the main way used to play short sounds. Note that each entity has its own sound manager, and that the world node has a single music manager, as well as one ambience manager.
 # Use this signal to request a global sound effect to be played. For entities, call each entity's local "sfx_play(file, volume, pitch, fade)" function when you want it to play one or multiple sound effects.
@@ -701,12 +718,15 @@ var test4
 
 
 # Recording:
-var recording_autostart = true
 
-signal start_recording
-signal start_playback
-signal stop_recording
-signal stop_playback
+var recording_autostart = false
+
+var recorder_playback_active : bool = false
+
+signal recorder_started_recording
+signal recorder_stopped_recording
+signal recorder_started_playback
+signal recorder_stopped_playback
 
 
 # Text displays:
@@ -729,6 +749,7 @@ func message(message_text, pause_duration : float = 0.0, message_add_pos : Vecto
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
 
 func message_debug(text, importance = "none", remove_cooldown : float = -1.0):
+	return
 	if gameState_debug:
 		
 		if not importance is String : return
@@ -918,9 +939,8 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 		
 		if add_scale_range_equal : node.scale.y = node.scale.x
 		
-		
-		node.modulate += add_modulate
-		node.z_index += add_z_index
+		if add_modulate != Color(0, 0, 0, 0) : node.modulate += add_modulate
+		if add_z_index != 0 : node.z_index += add_z_index
 		
 		
 		var y = -1
@@ -1097,27 +1117,48 @@ func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none
 	else : spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
 
 func handle_spawn_menu(manual_request : bool = false):
-	#for menu in get_tree().get_nodes_in_group("menu_main") : menu.queue_free()
+	
+	if len(get_tree().get_nodes_in_group("menu_main")) > 0:
+		return
 	
 	if manual_request:
+		
+		if gameState_scoring_focus:
+			spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
+			return
 		
 		if gameState_level:
 			spawn_menu()
 			return
-		
-		if gameState_debug and debug_mode:
-			spawn_menu()
-			return
 	
 	if gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set screen", "Select Level Set", "Quit Game"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 		return
 	
 	elif gameState_start_screen:
 		spawn_menu(scene_menu_main)
 		#spawn_menu(scene_menu_main, ["Level Set screen", "Enable Score Attack mode", "Level Set Screen", "Resume game", "Back to Overworld", "Quit to Main Menu"])
 		return
+	
+	#elif gameState_level:
+		#if gameState_scoring_focus:
+			#spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
+			#return
 
+
+func set_gameState(disable_all : bool = true, level : bool = false, levelSet_screen : bool = false, start_screen : bool = false, typing : bool = false, justStarted : bool = false):
+	if disable_all:
+		gameState_level = false
+		gameState_levelSet_screen = false
+		gameState_start_screen = false
+		gameState_typing = false
+		gameState_justStarted = false
+	
+	gameState_level = level
+	gameState_levelSet_screen = levelSet_screen
+	gameState_start_screen = start_screen
+	gameState_typing = typing
+	gameState_justStarted = justStarted
 
 func on_gameState_changed():
 	await get_tree().create_timer(0.25, true).timeout
@@ -1134,6 +1175,21 @@ func on_gameState_changed():
 	prepare_lists()
 	SaveData.load_playerData()
 	SaveData.load_levelSet()
+	
+	create_directories()
+	
+	for filename in get_files(d_recordings_best):
+		delete_file(d_recordings_best + "/" + filename)
+	
+	for f_levelSet_id in l_levelSet_id:
+		for level_number in range(0, SaveData.get("info_" + f_levelSet_id)[1] + 1):
+			var f_level_id = f_levelSet_id + "_" + str(level_number)
+			
+			var recording_level_best_score_filepath : String = get_recording_level_best_score(f_level_id)
+			if recording_level_best_score_filepath == "none" : continue
+			
+			var recording_level_best_score_filedata = filepath_to_data(recording_level_best_score_filepath)
+			save_file(recording_level_best_score_filepath.replace("recordings", "recordings/best"), recording_level_best_score_filedata)
 
 # Constant global refresh timers:
 
@@ -1256,23 +1312,16 @@ func handle_toggle_debug_movement():
 			Globals.dm("Debug movement status: " + str(Player.debug_movement))
 
 
-func get_filepath(file, details : bool = false):
-	if file is String and file == "none" : return "ERROR - null ('none') argument."
+func get_filepath(file):
+	if file is String and file == "none" : return "none"
 	
 	if file == null:
-		
-		if not details : return "none" #"res://Other/Scenes/debug_marker.tscn"
-		else : return "none - Returned a generic filepath because the resource is null."
+		return "null"
 	
 	else:
 		
-		if not details:
-			if file is Resource : return file.get_path()
-			if file is String : return load(file).get_path()
-		
-		else:
-			if file is Resource : return file.get_path() + " (from Resource: " + str(file) + ")"
-			if file is String : return load(file).get_path() + "(from String: " + str(file) + ")"
+		if file is Resource : return file.get_path()
+		if file is String : return load(file).get_path()
 
 
 func reload_level_scene(keep_player_pos : bool = false):
@@ -1377,18 +1426,15 @@ func update_window_size(handle_scaling : bool = false):
 func get_files(dirpath : String):
 	var dir = DirAccess.open(dirpath)
 	
-	var list_filename : Array
+	var list_filename : Array = []
 	
 	if dir != null:
 		
 		for filename in dir.get_files():
 			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".tmp") and not filename.ends_with(".uid"):
 				list_filename.append(filename)
-		
-		if len(dir.get_files()) > 0:
-			return list_filename
-		else:
-			return ["none"]
+	
+	return list_filename
 
 func filepath_to_data(filepath : String):
 	if not FileAccess.file_exists(filepath):
@@ -1404,3 +1450,94 @@ func filepath_to_data(filepath : String):
 func update_main_scene():
 	Globals.main_scene = get_tree().current_scene
 	Globals.main_scene_filepath = Globals.main_scene.scene_file_path
+
+
+func save_file(filepath : String, data, make_readable : bool = false):
+	var file = FileAccess.open(filepath, FileAccess.WRITE)
+	
+	var json_contents
+	
+	if make_readable:
+		json_contents = JSON.stringify(data, "\t")
+	else:
+		json_contents = JSON.stringify(data)
+	
+	file.store_line(json_contents)
+
+
+func get_number_of_similar(filename_part : String):
+	var number_similar : int = 0
+	
+	for filename in get_files(dirpath_recordings):
+		if filename_part in filename:
+			number_similar += 1
+	
+	return number_similar
+
+
+func node_exists(group_name : String):
+	if len(get_tree().get_nodes_in_group(group_name)) > 0:
+		return true
+	else:
+		return false
+
+
+func restart_level():
+	get_tree().call_group("entity", "queue_free")
+	get_tree().paused = true
+	
+	reset_values_level()
+	
+	Overlay.animation("fade_black", true, 1.0, true)
+	
+	get_tree().reload_current_scene()
+
+func reset_values_level():
+	level_score = 0
+	combo_score = 0
+	combo_tier = 1
+	combo_streak = 0
+	player_health = World.player_start_health
+
+
+func get_recording_level_best_score(level_id : String, player_name : String = SaveData.player_name):
+	var recording_level_best_score_filepath : String = "none"
+	var level_best_score = 0
+	
+	for entry_filename in Globals.get_files(Globals.dirpath_recordings):
+		if not player_name + "_" + level_id in entry_filename : continue
+		
+		var entry_filepath : String = Globals.dirpath_recordings + "/" + entry_filename
+		var entry_filedata = Globals.filepath_to_data(entry_filepath)
+		var entry_data : Array = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], randi_range(1, 999)]
+		
+		if entry_data[1] > level_best_score:
+			recording_level_best_score_filepath = entry_filepath
+	
+	return recording_level_best_score_filepath
+
+
+func create_directories():
+	var dir = DirAccess.open("user://")
+	
+	# Save data:
+	dir.make_dir("saves")
+	
+	dir = DirAccess.open("user://saves")
+	dir.make_dir("slot_" + SaveData.slot_current)
+	
+	dir = DirAccess.open("user://saves/slot_" + SaveData.slot_current)
+	dir.make_dir("playerData")
+	dir.make_dir("levelSet")
+	dir.make_dir("levelState")
+	
+	# Recordings:
+	dir = DirAccess.open("user://")
+	dir.make_dir("recordings")
+	
+	dir = DirAccess.open("user://recordings")
+	dir.make_dir("best")
+
+
+func delete_file(filepath : String):
+	DirAccess.remove_absolute(filepath)

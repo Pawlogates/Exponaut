@@ -19,6 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 0.835294)
 
 [node name="outline_left" type="ColorRect" parent="."]
@@ -27,6 +28,7 @@ anchors_preset = 9
 anchor_bottom = 1.0
 offset_right = 8.0
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="outline_right" type="ColorRect" parent="."]
 layout_mode = 1
@@ -37,6 +39,7 @@ anchor_bottom = 1.0
 offset_left = -8.0
 grow_horizontal = 0
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="outline_bottom" type="ColorRect" parent="."]
 layout_mode = 1
@@ -47,6 +50,7 @@ anchor_bottom = 1.0
 offset_top = -8.0
 grow_horizontal = 2
 grow_vertical = 0
+mouse_filter = 2
 
 [node name="outline_top" type="ColorRect" parent="."]
 layout_mode = 1
@@ -54,3 +58,4 @@ anchors_preset = 10
 anchor_right = 1.0
 offset_bottom = 8.0
 grow_horizontal = 2
+mouse_filter = 2

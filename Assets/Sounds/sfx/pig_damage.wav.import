@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://1ghx8flvsx4o"
+uid="uid://dxupu056t4ccj"
 path="res://.godot/imported/pig_damage.wav-60ebf8fc1b6e5dd10bf146ec709f638d.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

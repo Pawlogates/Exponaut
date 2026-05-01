@@ -19,16 +19,15 @@ on_floor_reverse_velocity_x = true
 on_floor_bounce = true
 on_floor_bounce_velocity_multiplier = 0.8
 start_animation = "none"
-sfx_self_collected_filepath = "uid://d1yeees6jphyh"
-sfx_self_bounced_filepath = "uid://c6esa6bpc6d6r"
+sfx_self_bounced_filepath = "uid://bul83xvgxest7"
 entity_name = "orb"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_rmc0g")
 scale = Vector2(0.2, 0.2)
 sprite_frames = ExtResource("3_uvyp0")
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 scale = Vector2(0.75, 0.75)
 shape = SubResource("RectangleShape2D_511gd")
 

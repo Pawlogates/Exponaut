@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://b6l5kgi6auj8j"
+uid="uid://cbtggflhxlrgr"
 path="res://.godot/imported/mysterious_loop1.wav-dfc8e8172d7dbd1c6c117470a3d45eb9.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

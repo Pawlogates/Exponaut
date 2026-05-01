@@ -2,7 +2,7 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://d13vvmdls37y7"
+uid="uid://bgclxrut5wja3"
 path="res://.godot/imported/jewel_collect3.wav-1458585d08a67af15e965633db79c89e.sample"
 
 [deps]
@@ -21,4 +21,4 @@ edit/normalize=false
 edit/loop_mode=0
 edit/loop_begin=0
 edit/loop_end=-1
-compress/mode=0
+compress/mode=2

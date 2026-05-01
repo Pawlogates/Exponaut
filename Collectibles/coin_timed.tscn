@@ -14,7 +14,7 @@ ignore_gravity = false
 on_floor_bounce = true
 start_animation = "none"
 on_collected_anim_name = "none"
-sfx_self_collected_filepath = "uid://co5hmcavxpvpa"
+sfx_self_collected_filepath = "uid://vm1ccgk5h0ag"
 entity_name = "coin_timed"
 
 [node name="sprite" parent="." index="1"]
