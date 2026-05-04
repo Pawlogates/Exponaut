@@ -36,7 +36,7 @@ func insert_queued_messages():
 	
 	var bg_size = Vector2(0, 0)
 	
-	if queued_messages:
+	if len(queued_messages) > 0:
 		for message in queued_messages:
 			
 			var is_repeat = false

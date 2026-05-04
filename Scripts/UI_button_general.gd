@@ -97,16 +97,15 @@ func _ready() -> void:
 	if is_in_group("UI_button_next_level"):
 		if "saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)) in SaveData:
 			next_level_data = SaveData.get("saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)))
-			if next_level_data[0] < 0:
-				queue_free()
+			
+			if is_instance_valid(Globals.World):
+				if next_level_data[0] < 0 or not FileAccess.file_exists(Globals.World.next_level_filepath):
+					if is_instance_valid(Globals.World) and not FileAccess.file_exists(Globals.World.next_level_filepath) and SaveData.get_total_score(Globals.levelSet_id) < 1000000:
+						text_manager_message = str(int(SaveData.get_total_score(Globals.levelSet_id))) + " / " + "1000000"
+						decoration_base_size_multiplier = 0.8
 		
 		else:
 			queue_free()
-	
-	if is_in_group("UI_button_retry"):
-		if is_instance_valid(Globals.World) and not FileAccess.file_exists(Globals.World.next_level_filepath) and SaveData.get_total_score(Globals.levelSet_id) < 1000000:
-			text_manager_message = str(int(SaveData.get_total_score(Globals.levelSet_id))) + " / " + "1000000"
-			decoration_base_size_multiplier = 0.8
 	
 	entity_editor = get_tree().get_first_node_in_group("entity_editor")
 	

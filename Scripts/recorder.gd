@@ -11,10 +11,14 @@ extends Control
 @onready var btn_start_playback: Button = $"VBoxContainer/Control4/start playback"
 @onready var btn_stop_playback: Button = $"VBoxContainer/Control5/stop playback"
 
+
+@export_enum("session", "level") var recorder_type : String = "session"
+
+
 var input_log : Array = [] # The queued contents of a playback file. It is an Array with Dictionaries inside.
 var playback_name : String = "none"
 var playback_filename : String = "none.json"
-var playback_filepath = Globals.dirpath_recordings + "/" + playback_filename
+var playback_filepath = Globals.d_recordings_local + "/" + playback_filename
 
 var recording_active = false
 var playback_active = false
@@ -38,9 +42,6 @@ func _ready() -> void:
 	Globals.debug_display_messages_closed.connect(on_debug_display_messages_closed)
 	Globals.debug_display_values_closed.connect(on_debug_display_values_closed)
 	Globals.player_death.connect(on_player_death)
-	
-	Globals.checkpoint_activated.connect(upload_files_to_server)
-	Globals.gameState_changed.connect(upload_files_to_server)
 	
 	Globals.set_mouse_mode(true)
 	
@@ -87,8 +88,8 @@ func _process(delta):
 		playback_timer += delta
 		var entry_time = current_entry["entry_time"]
 		
-		print(playback_timer, " vs ", entry_time)
-		print(current_entry["type"])
+		#print(playback_timer, " vs ", entry_time)
+		#print(current_entry["type"])
 		
 		#if playback_timer >= entry_time:
 		if true:
@@ -107,7 +108,7 @@ func _process(delta):
 				apply_input_mouse_motion(current_entry)
 			
 			elif current_entry["type"] == "end_info":
-				print(current_entry["next_playback_filepath"])
+				#print(current_entry["next_playback_filepath"])
 				if current_entry["next_playback_filepath"] == "none":
 					stop_playback()
 					return
@@ -118,8 +119,8 @@ func _process(delta):
 							_on_stop_playback_pressed()
 							Globals.message("New playback segment is starting...")
 							await get_tree().create_timer(2.0, true).timeout
-							start_playback(Globals.dirpath_recordings + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
-							print(Globals.dirpath_recordings + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
+							start_playback(Globals.d_recordings_local + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
+							#print(Globals.d_recordings_local + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
 							break
 					
 					return
@@ -161,7 +162,8 @@ func _input(event):
 			"button_position_y": event.position.y,
 			})
 		else:
-			print("Mouse button ", event.button_index, " released at ", event.position)
+			pass
+			#print("Mouse button ", event.button_index, " released at ", event.position)
 	
 	# Detect mouse movement
 	elif event is InputEventMouseMotion:
@@ -213,11 +215,9 @@ func input_log_save():
 	
 	else:
 		print("Playback file not found.")
-	
-	upload_files_to_server()
 
 func get_current_max_input_log_number():
-	var dirpath = Globals.dirpath_recordings
+	var dirpath = Globals.d_recordings_local
 	var dir = DirAccess.open(dirpath)
 	
 	var existing_playback_number : int = 0
@@ -324,7 +324,7 @@ func assign_event_pressed(event):
 
 func simulate_mouse_click(mouse_position: Vector2, button_index: int):
 	var click_event = InputEventMouseButton.new()
-	print("THIS button index: " + str(button_index))
+	#print("THIS button index: " + str(button_index))
 	click_event.button_index = button_index
 	click_event.position = mouse_position
 	click_event.pressed = true
@@ -336,47 +336,6 @@ func simulate_mouse_click(mouse_position: Vector2, button_index: int):
 	var release_event = click_event.duplicate()
 	release_event.pressed = false
 	Input.parse_input_event(release_event)
-
-
-@onready var timer_block_upload_files_to_server: Timer = $timer_block_upload_files_to_server
-
-func upload_files_to_server():
-	if block_upload_files_to_server : return
-	else : block_upload_files_to_server = true
-	timer_block_upload_files_to_server.start()
-	
-	await get_tree().create_timer(1, true).timeout
-	
-	Globals.message("UPLOADING GAMEPLAY RECORDINGS TO SERVER")
-	
-	for filename in Globals.get_files(Globals.dirpath_recordings):
-		var filepath = Globals.dirpath_recordings + "/" + filename
-		var file := FileAccess.open(filepath, FileAccess.READ)
-		var content := file.get_buffer(file.get_length())
-		
-		var http := HTTPRequest.new()
-		add_child(http)
-
-		var boundary := "----GodotBoundary123"
-		var headers := PackedStringArray([
-			"Content-Type: multipart/form-data; boundary=" + boundary
-		])
-
-		var body_parts := []
-		body_parts.append("--" + boundary + "\r\n")
-		body_parts.append("Content-Disposition: form-data; name=\"file\"; filename=\"%\"\r\n" % filename)
-		body_parts.append("Content-Type: application/json\r\n\r\n")
-		body_parts.append(content)
-		body_parts.append("\r\n--" + boundary + "--\r\n")
-
-		var final_body := PackedByteArray()
-		for part in body_parts:
-			if typeof(part) == TYPE_STRING:
-				final_body += part.to_utf8_buffer()
-			elif typeof(part) == TYPE_PACKED_BYTE_ARRAY:
-				final_body += part
-		
-		http.request_raw("https://gameplay-recording-downloader.onrender.com/upload", headers, HTTPClient.METHOD_POST, final_body)
 
 
 func _on_start_recording_pressed() -> void:
@@ -494,7 +453,7 @@ func insert_end_info(final : bool = true):
 	
 	if not final:
 		next_playback_filename = "playback_" + SaveData.player_name + "_" + str(selected_playback_id) + "_" + str(playback_number + 1) + ".json"
-		next_playback_filepath = Globals.dirpath_recordings + "/" + next_playback_filename
+		next_playback_filepath = Globals.d_recordings_local + "/" + next_playback_filename
 	
 	input_log.append({
 		"type": "end_info",
@@ -527,7 +486,7 @@ func apply_input_mouse_motion(current_entry : Dictionary):
 	Input.warp_mouse(Vector2(current_entry["button_position_x"], current_entry["button_position_y"]))
 
 func apply_input_mouse_button(current_entry : Dictionary, event):
-	print("MB")
+	#print("MB")
 	simulate_mouse_click(Vector2(current_entry["button_position_x"], current_entry["button_position_y"]), current_entry["button_index"])
 	
 	var event_name = assign_event_name(event)[0]
@@ -614,11 +573,11 @@ func on_player_death():
 
 func update_playback(filepath : String = "none"):
 	if filepath == "none":
-		filepath = Globals.dirpath_recordings + "/" + "playback_" + SaveData.player_name + "_" + str(selected_playback_id) + "_" + "0" + ".json"
+		filepath = Globals.d_recordings_local + "/" + "playback_" + SaveData.player_name + "_" + str(selected_playback_id) + "_" + "0" + ".json"
 	
 	playback_filepath = filepath
-	if Globals.dirpath_recordings + "/" in playback_filepath:
-		playback_filename = filepath.replace(Globals.dirpath_recordings + "/", "")
+	if Globals.d_recordings_local + "/" in playback_filepath:
+		playback_filename = filepath.replace(Globals.d_recordings_local + "/", "")
 	if playback_filename.ends_with(".json"):
 		playback_name = playback_filename.replace(".json", "")
 	
@@ -659,7 +618,7 @@ func start_recording():
 	playback_active = false
 	recording_active = true
 	
-	if is_instance_valid(btn_stop_recording) : label_info.visible = false
+	if is_instance_valid(label_info) : label_info.visible = false
 
 func stop_recording():
 	insert_end_info(true)
@@ -677,7 +636,7 @@ func stop_recording():
 	playback_index = 0
 	input_log_save()
 	
-	if is_instance_valid(btn_stop_recording) : label_info.visible = false
+	if is_instance_valid(label_info) : label_info.visible = false
 	
 	playback_number = 0
 	
@@ -691,12 +650,16 @@ func start_playback(filepath : String = "none"):
 	if recording_active:
 		stop_recording()
 	
-	if is_instance_valid(btn_stop_recording):
+	if is_instance_valid(label_info):
 		label_info.visible = true
-		label_info.text = str("Current playback filepath: " + playback_filepath)
+		
+		if recorder_type == "session":
+			label_info.text = str("Current playback filepath: " + playback_filepath)
+		elif recorder_type == "level":
+			label_info.text = str(input_log[0]["player_name"])
 	
 	if not FileAccess.file_exists(playback_filepath):
-		label_info.text = str("Recording file doesn't exist: " + playback_filepath)
+		if is_instance_valid(label_info) : label_info.text = str("Recording file doesn't exist: " + playback_filepath)
 		return
 	
 	if is_instance_valid(btn_stop_recording):
@@ -709,7 +672,7 @@ func start_playback(filepath : String = "none"):
 	
 	input_log = JSON.parse_string(FileAccess.get_file_as_string(playback_filepath))
 	
-	Globals.message("Playback has started - %s." % playback_filename)
+	if recorder_type == "session" : Globals.message("Playback has started - %s." % playback_filename)
 	await get_tree().create_timer(2.0, true).timeout
 	
 	recording_active = false
@@ -721,18 +684,19 @@ func start_playback(filepath : String = "none"):
 
 func stop_playback():
 	Globals.recorder_playback_active = false
-	Globals.change_main_scene(Globals.scene_levelSet_screen)
+	#Globals.change_main_scene(Globals.scene_levelSet_screen)
 	
-	btn_stop_recording.disabled = false
-	btn_start_recording.disabled = false
-	btn_stop_playback.disabled = true
-	btn_start_playback.disabled = false
+	if is_instance_valid(btn_stop_recording):
+		btn_stop_recording.disabled = false
+		btn_start_recording.disabled = false
+		btn_stop_playback.disabled = true
+		btn_start_playback.disabled = false
 	
 	set_process(false)
 	playback_active = false
 	playback_index = 0
 	playback_timer = 0.0
-	label_info.visible = false
+	if is_instance_valid(label_info) : label_info.visible = false
 	
 	Globals.dm("Playback has finished - %s." % playback_filename)
 
@@ -740,8 +704,8 @@ func stop_playback():
 func update_playback_filepath(type : String = "level"):
 	if type == "level":
 		playback_filename = "playback_" + SaveData.player_name + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
-		playback_filepath = Globals.dirpath_recordings + "/" + playback_filename
+		playback_filepath = Globals.d_recordings_local + "/" + playback_filename
 	
 	elif type == "session":
 		playback_filename = "playback_" + SaveData.player_name + "_" + str(selected_playback_id) + "_" + str(playback_number) + ".json"
-		playback_filepath = Globals.dirpath_recordings + "/" + playback_filename
+		playback_filepath = Globals.d_recordings_local + "/" + playback_filename

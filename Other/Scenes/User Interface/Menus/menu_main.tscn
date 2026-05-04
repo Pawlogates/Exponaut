@@ -112,7 +112,7 @@ text_manager_message = "[anim_rotate_away_up_right]Next Level"
 text_manager_letter_animation_sync = false
 text_manager_character_anim_backwards = true
 decoration_base_size_multiplier = Vector2(0.4, 1)
-on_hover_message_text = "Closes the MENU. You thought pressing ESC would do that? lil fella how silly of you"
+on_hover_message_text = "I mean I guess this score could be worse..."
 
 [node name="btn_retry" parent="container_buttons" index="13" groups=["UI_button_retry"] instance=ExtResource("2_0mlty")]
 z_index = 25
@@ -121,7 +121,7 @@ text_manager_message = "Retry"
 text_manager_letter_animation_sync = false
 text_manager_character_anim_backwards = true
 decoration_base_size_multiplier = Vector2(0.4, 1)
-on_hover_message_text = "Closes the MENU. You thought pressing ESC would do that? lil fella how silly of you"
+on_hover_message_text = "Go improve that score! GO GO GO!"
 
 [node name="btn_Touch Controls" parent="container_buttons" index="14" instance=ExtResource("2_0mlty")]
 modulate = Color(0.87798, 0.696571, 0, 1)

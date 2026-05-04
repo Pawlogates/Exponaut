@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bm7mkpe0yeno5"]
+[gd_scene load_steps=4 format=3 uid="uid://bm7mkpe0yeno5"]
 
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_b84cl"]
 [ext_resource type="Script" uid="uid://doe0du6mi6c65" path="res://Other/Scenes/recorder_level.gd" id="2_qq23x"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_b84cl"]
 
 [node name="recorder_level" type="Control" groups=["recorder", "recorder_level"]]
 z_index = 500
@@ -12,12 +13,22 @@ offset_bottom = 128.0
 mouse_filter = 2
 theme = ExtResource("1_b84cl")
 script = ExtResource("2_qq23x")
+recorder_type = "level"
 
 [node name="cooldown_start_recording" type="Timer" parent="."]
 one_shot = true
 
 [node name="cooldown_stop_recording" type="Timer" parent="."]
 one_shot = true
+
+[node name="label_info" type="Label" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_right = 1904.0
+offset_bottom = 48.0
+theme = ExtResource("3_b84cl")
+text = "none"
+vertical_alignment = 1
 
 [connection signal="timeout" from="cooldown_start_recording" to="." method="_on_cooldown_start_recording_timeout"]
 [connection signal="timeout" from="cooldown_stop_recording" to="." method="_on_cooldown_stop_recording_timeout"]

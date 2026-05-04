@@ -33,3 +33,8 @@ func _on_cooldown_start_recording_timeout() -> void:
 func _on_cooldown_stop_recording_timeout() -> void:
 	update_playback_filepath("level")
 	stop_recording()
+	
+	await get_tree().create_timer(1.0, false).timeout
+	Globals.update_recordings_best()
+	await get_tree().create_timer(2.0, false).timeout
+	Globals.dirpath_to_server(Globals.d_recordings_local, "upload")

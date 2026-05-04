@@ -203,7 +203,7 @@ func _process(delta):
 	if dead:
 		sprite.position.y = 36
 		sprite.modulate = Color.RED
-		sprite.rotation_degrees = move_toward(sprite.rotation_degrees, 100, delta * 100)
+		sprite.rotation_degrees = move_toward(sprite.rotation_degrees, 100 * randi_range(-20, 20), delta * 100 * randf_range(-4, 4))
 	elif sprite.modulate != Color(0,0,0,0):
 		sprite.position.y = -24
 		sprite.modulate.r = move_toward(sprite.modulate.r, 1, delta / 4)
@@ -1200,11 +1200,9 @@ func on_levelSet_loaded():
 
 
 func reduce_health(value : int, source : Node):
-	Globals.player_health -= abs(value)
-	print(value)
-	print("reducing hp ", Globals.player_health)
+	Globals.player_health += value
 	if is_instance_valid(source) and not source.is_in_group("Player"):
-		if not source.can_move or source.velocity == Vector2(0, 0):
+		if not "can_move" in source or not source.can_move or source.velocity == Vector2(0, 0):
 			if position.x > source.position.x:
 				velocity.x = 500
 			else:
@@ -1217,6 +1215,8 @@ func reduce_health(value : int, source : Node):
 	t_invincible.start()
 	sfx(Globals.sfx_electric, 1.0, randf_range(0.5, 1.5))
 	sprite.modulate = Color.DARK_RED
+	
+	if dead : return
 	
 	if Globals.player_health <= 0:
 		dead = true
@@ -1372,3 +1372,7 @@ func handle_wall_run(delta):
 		
 		else:
 			velocity.y = 0
+
+
+func handle_damage(value : int = -1, source : Node = self):
+	Globals.player_damage.emit(value, source)

@@ -596,9 +596,7 @@ func data_levelSet(id):
 	return contents
 
 
-func save_levelState(level_id : String, quicksave_slot_id : int = -1): # If the value of "quicksave_slot_id" is left at "-1", the function will perform a regular save, otherwise it will perform a quicksave.
-	if Globals.level_id == "none" : return
-	
+func save_levelState(level_id : String = Globals.level_id, quicksave_slot_id : int = -1): # If the value of "quicksave_slot_id" is left at "-1", the function will perform a regular save, otherwise it will perform a quicksave.
 	create_dir_saves()
 	
 	var filepath : String
@@ -804,20 +802,23 @@ func calculate_rank_level(level_id):
 	var score_target = get("info_" + level_id)[4]
 	var score_segment = int(score_target / len(list_ranks))
 	
-	Globals.message_debug("Calculating score rank, with score of " + str(score) + " and target score of " + str(score_target) + " " + "Possible ranks: " + str(list_ranks) + ".")
+	Globals.message_debug("Calculating score rank, with score of " + str(score) + " and target score of " + str(score_target) + " " + "Possible ranks: " + str(list_ranks) + ".", "debug")
 	
 	var rank_value = 0
 	
 	if score <= 0:
 		rank_value = 0
 	else:
-		rank_value = int((score_target / score_segment) / score) + 1
+		if score < score_target:
+			rank_value = int(score / score_segment) + 1
+		else:
+			rank_value = list_ranks.find("EXPONAUT")
 	
 	var rank = list_ranks[rank_value]
 	
-	Globals.message_debug("Rank result: " + rank + " (" + str(rank_value) + "), with score segment of " + str(score_segment) + ".")
+	Globals.message_debug("Rank result: " + rank + " (" + str(rank_value) + "), with score segment of " + str(score_segment) + ".", "debug")
 	
-	return [rank, rank_value]
+	return [rank, rank_value, score, score_target, score_segment]
 
 
 # Delete progress for a specific save slot.
@@ -849,6 +850,10 @@ func create_dir_saves():
 
 
 func save_level(level_id : String, state : int, score : float, time : float, major_collectibles : Array):
+	if Globals.recorder_playback_active:
+		print("Level results were not saved because it was requested during playback.")
+		return
+	
 	Globals.dm(str("Saving levelSet level ('%s')'s state: %s, %s, %s, %s" % [level_id, state, score, time, major_collectibles]))
 	
 	for x in 100:

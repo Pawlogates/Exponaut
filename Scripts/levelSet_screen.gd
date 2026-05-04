@@ -14,6 +14,7 @@ func _ready():
 	Globals.gameState_levelSet_screen = true
 	Globals.gameState_level = false
 	Globals.gameState_changed.emit()
+	print("EMITTED")
 	
 	Overlay.animation("black_fade_out", 1.0, false, false)
 	

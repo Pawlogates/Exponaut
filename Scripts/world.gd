@@ -58,9 +58,6 @@ var bg_instant_offset = true
 @export var night = 0.0 # This variable affects the day-night cycle's visual and gameplay effects.
 
 # Weather effects:
-var scene_rain = preload("res://Other/Scenes/Weather/rain.tscn")
-var scene_leaves = preload("res://Other/Scenes/Weather/leaves.tscn")
-
 @export var weather_rain = false
 @export var weather_leaves = false
 
@@ -239,10 +236,10 @@ func _ready():
 	if Globals.debug_mode:
 		Globals.player_health = 250
 	
-	if weather_rain == true:
-		Globals.Player.camera.add_child(scene_rain.instantiate())
-	if weather_leaves == true:
-		Globals.Player.camera.add_child(scene_leaves.instantiate())
+	if weather_rain:
+		Globals.Player.camera.add_child(load(Globals.scene_weather_rain).instantiate())
+	if weather_leaves:
+		Globals.Player.camera.add_child(load(Globals.scene_weather_leaves).instantiate())
 	
 	#Globals.cheated_state = false
 	
@@ -340,8 +337,8 @@ func _ready():
 	
 	#await get_tree().create_timer(0.2, false).timeout
 	
-	if level_type == "overworld":
-		SaveData.save_levelState("quicksave")
+	#if level_type == "overworld":
+	SaveData.save_levelState()
 	
 	Globals.worldState_justStartedNewGame = false
 	
@@ -363,7 +360,7 @@ func _physics_process(delta):
 	if Globals.random_bool(24, 1):
 		for x in get_tree().get_nodes_in_group("entity"):
 		#x.scale = Vector2(1, 4)
-			if Globals.random_bool(240, 1):
+			if Globals.random_bool(120, 1):
 				if not x.collected:
 					Globals.spawn_scenes(self, Globals.scene_particle_splash, 1, x.position)
 	
@@ -754,16 +751,29 @@ func change_main_scene_menu_start():
 
 
 func retry_checkpoint():
-	await Overlay.animation("black_fade_in", 0.25, false, true)
+	await Overlay.animation("black_fade_in", 1, false, true)
 	
 	SaveData.load_levelState(Globals.level_id)
 	SaveData.load_playerData()
 	
-	Globals.player_health = player_start_health
-	Globals.player_heal.emit(player_start_health)
-	Player.dead = false
+	Player.block_movement_full = true
+	Player.position = Player.last_checkpoint_pos
+	Player.velocity = Vector2(0, 0)
 	
-	Overlay.animation("black_fade_out", 0.25, false, false)
+	await get_tree().create_timer(0.25, false).timeout
+	
+	Player.position = Player.last_checkpoint_pos
+	Player.velocity = Vector2(0, 0)
+	
+	await get_tree().create_timer(0.25, false).timeout
+	
+	Player.block_movement_full = false
+	Player.position = Player.last_checkpoint_pos
+	Player.velocity = Vector2(0, 0)
+	Player.dead = false
+	Globals.update_player_health.emit()
+	
+	Overlay.animation("black_fade_out", 1, false, false)
 
 
 func effect_stars():

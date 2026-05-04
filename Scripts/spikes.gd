@@ -1,6 +1,6 @@
 extends Area2D
 
-@export var damageValue = 2
+@export var damage_value : int = 25
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -11,10 +11,8 @@ func _process(_delta):
 	pass
 
 func _on_area_entered(area):
-	if area.is_in_group("player"):
-		if damageValue == 1:
-			Globals.playerHit1.emit()
-		elif damageValue == 2:
-			Globals.playerHit2.emit()
-		elif damageValue == 3:
-			Globals.playerHit3.emit()
+	if not Globals.is_valid_entity(area) : return
+	
+	var target : Node = area.get_parent()
+	
+	target.handle_damage(-damage_value, self)

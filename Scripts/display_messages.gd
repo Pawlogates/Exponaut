@@ -46,7 +46,7 @@ func message_show(message_text, pause_duration : float = 4.0, message_add_pos : 
 	
 	bg.size.y = container_message.size.y
 	
-	container_message.size.y = 64 * len(message_text) / 56
+	container_message.size.y = 48 * len(message_text) / 56
 	container_message.position.y = 896.0 - len(message_text) / 56 * 56 + message_add_pos.y
 	
 	animation_player.stop()

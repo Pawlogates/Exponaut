@@ -64,8 +64,8 @@ func on_text_confirmed():
 	Globals.gameState_typing = false
 	
 	if Globals.gameState_scoring_focus:
-		if Globals.gameState_levelSet_screen:
-			Globals.handle_spawn_menu(false)
+		await get_tree().create_timer(0.5, true).timeout
+		Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
 	else:
 		Globals.handle_spawn_menu(false)
 		

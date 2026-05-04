@@ -1,9 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://b6qswotncgfjk"]
+[gd_scene load_steps=8 format=3 uid="uid://b6qswotncgfjk"]
 
 [ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="1_31nnm"]
 [ext_resource type="Script" uid="uid://l0b1e8ll85n5" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.gd" id="1_smdru"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_budsj"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_yq05p"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="4_5mtm8"]
+[ext_resource type="PackedScene" uid="uid://c18ilvvgo4lyp" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_button_change_source.tscn" id="4_bu7xr"]
 [ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="5_1qj11"]
 
 [node name="menu_leaderboard_level" type="Control" groups=["leaderboard_level"]]
@@ -19,24 +21,120 @@ offset_right = 375.0
 offset_bottom = 500.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_smdru")
 
-[node name="menu_bg" parent="." instance=ExtResource("1_31nnm")]
-layout_mode = 1
-margin = Vector2(-25, -25)
-
-[node name="Label" type="Label" parent="."]
+[node name="container_top" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 128)
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_top = -2.0
-offset_bottom = 102.0
+offset_left = 7.0
+offset_top = 8.0
+offset_right = -7.0
+offset_bottom = 152.0
 grow_horizontal = 2
+alignment = 1
+
+[node name="label_leaderboard" type="Label" parent="container_top"]
+layout_mode = 2
 theme = ExtResource("2_budsj")
 theme_override_font_sizes/font_size = 40
 text = "Leaderboard"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="container_top_menu" type="HBoxContainer" parent="container_top"]
+layout_mode = 2
+alignment = 1
+
+[node name="btn_change_level_left" type="Button" parent="container_top/container_top_menu"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+theme = ExtResource("3_yq05p")
+text = "<"
+
+[node name="label_level_name" type="Label" parent="container_top/container_top_menu"]
+custom_minimum_size = Vector2(320, 0)
+layout_mode = 2
+theme = ExtResource("2_budsj")
+theme_override_font_sizes/font_size = 24
+text = "none"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="btn_change_level_right" type="Button" parent="container_top/container_top_menu"]
+custom_minimum_size = Vector2(48, 48)
+layout_mode = 2
+theme = ExtResource("3_yq05p")
+text = ">"
+
+[node name="container_bottom" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(0, 128)
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 151.0
+offset_top = -144.0
+offset_right = -151.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="label_source_of_replays" type="Label" parent="container_bottom"]
+layout_mode = 2
+theme = ExtResource("2_budsj")
+theme_override_font_sizes/font_size = 20
+text = "Source of replays:"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="label_click_to_change" type="Label" parent="container_bottom"]
+modulate = Color(1, 1, 1, 0.65098)
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+theme = ExtResource("2_budsj")
+theme_override_font_sizes/font_size = 12
+text = "(click to change)"
+horizontal_alignment = 1
+
+[node name="container_top_menu" type="HBoxContainer" parent="container_bottom"]
+layout_mode = 2
+alignment = 1
+
+[node name="btn_change_source_local" parent="container_bottom/container_top_menu" instance=ExtResource("4_bu7xr")]
+custom_minimum_size = Vector2(128, 40)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 24
+text = "local"
+source_name = "local"
+
+[node name="btn_change_source_online" parent="container_bottom/container_top_menu" instance=ExtResource("4_bu7xr")]
+custom_minimum_size = Vector2(128, 40)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 24
+text = "online
+"
+source_name = "online"
+
+[node name="btn_change_source_local_best" parent="container_bottom/container_top_menu" instance=ExtResource("4_bu7xr")]
+custom_minimum_size = Vector2(128, 40)
+layout_mode = 2
+size_flags_horizontal = 6
+theme_override_font_sizes/font_size = 24
+text = "local best
+"
+source_name = "local_best"
+
+[node name="menu_bg" parent="." instance=ExtResource("1_31nnm")]
+layout_mode = 1
+mouse_filter = 2
+margin = Vector2(-25, -25)
 
 [node name="container_main_scroll" type="ScrollContainer" parent="."]
 layout_mode = 1
@@ -44,17 +142,19 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 39.0
-offset_top = 86.0
+offset_top = 152.0
 offset_right = -39.0
-offset_bottom = -16.0
+offset_bottom = -128.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 0
 follow_focus = true
 draw_focus_border = true
 
 [node name="container_main" type="VBoxContainer" parent="container_main_scroll"]
-custom_minimum_size = Vector2(672, 898)
+custom_minimum_size = Vector2(672, 720)
 layout_mode = 2
+mouse_filter = 2
 alignment = 1
 
 [node name="decoration_gear" parent="." instance=ExtResource("4_5mtm8")]
@@ -149,3 +249,6 @@ offset_bottom = -640.0
 scale = Vector2(4, 4)
 mouse_filter = 2
 color = Color(0, 0, 0, 0.443137)
+
+[connection signal="pressed" from="container_top/container_top_menu/btn_change_level_left" to="." method="_on_btn_change_level_left_pressed"]
+[connection signal="pressed" from="container_top/container_top_menu/btn_change_level_right" to="." method="_on_btn_change_level_right_pressed"]

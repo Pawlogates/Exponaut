@@ -6,9 +6,12 @@ extends CanvasLayer
 @onready var label_score_total: RichTextLabel = $container_results/label_score_total
 @onready var label_time: RichTextLabel = $container_results/label_time
 @onready var container_majorCollectables: HBoxContainer = %container_majorCollectables
+
 @onready var container_rank: VBoxContainer = %container_rank
 @onready var label_rank: RichTextLabel = $container_rank/label_rank
-@onready var label_next_rank_score: RichTextLabel = $container_rank/label_next_rank_score
+@onready var label_score_segment: RichTextLabel = $container_rank/label_score_segment
+@onready var label_score_target: RichTextLabel = $container_rank/label_score_target
+
 @onready var animation_ui: AnimationPlayer = $animation_ui
 @onready var container_level_finished: Control = $container_level_finished
 @onready var label_score_previous_best: RichTextLabel = $container_results/label_score_previous_best
@@ -63,15 +66,9 @@ func _ready():
 	
 	animation_ui.play("show")
 	
-	var rank_data = SaveData.calculate_rank_level(level_id)
-	rank = rank_data[0]
-	rank_value = rank_data[1]
-	
 	label_score_previous_best.text = str(int(level_previous_best_score))
 	label_score_previous_best.update_text()
 	
-	label_rank.text = rank
-	label_rank.update_text()
 	
 	label_score_total.text = str(int(total_score))
 	label_score_total.update_text()
@@ -81,9 +78,13 @@ func _ready():
 
 var level_score_displayed = 0
 
-func _process(_delta):
+func _process(delta):
 	if Input.is_action_just_pressed("menu") : queue_free()
 	handle_count_score()
+	
+	label_score.modulate.r = move_toward(label_score.modulate.r, 1, delta)
+	label_score.modulate.g = move_toward(label_score.modulate.g, 1, delta)
+	label_score.modulate.b = move_toward(label_score.modulate.b, 1, delta)
 
 
 func delete():
@@ -104,6 +105,16 @@ var level_score_displayed_set : bool = false
 
 func handle_count_score():
 	if level_score_displayed_set : return
+	
+	if level_score_displayed > 500000 : effects_count_segment_break(3, 80)
+	elif level_score_displayed > 400000 : effects_count_segment_break(3, 76)
+	elif level_score_displayed > 300000 : effects_count_segment_break(3, 72)
+	elif level_score_displayed > 200000 : effects_count_segment_break(2, 68)
+	elif level_score_displayed > 100000 : effects_count_segment_break(2, 56)
+	elif level_score_displayed > 10000 : effects_count_segment_break(2, 40)
+	elif level_score_displayed > 5000 : effects_count_segment_break(1, 32)
+	elif level_score_displayed > 1000 : effects_count_segment_break(1, 28)
+	else : effects_count_segment_break(1, 24)
 	
 	if level_score_displayed != level_score:
 		if level_score - level_score_displayed <= 50:
@@ -137,17 +148,55 @@ func handle_count_score():
 		label_score.text = str(int(level_score_displayed))
 	
 	else:
-		if level_score > level_previous_best_score:
-			label_score.text = str(int(level_score_displayed)) + " (New best!)"
-		else:
-			label_score.text = str(int(level_score_displayed))
-		label_score.update_text()
-		
-		container_rank.modulate.a = 1
-		
-		level_score_displayed_set = true
-		total_score = SaveData.get_total_score(levelSet_id)
-		label_score_total.text = str(int(total_score))
-		label_score_total.update_text()
-		await get_tree().create_timer(1.0, true).timeout
-		Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
+		on_score_displayed_set()
+
+func on_score_displayed_set():
+	if level_score > level_previous_best_score:
+		label_score.text = str(int(level_score_displayed)) + "[font_size=32] (New best!)[/font_size]"
+	else:
+		label_score.text = str(int(level_score_displayed))
+	label_score.update_text()
+	
+	container_rank.modulate.a = 1
+	
+	level_score_displayed_set = true
+	total_score = SaveData.get_total_score(levelSet_id)
+	label_score_total.text = str(int(total_score))
+	label_score_total.update_text()
+	await get_tree().create_timer(1.0, true).timeout
+	Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
+	
+	var rank_data = SaveData.calculate_rank_level(level_id)
+	rank = rank_data[0]
+	rank_value = rank_data[1]
+	var rank_score = rank_data[2]
+	var rank_score_target = rank_data[3]
+	var rank_score_segment = rank_data[4]
+	
+	label_rank.text = rank
+	label_rank.update_text()
+	
+	label_score_target.text = str(int(rank_score)) + "/" + str(rank_score_target) + " (the score needed for acquiring the maximum rank - 'Exponaut')"
+	label_score_target.update_text()
+	
+	label_score_segment.text = str(rank_score_segment) + " (the score difference between each rank)"
+	label_score_segment.update_text()
+
+
+@onready var count_sfx_manager: Node2D = $count_sfx_manager
+
+func effects_count_segment_break(type : int = 1, font_size : int = 48):
+	if label_score["theme_override_font_sizes/normal_font_size"] == font_size : return
+	
+	label_score["theme_override_font_sizes/normal_font_size"] = font_size
+	label_score.modulate *= 1 + (0.25 * type * type)
+	
+	if type == 1:
+		count_sfx_manager.sfx_play(Globals.sfx_jewel_collect)
+		Globals.spawn_scenes(label_score, Globals.scene_particle_star, 1, label_score.size / 2)
+	elif type == 2:
+		count_sfx_manager.sfx_play(Globals.sfx_jewel_collect2)
+		Globals.spawn_scenes(label_score, Globals.scene_particle_star, 4, label_score.size / 2)
+	elif type == 3:
+		count_sfx_manager.sfx_play(Globals.sfx_jewel_collect3)
+		Globals.spawn_scenes(label_score, Globals.scene_particle_star, 8, label_score.size / 2)

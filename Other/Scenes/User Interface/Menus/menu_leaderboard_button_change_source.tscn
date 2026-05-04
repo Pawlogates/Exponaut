@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://c18ilvvgo4lyp"]
+
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="1_v16c6"]
+[ext_resource type="Script" uid="uid://dx0avhl5ghr5m" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_button_change_source.gd" id="2_k8sos"]
+
+[node name="btn_change_source" type="Button"]
+custom_minimum_size = Vector2(48, 48)
+theme = ExtResource("1_v16c6")
+text = "<"
+script = ExtResource("2_k8sos")
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

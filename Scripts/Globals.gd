@@ -24,7 +24,9 @@ const d_levelSet = d_slot_id + "/levelSet"
 const d_levelState = d_slot_id + "/levelState"
 
 const dirpath_recordings = "user://recordings"
-const d_recordings_best = "user://recordings/best"
+const d_recordings_local = dirpath_recordings + "/local"
+const d_recordings_local_best = d_recordings_local + "/best"
+const d_recordings_online = dirpath_recordings + "/online"
 
 const dirpath_assets = "res://Assets"
 const dirpath_graphics = dirpath_assets + "/Graphics"
@@ -214,8 +216,9 @@ var scene_menu_settings = load("res://Other/Scenes/User Interface/Menus/menu_set
 var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/menu_select_levelSet.tscn")
 var scene_effect_score_value = load("res://Other/Scenes/display_score.tscn")
 var scene_effect_score_bonus = load("res://Other/Scenes/score_value.tscn")
-
 var scene_screen_decoration_gears = "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"
+var scene_weather_rain = "res://Other/Scenes/Weather/rain.tscn"
+var scene_weather_leaves = "res://Other/Scenes/Weather/leaves.tscn"
 
 
 # Entity editor - [START]
@@ -268,7 +271,6 @@ func _ready() -> void:
 	prepare_lists()
 	
 	gameState_changed.connect(on_gameState_changed)
-	main_scene_changed.connect(on_gameState_changed)
 	
 	if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
 		refreshed0_5.connect(on_refreshed0_5)
@@ -749,12 +751,13 @@ func message(message_text, pause_duration : float = 0.0, message_add_pos : Vecto
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
 
 func message_debug(text, importance = "none", remove_cooldown : float = -1.0):
-	return
+	if len(display_messages_debug_queued) > 100 : display_messages_debug_queued = []
+	
+	if importance is String and importance == "debug":
+		print("DM: " + str(text))
+	
 	if gameState_debug:
-		
-		if not importance is String : return
-		else:
-			if importance != "debug" : return
+		if not importance is String or importance != "debug" : return
 		
 		importance = "none"
 	
@@ -1124,15 +1127,19 @@ func handle_spawn_menu(manual_request : bool = false):
 	if manual_request:
 		
 		if gameState_scoring_focus:
-			spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
-			return
+			if gameState_level:
+				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
+				return
+			elif gameState_levelSet_screen:
+				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
+				return
 		
 		if gameState_level:
 			spawn_menu()
 			return
 	
 	if gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 		return
 	
 	elif gameState_start_screen:
@@ -1169,6 +1176,7 @@ func on_gameState_changed():
 	spawn_camera_if_none()
 	
 	dm(str("Game State has changed: Level - %s, Start screen - %s, Level Set screen - %s, Debug - %s" % [gameState_level, gameState_start_screen, gameState_levelSet_screen, gameState_debug]), "ORANGE")
+	print("Game state has changed.")
 	
 	handle_spawn_menu(false)
 	
@@ -1178,18 +1186,7 @@ func on_gameState_changed():
 	
 	create_directories()
 	
-	for filename in get_files(d_recordings_best):
-		delete_file(d_recordings_best + "/" + filename)
-	
-	for f_levelSet_id in l_levelSet_id:
-		for level_number in range(0, SaveData.get("info_" + f_levelSet_id)[1] + 1):
-			var f_level_id = f_levelSet_id + "_" + str(level_number)
-			
-			var recording_level_best_score_filepath : String = get_recording_level_best_score(f_level_id)
-			if recording_level_best_score_filepath == "none" : continue
-			
-			var recording_level_best_score_filedata = filepath_to_data(recording_level_best_score_filepath)
-			save_file(recording_level_best_score_filepath.replace("recordings", "recordings/best"), recording_level_best_score_filedata)
+	update_recordings_best()
 
 # Constant global refresh timers:
 
@@ -1504,10 +1501,10 @@ func get_recording_level_best_score(level_id : String, player_name : String = Sa
 	var recording_level_best_score_filepath : String = "none"
 	var level_best_score = 0
 	
-	for entry_filename in Globals.get_files(Globals.dirpath_recordings):
+	for entry_filename in Globals.get_files(Globals.d_recordings_local):
 		if not player_name + "_" + level_id in entry_filename : continue
 		
-		var entry_filepath : String = Globals.dirpath_recordings + "/" + entry_filename
+		var entry_filepath : String = Globals.d_recordings_local + "/" + entry_filename
 		var entry_filedata = Globals.filepath_to_data(entry_filepath)
 		var entry_data : Array = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], randi_range(1, 999)]
 		
@@ -1536,8 +1533,167 @@ func create_directories():
 	dir.make_dir("recordings")
 	
 	dir = DirAccess.open("user://recordings")
+	dir.make_dir("local")
+	dir.make_dir("online")
+	
+	dir = DirAccess.open("user://recordings/local")
 	dir.make_dir("best")
 
 
 func delete_file(filepath : String):
 	DirAccess.remove_absolute(filepath)
+
+
+func suffix_increase(text : String, add_value : int = 1):
+	print(text)
+	for x in range(1, 101):
+		if text.ends_with(str(x)):
+			text = text.trim_suffix(str(x)) + str(x + add_value)
+			return text
+	
+	print("Suffix couldn't be increased, because the given String does not end with a number between 1 and 100.")
+	return "none"
+
+
+# Im so sorry for this...
+func set_nodes(target_node : Node, node_type, state_active : bool):
+	update_main_scene()
+	
+	if node_type == Button:
+		for node in target_node.get_children():
+			if node is Button : node.disabled = opposite_bool(state_active)
+			for sub_node in node.get_children():
+				if sub_node is Button : sub_node.disabled = opposite_bool(state_active)
+				for sub_sub_node in sub_node.get_children():
+					if sub_sub_node is Button : sub_sub_node.disabled = opposite_bool(state_active)
+					for sub_sub_sub_node in sub_sub_node.get_children():
+						if sub_sub_sub_node is Button : sub_sub_sub_node.disabled = opposite_bool(state_active)
+
+
+func update_recordings_best():
+	for filename in get_files(d_recordings_local_best):
+		delete_file(d_recordings_local_best + "/" + filename)
+	
+	for f_levelSet_id in l_levelSet_id:
+		for level_number in range(0, SaveData.get("info_" + f_levelSet_id)[1] + 1):
+			var f_level_id = f_levelSet_id + "_" + str(level_number)
+			
+			var recording_level_best_score_filepath : String = get_recording_level_best_score(f_level_id)
+			if recording_level_best_score_filepath == "none" : continue
+			
+			var recording_level_best_score_filedata = filepath_to_data(recording_level_best_score_filepath)
+			save_file(recording_level_best_score_filepath.replace("recordings/local", "recordings/local/best"), recording_level_best_score_filedata)
+
+
+func dirpath_to_server(dirpath : String, server_route : String = "upload"):
+	print("Sending files from '%s' to server, with route '%s'." % [dirpath, server_route])
+	for filename in get_files(dirpath):
+		print(str("Uploading file to server: '%s'" % filename))
+		
+		var filepath = dirpath + "/" + filename
+		var file := FileAccess.open(filepath, FileAccess.READ)
+		var content := file.get_buffer(file.get_length())
+		
+		var http := HTTPRequest.new()
+		add_child(http)
+
+		var boundary := "----GodotBoundary123"
+		var headers := PackedStringArray([
+			"Content-Type: multipart/form-data; boundary=" + boundary
+		])
+
+		var body_parts := []
+		body_parts.append("--" + boundary + "\r\n")
+		body_parts.append("Content-Disposition: form-data; name=\"file\"; filename=\"%s\"\r\n" % filename.replace(".json", ""))
+		body_parts.append("Content-Type: application/json\r\n\r\n")
+		body_parts.append(content)
+		body_parts.append("\r\n--" + boundary + "--\r\n")
+
+		var final_body := PackedByteArray()
+		for part in body_parts:
+			if typeof(part) == TYPE_STRING:
+				final_body += part.to_utf8_buffer()
+			elif typeof(part) == TYPE_PACKED_BYTE_ARRAY:
+				final_body += part
+		
+		http.request_raw(str("https://gameplay-recording-downloader.onrender.com/%s") % server_route, headers, HTTPClient.METHOD_POST, final_body)
+
+
+const BASE_URL := "https://gameplay-recording-downloader.onrender.com"
+const LIST_URL := BASE_URL + "/leaderboard/list"
+const FILE_BASE_URL := BASE_URL + "/leaderboard/"
+
+var pending_files: Array = []
+var current_index := 0
+
+func server_to_dirpath(dirpath : String):
+	print("Downloading files from server to '%s'." % dirpath)
+	
+	DirAccess.make_dir_recursive_absolute(dirpath)
+	
+	var http := HTTPRequest.new()
+	add_child(http)
+
+	http.request_completed.connect(_on_list_received.bind(http))
+
+	var err := http.request(LIST_URL)
+	if err != OK:
+		push_error("Could not request leaderboard list")
+
+
+func _on_list_received(result, response_code, headers, body, http: HTTPRequest) -> void:
+	if response_code != 200:
+		push_error("Leaderboard list request failed")
+		http.queue_free()
+		return
+
+	var parsed = JSON.parse_string(body.get_string_from_utf8())
+
+	if typeof(parsed) == TYPE_DICTIONARY:
+		pending_files = parsed.keys()
+	elif typeof(parsed) == TYPE_ARRAY:
+		pending_files = parsed
+	else:
+		push_error("Unexpected leaderboard list format")
+		http.queue_free()
+		return
+
+	http.queue_free()
+	
+	current_index = 0
+	_download_next()
+
+
+func _download_next() -> void:
+	if current_index >= pending_files.size():
+		print("Leaderboard sync complete")
+		return
+
+	var filename: String = pending_files[current_index]
+
+	var http := HTTPRequest.new()
+	add_child(http)
+
+	http.download_file = dirpath_recordings + "/online/" + filename
+	http.request_completed.connect(_on_file_downloaded.bind(http))
+
+	var err := http.request(FILE_BASE_URL + filename)
+
+	if err != OK:
+		push_error("Failed to start download: " + filename)
+		http.queue_free()
+		current_index += 1
+		_download_next()
+
+
+func _on_file_downloaded(result, response_code, headers, body, http: HTTPRequest) -> void:
+	http.queue_free()
+	
+	if not current_index >= len(pending_files):
+		if response_code == 200:
+			print("Downloaded: ", pending_files[current_index])
+		else:
+			push_error("Failed: " + pending_files[current_index])
+
+	current_index += 1
+	_download_next()

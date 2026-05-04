@@ -31,7 +31,7 @@ func _ready() -> void:
 	#Globals.message("Press ESC to close the menu.", 0, Vector2(0, 105), 2, 4)
 	
 	if Globals.gameState_scoring_focus:
-		if Globals.node_exists("screen_results_level"):
+		if Globals.node_exists("screen_results_level") and Globals.gameState_level:
 			position += Vector2(-600, -300)
 	
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = true
@@ -280,6 +280,7 @@ func _on_btn_level_set_screen_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
 	
 	Globals.change_main_scene(Globals.scene_levelSet_screen)
+	delete_menu()
 
 func _on_btn_back_to_overworld_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
@@ -320,7 +321,7 @@ func _on_btn_continue_pressed(block_buttons_time : float = 1.0) -> void:
 
 func _on_btn_select_level_set_pressed(block_buttons_time : float = 1.0) -> void:
 	Globals.spawn_menu(Globals.scene_menu_select_levelSet, [], Globals.window_size / 2)
-	queue_free()
+	delete_menu()
 
 func _on_btn_close_pressed() -> void:
 	delete_menu()
@@ -421,12 +422,13 @@ func _on_btn_leaderboard_pressed() -> void:
 
 
 func _on_btn_next_level_pressed() -> void:
-	Globals.change_main_scene(Globals.World.next_level_filepath)
+	if not FileAccess.file_exists(Globals.World.next_level_filepath) and SaveData.get_total_score(Globals.levelSet_id) < 1000000:
+		Globals.message("So you beat every level, but the real goal is to increase your TOTAL SCORE across all of them! There is a lot more content present in the game, but to access it you will need to acquire... let's say: 1000000 TOTAL SCORE. My personal best is way higher than that, so I'm sure it's not too much to ask. Thats right! It is possible to acquire a total score of 1 000 000 across these very few little levels! There are no secret collectibles, just the crazy potential of mastering the scoring system. Good luck!", 12, Vector2(0, 0), 12, 4)
+	else:
+		if is_instance_valid(Globals.World):
+			Globals.change_main_scene(Globals.World.next_level_filepath)
 
 
 func _on_btn_retry_pressed() -> void:
-	if not FileAccess.file_exists(Globals.World.next_level_filepath) and SaveData.get_total_score(Globals.levelSet_id) < 1000000:
-		Globals.message("So you beat every level, but the real goal is to increase your TOTAL SCORE across all of them! There is a lot more content present in the game, but to access it you will to acquire... let's say: 1000000 TOTAL SCORE. My personal best is way higher than that, so I'm sure it's not too much to ask. Thats right! It is possible to acquire a total score of 1 000 000 across these very few little levels! There are no secret collectibles, just the crazy potential of mastering the scoring system. Good luck!", 6)
-		await get_tree().create_timer(8, true).timeout
-	else:
+	if is_instance_valid(Globals.World):
 		Globals.restart_level()

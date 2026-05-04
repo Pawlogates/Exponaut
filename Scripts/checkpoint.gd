@@ -9,7 +9,6 @@ func _ready():
 
 
 func _on_area_2d_area_entered(area):
-	print(active)
 	if active:
 		if area.is_in_group("Player"):
 			Globals.dm("Player has entered a checkpoint at position: " + str(position))
@@ -36,4 +35,4 @@ func checkpoint_activated():
 		SaveData.save_playerData(true) # The argument affects whether or not the saved overworld position will also be updated.
 	
 	else:
-		SaveData.save_levelState(Globals.level_id)
+		SaveData.save_levelState()

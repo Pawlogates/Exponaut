@@ -29,11 +29,13 @@ func _ready() -> void:
 	recorder_level = get_tree().get_first_node_in_group("recorder_level")
 	
 	label_player_name.text = str(player_name)
-	label_level_score.text = str(level_score)
+	label_level_score.text = str(int(level_score))
 	
 	label_level_time.text = str(level_time)
 	label_damage_taken.text = str(level_damage_taken)
 	label_entry_position.text = str(entry_position)
+	
+	Globals.dirpath_to_server(Globals.d_recordings_local_best)
 
 func _physics_process(delta: float) -> void:
 	menu_bg.modulate.a = move_toward(menu_bg.modulate.a, target_modulate.a, delta)
@@ -44,3 +46,4 @@ func _physics_process(delta: float) -> void:
 
 func _on_button_pressed() -> void:
 	recorder_level.start_playback(entry_filepath)
+	get_tree().get_first_node_in_group("leaderboard_level").delete()

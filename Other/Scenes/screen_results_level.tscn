@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://dijgiqym3g0vv"]
+[gd_scene load_steps=8 format=3 uid="uid://dijgiqym3g0vv"]
 
 [ext_resource type="Script" uid="uid://dhugjkxt3jd44" path="res://Scripts/level_finished.gd" id="1_w4h15"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_22p50"]
 [ext_resource type="PackedScene" uid="uid://k8j15yb8rjxw" path="res://Other/Scenes/User Interface/Text Manager/text_core.tscn" id="4_6ulxu"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="4_w4h15"]
 [ext_resource type="PackedScene" uid="uid://r30hf3sf46ot" path="res://Other/Scenes/User Interface/Screens/icon_majorCollectable.tscn" id="5_wsjwu"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="6_v7v63"]
 [ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/animation_ui.tscn" id="7_ap76s"]
@@ -45,13 +46,14 @@ theme = ExtResource("3_22p50")
 
 [node name="label_score" parent="container_results" instance=ExtResource("4_6ulxu")]
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 96
+theme = ExtResource("4_w4h15")
+theme_override_font_sizes/normal_font_size = 80
 text = "Level Score"
 
 [node name="label_score_previous_best" parent="container_results" instance=ExtResource("4_6ulxu")]
 modulate = Color(1, 1, 1, 0.196078)
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/normal_font_size = 28
 text = "Previous Best Score"
 text_insert_start = "Previous best score: "
 text_insert_end = ""
@@ -59,7 +61,7 @@ text_insert_end = ""
 [node name="label_score_total" parent="container_results" instance=ExtResource("4_6ulxu")]
 modulate = Color(1, 1, 1, 0.392157)
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 64
+theme_override_font_sizes/normal_font_size = 56
 text = "Total Score"
 text_insert_start = "Total Score: "
 text_insert_end = ""
@@ -114,10 +116,21 @@ layout_mode = 2
 theme_override_font_sizes/normal_font_size = 64
 text = "rank"
 
-[node name="label_next_rank_score" parent="container_rank" instance=ExtResource("4_6ulxu")]
+[node name="label_score_segment" parent="container_rank" instance=ExtResource("4_6ulxu")]
+modulate = Color(1, 1, 1, 0.282353)
 layout_mode = 2
-theme_override_font_sizes/normal_font_size = 32
+theme_override_font_sizes/normal_font_size = 16
 text = "next rank score"
+text_insert_start = ""
+text_insert_end = ""
+
+[node name="label_score_target" parent="container_rank" instance=ExtResource("4_6ulxu")]
+modulate = Color(1, 1, 1, 0.282353)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 16
+text = "score / max rank score"
+text_insert_start = ""
+text_insert_end = ""
 
 [node name="animation_ui" parent="." instance=ExtResource("7_ap76s")]
 
@@ -156,6 +169,8 @@ grow_vertical = 2
 color = Color(0, 0, 0, 1)
 
 [node name="sfx_manager" parent="." instance=ExtResource("6_v7v63")]
+
+[node name="count_sfx_manager" parent="." instance=ExtResource("6_v7v63")]
 
 [connection signal="timeout" from="cooldown_show_results" to="." method="_on_cooldown_show_results_timeout"]
 [connection signal="focus_entered" from="container_rank" to="container_rank" method="_on_focus_entered"]
