@@ -164,3 +164,8 @@ func delete():
 	is_ready = false
 	await get_tree().create_timer(2, true).timeout
 	queue_free()
+
+
+func _on_btn_close_pressed() -> void:
+	queue_free()
+	Globals.handle_spawn_menu(true)

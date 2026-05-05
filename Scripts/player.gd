@@ -411,10 +411,10 @@ func handle_gravity(delta):
 		
 		if Input.is_action_pressed("move_down"):
 			velocity.y += fall_speed * delta * 4 * gravity_multiplier
-			velocity.x = move_toward(velocity.x, 1000 * direction_x, 6000 * delta)
+			velocity.x = move_toward(velocity.x, 800 * direction_x, 6000 * delta)
 		else:
 			velocity.y += fall_speed * delta * 2 * gravity_multiplier
-			velocity.x = move_toward(velocity.x, 1000 * direction_x, 6000 * delta)
+			velocity.x = move_toward(velocity.x, 800 * direction_x, 6000 * delta)
 	
 	else:
 		dash_active = false
@@ -528,7 +528,7 @@ func handle_jump(delta):
 	if dash_end_slowdown_await_jump and is_on_floor() and Input.is_action_just_pressed("jump"):
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
-		velocity.x = base_speed_x * 4.5 * direction_x
+		velocity.x = base_speed_x * 6 * direction_x
 		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(1, 1), 10)
 		Globals.spawn_scenes(World, Globals.scene_particle_special, 12, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(0, 0), 10)
 		
@@ -541,7 +541,6 @@ func handle_jump(delta):
 		
 		if Input.is_action_just_pressed("jump"):
 			Globals.spawn_scenes(World, Globals.scene_particle_special, 3, position + Vector2(24 * Globals.player_direction_x_active, 64), 8, Color(1, 1, 9, 0), Vector2(-0.6, -0.6), 10)
-			print("jumped")
 			Globals.message_debug("player jump")
 			can_jump = false
 			
@@ -743,6 +742,8 @@ func handle_dash():
 	if can_dash and Input.is_action_just_pressed("dash") and is_on_floor() and dash_active == false and not crouch_walk_active and not crouch_active:
 		Globals.message_debug("Player is now performing a dash.")
 		
+		velocity.x = -500 * Globals.player_direction_x_active
+		
 		dash_active = true
 		can_dash = false
 		dash_end_slowdown_canceled = false
@@ -874,7 +875,7 @@ func handle_attack_main():
 	elif dead : return
 	elif Globals.weapon_blocked : return
 	
-	if Input.is_action_pressed("attack_main"):
+	if Input.is_action_pressed("attack_secondary"):
 		if c_attack.time_left > 0.0 : return
 		c_attack.start()
 		
@@ -892,7 +893,7 @@ func handle_attack_main():
 			sprite.flip_h = (direction_x < 0)
 	
 	
-	elif Input.is_action_just_pressed("attack_secondary"):
+	elif Input.is_action_just_pressed("attack_main"):
 		if c_attack.time_left > 0.0 : return
 		c_attack.wait_time = 0.1
 		c_attack.start()

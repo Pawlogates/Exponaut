@@ -589,6 +589,7 @@ func update_playback(filepath : String = "none"):
 
 
 func start_recording():
+	Globals.recorder_recording_active = true
 	Globals.dm("Gameplay recording has started.")
 	
 	Globals.update_player_info()
@@ -621,6 +622,11 @@ func start_recording():
 	if is_instance_valid(label_info) : label_info.visible = false
 
 func stop_recording():
+	if not recording_active : return
+	if not Globals.recorder_recording_active : return
+	
+	Globals.recorder_recording_active = false
+	
 	insert_end_info(true)
 	
 	if is_instance_valid(btn_stop_recording):

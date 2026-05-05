@@ -103,17 +103,17 @@ var saved_BONUS_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
-var info_BONUS = ["BONUS Levels", 6, "Pawlogates", "none", "none", "res://Assets/Graphics/backgrounds/bg_desert.png", "res://Other/Scenes/Level Set/screen_decoration_gears2.tscn"]
+var info_BONUS = ["BONUS Levels", 7, "Pawlogates", "none", "none", "res://Assets/Graphics/backgrounds/bg_desert.png", "res://Other/Scenes/Level Set/screen_decoration_gears2.tscn"]
 
 # Level information (static):
 # info_[levelSet_id]_[level_number] : [name, icon_id, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
-const info_BONUS_1 = ["This level set's creation has not even actually started...", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
+const info_BONUS_1 = ["Hell May Cry", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
 const info_BONUS_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "something", "Pawlogates", "beginner", "regular"]
 const info_BONUS_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "hello", "Pawlogates", "beginner", "regular"]
 const info_BONUS_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "will update later idk", "Pawlogates", "beginner", "regular"]
 const info_BONUS_5 = ["Chilling Exercise", 1, -120, -100, 4000, 60, "none", "Pawlogates", "beginner", "regular"]
 const info_BONUS_6 = ["Daring Dash", 1, 700, 80, 25000, 60, "none", "Pawlogates", "beginner", "regular"]
-const info_BONUS_7 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "intermediate", "regular"]
+const info_BONUS_7 = ["Subzero people asked", 1, 200, -40, 15000, 60, "none", "Pawlogates", "intermediate", "regular"]
 const info_BONUS_8 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "intermediate", "regular"]
 const info_BONUS_9 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "beginner", "regular"]
 const info_BONUS_10 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "beginner", "regular"]

@@ -21,6 +21,7 @@ func on_level_started():
 
 func on_level_finished():
 	if Globals.recorder_playback_active : return
+	if not Globals.recorder_recording_active : Globals.handle_spawn_menu(true) ; Globals.message("You've a clever little gamer arent you...") ; return
 	
 	c_stop_recording.wait_time = cooldown_stop_recording
 	c_stop_recording.start()

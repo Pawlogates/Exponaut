@@ -57,6 +57,7 @@ decoration_base_size_multiplier = Vector2(0.6, 1)
 on_hover_message_text = "Choose one out of the currently hardcoded level sets. I mean it IS well prepared for not being hardcoded into the game itself but I won't take the final step for quite some time because like I've got enough stuff that needs doing already without it lil g"
 
 [node name="btn_Leaderboard" parent="container_buttons" index="5" instance=ExtResource("2_0mlty")]
+modulate = Color(1, 1, 0.203922, 1)
 layout_mode = 2
 text_manager_message = "[/]Leaderboard"
 decoration_base_size_multiplier = Vector2(0.6, 1)

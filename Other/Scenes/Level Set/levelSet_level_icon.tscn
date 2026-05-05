@@ -161,21 +161,21 @@ autoplay = "idle_glow"
 unique_name_in_owner = true
 visible = false
 z_index = 10
-position = Vector2(-96, -96)
+position = Vector2(32, 32)
 texture = SubResource("AtlasTexture_r7s71")
 
 [node name="icon_state_allMajorCollectibles" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 visible = false
 z_index = 10
-position = Vector2(-96, -96)
+position = Vector2(32, 32)
 texture = SubResource("AtlasTexture_qhxeg")
 
 [node name="icon_state_allCollectibles" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 visible = false
 z_index = 10
-position = Vector2(-96, -96)
+position = Vector2(32, 32)
 texture = SubResource("AtlasTexture_8xhdh")
 
 [node name="sfx_start" type="AudioStreamPlayer" parent="."]

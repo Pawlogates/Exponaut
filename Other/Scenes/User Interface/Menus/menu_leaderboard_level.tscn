@@ -250,5 +250,18 @@ scale = Vector2(4, 4)
 mouse_filter = 2
 color = Color(0, 0, 0, 0.443137)
 
+[node name="btn_close" type="Button" parent="."]
+z_index = -1
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 0
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 76.0
+offset_bottom = 76.0
+scale = Vector2(0.5, 0.5)
+theme = ExtResource("3_yq05p")
+text = "X"
+
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_left" to="." method="_on_btn_change_level_left_pressed"]
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_right" to="." method="_on_btn_change_level_right_pressed"]
+[connection signal="pressed" from="btn_close" to="." method="_on_btn_close_pressed"]

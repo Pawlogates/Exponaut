@@ -115,7 +115,7 @@ func _on_focus_exited():
 
 
 func _on_mouse_entered():
-	%icon.scale = Vector2(1.1, 1.1)
+	%icon.scale = Vector2(0.6, 0.6)
 	
 	if unlocked:
 		modulate.b = 0.5
@@ -131,7 +131,7 @@ func _on_mouse_entered():
 	show_display_level_info()
 
 func _on_mouse_exited():
-	%icon.scale = Vector2(1.0, 1.0)
+	%icon.scale = Vector2(0.5, 0.5)
 	modulate.b = 1.0
 	modulate.g = 1.0
 	%decoration_glow.modulate.a = 1.0

@@ -17,7 +17,7 @@ func _ready():
 		bg.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
 	
 	await get_tree().create_timer(1.0, true).timeout
-	
+	bg.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
 	active = true
 
 

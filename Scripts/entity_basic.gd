@@ -513,7 +513,7 @@ var effect_collected_multiple_active = false
 # Velocity ranges in which a box can be broken. Note: Set to -1 for "never".
 # Single range:
 @export var breakable_requires_velocity_x_range = Vector2(-1, -1)
-@export var breakable_requires_velocity_y_range = Vector2(400, 100000)
+@export var breakable_requires_velocity_y_range = Vector2(250, 100000)
 
 # Multiple ranges:
 # Example: 1 - [Vector2(-100000, -400) and 2 - [Vector2(400, 100000)] will make the box break only if an entity (or the player) moves into it very fast horizontally.

@@ -1,8 +1,7 @@
 extends Node2D
 
 func _on_area_entered(area):
-	if not Globals.is_valid_entity(area) : return
+	if not area.is_in_group("player_hitbox") : return
 	
-	if Globals.is_valid_entity(area):
-		Globals.exit_activated.emit()
-		Globals.level_finished.emit()
+	Globals.exit_activated.emit()
+	Globals.level_finished.emit()

@@ -40,7 +40,7 @@ animations = [{
 }]
 
 [node name="hitDeath_effect" type="Node2D"]
-z_index = -1
+z_index = -5
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_oragp")
 

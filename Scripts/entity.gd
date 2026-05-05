@@ -25,6 +25,8 @@ var effect_thrownAway_applied_velocity = false
 var unique_number = randi_range(0, 999)
 
 func _ready():
+	if always_active : set_hitbox(true)
+	
 	if start_pos == Vector2(-1, -1) : start_pos = position
 	if start_scale == Vector2(-1, -1) : start_scale = scale
 	
@@ -386,7 +388,7 @@ func direction_toward_target_y(target : Node):
 # The entity's HITBOX has been touched by another entity's HITBOX.
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	# Executes only if the node is a valid one to interact with.
-	if not area.is_in_group("player_hitbox") and not area.is_in_group("entity_hitbox") : return
+	if not area.is_in_group("player_hitbox") and not area.is_in_group("entity_hitbox") and not area.is_in_group("player_projectile"): return # the "player_projectile" check is used only for the phaser weapon, and is a hack...
 	else : Globals.dm(str("Player's Main Hitbox has entered an entity's Main Hitbox (%s, %s)" % [entity_name, entity_type]), "CRIMSON")
 	
 	var target = area.get_parent()
@@ -1161,8 +1163,10 @@ func spawn_display_score_bonus(value : int, add_scale : Vector2 = Vector2(1, 1),
 
 
 func handle_hit(target):
+	Globals.entity_hit.emit()
+	
 	if not immortal:
-		handle_damage(target.damage_value)
+		handle_damage(target.damage_value, "normal", target)
 	
 	handle_effects_hit(target)
 	
@@ -1221,7 +1225,7 @@ func handle_death(type : String = "normal"):
 	
 	if on_death_ignore_gravity_stop : ignore_gravity = false
 	
-	Globals.entity_hit.emit()
+	Globals.entity_killed.emit()
 	
 	if is_instance_valid(hitbox):
 		hitbox.monitoring = false
@@ -1329,7 +1333,6 @@ func handle_breakable(target):
 	Globals.dm("An entity is handling its BREAKABLE logic.", "ORANGE")
 	
 	if breakable_requires_velocity_y:
-		print("YES")
 		if target.velocity.y >= breakable_requires_velocity_y_range[0] and target.velocity.y <= breakable_requires_velocity_y_range[1]:
 			if Input.is_action_pressed("jump"):
 				target.velocity.y = breakable_on_hit_player_velocity_y_jump
@@ -1354,7 +1357,7 @@ func handle_breakable(target):
 			Globals.dm(str("Target's velocity.y (%s) was not within the range (%s) required by this entity to bounce off of." % [int(target.velocity.y), breakable_requires_velocity_y_range]), "YELLOW", 0.5)
 
 
-func handle_damage(value, type : String = "normal"):
+func handle_damage(value, type : String = "normal", source : Node = self):
 	if not immortal : health_value -= value ; health_value = clamp(health_value, 0, 9999)
 	
 	state_damage = true
@@ -1375,15 +1378,16 @@ func handle_damage(value, type : String = "normal"):
 	if health_value <= 0:
 		handle_death(type)
 	
-	get_tree().paused = true
-	set_process(false)
-	set_physics_process(false)
-	Globals.Player.camera.effect((position - Globals.player_position) * 2, Vector2(3, 3), randi_range(-10, 10), 4)
-	await get_tree().create_timer(0.2, true).timeout
-	get_tree().paused = false
-	set_process(true)
-	set_physics_process(true)
-	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
+	if source != self and not source.is_in_group("player_projectile"):
+		get_tree().paused = true
+		set_process(false)
+		set_physics_process(false)
+		Globals.Player.camera.effect((position - Globals.player_position) * 2, Vector2(3, 3), randi_range(-10, 10), 4)
+		await get_tree().create_timer(0.2, true).timeout
+		get_tree().paused = false
+		set_process(true)
+		set_physics_process(true)
+		Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
 
 
 func handle_effects_death(type : String = "normal"): # Death types: "normal", "break", "self_destruct", "self_destruct_timed", "crush", "burn", "electrocute".
@@ -1937,7 +1941,7 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 		if block_spawn_entity : return
 		else : c_attack_limit.start()
 	
-	var spawned_scenes : Array
+	var spawned_scenes
 	
 	spawned_scenes = await Globals.spawn_scenes(World, scene_filepath, quantity, position + pos_offset, -1, Color(0, 0, 0, 0), add_scale, 0, [], [], add_velocity, add_velocity_range, pos_offset_range, spawn_entity_add_scale_range, spawn_entity_add_scale_range_keep_equal, 0.0, spawn_entity_delay_range, master_node)
 	

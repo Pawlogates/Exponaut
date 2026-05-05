@@ -42,7 +42,9 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 16.0
 offset_top = 24.0
+offset_right = -16.0
 offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
@@ -51,17 +53,16 @@ theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
 theme_override_constants/outline_size = 7
 theme_override_constants/shadow_outline_size = 0
-theme_override_font_sizes/font_size = 12
-text = "Thank you so much for playing Exponaut <3
+theme_override_font_sizes/font_size = 18
+text = "Want to share your replay with
+others, or find new scoring strategies?
 
-I would like to make this game the best I'm able to, and to
-that end I would like to ask You to consider telling me
-about your experience with it in its current form!
+Feel free to join the
+Exponaut discord server!
 
-You can join the Exponaut discord server, or send
-me a private message there (my nickname is \"pawlogates\") to
-ask me about something in the game, or just let me know
-that You've played it or got stuck, thanks!"
+The game's development progress
+is also posted there, so click
+the button below if You are interested!"
 horizontal_alignment = 1
 
 [node name="text_secondary" type="Label" parent="."]
@@ -69,8 +70,10 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 240.0
-offset_bottom = -16.0
+offset_left = 16.0
+offset_top = 280.0
+offset_right = -16.0
+offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ky7ft")
@@ -78,12 +81,11 @@ theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
 theme_override_constants/outline_size = 7
 theme_override_constants/shadow_outline_size = 0
-theme_override_font_sizes/font_size = 18
-text = "Join the discord server, to share sick
-replays of combos you managed
-to pull off, or to check how the game's
-development is going!"
+theme_override_font_sizes/font_size = 24
+text = "Thank you so much for
+playing Exponaut <3"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="image_main" type="TextureRect" parent="."]
 layout_mode = 0
@@ -283,5 +285,22 @@ z_index = -8
 position = Vector2(192, 536)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("5_yy13d")
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 592.0
+offset_top = 56.0
+offset_right = 952.0
+offset_bottom = 233.333
+theme = ExtResource("1_ky7ft")
+theme_override_font_sizes/font_size = 14
+text = "Controls:
+Z / SPACE - Jump
+X / LMB - Attack
+C / SHIFT - Dash
+V / RMB - Secondary attack
+ESC - Menu
+You can crouch by holding the down arrow.
+Try holding a direction while attacking!"
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

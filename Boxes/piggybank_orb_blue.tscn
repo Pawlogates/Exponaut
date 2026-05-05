@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://bkr47sjn2wse7"]
+[gd_scene load_steps=5 format=3 uid="uid://bkr47sjn2wse7"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_apas7"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_apas7"]
 [ext_resource type="SpriteFrames" uid="uid://j2i2jftj1ger" path="res://Assets/Graphics/sprites/packed/boxes/piggybank.tres" id="3_ivjbo"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_apas7"]
+shader = ExtResource("2_apas7")
+shader_parameter/Shift_Hue = 0.675
 
 [node name="piggybank_orb_blue" instance=ExtResource("1_apas7")]
 collectable = false
@@ -9,12 +14,13 @@ hittable = true
 health_value = 10
 family = "enemy"
 damage_to_player = false
+pushable_by_player = false
 can_move = true
 ignore_gravity = false
 spawn_entity_add_scale_range = [Vector2(0.2, 1), Vector2(1, 1)]
 on_death_spawn_entity = true
 on_death_spawn_entity_scene_filepath = "uid://c85my28akyfi0"
-on_death_spawn_entity_quantity = 25
+on_death_spawn_entity_quantity = 10
 on_hit_spawn_entity3_scene_filepath = "uid://c85my28akyfi0"
 breakable = true
 start_animation = "none"
@@ -22,5 +28,6 @@ entity_name = "piggybank_orbs"
 entity_type = "box"
 
 [node name="sprite" parent="." index="1"]
+material = SubResource("ShaderMaterial_apas7")
 sprite_frames = ExtResource("3_ivjbo")
 frame_progress = 0.241877

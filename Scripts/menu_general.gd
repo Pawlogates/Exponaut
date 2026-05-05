@@ -28,8 +28,6 @@ var button_is_focused = false
 
 
 func _ready() -> void:
-	#Globals.message("Press ESC to close the menu.", 0, Vector2(0, 105), 2, 4)
-	
 	if Globals.gameState_scoring_focus:
 		if Globals.node_exists("screen_results_level") and Globals.gameState_level:
 			position += Vector2(-600, -300)
@@ -47,7 +45,17 @@ func _ready() -> void:
 	
 	if Globals.gameState_scoring_focus:
 		if Globals.node_exists("screen_results_level"):
-			bg.size *= 0.2
+			bg.visible = false
+	
+	await get_tree().create_timer(randf_range(0.05, 1), true).timeout
+	
+	if is_in_group("menu_main"):
+		for node in get_tree().get_nodes_in_group("menu_main"):
+			if node != self : node.queue_free()
+	
+	await get_tree().create_timer(randf_range(5, 20), true).timeout
+	
+	Globals.message("Press ESC to close the menu.", 0, Vector2(0, 105), 6, 4)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):

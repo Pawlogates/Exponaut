@@ -261,6 +261,10 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 
 func _ready() -> void:
+	if gameState_level:
+		var filepath_player_info = dirpath_userdata + "/" + "player_info.json"
+		if not FileAccess.file_exists(filepath_player_info) : handle_spawn_menu(false)
+	
 	#if gameState_debug : Globals.debug_mode = true
 	
 	SaveData.create_dir_saves()
@@ -299,36 +303,18 @@ func _ready() -> void:
 	gameState_justStarted = false
 
 func _physics_process(delta):
-	handle_actions(delta) # Handles global functions executed on triggering an action.
 	get_mouse_position()
+	handle_zoom(delta)
 
 func _input(event: InputEvent) -> void:
+	handle_actions() # Handles global functions executed on triggering an action.
+	
 	if event is InputEventScreenTouch:
 		if len(get_tree().get_nodes_in_group("touch_controls")) == 0:
 			Globals.spawn_scenes(Overlay, "res://Other/Scenes/touch_controls.tscn", 1, Vector2(0, 0), -1)
-	
-	if gameState_debug:
-		
-		if event is InputEventMouseButton:
-			
-			if Input.is_action_pressed("LMB"):
-				if Input.is_action_pressed("RMB"):
-					if Overlay.has_node("debug_display_messages"):
-						Overlay.get_node("debug_display_messages").delete_messages()
-				
-				else:
-					if Overlay.has_node("debug_display_messages"):
-						Overlay.get_node("debug_display_messages").message_start_following_mouse()
-					
-					if Overlay.has_node("debug_display_messages"):
-						Overlay.get_node("debug_display_messages").refresh_messages()
-			
-			elif event.button_index == 2 and event.pressed:
-				if Overlay.has_node("debug_display_messages"):
-					Overlay.get_node("debug_display_messages").delete_messages(true)
 
 
-func handle_actions(delta):
+func handle_actions():
 	if Input.is_action_just_pressed("restart"):
 		restart_level()
 	
@@ -385,7 +371,7 @@ func handle_actions(delta):
 	handle_debug_actions()
 	handle_toggle_debug_movement()
 	
-	handle_zoom(delta)
+	handle_debug_tools()
 	
 	
 	if Input.is_action_just_pressed("quicksave"):
@@ -723,6 +709,7 @@ var test4
 
 var recording_autostart = false
 
+var recorder_recording_active : bool = false
 var recorder_playback_active : bool = false
 
 signal recorder_started_recording
@@ -1120,7 +1107,6 @@ func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none
 	else : spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
 
 func handle_spawn_menu(manual_request : bool = false):
-	
 	if len(get_tree().get_nodes_in_group("menu_main")) > 0:
 		return
 	
@@ -1134,7 +1120,7 @@ func handle_spawn_menu(manual_request : bool = false):
 				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
 				return
 		
-		if gameState_level:
+		elif gameState_level:
 			spawn_menu()
 			return
 	
@@ -1596,19 +1582,19 @@ func dirpath_to_server(dirpath : String, server_route : String = "upload"):
 		
 		var http := HTTPRequest.new()
 		add_child(http)
-
+		
 		var boundary := "----GodotBoundary123"
 		var headers := PackedStringArray([
 			"Content-Type: multipart/form-data; boundary=" + boundary
 		])
-
+		
 		var body_parts := []
 		body_parts.append("--" + boundary + "\r\n")
 		body_parts.append("Content-Disposition: form-data; name=\"file\"; filename=\"%s\"\r\n" % filename.replace(".json", ""))
 		body_parts.append("Content-Type: application/json\r\n\r\n")
 		body_parts.append(content)
 		body_parts.append("\r\n--" + boundary + "--\r\n")
-
+		
 		var final_body := PackedByteArray()
 		for part in body_parts:
 			if typeof(part) == TYPE_STRING:
@@ -1633,9 +1619,9 @@ func server_to_dirpath(dirpath : String):
 	
 	var http := HTTPRequest.new()
 	add_child(http)
-
+	
 	http.request_completed.connect(_on_list_received.bind(http))
-
+	
 	var err := http.request(LIST_URL)
 	if err != OK:
 		push_error("Could not request leaderboard list")
@@ -1646,9 +1632,9 @@ func _on_list_received(result, response_code, headers, body, http: HTTPRequest) 
 		push_error("Leaderboard list request failed")
 		http.queue_free()
 		return
-
+	
 	var parsed = JSON.parse_string(body.get_string_from_utf8())
-
+	
 	if typeof(parsed) == TYPE_DICTIONARY:
 		pending_files = parsed.keys()
 	elif typeof(parsed) == TYPE_ARRAY:
@@ -1657,7 +1643,7 @@ func _on_list_received(result, response_code, headers, body, http: HTTPRequest) 
 		push_error("Unexpected leaderboard list format")
 		http.queue_free()
 		return
-
+	
 	http.queue_free()
 	
 	current_index = 0
@@ -1668,17 +1654,17 @@ func _download_next() -> void:
 	if current_index >= pending_files.size():
 		print("Leaderboard sync complete")
 		return
-
+		
 	var filename: String = pending_files[current_index]
-
+	
 	var http := HTTPRequest.new()
 	add_child(http)
-
+	
 	http.download_file = dirpath_recordings + "/online/" + filename
 	http.request_completed.connect(_on_file_downloaded.bind(http))
-
+	
 	var err := http.request(FILE_BASE_URL + filename)
-
+	
 	if err != OK:
 		push_error("Failed to start download: " + filename)
 		http.queue_free()
@@ -1694,6 +1680,24 @@ func _on_file_downloaded(result, response_code, headers, body, http: HTTPRequest
 			print("Downloaded: ", pending_files[current_index])
 		else:
 			push_error("Failed: " + pending_files[current_index])
-
+	
 	current_index += 1
 	_download_next()
+
+
+func handle_debug_tools():
+	if Input.is_action_pressed("LMB"):
+		if Input.is_action_pressed("RMB"):
+			if Overlay.has_node("debug_display_messages"):
+				Overlay.get_node("debug_display_messages").delete_messages()
+		
+		else:
+			if Overlay.has_node("debug_display_messages"):
+				Overlay.get_node("debug_display_messages").message_start_following_mouse()
+			
+			if Overlay.has_node("debug_display_messages"):
+				Overlay.get_node("debug_display_messages").refresh_messages()
+	
+	elif Input.is_action_pressed("RMB"):
+		if Overlay.has_node("debug_display_messages"):
+			Overlay.get_node("debug_display_messages").delete_messages(true)

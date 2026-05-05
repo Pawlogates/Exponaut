@@ -103,7 +103,7 @@ wait_time = 6.0
 one_shot = true
 
 [node name="timer_dash" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.75
 one_shot = true
 
 [node name="timer_dash_speed_block" type="Timer" parent="timer_dash"]
@@ -115,7 +115,7 @@ wait_time = 0.3
 one_shot = true
 
 [node name="cooldown_dash_end_slowdown_disable" type="Timer" parent="timer_dash"]
-wait_time = 0.1
+wait_time = 0.5
 one_shot = true
 
 [node name="timer_dash_await_jump" type="Timer" parent="timer_dash"]

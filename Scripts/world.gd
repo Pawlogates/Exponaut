@@ -756,6 +756,8 @@ func retry_checkpoint():
 	SaveData.load_levelState(Globals.level_id)
 	SaveData.load_playerData()
 	
+	Globals.level_collected_collectibles = 0
+	
 	Player.block_movement_full = true
 	Player.position = Player.last_checkpoint_pos
 	Player.velocity = Vector2(0, 0)

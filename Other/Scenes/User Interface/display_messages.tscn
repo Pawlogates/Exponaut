@@ -6,7 +6,7 @@
 [ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="3_kesm7"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="4_fu4h4"]
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_eljp7"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_kesm7"]
 shader = ExtResource("3_kesm7")
 shader_parameter/Shift_Hue = 0.35
 
@@ -1883,7 +1883,7 @@ autowrap_mode = 2
 modulate = Color(1, 1, 1, 0)
 light_mask = 2
 z_index = 25
-material = SubResource("ShaderMaterial_eljp7")
+material = SubResource("ShaderMaterial_kesm7")
 custom_minimum_size = Vector2(128, 64)
 layout_mode = 1
 anchors_preset = 15

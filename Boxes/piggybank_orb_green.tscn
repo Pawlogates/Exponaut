@@ -14,6 +14,7 @@ hittable = true
 health_value = 20
 family = "enemy"
 damage_to_player = false
+pushable_by_player = false
 can_move = true
 ignore_gravity = false
 on_death_spawn_entity = true
@@ -26,7 +27,7 @@ start_animation = "none"
 entity_name = "piggybank_orbs"
 entity_type = "box"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 material = SubResource("ShaderMaterial_8b6lm")
 sprite_frames = ExtResource("3_giyuh")
 frame_progress = 0.241877
