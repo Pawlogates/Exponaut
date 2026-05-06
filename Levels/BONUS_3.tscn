@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dn0h5dwya7eai"]
+[gd_scene load_steps=10 format=3 uid="uid://dn0h5dwya7eai"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_1owri"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="3_351se"]
@@ -6,13 +6,16 @@
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="5_vrmcb"]
 [ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="6_t1n8g"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_ctlpg"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="8_1owri"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_gmk3a"]
+[ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="9_m37kq"]
 
 [node name="World" instance=ExtResource("1_1owri")]
 camera_boundary_left = -1e+06
 camera_boundary_right = 1e+06
 camera_boundary_bottom = 4928.0
 camera_boundary_top = -1e+06
+weather_leaves = true
 levelSet_id = "BONUS"
 level_number = 3
 
@@ -27,7 +30,7 @@ layer_5/tile_data = PackedInt32Array(393219, 65539, 1342177284, 393218, 65539, 1
 [node name="tileset_main_precise" parent="." index="1" instance=ExtResource("4_7bak4")]
 
 [node name="tileset_objects" parent="." index="2" instance=ExtResource("5_vrmcb")]
-layer_0/tile_data = PackedInt32Array(917500, 1, 131072, 983036, 1, 131072, 983037, 1, 131072, 917501, 1, 131072, 1900546, 1, 131072, 1966082, 1, 131072, -196612, 1, 131072, -196611, 1, 131072, -262147, 1, 131072, -262148, 1, 131072, -196609, 1, 131072, -262144, 1, 131072, -262143, 1, 131072, -262142, 1, 131072, -262141, 1, 131072, -327677, 1, 131072, -327678, 1, 131072, 3604487, 1, 196608, 3604489, 1, 196608, 3538952, 1, 196608, 3538954, 1, 196608, 3735546, 1, 65536, 3801082, 1, 65536, 3866618, 1, 65536, 4063245, 1, 196608, 4063246, 1, 196608, 4063247, 1, 196608, 4128781, 1, 196608, 4128782, 1, 196608, 4128783, 1, 196608, 4325383, 1, 131072, 4325384, 1, 131072, 4325385, 1, 131072, 4325386, 1, 131072, 4325387, 1, 131072, 4522001, 1, 131072, 4522002, 1, 131072, 4522003, 1, 131072, 4522004, 1, 131072, 4522005, 1, 131072, 4522006, 1, 131072, 4522007, 1, 131072, 4194328, 1, 196608, 4063257, 1, 196608, 4063261, 1, 196608, 4063265, 1, 196608, 4063259, 1, 196608, 4063263, 1, 196608, 4063268, 3, 131072, 3997732, 3, 131072, 3932196, 3, 131072, 3866660, 3, 131072, 2555901, 1, 393216)
+layer_0/tile_data = PackedInt32Array(917500, 1, 131072, 983036, 1, 131072, 983037, 1, 131072, 917501, 1, 131072, 1900546, 1, 131072, 1966082, 1, 131072, -196612, 1, 131072, -196611, 1, 131072, -262147, 1, 131072, -262148, 1, 131072, -196609, 1, 131072, -262144, 1, 131072, -262143, 1, 131072, -262142, 1, 131072, -262141, 1, 131072, -327677, 1, 131072, -327678, 1, 131072, 3604487, 1, 196608, 3604489, 1, 196608, 3538952, 1, 196608, 3538954, 1, 196608, 3735546, 1, 65536, 3801082, 1, 65536, 3866618, 1, 65536, 4063245, 1, 196608, 4063246, 1, 196608, 4063247, 1, 196608, 4128781, 1, 196608, 4128782, 1, 196608, 4128783, 1, 196608, 4325383, 1, 131072, 4325384, 1, 131072, 4325385, 1, 131072, 4325386, 1, 131072, 4325387, 1, 131072, 4522001, 1, 131072, 4522002, 1, 131072, 4522003, 1, 131072, 4522004, 1, 131072, 4522005, 1, 131072, 4522006, 1, 131072, 4522007, 1, 131072, 4194328, 1, 196608, 4063257, 1, 196608, 4063261, 1, 196608, 4063265, 1, 196608, 4063259, 1, 196608, 4063263, 1, 196608, 4063268, 3, 131072, 3997732, 3, 131072, 3932196, 3, 131072, 3866660, 3, 131072, 2555901, 1, 393216, 4194318, 5, 196608, 3670024, 5, 196608, 4128800, 5, 262144)
 
 [node name="tileset_objects_precise" parent="." index="3" instance=ExtResource("6_t1n8g")]
 layer_0/tile_data = PackedInt32Array(917503, 1, 131072, 1179647, 1, 131072, 1441791, 1, 131072, 1703935, 1, 131072, 1966079, 1, 131072, 2228223, 1, 196608, 3276799, 1, 196608, 4325375, 1, 196608, 5373951, 1, 196608, 8781823, 1, 196608, 9568255, 1, 196608, 10354687, 1, 196608, 10878975, 1, 196608, 11403263, 1, 196608, 11927551, 1, 196608, 12451839, 1, 196608, 12976127, 1, 196608, 13238271, 1, 196608, 6422527, 1, 196608, 7208959, 1, 196608, 7995391, 1, 196608, 12713983, 1, 196608, 13500415, 1, 196608, 13369343, 1, 196608, 13631487, 1, 196608, 14024703, 1, 65536, 13762559, 1, 196608)
@@ -45,3 +48,18 @@ music_file = "uid://cjxg3tkhv8lbg"
 [node name="objects" type="Node2D" parent="." index="5"]
 
 [node name="zones" type="Node2D" parent="." index="6"]
+
+[node name="info_sign" parent="." index="15" instance=ExtResource("8_1owri")]
+position = Vector2(288, 3936)
+message_text = "If you watched your score multiplier (on the left) closely, you might've realised that it increases the more items you collect. It does, every 5 items, but it resets back to x1 after your combo time runs out! Mastering this aspect of the game, is the key to climbing up on the LEADERBOARD."
+anim_hide_cooldown = 16.0
+camera_target_offset = Vector2(2000, 64)
+
+[node name="info_sign2" parent="." index="16" instance=ExtResource("8_1owri")]
+position = Vector2(1632, 4192)
+message_text = "Did you notice that your MAIN (left mouse button) attack can be CHARGED by holding the button for a bit? It can prove useful in very situations... Especially its DOWNWARD variant :)"
+anim_hide_cooldown = 16.0
+
+[node name="zone_kill" parent="." index="17" instance=ExtResource("9_m37kq")]
+position = Vector2(784, 5600)
+scale = Vector2(96, 16)

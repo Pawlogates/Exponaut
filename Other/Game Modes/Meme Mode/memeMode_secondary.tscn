@@ -375,7 +375,7 @@ texture = ExtResource("2_n0gjt")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_v7xt2")
+&"": SubResource("AnimationLibrary_v7xt2")
 }
 
 [node name="arrow" type="Sprite2D" parent="."]
@@ -386,5 +386,5 @@ texture = ExtResource("3_g0hq3")
 [node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
 root_node = NodePath("../arrow")
 libraries = {
-"": SubResource("AnimationLibrary_dgvui")
+&"": SubResource("AnimationLibrary_dgvui")
 }

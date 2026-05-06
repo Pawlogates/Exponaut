@@ -1,10 +1,10 @@
 [gd_scene load_steps=6 format=3 uid="uid://d2xjhu1myvqf5"]
 
 [ext_resource type="Script" uid="uid://chdfiuqd1ox33" path="res://Scripts/ambience_manager.gd" id="1_bbqoc"]
-[ext_resource type="AudioStream" uid="uid://ob38v0enn2nl" path="res://Assets/Sounds/ambience/ambience11.mp3" id="2_edpwh"]
-[ext_resource type="AudioStream" uid="uid://dbjuhx6dvtoef" path="res://Assets/Sounds/ambience/ambience12.mp3" id="3_pxqo3"]
-[ext_resource type="AudioStream" path="res://Assets/Sounds/ambience/ambience_mysterious1.mp3" id="4_pqbrp"]
-[ext_resource type="AudioStream" uid="uid://cg1ldwblew500" path="res://Assets/Sounds/ambience/ambience7.mp3" id="5_kiwfk"]
+[ext_resource type="AudioStream" uid="uid://cd5plr2y6xivk" path="res://Assets/Sounds/ambience/ambience11.mp3" id="2_edpwh"]
+[ext_resource type="AudioStream" uid="uid://dlm060f7tu0ni" path="res://Assets/Sounds/ambience/ambience12.mp3" id="3_pxqo3"]
+[ext_resource type="AudioStream" uid="uid://duxrie17bom7y" path="res://Assets/Sounds/ambience/mysterious_loop.mp3" id="4_g7kp7"]
+[ext_resource type="AudioStream" uid="uid://bxweoeq83y3cg" path="res://Assets/Sounds/ambience/ambience7.mp3" id="5_kiwfk"]
 
 [node name="Ambience Manager" type="Node2D"]
 script = ExtResource("1_bbqoc")
@@ -25,7 +25,7 @@ one_shot = true
 
 [node name="layer3" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
-stream = ExtResource("4_pqbrp")
+stream = ExtResource("4_g7kp7")
 
 [node name="cooldown" type="Timer" parent="layer3"]
 one_shot = true

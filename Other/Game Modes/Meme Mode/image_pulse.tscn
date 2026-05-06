@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://64ivh1vk2p0u"]
 
-[ext_resource type="Texture2D" uid="uid://dm7jy3bitdee7" path="res://Other/Game Modes/Meme Mode/pictures/common/7.jpg" id="1_pm1g3"]
+[ext_resource type="Texture2D" uid="uid://c75ytmnmu5s8f" path="res://icon.png" id="1_6omig"]
 [ext_resource type="Script" uid="uid://bdfat13alqfym" path="res://Other/Game Modes/Meme Mode/image_pulse.gd" id="2_t2c07"]
 
 [sub_resource type="Animation" id="Animation_8if5c"]
@@ -150,12 +150,12 @@ _data = {
 
 [node name="image_pulse" type="Sprite2D"]
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_pm1g3")
+texture = ExtResource("1_6omig")
 script = ExtResource("2_t2c07")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_qnp58")
+&"": SubResource("AnimationLibrary_qnp58")
 }
 autoplay = "pulse"
 

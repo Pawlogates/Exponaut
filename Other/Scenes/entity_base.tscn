@@ -16,7 +16,7 @@ size = Vector2(62, 62)
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84r7y"]
-size = Vector2(1024, 128)
+size = Vector2(1024, 48)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjle6"]
 size = Vector2(2048, 2048)
@@ -124,7 +124,7 @@ wait_time = 2.0
 [node name="scan_patrolling_vision" parent="." instance=ExtResource("7_spxko")]
 
 [node name="collision_patrolling" type="CollisionShape2D" parent="scan_patrolling_vision"]
-position = Vector2(256, 0)
+position = Vector2(512, 0)
 shape = SubResource("RectangleShape2D_84r7y")
 debug_color = Color(0, 0.595, 0.7, 0)
 

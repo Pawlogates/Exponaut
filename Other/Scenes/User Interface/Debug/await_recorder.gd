@@ -15,7 +15,7 @@ func _ready() -> void:
 		Overlay.add_child.call_deferred(instance)
 		print("adding recorder")
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Globals.gameState_typing : return
 	
 	if Input.is_action_just_pressed(action_name):

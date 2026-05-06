@@ -109,8 +109,8 @@ var info_BONUS = ["BONUS Levels", 7, "Pawlogates", "none", "none", "res://Assets
 # info_[levelSet_id]_[level_number] : [name, icon_id, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
 const info_BONUS_1 = ["Hell May Cry", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
 const info_BONUS_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "something", "Pawlogates", "beginner", "regular"]
-const info_BONUS_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "hello", "Pawlogates", "beginner", "regular"]
-const info_BONUS_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "will update later idk", "Pawlogates", "beginner", "regular"]
+const info_BONUS_3 = ["Toggle Land", 1, 280, 60, 50000, 60, "hello", "Pawlogates", "beginner", "regular"]
+const info_BONUS_4 = ["Carrots and Sticks", 1, 180, 40, 300000, 60, "will update later idk", "Pawlogates", "beginner", "regular"]
 const info_BONUS_5 = ["Chilling Exercise", 1, -120, -100, 4000, 60, "none", "Pawlogates", "beginner", "regular"]
 const info_BONUS_6 = ["Daring Dash", 1, 700, 80, 25000, 60, "none", "Pawlogates", "beginner", "regular"]
 const info_BONUS_7 = ["Subzero people asked", 1, 200, -40, 15000, 60, "none", "Pawlogates", "intermediate", "regular"]
@@ -298,7 +298,7 @@ func _ready() -> void:
 	load_levelSet("BONUS")
 	load_levelSet("DEBUG")
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("5"):
 		load_playerData()
 

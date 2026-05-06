@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bymtshk0gkxih" path="res://Scripts/special_block.gd" id="1_4ko6n"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_vv6j4"]
-[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/break.wav" id="3_rsaod"]
+[ext_resource type="AudioStream" uid="uid://b5h2caqvndnvq" path="res://Assets/Sounds/sfx/break.wav" id="3_rsaod"]
 
 [sub_resource type="Animation" id="Animation_3507k"]
 length = 0.001
@@ -75,7 +75,6 @@ collision_layer = 3
 script = ExtResource("1_4ko6n")
 SPEED = 150.0
 is_spikeBlock = true
-damage = 2
 blockType = "green"
 blockDirection = 0
 
@@ -89,7 +88,7 @@ region_rect = Rect2(320, 832, 64, 64)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_1356v")
+&"": SubResource("AnimationLibrary_1356v")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

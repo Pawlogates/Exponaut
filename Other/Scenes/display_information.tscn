@@ -82,7 +82,7 @@ theme_override_constants/shadow_offset_y = 0
 theme_override_constants/outline_size = 7
 theme_override_constants/shadow_outline_size = 0
 theme_override_font_sizes/font_size = 24
-text = "Thank you so much for
+text = "Thank You so much for
 playing Exponaut <3"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -294,13 +294,17 @@ offset_right = 952.0
 offset_bottom = 233.333
 theme = ExtResource("1_ky7ft")
 theme_override_font_sizes/font_size = 14
-text = "Controls:
+text = "Your GOAL is to reach a TOTAL SCORE of 1000000, across 4 levels. The reward is the rest of the game, good luck!
+
+Controls:
 Z / SPACE - Jump
 X / LMB - Attack
 C / SHIFT - Dash
 V / RMB - Secondary attack
 ESC - Menu
 You can crouch by holding the down arrow.
-Try holding a direction while attacking!"
+Try holding a direction while attacking!
+
+To PAUSE or UNPAUSE the game, press the P key."
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

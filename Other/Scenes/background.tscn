@@ -1,14 +1,13 @@
-[gd_scene load_steps=13 format=3 uid="uid://qvxb24kyh4pu"]
+[gd_scene load_steps=12 format=3 uid="uid://qvxb24kyh4pu"]
 
 [ext_resource type="Script" uid="uid://b01g011s3jleu" path="res://Scripts/background_manager.gd" id="1_buqj4"]
-[ext_resource type="Texture2D" uid="uid://bp4hnv1jrobst" path="res://Assets/Graphics/backgrounds/bg_back_fields.png" id="3_q05dr"]
-[ext_resource type="Texture2D" uid="uid://bpevvq03p3otx" path="res://Assets/Graphics/backgrounds/bg_empty.png" id="3_txf8u"]
-[ext_resource type="Texture2D" uid="uid://mb1sy1wnniyj" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_wrhkf"]
-[ext_resource type="Texture2D" uid="uid://dps4meqqtaogn" path="res://Assets/Graphics/backgrounds/bg_back_clouds.png" id="6_uxftp"]
-[ext_resource type="Texture2D" uid="uid://brb8qm5tbxwnl" path="res://Assets/Graphics/backgrounds/bg_clouds.png" id="7_0vdwx"]
-[ext_resource type="Texture2D" uid="uid://cyaa7nti44dfu" path="res://Assets/Graphics/backgrounds/bg_castle.png" id="8_htje4"]
-[ext_resource type="Texture2D" uid="uid://bclbn3u7mm5c" path="res://Assets/Graphics/backgrounds/bg_autumn.png" id="9_7vt02"]
-[ext_resource type="Texture2D" uid="uid://cg5c63sp5a75u" path="res://Assets/Graphics/backgrounds/bg_fields.png" id="10_tt6fo"]
+[ext_resource type="Texture2D" uid="uid://c8s83b6oo16dx" path="res://Assets/Graphics/backgrounds/bg_back_fields.png" id="3_q05dr"]
+[ext_resource type="Texture2D" uid="uid://cdbfp76xggdb5" path="res://Assets/Graphics/backgrounds/bg_empty.png" id="3_txf8u"]
+[ext_resource type="Texture2D" uid="uid://dvov3hse2b0mc" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_wrhkf"]
+[ext_resource type="Texture2D" uid="uid://c173cymed0aam" path="res://Assets/Graphics/backgrounds/bg_clouds.png" id="7_0vdwx"]
+[ext_resource type="Texture2D" uid="uid://dvacl2dcsnmof" path="res://Assets/Graphics/backgrounds/bg_castle.png" id="8_htje4"]
+[ext_resource type="Texture2D" uid="uid://crmecc3lw0x7k" path="res://Assets/Graphics/backgrounds/bg_autumn.png" id="9_7vt02"]
+[ext_resource type="Texture2D" uid="uid://clo33vs031q42" path="res://Assets/Graphics/backgrounds/bg_fields.png" id="10_tt6fo"]
 
 [sub_resource type="Animation" id="Animation_cw6l6"]
 length = 0.001
@@ -136,7 +135,7 @@ motion_mirroring = Vector2(1920, 0)
 texture_filter = 2
 offset_right = 1920.0
 offset_bottom = 2160.0
-texture = ExtResource("10_tt6fo")
+texture = ExtResource("8_htje4")
 expand_mode = 1
 
 [node name="bg_front_A" type="ParallaxBackground" parent="."]
@@ -234,7 +233,7 @@ motion_mirroring = Vector2(1920, 0)
 texture_filter = 2
 offset_right = 1920.0
 offset_bottom = 2160.0
-texture = ExtResource("6_uxftp")
+texture = ExtResource("3_txf8u")
 expand_mode = 1
 
 [node name="bg_front_B" type="ParallaxBackground" parent="."]

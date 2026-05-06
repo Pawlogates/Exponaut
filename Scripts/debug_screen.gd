@@ -61,100 +61,6 @@ func refresh_debugInfo_values():
 		delete_saves()
 
 
-func set_night():
-	$/root/World.get_node("%tileset_main").tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night.png")
-	$/root/World.get_node("%tileset_main").tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 0.8
-
-
-func set_night2():
-	$/root/World.get_node("%tileset_main").tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night2.png")
-	$/root/World.get_node("%tileset_main").tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night2.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 0.8
-
-
-func set_night3():
-	$/root/World.get_node("%tileset_main").tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset_night3.png")
-	$/root/World.get_node("%tileset_main").tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations_night3.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 0.8
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 0.8
-
-
-
-func set_day():
-	$/root/World.get_node("%tileset_main").tile_set.get_source(0).texture = preload("res://Assets/Graphics/tilesets/tileset.png")
-	$/root/World.get_node("%tileset_main").tile_set.get_source(3).texture = preload("res://Assets/Graphics/tilesets/tileset_decorations.png")
-	for object in get_tree().get_nodes_in_group("Persist"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("player"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("button_block"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("button"):
-		object.modulate.r = 1.0
-	for object in get_tree().get_nodes_in_group("bonusBox"):
-		object.modulate.r = 1.0
-
-
-func night_modifications():
-	await get_tree().create_timer(0.1, false).timeout
-	
-	if $/root/World.night3 or $/root/World.night2 or $/root/World.night:
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 0.8
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 0.8
-		
-		
-		$/root/World/ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.r = 0.1
-		$/root/World/ParallaxBackgroundGradient/CanvasLayer/ParallaxBackground/ParallaxLayer/TextureRect.modulate.a = 0.2
-		
-		
-	else:
-		for object in get_tree().get_nodes_in_group("Persist"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("player"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button_block"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("button"):
-			object.modulate.r = 1.0
-		for object in get_tree().get_nodes_in_group("bonusBox"):
-			object.modulate.r = 1.0
-
-
 func delete_saves():
 	SaveData.delete_levelState("all")
 	SaveData.delete_playerData("all")
@@ -168,31 +74,6 @@ func _on_delete_all_save_files_pressed():
 	
 	Globals.infoSign_current_text = str("All save files have been deleted.")
 	Globals.infoSign_current_size = 1
-	Globals.info_sign_touched.emit()
-
-
-func _on_set_night_pressed():
-	set_night()
-	night_modifications()
-	
-	Globals.infoSign_current_text = str("Goodnight.")
-	Globals.infoSign_current_size = 0
-	Globals.info_sign_touched.emit()
-
-func _on_set_night2_pressed():
-	set_night2()
-	night_modifications()
-	
-	Globals.infoSign_current_text = str("Goodnight... 2")
-	Globals.infoSign_current_size = 0
-	Globals.info_sign_touched.emit()
-
-func _on_set_night3_pressed():
-	set_night3()
-	night_modifications()
-	
-	Globals.infoSign_current_text = str("It's mighty nightly in here...!")
-	Globals.infoSign_current_size = 0
 	Globals.info_sign_touched.emit()
 
 
@@ -365,11 +246,6 @@ func _on_toggle_ambience_pressed():
 		$/root/World.ambience_controller.layer_2.volume_db = 0
 		$/root/World.ambience_controller.layer_3.volume_db = 0
 		$/root/World.ambience_controller.layer_4.volume_db = 0
-
-
-func _on_set_day_pressed():
-	set_day()
-	night_modifications()
 
 
 func _on_disable_hud_pressed():

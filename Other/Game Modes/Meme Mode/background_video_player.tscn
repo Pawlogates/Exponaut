@@ -1,6 +1,5 @@
-[gd_scene load_steps=3 format=3 uid="uid://cupokd1r3227d"]
+[gd_scene load_steps=2 format=3 uid="uid://cupokd1r3227d"]
 
-[ext_resource type="VideoStream" uid="uid://1adilabo4os4" path="res://Other/Game Modes/Meme Mode/videos/background videos/1.ogv" id="1_8n6qu"]
 [ext_resource type="Script" uid="uid://c1yd8nq3kipfx" path="res://Other/Game Modes/Meme Mode/background_video_player.gd" id="2_7lahl"]
 
 [node name="background_video_player" type="VideoStreamPlayer"]
@@ -16,7 +15,6 @@ offset_right = 960.0
 offset_bottom = 540.0
 grow_horizontal = 2
 grow_vertical = 2
-stream = ExtResource("1_8n6qu")
 autoplay = true
 expand = true
 script = ExtResource("2_7lahl")

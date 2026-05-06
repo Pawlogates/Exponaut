@@ -34,7 +34,7 @@ func insert_queued_messages():
 	queued_messages.append_array(Globals.display_messages_debug_queued)
 	Globals.display_messages_debug_queued.clear()
 	
-	var bg_size = Vector2(0, 0)
+	#var bg_size = Vector2(0, 0)
 	
 	if len(queued_messages) > 0:
 		for message in queued_messages:
@@ -125,7 +125,7 @@ func correct_messages_order():
 	update_bg("", 0)
 	
 	var highest_message_id : int = 0
-	var highest_message_height_multiplier : float = 0.0
+	var _highest_message_height_multiplier : float = 0.0
 	var list_messages = message_container.get_children()
 	
 	for label in list_messages:
@@ -149,7 +149,7 @@ func correct_messages_order():
 			update_bg(label.text, 0)
 		
 		highest_message_id += 1
-		highest_message_height_multiplier += 1.0 * label.scale.y
+		_highest_message_height_multiplier += 1.0 * label.scale.y
 		
 		label.target_position = label.position
 		label.target_scale = label.scale

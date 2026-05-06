@@ -14,14 +14,12 @@ warnings/check_invalid_track_paths=false
 
 [application]
 
-config/name="Exponaut v0.9.4"
-config/version="0.9.4"
+config/name="Exponaut"
+config/version="0.9.5"
 run/main_scene="uid://drr0xyai1qf2a"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/use_filter=false
 config/icon="uid://c75ytmnmu5s8f"
-config/macos_native_icon="uid://c75ytmnmu5s8f"
-config/windows_native_icon="uid://c75ytmnmu5s8f"
 
 [autoload]
 

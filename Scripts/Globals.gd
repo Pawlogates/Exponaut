@@ -67,7 +67,7 @@ const l_animation_type_limited_limited : Array = ["general_limited", "gear_limit
 const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
 # Animations - [END]
 
-const l_color_all = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black"    , "blanchedalmond", "blue", "blueviolet", "brown", "burlywood", "cadetblue", "chartreuse", "chocolate", "    coral", "cornflowerblue", "cornsilk", "crimson", "cyan", "darkblue", "darkcyan", "darkgoldenrod", "darkgray    ", "darkgrey", "darkgreen", "darkkhaki", "darkmagenta", "darkolivegreen", "darkorange", "darkorchid", "dark    red", "darksalmon", "darkseagreen", "darkslateblue", "darkslategray", "darkslategrey", "darkturquoise", "dark    violet", "deeppink", "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite", "forest    green", "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "grey", "green", "greenyellow"    , "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen    ", "lemonchiffon", "lightblue", "lightcoral", "lightcyan", "lightgoldenrodyellow", "lightgray", "lightgrey"    , "lightgreen", "lightpink", "lightsalmon", "lightseagreen", "lightskyblue", "lightslategray", "lightslategrey"    , "lightsteelblue", "lightyellow", "lime", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine",     "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediu    mturquoise", "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin", "navajowhite", "navy"    , "oldlace", "olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod", "palegreen", "paleturq    uoise", "palevioletred", "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "red"    , "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "sil    ver", "skyblue", "slateblue", "slategray", "slategrey", "snow", "springgreen", "steelblue", "tan", "teal"    , "thistle", "tomato", "turquoise", "violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"]
+const l_color_all = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", "blue", "blue_violet", "brown", "burly_wood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflower_blue", "cornsilk", "crimson", "cyan", "dark_blue", "dark_cyan", "dark_goldenrod", "dark_gray", "dark_grey", "dark_green", "dark_khaki", "dark_magenta", "darkolivegreen", "dark_orange", "darkorchid", "dark_red", "dark_salmon", "dark_seagreen", "darkslateblue", "darkslategray", "darkslategrey", "darkturquoise", "dark_violet", "deeppink", "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite", "forest    green", "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "grey", "green", "greenyellow", "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "light_blue", "light_coral", "light_cyan", "light_goldenrodyellow", "light_gray", "light_grey", "light_green", "light_pink", "light_salmon", "light_seagreen", "light_skyblue", "light_slategray", "light_slategrey", "light_steelblue", "light_yellow", "lime", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin", "navajowhite", "oldlace", "olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "red"    , "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "sil    ver", "skyblue", "slateblue", "slategray", "slategrey", "snow", "springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise", "violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"]
 const l_button_color = ["ORANGE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN"]
 const l_color = ["AQUA", "AQUAMARINE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN", "CORAL", "HOT_PINK", "ORANGE_RED", "YELLOW_GREEN", "DARK_MAGENTA", "INDIAN_RED", "LIGHT_CORAL", "GOLD", "MEDIUM_PURPLE", "MAROON", "MISTY_ROSE", "YELLOW_GREEN", "MIDNIGHT_BLUE", "PERU", "LIGHT_SEA_GREEN", "LIME_GREEN"]
 
@@ -291,12 +291,14 @@ func _ready() -> void:
 	
 	reassign_general()
 	
-	update_window_size(true)
+	update_window_size(false)
 	
 	main_scene = get_tree().current_scene
 	main_scene_filepath = main_scene.scene_file_path
 	
 	spawn_camera_if_none()
+	
+	update_player_info(true)
 	
 	await get_tree().create_timer(4.0, true).timeout
 	
@@ -586,22 +588,22 @@ signal trigger_bg_change_entered
 signal trigger_bg_move_entered
 signal bg_change_finished
 
-var bg_main_filepath = d_backgrounds + "/bg_fields.png"
-var bg_front_filepath = d_backgrounds + "/bg_back_fields.png"
-var bg_front2_filepath = d_backgrounds + "/bg_front_fields.png"
+var bg_main_filepath = d_backgrounds + "/bg_castle.png"
+var bg_front_filepath = d_backgrounds + "/bg_empty.png"
+var bg_front2_filepath = d_backgrounds + "/bg_empty.png"
 var bg_back_filepath = d_backgrounds + "/bg_empty.png"
 var bg_back2_filepath = d_backgrounds + "/bg_empty.png"
 
 # These are used only for state save/load. - [START]
-var bg_main_visible_filepath = d_backgrounds + "/bg_fields.png"
-var bg_front_visible_filepath = d_backgrounds + "/bg_back_fields.png"
-var bg_front2_visible_filepath = d_backgrounds + "/bg_front_fields.png"
+var bg_main_visible_filepath = d_backgrounds + "/bg_castle.png"
+var bg_front_visible_filepath = d_backgrounds + "/bg_empty.png"
+var bg_front2_visible_filepath = d_backgrounds + "/bg_empty.png"
 var bg_back_visible_filepath = d_backgrounds + "/bg_empty.png"
 var bg_back2_visible_filepath = d_backgrounds + "/bg_empty.png"
 
-var bg_main_hidden_filepath = d_backgrounds + "/bg_fields.png"
-var bg_front_hidden_filepath = d_backgrounds + "/bg_back_fields.png"
-var bg_front2_hidden_filepath = d_backgrounds + "/bg_front_fields.png"
+var bg_main_hidden_filepath = d_backgrounds + "/bg_castle.png"
+var bg_front_hidden_filepath = d_backgrounds + "/bg_empty.png"
+var bg_front2_hidden_filepath = d_backgrounds + "/bg_empty.png"
 var bg_back_hidden_filepath = d_backgrounds + "/bg_empty.png"
 var bg_back2_hidden_filepath = d_backgrounds + "/bg_empty.png"
 # These are used only for state save/load. - [END]
@@ -1302,7 +1304,6 @@ func get_filepath(file):
 		return "null"
 	
 	else:
-		
 		if file is Resource : return file.get_path()
 		if file is String : return load(file).get_path()
 
@@ -1376,10 +1377,10 @@ func update_player_info(show_message : bool = false):
 			var data = json.get_data()
 			
 			SaveData.player_name = data["name"]
-			
-			await get_tree().create_timer(1.0, true).timeout
-			
-			if show_message : message("Welcome back, " + SaveData.player_name + "!", 0, Vector2(0, 0), 8, 4)
+		
+		await get_tree().create_timer(randf_range(2, 4), true).timeout
+		
+		if show_message : message("Welcome back, " + SaveData.player_name + "!", 0, Vector2(0, 0), 8, 4)
 
 
 func spawn_camera_if_none():

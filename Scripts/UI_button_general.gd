@@ -426,7 +426,7 @@ func spawn_decoration_edges(delete_old : bool = true):
 	
 	decoration_right.position = Vector2(decoration.size.x - 1, 0)
 	if decoration_edge_base_change_scale:
-		decoration_right.scale.x = decoration_edge_base_scale.x * randi_range(0.8, 1.2)
+		decoration_right.scale.x = decoration_edge_base_scale.x * randf_range(0.8, 1.2)
 		decoration_right.scale.y = decoration_right.scale.x
 	
 	decoration.add_child(decoration_right)

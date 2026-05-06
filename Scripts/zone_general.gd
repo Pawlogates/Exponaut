@@ -17,7 +17,7 @@ extends Area2D
 @export var bouncy_velocity_Y = -400
 
 func _on_area_entered(area):
-	if area.is_in_group("player"):
+	if area.is_in_group("Player"):
 	
 		if zone_type == "wind":
 			Globals.Player.inside_wind += 1
@@ -53,7 +53,7 @@ func _on_area_entered(area):
 		
 		elif zone_type == "kill":
 			print("Kill area entered.")
-			Globals.kill_player.emit()
+			Globals.Player.kill()
 	
 	
 	

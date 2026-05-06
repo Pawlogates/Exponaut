@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://csc65a8jtyxx0"]
 
 [ext_resource type="Script" uid="uid://u230mwr0bbs" path="res://Other/Game Modes/Meme Mode/memeMode_image.gd" id="1_77ay7"]
-[ext_resource type="Texture2D" uid="uid://670c4dds8bgr" path="res://Other/Game Modes/Meme Mode/pictures/4.png" id="2_rsari"]
+[ext_resource type="Texture2D" uid="uid://c75ytmnmu5s8f" path="res://icon.png" id="2_mnouo"]
 
 [sub_resource type="Animation" id="Animation_15dh4"]
 length = 0.001
@@ -290,9 +290,9 @@ z_index = 50
 script = ExtResource("1_77ay7")
 
 [node name="image" type="Sprite2D" parent="."]
-texture = ExtResource("2_rsari")
+texture = ExtResource("2_mnouo")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_v7xt2")
+&"": SubResource("AnimationLibrary_v7xt2")
 }

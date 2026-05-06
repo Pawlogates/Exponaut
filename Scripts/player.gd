@@ -798,46 +798,46 @@ func _on_await_jump_timer_timeout():
 
 
 #TRANSFORMATIONS
-var player_bird_scene = load("res://Other/Scenes/player_bird.tscn")
-var player_chicken_scene = load("res://Other/Scenes/player_chicken.tscn")
-var player_rooster_scene = load("res://Other/Scenes/player.tscn")
+#var player_bird_scene = load("res://Other/Scenes/player_bird.tscn")
+#var player_chicken_scene = load("res://Other/Scenes/player_chicken.tscn")
+#var player_rooster_scene = load("res://Other/Scenes/player.tscn")
 
-func transformInto_rooster():
-	call_deferred("deferred_spawnRooster")
-	call_deferred("delete")
-
-func transformInto_bird():
-	call_deferred("deferred_spawnBird")
-	call_deferred("delete")
-
-func transformInto_chicken():
-	call_deferred("deferred_spawnChicken")
-	call_deferred("delete")
-
-
-func deferred_spawnRooster():
-	remove_from_group("player")
-	remove_from_group("player_root")
-	camera.remove_from_group("player_camera")
-	var player_rooster = player_rooster_scene.instantiate()
-	player_rooster.position = position
-	World.add_child(player_rooster)
-
-func deferred_spawnBird():
-	remove_from_group("player")
-	remove_from_group("player_root")
-	camera.remove_from_group("player_camera")
-	var player_bird = player_bird_scene.instantiate()
-	player_bird.position = position
-	World.add_child(player_bird)
-
-func deferred_spawnChicken():
-	remove_from_group("player")
-	remove_from_group("player_root")
-	camera.remove_from_group("player_camera")
-	var player_chicken = player_chicken_scene.instantiate()
-	player_chicken.position = position
-	World.add_child(player_chicken)
+#func transformInto_rooster():
+	#call_deferred("deferred_spawnRooster")
+	#call_deferred("delete")
+#
+#func transformInto_bird():
+	#call_deferred("deferred_spawnBird")
+	#call_deferred("delete")
+#
+#func transformInto_chicken():
+	#call_deferred("deferred_spawnChicken")
+	#call_deferred("delete")
+#
+#
+#func deferred_spawnRooster():
+	#remove_from_group("player")
+	#remove_from_group("player_root")
+	#camera.remove_from_group("player_camera")
+	#var player_rooster = player_rooster_scene.instantiate()
+	#player_rooster.position = position
+	#World.add_child(player_rooster)
+#
+#func deferred_spawnBird():
+	#remove_from_group("player")
+	#remove_from_group("player_root")
+	#camera.remove_from_group("player_camera")
+	#var player_bird = player_bird_scene.instantiate()
+	#player_bird.position = position
+	#World.add_child(player_bird)
+#
+#func deferred_spawnChicken():
+	#remove_from_group("player")
+	#remove_from_group("player_root")
+	#camera.remove_from_group("player_camera")
+	#var player_chicken = player_chicken_scene.instantiate()
+	#player_chicken.position = position
+	#World.add_child(player_chicken)
 
 
 func delete():
@@ -1239,6 +1239,7 @@ func kill():
 	Globals.player_health = 0
 	dead = true
 	sfx(Globals.sfx_player_death, 1.0, 0.0)
+	reduce_health(9999, self)
 
 
 func sfx(file, volume, pitch):

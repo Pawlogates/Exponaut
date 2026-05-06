@@ -104,7 +104,7 @@ func on_entity_hit():
 func on_entity_killed():
 	comboScore_updated(25)
 
-func on_combo_refreshed(time):
+func on_combo_refreshed(_time):
 	comboScore_updated(12.5)
 
 

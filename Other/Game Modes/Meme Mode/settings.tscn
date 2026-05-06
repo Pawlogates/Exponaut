@@ -150,7 +150,7 @@ visible_ratio = 1.11538
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_l61ko")
+&"": SubResource("AnimationLibrary_l61ko")
 }
 
 [node name="Label4" type="Label" parent="."]

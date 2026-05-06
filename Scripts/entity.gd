@@ -306,7 +306,17 @@ func _process(delta):
 	
 	if effect_collected_multiple_active : effect_collected_multiple(delta)
 	
-	sprite_animation()
+	if patrolling_anim_while_queued:
+		if patrolling_target_spotted_active:
+			sprite.play("attack")
+		elif velocity.x == 0:
+			sprite.play("idle")
+		
+		if direction_x == 1 : sprite.flip_h = false
+		elif direction_x == -1 : sprite.flip_h = true
+	
+	else:
+		sprite_animation()
 	
 	if abs(velocity.x) < 250:
 		
@@ -1575,7 +1585,7 @@ func sprite_animation():
 				if not ignore_gravity and abs(velocity.x) > 50 and not sprite.animation == "walk_alt":
 					if not sprite.animation == "jump" or sprite.animation == "jump" and sprite.frame == 3:
 						if not state_attacking:
-							sprite.play("walk")
+							if not patrolling_target_spotted_active : sprite.play("walk")
 						elif sprite.frame == 2:
 								sprite.play("walk")
 				else:

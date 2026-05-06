@@ -6,10 +6,10 @@ extends Control
 
 @onready var label_info: Label = $label_info
 
-@onready var btn_start_recording: Button = $"VBoxContainer/Control/start recording"
-@onready var btn_stop_recording: Button = $"VBoxContainer/Control2/stop recording"
-@onready var btn_start_playback: Button = $"VBoxContainer/Control4/start playback"
-@onready var btn_stop_playback: Button = $"VBoxContainer/Control5/stop playback"
+@onready var btn_start_recording: Button
+@onready var btn_stop_recording: Button
+@onready var btn_start_playback: Button
+@onready var btn_stop_playback: Button
 
 
 @export_enum("session", "level") var recorder_type : String = "session"
@@ -37,6 +37,12 @@ var log_number = 0 # This variable is only used while determining the input log 
 
 
 func _ready() -> void:
+	if get_node_or_null("VBoxContainer/Control/start recording"):
+		btn_start_recording = $"VBoxContainer/Control/start recording"
+		btn_stop_recording = $"VBoxContainer/Control2/stop recording"
+		btn_start_playback = $"VBoxContainer/Control4/start playback"
+		btn_stop_playback = $"VBoxContainer/Control5/stop playback"
+	
 	Globals.main_scene_changed.connect(on_main_scene_changed)
 	Globals.debug_refresh.connect(on_debug_refresh)
 	Globals.debug_display_messages_closed.connect(on_debug_display_messages_closed)
@@ -86,7 +92,7 @@ func _process(delta):
 			event = current_entry["input"]
 		
 		playback_timer += delta
-		var entry_time = current_entry["entry_time"]
+		#var entry_time = current_entry["entry_time"]
 		
 		#print(playback_timer, " vs ", entry_time)
 		#print(current_entry["type"])
@@ -217,13 +223,13 @@ func input_log_save():
 		print("Playback file not found.")
 
 func get_current_max_input_log_number():
-	var dirpath = Globals.d_recordings_local
-	var dir = DirAccess.open(dirpath)
+	var f_dirpath = Globals.d_recordings_local
+	var f_dir = DirAccess.open(f_dirpath)
 	
 	var existing_playback_number : int = 0
 	
-	if dir != null:
-		var filenames = dir.get_files()
+	if f_dir != null:
+		var filenames = f_dir.get_files()
 		
 		for filename in filenames:
 			if "playback_" + SaveData.player_name + "_" in filename:
@@ -420,8 +426,8 @@ func _on_btn_close_pressed() -> void:
 var dirpath : String = "user://recordings"
 
 func create_dir_recordings():
-	var dir = DirAccess.open("user://")
-	dir.make_dir("recordings")
+	var f_dir = DirAccess.open("user://")
+	f_dir.make_dir("recordings")
 
 
 func insert_basic():
@@ -491,14 +497,14 @@ func apply_input_mouse_button(current_entry : Dictionary, event):
 	
 	var event_name = assign_event_name(event)[0]
 	var event_pressed = assign_event_pressed(event)
-	var event_name_menu = assign_event_name(event)[1]
+	#var event_name_menu = assign_event_name(event)[1]
 	
 	if event_pressed:
 		Input.action_press(event_name)
 	else:
 		Input.action_release(event_name)
 
-func apply_input_key(current_entry : Dictionary, event):
+func apply_input_key(_current_entry : Dictionary, event):
 	var event_name = assign_event_name(event)[0]
 	var event_pressed = assign_event_pressed(event)
 	var event_name_menu = assign_event_name(event)[1]

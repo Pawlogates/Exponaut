@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://c3nl8lp7feb50"]
 
 [ext_resource type="Script" uid="uid://cvekx3n6stbm6" path="res://Other/Game Modes/Meme Mode/image_falling_down.gd" id="1_5d3f4"]
-[ext_resource type="Texture2D" uid="uid://buvayk1be3uby" path="res://Other/Game Modes/Meme Mode/pictures/5.jpg" id="2_x8ewx"]
+[ext_resource type="Texture2D" uid="uid://c75ytmnmu5s8f" path="res://icon.png" id="2_1sits"]
 
 [sub_resource type="Animation" id="Animation_k2ipf"]
 length = 0.001
@@ -182,11 +182,11 @@ z_index = 150
 script = ExtResource("1_5d3f4")
 
 [node name="image" type="Sprite2D" parent="."]
-texture = ExtResource("2_x8ewx")
+texture = ExtResource("2_1sits")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_lxoqy")
+&"": SubResource("AnimationLibrary_lxoqy")
 }
 autoplay = "falling_down"
 

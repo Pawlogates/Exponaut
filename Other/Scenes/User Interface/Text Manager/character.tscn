@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_5w5jm"]
 [ext_resource type="Script" uid="uid://bt1ym7x1bvgf1" path="res://Other/Scenes/User Interface/Text Manager/text_manager_character.gd" id="1_sjc3v"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="2_sjkrq"]
-[ext_resource type="AudioStream" uid="uid://by1ctnoy7wy83" path="res://Assets/Sounds/sfx/coin_collect.wav" id="6_nvc2c"]
+[ext_resource type="AudioStream" uid="uid://b5h2caqvndnvq" path="res://Assets/Sounds/sfx/break.wav" id="4_4ti24"]
 
 [node name="text_manager_character" type="Control"]
 z_index = 5
@@ -43,7 +43,7 @@ mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="sfx" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("6_nvc2c")
+stream = ExtResource("4_4ti24")
 
 [node name="cooldown_sfx" type="Timer" parent="."]
 one_shot = true

@@ -98,5 +98,5 @@ autowrap_mode = 0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_ppceu")
+&"": SubResource("AnimationLibrary_ppceu")
 }

@@ -1,7 +1,7 @@
 [gd_scene load_steps=10 format=3 uid="uid://1yrqwkydp78d"]
 
 [ext_resource type="Script" uid="uid://bgd2v1alhdml" path="res://Scripts/levelSet_screen.gd" id="2_7kq8d"]
-[ext_resource type="AudioStream" uid="uid://bwgduvlnr0i3n" path="res://Assets/Sounds/music/dungeon1.mp3" id="3_e37xu"]
+[ext_resource type="AudioStream" uid="uid://dtos8g01embv7" path="res://Assets/Sounds/music/dungeon1.mp3" id="3_e37xu"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_icvp0"]
 
 [sub_resource type="Gradient" id="Gradient_uas2u"]
@@ -78,9 +78,10 @@ shape = SubResource("RectangleShape2D_8nxm7")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 96.0
-offset_top = 64.0
-offset_right = 518.0
-offset_bottom = 97.5
+offset_left = 48.0
+offset_top = 48.0
+offset_right = 1888.0
+offset_bottom = 98.0
 theme = ExtResource("3_icvp0")
-text = "hover over a level icon to see its info"
+text = "Welcome to the Level Set screen! Choose which level you wish to play, out of your unlocked ones of course :) Hover over a level icon to see its information..."
+horizontal_alignment = 1

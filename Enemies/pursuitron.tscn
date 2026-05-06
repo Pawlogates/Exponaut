@@ -6,6 +6,7 @@
 
 [node name="pursuitron" instance=ExtResource("1_f4vxg")]
 on_death_effect_thrownAway = true
+patrolling_anim_while_queued = true
 collectable = false
 hittable = true
 score_value = 150
@@ -20,13 +21,12 @@ start_animation = "none"
 can_change_sprite_anim = true
 idle_sfx = true
 idle_sfx_randomize_cooldown = true
-sfx_self_death_filepath = "uid://dgfidsnqko8cu"
 entity_name = "pursuitron"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("3_12ie6")
-animation = &"attack"
+animation = &"walk"
 
 [node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_0njdk")]
 z_index = -4
@@ -35,6 +35,3 @@ scale = Vector2(0.085, 0.085)
 
 [node name="scan_patrolling_vision" parent="." index="13"]
 collision_mask = 255
-
-[node name="collision_patrolling" parent="scan_patrolling_vision" index="2"]
-position = Vector2(512, 0)

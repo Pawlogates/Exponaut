@@ -35,8 +35,8 @@ func _ready() -> void:
 	
 	check_projectile_charges()
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
 
 
 func check_projectile_charges():
@@ -191,7 +191,7 @@ func slot_left_deactivate():
 	tween1.tween_property(slot_left_fill, "position:x", randi_range(-2000, 2000), randf_range(2, 4))
 	tween2.tween_property(slot_left_fill, "position:y", randi_range(1000, 2000), randf_range(1.5, 3))
 	tween3.tween_property(slot_left_fill, "rotation_degrees", randi_range(-720, 720), randf_range(1, 2))
-	var random_scale = randi_range(0.25, 2)
+	var random_scale = randf_range(0.25, 2)
 	tween4.tween_property(slot_left_fill, "scale", Vector2(random_scale, random_scale), randf_range(1, 2))
 	tween1.tween_property(slot_left_fill, "visible", false, 0)
 

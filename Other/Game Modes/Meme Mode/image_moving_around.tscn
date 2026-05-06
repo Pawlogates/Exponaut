@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://2ba0kapj1xky"]
 
 [ext_resource type="Script" uid="uid://bxu01ltmcqrik" path="res://Other/Game Modes/Meme Mode/image_moving_around.gd" id="1_kqqcv"]
-[ext_resource type="Texture2D" uid="uid://bf23md3pwfkyq" path="res://Other/Game Modes/Meme Mode/pictures/common/4.png" id="2_wk4xf"]
+[ext_resource type="Texture2D" uid="uid://c75ytmnmu5s8f" path="res://icon.png" id="2_akfu6"]
 
 [node name="image_moving_around" type="Node2D"]
 modulate = Color(1, 1, 1, 0)
@@ -9,7 +9,7 @@ z_index = 150
 script = ExtResource("1_kqqcv")
 
 [node name="image" type="Sprite2D" parent="."]
-texture = ExtResource("2_wk4xf")
+texture = ExtResource("2_akfu6")
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

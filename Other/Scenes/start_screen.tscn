@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_screen.gd" id="2_2hc0d"]
-[ext_resource type="AudioStream" uid="uid://cs85yxtndpdf6" path="res://Assets/Sounds/music/exponaut.mp3" id="2_ooxfa"]
+[ext_resource type="AudioStream" uid="uid://dthp85jtf0u5e" path="res://Assets/Sounds/music/exponaut.mp3" id="2_ooxfa"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_q74v4"]
 [ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_mmt5r"]
 [ext_resource type="Material" uid="uid://b6n3mjh3jswls" path="res://Other/Materials/palette_change.tres" id="7_2hc0d"]
@@ -87,7 +87,7 @@ theme_override_constants/line_spacing = 8
 text = "Exponaut
 Created by: Pawlogates
 Thanks for playing!
-BETA - v0.9.4 (post refactor)"
+BETA - v0.9.5 (post refactor)"
 horizontal_alignment = 1
 
 [node name="block_button_sounds" type="Timer" parent="."]

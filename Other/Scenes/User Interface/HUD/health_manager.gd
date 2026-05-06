@@ -20,8 +20,8 @@ func _ready() -> void:
 	Globals.update_player_health.connect(update_display)
 	update_display()
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
 
 
 func update_display(): # The "health" variable represents the visible health value on the player's HUD. The "Globals.player_health" is the actual player health.
@@ -75,7 +75,7 @@ func _on_debug_hp_subtract_pressed() -> void:
 		update_display()
 
 
-func change_health_value(value : int = 1, source : Node = self):
+func change_health_value(value : int = 1, _source : Node = self):
 	health = Globals.player_health
 	print("changing hp value")
 	for x in range(abs(value)):

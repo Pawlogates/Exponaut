@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bymtshk0gkxih" path="res://Scripts/special_block.gd" id="1_71y7k"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_yadoy"]
-[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/break.wav" id="3_6fgiv"]
+[ext_resource type="AudioStream" uid="uid://b5h2caqvndnvq" path="res://Assets/Sounds/sfx/break.wav" id="3_6fgiv"]
 
 [sub_resource type="Animation" id="Animation_3507k"]
 length = 0.001
@@ -107,7 +107,7 @@ region_rect = Rect2(360, 192, 40, 40)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_1356v")
+&"": SubResource("AnimationLibrary_1356v")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

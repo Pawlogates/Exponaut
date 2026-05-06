@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bymtshk0gkxih" path="res://Scripts/special_block.gd" id="1_2dvfq"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_33brw"]
-[ext_resource type="AudioStream" uid="uid://dyody04ey8rq8" path="res://Assets/Sounds/sfx/break.wav" id="3_svbgs"]
+[ext_resource type="AudioStream" uid="uid://bilg5ydaxop7y" path="res://Assets/Sounds/sfx/button_pressed.wav" id="3_6d3t8"]
 
 [sub_resource type="Animation" id="Animation_3507k"]
 length = 0.001
@@ -105,7 +105,7 @@ region_rect = Rect2(320, 0, 192, 192)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
-"": SubResource("AnimationLibrary_1356v")
+&"": SubResource("AnimationLibrary_1356v")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -118,7 +118,7 @@ collision_layer = 9
 shape = SubResource("RectangleShape2D_y3dwm")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource("3_svbgs")
+stream = ExtResource("3_6d3t8")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 position = Vector2(1.90735e-05, -3.05175e-06)

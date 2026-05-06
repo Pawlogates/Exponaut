@@ -143,11 +143,12 @@ func _process(delta):
 		lv_back.modulate.a = move_toward(lv_back.modulate.a, 1.0, delta * fade_multiplier)
 		lv_back2.modulate.a = move_toward(lv_back2.modulate.a, 1.0, delta * fade_multiplier)
 		
-		lh_main.modulate.a = move_toward(lh_main.modulate.a, 0.0, delta * fade_multiplier)
-		lh_front.modulate.a = move_toward(lh_front.modulate.a, 0.0, delta * fade_multiplier)
-		lh_front2.modulate.a = move_toward(lh_front2.modulate.a, 0.0, delta * fade_multiplier)
-		lh_back.modulate.a = move_toward(lh_back.modulate.a, 0.0, delta * fade_multiplier)
-		lh_back2.modulate.a = move_toward(lh_back2.modulate.a, 0.0, delta * fade_multiplier)
+		# Below is a temporary hack. It should be 0 instead (lh refers to a hidden layer).
+		lh_main.modulate.a = move_toward(lh_main.modulate.a, 0, delta * fade_multiplier)
+		lh_front.modulate.a = move_toward(lh_front.modulate.a, 0, delta * fade_multiplier)
+		lh_front2.modulate.a = move_toward(lh_front2.modulate.a, 0, delta * fade_multiplier)
+		lh_back.modulate.a = move_toward(lh_back.modulate.a, 0, delta * fade_multiplier)
+		lh_back2.modulate.a = move_toward(lh_back2.modulate.a, 0, delta * fade_multiplier)
 	
 	#if changing_color and %bg_transition.current_animation == "" and %bg_a_transition.current_animation == "" and %bg_b_transition.current_animation == "":
 		#$CanvasLayer/bg_main/bg_main/TextureRect.modulate.r = main_r
@@ -164,6 +165,11 @@ func _process(delta):
 		#$CanvasLayer/bg_b/bg_b/TextureRect.modulate.g = b_g
 		#$CanvasLayer/bg_b/bg_b/TextureRect.modulate.b = b_b
 		#$CanvasLayer/bg_b/bg_b/TextureRect.modulate.a = b_a
+	
+	# hack below...
+	if lh_main.modulate.a < 0.5:
+		lh_main.modulate.a = 0.5
+		lv_main.modulate.a = 1
 
 
 signal bg_fade_finished
@@ -261,6 +267,23 @@ func debug_toggle_fully():
 
 
 func toggle_layer_id():
+	# hack - [start]
+	await get_tree().create_timer(0.25, true).timeout
+	for node in list_l_property_name:
+		if get(node).get_child(0) is TextureRect:
+			if Globals.random_bool(4, 1):
+				if get(node).get_child(0).texture == load("res://Assets/Graphics/backgrounds/bg_empty.png"):
+					get(node).get_child(0).texture = load("res://Assets/Graphics/backgrounds/bg_dunes_sunset.png")
+				elif get(node).get_child(0).texture == load("res://Assets/Graphics/backgrounds/bg_castle.png"):
+					get(node).get_child(0).texture = load("res://Assets/Graphics/backgrounds/bg_empty.png")
+			
+			elif Globals.random_bool(4, 1):
+				if get(node).get_child(0).texture == load("res://Assets/Graphics/backgrounds/bg_castle.png"):
+					get(node).get_child(0).texture = load("res://Assets/Graphics/backgrounds/bg_dunes_sunset.png")
+				elif get(node).get_child(0).texture == load("res://Assets/Graphics/backgrounds/bg_dunes_sunset.png"):
+					get(node).get_child(0).texture = load("res://Assets/Graphics/backgrounds/bg_castle.png")
+	# hack - [end]
+	
 	for layer_name in list_l_B_node_name:
 		
 		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "YELLOW", 1)
@@ -271,8 +294,10 @@ func toggle_layer_id():
 		elif currently_visible_id == "A":
 			Globals.dm("Setting property '%s' to node '%s's layer." % [list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer").get_parent().name], 1, 1)
 			set(list_lh_property_name[list_l_B_node_name.find(layer_name)], get_node(layer_name + "/layer"))
-		
-		
+	
+	
+	await get_tree().create_timer(1, true).timeout
+	
 	for layer_name in list_l_A_node_name:
 		
 		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "ORANGE", 1)

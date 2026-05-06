@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://drr0xyai1qf2a"]
+[gd_scene load_steps=10 format=3 uid="uid://drr0xyai1qf2a"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_lb5pa"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="3_arigk"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_1ugqx"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="8_5orfv"]
 [ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="9_ldvgl"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="9_mu6sl"]
 
 [node name="World" instance=ExtResource("1_lb5pa")]
 weather_rain = true
@@ -42,11 +43,7 @@ layer_0/tile_data = PackedInt32Array(131038, 1, 65536, -33, 1, 65536, -131104, 1
 [node name="triggers" type="Node2D" parent="." index="4"]
 
 [node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("7_1ugqx")]
-bg_main_filepath = "uid://cyaa7nti44dfu"
-bg_front_filepath = "uid://bpevvq03p3otx"
-bg_front2_filepath = "uid://bpevvq03p3otx"
-bg_back_filepath = "uid://bpevvq03p3otx"
-bg_back2_filepath = "uid://bpevvq03p3otx"
+bg_main_filepath = "uid://dvacl2dcsnmof"
 
 [node name="trigger_musicChange" parent="triggers" index="1" instance=ExtResource("8_5orfv")]
 music_file = "uid://c5tc05f5t21ft"
@@ -82,3 +79,82 @@ texture = ExtResource("9_ldvgl")
 [node name="PointLight2D7" type="PointLight2D" parent="." index="21"]
 position = Vector2(963, 349)
 texture = ExtResource("9_ldvgl")
+
+[node name="info_sign" parent="." index="22" instance=ExtResource("9_mu6sl")]
+position = Vector2(-160, 0)
+message_text = "You know you can just... you know... jump... with the usual key... Oh wait! You need to HOLD it to jump higher! Thats not as obvious sorry :v Anyways, thanks for playing <3 I really hope you enjoy!"
+start_hidden = true
+start_hidden_show_cooldown = 60.0
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@21805" to="tileset_objects/@Area2D@21805" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@21806" to="tileset_objects/@Area2D@21806" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@21807" to="tileset_objects/@Area2D@21807" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@21808" to="tileset_objects/@Area2D@21808" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@21809" to="tileset_objects/@Area2D@21809" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/spikes_UP" to="tileset_objects_precise/spikes_UP" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21859" to="tileset_objects_precise/@Area2D@21859" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21860" to="tileset_objects_precise/@Area2D@21860" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21861" to="tileset_objects_precise/@Area2D@21861" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21862" to="tileset_objects_precise/@Area2D@21862" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21863" to="tileset_objects_precise/@Area2D@21863" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21864" to="tileset_objects_precise/@Area2D@21864" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21865" to="tileset_objects_precise/@Area2D@21865" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21866" to="tileset_objects_precise/@Area2D@21866" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21867" to="tileset_objects_precise/@Area2D@21867" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21868" to="tileset_objects_precise/@Area2D@21868" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21869" to="tileset_objects_precise/@Area2D@21869" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21870" to="tileset_objects_precise/@Area2D@21870" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21871" to="tileset_objects_precise/@Area2D@21871" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21872" to="tileset_objects_precise/@Area2D@21872" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21873" to="tileset_objects_precise/@Area2D@21873" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21874" to="tileset_objects_precise/@Area2D@21874" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21875" to="tileset_objects_precise/@Area2D@21875" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21876" to="tileset_objects_precise/@Area2D@21876" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21877" to="tileset_objects_precise/@Area2D@21877" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21878" to="tileset_objects_precise/@Area2D@21878" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21879" to="tileset_objects_precise/@Area2D@21879" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21880" to="tileset_objects_precise/@Area2D@21880" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21881" to="tileset_objects_precise/@Area2D@21881" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21882" to="tileset_objects_precise/@Area2D@21882" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21883" to="tileset_objects_precise/@Area2D@21883" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21884" to="tileset_objects_precise/@Area2D@21884" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21885" to="tileset_objects_precise/@Area2D@21885" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21886" to="tileset_objects_precise/@Area2D@21886" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21887" to="tileset_objects_precise/@Area2D@21887" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21888" to="tileset_objects_precise/@Area2D@21888" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21889" to="tileset_objects_precise/@Area2D@21889" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21890" to="tileset_objects_precise/@Area2D@21890" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21891" to="tileset_objects_precise/@Area2D@21891" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21892" to="tileset_objects_precise/@Area2D@21892" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21893" to="tileset_objects_precise/@Area2D@21893" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21894" to="tileset_objects_precise/@Area2D@21894" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21895" to="tileset_objects_precise/@Area2D@21895" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21896" to="tileset_objects_precise/@Area2D@21896" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21897" to="tileset_objects_precise/@Area2D@21897" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21898" to="tileset_objects_precise/@Area2D@21898" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21899" to="tileset_objects_precise/@Area2D@21899" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21900" to="tileset_objects_precise/@Area2D@21900" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21901" to="tileset_objects_precise/@Area2D@21901" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21902" to="tileset_objects_precise/@Area2D@21902" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21903" to="tileset_objects_precise/@Area2D@21903" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21904" to="tileset_objects_precise/@Area2D@21904" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21905" to="tileset_objects_precise/@Area2D@21905" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21906" to="tileset_objects_precise/@Area2D@21906" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21907" to="tileset_objects_precise/@Area2D@21907" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21908" to="tileset_objects_precise/@Area2D@21908" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21909" to="tileset_objects_precise/@Area2D@21909" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21910" to="tileset_objects_precise/@Area2D@21910" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21911" to="tileset_objects_precise/@Area2D@21911" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21912" to="tileset_objects_precise/@Area2D@21912" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21913" to="tileset_objects_precise/@Area2D@21913" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21914" to="tileset_objects_precise/@Area2D@21914" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21915" to="tileset_objects_precise/@Area2D@21915" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21916" to="tileset_objects_precise/@Area2D@21916" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21917" to="tileset_objects_precise/@Area2D@21917" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21918" to="tileset_objects_precise/@Area2D@21918" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21919" to="tileset_objects_precise/@Area2D@21919" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21920" to="tileset_objects_precise/@Area2D@21920" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21921" to="tileset_objects_precise/@Area2D@21921" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21922" to="tileset_objects_precise/@Area2D@21922" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects_precise/@Area2D@21923" to="tileset_objects_precise/@Area2D@21923" method="_on_area_entered"]

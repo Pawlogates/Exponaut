@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bl2wojdbpaurx"]
 
 [ext_resource type="Script" uid="uid://b6k31rfs2ykm0" path="res://Scripts/music_manager.gd" id="1_5q24m"]
-[ext_resource type="AudioStream" uid="uid://c7wvi7a0radm3" path="res://Assets/Sounds/music/mysterious.mp3" id="2_77hva"]
-[ext_resource type="AudioStream" uid="uid://c5tc05f5t21ft" path="res://Assets/Sounds/ambience/mysterious_loop.mp3" id="2_ss5m0"]
+[ext_resource type="AudioStream" uid="uid://c18w3lacd3ejv" path="res://Assets/Sounds/music/mysterious.mp3" id="2_77hva"]
+[ext_resource type="AudioStream" uid="uid://duxrie17bom7y" path="res://Assets/Sounds/ambience/mysterious_loop.mp3" id="2_ss5m0"]
 
 [node name="Music Manager" type="Node2D"]
 script = ExtResource("1_5q24m")

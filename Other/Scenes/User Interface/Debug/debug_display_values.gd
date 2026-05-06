@@ -94,8 +94,8 @@ func _ready() -> void:
 	update_labels()
 	animation_ui.play("show")
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
 
 
 func _on_cooldown_refresh_timeout() -> void:

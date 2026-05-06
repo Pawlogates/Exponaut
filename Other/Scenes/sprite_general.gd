@@ -14,9 +14,9 @@ func _ready() -> void:
 		for x in range(1, 9):
 			
 			var outline_segment : Node = get_node("outline" + str(x))
-			
 			outline_segment.sprite_frames = sprite_frames
-			if Globals.random_bool(1, 3) : outline_segment.modulate = str(Globals.l_color_all.pick_random()).capitalize()
+			var rolled_color : String = str(Globals.l_color_all.pick_random()).to_upper()
+			if Globals.random_bool(1, 3) and rolled_color.is_valid_html_color() : outline_segment.modulate = rolled_color
 			outline_segment.visible = true
 	
 	else:

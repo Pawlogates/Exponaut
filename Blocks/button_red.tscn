@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://paaly4yxp46h" path="res://Scripts/button_entity.gd" id="1_mgsvc"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_fcsny"]
-[ext_resource type="AudioStream" uid="uid://dnjdf4yd60wnx" path="res://Assets/Sounds/sfx/button_pressed.wav" id="3_bscmb"]
+[ext_resource type="AudioStream" uid="uid://bilg5ydaxop7y" path="res://Assets/Sounds/sfx/button_pressed.wav" id="3_bscmb"]
 
 [sub_resource type="Animation" id="Animation_47lem"]
 length = 0.001
@@ -80,7 +80,7 @@ region_rect = Rect2(128, 832, 64, 64)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="button_red/Sprite2D"]
 unique_name_in_owner = true
 libraries = {
-"": SubResource("AnimationLibrary_l3fps")
+&"": SubResource("AnimationLibrary_l3fps")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_red"]
