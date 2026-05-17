@@ -15,9 +15,17 @@ func _ready() -> void:
 			
 			var outline_segment : Node = get_node("outline" + str(x))
 			outline_segment.sprite_frames = sprite_frames
+			
 			var rolled_color : String = str(Globals.l_color_all.pick_random()).to_upper()
-			if Globals.random_bool(1, 3) and rolled_color.is_valid_html_color() : outline_segment.modulate = rolled_color
+			
+			if Globals.random_bool(1, 111) : outline_segment.modulate = rolled_color
+			outline_segment.modulate *= randf_range(0.1, 10)
+			outline_segment.modulate.a = randf_range(0.1, 2)
+			
 			outline_segment.visible = true
+			
+			#outline_segment.position.x += randi_range(-24, 24)
+			#outline_segment.position.y += randi_range(-24, 24)
 	
 	else:
 		set_process(false)

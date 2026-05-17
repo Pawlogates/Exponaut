@@ -184,7 +184,9 @@ func _input(event):
 
 
 func input_log_save():
-	Globals.message(str("SAVING RECORDING AT %s" % playback_filepath), 2, Vector2(0, 100), 2, 8)
+	if Globals.block_recording : return
+	
+	print("SAVING RECORDING AT: " + playback_filepath)
 	
 	create_dir_recordings()
 	
@@ -450,8 +452,6 @@ func insert_start_info():
 		"screen_resolution": DisplayServer.screen_get_size(),
 		"processor_name": OS.get_processor_name(),
 		})
-	
-	playback_index += 1
 
 func insert_end_info(final : bool = true):
 	var next_playback_filename : String = "none"
@@ -595,6 +595,8 @@ func update_playback(filepath : String = "none"):
 
 
 func start_recording():
+	if Globals.block_recording : return
+	
 	Globals.recorder_recording_active = true
 	Globals.dm("Gameplay recording has started.")
 	
@@ -612,22 +614,16 @@ func start_recording():
 	
 	input_log = []
 	
-	input_log.append({
-		"type": "start_info",
-		"entry_time": recording_timer,
-		"scene_filepath": get_tree().current_scene.scene_file_path,
-		"player_name": SaveData.player_name,
-		"screen_refreshrate": DisplayServer.screen_get_refresh_rate(),
-		"screen_resolution": DisplayServer.screen_get_size(),
-		"processor_name": OS.get_processor_name(),
-		})
-		
+	insert_start_info()
+	
 	playback_active = false
 	recording_active = true
 	
 	if is_instance_valid(label_info) : label_info.visible = false
 
 func stop_recording():
+	if Globals.block_recording : return
+	
 	if not recording_active : return
 	if not Globals.recorder_recording_active : return
 	
@@ -715,8 +711,12 @@ func stop_playback():
 
 func update_playback_filepath(type : String = "level"):
 	if type == "level":
-		playback_filename = "playback_" + SaveData.player_name + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
-		playback_filepath = Globals.d_recordings_local + "/" + playback_filename
+		if SaveData.player_name != "none":
+			playback_filename = "playback_" + SaveData.player_name + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
+			playback_filepath = Globals.d_recordings_local + "/" + playback_filename
+		else:
+			playback_filename = "playback_" + "first_" + str(randi_range(0, 9999)) + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
+			playback_filepath = Globals.d_recordings_local + "/" + playback_filename
 	
 	elif type == "session":
 		playback_filename = "playback_" + SaveData.player_name + "_" + str(selected_playback_id) + "_" + str(playback_number) + ".json"

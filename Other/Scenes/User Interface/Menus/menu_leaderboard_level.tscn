@@ -161,21 +161,25 @@ alignment = 1
 z_index = -20
 position = Vector2(31, 312)
 scale = Vector2(0.5, 0.5)
+anim_speed2 = 1.0
 
 [node name="decoration_gear3" parent="." instance=ExtResource("4_5mtm8")]
 z_index = -25
 position = Vector2(735, 48)
 scale = Vector2(0.4, 0.4)
+anim_speed2 = 1.0
 
 [node name="decoration_gear4" parent="." instance=ExtResource("4_5mtm8")]
 z_index = -25
 position = Vector2(519, 936)
 scale = Vector2(0.5, 0.5)
+anim_speed2 = 1.0
 
 [node name="decoration_gear2" parent="." instance=ExtResource("4_5mtm8")]
 z_index = -25
 position = Vector2(39, 440)
 scale = Vector2(0.75, 0.75)
+anim_speed2 = 1.0
 
 [node name="gear" parent="." instance=ExtResource("5_1qj11")]
 modulate = Color(0, 0, 0, 1)

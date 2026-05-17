@@ -5,6 +5,7 @@ extends CanvasLayer
 @onready var label_score: RichTextLabel = $container_results/label_score
 @onready var label_score_total: RichTextLabel = $container_results/label_score_total
 @onready var label_time: RichTextLabel = $container_results/label_time
+@onready var label_time_total: RichTextLabel = $container_results/label_time_total
 @onready var container_majorCollectables: HBoxContainer = %container_majorCollectables
 
 @onready var container_rank: VBoxContainer = %container_rank
@@ -23,13 +24,14 @@ var levelSet_id : String = "DEBUG"
 
 var level_data : Array = [-1, -1, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
-var level_score : float = -1
-var level_time : float = -1
+var level_score : int = -1
+var level_time : int = -1
 var level_majorCollectables : Array = [0, 0, 0]
 
-var level_previous_best_score : float = -1
-var level_previous_best_time : float = -1
-var total_score : float = 0
+var level_previous_best_score : int = -1
+var level_previous_best_time : int = -1
+var total_score : int = 0
+var total_time : int = 0
 
 var rank : String = "none"
 var rank_value : int = -1
@@ -49,16 +51,17 @@ func _ready():
 	if score_current:
 		level_score = Globals.level_score
 		level_previous_best_score = int(level_data[1])
+		level_time = Globals.level_time
+		level_previous_best_time = int(level_data[2])
 	
 	else:
 		level_score = int(level_data[1])
 		label_score_previous_best.queue_free()
 	
-	
-	level_time = level_data[2]
 	level_majorCollectables = level_data[3]
 	
 	total_score = SaveData.get_total_score(levelSet_id)
+	total_time = SaveData.get_total_time(levelSet_id)
 	
 	container_results.modulate.a = 0
 	container_majorCollectables.modulate.a = 0
@@ -69,9 +72,13 @@ func _ready():
 	label_score_previous_best.text = str(int(level_previous_best_score))
 	label_score_previous_best.update_text()
 	
+	label_time_previous_best.text = str(int(level_previous_best_time))
+	label_time_previous_best.update_text()
+	
 	
 	label_score_total.text = str(int(total_score))
 	label_score_total.update_text()
+	
 	label_time.text = str(level_time / 1000)
 	label_time.update_text()
 
@@ -157,14 +164,30 @@ func on_score_displayed_set():
 		label_score.text = str(int(level_score_displayed))
 	label_score.update_text()
 	
+	if level_time < level_previous_best_time:
+		label_time.text = str(int(level_time)) + "[font_size=32] (New best!)[/font_size]"
+	else:
+		label_time.text = str(int(level_time))
+	label_time.update_text()
+	
 	container_rank.modulate.a = 1
 	
 	level_score_displayed_set = true
+	
 	total_score = SaveData.get_total_score(levelSet_id)
 	label_score_total.text = str(int(total_score))
 	label_score_total.update_text()
+	
+	total_time = SaveData.get_total_time(levelSet_id)
+	label_time_total.text = str(int(total_time))
+	label_time_total.update_text()
+	
 	await get_tree().create_timer(1.0, true).timeout
-	Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
+	
+	Globals.dirpath_to_server(Globals.d_recordings_local_best)
+	
+	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.tscn"), 1, Vector2(0, 0), -1)
+	#Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
 	
 	var rank_data = SaveData.calculate_rank_level(level_id)
 	rank = rank_data[0]

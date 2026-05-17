@@ -41,8 +41,8 @@ const d_sfx = dirpath_sounds + "/sfx"
 
 
 # Various lists (String):
-const l_levelSet_id : Array = ["MAIN", "BONUS", "DEBUG"]
-const l_levelSet_name : Dictionary = {l_levelSet_id[0] : "Main Levels", l_levelSet_id[1] : "Bonus Levels", l_levelSet_id[2] : "Debug Levels"}
+const l_levelSet_id : Array = ["TUTORIAL", "MAIN", "BONUS", "DEBUG"]
+const l_levelSet_name : Dictionary = {l_levelSet_id[0] : "Tutorial Levels", l_levelSet_id[1] : "Main Levels", l_levelSet_id[2] : "Bonus Levels", l_levelSet_id[3] : "Debug Levels"}
 const l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
 
 # Animations - [START]
@@ -67,7 +67,7 @@ const l_animation_type_limited_limited : Array = ["general_limited", "gear_limit
 const l_animation_type_limited_all : Array = ["general_limited", "gear_limited"]
 # Animations - [END]
 
-const l_color_all = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", "blue", "blue_violet", "brown", "burly_wood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflower_blue", "cornsilk", "crimson", "cyan", "dark_blue", "dark_cyan", "dark_goldenrod", "dark_gray", "dark_grey", "dark_green", "dark_khaki", "dark_magenta", "darkolivegreen", "dark_orange", "darkorchid", "dark_red", "dark_salmon", "dark_seagreen", "darkslateblue", "darkslategray", "darkslategrey", "darkturquoise", "dark_violet", "deeppink", "deepskyblue", "dimgray", "dimgrey", "dodgerblue", "firebrick", "floralwhite", "forest    green", "fuchsia", "gainsboro", "ghostwhite", "gold", "goldenrod", "gray", "grey", "green", "greenyellow", "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "light_blue", "light_coral", "light_cyan", "light_goldenrodyellow", "light_gray", "light_grey", "light_green", "light_pink", "light_salmon", "light_seagreen", "light_skyblue", "light_slategray", "light_slategrey", "light_steelblue", "light_yellow", "lime", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin", "navajowhite", "oldlace", "olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "red"    , "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "sil    ver", "skyblue", "slateblue", "slategray", "slategrey", "snow", "springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise", "violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"]
+const l_color_all = ["aliceblue", "antiquewhite", "aqua", "aquamarine", "azure", "beige", "bisque", "black", "blanchedalmond", "blue", "blue_violet", "brown", "burly_wood", "cadetblue", "chartreuse", "chocolate", "coral", "cornflower_blue", "cornsilk", "crimson", "cyan", "dark_blue", "dark_cyan", "dark_goldenrod", "dark_gray", "dark_green", "dark_khaki", "dark_magenta", "darkolivegreen", "dark_orange", "darkorchid", "dark_red", "dark_salmon", "dark_seagreen", "darkslateblue", "darkslategray", "darkturquoise", "dark_violet", "deeppink", "deepskyblue", "dimgray", "dodgerblue", "firebrick", "floralwhite", "forest    green", "fuchsia", "gainsboro", "ghostwhite", "gold", "gray", "green", "greenyellow", "honeydew", "hotpink", "indianred", "indigo", "ivory", "khaki", "lavender", "lavenderblush", "lawngreen", "lemonchiffon", "light_blue", "light_coral", "light_cyan", "light_gray", "light_green", "light_pink", "light_salmon", "light_seagreen", "light_skyblue", "light_slategray", "light_steelblue", "light_yellow", "lime", "limegreen", "linen", "magenta", "maroon", "mediumaquamarine", "mediumblue", "mediumorchid", "mediumpurple", "mediumseagreen", "mediumslateblue", "mediumspringgreen", "mediumturquoise", "mediumvioletred", "midnightblue", "mintcream", "mistyrose", "moccasin", "navajowhite", "oldlace", "olive", "olivedrab", "orange", "orangered", "orchid", "palegoldenrod", "palegreen", "paleturquoise", "palevioletred", "papayawhip", "peachpuff", "peru", "pink", "plum", "powderblue", "purple", "red"    , "rosybrown", "royalblue", "saddlebrown", "salmon", "sandybrown", "seagreen", "seashell", "sienna", "silver", "skyblue", "slateblue", "slategray", "snow", "springgreen", "steelblue", "tan", "teal", "thistle", "tomato", "turquoise", "violet", "wheat", "white", "whitesmoke", "yellow", "yellowgreen"]
 const l_button_color = ["ORANGE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN"]
 const l_color = ["AQUA", "AQUAMARINE", "PURPLE", "GREEN", "BLUE", "BLACK", "CYAN", "CORAL", "HOT_PINK", "ORANGE_RED", "YELLOW_GREEN", "DARK_MAGENTA", "INDIAN_RED", "LIGHT_CORAL", "GOLD", "MEDIUM_PURPLE", "MAROON", "MISTY_ROSE", "YELLOW_GREEN", "MIDNIGHT_BLUE", "PERU", "LIGHT_SEA_GREEN", "LIME_GREEN"]
 
@@ -154,6 +154,11 @@ const sfx_collect3 : String = d_sfx + "/" + "collect3.wav"
 
 const sfx_break : String = d_sfx + "/" + "break.wav"
 const sfx_count : String = d_sfx + "/" + "count.wav"
+
+const sfx_medium_effect1 : String = d_sfx + "/" + "medium_effect1.wav"
+const sfx_medium_effect2 : String = d_sfx + "/" + "medium_effect2.wav"
+const sfx_medium_effect3 : String = d_sfx + "/" + "medium_effect3.wav"
+const sfx_medium_effect4 : String = d_sfx + "/" + "medium_effect4.wav"
 
 
 # Other files:
@@ -261,6 +266,10 @@ var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechani
 
 
 func _ready() -> void:
+	if gameState_debug:
+		block_recording = true
+		block_online = true
+	
 	if gameState_level:
 		var filepath_player_info = dirpath_userdata + "/" + "player_info.json"
 		if not FileAccess.file_exists(filepath_player_info) : handle_spawn_menu(false)
@@ -276,31 +285,35 @@ func _ready() -> void:
 	
 	gameState_changed.connect(on_gameState_changed)
 	
-	if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
-		refreshed0_5.connect(on_refreshed0_5)
-		refreshed1_0.connect(on_refreshed1_0)
-		refreshed2_0.connect(on_refreshed2_0)
-		refreshed4_0.connect(on_refreshed4_0)
-		
-		refresh0_5()
-		refresh1_0()
-		refresh2_0()
-		refresh4_0()
+	#if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
+		#refreshed0_5.connect(on_refreshed0_5)
+		#refreshed1_0.connect(on_refreshed1_0)
+		#refreshed2_0.connect(on_refreshed2_0)
+		#refreshed4_0.connect(on_refreshed4_0)
+		#
+		#refresh0_5()
+		#refresh1_0()
+		#refresh2_0()
+		#refresh4_0()
 	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	reassign_general()
-	
-	update_window_size(false)
 	
 	main_scene = get_tree().current_scene
 	main_scene_filepath = main_scene.scene_file_path
 	
 	spawn_camera_if_none()
 	
+	update_window_size(true)
+	
+	await get_tree().create_timer(2.0, true).timeout
+	
 	update_player_info(true)
 	
 	await get_tree().create_timer(4.0, true).timeout
+	
+	Globals.server_to_dirpath(Globals.d_recordings_online)
 	
 	gameState_justStarted = false
 
@@ -312,7 +325,7 @@ func _input(event: InputEvent) -> void:
 	handle_actions() # Handles global functions executed on triggering an action.
 	
 	if event is InputEventScreenTouch:
-		if len(get_tree().get_nodes_in_group("touch_controls")) == 0:
+		if len(get_tree().get_nodes_in_group("mobile_touch_controls")) == 0:
 			Globals.spawn_scenes(Overlay, "res://Other/Scenes/touch_controls.tscn", 1, Vector2(0, 0), -1)
 
 
@@ -398,33 +411,7 @@ func handle_actions():
 				SaveData.load_levelState(level_id, x)
 				
 				Overlay.animation("black_fade_out", 2.0, false, false)
-	
-	
-	elif Input.is_action_pressed("alt"):
-		
-		if Input.is_action_just_pressed("1"):
-			reload_level_scene(true)
-		
-		elif Input.is_action_just_pressed("2"):
-			if not target_camera:
-				target_camera = get_tree().get_first_node_in_group("camera")
-				dm("Reassigning the camera target node.")
-				camera_manual_active = true
-				target_camera.position_smoothing_enabled = false
-			
-			if camera_manual_active:
-				camera_manual_active = false
-				target_camera.position_smoothing_enabled = true
-				target_camera.position = Vector2(0, 0)
-			
-			else:
-				camera_manual_active = true
-				target_camera.position_smoothing_enabled = false
-			
-			dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
-		
-		elif Input.is_action_just_pressed("3"):
-			Globals.level_score = randi_range(-50000, 999999)
+
 
 func reassign_general():
 	if has_node("/root/World"):
@@ -456,6 +443,9 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	
 	main_scene_changed.emit()
 
+
+var block_online : bool = false
+var block_recording : bool = false
 
 # Important gameplay-related properties.
 
@@ -555,6 +545,8 @@ signal debug_display_messages_closed
 signal debug_display_values_opened
 signal debug_display_values_closed
 signal player_death
+signal reset_puzzle_activated
+signal reset_puzzle_finished
 
 # Emitting these signals from anywhere will cause the game to perform an action.
 signal player_damage(value)
@@ -643,7 +635,7 @@ var gameState_level = false
 var gameState_levelSet_screen = false
 var gameState_start_screen = false
 
-var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
+var gameState_debug = false # This should only ever be equal to "true" if the game is currently being edited.
 
 var gameState_typing = false # Should be true when the player is inputting text. Used to block the function of "letter" keys, like "P", used to pause the game.
 var gameState_justStarted = true
@@ -740,7 +732,9 @@ func message(message_text, pause_duration : float = 0.0, message_add_pos : Vecto
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
 
 func message_debug(text, importance = "none", remove_cooldown : float = -1.0):
-	if len(display_messages_debug_queued) > 100 : display_messages_debug_queued = []
+	if not debug_mode : return
+	
+	if len(display_messages_debug_queued) > 400 : display_messages_debug_queued = []
 	
 	if importance is String and importance == "debug":
 		print("DM: " + str(text))
@@ -1063,29 +1057,94 @@ func random_from_list(list_name, list_length): #list length of -1 will include e
 # General tools - [END]
 
 
-func handle_debug_actions():
-	if debug_mode:
-		for x in range(1, 5): # Should eventually be 10 (which doesn't include the last - "10" value).
-			if Input.is_action_just_pressed(str(x)):
-				call("on_action_%s" % x)
-				Globals.message_debug("Pressed %s while debug mode is active. Executing assigned debug function..." % x)
-
 signal debug1
 signal debug2
 signal debug3
 signal debug4
 
-func on_action_1():
-	debug1.emit()
-
-func on_action_2():
-	debug2.emit()
-
-func on_action_3():
-	debug3.emit()
-
-func on_action_4():
-	debug4.emit()
+func handle_debug_actions():
+	if not debug_mode and not gameState_debug : return
+	
+	if Input.is_action_pressed("alt"):
+		
+		if Input.is_action_just_pressed("1"):
+			reload_level_scene(true)
+		
+		elif Input.is_action_just_pressed("2"):
+			if not target_camera:
+				target_camera = get_tree().get_first_node_in_group("camera")
+				dm("Reassigning the camera target node.")
+				camera_manual_active = true
+				target_camera.position_smoothing_enabled = false
+			
+			if camera_manual_active:
+				camera_manual_active = false
+				target_camera.position_smoothing_enabled = true
+				target_camera.position = Vector2(0, 0)
+			
+			else:
+				camera_manual_active = true
+				target_camera.position_smoothing_enabled = false
+			
+			dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
+		
+		elif Input.is_action_just_pressed("3"):
+			if Engine.time_scale == 1.0:
+				Engine.time_scale = randf_range(0.1, 0.5)
+			else:
+				Engine.time_scale = 1.0
+			
+			spawn_message_object(str("Engine time scale has been set to: %s." % Engine.time_scale), main_scene, Player.position)
+		
+		elif Input.is_action_just_pressed("4"):
+			Globals.level_score = randi_range(-100000, 999999)
+		
+		elif Input.is_action_just_pressed("5"):
+			if get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_VIEWPORT:
+				get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
+				message(str("Display resolution is: %s. Scaling is disabled." % window_size))
+			elif get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_DISABLED:
+				get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
+				message(str("Display resolution is: %s. Scaling is enabled (canvas items)." % window_size))
+			elif get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_CANVAS_ITEMS:
+				get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
+				message(str("Display resolution is: %s. Scaling is enabled (viewport)." % window_size))
+		
+		elif Input.is_action_just_pressed("6"):
+			if get_window().content_scale_factor == 1.0:
+				get_window().content_scale_factor = 0.75
+			elif get_window().content_scale_factor == 0.75:
+				get_window().content_scale_factor = 0.5
+			elif get_window().content_scale_factor == 0.5:
+				get_window().content_scale_factor = 0.25
+			elif get_window().content_scale_factor == 0.25:
+				get_window().content_scale_factor = 1.25
+			elif get_window().content_scale_factor == 1.25:
+				get_window().content_scale_factor = 1.0
+				
+			message(str("Content scale factor set to: %s." % get_window().content_scale_factor))
+		
+		elif Input.is_action_just_pressed("7"):
+			if ProjectSettings.get_setting("display/window/size/viewport_width") == 1280:
+				ProjectSettings.set_setting("display/window/size/viewport_width", 1920)
+				ProjectSettings.set_setting("display/window/size/viewport_height", 1080)
+			
+			elif ProjectSettings.get_setting("display/window/size/viewport_width") == 1920:
+				ProjectSettings.set_setting("display/window/size/viewport_width", 1280)
+				ProjectSettings.set_setting("display/window/size/viewport_height", 720)
+			
+			message(str("Resolution set to: %s." % str(ProjectSettings.get_setting("display/window/size/viewport_width")) + ", " + str(ProjectSettings.get_setting("display/window/size/viewport_height"))))
+	
+	
+	# General debug function triggers (holding the ALT key is not required).
+	if Input.is_action_just_pressed("1"):
+		debug1.emit()
+	elif Input.is_action_just_pressed("2"):
+		debug2.emit()
+	elif Input.is_action_just_pressed("3"):
+		debug3.emit()
+	elif Input.is_action_just_pressed("4"):
+		debug4.emit()
 
 
 func handle_pause():
@@ -1119,7 +1178,7 @@ func handle_spawn_menu(manual_request : bool = false):
 				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
 				return
 			elif gameState_levelSet_screen:
-				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
+				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
 				return
 		
 		elif gameState_level:
@@ -1127,7 +1186,7 @@ func handle_spawn_menu(manual_request : bool = false):
 			return
 	
 	if gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 		return
 	
 	elif gameState_start_screen:
@@ -1173,6 +1232,8 @@ func on_gameState_changed():
 	SaveData.load_levelSet()
 	
 	create_directories()
+	
+	await get_tree().create_timer(5, true).timeout
 	
 	update_recordings_best()
 
@@ -1399,12 +1460,12 @@ func update_window_size(handle_scaling : bool = false):
 	if Globals.gameState_justStarted : await get_tree().create_timer(1.5, true).timeout
 	
 	if handle_scaling:
-		if abs(window_size.x - 1920) <= 9 or abs(window_size.y - 1080) <= 9:
+		if Vector2(DisplayServer.screen_get_size()) == Vector2(1920, 1080):
+			message(str("Display resolution is: %s. Scaling is disabled." % Vector2(DisplayServer.screen_get_size())))
 			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
-			message(str("Display resolution is: %s. Scaling is disabled." % window_size))
 		else:
+			message(str("Display resolution is: %s. Scaling is enabled." % Vector2(DisplayServer.screen_get_size())))
 			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
-			message(str("Display resolution is: %s. Scaling is enabled." % window_size))
 
 
 func get_files(dirpath : String):
@@ -1486,18 +1547,19 @@ func reset_values_level():
 
 func get_recording_level_best_score(level_id : String, player_name : String = SaveData.player_name):
 	var recording_level_best_score_filepath : String = "none"
-	var level_best_score = 0
+	var level_best_score = SaveData.get("saved_" + level_id)[1]
 	
 	for entry_filename in Globals.get_files(Globals.d_recordings_local):
 		if not player_name + "_" + level_id in entry_filename : continue
 		
 		var entry_filepath : String = Globals.d_recordings_local + "/" + entry_filename
+		print("yes ", entry_filepath)
 		var entry_filedata = Globals.filepath_to_data(entry_filepath)
 		var entry_data : Array = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], randi_range(1, 999)]
 		
 		if entry_data[1] > level_best_score:
 			recording_level_best_score_filepath = entry_filepath
-	
+	print(recording_level_best_score_filepath)
 	return recording_level_best_score_filepath
 
 
@@ -1558,11 +1620,13 @@ func set_nodes(target_node : Node, node_type, state_active : bool):
 
 
 func update_recordings_best():
-	for filename in get_files(d_recordings_local_best):
-		delete_file(d_recordings_local_best + "/" + filename)
+	# Disabled clearing the best recordings folder until a proper way of keeping only the best one is implemented.
+	#for filename in get_files(d_recordings_local_best):
+		#delete_file(d_recordings_local_best + "/" + filename)
 	
 	for f_levelSet_id in l_levelSet_id:
-		for level_number in range(0, SaveData.get("info_" + f_levelSet_id)[1] + 1):
+		print(f_levelSet_id)
+		for level_number in range(1, SaveData.get("info_" + f_levelSet_id)[1] + 1):
 			var f_level_id = f_levelSet_id + "_" + str(level_number)
 			
 			var recording_level_best_score_filepath : String = get_recording_level_best_score(f_level_id)
@@ -1573,6 +1637,8 @@ func update_recordings_best():
 
 
 func dirpath_to_server(dirpath : String, server_route : String = "upload"):
+	if block_online : return
+	
 	print("Sending files from '%s' to server, with route '%s'." % [dirpath, server_route])
 	for filename in get_files(dirpath):
 		print(str("Uploading file to server: '%s'" % filename))
@@ -1614,6 +1680,8 @@ var pending_files: Array = []
 var current_index := 0
 
 func server_to_dirpath(dirpath : String):
+	if block_online : return
+	
 	print("Downloading files from server to '%s'." % dirpath)
 	
 	DirAccess.make_dir_recursive_absolute(dirpath)
@@ -1702,3 +1770,10 @@ func handle_debug_tools():
 	elif Input.is_action_pressed("RMB"):
 		if Overlay.has_node("debug_display_messages"):
 			Overlay.get_node("debug_display_messages").delete_messages(true)
+
+
+func spawn_message_object(message_text : String = "message", target : Node = main_scene, add_position : Vector2 = Player.position):
+	var message_object = load("res://Other/Scenes/message_object.tscn").instantiate()
+	message_object.add_position = add_position
+	message_object.message_text = message_text
+	target.add_child(message_object)

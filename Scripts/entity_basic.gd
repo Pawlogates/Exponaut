@@ -5,6 +5,8 @@ extends CharacterBody2D
 @onready var Player = Globals.reassign_general()[1]
 
 @onready var sprite = $sprite
+@onready var glow_light: PointLight2D = $sprite/glow_light
+@onready var glow_shadow: PointLight2D = $sprite/glow_shadow
 
 @onready var t_state_attacking: Timer = $sprite/timer_state_attacking
 @onready var t_state_damage: Timer = $sprite/timer_state_damage
@@ -79,6 +81,8 @@ var patrolling_target_spotted_queued = false
 
 var active = false # It becomes "true" if the entity enters the camera view.
 var enabled = true # It becomes "false" when set by various other objects, such as the "inactive_until_player" trigger. Prevents "basic_on_active()" from being executed.
+
+var block_movement : bool = true
 
 # States an entity can be in, used mainly for managing sprite animations. Note that an entity can be in multiple states at the same time.
 var attacked = false
@@ -563,9 +567,10 @@ var effect_collected_multiple_active = false
 @export var transform_player = false
 @export var transform_player_scene_filepath = "res://Enemies/togglebot.tscn"
 
-@export var on_collected_effect_special = false
-
 @export var immortal = false
+
+@export var on_collected_gain_movement : String = "none"
+@export var on_collected_block_movement : bool = true
 
 
 # General timers. Each one can have an action assigned to it, which will be executed on the matching timer's timeout.
@@ -738,14 +743,20 @@ var effect_collected_multiple_active = false
 @export_group("Other properties (visual).") # Section start.
 
 @export_enum("none", "general/loop_up_down", "general/loop_up_down_slight", "general/loop_scale", "gear/rotate") var start_animation = "general/loop_up_down"
-@export_enum("none", "general/fade_out_up", "general/rotate_around_y_fade_out", "general/reflect_straight") var on_collected_anim_name : String = "general/fade_out_up"
+@export_enum("none", "general/fade_out_up", "general/rotate_around_y_fade_out", "general/reflect_straight", "general/rotate_away_up_right", "general/rotate_away_up_right_scale_up") var on_collected_anim_name : String = "general/fade_out_up"
+@export var on_collected_anim_speed : float = 1.0
+@export var anim_advance_position_x : bool = true
 
 @export var can_change_sprite_anim : bool = false
 @export var sprite_anim_speed_copy_velocity_x : bool = false
 @export var sprite_rotation_copy_velocity_x : bool = false
+@export var sprite_rainbow_hue_shift : bool = false
 
 @export var disable_sprite_anims = ["none"]
 @export var disable_anims = ["none"]
+
+@export var sprite_glow_light : bool = false
+@export var sprite_glow_shadow : bool = true
 
 @export var override_death_type : String = "none"
 
@@ -878,6 +889,14 @@ func remove_if_corpse():
 
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
+	if sprite_glow_light : glow_light.visible = true
+	else : glow_light.queue_free()
+	
+	if sprite_glow_shadow : glow_shadow.visible = true
+	else : glow_shadow.queue_free()
+	
+	add_to_group(entity_type)
+	
 	if direction_active_x < 0 : scan_ledge.position.x = -32
 	elif direction_active_x > 0 : scan_ledge.position.x = 32
 	
@@ -959,7 +978,7 @@ func basic_on_inactive():
 	
 	remove_if_corpse()
 	
-	animation_general.advance(abs(position[0]) / 100)
+	if anim_advance_position_x : animation_general.advance(abs(position[0]) / 100)
 	
 	hitbox.set_monitorable(false)
 	hitbox.set_monitoring(false)
@@ -994,7 +1013,7 @@ func basic_on_active():
 	
 	synchronize_animation()
 	
-	await get_tree().create_timer(0.25, false).timeout
+	await get_tree().create_timer(1, false).timeout
 	
 	if reset_puzzle_restored:
 		await Globals.World.reset_puzzle_all_nodes_ready
@@ -1035,166 +1054,6 @@ func basic_sprite_flipDirection():
 			sprite.flip_v = true
 		else:
 			sprite.flip_v = false
-
-
-# Randomize every single property.
-func randomize_everything():
-	# prepare lists
-	#list_sprite = prepare_list_all("Assets/Graphics/sprites/packed/enemies", [])
-	#list_collectible = prepare_list_all("Collectibles", [])
-	#list_enemy = prepare_list_all("Enemies", [])
-	#list_box = prepare_list_all("Boxes", [])
-	#list_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
-	#
-	#var list_every_object = list_collectible + list_box + list_enemy
-	#var list_without_enemies = list_collectible + list_box
-	#
-	#list_onDeath_item_scene = list_every_object
-	#list_onDeath_item_blacklist_enemy_scene = list_without_enemies
-	#list_onDeath_projectile_scene = list_projectile
-	#list_onDeath_secondaryProjectile_scene = list_projectile
-	#list_onHit_item_scene = list_every_object
-	#list_onHit_item_blacklist_enemy_scene = list_without_enemies
-	#list_onSpotted_item_scene = list_every_object
-	#list_onSpotted_item_blacklist_enemy_scene = list_without_enemies
-	#list_onSpotted_projectile_scene = list_projectile
-	#list_onSpotted_secondaryProjectile_scene = list_projectile
-	#list_onTimer_item_scene = list_every_object
-	#list_onTimer_item_blacklist_enemy_scene = list_without_enemies
-	#list_onTimer_projectile_scene = list_projectile
-	#list_onTimer_secondaryProjectile_scene = list_projectile
-	#list_bonusBox_item_scene = list_every_object
-	#list_bonusBox_item_blacklist_enemy_scene = list_without_enemies
-	
-	# randomize and apply property values
-	#hp = randi_range(1, 10)
-	#if applyRandom_falseTrue(12, 1):
-		#SPEED = randi_range(-800, 0)
-	#else:
-		#SPEED = randi_range(0, 1200)
-	#JUMP_VELOCITY = randi_range(400, -1200)
-	#ACCELERATION = randi_range(0, 3)
-	#if applyRandom_falseTrue(1,3):
-		#movementType = applyRandom_fromList("list_movementType", -1)
-	#else:
-		#movementType = applyRandom_fromList("list_movementType_limited", -1)
-	#give_score_onDeath = applyRandom_falseTrue(1, 9)
-	#scoreValue = randi_range(0, 100000)
-	#turnOnLedge = applyRandom_falseTrue(1, 2)
-	#turnOnWall = applyRandom_falseTrue(1, 4)
-	#floating = applyRandom_falseTrue(6, 1)
-	#patroling = applyRandom_falseTrue(1,9)
-	#afterDelay_changeDirection = applyRandom_falseTrue(3, 1)
-	#afterDelay_jump = applyRandom_falseTrue(3, 1)
-	#directionTimer_time = randf_range(0.5, 12)
-	#jumpTimer_time = randf_range(0.5, 12)
-	#onDeath_spawnObject = applyRandom_falseTrue(1, 6)
-	#onDeath_spawnObject_objectAmount = randi_range(1, 8)
-	#onDeath_spawnObject_throwAround = applyRandom_falseTrue(1, 3)
-	#
-	#if onDeath_spawnObject_objectAmount > 4:
-		#onDeath_spawnObject_objectPath = load(applyRandom_fromList("list_onDeath_item_blacklist_enemy_scene", -1))
-	#else:
-		#onDeath_spawnObject_objectPath = load(applyRandom_fromList("list_onDeath_item_scene", -1))
-	#
-	#look_at_player = applyRandom_falseTrue(6,1)
-	#immortal = applyRandom_falseTrue(9, 1)
-	#shootProjectile_whenSpotted = applyRandom_falseTrue(1, 4)
-	#dropProjectile_whenSpotted = applyRandom_falseTrue(1, 4)
-	#shootProjectile_cooldown = randf_range(0.5, 6)
-	#dropProjectile_cooldown = randf_range(0.5, 6)
-	#scene_shootProjectile = load(applyRandom_fromList("list_onSpotted_projectile_scene", -1))
-	#scene_dropProjectile = load(applyRandom_fromList("list_onSpotted_secondaryProjectile_scene", -1))
-	#altDropMethod = applyRandom_falseTrue(1, 2)
-	#projectile_isBouncingBall = applyRandom_falseTrue(1, 2)
-	#shootProjectile_offset_X = randi_range(-120, 120)
-	#shootProjectile_offset_Y = randi_range(-120, 120)
-	#shootProjectile_player = applyRandom_falseTrue(3, 1)
-	#shootProjectile_enemy = applyRandom_falseTrue(1, 6)
-	#toggle_toggleBlocks_onDeath = applyRandom_falseTrue(1, 3)
-	#whenAt_startPosition_X_stop = applyRandom_falseTrue(1, 4)
-	#whenAt_startPosition_Y_stop = applyRandom_falseTrue(1, 4)
-	#start_pos_leniency_X = randi_range(16, 128)
-	#start_pos_leniency_Y = randi_range(16, 128)
-	#onSpawn_offset_position = Vector2(randi_range(-64, 64), randi_range(-64, 64))
-	#bouncy_Y = applyRandom_falseTrue(4, 1)
-	#bouncy_X = applyRandom_falseTrue(1, 1)
-	#ascending = applyRandom_falseTrue(1, 3)
-	#damageTo_player = applyRandom_falseTrue(1, 7)
-	#damageTo_enemies = applyRandom_falseTrue(1, 1)
-	#stationary_disable_jump_anim = applyRandom_falseTrue(6, 1)
-	#patrolRectStatic = applyRandom_falseTrue(9, 1)
-	#force_static_H = applyRandom_falseTrue(12, 1)
-	#force_static_V = applyRandom_falseTrue(12, 1)
-	#onDeath_disappear_instantly = applyRandom_falseTrue(6, 1)
-	#is_bonusBox = applyRandom_falseTrue(1, 9)
-	#bonusBox_spawn_item_onDeath = applyRandom_falseTrue(1, 4)
-	#bonusBox_collectibleAmount = randi_range(1, 8)
-	#bonusBox_throw_around = applyRandom_falseTrue(1, 3)
-	#bonusBox_spread_position = applyRandom_falseTrue(1, 3)
-	#
-	#if bonusBox_collectibleAmount > 4:
-		#bonusBox_item_scene = load(applyRandom_fromList("list_bonusBox_item_blacklist_enemy_scene", -1))
-	#else:
-		#bonusBox_item_scene = load(applyRandom_fromList("list_bonusBox_item_scene", -1))
-	#
-	#bonusBox_requiresVelocity = applyRandom_falseTrue(1, 1)
-	#bonusBox_minimalVelocity = randi_range(50, 300)
-	#particles_star = applyRandom_falseTrue(1, 2)
-	#particles_golden = applyRandom_falseTrue(1, 2)
-	#particles_splash = applyRandom_falseTrue(1, 2)
-	#enable_generalTimers = applyRandom_falseTrue(1, 6)
-	#generalTimer1_cooldown = randf_range(0.5, 12)
-	#generalTimer2_cooldown = randf_range(2, 12)
-	#generalTimer3_cooldown = randf_range(4, 12)
-	#generalTimer1_randomize_cooldown = applyRandom_falseTrue(5, 1)
-	#generalTimer2_randomize_cooldown = applyRandom_falseTrue(5, 1)
-	#generalTimer3_randomize_cooldown = applyRandom_falseTrue(5, 1)
-	#generalTimer_min_cooldown = randf_range(0.5, 4)
-	#generalTimer_max_cooldown = randf_range(4, 12)
-	#t_item_amount = randi_range(1, 4)
-	#t_throw_around = applyRandom_falseTrue(1, 1)
-	#t_spread_position = applyRandom_falseTrue(1, 1)
-	#
-	#if t_item_amount > 4:
-		#t_item_scene = load(applyRandom_fromList("list_onTimer_item_blacklist_enemy_scene", -1))
-	#else:
-		#t_item_scene = load(applyRandom_fromList("list_onTimer_item_scene", -1))
-	#
-	#t_afterDelay_jump = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_jump_timerID = randi_range(1, 6)
-	#t_afterDelay_jumpAndMove = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_jumpAndMove_timerID = randi_range(1, 6)
-	#t_afterDelay_changeDirection = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_changeDirection_timerID = randi_range(1, 6)
-	#t_afterDelay_spawnObject = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_spawnObject_timerID = randi_range(1, 6)
-	#t_afterDelay_selfDestruct = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_selfDestruct_timerID = randi_range(1, 6)
-	#t_afterDelay_selfDestructAndSpawnObject = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_selfDestructAndSpawnObject_timerID = randi_range(1, 6)
-	#t_afterDelay_idleSound = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_idleSound_timerID = randi_range(1, 6)
-	#t_afterDelay_randomize_speedAndJumpVelocity = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_randomize_speedAndJumpVelocity_timerID = randi_range(1, 6)
-	#t_afterDelay_spawn_collectibles = applyRandom_falseTrue(1, 1)
-	#t_afterDelay_spawn_collectibles_timerID = randi_range(1, 6)
-	
-	modulate.r = randf_range(0, 1)
-	modulate.g = randf_range(0, 1)
-	modulate.b = randf_range(0, 1)
-	modulate.a = randf_range(0.75, 1)
-	
-	await get_tree().create_timer(1, false).timeout
-	#print(movementType)
-	
-	sprite.sprite_frames = load(Globals.random_from_list("list_sprite", -1))
-	collision_main.get_shape().size = sprite.sprite_frames.get_frame_texture(sprite.animation, sprite.frame).get_size()
-	sprite.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
-	if Globals.random_bool(3, 1):
-		scale.x = randf_range(0.1, 2)
-		scale.y = scale.x
-	if Globals.random_bool(4, 1) : sprite.material = null
 
 
 func synchronize_animation():

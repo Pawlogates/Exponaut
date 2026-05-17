@@ -1,22 +1,25 @@
-[gd_scene load_steps=3 format=3 uid="uid://gfyn23vnn7dt"]
+[gd_scene load_steps=4 format=3 uid="uid://gfyn23vnn7dt"]
 
 [ext_resource type="Script" uid="uid://bieragxa755" path="res://Scripts/spikes.gd" id="1_56aw7"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_ncagq"]
 
-[node name="spikes_UP" type="Area2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_05p8f"]
+size = Vector2(48, 16)
+
+[node name="spikes" type="Area2D"]
 collision_layer = 8
 collision_mask = 8
 script = ExtResource("1_56aw7")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
-position = Vector2(-32, 8)
-polygon = PackedVector2Array(8, -32, 0, -16, 0, -8, 64, -8, 64, -16, 56, -32, 48, -16, 40, -32, 32, -16, 24, -32, 16, -16)
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="sprite" type="Sprite2D" parent="."]
 texture_filter = 1
 texture = ExtResource("2_ncagq")
 region_enabled = true
 region_rect = Rect2(192, 832, 64, 64)
 region_filter_clip_enabled = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -24)
+shape = SubResource("RectangleShape2D_05p8f")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

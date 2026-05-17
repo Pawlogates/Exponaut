@@ -5,6 +5,7 @@ extends Control
 @export var text_full = "none" # This is the main text property which should be targeted when instantiating this scene.
 @export var text_alignment = 0
 @export var text_animation_sync = true
+@export var text_font_size : int = 24
 
 @export var cooldown_next_character : float = 0.05
 @export var cooldown_remove_message : float = -1.0
@@ -98,7 +99,8 @@ func create_message(message : String = text_full):
 		
 		#if current_rule == "[anim_fade_out_up]" or current_rule == "[/]" or current_rule == "":
 		#Globals.message_debug("A specific rule is causing a text container letter to delay the spawn of the rest.")
-		await get_tree().create_timer(cooldown_next_character, true).timeout
+		
+		if is_inside_tree() : await get_tree().create_timer(cooldown_next_character, true).timeout
 
 
 func add_letter(character):
@@ -109,34 +111,46 @@ func add_letter(character):
 	
 	$row1.add_child(letter)
 	
-	if is_instance_valid(letter.character) : letter.character.text = str(character)
+	if is_instance_valid(letter.character):
+		letter.character.text = str(character)
+		letter.character["theme_override_font_sizes/normal_font_size"] = text_font_size
+	
+	if text_font_size < 24:
+		letter.custom_minimum_size *= text_font_size / (24 / 1.05)
+	elif text_font_size < 12:
+		letter.custom_minimum_size *= text_font_size / (24 / 1.1)
+	else:
+		letter.custom_minimum_size *= text_font_size / 24
 	
 	for anim_name in Globals.l_animation_name_general_main:
 		if current_rule == str("[anim_%s]" % anim_name):
 			
-			letter.animation_player.speed_scale = character_anim_speed_scale
-			
-			if character_anim_backwards : letter.animation_player.play_backwards(anim_name)
-			else : letter.animation_player.play(anim_name)
+			if is_instance_valid(letter.character) and is_instance_valid(letter.animation_player):
+					letter.animation_player.speed_scale = character_anim_speed_scale
+					
+					if character_anim_backwards : letter.animation_player.play_backwards(anim_name)
+					else : letter.animation_player.play(anim_name)
 	
 	#if not current_rule == "[anim_fade_out_up]" and not current_rule == "[/]" and not current_rule == "":
 	
-	if text_animation_sync:
-		letter.animation_player.advance(float(character_id * character_anim_speed_scale) / 20) # 20
-		
-	if text_animation_add_offset != -1.0:
-		letter.animation_player.advance(text_animation_add_offset)
-	
+	if is_instance_valid(letter):
+		if is_instance_valid(letter.animation_player):
+			if text_animation_sync:
+				letter.animation_player.advance(float(character_id * character_anim_speed_scale) / 20) # 20
+			
+			if text_animation_add_offset != -1.0:
+				letter.animation_player.advance(text_animation_add_offset)
+			
 		#if sfx_limit <= 0:
 			#letter.cooldown_sfx.wait_time = float(character_id) / 20
 			#letter.cooldown_sfx.start()
 			
 			#sfx_limit = 5 + randi_range(0, 4)
-	
-	if sfx_limit <= 0:
-		letter.sfx.play()
 		
-		sfx_limit = 10 + randi_range(-10, 20)
+			if sfx_limit <= 0:
+				letter.sfx.play()
+				
+				sfx_limit = 10 + randi_range(-10, 20)
 	
 	
 	character_id += 1

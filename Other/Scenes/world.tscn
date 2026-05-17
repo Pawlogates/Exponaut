@@ -66,7 +66,7 @@ script = ExtResource("1_25muh")
 
 [node name="background" parent="." instance=ExtResource("8_8ihao")]
 
-[node name="ParallaxBackgroundGradient" parent="." instance=ExtResource("7_3ull5")]
+[node name="foreground" parent="." instance=ExtResource("7_3ull5")]
 unique_name_in_owner = true
 
 [node name="Music Manager" parent="." instance=ExtResource("2_1jcpx")]

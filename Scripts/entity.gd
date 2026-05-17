@@ -49,6 +49,7 @@ func _ready():
 	if on_spawn_randomize_everything : Globals.spawn_scenes(self, load("res://Objects/entity_randomizator.tscn"))
 	
 	await get_tree().create_timer(0.05, true).timeout
+	
 	scan_visible.visible = true
 	
 	basic_on_spawn()
@@ -120,8 +121,11 @@ func _ready():
 	if movement_type == "move_y" or movement_type == "move_xy" or movement_type == "follow_player_y" or movement_type == "follow_player_y_if_spotted":
 		handle_gravity_in_movement_type = true
 	
+	await get_tree().create_timer(0.15, true).timeout
 	
-	await get_tree().create_timer(0.5, true).timeout
+	block_movement = false
+	
+	await get_tree().create_timer(0.35, true).timeout
 	
 	if reset_puzzle:
 		if is_instance_valid(scan_reset_puzzle_coverage):
@@ -147,6 +151,12 @@ func _ready():
 @onready var debug_label4 : Label
 
 func _process(delta):
+	if sprite_glow_shadow:
+		glow_shadow.visible = on_floor # If the entity is on floor, the shadow will be set to visible, otherwise to not visible (because both "on_floor" and "visible" are a boolean).
+	
+	if sprite_rainbow_hue_shift:
+		if not collected : sprite.material.set_shader_parameter("hue_value", sprite.material.get_shader_parameter("hue_value") + randf_range(0.001, 0.01))
+	
 	if is_instance_valid(scan_ledge):
 		if direction_active_x > 0 : scan_ledge.position.x = -32
 		elif direction_active_x < 0 : scan_ledge.position.x = 32
@@ -209,7 +219,7 @@ func _process(delta):
 	if is_on_wall() : on_wall = true
 	else : on_wall = false
 	
-	if can_move : handle_movement(delta)
+	if can_move and not block_movement : handle_movement(delta)
 	
 	# Handle JUST (1/3):
 	just_queue() # The word "just" refers to something very specific. Check out the function for the explanation.
@@ -244,8 +254,6 @@ func _process(delta):
 		Globals.message_debug("Removed already collected entity.")
 		delete_entity()
 	
-	if on_collected_effect_special:
-		position = lerp(position, World.Player.position + random_position_offset, delta)
 	
 	if can_move:
 		if on_wall and is_collidable:
@@ -342,7 +350,7 @@ func _process(delta):
 							velocity.x += randf_range(-abs(inside_entity_last.velocity.x), 10) / 10
 	
 	
-	if can_move or effect_thrownAway_active : move_and_slide()
+	if can_move and not block_movement or effect_thrownAway_active : move_and_slide()
 	
 	
 	# Handle JUST (3/3):
@@ -1071,10 +1079,13 @@ func reassign_player():
 func handle_collectable(body): # The main function of the "collectible" entity type. The word "collectable" refers to a MAIN BEHAVIOR type, while "collectible" is (most of the time) the entity TYPE of ones with that main behavior type.
 	if dead : return
 	
-	Globals.level_collected_collectibles += 1
-	Globals.total_collected_collectibles += 1
-	
 	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
+	
+	if on_collected_gain_movement != "none":
+		reassign_movement_type_id(on_collected_gain_movement)
+	
+	if on_collected_block_movement:
+		block_movement = true
 	
 	if on_collected_spawn_entity:
 		spawn_entity(on_collected_spawn_entity_scene_filepath, on_collected_spawn_entity_quantity, on_collected_spawn_entity_add_velocity, on_collected_spawn_entity_add_velocity_range, on_collected_spawn_entity_pos_offset, on_collected_spawn_entity_pos_offset_range)
@@ -1099,6 +1110,10 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 		
 		else:
 			handle_effects_collected_multiple()
+	
+	if not is_in_group("exclude_collected"):
+		Globals.level_collected_collectibles += 1
+		Globals.total_collected_collectibles += 1
 	
 	Globals.combo_streak += 1 # These values need to be modified before the "handle_award_score" function goes off, due to many of the visual effects being based on them.
 	Globals.entity_collected.emit()
@@ -1492,7 +1507,7 @@ func handle_effects_hit(target):
 	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_orb_blue : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 1 + 1 * Globals.combo_tier, position, 12.0)
 	if on_collected_spawn_dust : Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position)
 
 func handle_effects_bounce():
@@ -1721,8 +1736,17 @@ func _on_cooldown_patrolling_change_direction_timeout() -> void:
 
 
 func handle_effects_collected():
+	if sprite_glow_light:
+		sprite_glow_light = false
+		glow_light.queue_free()
+		
+	if sprite_glow_shadow:
+		sprite_glow_shadow = false
+		glow_shadow.queue_free()
+	
 	sfx_manager.sfx_play(sfx_self_collected_filepath, 1.0, randf_range(0.9, 1.1) + (0.025 * (Globals.combo_streak)))
 	if on_collected_anim_name != "none" : animation_all.play(on_collected_anim_name)
+	animation_all.speed_scale = on_collected_anim_speed
 	
 	if award_score and on_collected_award_score:
 		spawn_display_score(score_value)
@@ -1735,7 +1759,7 @@ func handle_effects_collected():
 	if on_collected_spawn_star2 : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if on_collected_spawn_orb_orange : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1, position, 4.0)
 	if on_collected_spawn_orb_blue : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1, position, 4.0)
-	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if on_collected_spawn_homing_square_yellow : Globals.spawn_scenes(World, Globals.scene_particle_score, 1 + 1 * Globals.combo_tier, position, 12.0)
 	if on_collected_spawn_dust : Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position)
 	
 	# Handle visual effect of collecting the 20th collectible in a streak (resulting in a x5 multiplier and other player-related changes).
@@ -1789,7 +1813,7 @@ func handle_reset_puzzle():
 				entity.reset_all()
 				Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 3, position)
 				
-				Globals.World.camera.position = entity.position
+				Globals.World.camera.position = entity.start_pos
 			
 			else:
 				entity.animation_general.play("reflect_straight")
@@ -1803,6 +1827,8 @@ func handle_reset_puzzle():
 	Globals.score_reduced.emit()
 	
 	reset_puzzle_delete_entities2()
+	
+	Globals.reset_puzzle_finished.emit()
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
@@ -1830,6 +1856,9 @@ func reset_puzzle_queue():
 #signal reset_puzzle_all_nodes_ready
 
 func spawn_entity_copy():
+	Globals.level_collected_collectibles -= 1
+	Globals.total_collected_collectibles -= 1
+	
 	var filepath : String = scene_file_path
 	var entity = load(filepath).instantiate()
 	
@@ -1850,6 +1879,8 @@ func spawn_entity_copy():
 	entity.effects_reset()
 	
 	queue_free()
+	
+	return entity
 
 func effects_reset():
 	Globals.dm("An entity (%s, %s) was covered by a 'reset_puzzle' entity. It had just been reset.")

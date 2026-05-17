@@ -239,22 +239,26 @@ modulate = Color(0.0646965, 0.0646965, 0.0646965, 1)
 z_index = -4
 position = Vector2(-24, 408)
 scale = Vector2(0.25, 0.25)
+anim_speed2 = 1.0
 
 [node name="decoration_gear4" parent="." instance=ExtResource("3_2twy5")]
 z_index = -8
 position = Vector2(16, 384)
 scale = Vector2(0.2, 0.2)
+anim_speed2 = 1.0
 
 [node name="decoration_gear2" parent="." instance=ExtResource("3_2twy5")]
 z_index = -8
 position = Vector2(272, 5.68434e-14)
 scale = Vector2(0.15, 0.15)
+anim_speed2 = 1.0
 
 [node name="decoration_gear3" parent="." instance=ExtResource("3_2twy5")]
 modulate = Color(0.277528, 0.277528, 0.277528, 1)
 z_index = 4
 position = Vector2(360, 360)
 scale = Vector2(0.2, 0.2)
+anim_speed2 = 1.0
 
 [node name="LinkButton" type="LinkButton" parent="."]
 z_index = 500
@@ -288,13 +292,14 @@ texture = ExtResource("5_yy13d")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 592.0
-offset_top = 56.0
-offset_right = 952.0
-offset_bottom = 233.333
+offset_left = 448.0
+offset_top = 64.0
+offset_right = 1024.0
+offset_bottom = 512.0
 theme = ExtResource("1_ky7ft")
-theme_override_font_sizes/font_size = 14
-text = "Your GOAL is to reach a TOTAL SCORE of 1000000, across 4 levels. The reward is the rest of the game, good luck!
+theme_override_font_sizes/font_size = 12
+text = "Your GOAL is to reach a TOTAL SCORE of 1000000.
+The reward is the rest of the game, good luck!
 
 Controls:
 Z / SPACE - Jump
@@ -305,6 +310,28 @@ ESC - Menu
 You can crouch by holding the down arrow.
 Try holding a direction while attacking!
 
-To PAUSE or UNPAUSE the game, press the P key."
+To PAUSE or UNPAUSE the game, press the P key.
+
+In case you didn't notice yet:
+- You can WALL JUMP by pressing jump while touching a wall
+(You need to be holding the directional key).
+- You can AIR JUMP
+(remember to HOLD the jump key to extend this one, as well
+as the regular jump."
+
+[node name="ColorRect" type="ColorRect" parent="Label"]
+z_index = -5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.368627)
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]

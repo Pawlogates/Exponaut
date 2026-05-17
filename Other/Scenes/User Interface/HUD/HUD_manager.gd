@@ -16,8 +16,13 @@ var active = false
 func _ready() -> void:
 	Globals.gameState_changed.connect(on_gameState_changed)
 	Globals.entity_collected.connect(on_entity_collected)
+	Globals.reset_puzzle_finished.connect(on_reset_puzzle_finished)
 	
 	animation_player.play("show")
+	
+	await get_tree().create_timer(1.0, true).timeout
+	
+	update_collected_collectibles()
 
 
 func _on_animation_ui_animation_finished(anim_name: StringName) -> void:
@@ -32,8 +37,12 @@ func on_entity_collected():
 func on_gameState_changed():
 	update_collected_collectibles()
 
+func on_reset_puzzle_finished():
+	update_collected_collectibles()
+
 func update_collected_collectibles():
 	total_collectibles_collected.text = str(Globals.level_collected_collectibles) + " / " + str(Globals.total_collectibles_level)
+	
 	if Globals.level_collected_collectibles == Globals.total_collectibles_level:
 		total_collectibles_collected.modulate = Color.GREEN
 		total_collectibles_collected.material = Globals.material_cycle_yellow_orange

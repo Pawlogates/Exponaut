@@ -10,18 +10,20 @@ collision_layer = 8
 collision_mask = 8
 script = ExtResource("1_q443k")
 
-[node name="shape" type="CollisionShape2D" parent="."]
+[node name="collision_main" type="CollisionShape2D" parent="."]
 unique_name_in_owner = true
 shape = SubResource("RectangleShape2D_v5wis")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="timer_inactive" type="Timer" parent="."]
 wait_time = 3.0
 one_shot = true
 
-[node name="Label" type="Label" parent="."]
+[node name="label_value" type="Label" parent="."]
+visible = false
 offset_right = 40.0
 offset_bottom = 22.3333
+text = "none"
 
-[connection signal="body_entered" from="." to="." method="_on_body_entered"]
-[connection signal="body_exited" from="." to="." method="_on_body_exited"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]
+[connection signal="timeout" from="timer_inactive" to="." method="_on_timer_timeout"]

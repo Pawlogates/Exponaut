@@ -28,7 +28,7 @@ extends Area2D
 	#pass
 
 func _on_area_entered(area):
-	if not area.is_in_group("Player") : return
+	if not Globals.is_valid_entity(area) : return
 	
 	print("bg change entered")
 	Globals.dm(str(Globals.get_filepath(bg_main_filepath)), "debug")
@@ -38,6 +38,8 @@ func _on_area_entered(area):
 	Globals.dm("The main layer's top edge filepath is: " + str(bg_main_repeat_y) + " (2160px).", "LIGHT_BLUE")
 	
 	# Texture filepath.
+	
+	Globals.bg_main_filepath = Globals.get_filepath(bg_main_filepath)
 	
 	#if bg_front_filepath != Globals.bg_front_filepath:
 	Globals.bg_front_filepath = Globals.get_filepath(bg_front_filepath)
@@ -78,6 +80,4 @@ func _on_area_entered(area):
 		Globals.bg_back2_edge_top_filepath = bg_back2_edge_top_filepath
 	
 	
-	#if bg_main_filepath != Globals.bg_main_filepath:
-	Globals.bg_main_filepath = Globals.get_filepath(bg_main_filepath)
 	Globals.trigger_bg_change_entered.emit()

@@ -45,7 +45,7 @@ animation = &"idle"
 visible = false
 modulate = Color(100, 100, 100, 1)
 z_index = -2
-position = Vector2(-2, 0)
+position = Vector2(-3, 0)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
@@ -53,7 +53,7 @@ animation = &"idle"
 visible = false
 modulate = Color(100, 100, 100, 1)
 z_index = -2
-position = Vector2(0, -2)
+position = Vector2(0, -3)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
@@ -61,7 +61,7 @@ animation = &"idle"
 visible = false
 modulate = Color(100, 100, 100, 1)
 z_index = -2
-position = Vector2(2, 0)
+position = Vector2(3, 0)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
@@ -69,6 +69,6 @@ animation = &"idle"
 visible = false
 modulate = Color(100, 100, 100, 1)
 z_index = -2
-position = Vector2(0, 2)
+position = Vector2(0, 3)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"

@@ -3,27 +3,24 @@
 [ext_resource type="Script" uid="uid://cm4ywljqap4ee" path="res://Scripts/parallax_background_gradient.gd" id="1_joybx"]
 [ext_resource type="Texture2D" uid="uid://b8onrneg2k0pi" path="res://Assets/Graphics/other/fg_gradient.png" id="2_nkdpl"]
 
-[node name="ParallaxBackgroundGradient" type="Node2D"]
-z_index = 500
+[node name="foreground" type="CanvasLayer"]
+layer = 100
 script = ExtResource("1_joybx")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 100
-
-[node name="ParallaxBackground" type="ParallaxBackground" parent="CanvasLayer"]
+[node name="main" type="ParallaxBackground" parent="."]
 layer = 100
 scale = Vector2(2, 2)
 transform = Transform2D(2, 0, 0, 2, 0, 0)
 scroll_ignore_camera_zoom = true
 
-[node name="ParallaxLayer" type="ParallaxLayer" parent="CanvasLayer/ParallaxBackground"]
+[node name="main_layer" type="ParallaxLayer" parent="main"]
 unique_name_in_owner = true
 z_index = 25
 texture_repeat = 3
 motion_scale = Vector2(2, 1.25)
 motion_mirroring = Vector2(1920, 1080)
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/ParallaxBackground/ParallaxLayer"]
+[node name="texture" type="TextureRect" parent="main/main_layer"]
 modulate = Color(1, 1, 1, 0.392157)
 texture_repeat = 3
 offset_right = 1920.0

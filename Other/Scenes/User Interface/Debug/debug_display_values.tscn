@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://c5ofuigpjsovr"]
+[gd_scene load_steps=6 format=3 uid="uid://c5ofuigpjsovr"]
 
 [ext_resource type="Script" uid="uid://by2hgr3dcykih" path="res://Other/Scenes/User Interface/Debug/debug_display_values.gd" id="1_6cpwm"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_osdyr"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="3_aw5x6"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_me5a5"]
 [ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/animation_ui.tscn" id="4_qdv36"]
 
@@ -193,6 +194,7 @@ color = Color(0.273, 0.12, 0.048, 0.3)
 
 [node name="close" type="Button" parent="."]
 z_index = 25
+material = ExtResource("3_aw5x6")
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
@@ -241,7 +243,8 @@ offset_right = 752.0
 offset_bottom = 1024.0
 theme = ExtResource("2_osdyr")
 theme_override_font_sizes/font_size = 20
-text = "To hide the debug tools, click the buttons in the top right of the screen."
+text = "Press SHIFT + tilde, to see more debug info messages.
+To hide the debug tools, click the buttons in the top right of the screen."
 horizontal_alignment = 1
 
 [connection signal="timeout" from="cooldown_refresh" to="." method="_on_cooldown_refresh_timeout"]

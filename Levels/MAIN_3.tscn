@@ -1,15 +1,14 @@
-[gd_scene load_steps=9 format=3 uid="uid://jx3xe1bo52xv"]
+[gd_scene load_steps=7 format=3 uid="uid://jx3xe1bo52xv"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_x68in"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_o04mt"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_615vc"]
 [ext_resource type="PackedScene" uid="uid://ddlcber2jqxxw" path="res://Triggers/zone_kill.tscn" id="5_xcq57"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_yyml5"]
-[ext_resource type="Texture2D" uid="uid://cucfqwon2o1x3" path="res://Assets/Graphics/backgrounds/bg_empty_a.png" id="8_2wep7"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="9_f30sq"]
-[ext_resource type="Texture2D" uid="uid://dxgcrho6dais6" path="res://Assets/Graphics/backgrounds/bg_empty_b.png" id="9_rhdfw"]
 
 [node name="World" instance=ExtResource("1_x68in")]
+levelSet_id = "MAIN"
 level_number = 3
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_o04mt")]
@@ -25,103 +24,48 @@ layer_9/tile_data = PackedInt32Array(-65524, 393218, 1342242834, -131058, 262146
 
 [node name="tileset_objects" parent="." index="1" instance=ExtResource("3_615vc")]
 unique_name_in_owner = true
-layer_0/tile_data = PackedInt32Array(-65541, 0, 2293760, -65542, 0, 2293760, -327686, 0, 2359296, -327685, 0, 2359296, 65532, 0, 2293760, 131068, 0, 2293760, -196586, 0, 2293760, -131050, 0, 2293760, -65514, 0, 2293760, 22, 0, 2293760, 65558, 0, 2293760, -65518, 0, 2293760, -196587, 0, 2293760, -131051, 0, 2293760, -65515, 0, 2293760, 21, 0, 2293760, 65557, 0, 2293760, -196593, 0, 2293760, -393198, 0, 2293760, -393197, 0, 2293760, -655340, 0, 2359296, -720876, 0, 2359296, -786412, 0, 2359296, -589810, 0, 2293760, -655346, 0, 2293760, -720882, 0, 2293760, -720883, 0, 2293760, -655347, 0, 2293760, -589811, 0, 2293760, -720881, 0, 2293760, -589812, 0, 2293760, -458747, 0, 2293760, -524283, 0, 2293760, -589819, 0, 2293760, -524256, 0, 2293760, -458719, 0, 2293760, -327656, 0, 2359296, -327655, 0, 2359296, -327654, 0, 2359296, -327653, 0, 2359296, -327652, 0, 2359296, -327651, 0, 2359296, -327649, 0, 2359296, -327648, 0, 2359296, -327647, 0, 2359296, -589815, 0, 65536, -524281, 0, 65536, -655349, 0, 65536, -131054, 0, 65536, -262129, 0, 65536, -458734, 0, 65536, -458733, 0, 65536, -458748, 0, 65536, -458749, 0, 65536, -458750, 0, 65536, -524286, 0, 65536, -589822, 0, 65536, -524285, 0, 65536, -196602, 0, 65536, -65519, 0, 2359296, -393204, 0, 65536, -327668, 0, 65536, -393205, 0, 65536, -458740, 0, 65536, -393203, 0, 65536, -524284, 0, 7864320, -589820, 0, 7864320, -589821, 0, 7864320, -655357, 0, 7864320, -655356, 0, 7864320, -655358, 0, 7864320, -393214, 0, 7864320, -327678, 0, 7864320, -262142, 0, 2293760, -262141, 0, 2293760, -589801, 0, 720896, -589800, 0, 720896, -524267, 0, 655360, -524266, 0, 655360, -524265, 0, 655360, -524264, 0, 655360, -786405, 0, 786432, -983022, 0, 262144, -917483, 0, 655360, -917484, 0, 655360, -917488, 0, 655360, -1179621, 0, 196608, -1114086, 0, 196608, -1048549, 0, 196608, -1114084, 0, 196608, -1114085, 0, 65536, -851953, 0, 655360, -851954, 0, 655360, -851955, 0, 655360, -851956, 0, 655360, -851957, 0, 655360, -851958, 0, 655360, -851959, 0, 655360, -851960, 0, 655360, -1245174, 0, 2293760, -1310710, 0, 2293760, -1376246, 0, 2293760, -1441782, 0, 2293760, -1441781, 0, 2293760, -1376245, 0, 2293760, -1310709, 0, 2293760, -1245173, 0, 2293760, -1376229, 0, 4390912, -720866, 0, 2293760, 131102, 0, 2359296, -327650, 0, 2359296, 393256, 0, 2359296, -65496, 0, 3211264, 458788, 0, 2359296, 327724, 0, 2359296, -65497, 0, 3211264, 131106, 0, 2293760, -196574, 0, 3276800, -196575, 0, 3276800, -393178, 0, 2293760, -655322, 0, 2359296, -655323, 0, 2359296, -655324, 0, 2359296, -655325, 0, 2359296, -589789, 0, 2293760, 196656, 0, 3014656, -1507291, 0, 2490368, -1048544, 0, 2359296, -131076, 0, 2359296, -720900, 0, 7864320, -720901, 0, 65536, -786437, 0, 65536, -786438, 0, 7864320, -655364, 0, 7864320, -655363, 0, 65536, -655362, 0, 65536, -720896, 0, 65536, -786432, 0, 65536, -786431, 0, 7864320, -786430, 0, 7864320, -786429, 0, 7864320, -786428, 0, 7864320, -851964, 0, 7864320, -917500, 0, 7864320, -983036, 0, 7864320, -983037, 0, 7864320, -983038, 0, 7864320, -983039, 0, 7864320, -983040, 0, 7864320, -917505, 0, 7864320, -917506, 0, 7864320, -917507, 0, 7864320, -917508, 0, 7864320, -917509, 0, 7864320, -917510, 0, 7864320, -851974, 0, 7864320, -851973, 0, 65536, -851972, 0, 65536, -851971, 0, 65536, -851970, 0, 7864320, -917501, 0, 7864320, -851966, 0, 7864320, -851967, 0, 7864320, -851968, 0, 65536, -786434, 0, 7864320, -786435, 0, 65536, -786436, 0, 65536, -720898, 0, 7864320, -851969, 0, 7864320, -917504, 0, 65536, -917503, 0, 7864320, -917502, 0, 7864320, -851965, 0, 7864320, -720899, 0, 65536, -589829, 0, 2359296, -655360, 0, 65536, -589825, 0, 7864320, -589824, 0, 65536, -524289, 0, 7864320, -458753, 0, 7864320, -524288, 0, 65536, -393217, 0, 7864320, 852006, 0, 589824, 852007, 0, 589824, 852008, 0, 589824, 852009, 0, 589824, 852010, 0, 589824, -655337, 0, 65536, -655336, 0, 196608, -851941, 0, 65536, -393190, 0, 65536, -393188, 0, 65536, -393186, 0, 65536, -393184, 0, 65536, -393192, 0, 7864320, -983020, 0, 196608, -983019, 0, 65536, -983024, 0, 65536, -917495, 0, 196608, -917493, 0, 196608, -917494, 0, 65536, -655328, 0, 65536, -589791, 0, 65536, -589792, 0, 7864320, -524255, 0, 7864320, -786399, 0, 196608, -983005, 0, 196608, -1114078, 0, 65536, -851933, 0, 65536, -1048539, 0, 65536, -1179611, 0, 196608, -1310683, 0, 65536, -1441755, 0, 7864320, -1376249, 0, 7864320, -1376250, 0, 7864320, -1441785, 0, 7864320, -1310713, 0, 7864320, -1376248, 0, 7864320, 655394, 0, 655360, 655395, 0, 655360, 655396, 0, 655360, 655404, 0, 655360, 655405, 0, 655360, 655406, 0, 655360, 655407, 0, 655360, 720935, 0, 6619136, 655400, 0, 6619136, 720937, 0, 6684672, 655398, 0, 6619136, 655402, 0, 6619136, 589865, 0, 6684672, 327716, 0, 65536, 262184, 0, 65536, 196652, 0, 65536, -1376236, 0, 7864320, -1310699, 0, 7864320, -1376234, 0, 7864320, -1376235, 0, 7864320, -1310700, 0, 7864320, -1310698, 0, 7864320, -1376233, 0, 7864320, -1310697, 0, 7864320, 589863, 0, 6684672, 589864, 0, 6684672, 589866, 0, 6684672, 589862, 0, 6684672, 655399, 0, 6619136, 655401, 0, 6619136, 655397, 0, 6619136, 589867, 0, 6684672, -65527, 0, 2424832, 26, 0, 262144, -786402, 0, 2424832, 65568, 0, 2490368, -131032, 0, 2424832, -786433, 0, 65536, -720897, 0, 65536, -655361, 0, 65536, 65567, 0, 2293760, 31, 0, 2293760, -65505, 0, 2293760, -917496, 0, 7864320)
+layer_0/tile_data = PackedInt32Array(-65541, 0, 2293760, -65542, 0, 2293760, -327686, 0, 2359296, -327685, 0, 2359296, 65532, 0, 2293760, 131068, 0, 2293760, -196586, 0, 2293760, -131050, 0, 2293760, -65514, 0, 2293760, 22, 0, 2293760, 65558, 0, 2293760, -65518, 0, 2293760, -196587, 0, 2293760, -131051, 0, 2293760, -65515, 0, 2293760, 21, 0, 2293760, 65557, 0, 2293760, -196593, 0, 2293760, -393198, 0, 2293760, -393197, 0, 2293760, -655340, 0, 2359296, -720876, 0, 2359296, -786412, 0, 2359296, -589810, 0, 2293760, -655346, 0, 2293760, -720882, 0, 2293760, -720883, 0, 2293760, -655347, 0, 2293760, -589811, 0, 2293760, -720881, 0, 2293760, -589812, 0, 2293760, -458747, 0, 2293760, -524283, 0, 2293760, -589819, 0, 2293760, -524256, 0, 2293760, -458719, 0, 2293760, -327656, 0, 2359296, -327655, 0, 2359296, -327654, 0, 2359296, -327653, 0, 2359296, -327652, 0, 2359296, -327651, 0, 2359296, -327649, 0, 2359296, -327648, 0, 2359296, -327647, 0, 2359296, -589815, 1, 196608, -524281, 1, 196608, -655349, 1, 196608, -131054, 1, 196608, -262129, 1, 196608, -458734, 1, 196608, -458733, 1, 196608, -458748, 1, 196608, -458749, 1, 196608, -458750, 1, 196608, -524286, 1, 196608, -589822, 1, 196608, -524285, 1, 196608, -196602, 1, 196608, -65519, 0, 2359296, -393204, 1, 196608, -327668, 1, 196608, -393205, 1, 196608, -458740, 1, 196608, -393203, 1, 196608, -524284, 1, 65536, -589820, 1, 65536, -589821, 1, 65536, -655357, 1, 65536, -655356, 1, 65536, -655358, 1, 65536, -393214, 1, 65536, -327678, 1, 65536, -262142, 0, 2293760, -262141, 0, 2293760, -589801, 0, 720896, -589800, 0, 720896, -524267, 0, 655360, -524266, 0, 655360, -524265, 0, 655360, -524264, 0, 655360, -786405, 0, 786432, -983022, 0, 262144, -917483, 0, 655360, -917484, 0, 655360, -917488, 0, 655360, -1179621, 1, 196608, -1114086, 1, 196608, -1048549, 1, 196608, -1114084, 1, 196608, -1114085, 1, 196608, -851953, 0, 655360, -851954, 0, 655360, -851955, 0, 655360, -851956, 0, 655360, -851957, 0, 655360, -851958, 0, 655360, -851959, 0, 655360, -851960, 0, 655360, -1245174, 0, 2293760, -1310710, 0, 2293760, -1376246, 0, 2293760, -1441782, 0, 2293760, -1441781, 0, 2293760, -1376245, 0, 2293760, -1310709, 0, 2293760, -1245173, 0, 2293760, -1376229, 1, 196608, -720866, 0, 2293760, 131102, 0, 2359296, -327650, 0, 2359296, 393256, 0, 2359296, -65496, 0, 3211264, 458788, 0, 2359296, 327724, 0, 2359296, -65497, 0, 3211264, 131106, 0, 2293760, -196574, 0, 3276800, -196575, 0, 3276800, -393178, 0, 2293760, -655322, 0, 2359296, -655323, 0, 2359296, -655324, 0, 2359296, -655325, 0, 2359296, -589789, 0, 2293760, 196656, 0, 3014656, -1507291, 0, 2490368, -1048544, 0, 2359296, -131076, 0, 2359296, -720900, 1, 65536, -720901, 1, 196608, -786437, 1, 196608, -786438, 1, 65536, -655364, 1, 65536, -655363, 1, 196608, -655362, 1, 196608, -720896, 1, 196608, -786432, 1, 196608, -786431, 1, 65536, -786430, 1, 65536, -786429, 1, 65536, -786428, 1, 65536, -851964, 1, 65536, -917500, 1, 65536, -983036, 1, 65536, -983037, 1, 65536, -983038, 1, 65536, -983039, 1, 65536, -983040, 1, 65536, -917505, 1, 65536, -917506, 1, 65536, -917507, 1, 65536, -917508, 1, 65536, -917509, 1, 65536, -917510, 1, 65536, -851974, 1, 65536, -851973, 1, 196608, -851972, 1, 196608, -851971, 1, 196608, -851970, 1, 65536, -917501, 1, 65536, -851966, 1, 65536, -851967, 1, 65536, -851968, 1, 196608, -786434, 1, 65536, -786435, 1, 196608, -786436, 1, 196608, -720898, 1, 65536, -851969, 1, 65536, -917504, 1, 196608, -917503, 1, 65536, -917502, 1, 65536, -851965, 1, 65536, -720899, 1, 196608, -589829, 0, 2359296, -655360, 1, 196608, -589825, 1, 65536, -589824, 1, 196608, -524289, 1, 65536, -458753, 1, 65536, -524288, 1, 196608, -393217, 1, 65536, 852006, 0, 589824, 852007, 0, 589824, 852008, 0, 589824, 852009, 0, 589824, 852010, 0, 589824, -655337, 1, 196608, -655336, 1, 196608, -851941, 1, 196608, -393190, 1, 196608, -393188, 1, 196608, -393186, 1, 196608, -393184, 1, 196608, -393192, 1, 65536, -983020, 1, 196608, -983019, 1, 196608, -983024, 1, 196608, -917495, 1, 196608, -917493, 1, 196608, -917494, 1, 196608, -655328, 1, 196608, -589791, 1, 196608, -589792, 1, 65536, -524255, 1, 65536, -786399, 1, 196608, -983005, 1, 196608, -1114078, 1, 196608, -851933, 1, 196608, -1048539, 1, 196608, -1179611, 1, 196608, -1310683, 1, 196608, -1441755, 1, 65536, -1376249, 1, 65536, -1376250, 1, 65536, -1441785, 1, 65536, -1310713, 1, 65536, -1376248, 1, 65536, 655394, 0, 655360, 655395, 0, 655360, 655396, 0, 655360, 655404, 0, 655360, 655405, 0, 655360, 655406, 0, 655360, 655407, 0, 655360, 720935, 0, 6619136, 655400, 0, 6619136, 720937, 0, 6684672, 655398, 0, 6619136, 655402, 0, 6619136, 589865, 0, 6684672, 327716, 1, 196608, 262184, 1, 196608, 196652, 1, 196608, -1376236, 1, 65536, -1310699, 1, 65536, -1376234, 1, 65536, -1376235, 1, 65536, -1310700, 1, 65536, -1310698, 1, 65536, -1376233, 1, 65536, -1310697, 1, 65536, 589863, 0, 6684672, 589864, 0, 6684672, 589866, 0, 6684672, 589862, 0, 6684672, 655399, 0, 6619136, 655401, 0, 6619136, 655397, 0, 6619136, 589867, 0, 6684672, -65527, 0, 2424832, 26, 0, 262144, -786402, 0, 2424832, 65568, 0, 2490368, -131032, 0, 2424832, -786433, 1, 196608, -720897, 1, 196608, -655361, 1, 196608, 65567, 0, 2293760, 31, 0, 2293760, -65505, 0, 2293760, -917496, 1, 65536, -262146, 3, 131072)
 layer_1/enabled = false
 layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="2"]
-_import_path = NodePath("")
-unique_name_in_owner = true
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-layer_0/tile_data = PackedInt32Array(-655312, 0, 655360, -655310, 0, 655360, -655308, 0, 655360, -655306, 0, 655360, -655304, 0, 655360, -655302, 0, 655360, -655298, 0, 655360, -655296, 0, 655360, -655294, 0, 655360, 131061, 0, 65536, 458741, 0, 3145728, -2883510, 0, 851968, 1310794, 0, 655360, 1310806, 0, 655360, -2817987, 0, 262144)
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="tileset_objectsSmall_back" parent="." index="3"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-z_index = -5
-layer_0/tile_data = PackedInt32Array(-1572848, 0, 786432, -1572846, 0, 786432, -2097132, 0, 786432, -2228204, 0, 786432, -1966066, 0, 720896, -2359276, 0, 720896, -1572844, 0, 786432, -1572842, 0, 786432)
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="tileset_objectsSmall_front" parent="." index="4"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-z_index = 5
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="kill_area" parent="." index="14" instance=ExtResource("5_xcq57")]
+[node name="kill_area" parent="." index="10" instance=ExtResource("5_xcq57")]
 position = Vector2(7168, 5184)
 scale = Vector2(320, 1)
 
-[node name="trigger_bgChange" parent="." index="15" instance=ExtResource("6_yyml5")]
+[node name="trigger_bgChange" parent="." index="11" instance=ExtResource("6_yyml5")]
 position = Vector2(-3.05176e-05, -1.52588e-05)
 scale = Vector2(8, 8)
-Background_filePath = ExtResource("8_2wep7")
-Background_a_filePath = ExtResource("8_2wep7")
-Background_b_filePath = ExtResource("9_rhdfw")
-is_gradient = true
 
-[node name="trigger_bgMove" parent="." index="16" instance=ExtResource("9_f30sq")]
+[node name="trigger_bgMove" parent="." index="12" instance=ExtResource("9_f30sq")]
 bgMove_y = -100
 
-[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124633" to="tileset_objects/@Area2D@124633" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124634" to="tileset_objects/@Area2D@124634" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124635" to="tileset_objects/@Area2D@124635" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124636" to="tileset_objects/@Area2D@124636" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124637" to="tileset_objects/@Area2D@124637" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124638" to="tileset_objects/@Area2D@124638" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124639" to="tileset_objects/@Area2D@124639" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124640" to="tileset_objects/@Area2D@124640" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124641" to="tileset_objects/@Area2D@124641" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124642" to="tileset_objects/@Area2D@124642" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124643" to="tileset_objects/@Area2D@124643" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124644" to="tileset_objects/@Area2D@124644" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124645" to="tileset_objects/@Area2D@124645" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124646" to="tileset_objects/@Area2D@124646" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/spikes" to="tileset_objects/spikes" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78199" to="tileset_objects/@Area2D@78199" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78200" to="tileset_objects/@Area2D@78200" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78201" to="tileset_objects/@Area2D@78201" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78202" to="tileset_objects/@Area2D@78202" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78203" to="tileset_objects/@Area2D@78203" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78204" to="tileset_objects/@Area2D@78204" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78210" to="tileset_objects/@Area2D@78210" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78211" to="tileset_objects/@Area2D@78211" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78212" to="tileset_objects/@Area2D@78212" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78213" to="tileset_objects/@Area2D@78213" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78214" to="tileset_objects/@Area2D@78214" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78215" to="tileset_objects/@Area2D@78215" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78216" to="tileset_objects/@Area2D@78216" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78217" to="tileset_objects/@Area2D@78217" method="_on_area_entered"]
 [connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124673" to="tileset_objects/@Area2D@124673" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124674" to="tileset_objects/@Area2D@124674" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124675" to="tileset_objects/@Area2D@124675" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124676" to="tileset_objects/@Area2D@124676" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124677" to="tileset_objects/@Area2D@124677" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124678" to="tileset_objects/@Area2D@124678" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124679" to="tileset_objects/@Area2D@124679" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124680" to="tileset_objects/@Area2D@124680" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124681" to="tileset_objects/@Area2D@124681" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124682" to="tileset_objects/@Area2D@124682" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124683" to="tileset_objects/@Area2D@124683" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78297" to="tileset_objects/@Area2D@78297" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78298" to="tileset_objects/@Area2D@78298" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78299" to="tileset_objects/@Area2D@78299" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78300" to="tileset_objects/@Area2D@78300" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78332" to="tileset_objects/@Area2D@78332" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78333" to="tileset_objects/@Area2D@78333" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78334" to="tileset_objects/@Area2D@78334" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78335" to="tileset_objects/@Area2D@78335" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78336" to="tileset_objects/@Area2D@78336" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78337" to="tileset_objects/@Area2D@78337" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78338" to="tileset_objects/@Area2D@78338" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@78370" to="tileset_objects/@Area2D@78370" method="_on_area_entered"]

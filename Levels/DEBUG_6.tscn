@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=3 uid="uid://b5ttksvnw4fj5"]
+[gd_scene load_steps=12 format=3 uid="uid://b5ttksvnw4fj5"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_ett3p"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_6fvxo"]
-[ext_resource type="PackedScene" uid="uid://dfsoasc4xc08b" path="res://Levels/DEBUG_7.tscn" id="2_jc15n"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_jc15n"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_jmerk"]
 [ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_sqo47"]
@@ -14,8 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://bmnsg0hl7qcpu" path="res://Objects/gate_score.tscn" id="12_jmerk"]
 
 [node name="World" instance=ExtResource("1_ett3p")]
-level_type = "debug"
-next_level = ExtResource("2_jc15n")
 levelSet_id = "DEBUG"
 level_number = 1
 
@@ -69,8 +66,8 @@ position = Vector2(-448, -192)
 target_score = 12000
 
 [connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@682427" to="tileset_objects/@Area2D@682427" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@682428" to="tileset_objects/@Area2D@682428" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@682429" to="tileset_objects/@Area2D@682429" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@682430" to="tileset_objects/@Area2D@682430" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@682431" to="tileset_objects/@Area2D@682431" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@38352" to="tileset_objects/@Area2D@38352" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@38353" to="tileset_objects/@Area2D@38353" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@38354" to="tileset_objects/@Area2D@38354" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@38355" to="tileset_objects/@Area2D@38355" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@38356" to="tileset_objects/@Area2D@38356" method="_on_area_entered"]

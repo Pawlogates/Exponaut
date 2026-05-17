@@ -105,5 +105,27 @@ text = "Confirm"
 
 [node name="animation_all" parent="." instance=ExtResource("4_8dfgd")]
 
+[node name="Label2" type="Label" parent="."]
+layout_mode = 0
+offset_left = -240.0
+offset_top = 428.0
+offset_right = 1040.0
+offset_bottom = 556.0
+theme = ExtResource("2_ygdap")
+text = "This game is built around the idea that players will compete for the highest score in each level.
+The name you provide here, will appear on the leaderboard, next to your score."
+horizontal_alignment = 1
+
+[node name="Label3" type="Label" parent="."]
+layout_mode = 0
+offset_left = -112.0
+offset_top = -84.0
+offset_right = 912.0
+offset_bottom = -20.0
+theme = ExtResource("2_ygdap")
+theme_override_font_sizes/font_size = 20
+text = "This window appears instead of a menu if your username is not set."
+horizontal_alignment = 1
+
 [connection signal="text_changed" from="insert_player_name" to="." method="_on_insert_player_name_text_changed"]
 [connection signal="pressed" from="btn_confirm" to="." method="_on_btn_confirm_pressed"]

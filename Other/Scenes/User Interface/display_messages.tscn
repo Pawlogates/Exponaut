@@ -8,7 +8,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_kesm7"]
 shader = ExtResource("3_kesm7")
-shader_parameter/Shift_Hue = 0.35
+shader_parameter/hue_value = 0.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lf3p6"]
 atlas = ExtResource("2_i808q")
@@ -1900,6 +1900,7 @@ modulate = Color(1, 1, 1, 0)
 position = Vector2(176, 16)
 scale = Vector2(0.25, 0.25)
 skew = -1.56905
+anim_speed2 = 1.0
 
 [node name="decoration_gear2" parent="container_message/bg" instance=ExtResource("4_fu4h4")]
 modulate = Color(1, 1, 1, 0)
@@ -1907,6 +1908,7 @@ z_index = -4
 position = Vector2(624, 16)
 scale = Vector2(0.5, 0.5)
 skew = -1.56905
+anim_speed2 = 1.0
 
 [node name="decoration_gear3" parent="container_message/bg" instance=ExtResource("4_fu4h4")]
 modulate = Color(1, 1, 1, 0)
@@ -1914,6 +1916,7 @@ z_index = -3
 position = Vector2(1360, 32)
 scale = Vector2(0.35, 0.35)
 skew = -1.56905
+anim_speed2 = 1.0
 
 [node name="decoration_gear4" parent="container_message/bg" instance=ExtResource("4_fu4h4")]
 modulate = Color(1, 1, 1, 0)
@@ -1921,6 +1924,7 @@ z_index = -3
 position = Vector2(320, 96)
 scale = Vector2(0.35, 0.35)
 skew = -1.56905
+anim_speed2 = 1.0
 
 [node name="cooldown_hide" type="Timer" parent="."]
 wait_time = 10.0

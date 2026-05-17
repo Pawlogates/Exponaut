@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=162 format=3 uid="uid://3eelrj6nm5ad"]
+[gd_resource type="TileSet" load_steps=165 format=3 uid="uid://3eelrj6nm5ad"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7p0oe"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="2_c48iw"]
@@ -120,8 +120,11 @@
 [ext_resource type="PackedScene" uid="uid://bwgekhrjg7e48" path="res://Objects/Decorations/deco_clipped_black_gear_3_LEFT_DOWN.tscn" id="96_4gwmu"]
 [ext_resource type="PackedScene" uid="uid://q2qs8i8y1ohx" path="res://Enemies/waver.tscn" id="96_ames8"]
 [ext_resource type="PackedScene" uid="uid://cdr0hhmywmwnx" path="res://Enemies/slammer.tscn" id="97_816uw"]
+[ext_resource type="PackedScene" uid="uid://xe21ii4kq5p2" path="res://Objects/Spikes/spikes_DOWN.tscn" id="97_ames8"]
 [ext_resource type="PackedScene" uid="uid://2y43xaryl123" path="res://Objects/Decorations/deco_clipped_black_gear_3_RIGHT_UP.tscn" id="97_bxlt4"]
+[ext_resource type="PackedScene" uid="uid://bmwd62fifkheo" path="res://Objects/Spikes/spikes_LEFT.tscn" id="98_816uw"]
 [ext_resource type="PackedScene" uid="uid://o6g4kgbs434v" path="res://Enemies/slammer_spawn_spiky_ball.tscn" id="98_n2x1u"]
+[ext_resource type="PackedScene" uid="uid://dot3amb8ff65t" path="res://Objects/Spikes/spikes_RIGHT.tscn" id="99_n2x1u"]
 [ext_resource type="PackedScene" uid="uid://cjiup7b3smvl7" path="res://Enemies/pursuitron.tscn" id="99_pnrpn"]
 [ext_resource type="PackedScene" uid="uid://vbijka3yorms" path="res://Enemies/rabbot.tscn" id="100_fmdjg"]
 [ext_resource type="PackedScene" uid="uid://bb52wg803hnl8" path="res://Enemies/batron.tscn" id="101_kukmo"]
@@ -269,6 +272,9 @@ resource_name = "spikes"
 scenes/1/scene = ExtResource("60_kukmo")
 scenes/2/scene = ExtResource("1_7p0oe")
 scenes/3/scene = ExtResource("23_dtwg5")
+scenes/4/scene = ExtResource("97_ames8")
+scenes/5/scene = ExtResource("98_816uw")
+scenes/6/scene = ExtResource("99_n2x1u")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_qgj2q"]
 resource_name = "enemies"

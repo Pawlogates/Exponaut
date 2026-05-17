@@ -34,8 +34,6 @@ func _ready() -> void:
 	label_level_time.text = str(level_time)
 	label_damage_taken.text = str(level_damage_taken)
 	label_entry_position.text = str(entry_position)
-	
-	Globals.dirpath_to_server(Globals.d_recordings_local_best)
 
 func _physics_process(delta: float) -> void:
 	menu_bg.modulate.a = move_toward(menu_bg.modulate.a, target_modulate.a, delta)

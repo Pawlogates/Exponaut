@@ -50,16 +50,26 @@ func _ready() -> void:
 		Globals.dm("Made a Text Manager Character's simple background visible.", "GREEN")
 		bg.visible = true
 		bg.color = bg_simple_color
+		bg.size.x += 4
 	else:
 		Globals.dm("Deleted a Text Manager Character's simple background.", "RED")
 		bg.queue_free()
+	
+	await get_tree().create_timer(0.5, true).timeout
+	
+	if character.text.is_valid_int():
+		custom_minimum_size.x = 22
+		character.theme = load("res://Other/Themes/text_score_display.tres")
+	
+	if character.text == "m":
+		custom_minimum_size.x = 22
 
 func _process(delta: float) -> void:
 	if removable:
 		character.modulate.a = move_toward(character.modulate.a, 0, delta * 2)
 		character.rotation_degrees = move_toward(character.rotation_degrees, rolled_rotation, delta * 10)
-		character.pivot_offset.x = move_toward(character.modulate.a, rolled_pivot_offset.x, delta * 10)
-		character.pivot_offset.y = move_toward(character.modulate.a, rolled_pivot_offset.y, delta * 10)
+		character.pivot_offset.x = move_toward(character.pivot_offset.x, rolled_pivot_offset.x, delta * 10)
+		character.pivot_offset.y = move_toward(character.pivot_offset.y, rolled_pivot_offset.y, delta * 10)
 
 
 func _on_cooldown_sfx_timeout() -> void:

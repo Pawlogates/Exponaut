@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=12 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" uid="uid://bvqjdy74r3ptq" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="SpriteFrames" uid="uid://cuvnanch0b4tb" path="res://Assets/Graphics/sprites/packed/player.tres" id="2_2jh15"]
@@ -7,12 +7,13 @@
 [ext_resource type="PackedScene" uid="uid://bvu4du1j206i3" path="res://Other/Scenes/animation_player_sprite_color.tscn" id="5_2jh15"]
 [ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="6_2jh15"]
 [ext_resource type="PackedScene" uid="uid://cnl3u7qcwj0nk" path="res://Other/Scenes/camera.tscn" id="7_1fkbh"]
+[ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="8_cfian"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fshcs"]
 size = Vector2(40, 112)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ct51a"]
-size = Vector2(32, 80)
+size = Vector2(64, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_q480c"]
 size = Vector2(40, 112)
@@ -30,6 +31,7 @@ script = ExtResource("1_gy5p5")
 shape = SubResource("RectangleShape2D_fshcs")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+light_mask = 0
 position = Vector2(0, -24)
 scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("2_2jh15")
@@ -70,6 +72,7 @@ collision_mask = 8
 input_pickable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox_main"]
+position = Vector2(0, -8)
 shape = SubResource("RectangleShape2D_ct51a")
 debug_color = Color(0.984314, 0, 0.329412, 0.419608)
 
@@ -179,6 +182,11 @@ one_shot = true
 [node name="cooldown_state_idle" type="Timer" parent="."]
 wait_time = 0.25
 one_shot = true
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+energy = 0.5
+range_item_cull_mask = 512
+texture = ExtResource("8_cfian")
 
 [connection signal="timeout" from="AnimatedSprite2D/cooldown_crouch_walk" to="." method="_on_cooldown_crouch_walk_timeout"]
 [connection signal="timeout" from="AnimatedSprite2D/cooldown_crouch_walk_correct_collision" to="." method="_on_cooldown_crouch_walk_correct_collision_timeout"]

@@ -22,6 +22,7 @@ one_shot = true
 one_shot = true
 
 [node name="label_info" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 16.0
 offset_right = 1904.0

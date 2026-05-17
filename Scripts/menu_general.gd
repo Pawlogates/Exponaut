@@ -433,7 +433,7 @@ func _on_btn_leaderboard_pressed() -> void:
 
 func _on_btn_next_level_pressed() -> void:
 	if not FileAccess.file_exists(Globals.World.next_level_filepath) and SaveData.get_total_score(Globals.levelSet_id) < 1000000:
-		Globals.message("So you beat every level, but the real goal is to increase your TOTAL SCORE across all of them! There is a lot more content present in the game, but to access it you will need to acquire... let's say: 1000000 TOTAL SCORE. My personal best is way higher than that, so I'm sure it's not too much to ask. Thats right! It is possible to acquire a total score of 1 000 000 across these very few little levels! There are no secret collectibles, just the crazy potential of mastering the scoring system. Good luck!", 12, Vector2(0, 0), 12, 4)
+		Globals.message("You beat every level in this Level Set! However, there are more Level Sets, and the real goal is to increase your TOTAL SCORE across all of them! There is a lot more content present in the game, but to access it you will need to acquire... let's say: 1000000 TOTAL SCORE. My personal best is way higher than that, so I'm sure it's not too much to ask. Thats right! It is possible to acquire a total score of 1 000 000 across these very few little levels! There are no secret collectibles, just the crazy potential of mastering the scoring system. Good luck!", 12, Vector2(0, 0), 12, 4)
 	elif SaveData.get_total_score(Globals.levelSet_id) >= 1000000:
 		Globals.gameState_scoring_focus = false
 		Globals.message("Thanks for playing, enjoy the rest of the game!")

@@ -17,7 +17,6 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="particles_special" type="CPUParticles2D"]
-z_index = 50
 texture_filter = 1
 emitting = false
 amount = 1

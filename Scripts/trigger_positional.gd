@@ -1,5 +1,10 @@
 extends Area2D
 
+@onready var collision_main: CollisionShape2D = %collision_main
+@onready var timer_inactive: Timer = $timer_inactive
+@onready var label_value: Label = $label_value
+
+
 var active = false
 
 var trigger_value = 0.0
@@ -13,8 +18,11 @@ var offsetValue = 0.0
 var offsetValue_Y = 0.0
 var zoomValue = 1.0
 
-@export var reset_camera_offset = false
-@export var reset_camera_zoom = false
+@export var reset_camera_offset : bool = false
+@export var reset_camera_zoom : bool = false
+
+@export var min_value : float = 0.0
+@export var max_value : float = 1.0
 
 @export var horizontal = true # The left edge of the trigger applies the value of "0", while the right edge applies the value of "1".
 @export var vertical = false  # The bottom edge of the trigger applies the value of "0", while the top edge applies the value of "1".
@@ -32,38 +40,38 @@ var zoomValue = 1.0
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	await get_tree().create_timer(1.0, true).timeout
-	active = true
+	label_value.position += Vector2(randi_range(-64, 64), randi_range(-128, 128))
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(delta: float) -> void:
 	if not active:
 		return
 	
 	if Globals.debug_mode:
-		$Label.text = str(trigger_value)
-		$Label.visible = true
+		label_value.text = str(trigger_value)
+		label_value.visible = true
 	else:
-		$Label.visible = false
+		label_value.visible = false
 	
 	for area in get_overlapping_areas():
 		if Globals.is_valid_entity(area):
 			if horizontal:
 				if right_to_left:
-					width = %shape.shape.size.x
+					width = collision_main.shape.size.x
 					distance_x = area.get_parent().position.x - (position.x - (width / 2 * scale.x))
 					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
 					trigger_value = 1 - clamp(distance_x / (width * scale.x), 0, 1)
 				
 				else:
-					width = %shape.shape.size.x
+					width = collision_main.shape.size.x
 					distance_x = area.get_parent().position.x - (position.x - (width / 2 * scale.x))
 					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
 					trigger_value = clamp(distance_x / (width * scale.x), 0, 1)
 			
 			if vertical:
 				if not top_to_bottom:
-					height = %shape.shape.size.y
+					height = collision_main.shape.size.y
 					distance_y = area.get_parent().position.y - (position.y - (height / 2 * scale.y))
 					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
 					trigger_value = clamp(distance_y / (height * scale.y), 0, 1)
@@ -81,15 +89,20 @@ func _process(delta):
 			
 			if camera_zoom:
 				Globals.Player.camera.effect(Vector2(-1, -1), camera_add_zoom * trigger_value + Vector2(1, 1), -1, 1)
-
-func _on_body_entered(body):
-	if body.is_in_group("Player"):
-		$Timer.stop()
-		active = true
-
-func _on_body_exited(body):
-	if body.is_in_group("Player"):
-		$Timer.start()
+	
+	if trigger_value < min_value : trigger_value = min_value
+	elif trigger_value > max_value : trigger_value = max_value
 
 func _on_timer_timeout():
 	active = false
+
+func _on_area_entered(area: Area2D) -> void:
+	if not Globals.is_valid_entity(area) : return
+	
+	timer_inactive.stop()
+	active = true
+
+func _on_area_exited(area: Area2D) -> void:
+	if not Globals.is_valid_entity(area) : return
+	
+	timer_inactive.start()

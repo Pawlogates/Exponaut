@@ -9,11 +9,14 @@
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="7_lhag3"]
 
 [node name="World" instance=ExtResource("1_m7d1c")]
+levelSet_id = "MAIN"
+level_number = 9
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_vhdea")]
 layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 65536, 0, 131069, 65536, 0, 65537, 65536, 0, 65538, 65536, 0, 131068, 0, 0, 65539, 131072, 0, 196604, 0, 1, 131075, 131072, 1, 196611, 131072, 2, 196605, 65536, 1, 196606, 65536, 1, 196607, 65536, 1, 131072, 65536, 1, 131073, 65536, 1, 131074, 65536, 1, 262143, 65536, 2, 196608, 65536, 2, 196609, 65536, 2, 196610, 65536, 2, 262140, 0, 2, 262141, 65536, 2, 262142, 65536, 2)
 
 [node name="tileset_objects" parent="." index="1" instance=ExtResource("3_5uatb")]
+layer_0/tile_data = PackedInt32Array(65534, 1, 65536, -2, 1, 65536, -65535, 1, 65536, -131071, 1, 65536, -131072, 1, 65536, -65537, 1, 65536, -65538, 1, 65536, 65533, 1, 131072, -3, 1, 131072, -65539, 1, 131072, -131075, 1, 131072, -131074, 1, 131072, -131073, 1, 131072, -196608, 1, 131072, -196607, 1, 131072, -196606, 1, 131072, -131070, 1, 131072, -65534, 1, 131072, -65533, 3, 131072)
 
 [node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_c5wkd")]
 
@@ -31,3 +34,5 @@ layer_0/tile_data = PackedInt32Array(131071, 65536, 0, 65536, 65536, 0, 131070, 
 
 [node name="background" parent="." index="7"]
 script = null
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

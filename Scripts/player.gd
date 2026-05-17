@@ -13,8 +13,11 @@ extends CharacterBody2D
 @export var air_slowdown = -400.0
 @export var air_acceleration = 1400.0
 
-@export var hitbox_size : Vector2 = Vector2(20, 56)
-@export var hitbox_pos_offset : Vector2 = Vector2(0, 0)
+@export var collision_size : Vector2 = Vector2(20, 56)
+@export var collision_pos_offset : Vector2 = Vector2(0, 0)
+
+@export var hitbox_size : Vector2 = Vector2(20, 72)
+@export var hitbox_pos_offset : Vector2 = Vector2(0, -8)
 
 @export var dash_hitbox_size : Vector2 = Vector2(20, 28)
 @export var dash_hitbox_pos_offset : Vector2 = Vector2(0, 28)
@@ -316,8 +319,8 @@ func _on_timer_dash_timeout():
 	dash_active = false
 	
 	if can_stand_up == 0:
-		collision_main.shape.extents = hitbox_size
-		collision_main.position = hitbox_pos_offset
+		collision_main.shape.extents = collision_size
+		collision_main.position = collision_pos_offset
 		
 		collision_hitbox.shape.extents = hitbox_size * 0.8
 		collision_hitbox.position = hitbox_pos_offset * 0.8
@@ -329,8 +332,8 @@ func _on_timer_dash_timeout():
 	
 	else:
 		await safe_standUp
-		collision_main.shape.extents = hitbox_size
-		collision_main.position = hitbox_pos_offset
+		collision_main.shape.extents = collision_size
+		collision_main.position = collision_pos_offset
 		
 		collision_hitbox.shape.extents = hitbox_size * 0.8
 		collision_hitbox.position = hitbox_pos_offset * 0.8
@@ -709,8 +712,8 @@ func handle_crouch():
 			raycast_top.enabled = false
 	
 	if not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_walk_active or not on_floor and can_stand_up == 0 and crouch_walk_active:
-		collision_main.shape.extents = hitbox_size
-		collision_main.position = hitbox_pos_offset
+		collision_main.shape.extents = collision_size
+		collision_main.position = collision_pos_offset
 		
 		collision_hitbox.shape.extents = hitbox_size * 0.8
 		collision_hitbox.position = hitbox_pos_offset * 0.8
@@ -772,8 +775,8 @@ func saveState_loaded():
 	await get_tree().create_timer(0.1, false).timeout
 	camera.position_smoothing_enabled = true
 	
-	collision_main.shape.extents = Vector2(20, 56)
-	collision_main.position = Vector2(0, 0)
+	collision_main.shape.extents = collision_size
+	collision_main.position = collision_pos_offset
 	
 	collision_hitbox.shape.extents = Vector2(16, 40)
 	collision_hitbox.position = Vector2(0, 0)
@@ -1366,7 +1369,6 @@ func handle_wall_run(delta):
 				velocity = Vector2(800 * on_wall_normal.x, -600)
 			else:
 				velocity = Vector2(400 * on_wall_normal.x, -600)
-				print("ye")
 			
 			state_crouch_walk = 0
 			if on_wall_normal.x < 0: animation_player_sprite_general.play("rotate_left")

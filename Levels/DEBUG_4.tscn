@@ -13,7 +13,6 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="11_ndbs5"]
 
 [node name="World" instance=ExtResource("1_ljr0p")]
-level_type = "debug"
 levelSet_id = "DEBUG"
 level_number = 1
 
@@ -60,9 +59,6 @@ on_hit_spawn_entity = true
 on_hit_spawn_entity_scene_filepath = "uid://c85my28akyfi0"
 on_hit_spawn_entity_quantity = 15
 on_hit_spawn_entity_add_velocity_range = [Vector2(-4000, -2000), Vector2(800, -50)]
-breakable_on_hit_spawn_entity = true
-breakable_on_hit_spawn_entity_scene_filepath = "uid://bp1c8almrnogl"
-breakable_on_hit_spawn_entity_quantity = 10
 breakable_advanced_portal_particle_quantity = 5
 
 [node name="gem_level_portal4" parent="." index="18" instance=ExtResource("10_j5m2y")]

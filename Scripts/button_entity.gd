@@ -16,6 +16,7 @@ func _ready():
 
 
 func _on_area_2d_area_entered(area):
+	print(area.get_groups())
 	if not pressed and area.is_in_group("player_exact") and not area.get_parent().is_in_group("weightless"):
 		button_pressed()
 	

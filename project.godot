@@ -16,7 +16,7 @@ warnings/check_invalid_track_paths=false
 
 config/name="Exponaut"
 config/version="0.9.5"
-run/main_scene="uid://drr0xyai1qf2a"
+run/main_scene="uid://c2gdihdorscp4"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/use_filter=false
 config/icon="uid://c75ytmnmu5s8f"
@@ -35,7 +35,8 @@ gdscript/warnings/unused_signal=0
 
 window/size/viewport_width=1920
 window/size/viewport_height=1080
-window/size/mode=3
+window/size/mode=4
+window/stretch/mode="viewport"
 
 [editor]
 

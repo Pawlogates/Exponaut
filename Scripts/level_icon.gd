@@ -1,6 +1,15 @@
 extends Button
 
+@onready var icon_main: Sprite2D = %icon_main
+@onready var decoration_glow: Sprite2D = %decoration_glow
+@onready var icon_state_finished: Sprite2D = %icon_state_finished
+@onready var icon_state_all_major_collectibles: Sprite2D = %icon_state_allMajorCollectibles
+@onready var icon_state_all_collectibles: Sprite2D = %icon_state_allCollectibles
+@onready var icon_rank: Sprite2D = $icon_rank
+
 @onready var screen_levelSet = get_parent().get_parent()
+@onready var container_level_button = get_parent()
+
 
 @export var icon_image_id = 0
 @export var icon_position = Vector2(0, 0)
@@ -47,19 +56,42 @@ var level_info_major_collectibles = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]] # Each valu
 
 var unlocked = false
 
+var level_missing : bool = false # Whether the level filepath points to a missing file.
+
 
 func _ready():
 	await get_tree().create_timer(0.5, true).timeout
 	
 	update_level_info()
+	
 	icon_level_filepath = "res://Levels/" + level_id + ".tscn"
 	
 	position = Vector2(level_icon_position_x, level_icon_position_y)
 	
 	if level_state > -1 : unlocked = true
 	
+	elif SaveData.get("unlock_" + level_id)[0] and level_number == 1:
+		if level_state == -1 : level_state = 0
+		unlocked = true
+	
+	# If every single unlock condition is disabled, the level is unlocked automatically.
+	elif not SaveData.get("unlock_" + level_id)[0]:
+		
+		var unlock_level : bool = true
+		
+		for x in SaveData.get("unlock_" + level_id):
+			if x is bool:
+				if not x : continue
+				else : unlock_level = false
+			
+			elif x is String:
+				if x == "none" : continue
+				else : unlock_level = false
+		
+		if unlock_level : unlocked = true
+	
 	position = icon_position
-	%icon.region_rect = Rect2(128 * level_number, 640, 128, 128)
+	if is_instance_valid(icon_main) : icon_main.region_rect = Rect2(128 * level_number, 640, 128, 128)
 	%AnimationPlayer.advance((abs(position.x) / 100))
 	
 	position = Vector2(level_icon_position_x, level_icon_position_y)
@@ -72,12 +104,32 @@ func _ready():
 		%icon_state_allMajorCollectibles.visible = true
 	elif level_state == 3:
 		%icon_state_allCollectibles.visible = true
+	
+	if level_state > 0:
+		modulate = Color.GREEN
+	elif level_state == -1:
+		modulate = Color.DARK_RED
+	
+	await get_tree().create_timer(randf_range(0.5, 2), true).timeout
+	
+	if not FileAccess.file_exists(icon_level_filepath):
+		Globals.spawn_scenes(container_level_button, Globals.scene_particle_special, 3, position + size / 2)
+		Globals.spawn_scenes(container_level_button, Globals.scene_effect_oneShot_enemy, 1, position + size / 2)
+		
+		var error_message = load("res://Other/Scenes/message_object.tscn").instantiate()
+		error_message.position = position
+		error_message.add_position = Vector2(randi_range(-64, 64), randi_range(-128, 128))
+		error_message.message_text = "This level doesn't exist."
+		container_level_button.add_child(error_message)
+		
+		queue_free()
 
 func _physics_process(delta: float) -> void:
-	pass
+	if level_missing:
+		scale = scale.move_toward(Vector2(0, 0), delta)
 
 func _on_pressed():
-	if unlocked or Globals.debug_mode or Globals.gameState_debug or Globals.gameState_scoring_focus:
+	if unlocked or Globals.debug_mode or Globals.gameState_debug:
 		if FileAccess.file_exists(icon_level_filepath):
 			%sfx_start.play()
 			Globals.transition_next = 0
@@ -115,15 +167,14 @@ func _on_focus_exited():
 
 
 func _on_mouse_entered():
-	%icon.scale = Vector2(0.6, 0.6)
+	if is_instance_valid(icon_main) : icon_main.scale = Vector2(0.6, 0.6)
 	
 	if unlocked:
-		modulate.b = 0.5
-		Globals.message_debug("This level is locked.")
+		modulate = Color.GOLD
+		Globals.message("This level is unlocked.")
 	else:
-		modulate.b = 0.3
-		modulate.g = 0.3
-		Globals.message_debug("This level is unlocked.")
+		modulate = Color.DARK_RED
+		Globals.message("This level is locked.")
 	
 	%decoration_glow.modulate.a = 0.5
 	
@@ -131,9 +182,15 @@ func _on_mouse_entered():
 	show_display_level_info()
 
 func _on_mouse_exited():
-	%icon.scale = Vector2(0.5, 0.5)
-	modulate.b = 1.0
-	modulate.g = 1.0
+	if is_instance_valid(icon_main) : icon_main.scale = Vector2(0.5, 0.5)
+	
+	if unlocked:
+		modulate = Color.WHITE
+		Globals.message("This level is unlocked.")
+	else:
+		modulate = Color.INDIAN_RED
+		Globals.message("This level is locked.")
+	
 	%decoration_glow.modulate.a = 1.0
 	
 	if screen_levelSet.has_node("display_level_info"):

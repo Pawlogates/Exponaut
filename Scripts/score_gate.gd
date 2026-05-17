@@ -28,16 +28,16 @@ func _on_area_2d_area_entered(area):
 			activated = true
 			collision.set_deferred("disabled", true)
 			animation_color.play("fade_out")
-			$sfx_manager.sfx_play(Globals.sfx_electric_disabled2, 1.0, 0.75)
+			$sfx_manager.sfx_play(Globals.sfx_medium_effect3, 1.0, 0.75)
 		
 		else:
 			animation_color.play("fade_out")
 			animation_color.play("pulse_red_normal")
-			target_score_animation_general.speed_scale = randf_range(0.25, 0.5)
-			target_score_animation_general.play("loop_scale")
+			target_score_animation_general.speed_scale = 1
+			target_score_animation_general.play("loop_up_down_slight")
 			$sfx_manager.sfx_play(Globals.sfx_electric_disabled, 1.0, 0.85)
-			
-			text_manager_target_score.text_full = "[anim_rotate_away_up_right]You need " + str(target_score - Globals.level_score) + " more points to open this gate."
+			text_manager_target_score.text_full = "[anim_rotate_away_up_right]You need " + str(target_score) + " points to open this gate."
+			#text_manager_target_score.text_full = "[anim_rotate_away_up_right]You need " + str(target_score - Globals.level_score) + " more points to open this gate."
 			text_manager_target_score.character_anim_speed_scale = 4
 			text_manager_target_score.text_animation_add_offset = 0
 			text_manager_target_score.cooldown_next_character = 0.01

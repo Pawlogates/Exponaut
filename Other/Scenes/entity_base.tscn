@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://wgtcgh1uo037"]
+[gd_scene load_steps=15 format=3 uid="uid://wgtcgh1uo037"]
 
 [ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://Scripts/entity.gd" id="1_wx0ek"]
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
@@ -6,11 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_c3p0q"]
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_84r7y"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_fjle6"]
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="6_84r7y"]
 [ext_resource type="Script" uid="uid://12wkcbpatg3w" path="res://Enemies/general_timers_core.gd" id="7_fjle6"]
 [ext_resource type="PackedScene" uid="uid://wn4ag4k6r2t5" path="res://Other/Entity Behaviors/scan_patrolling_vision.tscn" id="7_spxko"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
-size = Vector2(62, 62)
+size = Vector2(63, 63)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
 size = Vector2(32, 32)
@@ -73,6 +74,27 @@ one_shot = true
 [node name="cooldown_particles" type="Timer" parent="sprite"]
 
 [node name="container_effect_thrownAway" type="Node2D" parent="sprite"]
+
+[node name="glow_light" type="PointLight2D" parent="sprite"]
+light_mask = 0
+visibility_layer = 0
+z_index = 333
+energy = 0.25
+range_item_cull_mask = 512
+texture = ExtResource("6_84r7y")
+
+[node name="glow_shadow" type="PointLight2D" parent="sprite"]
+modulate = Color(1, 1, 1, 0.588235)
+light_mask = 0
+visibility_layer = 0
+z_index = 333
+position = Vector2(0, 32)
+scale = Vector2(1, 0.25)
+energy = 4.0
+blend_mode = 1
+range_item_cull_mask = 512
+texture = ExtResource("6_84r7y")
+texture_scale = 0.1
 
 [node name="collision_main" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_ep4j2")

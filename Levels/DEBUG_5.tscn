@@ -1,8 +1,7 @@
-[gd_scene load_steps=11 format=3 uid="uid://cap55wnfapd22"]
+[gd_scene load_steps=10 format=3 uid="uid://cap55wnfapd22"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_sdymc"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_ropq8"]
-[ext_resource type="PackedScene" uid="uid://b5ttksvnw4fj5" path="res://Levels/DEBUG_6.tscn" id="2_wtd17"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_wtd17"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_3y8oh"]
 [ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_3nswe"]
@@ -12,8 +11,6 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="10_ropq8"]
 
 [node name="World" instance=ExtResource("1_sdymc")]
-level_type = "debug"
-next_level = ExtResource("2_wtd17")
 levelSet_id = "DEBUG"
 level_number = 1
 
@@ -59,3 +56,6 @@ message_text = "Press Q or MIDDLE MOUSE BUTTON to open the entity editor! Here, 
 anim_hide_cooldown = 16.0
 pause_duration = 4.0
 camera_target_zoom = Vector2(8, 8)
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37989" to="tileset_objects/@Area2D@37989" method="_on_area_entered"]

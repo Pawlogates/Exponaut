@@ -100,7 +100,7 @@ region_rect = Rect2(0, 896, 64, 64)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
 libraries = {
-"": SubResource("AnimationLibrary_1356v")
+&"": SubResource("AnimationLibrary_1356v")
 }
 autoplay = "moveH_loop"
 speed_scale = 0.5

@@ -6,7 +6,6 @@
 size = Vector2(10, 10)
 
 [node name="particle_score" type="CharacterBody2D"]
-z_index = -1
 script = ExtResource("1_8r0v8")
 
 [node name="particle" type="ColorRect" parent="."]

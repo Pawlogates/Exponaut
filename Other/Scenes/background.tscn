@@ -1,10 +1,13 @@
-[gd_scene load_steps=12 format=3 uid="uid://qvxb24kyh4pu"]
+[gd_scene load_steps=15 format=3 uid="uid://qvxb24kyh4pu"]
 
 [ext_resource type="Script" uid="uid://b01g011s3jleu" path="res://Scripts/background_manager.gd" id="1_buqj4"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_84qf3"]
 [ext_resource type="Texture2D" uid="uid://c8s83b6oo16dx" path="res://Assets/Graphics/backgrounds/bg_back_fields.png" id="3_q05dr"]
 [ext_resource type="Texture2D" uid="uid://cdbfp76xggdb5" path="res://Assets/Graphics/backgrounds/bg_empty.png" id="3_txf8u"]
 [ext_resource type="Texture2D" uid="uid://dvov3hse2b0mc" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_wrhkf"]
+[ext_resource type="Texture2D" uid="uid://cupe4xw6b4wer" path="res://Assets/Graphics/backgrounds/bg_back_clouds.png" id="6_uxftp"]
 [ext_resource type="Texture2D" uid="uid://c173cymed0aam" path="res://Assets/Graphics/backgrounds/bg_clouds.png" id="7_0vdwx"]
+[ext_resource type="Texture2D" uid="uid://o3vr6p2op5d1" path="res://Assets/Graphics/other/darkDeco_middle.png" id="7_htje4"]
 [ext_resource type="Texture2D" uid="uid://dvacl2dcsnmof" path="res://Assets/Graphics/backgrounds/bg_castle.png" id="8_htje4"]
 [ext_resource type="Texture2D" uid="uid://crmecc3lw0x7k" path="res://Assets/Graphics/backgrounds/bg_autumn.png" id="9_7vt02"]
 [ext_resource type="Texture2D" uid="uid://clo33vs031q42" path="res://Assets/Graphics/backgrounds/bg_fields.png" id="10_tt6fo"]
@@ -122,7 +125,6 @@ libraries = {
 
 [node name="bg_main_A" type="ParallaxBackground" parent="."]
 layer = -10
-visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_main_A"]
@@ -136,11 +138,26 @@ texture_filter = 2
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("8_htje4")
-expand_mode = 1
+
+[node name="label_debug" type="Label" parent="bg_main_A/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_front_A" type="ParallaxBackground" parent="."]
 layer = -9
-visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front_A"]
@@ -156,11 +173,26 @@ texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("3_q05dr")
-expand_mode = 1
+
+[node name="label_debug" type="Label" parent="bg_front_A/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_front2_A" type="ParallaxBackground" parent="."]
 layer = -8
-visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front2_A"]
@@ -175,12 +207,27 @@ texture_filter = 2
 texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
-texture = ExtResource("8_htje4")
-expand_mode = 1
+texture = ExtResource("7_0vdwx")
+
+[node name="label_debug" type="Label" parent="bg_front2_A/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_back_A" type="ParallaxBackground" parent="."]
 layer = -11
-visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back_A"]
@@ -195,12 +242,27 @@ texture_filter = 2
 texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
-texture = ExtResource("3_txf8u")
-expand_mode = 1
+texture = ExtResource("6_uxftp")
+
+[node name="label_debug" type="Label" parent="bg_back_A/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_back2_A" type="ParallaxBackground" parent="."]
 layer = -12
-visible = false
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back2_A"]
@@ -215,8 +277,24 @@ texture_filter = 2
 texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
-texture = ExtResource("3_txf8u")
-expand_mode = 1
+texture = ExtResource("7_htje4")
+
+[node name="label_debug" type="Label" parent="bg_back2_A/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_main_B" type="ParallaxBackground" parent="."]
 layer = -10
@@ -234,7 +312,23 @@ texture_filter = 2
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("3_txf8u")
-expand_mode = 1
+
+[node name="label_debug" type="Label" parent="bg_main_B/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_front_B" type="ParallaxBackground" parent="."]
 layer = -9
@@ -254,7 +348,23 @@ texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("7_0vdwx")
-expand_mode = 1
+
+[node name="label_debug" type="Label" parent="bg_front_B/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_front2_B" type="ParallaxBackground" parent="."]
 layer = -8
@@ -274,7 +384,23 @@ texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("8_htje4")
-expand_mode = 1
+
+[node name="label_debug" type="Label" parent="bg_front2_B/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_back_B" type="ParallaxBackground" parent="."]
 layer = -11
@@ -294,7 +420,23 @@ texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("9_7vt02")
-expand_mode = 1
+
+[node name="label_debug" type="Label" parent="bg_back_B/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="bg_back2_B" type="ParallaxBackground" parent="."]
 layer = -12
@@ -314,7 +456,23 @@ texture_repeat = 3
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("10_tt6fo")
-expand_mode = 1
+
+[node name="label_debug" type="Label" parent="bg_back2_B/layer/texture"]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -29.5
+offset_top = -16.75
+offset_right = 29.5
+offset_bottom = 16.75
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("3_84qf3")
+text = "none"
 
 [node name="cooldown_check_fade" type="Timer" parent="."]
 autostart = true

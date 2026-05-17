@@ -8,7 +8,7 @@
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bsvfe"]
-size = Vector2(96, 96)
+size = Vector2(128, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6q3v3"]
 size = Vector2(54, 54)
@@ -39,6 +39,8 @@ one_shot = true
 [node name="scan_connected" type="Area2D" parent="." groups=["zone_hidden_scan_connected"]]
 collision_layer = 8
 collision_mask = 8
+monitoring = false
+monitorable = false
 
 [node name="collision" type="CollisionShape2D" parent="scan_connected"]
 shape = SubResource("RectangleShape2D_bsvfe")
@@ -48,7 +50,7 @@ debug_color = Color(0.885372, 0.000303224, 0.807919, 0.42)
 collision_layer = 8
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="scan_exact"]
+[node name="collision" type="CollisionShape2D" parent="scan_exact"]
 shape = SubResource("RectangleShape2D_6q3v3")
 
 [connection signal="area_entered" from="scan" to="." method="_on_scan_area_entered"]

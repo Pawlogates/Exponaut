@@ -55,13 +55,3 @@ start_hidden = true
 position = Vector2(112, 1312)
 message_text = "Press LMB (left mouse button) to perform a \"left mouse\". (epic reference!!)"
 start_hidden = true
-
-[connection signal="area_entered" from="tileset_objects/spikes_AROUND" to="tileset_objects/spikes_AROUND" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@111148" to="tileset_objects/@Area2D@111148" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@111149" to="tileset_objects/@Area2D@111149" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@111150" to="tileset_objects/@Area2D@111150" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@111151" to="tileset_objects/@Area2D@111151" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@111152" to="tileset_objects/@Area2D@111152" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@111153" to="tileset_objects/@Area2D@111153" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@111154" to="tileset_objects/@Area2D@111154" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

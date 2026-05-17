@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_1on3a"]
 
 [node name="World" instance=ExtResource("1_s5ftn")]
-level_type = "debug"
 on_start_camera_effect = false
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_rqonv")]

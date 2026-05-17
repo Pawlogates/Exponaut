@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8ahu1"]
 size = Vector2(64, 64)
 
-[node name="touch_screen_button_general" type="TouchScreenButton" groups=["touch_screen_button_general"]]
+[node name="touch_screen_button_general" type="TouchScreenButton" groups=["mobile_touch_screen_button_general"]]
 shape = SubResource("RectangleShape2D_8ahu1")
 script = ExtResource("1_jwklh")
 

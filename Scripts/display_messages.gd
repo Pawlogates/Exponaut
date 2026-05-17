@@ -14,10 +14,10 @@ func _ready():
 	Globals.gameState_changed.connect(on_gameState_changed)
 	
 	if Globals.gameState_start_screen:
-		bg.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
+		bg.material.set_shader_parameter("hue_value", randf_range(0, 1))
 	
 	await get_tree().create_timer(1.0, true).timeout
-	bg.material.set_shader_parameter("Shift_Hue", randf_range(0, 1))
+	bg.material.set_shader_parameter("hue_value", randf_range(0, 1))
 	active = true
 
 

@@ -9,6 +9,11 @@ func _ready() -> void:
 		else:
 			queue_free()
 	
+	else:
+		position.x -= 510
+		position.y -= 240
+		scale *= 1.2
+	
 	if len(get_tree().get_nodes_in_group("screen_results_level")) != 0:
 		queue_free()
 

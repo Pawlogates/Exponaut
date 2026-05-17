@@ -1,7 +1,6 @@
-[gd_scene load_steps=12 format=3 uid="uid://bfhyvn1kymwxp"]
+[gd_scene load_steps=11 format=3 uid="uid://bfhyvn1kymwxp"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_y83vn"]
-[ext_resource type="PackedScene" uid="uid://cap55wnfapd22" path="res://Levels/DEBUG_5.tscn" id="2_0nssk"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_d11j7"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_ht1a8"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_ooxb1"]
@@ -13,8 +12,6 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="10_ooxb1"]
 
 [node name="World" instance=ExtResource("1_y83vn")]
-level_type = "debug"
-next_level = ExtResource("2_0nssk")
 levelSet_id = "DEBUG"
 level_number = 3
 
@@ -72,3 +69,14 @@ music_file = "uid://basrt63r4xnjx"
 [node name="info_sign" parent="." index="15" instance=ExtResource("10_ooxb1")]
 position = Vector2(4640, 352)
 message_text = "Hold DOWN ARROW to crouch."
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37039" to="tileset_objects/@Area2D@37039" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37040" to="tileset_objects/@Area2D@37040" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37041" to="tileset_objects/@Area2D@37041" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37042" to="tileset_objects/@Area2D@37042" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37043" to="tileset_objects/@Area2D@37043" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37044" to="tileset_objects/@Area2D@37044" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37202" to="tileset_objects/@Area2D@37202" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37203" to="tileset_objects/@Area2D@37203" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@37204" to="tileset_objects/@Area2D@37204" method="_on_area_entered"]

@@ -1,15 +1,13 @@
-[gd_scene load_steps=119 format=3 uid="uid://c42npvd5td777"]
+[gd_scene load_steps=118 format=3 uid="uid://c42npvd5td777"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_5agn5"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_h35e0"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_wupxo"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_b31uc"]
 [ext_resource type="PackedScene" uid="uid://oswqe4x5q4gm" path="res://Tilesets/tileset_objects_precise.tscn" id="5_6k4f8"]
-[ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_5agn5"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="6_ntmjo"]
 [ext_resource type="PackedScene" uid="uid://b0r04vu27ihky" path="res://Blocks/special_block_buttonSpikes_UP.tscn" id="7_cxa0i"]
 [ext_resource type="PackedScene" uid="uid://cytasj1drtxdw" path="res://Blocks/special_block_buttonSpikes_L.tscn" id="8_ss5yl"]
-[ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera.tscn" id="9_b31uc"]
 [ext_resource type="PackedScene" uid="uid://b0hqcbo1da3sc" path="res://Blocks/special_block_buttonSpikes_R.tscn" id="9_xjwll"]
 [ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Blocks/move_block_h.tscn" id="10_j58a7"]
 [ext_resource type="PackedScene" uid="uid://bc4lqr8ajy0k8" path="res://Objects/Decorations/deco_waterfall_bg.tscn" id="11_g6syf"]
@@ -104,6 +102,7 @@
 [ext_resource type="PackedScene" uid="uid://byymdvbfugma2" path="res://Objects/Decorations/deco_clipped_black_gear_2_RIGHT.tscn" id="100_vtf34"]
 [ext_resource type="PackedScene" uid="uid://bwgekhrjg7e48" path="res://Objects/Decorations/deco_clipped_black_gear_3_LEFT_DOWN.tscn" id="101_qg47m"]
 [ext_resource type="PackedScene" uid="uid://2y43xaryl123" path="res://Objects/Decorations/deco_clipped_black_gear_3_RIGHT_UP.tscn" id="102_4l8t6"]
+[ext_resource type="PackedScene" uid="uid://chamwi5bkuimn" path="res://Triggers/zone_hidden.tscn" id="103_01cv7"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_7p0oe"]
 resource_name = "everything"
@@ -320,14 +319,14 @@ sources/11 = SubResource("TileSetScenesCollectionSource_0vhmv")
 sources/12 = SubResource("TileSetScenesCollectionSource_0s6s8")
 
 [node name="World" instance=ExtResource("1_5agn5")]
+level_type = "debug"
 on_start_camera_effect = false
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_h35e0")]
-layer_0/tile_data = PackedInt32Array(131064, 0, 10, 131065, 0, 10, 131066, 0, 10, 131067, 0, 10, 131068, 0, 10, 131069, 0, 10, 131070, 0, 10, 131071, 0, 10, 65536, 0, 10, 65537, 0, 10, 65538, 0, 10, 65539, 0, 10, 65540, 0, 10, 65541, 0, 10, 65542, 0, 10, 65543, 0, 10, 65544, 0, 10, 65545, 0, 10, 65546, 0, 10, 65547, 0, 10, 131063, 0, 10, 131062, 0, 10, 131061, 0, 10, 131060, 0, 10, 131059, 0, 10, 131058, 0, 10, 131057, 0, 10, 65521, 0, 10, -15, 0, 10, -65551, 0, 10, -131087, 0, 10, -196623, 0, 10, -262159, 0, 10, -327695, 0, 10, -393231, 0, 10, -458767, 0, 10, -524303, 0, 10, -589839, 0, 10, -655375, 0, 10, 65548, 0, 10, 65549, 0, 10, 65550, 0, 10, 14, 0, 10, -65522, 0, 10, -131058, 0, 10, -196594, 0, 10, -262130, 0, 10, -327666, 0, 10, -393202, 0, 10, -458738, 0, 10, -524274, 0, 10, -589810, 0, 10, -655346, 0, 10, -720882, 0, 10, -786418, 0, 10, -851954, 0, 10, -851960, 0, 10, -851959, 0, 10, -851958, 0, 10, -851957, 0, 10, -851956, 0, 10, -851955, 0, 10, -131065, 0, 10, -131064, 0, 10, -131063, 0, 10, -131062, 0, 10, -720892, 0, 10, -655356, 0, 10, -589820, 0, 10, -458743, 0, 10, -393207, 0, 10, -327671, 0, 10, -262135, 0, 10, -196599, 0, 10, -327667, 0, 10, -262143, 0, 10, -262144, 0, 10, -196609, 0, 10, -196610, 0, 10, -14, 0, 10, 65522, 0, 10, 65523, 0, 10, -458757, 0, 10, 65529, 0, 10, -262153, 0, 10, -262152, 0, 10, -524301, 0, 10, -524302, 0, 10, -524300, 0, 10, -786435, 0, 10, -786436, 0, 10, -786437, 0, 10, -786438, 0, 10, -786439, 0, 10, -786440, 0, 10, -786441, 0, 10, -786442, 0, 10, -786443, 0, 10, -786434, 0, 10, -786433, 0, 10, -851968, 0, 10, -851967, 0, 10, -851966, 0, 10, -851965, 0, 10, -851964, 0, 10, -851963, 0, 10, -851962, 0, 10, -851961, 0, 10, -720911, 0, 10, -786447, 0, 10, -786446, 0, 10, -786445, 0, 10, -786444, 0, 10, -786428, 0, 10)
+layer_0/tile_data = PackedInt32Array(131064, 0, 10, 131065, 0, 10, 131066, 0, 10, 131067, 0, 10, 131068, 0, 10, 131069, 0, 10, 131070, 0, 10, 131071, 0, 10, 65536, 0, 10, 65537, 0, 10, 65538, 0, 10, 65539, 0, 10, 65540, 0, 10, 65541, 0, 10, 65542, 0, 10, 65543, 0, 10, 65544, 0, 10, 65545, 0, 10, 65546, 0, 10, 65547, 0, 10, 131063, 0, 10, 131062, 0, 10, 131061, 0, 10, 131060, 0, 10, 131059, 0, 10, 131058, 0, 10, 131057, 0, 10, 65521, 0, 10, -15, 0, 10, -65551, 0, 10, -131087, 0, 10, -196623, 0, 10, -262159, 0, 10, -327695, 0, 10, -393231, 0, 10, -458767, 0, 10, -524303, 0, 10, -589839, 0, 10, -655375, 0, 10, 65548, 0, 10, 65549, 0, 10, 65550, 0, 10, 14, 0, 10, -65522, 0, 10, -131058, 0, 10, -196594, 0, 10, -262130, 0, 10, -327666, 0, 10, -393202, 0, 10, -458738, 0, 10, -524274, 0, 10, -589810, 0, 10, -655346, 0, 10, -720882, 0, 10, -786418, 0, 10, -851954, 0, 10, -851960, 0, 10, -851959, 0, 10, -851958, 0, 10, -851957, 0, 10, -851956, 0, 10, -851955, 0, 10, -786435, 0, 10, -786436, 0, 10, -786437, 0, 10, -786438, 0, 10, -786439, 0, 10, -786440, 0, 10, -786441, 0, 10, -786442, 0, 10, -786443, 0, 10, -786434, 0, 10, -786433, 0, 10, -851968, 0, 10, -851967, 0, 10, -851966, 0, 10, -851965, 0, 10, -851964, 0, 10, -851963, 0, 10, -851962, 0, 10, -851961, 0, 10, -720911, 0, 10, -786447, 0, 10, -786446, 0, 10, -786445, 0, 10, -786444, 0, 10, -131083, 0, 10, -131082, 0, 10, -131081, 0, 10, -131080, 0, 10, -131079, 0, 10, -131077, 0, 10, -131078, 0, 10, 8, 0, 10, -65525, 0, 10, 11, 0, 10, -393209, 0, 10, -393208, 0, 10, -393210, 0, 10, -262131, 0, 10, -524281, 0, 10, -589817, 0, 10, -655353, 0, 10, -720889, 0, 10, -786425, 0, 10, -524286, 0, 10, -524287, 0, 10, -327687, 0, 10, -524302, 0, 10, -524301, 0, 10, -524300, 0, 10, -524299, 0, 10, -458763, 0, 10, -131084, 0, 10)
 
 [node name="tileset_objects" parent="." index="1" instance=ExtResource("3_wupxo")]
 position = Vector2(1, 0)
-layer_0/tile_data = PackedInt32Array(-65534, 1, 983040)
 
 [node name="tileset_main_precise" parent="." index="2" instance=ExtResource("4_b31uc")]
 
@@ -340,15 +339,98 @@ tile_set = SubResource("TileSet_8dv7h")
 
 [node name="zones" type="Node2D" parent="." index="6"]
 
-[node name="trigger_bg_change" parent="." index="15" instance=ExtResource("6_5agn5")]
-bg_main_filepath = "uid://bpevvq03p3otx"
-bg_front_filepath = "uid://bpevvq03p3otx"
-bg_front2_filepath = "uid://bpevvq03p3otx"
-bg_back_filepath = "uid://bpevvq03p3otx"
-bg_back2_filepath = "uid://bpevvq03p3otx"
+[node name="zone_hidden" parent="." index="15" instance=ExtResource("103_01cv7")]
+position = Vector2(-416, -544)
+uncover_on_proximity_distance = Vector2(32, 32)
 
-[node name="trigger_positional" parent="." index="16" instance=ExtResource("9_b31uc")]
-scale = Vector2(8.75902, 3.38534)
-right_to_left = true
-minOffset_Y = -500
-maxOffset_Y = -250
+[node name="zone_hidden2" parent="." index="16" instance=ExtResource("103_01cv7")]
+position = Vector2(-416, -480)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden3" parent="." index="17" instance=ExtResource("103_01cv7")]
+position = Vector2(-416, -416)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden4" parent="." index="18" instance=ExtResource("103_01cv7")]
+position = Vector2(-352, -480)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden5" parent="." index="19" instance=ExtResource("103_01cv7")]
+position = Vector2(-352, -416)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden6" parent="." index="20" instance=ExtResource("103_01cv7")]
+position = Vector2(-288, -480)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden7" parent="." index="21" instance=ExtResource("103_01cv7")]
+position = Vector2(-224, -480)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden8" parent="." index="22" instance=ExtResource("103_01cv7")]
+position = Vector2(-160, -480)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden9" parent="." index="23" instance=ExtResource("103_01cv7")]
+position = Vector2(-160, -416)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden10" parent="." index="24" instance=ExtResource("103_01cv7")]
+position = Vector2(-160, -352)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden11" parent="." index="25" instance=ExtResource("103_01cv7")]
+position = Vector2(-160, -288)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden12" parent="." index="26" instance=ExtResource("103_01cv7")]
+position = Vector2(288, -672)
+uncover_on_proximity_distance = Vector2(32, 32)
+
+[node name="zone_hidden13" parent="." index="27" instance=ExtResource("103_01cv7")]
+position = Vector2(264, -616)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden14" parent="." index="28" instance=ExtResource("103_01cv7")]
+position = Vector2(296, -576)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden15" parent="." index="29" instance=ExtResource("103_01cv7")]
+position = Vector2(272, -536)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden16" parent="." index="30" instance=ExtResource("103_01cv7")]
+position = Vector2(224, -536)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden17" parent="." index="31" instance=ExtResource("103_01cv7")]
+position = Vector2(200, -568)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden18" parent="." index="32" instance=ExtResource("103_01cv7")]
+position = Vector2(176, -624)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden19" parent="." index="33" instance=ExtResource("103_01cv7")]
+position = Vector2(240, -664)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden20" parent="." index="34" instance=ExtResource("103_01cv7")]
+position = Vector2(248, -480)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden21" parent="." index="35" instance=ExtResource("103_01cv7")]
+position = Vector2(224, -400)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden22" parent="." index="36" instance=ExtResource("103_01cv7")]
+position = Vector2(248, -336)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden23" parent="." index="37" instance=ExtResource("103_01cv7")]
+position = Vector2(232, -296)
+on_uncovered_uncover_connected = false
+
+[node name="zone_hidden24" parent="." index="38" instance=ExtResource("103_01cv7")]
+position = Vector2(288, -208)
+on_uncovered_uncover_connected = false

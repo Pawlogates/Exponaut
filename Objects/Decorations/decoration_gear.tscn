@@ -4,6 +4,8 @@
 [ext_resource type="PackedScene" uid="uid://dx18msavpuef4" path="res://Objects/Decorations/gear.tscn" id="2_e78dl"]
 
 [node name="decoration_gear" instance=ExtResource("1_3axhj")]
+anim_name = "none"
+randomize_everything = false
 randomize_type = false
 
 [node name="gear" parent="." index="3" instance=ExtResource("2_e78dl")]

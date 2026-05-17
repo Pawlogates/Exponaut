@@ -341,6 +341,8 @@ func music_change(filepath, smooth_transition : bool = true, volume : float = 1.
 	else:
 		
 		if layer1_fade_direction and not layer1_alt_fade_direction:
+			if filepath == layer1_music_filepath : return
+			
 			layer1_alt_music_filepath = filepath
 			update_layer_all_music_file()
 			layer1_fade_active = true
@@ -350,6 +352,8 @@ func music_change(filepath, smooth_transition : bool = true, volume : float = 1.
 			layer_play("all")
 		
 		elif layer1_alt_fade_direction and not layer1_fade_direction:
+			if filepath == layer1_alt_music_filepath : return
+			
 			layer1_music_filepath = filepath
 			update_layer_all_music_file()
 			layer1_fade_active = true

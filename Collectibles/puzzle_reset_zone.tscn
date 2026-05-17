@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_bsrt3"]
 [ext_resource type="SpriteFrames" uid="uid://cpocby34y3ppf" path="res://Assets/Graphics/sprites/packed/collectibles/puzzle.tres" id="2_bbww4"]
 
-[node name="puzzle_reset_zone" instance=ExtResource("1_bsrt3")]
+[node name="puzzle_reset_zone" groups=["exclude_collected"] instance=ExtResource("1_bsrt3")]
 texture_filter = 5
 collectable_multiple = true
 collectable_multiple_health = -1
@@ -16,7 +16,6 @@ can_change_sprite_anim = true
 
 [node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_bbww4")
-animation = &"collected"
 
 [node name="collision_patrolling" parent="scan_patrolling_vision" index="2"]
 debug_color = Color(1, 0, 0, 0)

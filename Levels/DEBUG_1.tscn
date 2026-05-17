@@ -1,7 +1,6 @@
-[gd_scene load_steps=123 format=3 uid="uid://bvkrr7e5jdex6"]
+[gd_scene load_steps=122 format=3 uid="uid://bvkrr7e5jdex6"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_0tnfu"]
-[ext_resource type="PackedScene" uid="uid://durmwd8klls41" path="res://Levels/DEBUG_2.tscn" id="2_ccx6a"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_o4x7p"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_olnfn"]
 [ext_resource type="PackedScene" uid="uid://dfg7r4vdcruea" path="res://Tilesets/tileset_main_precise.tscn" id="4_80vpq"]
@@ -324,8 +323,6 @@ sources/11 = SubResource("TileSetScenesCollectionSource_0vhmv")
 sources/12 = SubResource("TileSetScenesCollectionSource_0s6s8")
 
 [node name="World" instance=ExtResource("1_0tnfu")]
-level_type = "debug"
-next_level = ExtResource("2_ccx6a")
 levelSet_id = "DEBUG"
 level_number = 1
 
@@ -351,6 +348,12 @@ tile_set = SubResource("TileSet_8dv7h")
 [node name="info_sign" parent="triggers" index="3" instance=ExtResource("11_ccx6a")]
 position = Vector2(544, -352)
 message_text = "Entity interactions (movement-based)."
+pause_duration = 4.0
+camera_target_offset = Vector2(5200, 64)
+
+[node name="info_sign2" parent="triggers" index="4" instance=ExtResource("11_ccx6a")]
+position = Vector2(1568, -32)
+message_text = "Shift + tilde = debug mode. ALT + tilde = debug game state. tilde = debug tools"
 pause_duration = 4.0
 camera_target_offset = Vector2(5200, 64)
 
@@ -395,3 +398,6 @@ position = Vector2(4928, -352)
 scale = Vector2(4, 5)
 right_to_left = true
 camera_add_offset = Vector2(-200, -320)
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@35978" to="tileset_objects/@Area2D@35978" method="_on_area_entered"]

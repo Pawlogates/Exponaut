@@ -8,6 +8,9 @@ extends Node2D
 
 var label_level_time : Label
 
+@onready var background : Node = $background
+@onready var foreground : Node = $foreground
+
 
 var debug_screen: Control # Added and deleted on demand.
 
@@ -136,7 +139,7 @@ func _ready():
 	
 	Globals.level_started.emit()
 	
-	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-2000, 2000), randi_range(-2000, 0)), Vector2(2, 2), randi_range(-15, 15), 10)
+	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-200, 800), randi_range(-400, 0)), Vector2(4, 4), randi_range(-15, 15), 10)
 	
 	Overlay.animation("black_fade_out", 0.2, false, false, 0)
 	
@@ -174,14 +177,6 @@ func _ready():
 		Globals.worldState_leftStartArea = true
 	
 	
-	#last_area_filePath_save()
-	
-	#%bg_current.queue_free() #DEBUG
-	#%bg_previous.queue_free() #DEBUG
-	
-	#$tileset_objects.queue_free() #DEBUG
-	#$tileset_objectsSmall.queue_free() #DEBUG
-	
 	if camera_boundary_left != 0.0 or camera_boundary_right != 0.0 or camera_boundary_top != 0.0 or camera_boundary_bottom != 0.0:
 		Globals.Player.camera.limit_left = camera_boundary_left
 		Globals.Player.camera.limit_right = camera_boundary_right
@@ -216,19 +211,7 @@ func _ready():
 		#Player.scale.y = 1
 	
 	
-	#Globals.bg_file_previous = "res://Assets/Graphics/backgrounds/bg_fields.png"
-	#Globals.bg_file_current = "res://Assets/Graphics/backgrounds/bg_fields.png"
-	#
-	#Globals.trigger_bg_change_entered.connect(bg_change_check)
-	#Globals.trigger_bg_move_entered.connect(bg_move_check)
-	
-	
 	Globals.transformation_activated.connect(reassign_player)
-	
-	#if not next_level is PackedScene:
-		#level_finished.next_level_btn.text = "Results"
-		#next_level = preload("res://VictoryScreen.tscn")
-	
 	
 	RenderingServer.set_default_clear_color(background_color)
 	
@@ -312,9 +295,8 @@ func _ready():
 	
 	if delete_background_layers:
 		bg_deleted = true
-		%bg_current.queue_free()
-		%bg_previous.queue_free()
-		$ParallaxBackgroundGradient.queue_free()
+		background.queue_free()
+		foreground.queue_free()
 	
 	if force_mode_memeMode:
 		var memeMode_background_video_player = load("res://Other/Game Modes/Meme Mode/background_video_player.tscn").instantiate()
@@ -325,19 +307,6 @@ func _ready():
 	
 	bg_instant_transitions = false
 	
-	if not bg_deleted:
-		pass
-		#%bg_previous/bg_transition.speed_scale = 1
-		#%bg_previous/bg_a_transition.speed_scale = 1
-		#%bg_previous/bg_b_transition.speed_scale = 1
-		#
-		#%bg_current/bg_transition.speed_scale = 1
-		#%bg_current/bg_a_transition.speed_scale = 1
-		#%bg_current/bg_b_transition.speed_scale = 1
-	
-	#await get_tree().create_timer(0.2, false).timeout
-	
-	#if level_type == "overworld":
 	SaveData.save_levelState()
 	
 	Globals.worldState_justStartedNewGame = false
@@ -351,16 +320,18 @@ func _ready():
 	Player.block_movement_full = false
 	Player.velocity = Vector2(0, 0)
 	
-	Globals.total_collectibles_level = len(get_tree().get_nodes_in_group("entity"))
+	Globals.total_collectibles_level = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
 
 
 #MAIN START
 func _physics_process(delta):
 	
-	if Globals.random_bool(24, 1):
-		for x in get_tree().get_nodes_in_group("entity"):
-		#x.scale = Vector2(1, 4)
-			if Globals.random_bool(120, 1):
+	if Globals.random_bool(500, 1):
+		var level_all_entities : Array = get_tree().get_nodes_in_group("entity")
+		var level_total_entities : int = len(level_all_entities)
+		
+		for x in level_all_entities:
+			if Globals.random_bool(level_total_entities, 1):
 				if not x.collected:
 					Globals.spawn_scenes(self, Globals.scene_particle_splash, 1, x.position)
 	
@@ -369,41 +340,7 @@ func _physics_process(delta):
 	level_time_seconds = level_time / 1000
 	level_time_minutes = level_time / 60
 	
-	#if level_time > 10000:
-		#label_level_time.visible_characters = 9
-	#elif level_time > 1000:
-		#label_level_time.visible_characters = 8
-	#elif level_time > 100:
-		#label_level_time.visible_characters = 7
-	#elif level_time > 10:
-		#label_level_time.visible_characters = 6
-	#else:
-		#label_level_time.visible_characters = 5
-	
 	label_level_time.text = str(level_time_seconds) + ":" + str(level_time - level_time_seconds * 1000)
-	
-	#if Globals.settings_quicksaves and Input.is_action_just_pressed("quicksave") and not quickload_blocked:
-		#quickload_blocked = true
-		#save_game()
-		#$QuickloadLimiter.start()
-		#Globals.is_saving = true
-		#
-		#await get_tree().create_timer(1.0, false).timeout
-		#Globals.is_saving = false
-	#
-	#if Globals.settings_quicksaves and Input.is_action_just_pressed("quickload") and not quickload_blocked:
-		#quickload_blocked = true
-		#load_game()
-		#$QuickloadLimiter.start()
-		#Globals.is_saving = true
-		#
-		#
-		#await get_tree().create_timer(1.0, false).timeout
-		#Globals.is_saving = false
-	
-	
-	#HANDLE BACKGROUND MOVEMENT (on entering a bg_move trigger)
-	#bg_move(delta)
 	
 	if reset_puzzle_line_visible : queue_redraw()
 #MAIN END
@@ -423,13 +360,9 @@ var bg_deleted = false
 func handle_player_death():
 	Player.dead = true
 	Player.sfx_death.play()
+	
 	if level_type == "levelSet":
-		#if Globals.quicksaves_enabled:
-			#retry_loadSave(true)
-		if Globals.mode_scoreAttack:
-			change_main_scene_levelSet()
-		else:
-			retry_checkpoint()
+		retry_checkpoint()
 	else:
 		retry_checkpoint()
 
@@ -439,9 +372,7 @@ var level_completion_state : int = -1
 
 func level_finished():
 	if level_finished_active : return
-	level_finished_active = true
-	
-	if Globals.levelSet_id == "DEBUG" : return
+	#if Globals.levelSet_id == "DEBUG" : return
 	
 	Globals.level_time = level_time
 	
@@ -462,6 +393,8 @@ func level_finished():
 	
 	SaveData.save_level(Globals.level_id, level_completion_state, Globals.level_score, Globals.level_time, [-1, 0, 1])
 	SaveData.save_levelSet(Globals.levelSet_id)
+	
+	level_finished_active = true # This has to be at the end, because outside behavior depends on this check being delayed.
 	
 	get_tree().paused = true
 
@@ -869,6 +802,8 @@ func get_entity_status_all():
 	var entity_inactive = []
 	
 	for entity in entity_all:
+		if not "active" in entity : continue
+		
 		if entity.active:
 			entity_active.append(entity)
 		else:
@@ -879,6 +814,8 @@ func get_entity_status_all():
 	var collectible_inactive = []
 	
 	for entity in collectible_all:
+		if not "active" in entity : continue
+		
 		if entity.active:
 			collectible_active.append(entity)
 		else:
@@ -889,6 +826,8 @@ func get_entity_status_all():
 	var enemy_inactive = []
 	
 	for entity in enemy_all:
+		if not "active" in entity : continue
+		
 		if entity.active:
 			enemy_active.append(entity)
 		else:
@@ -899,6 +838,8 @@ func get_entity_status_all():
 	var box_inactive = []
 	
 	for entity in box_all:
+		if not "active" in entity : continue
+		
 		if entity.active:
 			box_active.append(entity)
 		else:
@@ -909,6 +850,8 @@ func get_entity_status_all():
 	var projectile_inactive = []
 	
 	for entity in projectile_all:
+		if not "active" in entity : continue
+		
 		if entity.active:
 			projectile_active.append(entity)
 		else:
@@ -919,7 +862,7 @@ func get_entity_status_all():
 
 func on_uncover_matching_id(id):
 	var uncovered_quantity = 0
-	
+	print("YES  ", id)
 	for zone_hidden in get_tree().get_nodes_in_group("zone_hidden"):
 		#if not zone_hidden.is_hidden : continue
 		

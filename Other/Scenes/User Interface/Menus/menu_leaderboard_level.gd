@@ -28,11 +28,11 @@ var source : String = "online" # "local, local_best, online
 
 
 func _ready() -> void:
+	Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
 	Globals.server_to_dirpath(Globals.d_recordings_online)
 	Globals.message("If your recording is missing, or none are present, please refresh the leaderboard or wait a bit and do.")
 	
 	Globals.update_main_scene()
-	Globals.update_recordings_best()
 	
 	if Globals.main_scene != self:
 		start_pos = position
@@ -127,6 +127,9 @@ func create_entries(f_level_id : String = "all"):
 	else:
 		entry_create(["No recordings have been submitted.", -1, -1, -1, -1])
 	
+	if source == "online":
+		await get_tree().create_timer(5, true).timeout
+		
 	Globals.set_nodes(self, Button, true)
 
 func delete_entries():

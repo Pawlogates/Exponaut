@@ -57,7 +57,6 @@ atlas = ExtResource("2_qbsk8")
 region = Rect2(992, 1024, 32, 32)
 
 [node name="particles_water_entered" type="Node2D"]
-z_index = -5
 script = ExtResource("1_gq7qu")
 
 [node name="water_entered" type="CPUParticles2D" parent="."]

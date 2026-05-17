@@ -44,9 +44,9 @@ text_manager_message = "[/]Resume game"
 decoration_base_size_multiplier = Vector2(0.5, 1)
 on_hover_message_text = "Resume the game. As in, stop it from being paused. Also works as a pause button... actually its more of a \"pause toggle\" for now. It shouldnt exist on the start screen but"
 
-[node name="btn_Level Set screen" parent="container_buttons" index="3" instance=ExtResource("2_0mlty")]
+[node name="btn_Level Set Screen" parent="container_buttons" index="3" instance=ExtResource("2_0mlty")]
 layout_mode = 2
-text_manager_message = "[/]Level Set screen"
+text_manager_message = "[/]Level Set Screen"
 decoration_base_size_multiplier = Vector2(0.6, 1)
 on_hover_message_text = "Level Set screen is where you choose one out of many levels present within a \"Level Set\"."
 
@@ -170,10 +170,20 @@ grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.364706)
 
+[node name="Label" type="Label" parent="." index="9"]
+layout_mode = 0
+offset_left = 720.0
+offset_top = -256.0
+offset_right = 1232.0
+offset_bottom = -192.0
+theme = ExtResource("3_4o7a4")
+text = "Press ESC to close (or open) the menu."
+horizontal_alignment = 1
+
 [connection signal="pressed" from="container_buttons/btn_Start New Game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Continue" to="." method="_on_btn_continue_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Resume game" to="." method="_on_btn_resume_game_pressed" binds= [2.0]]
-[connection signal="pressed" from="container_buttons/btn_Level Set screen" to="." method="_on_btn_level_set_screen_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_Level Set Screen" to="." method="_on_btn_level_set_screen_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Select Level Set" to="." method="_on_btn_select_level_set_pressed" binds= [2.0]]
 [connection signal="pressed" from="container_buttons/btn_Leaderboard" to="." method="_on_btn_leaderboard_pressed"]
 [connection signal="pressed" from="container_buttons/btn_Back to Overworld" to="." method="_on_btn_back_to_overworld_pressed" binds= [10.0]]
