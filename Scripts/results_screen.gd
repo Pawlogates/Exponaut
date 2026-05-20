@@ -72,21 +72,28 @@ func _ready():
 	label_score_previous_best.text = str(int(level_previous_best_score))
 	label_score_previous_best.update_text()
 	
-	label_time_previous_best.text = str(int(level_previous_best_time))
-	label_time_previous_best.update_text()
+	if level_previous_best_time != -1:
+		label_time_previous_best.text = str(int(level_previous_best_time / 1000)) + " s"
+		label_time_previous_best.update_text()
+	else:
+		label_time_previous_best.text = "Not Set"
+		label_time_previous_best.update_text()
 	
 	
 	label_score_total.text = str(int(total_score))
 	label_score_total.update_text()
 	
-	label_time.text = str(level_time / 1000)
+	label_time.text = str(int(level_time / 1000)) + " s"
 	label_time.update_text()
 
 
 var level_score_displayed = 0
 
 func _process(delta):
-	if Input.is_action_just_pressed("menu") : queue_free()
+	if Input.is_action_just_pressed("menu"):
+		if not Globals.node_exists("leaderboard"):
+			queue_free()
+	
 	handle_count_score()
 	
 	label_score.modulate.r = move_toward(label_score.modulate.r, 1, delta)
@@ -165,9 +172,9 @@ func on_score_displayed_set():
 	label_score.update_text()
 	
 	if level_time < level_previous_best_time:
-		label_time.text = str(int(level_time)) + "[font_size=32] (New best!)[/font_size]"
+		label_time.text = str(int(level_time / 1000)) + " s" + "[font_size=32] (New best!)[/font_size]"
 	else:
-		label_time.text = str(int(level_time))
+		label_time.text = str(int(level_time / 1000)) + " s"
 	label_time.update_text()
 	
 	container_rank.modulate.a = 1
@@ -179,7 +186,7 @@ func on_score_displayed_set():
 	label_score_total.update_text()
 	
 	total_time = SaveData.get_total_time(levelSet_id)
-	label_time_total.text = str(int(total_time))
+	label_time_total.text = str(int(total_time / 1000)) + " s"
 	label_time_total.update_text()
 	
 	await get_tree().create_timer(1.0, true).timeout

@@ -50,7 +50,7 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(2, true).timeout
 	
-	create_entries(level_id)
+	await create_entries(level_id)
 	
 	await get_tree().create_timer(1.0, false).timeout
 	Globals.update_recordings_best()
@@ -127,6 +127,8 @@ func create_entries(f_level_id : String = "all"):
 	else:
 		entry_create(["No recordings have been submitted.", -1, -1, -1, -1])
 	
+	sort_entries("score")
+	
 	if source == "online":
 		await get_tree().create_timer(5, true).timeout
 		
@@ -156,7 +158,7 @@ func refresh_entries(f_level_id : String = "all"):
 	update_level_name()
 	delete_entries()
 	await get_tree().create_timer(0.5, true).timeout
-	create_entries(f_level_id)
+	await create_entries(f_level_id)
 
 func update_level_name():
 	if level_id != "none":
@@ -172,3 +174,30 @@ func delete():
 func _on_btn_close_pressed() -> void:
 	queue_free()
 	Globals.handle_spawn_menu(true)
+
+
+func sort_entries(type : String = "score"):
+	var highest_entry_position : int = 1
+	var list_entry : Array = container_main.get_children() # List of entries with position currently not set.
+	
+	for entry_quantity in container_main.get_children(): # Run through the loop as many times as there are entries in total for the level.
+		var highest_level_score : int = 0
+		for entry in list_entry:
+			if entry.level_score >= highest_level_score:
+				highest_level_score = entry.level_score
+		
+		for entry in list_entry:
+			if entry.level_score >= highest_level_score:
+				entry.entry_position = highest_entry_position
+				container_main.move_child(entry, highest_entry_position)
+				entry.update_info()
+				list_entry.erase(entry)
+				
+				highest_entry_position += 1
+				continue
+	
+	for entry in container_main.get_children():
+		if entry.entry_position == 1 : entry.target_modulate = Color.GOLD
+		elif entry.entry_position == 2 : entry.target_modulate = Color.LIGHT_CYAN
+		elif entry.entry_position == 3 : entry.target_modulate = Color.SADDLE_BROWN
+		else : entry.target_modulate = Color(1, 1, 1, 1 / float(-1 + len(container_main.get_children())))

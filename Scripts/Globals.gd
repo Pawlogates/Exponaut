@@ -1547,19 +1547,19 @@ func reset_values_level():
 
 func get_recording_level_best_score(level_id : String, player_name : String = SaveData.player_name):
 	var recording_level_best_score_filepath : String = "none"
-	var level_best_score = SaveData.get("saved_" + level_id)[1]
+	var level_best_score : int = 0
 	
 	for entry_filename in Globals.get_files(Globals.d_recordings_local):
 		if not player_name + "_" + level_id in entry_filename : continue
 		
 		var entry_filepath : String = Globals.d_recordings_local + "/" + entry_filename
-		print("yes ", entry_filepath)
 		var entry_filedata = Globals.filepath_to_data(entry_filepath)
 		var entry_data : Array = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], randi_range(1, 999)]
 		
 		if entry_data[1] > level_best_score:
+			level_best_score = entry_data[1]
 			recording_level_best_score_filepath = entry_filepath
-	print(recording_level_best_score_filepath)
+	
 	return recording_level_best_score_filepath
 
 
@@ -1620,12 +1620,10 @@ func set_nodes(target_node : Node, node_type, state_active : bool):
 
 
 func update_recordings_best():
-	# Disabled clearing the best recordings folder until a proper way of keeping only the best one is implemented.
-	#for filename in get_files(d_recordings_local_best):
-		#delete_file(d_recordings_local_best + "/" + filename)
+	for filename in get_files(d_recordings_local_best):
+		delete_file(d_recordings_local_best + "/" + filename)
 	
 	for f_levelSet_id in l_levelSet_id:
-		print(f_levelSet_id)
 		for level_number in range(1, SaveData.get("info_" + f_levelSet_id)[1] + 1):
 			var f_level_id = f_levelSet_id + "_" + str(level_number)
 			

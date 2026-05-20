@@ -509,7 +509,7 @@ func _on_cooldown_debug_available_timeout() -> void:
 func sfx_random():
 	await get_tree().create_timer(randf_range(0.25, 1.0), true).timeout
 	
-	sfx_stabilize.volume_linear = randf_range(0.25, 2)
+	sfx_stabilize.volume_linear = randf_range(0.25, 1)
 	sfx_stabilize.pitch_scale = randf_range(0.75, 1.25)
 	sfx_stabilize.stream = load(Globals.l_sfx_menu_stabilize.pick_random())
 	sfx_stabilize.play()

@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=3 uid="uid://dijgiqym3g0vv"]
 
-[ext_resource type="Script" uid="uid://dhugjkxt3jd44" path="res://Scripts/level_finished.gd" id="1_w4h15"]
+[ext_resource type="Script" uid="uid://dhugjkxt3jd44" path="res://Scripts/results_screen.gd" id="1_w4h15"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_22p50"]
 [ext_resource type="PackedScene" uid="uid://k8j15yb8rjxw" path="res://Other/Scenes/User Interface/Text Manager/text_core.tscn" id="4_6ulxu"]
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="4_w4h15"]
@@ -57,7 +57,7 @@ custom_minimum_size = Vector2(0, 48)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 28
 text = "Previous Best Score"
-text_insert_start = "Previous best score: "
+text_insert_start = "Previous Best Score: "
 text_insert_end = ""
 
 [node name="label_score_total" parent="container_results" instance=ExtResource("4_6ulxu")]
@@ -69,6 +69,7 @@ text_insert_start = "Total Score: "
 text_insert_end = ""
 
 [node name="label_time" parent="container_results" instance=ExtResource("4_6ulxu")]
+modulate = Color(1, 1, 1, 0.156863)
 custom_minimum_size = Vector2(32, 64)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 24
@@ -78,17 +79,19 @@ text_insert_start = ""
 text_insert_end = ""
 
 [node name="label_time_previous_best" parent="container_results" instance=ExtResource("4_6ulxu")]
+modulate = Color(1, 1, 1, 0.156863)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 20
 text = "Previous Best Time"
-text_insert_start = ""
+text_insert_start = "Previous Best Time:  "
 text_insert_end = ""
 
 [node name="label_time_total" parent="container_results" instance=ExtResource("4_6ulxu")]
+modulate = Color(1, 1, 1, 0.156863)
 layout_mode = 2
 theme_override_font_sizes/normal_font_size = 16
 text = "Total Time"
-text_insert_start = ""
+text_insert_start = "Total Time:  "
 text_insert_end = ""
 
 [node name="container_majorCollectables" type="HBoxContainer" parent="."]

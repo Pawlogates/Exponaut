@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://c18ilvvgo4lyp" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_button_change_source.tscn" id="4_bu7xr"]
 [ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="5_1qj11"]
 
-[node name="menu_leaderboard_level" type="Control" groups=["leaderboard_level"]]
+[node name="menu_leaderboard_level" type="Control" groups=["leaderboard", "leaderboard_level"]]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -245,6 +245,7 @@ scale = Vector2(0.2, 0.2)
 
 [node name="ColorRect" type="ColorRect" parent="."]
 z_index = -30
+texture_filter = 2
 layout_mode = 0
 offset_left = -3409.0
 offset_top = -1720.0
@@ -256,15 +257,16 @@ color = Color(0, 0, 0, 0.443137)
 
 [node name="btn_close" type="Button" parent="."]
 z_index = -1
-custom_minimum_size = Vector2(64, 64)
+custom_minimum_size = Vector2(192, 96)
 layout_mode = 0
 offset_left = 12.0
 offset_top = 12.0
-offset_right = 76.0
-offset_bottom = 76.0
+offset_right = 204.0
+offset_bottom = 108.0
 scale = Vector2(0.5, 0.5)
 theme = ExtResource("3_yq05p")
-text = "X"
+theme_override_font_sizes/font_size = 48
+text = "close"
 
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_left" to="." method="_on_btn_change_level_left_pressed"]
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_right" to="." method="_on_btn_change_level_right_pressed"]

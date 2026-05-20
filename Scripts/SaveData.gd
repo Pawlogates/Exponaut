@@ -23,13 +23,6 @@ var saved_TUTORIAL = [-1, 0, 0] # [unlock state, score rank, time rank]
 var saved_TUTORIAL_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 var saved_TUTORIAL_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 var saved_TUTORIAL_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_8 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_9 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
@@ -39,14 +32,7 @@ var info_TUTORIAL = ["Tutorial Levels", 3, "Pawlogates", "none", "none", Globals
 # info_[levelSet_id]_[level_number] : [name, icon_number, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
 const info_TUTORIAL_1 = ["The Missing Piece", 0, -460, 40, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
 const info_TUTORIAL_2 = ["Order of Operations", 2, -360, 80, 75000, 60, "something", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "hello", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "will update later idk", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_5 = ["Chilling Exercise", 1, -120, -100, 4000, 60, "none", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_6 = ["Daring Dash", 1, 700, 80, 25000, 60, "none", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_7 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "intermediate", "regular"]
-const info_TUTORIAL_8 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "intermediate", "regular"]
-const info_TUTORIAL_9 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_10 = ["Puzzlin' Around", 1, 200, -40, 15000, 60, "none", "Pawlogates", "beginner", "regular"]
+const info_TUTORIAL_3 = ["The Chain of Command", 1, 280, 60, 250000, 60, "hello", "Pawlogates", "beginner", "regular"]
 
 # Level set unlock methods (static):
 # unlock_[levelSet_id] : [previous, portal_in_level_id, key_in_level_id, score_in_level_id, score_in_levelSet_id, score_in_overworld_levelSet_id, time_in_level_id, time_in_levelSet_id] Note: Set an unlock method to "false" or "none" if it should be ignored. If all are set to "false" or "none", the level set will be unlocked from the start.
@@ -57,13 +43,6 @@ const unlock_TUTORIAL = [true, "none", "none", "none", "none", "none", "none", "
 const unlock_TUTORIAL_1 = [true, "none", "none", "none", "none", "none", "none", "none"]
 const unlock_TUTORIAL_2 = [true, "none", "none", "none", "none", "none", "none", "none"]
 const unlock_TUTORIAL_3 = [true, "none", "none", "none", "none", "none", "none", "none"]
-const unlock_TUTORIAL_4 = [true, "none", "none", "none", "none", "none", "none", "none"]
-const unlock_TUTORIAL_5 = [true, "none", "none", "none", "none", "none", "none", "none"]
-const unlock_TUTORIAL_6 = [true, "none", "none", "none", "none", "none", "none", "none"]
-const unlock_TUTORIAL_7 = [true, "none", "none", "none", "none", "none", "none", "none"]
-const unlock_TUTORIAL_8 = [true, "none", "none", "none", "none", "none", "none", "none"]
-const unlock_TUTORIAL_9 = [true, "none", "none", "none", "none", "none", "none", "none"]
-const unlock_TUTORIAL_10 = [true, "none", "none", "none", "none", "none", "none", "none"]
 
 # Level major collectibles (static):
 # collectibles_[level_id] : [[slot 1 - major collectible exists in a level], [slot 2 - major collectible exists in a level], etc.]
@@ -71,13 +50,6 @@ const unlock_TUTORIAL_10 = [true, "none", "none", "none", "none", "none", "none"
 const collectibles_TUTORIAL_1 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 const collectibles_TUTORIAL_2 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 const collectibles_TUTORIAL_3 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-const collectibles_TUTORIAL_4 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-const collectibles_TUTORIAL_5 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-const collectibles_TUTORIAL_6 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-const collectibles_TUTORIAL_7 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-const collectibles_TUTORIAL_8 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-const collectibles_TUTORIAL_9 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-const collectibles_TUTORIAL_10 = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
 
 # ==========> Level set: "TUTORIAL" - END <==============
 
@@ -106,7 +78,7 @@ var info_MAIN = ["Main Levels", 10, "Pawlogates", "none", "none", Globals.d_back
 
 # Level information (static):
 # info_[levelSet_id]_[level_number] : [name, icon_number, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
-const info_MAIN_1 = ["Training Tunnel", 0, -320, -256, 180000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
+const info_MAIN_1 = ["Training Tunnel", 0, -320, -256, 40000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
 const info_MAIN_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "Don't look down, just go there.", "Pawlogates", "beginner", "regular"]
 const info_MAIN_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "It's a black and white situation. Just watch you still complicate it...", "Pawlogates", "beginner", "regular"]
 const info_MAIN_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "You won't stay a rabbit person after this.", "Pawlogates", "beginner", "regular"]
