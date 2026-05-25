@@ -4,7 +4,6 @@
 
 [node name="tileset_objects_precise" type="TileMap"]
 visibility_layer = 2
-z_index = -1
 texture_filter = 1
 position = Vector2(8, 8)
 tile_set = ExtResource("2_hpybe")

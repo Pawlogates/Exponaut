@@ -21,7 +21,7 @@ func handle_camera(delta):
 	if speed_multiplier > 1.0 : speed_multiplier = 1.0
 
 
-func effect(camera_target_offset : Vector2 = Vector2(-1, -1), camera_target_zoom : Vector2 = Vector2(-1, -1), camera_target_rotation : float = -1, start_speed_multiplier : float = 0.01):
+func effect(camera_target_offset : Vector2 = Vector2(-1, -1), camera_target_zoom : Vector2 = Vector2(-1, -1), camera_target_rotation : float = -1, start_speed_multiplier : float = -1):
 	if start_speed_multiplier != -1 : speed_multiplier = start_speed_multiplier
 	
 	if camera_target_offset != Vector2(-1, -1) : target_offset = camera_target_offset

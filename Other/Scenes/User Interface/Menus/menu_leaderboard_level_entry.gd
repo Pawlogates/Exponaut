@@ -29,6 +29,8 @@ func _ready() -> void:
 	recorder_level = get_tree().get_first_node_in_group("recorder_level")
 	
 	update_info()
+	
+	if player_name == SaveData.player_name : label_player_name.modulate = Color.GREEN
 
 func _physics_process(delta: float) -> void:
 	menu_bg.modulate.a = move_toward(menu_bg.modulate.a, target_modulate.a, delta)
@@ -37,9 +39,10 @@ func _physics_process(delta: float) -> void:
 	menu_bg.modulate.b = move_toward(menu_bg.modulate.b, target_modulate.b, delta)
 
 
-func _on_button_pressed() -> void:
-	recorder_level.start_playback(entry_filepath)
+func _on_btn_watch_replay_pressed() -> void:
 	get_tree().get_first_node_in_group("leaderboard_level").delete()
+	await get_tree().create_timer(1.0, true).timeout
+	recorder_level.start_playback(entry_filepath)
 
 
 func update_info():

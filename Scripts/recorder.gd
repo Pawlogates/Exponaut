@@ -23,9 +23,14 @@ var playback_filepath = Globals.d_recordings_local + "/" + playback_filename
 var recording_active = false
 var playback_active = false
 
-var recording_timer = 0.0
-var playback_timer = 0.0
-var playback_index = 0 # The position of the entry [Dictionary] within the playback file [Array].
+var recording_timer : float = 0.0
+
+var playback_timer : float = 0.0
+var playback_index : int = 0 # The position of the entry [Dictionary] within the playback file [Array].
+var playback_index_last : int = -1 # Position of the last APPLIED entry. Used to prevent applying the same entry more than once.
+var playback_speed_multiplier : int = 1
+
+var block_playback_advance : int = 0 # The amount of iterations that will be skipped per frame. Used for controlling playback speed.
 
 var selected_playback_id = 0
 
@@ -68,81 +73,25 @@ func _ready() -> void:
 		removable = true
 
 func _process(delta):
+	handle_playback(delta, playback_speed_multiplier)
+	
+	handle_recording(delta)
+	
+	if playback_active:
+		if Input.is_action_just_pressed("increase") : playback_speed_multiplier += 1 ; Globals.message(str(playback_speed_multiplier), 0, Vector2(0, 0), 4, 16)
+		elif Input.is_action_just_pressed("decrease") : playback_speed_multiplier -= 1 ; Globals.message(str(playback_speed_multiplier), 0, Vector2(0, 0), 4, 16)
+		
+		elif Input.is_action_just_pressed("0") : playback_speed_multiplier = 0
+		elif Input.is_action_just_pressed("1") : playback_speed_multiplier = 1
+		elif Input.is_action_just_pressed("2") : playback_speed_multiplier = 2
+		elif Input.is_action_just_pressed("3") : playback_speed_multiplier = 3
+		elif Input.is_action_just_pressed("4") : playback_speed_multiplier = 3
+	
+	
 	if removable:
 		if Input.is_action_just_pressed("recorder"):
 			await get_tree().create_timer(0.25, true).timeout
 			queue_free()
-	
-	if not input_log : return
-	
-	if not playback_active and not recording_active : return
-	#print("playback", playback_index, input_log.size(), input_log[playback_index])
-	
-	if playback_active:
-		if playback_index >= input_log.size():
-			playback_active = false
-			return
-		
-		
-		var current_entry = input_log[playback_index]
-		
-		var event : String = "none"
-		
-		if current_entry["type"] == "input_key":
-			event = current_entry["input"]
-		
-		playback_timer += delta
-		#var entry_time = current_entry["entry_time"]
-		
-		#print(playback_timer, " vs ", entry_time)
-		#print(current_entry["type"])
-		
-		#if playback_timer >= entry_time:
-		if true:
-			
-			if current_entry["type"] == "basic":
-				apply_basic(current_entry)
-				
-			
-			elif current_entry["type"] == "input_key":
-				apply_input_key(current_entry, event)
-			
-			elif current_entry["type"] == "input_mouse_button":
-				apply_input_mouse_button(current_entry, event)
-			
-			elif current_entry["type"] == "input_mouse_motion":
-				apply_input_mouse_motion(current_entry)
-			
-			elif current_entry["type"] == "end_info":
-				#print(current_entry["next_playback_filepath"])
-				if current_entry["next_playback_filepath"] == "none":
-					stop_playback()
-					return
-				
-				else:
-					for x in 100:
-						if playback_name.ends_with(str(x)):
-							_on_stop_playback_pressed()
-							Globals.message("New playback segment is starting...")
-							await get_tree().create_timer(2.0, true).timeout
-							start_playback(Globals.d_recordings_local + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
-							#print(Globals.d_recordings_local + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
-							break
-					
-					return
-			
-			elif current_entry["type"] == "start_info":
-				set_process(false)
-				Globals.change_main_scene(current_entry["scene_filepath"])
-				await get_tree().create_timer(2.0, true).timeout
-				set_process(true)
-	
-	if recording_active:
-		if input_log[len(input_log)-1]["entry_time"] != playback_timer:
-			insert_basic()
-	
-	recording_timer += delta
-	playback_index += 1
 
 func _input(event):
 	set_process(true)
@@ -299,10 +248,10 @@ func assign_event_name(event):
 		return_name_menu = "ui_accept"
 	elif "(C)" in event or "(Shift)" in event:
 		return_name = "dash"
-	#elif "(X)" in event or "index=0" in event:
-		#return_name = "attack_main"
-	#elif "(V)" in event or "index=1" in event:
-		#return_name = "attack_secondary"
+	elif "(X)" in event or "index=0" in event:
+		return_name = "attack_main"
+	elif "(V)" in event or "index=1" in event:
+		return_name = "attack_secondary"
 	elif "(Escape)" in event:
 		return_name = "menu"
 		return_name_menu = "ui_cancel"
@@ -439,8 +388,6 @@ func insert_basic():
 		"player_pos_x": Globals.player_position.x,
 		"player_pos_y": Globals.player_position.y,
 		})
-	
-	playback_index += 1
 
 func insert_start_info():
 	input_log.append({
@@ -469,8 +416,6 @@ func insert_end_info(final : bool = true):
 		"level_time": Globals.level_time,
 		"level_damage_taken": Globals.level_damage_taken,
 		})
-	
-	playback_index += 1
 
 func insert_input_mouse_motion():
 	pass
@@ -621,7 +566,7 @@ func start_recording():
 	
 	if is_instance_valid(label_info) : label_info.visible = false
 
-func stop_recording():
+func stop_recording(save_to_file : bool = true):
 	if Globals.block_recording : return
 	
 	if not recording_active : return
@@ -642,7 +587,8 @@ func stop_recording():
 	playback_active = false
 	recording_timer = 0.0
 	playback_index = 0
-	input_log_save()
+	
+	if save_to_file : input_log_save()
 	
 	if is_instance_valid(label_info) : label_info.visible = false
 	
@@ -656,15 +602,9 @@ func start_playback(filepath : String = "none"):
 	update_playback(filepath)
 	
 	if recording_active:
-		stop_recording()
+		stop_recording(false)
 	
-	if is_instance_valid(label_info):
-		label_info.visible = true
-		
-		if recorder_type == "session":
-			label_info.text = str("Current playback filepath: " + playback_filepath)
-		elif recorder_type == "level":
-			label_info.text = str(input_log[0]["player_name"])
+	playback_speed_multiplier = 1
 	
 	if not FileAccess.file_exists(playback_filepath):
 		if is_instance_valid(label_info) : label_info.text = str("Recording file doesn't exist: " + playback_filepath)
@@ -680,7 +620,16 @@ func start_playback(filepath : String = "none"):
 	
 	input_log = JSON.parse_string(FileAccess.get_file_as_string(playback_filepath))
 	
+	if is_instance_valid(label_info):
+		label_info.visible = true
+		
+		if recorder_type == "session":
+			label_info.text = str("Current playback filepath: " + playback_filepath)
+		elif recorder_type == "level":
+			label_info.text = str(input_log[0]["player_name"])
+	
 	if recorder_type == "session" : Globals.message("Playback has started - %s." % playback_filename)
+	
 	await get_tree().create_timer(2.0, true).timeout
 	
 	recording_active = false
@@ -703,6 +652,7 @@ func stop_playback():
 	set_process(false)
 	playback_active = false
 	playback_index = 0
+	playback_index_last = -1
 	playback_timer = 0.0
 	if is_instance_valid(label_info) : label_info.visible = false
 	
@@ -711,13 +661,106 @@ func stop_playback():
 
 func update_playback_filepath(type : String = "level"):
 	if type == "level":
-		if SaveData.player_name != "none":
-			playback_filename = "playback_" + SaveData.player_name + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
+		if SaveData.player_name == "none":
+			playback_filename = "playback_" + "first_" + str(randi_range(0, 9999)) + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
 			playback_filepath = Globals.d_recordings_local + "/" + playback_filename
 		else:
-			playback_filename = "playback_" + "first_" + str(randi_range(0, 9999)) + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
+			playback_filename = "playback_" + SaveData.player_name + "_" + Globals.level_id + "_" + str(Globals.get_number_of_similar("playback_" + SaveData.player_name + "_" + Globals.level_id) + 1) + ".json"
 			playback_filepath = Globals.d_recordings_local + "/" + playback_filename
 	
 	elif type == "session":
 		playback_filename = "playback_" + SaveData.player_name + "_" + str(selected_playback_id) + "_" + str(playback_number) + ".json"
 		playback_filepath = Globals.d_recordings_local + "/" + playback_filename
+
+
+func handle_playback(delta : float, f_playback_speed_multiplier : int = 1):
+	if block_playback_advance > 0:
+		block_playback_advance -= 1
+		return
+	
+	if f_playback_speed_multiplier == 1 : playback_advance(delta)
+	
+	elif f_playback_speed_multiplier > 1:
+		Engine.time_scale = f_playback_speed_multiplier
+		for iteration in f_playback_speed_multiplier:
+			playback_advance(delta)
+	else:
+		playback_advance(delta)
+		
+		if f_playback_speed_multiplier == 0 : Engine.time_scale = 0.5
+		elif f_playback_speed_multiplier == -1 : Engine.time_scale = 0.25
+		elif f_playback_speed_multiplier == -2 : Engine.time_scale = 0.1125
+		block_playback_advance = abs(f_playback_speed_multiplier) + 1
+	
+	Globals.set_pause(false)
+
+func playback_advance(delta : float):
+	if not input_log : return
+	if not playback_active : return
+	
+	if playback_index == playback_index_last : return
+	else : playback_index_last = playback_index
+	
+	if playback_index >= input_log.size():
+		playback_active = false
+		return
+	
+	
+	var current_entry = input_log[playback_index]
+	
+	var event : String = "none"
+	
+	if current_entry["type"] == "input_key":
+		event = current_entry["input"]
+	
+	playback_timer += delta
+	#var entry_time = current_entry["entry_time"]
+	
+	#print(playback_timer, " vs ", entry_time)
+	#print(current_entry["type"])
+	
+	#if playback_timer >= entry_time:
+	if current_entry["type"] == "basic":
+		apply_basic(current_entry)
+	
+	elif current_entry["type"] == "input_key":
+		apply_input_key(current_entry, event)
+	
+	elif current_entry["type"] == "input_mouse_button":
+		apply_input_mouse_button(current_entry, event)
+	
+	elif current_entry["type"] == "input_mouse_motion":
+		apply_input_mouse_motion(current_entry)
+	
+	elif current_entry["type"] == "end_info":
+		#print(current_entry["next_playback_filepath"])
+		if current_entry["next_playback_filepath"] == "none":
+			stop_playback()
+			return
+		
+		else:
+			for x in 100:
+				if playback_name.ends_with(str(x)):
+					_on_stop_playback_pressed()
+					Globals.message("New playback segment is starting...")
+					await get_tree().create_timer(2.0, true).timeout
+					start_playback(Globals.d_recordings_local + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
+					#print(Globals.d_recordings_local + "/" + playback_name.trim_suffix(str(x)) + str(x + 1) + ".json")
+					break
+			
+			return
+	
+	elif current_entry["type"] == "start_info":
+		Globals.change_main_scene(current_entry["scene_filepath"])
+		await get_tree().create_timer(5.0, true).timeout
+	
+	
+	playback_index += 1
+
+
+func handle_recording(delta : float):
+	if not recording_active : return
+	if input_log[len(input_log)-1]["entry_time"] != playback_timer:
+		insert_basic()
+	
+	recording_timer += delta

@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var sfx: AudioStreamPlayer2D = $sfx
-@onready var sfx1: AudioStreamPlayer2D = $sfx1
-@onready var sfx2: AudioStreamPlayer2D = $sfx2
-@onready var sfx3: AudioStreamPlayer2D = $sfx3
-@onready var sfx4: AudioStreamPlayer2D = $sfx4
+@onready var sfx: AudioStreamPlayer = $sfx
+@onready var sfx1: AudioStreamPlayer = $sfx1
+@onready var sfx2: AudioStreamPlayer = $sfx2
+@onready var sfx3: AudioStreamPlayer = $sfx3
+@onready var sfx4: AudioStreamPlayer = $sfx4
 
 # As soon as any of these variables are assigned an audio file, the sfx manager will try to use them and clear the variable.
 var q_sfx_file : AudioStreamMP3 # Usually only the "sfx" variable is used. Other ones are used if more than one instance of the same file is assigned to the main sfx player, but they can also be assigned audio files directly to create combined sound effects made from fading in and out of sfx1, 2, 3 and 4.

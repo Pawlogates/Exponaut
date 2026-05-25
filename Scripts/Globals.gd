@@ -442,6 +442,8 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	get_tree().change_scene_to_packed(load(scene_filepath))
 	
 	main_scene_changed.emit()
+	
+	print("CHANGING")
 
 
 var block_online : bool = false
@@ -1150,12 +1152,11 @@ func handle_debug_actions():
 func handle_pause():
 	if gameState_typing : return
 	
-	if get_tree().paused == false:
-		get_tree().paused = true
-		Globals.message_debug("Game paused.")
-	elif get_tree().paused == true:
-		get_tree().paused = false
-		Globals.message_debug("Game resumed.")
+	get_tree().paused = true
+	Globals.message("Game paused.")
+
+func set_pause(state : bool = true):
+	get_tree().paused = state
 
 
 @onready var window_size : Vector2 = Vector2(-1, -1)
@@ -1513,7 +1514,7 @@ func save_file(filepath : String, data, make_readable : bool = false):
 func get_number_of_similar(filename_part : String):
 	var number_similar : int = 0
 	
-	for filename in get_files(dirpath_recordings):
+	for filename in get_files(d_recordings_local):
 		if filename_part in filename:
 			number_similar += 1
 	

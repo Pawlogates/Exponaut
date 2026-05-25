@@ -60,7 +60,7 @@ theme_override_font_sizes/font_size = 16
 text = "time"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="container_entry_data/container_secondary"]
+[node name="btn_watch_replay" type="Button" parent="container_entry_data/container_secondary"]
 z_index = 1
 custom_minimum_size = Vector2(160, 0)
 layout_mode = 2
@@ -97,4 +97,4 @@ text = "-1"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="container_entry_data/container_secondary/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="container_entry_data/container_secondary/btn_watch_replay" to="." method="_on_btn_watch_replay_pressed"]

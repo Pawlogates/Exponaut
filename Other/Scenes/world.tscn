@@ -61,6 +61,7 @@ _data = {
 }
 
 [node name="World" type="Node2D" groups=["World"]]
+process_mode = 1
 texture_filter = 1
 script = ExtResource("1_25muh")
 

@@ -82,8 +82,7 @@ theme_override_constants/shadow_offset_y = 0
 theme_override_constants/outline_size = 7
 theme_override_constants/shadow_outline_size = 0
 theme_override_font_sizes/font_size = 24
-text = "Thank You so much for
-playing Exponaut <3"
+text = "Thanks for playing!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -292,9 +291,9 @@ texture = ExtResource("5_yy13d")
 
 [node name="Label" type="Label" parent="."]
 layout_mode = 0
-offset_left = 448.0
+offset_left = 544.0
 offset_top = 64.0
-offset_right = 832.0
+offset_right = 928.0
 offset_bottom = 512.0
 theme = ExtResource("1_ky7ft")
 theme_override_font_sizes/font_size = 12

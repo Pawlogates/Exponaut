@@ -60,7 +60,7 @@ _data = {
 size = Vector2(64, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iushe"]
-size = Vector2(60, 20)
+size = Vector2(32, 64)
 
 [node name="button_blue_root" type="Node2D" groups=["Persist", "button", "button_blue"]]
 z_index = -1
@@ -96,7 +96,7 @@ shape = SubResource("RectangleShape2D_iushe")
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true
-wait_time = 30.0
+wait_time = 60.0
 one_shot = true
 
 [node name="sound_buttonPressed" type="AudioStreamPlayer2D" parent="."]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://dt3ci4mxq4i4b"]
+[gd_scene load_steps=10 format=3 uid="uid://dt3ci4mxq4i4b"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_bhwt4"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_bi8gy"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="6_rswy0"]
 [ext_resource type="PackedScene" uid="uid://bqld15rk5235o" path="res://Objects/Decorations/decoration_gear2.tscn" id="7_1yodr"]
 [ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="8_w87b7"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="9_rswy0"]
 
 [node name="World" instance=ExtResource("1_bhwt4")]
 camera_boundary_left = -480.0
@@ -37,6 +38,7 @@ light_mask = 512
 scale = Vector2(0.25, 0.25)
 
 [node name="tileset_objects" parent="." index="3" instance=ExtResource("3_nhab8")]
+layer_0/tile_data = PackedInt32Array(-720870, 3, 131072)
 
 [node name="tileset_objects_precise" parent="." index="4" instance=ExtResource("4_nhab8")]
 
@@ -103,3 +105,7 @@ blend_mode = 1
 range_item_cull_mask = 512
 texture = ExtResource("8_w87b7")
 texture_scale = 2.0
+
+[node name="info_sign" parent="." index="24" instance=ExtResource("9_rswy0")]
+position = Vector2(432, -352)
+message_text = "please man i mean it!! im starved for external validation please join th-"

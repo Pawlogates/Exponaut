@@ -155,7 +155,7 @@ func _process(delta):
 		glow_shadow.visible = on_floor # If the entity is on floor, the shadow will be set to visible, otherwise to not visible (because both "on_floor" and "visible" are a boolean).
 	
 	if sprite_rainbow_hue_shift:
-		if not collected : sprite.material.set_shader_parameter("hue_value", sprite.material.get_shader_parameter("hue_value") + randf_range(0.001, 0.01))
+		if not collected : sprite.material.set_shader_parameter("hue_value", sprite.material.get_shader_parameter("hue_value") + randf_range(-0.001, 0.0015))
 	
 	if is_instance_valid(scan_ledge):
 		if direction_active_x > 0 : scan_ledge.position.x = -32

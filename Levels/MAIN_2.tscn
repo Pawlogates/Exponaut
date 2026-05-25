@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://ccewusfsxtyot"]
+[gd_scene load_steps=10 format=3 uid="uid://ccewusfsxtyot"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_40cuw"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_csoaf"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="7_cix7c"]
 [ext_resource type="PackedScene" uid="uid://bqld15rk5235o" path="res://Objects/Decorations/decoration_gear2.tscn" id="7_nu8fy"]
 [ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="8_hsjrd"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="9_hsjrd"]
 
 [node name="World" instance=ExtResource("1_40cuw")]
 camera_boundary_left = -480.0
@@ -37,6 +38,7 @@ light_mask = 512
 scale = Vector2(0.25, 0.25)
 
 [node name="tileset_objects" parent="." index="3" instance=ExtResource("3_1064q")]
+layer_0/tile_data = PackedInt32Array(-983016, 3, 131072)
 
 [node name="tileset_objects_precise" parent="." index="4" instance=ExtResource("5_ujerq")]
 
@@ -103,3 +105,8 @@ blend_mode = 1
 range_item_cull_mask = 512
 texture = ExtResource("8_hsjrd")
 texture_scale = 2.0
+
+[node name="info_sign" parent="." index="24" instance=ExtResource("9_hsjrd")]
+position = Vector2(1664, -160)
+message_text = "This looks familiar... Anyway, press SHIFT + tilde (`) to toggle DEBUG MODE. You can also toggle the DEBUG GAME STATE by pressing ALT + tilde (`). Simply pressing tilde (`) will spawn DEBUG TOOLS for you to not use because that'd be cheating."
+anim_hide_cooldown = 24.0

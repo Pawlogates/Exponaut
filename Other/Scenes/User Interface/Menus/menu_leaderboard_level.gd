@@ -28,9 +28,14 @@ var source : String = "online" # "local, local_best, online
 
 
 func _ready() -> void:
-	Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
+	if SaveData.player_name == "none": # If the player name has not been set, all local recordings (it should be a single recording) will be sent to the leaderboard.
+		Globals.dirpath_to_server(Globals.d_recordings_local, "leaderboard/upload")
+		Globals.message("You have not yet set a player name. After closing the leaderboard, you will be asked for a name, which will then appear next to your level score on the leaderboard.", 0, Vector2(0, -256), 8, 2)
+	else:
+		Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
+		Globals.message("If your recording is missing, or none are present, please wait a moment and then refresh the leaderboard by pressing the 'online' button.", 0, Vector2(0, 120), 6)
+	
 	Globals.server_to_dirpath(Globals.d_recordings_online)
-	Globals.message("If your recording is missing, or none are present, please refresh the leaderboard or wait a bit and do.")
 	
 	Globals.update_main_scene()
 	

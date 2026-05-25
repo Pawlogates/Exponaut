@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var collision_main: CollisionShape2D = %collision_main
+@onready var collision_main: CollisionShape2D = $collision_main
 @onready var timer_inactive: Timer = $timer_inactive
 @onready var label_value: Label = $label_value
 
@@ -74,14 +74,27 @@ func _process(delta: float) -> void:
 					height = collision_main.shape.size.y
 					distance_y = area.get_parent().position.y - (position.y - (height / 2 * scale.y))
 					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
+					trigger_value = 1 - clamp(distance_y / (height * scale.y), 0, 1)
+				
+				else:
+					height = collision_main.shape.size.y
+					distance_y = area.get_parent().position.y - (position.y - (height / 2 * scale.y))
+					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
 					trigger_value = clamp(distance_y / (height * scale.y), 0, 1)
 			
+			if trigger_value < min_value : trigger_value = min_value
+			elif trigger_value > max_value : trigger_value = max_value
+			
 			if reset_camera_offset:
-				Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1))
+				Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1), -1, 1)
+				
+				if reset_camera_zoom : Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1), -1, 1)
 				return
 				
 			if reset_camera_zoom:
-				Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1))
+				Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1), -1, 1)
+				
+				if reset_camera_offset : Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1), -1, 1)
 				return
 			
 			if camera_offset:
@@ -89,9 +102,6 @@ func _process(delta: float) -> void:
 			
 			if camera_zoom:
 				Globals.Player.camera.effect(Vector2(-1, -1), camera_add_zoom * trigger_value + Vector2(1, 1), -1, 1)
-	
-	if trigger_value < min_value : trigger_value = min_value
-	elif trigger_value > max_value : trigger_value = max_value
 
 func _on_timer_timeout():
 	active = false

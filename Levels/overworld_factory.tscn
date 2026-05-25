@@ -70,21 +70,13 @@ scale = Vector2(320, 1)
 [node name="trigger_bg_change" parent="." index="10" instance=ExtResource("7_nen1n")]
 position = Vector2(-288, 64)
 scale = Vector2(8, 8)
-bg_main_filepath = "uid://o4c45t62y00t"
-bg_front_filepath = "uid://bpevvq03p3otx"
-bg_front2_filepath = "uid://bpevvq03p3otx"
-bg_back_filepath = "uid://bpevvq03p3otx"
-bg_back2_filepath = "uid://bpevvq03p3otx"
+bg_main_filepath = "uid://cwpvkuk83y8t4"
 bg_main_repeat_y = true
 
 [node name="trigger_bg_change2" parent="." index="11" instance=ExtResource("7_nen1n")]
 position = Vector2(10304, -3712)
 scale = Vector2(7, 7)
-bg_main_filepath = "uid://o4c45t62y00t"
-bg_front_filepath = "uid://bpevvq03p3otx"
-bg_front2_filepath = "uid://bpevvq03p3otx"
-bg_back_filepath = "uid://bpevvq03p3otx"
-bg_back2_filepath = "uid://bpevvq03p3otx"
+bg_main_filepath = "uid://cwpvkuk83y8t4"
 bg_main_repeat_y = true
 bg_main_edge_top_filepath = "uid://bpevvq03p3otx"
 

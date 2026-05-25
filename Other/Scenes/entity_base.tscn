@@ -26,10 +26,10 @@ size = Vector2(2048, 2048)
 size = Vector2(64, 64)
 
 [node name="base" type="CharacterBody2D" groups=["entity", "persistent"]]
-z_index = 1
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
+start_animation = "general/loop_up_down_slight"
 
 [node name="timeout_basic" type="Node2D" parent="."]
 
@@ -146,6 +146,7 @@ wait_time = 2.0
 [node name="scan_patrolling_vision" parent="." instance=ExtResource("7_spxko")]
 
 [node name="collision_patrolling" type="CollisionShape2D" parent="scan_patrolling_vision"]
+visible = false
 position = Vector2(512, 0)
 shape = SubResource("RectangleShape2D_84r7y")
 debug_color = Color(0, 0.595, 0.7, 0)
@@ -169,8 +170,9 @@ monitoring = false
 monitorable = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="scan_reset_puzzle_coverage"]
+visible = false
 shape = SubResource("RectangleShape2D_fjle6")
-debug_color = Color(0, 0.644, 0.294, 0.01)
+debug_color = Color(0, 0.643137, 0.294118, 0.0588235)
 
 [node name="scan_always_active" type="Area2D" parent="." groups=["scan_always_active"]]
 collision_layer = 8

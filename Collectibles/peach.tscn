@@ -9,7 +9,7 @@ on_collected_spawn_entity = true
 on_collected_spawn_entity_scene_filepath = "uid://b7dob0bqm4vw5"
 on_collected_spawn_entity_quantity = 4
 on_collected_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
-on_collected_spawn_entity_add_velocity_range = [Vector2(-300, 200), Vector2(300, -600)]
+on_collected_spawn_entity_add_velocity_range = [Vector2(-300, 200), Vector2(300, -800)]
 on_collected_anim_name = "general/rotate_around_y_fade_out"
 on_collected_anim_speed = 2.0
 sfx_self_collected_filepath = "uid://cvl56la70f8k3"
@@ -20,6 +20,3 @@ sprite_frames = ExtResource("2_hd2lm")
 
 [node name="scan_visible" parent="." index="11"]
 modulate = Color(1, 1, 1, 0.01)
-
-[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
-debug_color = Color(0, 0.6, 0.7, 0.01)

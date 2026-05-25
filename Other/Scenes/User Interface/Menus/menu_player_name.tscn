@@ -127,5 +127,18 @@ theme_override_font_sizes/font_size = 20
 text = "This window appears instead of a menu if your username is not set."
 horizontal_alignment = 1
 
+[node name="Label4" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.603922)
+layout_mode = 0
+offset_left = 32.0
+offset_top = 192.0
+offset_right = 768.0
+offset_bottom = 256.0
+theme = ExtResource("2_ygdap")
+theme_override_font_sizes/font_size = 20
+text = "Do NOT press the ENTER key! It will cause the name to break
+the leaderboard behavior... It will be fixed soon!"
+horizontal_alignment = 1
+
 [connection signal="text_changed" from="insert_player_name" to="." method="_on_insert_player_name_text_changed"]
 [connection signal="pressed" from="btn_confirm" to="." method="_on_btn_confirm_pressed"]

@@ -16,8 +16,8 @@ extends CharacterBody2D
 @export var collision_size : Vector2 = Vector2(20, 56)
 @export var collision_pos_offset : Vector2 = Vector2(0, 0)
 
-@export var hitbox_size : Vector2 = Vector2(20, 72)
-@export var hitbox_pos_offset : Vector2 = Vector2(0, -8)
+@export var hitbox_size : Vector2 = Vector2(16, 54)
+@export var hitbox_pos_offset : Vector2 = Vector2(0, 0)
 
 @export var dash_hitbox_size : Vector2 = Vector2(20, 28)
 @export var dash_hitbox_pos_offset : Vector2 = Vector2(0, 28)

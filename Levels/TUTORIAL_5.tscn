@@ -19,7 +19,7 @@ camera_boundary_right = 1728.0
 camera_boundary_bottom = 240.0
 camera_boundary_top = -960.0
 levelSet_id = "TUTORIAL"
-level_number = 8
+level_number = 5
 delete_background_layers = true
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_4dye8")]

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c4tdkmy4yi1u0"]
+[gd_scene load_steps=10 format=3 uid="uid://c4tdkmy4yi1u0"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_x68in"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_o04mt"]
@@ -8,6 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="6_yyml5"]
 [ext_resource type="PackedScene" uid="uid://bqld15rk5235o" path="res://Objects/Decorations/decoration_gear2.tscn" id="7_bl4nn"]
 [ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="8_uqsd4"]
+[ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="9_gtqdw"]
 
 [node name="World" instance=ExtResource("1_x68in")]
 camera_boundary_left = -480.0
@@ -37,6 +38,7 @@ light_mask = 512
 scale = Vector2(0.25, 0.25)
 
 [node name="tileset_objects" parent="." index="3" instance=ExtResource("3_615vc")]
+layer_0/tile_data = PackedInt32Array(131078, 3, 131072)
 
 [node name="tileset_objects_precise" parent="." index="4" instance=ExtResource("4_u4k75")]
 
@@ -103,3 +105,8 @@ blend_mode = 1
 range_item_cull_mask = 512
 texture = ExtResource("8_uqsd4")
 texture_scale = 2.0
+
+[node name="info_sign" parent="." index="24" instance=ExtResource("9_gtqdw")]
+position = Vector2(624, 32)
+message_text = "oh hi! wanna hear a fun fact? the creator of this game has an unhealthy connection with it, to the point of their identity being tied to it's success to a worrying degree! (have you joined the discord server ye-"
+anim_hide_cooldown = 16.0
