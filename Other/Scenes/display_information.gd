@@ -1,6 +1,9 @@
 extends Control
 
 func _ready() -> void:
+	if not Globals.gameState_levelSet_screen:
+		if Globals.random_bool(1, 3) : queue_free()
+	
 	if Globals.gameState_level or Globals.gameState_levelSet_screen:
 		if Globals.gameState_scoring_focus:
 			if Globals.gameState_level and not Globals.World.level_finished_active:
@@ -8,8 +11,8 @@ func _ready() -> void:
 				position.y -= 350
 				scale *= 1.2
 			else:
-				position.x += 1275
-				position.y += -50
+				position.x += 1240
+				position.y += -75
 				scale *= 1.2
 		else:
 			queue_free()

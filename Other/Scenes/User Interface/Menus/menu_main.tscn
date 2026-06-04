@@ -54,14 +54,14 @@ on_hover_message_text = "Level Set screen is where you choose one out of many le
 layout_mode = 2
 text_manager_message = "[/]Select Level Set"
 decoration_base_size_multiplier = Vector2(0.6, 1)
-on_hover_message_text = "Choose one out of the currently hardcoded level sets. I mean it IS well prepared for not being hardcoded into the game itself but I won't take the final step for quite some time because like I've got enough stuff that needs doing already without it lil g"
+on_hover_message_text = "Choose between multiple sets of levels."
 
 [node name="btn_Leaderboard" parent="container_buttons" index="5" instance=ExtResource("2_0mlty")]
 modulate = Color(1, 1, 0.203922, 1)
 layout_mode = 2
 text_manager_message = "[/]Leaderboard"
 decoration_base_size_multiplier = Vector2(0.6, 1)
-on_hover_message_text = "Can you reach the top? No! But trying your best at it, being fun, is one of the core ideas behind this game!"
+on_hover_message_text = "Can you reach the top? Probably not! But trying your best at it being fun, is one of the core ideas behind this game!"
 
 [node name="btn_Back to Overworld" parent="container_buttons" index="6" instance=ExtResource("2_0mlty")]
 z_index = 5
@@ -122,7 +122,7 @@ text_manager_message = "Retry"
 text_manager_letter_animation_sync = false
 text_manager_character_anim_backwards = true
 decoration_base_size_multiplier = Vector2(0.4, 1)
-on_hover_message_text = "Go improve that score! GO GO GO!"
+on_hover_message_text = "Improve that score!"
 
 [node name="btn_Touch Controls" parent="container_buttons" index="14" instance=ExtResource("2_0mlty")]
 modulate = Color(0.87798, 0.696571, 0, 1)
@@ -177,8 +177,22 @@ offset_top = -256.0
 offset_right = 1232.0
 offset_bottom = -192.0
 theme = ExtResource("3_4o7a4")
-text = "Press ESC to close (or open) the menu."
+text = "Press ESC to close the menu."
 horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="." index="10"]
+modulate = Color(1, 1, 1, 0.47451)
+layout_mode = 0
+offset_left = 720.0
+offset_top = -224.0
+offset_right = 1232.0
+offset_bottom = -96.0
+theme_override_constants/line_spacing = 8
+text = "Exponaut v0.9.6 (post refactor)
+Created by: Pawlogates
+Thanks for playing!"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="pressed" from="container_buttons/btn_Start New Game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Continue" to="." method="_on_btn_continue_pressed" binds= [10.0]]

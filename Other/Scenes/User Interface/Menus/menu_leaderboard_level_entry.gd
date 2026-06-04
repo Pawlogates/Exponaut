@@ -40,13 +40,21 @@ func _physics_process(delta: float) -> void:
 
 
 func _on_btn_watch_replay_pressed() -> void:
+	if not FileAccess.file_exists(entry_filepath):
+		Globals.message("The recording has been deleted (happens during leaderboard refresh...), please refresh the leaderboard and try again.")
+		return
+	
 	get_tree().get_first_node_in_group("leaderboard_level").delete()
 	await get_tree().create_timer(1.0, true).timeout
 	recorder_level.start_playback(entry_filepath)
 
 
 func update_info():
-	label_player_name.text = str(player_name)
+	if player_name == "none":
+		label_player_name.text = "none (unnamed)"
+	else:
+		label_player_name.text = str(player_name)
+		
 	label_level_score.text = str(int(level_score))
 	
 	label_level_time.text = str(int(level_time / 1000)) + " s"

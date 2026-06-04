@@ -229,7 +229,7 @@ func _process(delta):
 	just_update() # The word "just" refers to something very specific. Check out the function for the explanation.
 	
 	if on_wall:
-		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 4, Color(0, 1, 0, 0), Vector2(0, 0), 10)
+		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 4, Color(0, 1, 0, 0), Vector2(-0.5, -0.5), 10)
 	
 	if Globals.debug_mode:
 		if Input.is_action_pressed("LMB"):

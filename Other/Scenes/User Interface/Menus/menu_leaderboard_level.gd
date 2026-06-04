@@ -4,6 +4,15 @@ extends Control
 @onready var container_top: VBoxContainer = $container_top
 @onready var label_leaderboard: Label = $container_top/label_leaderboard
 @onready var label_level_name: Label = $container_top/container_top_menu/label_level_name
+@onready var btn_change_level_left: Button = $container_top/container_top_menu/btn_change_level_left
+@onready var btn_change_level_right: Button = $container_top/container_top_menu/btn_change_level_right
+@onready var container_main_scroll: ScrollContainer = $container_main_scroll
+@onready var hint_scroll_down: Node2D = $hint_scroll_down
+@onready var container_top_menu: HBoxContainer = $container_bottom/container_top_menu
+@onready var btn_change_source_local: Button = $container_bottom/container_top_menu/btn_change_source_local
+@onready var btn_change_source_online: Button = $container_bottom/container_top_menu/btn_change_source_online
+@onready var btn_change_source_local_best: Button = $container_bottom/container_top_menu/btn_change_source_local_best
+
 
 var level_id : String = "none"
 var levelSet_id : String = "none"
@@ -28,12 +37,14 @@ var source : String = "online" # "local, local_best, online
 
 
 func _ready() -> void:
+	btn_change_toggle_unnamed.visible = false
+	
 	if SaveData.player_name == "none": # If the player name has not been set, all local recordings (it should be a single recording) will be sent to the leaderboard.
 		Globals.dirpath_to_server(Globals.d_recordings_local, "leaderboard/upload")
-		Globals.message("You have not yet set a player name. After closing the leaderboard, you will be asked for a name, which will then appear next to your level score on the leaderboard.", 0, Vector2(0, -256), 8, 2)
+		Globals.message("You have not yet set a player name. After closing the leaderboard, you will be asked for a name, which will then appear next to your level score on the leaderboard.", 0, Vector2(0, -300), 8, 2)
 	else:
 		Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
-		Globals.message("If your recording is missing, or none are present, please wait a moment and then refresh the leaderboard by pressing the 'online' button.", 0, Vector2(0, 120), 6)
+		Globals.message("If your recording is missing, or none are present, please wait a moment and then refresh the leaderboard by pressing the 'refresh' button.", 0, Vector2(0, 120), 6)
 	
 	Globals.server_to_dirpath(Globals.d_recordings_online)
 	
@@ -73,12 +84,17 @@ func _process(delta: float) -> void:
 		else:
 			position = lerp(position, Vector2(4000, 2000), delta)
 			scale = lerp(scale, Vector2(0.2, 0.2), delta)
+	
+	if container_main_scroll.scroll_vertical > 1200 : hint_scroll_down.visible = false
+	else : hint_scroll_down.visible = true
 
 
 func entry_create(entry_data : Array):
 	var entry = load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level_entry.tscn").instantiate()
 	
 	entry.entry_filepath = entry_filepath
+	
+	if not show_unnamed and entry_data[0] == "none" : return
 	
 	entry.player_name = entry_data[0]
 	entry.level_score = entry_data[1]
@@ -120,14 +136,18 @@ func create_entries(f_level_id : String = "all"):
 			entry_filepath = source_dirpath + "/" + entry_filename
 			entry_filedata = Globals.filepath_to_data(entry_filepath)
 			if entry_filedata == null : continue
-			print(entry_filedata[0])
 			entry_data = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], randi_range(1, 999)]
 			list_entry_data.append(entry_data)
 			entry_create(entry_data)
-			if len(container_main.get_children()) < 10:
-				await get_tree().create_timer(0.25, true).timeout
+			
+			if not entry_data[0] == "none":
+				if len(container_main.get_children()) < 10:
+					await get_tree().create_timer(0.25, true).timeout
+				else:
+					await get_tree().create_timer(10 / len(container_main.get_children()), true).timeout
+			
 			else:
-				await get_tree().create_timer(10 / len(container_main.get_children()), true).timeout
+				await get_tree().create_timer(0.025, true).timeout
 	
 	else:
 		entry_create(["No recordings have been submitted.", -1, -1, -1, -1])
@@ -135,9 +155,11 @@ func create_entries(f_level_id : String = "all"):
 	sort_entries("score")
 	
 	if source == "online":
-		await get_tree().create_timer(5, true).timeout
+		await get_tree().create_timer(2.5, true).timeout
 		
 	Globals.set_nodes(self, Button, true)
+	btn_change_level_general()
+	btn_change_toggle_unnamed.visible = true
 
 func delete_entries():
 	for entry in container_main.get_children():
@@ -147,16 +169,24 @@ func delete_entries():
 
 
 func _on_btn_change_level_right_pressed() -> void:
-	if level_id.ends_with(str(SaveData.get("info_" + levelSet_id)[1])) : Globals.message("Also no.") ; return
-	
 	level_id = Globals.suffix_increase(level_id, 1)
 	refresh_entries(level_id)
+	btn_change_level_general()
 
 func _on_btn_change_level_left_pressed() -> void:
-	if level_id.ends_with(str(1)) : Globals.message("No.") ; return
-	
 	level_id = Globals.suffix_increase(level_id, -1)
 	refresh_entries(level_id)
+	btn_change_level_general()
+
+func btn_change_level_general():
+	if level_id.ends_with(str(1)) : btn_change_level_left.disabled = true ; btn_change_level_left.modulate = Color.RED
+	else : btn_change_level_left.disabled = false ; btn_change_level_left.modulate = Color.WHITE
+	
+	if level_id.ends_with(str(SaveData.get("info_" + levelSet_id)[1])) : btn_change_level_right.disabled = true ; btn_change_level_right.modulate = Color.RED
+	else : btn_change_level_right.disabled = false ; btn_change_level_right.modulate = Color.WHITE
+	
+	if source == "online" : btn_change_source_online.text = "refresh"
+	else : btn_change_source_online.text = "online"
 
 
 func refresh_entries(f_level_id : String = "all"):
@@ -206,3 +236,14 @@ func sort_entries(type : String = "score"):
 		elif entry.entry_position == 2 : entry.target_modulate = Color.LIGHT_CYAN
 		elif entry.entry_position == 3 : entry.target_modulate = Color.SADDLE_BROWN
 		else : entry.target_modulate = Color(1, 1, 1, 1 / float(-1 + len(container_main.get_children())))
+
+
+@onready var btn_change_toggle_unnamed: Button = $btn_change_toggle_unnamed
+var show_unnamed : bool = false
+
+func _on_btn_change_toggle_unnamed_pressed() -> void:
+	show_unnamed = Globals.opposite_bool(show_unnamed)
+	refresh_entries(level_id)
+	
+	if show_unnamed : btn_change_toggle_unnamed.text = "hide unnamed"
+	else : btn_change_toggle_unnamed.text = "show unnamed"

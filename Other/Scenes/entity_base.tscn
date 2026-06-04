@@ -26,6 +26,7 @@ size = Vector2(2048, 2048)
 size = Vector2(64, 64)
 
 [node name="base" type="CharacterBody2D" groups=["entity", "persistent"]]
+z_index = 2
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")

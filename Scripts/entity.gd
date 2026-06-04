@@ -1166,15 +1166,26 @@ func handle_collidable(body):
 	pass
 
 
-func spawn_display_score(value : int, add_scale : Vector2 = Vector2(randf_range(-0.1, 0.1), randf_range(-0.1, 0.1))):
+func spawn_display_score(value : int):
 	var node = Globals.scene_effect_score_value.instantiate()
 	
 	node.position = position + Vector2(randi_range(-50, 50), randi_range(-50, 50))
 	node.value = value
-	node.scale += add_scale
+	node.scale += Vector2(1, 1) * randf_range(-0.1, 0.1)
 	node.z_index += Globals.combo_streak
 	
 	World.add_child(node)
+
+func spawn_display_combo_score(value : int):
+	var node = Globals.scene_effect_combo_score_value.instantiate()
+	
+	node.position = position + Vector2(randi_range(-250, 250), randi_range(-100, 100))
+	node.value = value
+	node.scale += Vector2(1, 1) * randf_range(-0.3, 0.0)
+	node.z_index += Globals.combo_streak
+	
+	World.add_child(node)
+
 
 func spawn_display_score_bonus(value : int, add_scale : Vector2 = Vector2(1, 1), ignore_gravity : bool = false):
 	var node = Globals.scene_effect_score_bonus.instantiate()
@@ -1750,6 +1761,7 @@ func handle_effects_collected():
 	
 	if award_score and on_collected_award_score:
 		spawn_display_score(score_value)
+		spawn_display_combo_score(score_value * Globals.combo_tier)
 		
 		if Globals.random_bool(4, 1):
 			if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)

@@ -89,51 +89,21 @@ valid_target = false
 
 [node name="trigger_bg_change" parent="." index="23" instance=ExtResource("7_1on3a")]
 position = Vector2(-1120, -512)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [node name="trigger_bg_change2" parent="." index="24" instance=ExtResource("7_1on3a")]
 position = Vector2(800, -480)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [node name="trigger_bg_change3" parent="." index="25" instance=ExtResource("7_1on3a")]
 position = Vector2(608, -1824)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [node name="trigger_bg_change4" parent="." index="26" instance=ExtResource("7_1on3a")]
 position = Vector2(-320, -3680)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [node name="trigger_bg_change5" parent="." index="27" instance=ExtResource("7_1on3a")]
 position = Vector2(1856, -416)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [node name="trigger_bg_change6" parent="." index="28" instance=ExtResource("7_1on3a")]
 position = Vector2(928, -1056)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [node name="trigger_level_transition13" parent="." index="29" instance=ExtResource("3_rqonv")]
 position = Vector2(-1312, -768)

@@ -4,7 +4,12 @@ extends Control
 # This scene's purpose is to record the entirety of a player's game session, including menu and debug tool use.
 # The individual level replays are recorded using a separate recorder called "recorder_level".
 
-@onready var label_info: Label = $label_info
+@onready var playback_info: Control = $playback_info
+@onready var label_info_player_name: Label = $playback_info/playback_info_top/label_info_player_name
+@onready var label_info_level_score: Label = $playback_info/playback_info_top/label_info_level_score
+@onready var playback_info_bottom: VBoxContainer = $playback_info/playback_info_bottom
+@onready var label_playback_speed: Label = $playback_info/playback_info_bottom/label_playback_speed
+@onready var label_hint_playback_speed: Label = $playback_info/playback_info_bottom/label_hint_playback_speed
 
 @onready var btn_start_recording: Button
 @onready var btn_stop_recording: Button
@@ -74,19 +79,7 @@ func _ready() -> void:
 
 func _process(delta):
 	handle_playback(delta, playback_speed_multiplier)
-	
 	handle_recording(delta)
-	
-	if playback_active:
-		if Input.is_action_just_pressed("increase") : playback_speed_multiplier += 1 ; Globals.message(str(playback_speed_multiplier), 0, Vector2(0, 0), 4, 16)
-		elif Input.is_action_just_pressed("decrease") : playback_speed_multiplier -= 1 ; Globals.message(str(playback_speed_multiplier), 0, Vector2(0, 0), 4, 16)
-		
-		elif Input.is_action_just_pressed("0") : playback_speed_multiplier = 0
-		elif Input.is_action_just_pressed("1") : playback_speed_multiplier = 1
-		elif Input.is_action_just_pressed("2") : playback_speed_multiplier = 2
-		elif Input.is_action_just_pressed("3") : playback_speed_multiplier = 3
-		elif Input.is_action_just_pressed("4") : playback_speed_multiplier = 3
-	
 	
 	if removable:
 		if Input.is_action_just_pressed("recorder"):
@@ -322,10 +315,10 @@ func _on_playback_forward_pressed() -> void:
 	update_playback()
 	
 	if not FileAccess.file_exists(playback_filepath):
-		label_info.text = str("Playback file doesn't exist: " + playback_filepath)
+		playback_info.text = str("Playback file doesn't exist: " + playback_filepath)
 	
 	else:
-		label_info.text = str("Found playback file: " + playback_filepath)
+		playback_info.text = str("Found playback file: " + playback_filepath)
 	
 	
 	if not FileAccess.file_exists(playback_filepath):
@@ -341,10 +334,10 @@ func _on_playback_back_pressed() -> void:
 	update_playback()
 	
 	if not FileAccess.file_exists(playback_filepath):
-		label_info.text = str("Playback file doesn't exist: " + playback_filepath)
+		playback_info.text = str("Playback file doesn't exist: " + playback_filepath)
 	
 	else:
-		label_info.text = str("Found playback file: " + playback_filepath)
+		playback_info.text = str("Found playback file: " + playback_filepath)
 	
 	
 	if not FileAccess.file_exists(playback_filepath):
@@ -358,10 +351,10 @@ func _on_playback_id_pressed() -> void:
 	update_playback()
 	
 	if not FileAccess.file_exists(playback_filepath):
-		label_info.text = str("Playback file doesn't exist: " + playback_filepath)
+		playback_info.text = str("Playback file doesn't exist: " + playback_filepath)
 	
 	else:
-		label_info.text = str("Found playback file: " + playback_filepath)
+		playback_info.text = str("Found playback file: " + playback_filepath)
 	
 	
 	if not FileAccess.file_exists(playback_filepath):
@@ -492,7 +485,7 @@ func on_main_scene_changed():
 	playback_active = false
 	recording_timer = 0.0
 	playback_index = 0
-	label_info.visible = false
+	playback_info.visible = false
 	
 	
 	await Globals.gameState_changed
@@ -510,7 +503,7 @@ func on_main_scene_changed():
 	
 	playback_active = false
 	recording_active = true
-	label_info.visible = false
+	playback_info.visible = false
 
 func on_debug_refresh():
 	pass
@@ -564,7 +557,7 @@ func start_recording():
 	playback_active = false
 	recording_active = true
 	
-	if is_instance_valid(label_info) : label_info.visible = false
+	if is_instance_valid(playback_info) : playback_info.visible = false
 
 func stop_recording(save_to_file : bool = true):
 	if Globals.block_recording : return
@@ -590,7 +583,7 @@ func stop_recording(save_to_file : bool = true):
 	
 	if save_to_file : input_log_save()
 	
-	if is_instance_valid(label_info) : label_info.visible = false
+	if is_instance_valid(playback_info) : playback_info.visible = false
 	
 	playback_number = 0
 	
@@ -598,6 +591,8 @@ func stop_recording(save_to_file : bool = true):
 
 func start_playback(filepath : String = "none"):
 	Globals.recorder_playback_active = true
+	
+	playback_info.visible = true
 	
 	update_playback(filepath)
 	
@@ -607,7 +602,7 @@ func start_playback(filepath : String = "none"):
 	playback_speed_multiplier = 1
 	
 	if not FileAccess.file_exists(playback_filepath):
-		if is_instance_valid(label_info) : label_info.text = str("Recording file doesn't exist: " + playback_filepath)
+		if is_instance_valid(label_info_player_name) : label_info_player_name.text = str("Recording file doesn't exist: " + playback_filepath)
 		return
 	
 	if is_instance_valid(btn_stop_recording):
@@ -620,13 +615,14 @@ func start_playback(filepath : String = "none"):
 	
 	input_log = JSON.parse_string(FileAccess.get_file_as_string(playback_filepath))
 	
-	if is_instance_valid(label_info):
-		label_info.visible = true
+	if is_instance_valid(playback_info):
+		playback_info.visible = true
 		
 		if recorder_type == "session":
-			label_info.text = str("Current playback filepath: " + playback_filepath)
+			label_info_player_name.text = str("Current playback filepath: " + playback_filepath)
 		elif recorder_type == "level":
-			label_info.text = str(input_log[0]["player_name"])
+			label_info_player_name.text = str(input_log[0]["player_name"])
+			label_info_level_score.text = str(int(input_log[-1]["level_score"]))
 	
 	if recorder_type == "session" : Globals.message("Playback has started - %s." % playback_filename)
 	
@@ -641,6 +637,9 @@ func start_playback(filepath : String = "none"):
 
 func stop_playback():
 	Globals.recorder_playback_active = false
+	
+	playback_info.visible = false
+	
 	#Globals.change_main_scene(Globals.scene_levelSet_screen)
 	
 	if is_instance_valid(btn_stop_recording):
@@ -654,9 +653,11 @@ func stop_playback():
 	playback_index = 0
 	playback_index_last = -1
 	playback_timer = 0.0
-	if is_instance_valid(label_info) : label_info.visible = false
+	if is_instance_valid(playback_info) : playback_info.visible = false
 	
 	Globals.dm("Playback has finished - %s." % playback_filename)
+	
+	Engine.time_scale = 1.0
 
 
 func update_playback_filepath(type : String = "level"):
@@ -674,6 +675,31 @@ func update_playback_filepath(type : String = "level"):
 
 
 func handle_playback(delta : float, f_playback_speed_multiplier : int = 1):
+	if not playback_active : Engine.time_scale = 1.0 ; return
+	
+	if Input.is_action_just_pressed("increase") : playback_speed_multiplier += 1
+	elif Input.is_action_just_pressed("decrease") : playback_speed_multiplier -= 1
+	
+	elif Input.is_action_just_pressed("0") : playback_speed_multiplier = 0
+	elif Input.is_action_just_pressed("1") : playback_speed_multiplier = 1
+	elif Input.is_action_just_pressed("2") : playback_speed_multiplier = 2
+	elif Input.is_action_just_pressed("3") : playback_speed_multiplier = 3
+	elif Input.is_action_just_pressed("4") : playback_speed_multiplier = 4
+	
+	if f_playback_speed_multiplier == 3 : Engine.time_scale = 4 ; label_playback_speed.text = "x4"
+	elif f_playback_speed_multiplier == 2 : Engine.time_scale = 2 ; label_playback_speed.text = "x2"
+	elif f_playback_speed_multiplier == 1 : Engine.time_scale = 1 ; label_playback_speed.text = "x1"
+	elif f_playback_speed_multiplier == 0 : Engine.time_scale = 0.5 ; label_playback_speed.text = "x1/2"
+	elif f_playback_speed_multiplier == -1 : Engine.time_scale = 0.25 ; label_playback_speed.text = "x1/4"
+	elif f_playback_speed_multiplier == -2 : Engine.time_scale = 0.125 ; label_playback_speed.text = "x1/8"
+	elif f_playback_speed_multiplier == -3 : Engine.time_scale = 0.0625 ; label_playback_speed.text = "x1/16"
+	else:
+		if f_playback_speed_multiplier > 0:
+			label_playback_speed.text = "x9999..."
+		else:
+			label_playback_speed.text = "x0.0000..."
+	
+	
 	if block_playback_advance > 0:
 		block_playback_advance -= 1
 		return
@@ -686,13 +712,7 @@ func handle_playback(delta : float, f_playback_speed_multiplier : int = 1):
 			playback_advance(delta)
 	else:
 		playback_advance(delta)
-		
-		if f_playback_speed_multiplier == 0 : Engine.time_scale = 0.5
-		elif f_playback_speed_multiplier == -1 : Engine.time_scale = 0.25
-		elif f_playback_speed_multiplier == -2 : Engine.time_scale = 0.1125
 		block_playback_advance = abs(f_playback_speed_multiplier) + 1
-	
-	Globals.set_pause(false)
 
 func playback_advance(delta : float):
 	if not input_log : return

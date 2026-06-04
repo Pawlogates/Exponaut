@@ -1,8 +1,8 @@
 extends Control
 
-@onready var insert_player_name: TextEdit = $insert_player_name
-@onready var sfx_manager: Node2D = $sfx_manager
-@onready var animation_all: AnimationPlayer = $animation_all
+@onready var insert_player_name: TextEdit = $container_main/insert_player_name
+@onready var sfx_manager: Node2D = $container_main/sfx_manager
+@onready var animation_all: AnimationPlayer = $container_main/animation_all
 
 
 var player_name = "none"
@@ -29,13 +29,15 @@ func _ready() -> void:
 		start_pos = position
 
 func _process(delta: float) -> void:
-	if effect_hide_active:
-		position += effect_hide_direction * 1500 * delta
-		rotation_degrees = lerp(rotation_degrees, float(effect_hide_rotation), delta)
+	#if effect_hide_active:
+		#position += effect_hide_direction * 1500 * delta
+		#rotation_degrees = lerp(rotation_degrees, float(effect_hide_rotation), delta)
 	
-	else:
+	if not effect_hide_active:
 		scale = scale.lerp(Vector2(1, 1), delta * 4)
 		position = position.lerp(start_pos, delta * 4)
+		
+		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 
 func _on_insert_player_name_text_changed() -> void:
@@ -51,7 +53,8 @@ func on_text_confirmed():
 	if insert_player_name.text != "":
 		SaveData.player_name = insert_player_name.text
 	else:
-		SaveData.player_name = Globals.l_color_all.pick_random() + "_" + str(randi_range(0, 9999))
+		SaveData.player_name = Globals.l_color_all.pick_random().replace(" ", "").replace("_", "") + str(randi_range(0, 9999))
+		SaveData.player_name = SaveData.player_name
 	
 	var filepath = "user://player_info.json"
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
@@ -62,6 +65,8 @@ func on_text_confirmed():
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	Globals.gameState_typing = false
+	
+	animation_all.play("general/scale_down_left_back_in")
 	
 	if Globals.gameState_scoring_focus:
 		await get_tree().create_timer(0.5, true).timeout

@@ -32,7 +32,7 @@ func _ready() -> void:
 	
 	if Globals.gameState_scoring_focus:
 		if Globals.node_exists("screen_results_level") and Globals.gameState_level:
-			if not is_in_group("menu_single_button") : position += Vector2(-600, -300)
+			if not is_in_group("menu_single_button") : position += Vector2(-560, -300)
 	
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = true
 	

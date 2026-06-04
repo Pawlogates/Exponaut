@@ -31,12 +31,11 @@ layer_0/tile_data = PackedInt32Array(-393191, 5, 196608, -327657, 5, 196608, -65
 [node name="triggers" type="Node2D" parent="." index="4"]
 
 [node name="trigger_bgChange" parent="triggers" index="0" instance=ExtResource("6_oh5iw")]
-bg_main_filepath = "uid://xm6s7fb8jaig"
-bg_front_filepath = "uid://c0o0u2gecllc6"
-bg_front2_filepath = "uid://brb8qm5tbxwnl"
 
 [node name="trigger_musicChange" parent="triggers" index="1" instance=ExtResource("7_5fbqr")]
 
 [node name="objects" type="Node2D" parent="." index="5"]
 
 [node name="zones" type="Node2D" parent="." index="6"]
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

@@ -32,10 +32,6 @@ layer_0/tile_data = PackedInt32Array(-65531, 1, 65536, -65530, 1, 65536, -65529,
 
 [node name="trigger_bgChange2" parent="triggers" index="1" instance=ExtResource("6_bpgpi")]
 position = Vector2(2016, -32)
-bg_main_filepath = "uid://beb3y6aq46map"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_back_filepath = "uid://bp4hnv1jrobst"
-bg_back2_filepath = "uid://dfphbqyrmgmmu"
 
 [node name="trigger_bgMove" parent="triggers" index="2" instance=ExtResource("7_xa5xx")]
 
@@ -43,7 +39,6 @@ bg_back2_filepath = "uid://dfphbqyrmgmmu"
 
 [node name="trigger_musicChange2" parent="triggers" index="4" instance=ExtResource("8_vi182")]
 position = Vector2(1280, -320)
-music_file = "uid://dlf4vd8plh8ey"
 
 [node name="trigger_positional" parent="triggers" index="5" instance=ExtResource("9_eprlj")]
 
@@ -66,8 +61,8 @@ position = Vector2(-448, -192)
 target_score = 12000
 
 [connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38352" to="tileset_objects/@Area2D@38352" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38353" to="tileset_objects/@Area2D@38353" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38354" to="tileset_objects/@Area2D@38354" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38355" to="tileset_objects/@Area2D@38355" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38356" to="tileset_objects/@Area2D@38356" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@85595" to="tileset_objects/@Area2D@85595" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@85596" to="tileset_objects/@Area2D@85596" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@85597" to="tileset_objects/@Area2D@85597" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@85598" to="tileset_objects/@Area2D@85598" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@85599" to="tileset_objects/@Area2D@85599" method="_on_area_entered"]

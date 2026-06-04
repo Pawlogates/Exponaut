@@ -40,7 +40,6 @@ layer_0/tile_data = PackedInt32Array(-1048597, 1, 196608, -1114062, 1, 196608, -
 bg_main_filepath = "uid://cwpvkuk83y8t4"
 
 [node name="trigger_musicChange" parent="triggers" index="1" instance=ExtResource("8_tx33k")]
-music_file = "uid://cjxg3tkhv8lbg"
 
 [node name="objects" type="Node2D" parent="." index="5"]
 
@@ -55,3 +54,13 @@ start_hidden = true
 position = Vector2(112, 1312)
 message_text = "Press LMB (left mouse button) to perform a \"left mouse\". (epic reference!!)"
 start_hidden = true
+
+[connection signal="area_entered" from="tileset_objects/spikes_AROUND" to="tileset_objects/spikes_AROUND" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70605" to="tileset_objects/@Area2D@70605" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70606" to="tileset_objects/@Area2D@70606" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70607" to="tileset_objects/@Area2D@70607" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70608" to="tileset_objects/@Area2D@70608" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70609" to="tileset_objects/@Area2D@70609" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70610" to="tileset_objects/@Area2D@70610" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@70611" to="tileset_objects/@Area2D@70611" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

@@ -14,7 +14,7 @@ size = Vector2(128, 128)
 size = Vector2(54, 54)
 
 [node name="zone_hidden" type="Node2D" groups=["zone_hidden"]]
-z_index = 1
+z_index = 5
 script = ExtResource("1_kk7kp")
 
 [node name="sprite" type="Sprite2D" parent="."]

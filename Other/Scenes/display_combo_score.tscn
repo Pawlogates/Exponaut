@@ -1,7 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cr15cqjny1b63"]
+[gd_scene load_steps=7 format=3 uid="uid://chhq3ufa63tj4"]
 
-[ext_resource type="Script" uid="uid://pg24d22j4s7s" path="res://Other/Scenes/display_score.gd" id="1_yadvj"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="2_yadvj"]
+[ext_resource type="Script" uid="uid://pg24d22j4s7s" path="res://Other/Scenes/display_score.gd" id="1_o0b2w"]
+[ext_resource type="Material" uid="uid://b5ws7ks5frcgv" path="res://Other/Materials/rainbow.tres" id="2_ynjel"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="3_sq8de"]
 
 [sub_resource type="Animation" id="Animation_yadvj"]
 length = 0.001
@@ -193,13 +194,14 @@ _data = {
 &"show_score": SubResource("Animation_gitew")
 }
 
-[node name="display_score" type="Node2D"]
-script = ExtResource("1_yadvj")
+[node name="display_combo_score" type="Node2D"]
+script = ExtResource("1_o0b2w")
 
 [node name="label_score" type="Label" parent="."]
 modulate = Color(1, 1, 1, 0)
 z_index = 25
 texture_filter = 2
+material = ExtResource("2_ynjel")
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -213,7 +215,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(256, 64)
-theme = ExtResource("2_yadvj")
+theme = ExtResource("3_sq8de")
 theme_override_font_sizes/font_size = 24
 text = "score"
 horizontal_alignment = 1
@@ -224,5 +226,6 @@ reset_on_save = false
 libraries = {
 &"": SubResource("AnimationLibrary_ihjei")
 }
+speed_scale = 4.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

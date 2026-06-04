@@ -46,7 +46,6 @@ layer_0/tile_data = PackedInt32Array(131038, 1, 65536, -33, 1, 65536, -131104, 1
 bg_main_filepath = "uid://dvacl2dcsnmof"
 
 [node name="trigger_musicChange" parent="triggers" index="1" instance=ExtResource("8_5orfv")]
-music_file = "uid://c5tc05f5t21ft"
 
 [node name="objects" type="Node2D" parent="." index="5"]
 

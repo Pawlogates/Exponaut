@@ -159,12 +159,14 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 alignment = 1
 
 [node name="name" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 52)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 theme_override_font_sizes/normal_font_size = 36
 text = "name"
@@ -174,6 +176,7 @@ vertical_alignment = 1
 [node name="type" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 theme_override_font_sizes/normal_font_size = 16
 text = "type"
@@ -183,11 +186,13 @@ vertical_alignment = 1
 [node name="empty" type="Control" parent="label_container"]
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 
 [node name="score" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 text = "score_best"
 horizontal_alignment = 1
@@ -196,6 +201,7 @@ vertical_alignment = 1
 [node name="score_target" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 theme_override_font_sizes/normal_font_size = 16
 text = "score_target"
@@ -205,11 +211,13 @@ vertical_alignment = 1
 [node name="empty2" type="Control" parent="label_container"]
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 
 [node name="time" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 theme_override_font_sizes/normal_font_size = 14
 text = "time_best"
@@ -219,6 +227,7 @@ vertical_alignment = 1
 [node name="time_target" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 20)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 theme_override_font_sizes/normal_font_size = 10
 text = "time_target"
@@ -228,6 +237,7 @@ vertical_alignment = 1
 [node name="creator" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 text = "creator"
 horizontal_alignment = 1
@@ -236,6 +246,7 @@ vertical_alignment = 1
 [node name="message" type="RichTextLabel" parent="label_container"]
 custom_minimum_size = Vector2(0, 60)
 layout_mode = 2
+mouse_filter = 2
 theme = ExtResource("1_sd4uq")
 theme_override_font_sizes/normal_font_size = 16
 text = "message"
@@ -266,10 +277,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 texture = SubResource("AtlasTexture_rumxb")
 
 [node name="line" parent="bg" instance=ExtResource("5_rumxb")]
 layout_mode = 0
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="line2" parent="bg" instance=ExtResource("5_rumxb")]
@@ -277,6 +290,7 @@ layout_mode = 0
 offset_top = 384.0
 offset_bottom = 400.0
 scale = Vector2(1, -1)
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="line3" parent="bg" instance=ExtResource("5_rumxb")]
@@ -285,6 +299,7 @@ offset_top = 384.0
 offset_bottom = 400.0
 rotation = -1.5708
 scale = Vector2(0.5, 1)
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="line4" parent="bg" instance=ExtResource("5_rumxb")]
@@ -293,6 +308,7 @@ offset_left = 768.0
 offset_right = 1536.0
 rotation = 1.5708
 scale = Vector2(0.5, 1)
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="cooldown_preview" type="Timer" parent="."]

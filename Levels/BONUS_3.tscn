@@ -38,12 +38,8 @@ layer_0/tile_data = PackedInt32Array(917503, 1, 131072, 1179647, 1, 131072, 1441
 [node name="triggers" type="Node2D" parent="." index="4"]
 
 [node name="trigger_bgChange2" parent="triggers" index="0" instance=ExtResource("7_ctlpg")]
-bg_main_filepath = "uid://cc4eult8odint"
-bg_front_filepath = "uid://dps4meqqtaogn"
-bg_front2_filepath = "uid://brb8qm5tbxwnl"
 
 [node name="trigger_musicChange" parent="triggers" index="1" instance=ExtResource("8_gmk3a")]
-music_file = "uid://cjxg3tkhv8lbg"
 
 [node name="objects" type="Node2D" parent="." index="5"]
 
@@ -63,3 +59,8 @@ anim_hide_cooldown = 16.0
 [node name="zone_kill" parent="." index="17" instance=ExtResource("9_m37kq")]
 position = Vector2(784, 5600)
 scale = Vector2(96, 16)
+
+[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@69318" to="tileset_objects/@Area2D@69318" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@69319" to="tileset_objects/@Area2D@69319" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@69320" to="tileset_objects/@Area2D@69320" method="_on_area_entered"]

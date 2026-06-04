@@ -194,7 +194,7 @@ const style_button_round_toggle = "res://Other/Styles/button_round_toggle.tres"
 const scene_start_screen = preload("res://Other/Scenes/start_screen.tscn")
 const scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
 
-const scene_debug_level = preload("res://Levels/debug_level.tscn")
+const scene_debug_level = preload("res://Levels/DEBUG_9.tscn")
 
 
 # Other scenes:
@@ -220,6 +220,7 @@ var scene_menu_main = load("res://Other/Scenes/User Interface/Menus/menu_main.ts
 var scene_menu_settings = load("res://Other/Scenes/User Interface/Menus/menu_settings.tscn")
 var scene_menu_select_levelSet = load("res://Other/Scenes/User Interface/Menus/menu_select_levelSet.tscn")
 var scene_effect_score_value = load("res://Other/Scenes/display_score.tscn")
+var scene_effect_combo_score_value = load("res://Other/Scenes/display_combo_score.tscn")
 var scene_effect_score_bonus = load("res://Other/Scenes/score_value.tscn")
 var scene_screen_decoration_gears = "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"
 var scene_weather_rain = "res://Other/Scenes/Weather/rain.tscn"
@@ -442,8 +443,6 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	get_tree().change_scene_to_packed(load(scene_filepath))
 	
 	main_scene_changed.emit()
-	
-	print("CHANGING")
 
 
 var block_online : bool = false
@@ -1152,8 +1151,12 @@ func handle_debug_actions():
 func handle_pause():
 	if gameState_typing : return
 	
-	get_tree().paused = true
-	Globals.message("Game paused.")
+	get_tree().paused = opposite_bool(get_tree().paused)
+	
+	if get_tree().paused:
+		Globals.message("Game paused.")
+	else:
+		Globals.message("Game resumed.")
 
 func set_pause(state : bool = true):
 	get_tree().paused = state
@@ -1414,7 +1417,6 @@ func set_mouse_mode(visible : bool = true):
 
 
 func reload_node(target : Node):
-	print(target.scene_file_path)
 	var target_filepath : String = target.scene_file_path
 	var target_parent : Node = target.get_parent()
 	var new_node = load(target_filepath).instantiate()
@@ -1595,7 +1597,6 @@ func delete_file(filepath : String):
 
 
 func suffix_increase(text : String, add_value : int = 1):
-	print(text)
 	for x in range(1, 101):
 		if text.ends_with(str(x)):
 			text = text.trim_suffix(str(x)) + str(x + add_value)
@@ -1638,9 +1639,9 @@ func update_recordings_best():
 func dirpath_to_server(dirpath : String, server_route : String = "upload"):
 	if block_online : return
 	
-	print("Sending files from '%s' to server, with route '%s'." % [dirpath, server_route])
+	#print("Sending files from '%s' to server, with route '%s'." % [dirpath, server_route])
 	for filename in get_files(dirpath):
-		print(str("Uploading file to server: '%s'" % filename))
+		#print(str("Uploading file to server: '%s'" % filename))
 		
 		var filepath = dirpath + "/" + filename
 		var file := FileAccess.open(filepath, FileAccess.READ)
@@ -1681,7 +1682,7 @@ var current_index := 0
 func server_to_dirpath(dirpath : String):
 	if block_online : return
 	
-	print("Downloading files from server to '%s'." % dirpath)
+	#print("Downloading files from server to '%s'." % dirpath)
 	
 	DirAccess.make_dir_recursive_absolute(dirpath)
 	
@@ -1745,7 +1746,8 @@ func _on_file_downloaded(result, response_code, headers, body, http: HTTPRequest
 	
 	if not current_index >= len(pending_files):
 		if response_code == 200:
-			print("Downloaded: ", pending_files[current_index])
+			pass
+			#print("Downloaded: ", pending_files[current_index])
 		else:
 			push_error("Failed: " + pending_files[current_index])
 	

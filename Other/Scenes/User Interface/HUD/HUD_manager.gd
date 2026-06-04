@@ -17,6 +17,7 @@ func _ready() -> void:
 	Globals.gameState_changed.connect(on_gameState_changed)
 	Globals.entity_collected.connect(on_entity_collected)
 	Globals.reset_puzzle_finished.connect(on_reset_puzzle_finished)
+	Globals.level_started.connect(on_level_started)
 	
 	animation_player.play("show")
 	
@@ -38,6 +39,9 @@ func on_gameState_changed():
 	update_collected_collectibles()
 
 func on_reset_puzzle_finished():
+	update_collected_collectibles()
+
+func on_level_started():
 	update_collected_collectibles()
 
 func update_collected_collectibles():

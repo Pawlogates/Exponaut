@@ -20,15 +20,18 @@ func _ready() -> void:
 
 func on_level_started():
 	if Globals.recorder_playback_active:
-		label_info.visible = true
+		playback_info.visible = true
 		return
+	
+	else:
+		playback_info.visible = false
 	
 	c_start_recording.wait_time = cooldown_start_recording
 	c_start_recording.start()
 
 func on_level_finished():
 	if Globals.recorder_playback_active:
-		label_info.visible = false
+		playback_info.visible = false
 		return
 	
 	if Globals.World.level_finished_active:

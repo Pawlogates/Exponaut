@@ -250,11 +250,11 @@ func _on_cooldown_all_toggle_fade_timeout() -> void:
 
 
 func handle_layer1_fade(delta):
-	layer1.volume_linear = move_toward(layer1.volume_linear, 0.5 * layer1_fade_direction, delta / 5)
+	layer1.volume_linear = move_toward(layer1.volume_linear, layer1_fade_direction, delta / 5)
 	if layer1.volume_linear < layer1_min_volume : layer1.volume_linear = layer1_min_volume
 	if layer1.volume_linear > layer1_max_volume : layer1.volume_linear = layer1_max_volume
 	
-	layer1_alt.volume_linear = move_toward(layer1_alt.volume_linear, 0.4 * layer1_alt_fade_direction, delta / 5)
+	layer1_alt.volume_linear = move_toward(layer1_alt.volume_linear, layer1_alt_fade_direction, delta / 5)
 	if layer1_alt.volume_linear < layer1_min_volume : layer1_alt.volume_linear = layer1_min_volume
 	if layer1_alt.volume_linear > layer1_max_volume : layer1_alt.volume_linear = layer1_max_volume
 

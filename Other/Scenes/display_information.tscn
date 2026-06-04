@@ -62,7 +62,7 @@ Exponaut discord server!
 
 The game's development progress
 is also posted there, so click
-the button below if You are interested!"
+the button below if you are interested!"
 horizontal_alignment = 1
 
 [node name="text_secondary" type="Label" parent="."]

@@ -1,8 +1,9 @@
 extends Node2D
 
 var displayScore : int = 0
-
 var comboScore_deco_speed = 25
+var last_combo_tier : int = 1
+var multiplier_label_target_font_size : float = 16.0
 
 @onready var score_label = %Score
 @onready var multiplier_label = %Multiplier
@@ -12,10 +13,22 @@ var comboScore_deco_speed = 25
 @onready var bg_score = $Control/bg_score
 @onready var bg_comboScore = $Control/bg_comboScore
 
+
 func _process(delta):
 	count_score()
 	
-	multiplier_label.text = str("x", Globals.combo_tier)
+	multiplier_label["theme_override_font_sizes/font_size"] = move_toward(multiplier_label["theme_override_font_sizes/font_size"], multiplier_label_target_font_size, delta)
+	
+	if Globals.combo_streak > 0:
+		multiplier_label.text = str("x", Globals.combo_tier)
+		multiplier_label.material = Globals.material_rainbow
+	else:
+		multiplier_label.text = "x0"
+		multiplier_label.material = null
+	
+	if Globals.combo_tier != last_combo_tier : on_combo_tier_updated()
+	last_combo_tier = Globals.combo_tier
+	
 	streak_label.text = str(Globals.combo_streak)
 	comboScore_label.text = str(Globals.combo_score)
 	
@@ -110,3 +123,9 @@ func on_combo_refreshed(_time):
 
 func on_gameState_changed():
 	count_multiplier = 3.0
+
+
+func on_combo_tier_updated():
+	multiplier_label["theme_override_font_sizes/font_size"] = 64.0
+	multiplier_label_target_font_size = 24 + Globals.combo_tier * 4
+	Globals.spawn_scenes(multiplier_label, Globals.scene_particle_star, 4, multiplier_label.size / 2)

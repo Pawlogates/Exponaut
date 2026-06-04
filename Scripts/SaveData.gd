@@ -847,7 +847,7 @@ func delete_file(filename, dir):
 
 
 # Returns a score rank (or its int value), depending on target score (score needed for maximum rank).
-@onready var list_ranks = ["none", "F-", "F", "F+", "E-", "E", "E+", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+", "S-", "S", "S+", "S+", "S++", "S+++", "EXPONAUT", "should never be used", "this even less so"]
+@onready var list_ranks = ["none", "F-", "F", "F+", "E-", "E", "E+", "D-", "D", "D+", "C-", "C", "C+", "B-", "B", "B+", "A-", "A", "A+", "S-", "S", "S+", "S+", "S++", "S+++", "EXPONAUT"]
 
 func calculate_rank_level(level_id):
 	
@@ -859,11 +859,11 @@ func calculate_rank_level(level_id):
 	
 	var rank_value = 0
 	
-	if score <= 0:
+	if score <= score_segment:
 		rank_value = 0
 	else:
 		if score < score_target:
-			rank_value = int(score / score_segment) + 1
+			rank_value = int(score / score_segment) - 1
 		else:
 			rank_value = list_ranks.find("EXPONAUT")
 	

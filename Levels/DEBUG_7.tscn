@@ -97,22 +97,12 @@ transition_next = 3
 
 [node name="trigger_bg_change7" parent="." index="25" instance=ExtResource("7_61nr6")]
 position = Vector2(736, -1024)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [node name="trigger_bg_change8" parent="." index="26" instance=ExtResource("7_61nr6")]
 position = Vector2(416, -1024)
-bg_main_filepath = "uid://dps4meqqtaogn"
-bg_front_filepath = "uid://brb8qm5tbxwnl"
-bg_front2_filepath = "uid://dnkumwh3w5j5g"
-bg_back_filepath = "uid://b5qlexonnjpqo"
-bg_back2_filepath = "uid://cvpcnuicbjb3u"
 
 [connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38769" to="tileset_objects/@Area2D@38769" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38770" to="tileset_objects/@Area2D@38770" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38771" to="tileset_objects/@Area2D@38771" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@38779" to="tileset_objects/@Area2D@38779" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@88294" to="tileset_objects/@Area2D@88294" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@88295" to="tileset_objects/@Area2D@88295" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@88296" to="tileset_objects/@Area2D@88296" method="_on_area_entered"]
+[connection signal="area_entered" from="tileset_objects/@Area2D@88304" to="tileset_objects/@Area2D@88304" method="_on_area_entered"]

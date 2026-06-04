@@ -77,6 +77,7 @@ position = Vector2(-760, 896)
 shape = SubResource("RectangleShape2D_8nxm7")
 
 [node name="Label" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.392157)
 layout_mode = 0
 offset_left = 48.0
 offset_top = 48.0
@@ -85,3 +86,28 @@ offset_bottom = 98.0
 theme = ExtResource("3_icvp0")
 text = "Welcome to the Level Set screen! Choose which level you wish to play, out of your unlocked ones of course :) Hover over a level icon to see its information..."
 horizontal_alignment = 1
+
+[node name="label_total_score" type="Label" parent="."]
+layout_mode = 0
+offset_left = 160.0
+offset_top = 480.0
+offset_right = 688.0
+offset_bottom = 560.0
+theme = ExtResource("3_icvp0")
+theme_override_font_sizes/font_size = 48
+text = "999999"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="label_filler" type="Label" parent="."]
+modulate = Color(1, 1, 1, 0.352941)
+layout_mode = 0
+offset_left = 160.0
+offset_top = 544.0
+offset_right = 688.0
+offset_bottom = 624.0
+theme = ExtResource("3_icvp0")
+theme_override_font_sizes/font_size = 48
+text = "TOTAL SCORE"
+horizontal_alignment = 1
+vertical_alignment = 1

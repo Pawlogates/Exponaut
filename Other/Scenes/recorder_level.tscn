@@ -7,9 +7,11 @@
 [node name="recorder_level" type="Control" groups=["recorder", "recorder_level"]]
 z_index = 500
 layout_mode = 3
-anchors_preset = 0
-offset_right = 128.0
-offset_bottom = 128.0
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
 mouse_filter = 2
 theme = ExtResource("1_b84cl")
 script = ExtResource("2_qq23x")
@@ -21,15 +23,59 @@ one_shot = true
 [node name="cooldown_stop_recording" type="Timer" parent="."]
 one_shot = true
 
-[node name="label_info" type="Label" parent="."]
+[node name="playback_info" type="Control" parent="."]
 visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="playback_info_top" type="VBoxContainer" parent="playback_info"]
 layout_mode = 0
-offset_left = 16.0
-offset_right = 1904.0
-offset_bottom = 48.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 1912.0
+offset_bottom = 128.0
+
+[node name="label_info_player_name" type="Label" parent="playback_info/playback_info_top"]
+layout_mode = 2
 theme = ExtResource("3_b84cl")
 text = "none"
 vertical_alignment = 1
+
+[node name="label_info_level_score" type="Label" parent="playback_info/playback_info_top"]
+modulate = Color(1, 1, 1, 0.415686)
+layout_mode = 2
+theme = ExtResource("3_b84cl")
+text = "none"
+vertical_alignment = 1
+
+[node name="playback_info_bottom" type="VBoxContainer" parent="playback_info"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -120.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 0
+alignment = 1
+
+[node name="label_playback_speed" type="Label" parent="playback_info/playback_info_bottom"]
+custom_minimum_size = Vector2(0, 48)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "x1"
+horizontal_alignment = 1
+
+[node name="label_hint_playback_speed" type="Label" parent="playback_info/playback_info_bottom"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Press (+) or (-) to control the playback speed."
+horizontal_alignment = 1
 
 [connection signal="timeout" from="cooldown_start_recording" to="." method="_on_cooldown_start_recording_timeout"]
 [connection signal="timeout" from="cooldown_stop_recording" to="." method="_on_cooldown_stop_recording_timeout"]

@@ -13,7 +13,25 @@ func _ready():
 
 
 func check_combo_tier():
-	if Globals.combo_streak > 20:
+	if Globals.combo_streak > 100:
+		Globals.combo_tier = 11
+	
+	elif Globals.combo_streak > 50:
+		Globals.combo_tier = 10
+	
+	elif Globals.combo_streak > 45:
+		Globals.combo_tier = 9
+	
+	elif Globals.combo_streak > 40:
+		Globals.combo_tier = 8
+	
+	elif Globals.combo_streak > 30:
+		Globals.combo_tier = 7
+	
+	elif Globals.combo_streak > 25:
+		Globals.combo_tier = 6
+	
+	elif Globals.combo_streak > 20:
 		Globals.combo_tier = 5
 		
 	elif Globals.combo_streak > 15:

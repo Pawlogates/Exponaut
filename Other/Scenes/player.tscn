@@ -64,7 +64,6 @@ wait_time = 0.15
 one_shot = true
 
 [node name="camera" parent="." instance=ExtResource("7_1fkbh")]
-process_mode = 1
 
 [node name="hitbox_main" type="Area2D" parent="." groups=["Player", "player_hitbox"]]
 collision_layer = 8
