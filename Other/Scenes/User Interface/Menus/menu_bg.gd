@@ -15,6 +15,9 @@ extends Control
 @export var outline_left_width : float = 8
 @export var outline_right_width : float = 8
 
+@export var outline_duplicate_edges : bool = false
+
+
 var edge_top_left : Node
 var edge_top_right : Node
 var edge_bottom_left : Node
@@ -70,9 +73,12 @@ var is_ready : bool = false
 @export var randomize_outline_overflow : bool = true
 
 @export var margin : Vector2 = Vector2(0, 0)
+@export var bg_z_index : int = -10
 
 
 func _ready() -> void:
+	fill.z_index = bg_z_index
+	
 	await get_tree().create_timer(0.05, true).timeout
 	
 	if randomize_speed_multiplier:
@@ -107,49 +113,52 @@ func _ready() -> void:
 	edge_bottom_right = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
 	
 	if outline_top_width != 8:
-		var copy : Node
 		
-		for x in 4:
-			copy = edge_top_left.duplicate()
-			copy.rotation_degrees = 90 * x
-			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-			else : copy.position += Vector2(0, 64) * scale
-			outline_top.add_child(copy)
-		
-		for x in 4:
-			copy = edge_top_right.duplicate()
-			copy.rotation_degrees = 90 * x
-			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-			else : copy.position += Vector2(0, 64) * scale
-			copy.position.y -= 32 * scale.y
-			copy.position.x -= 24 * scale.x
-			outline_right.add_child(copy)
-		
-		for x in 4:
-			copy = edge_bottom_left.duplicate()
-			copy.rotation_degrees = 90 * x
-			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-			else : copy.position += Vector2(0, 64) * scale
-			copy.position.y -= 56 * scale.y
-			copy.position.x -= 0 * scale.x
-			outline_bottom.add_child(copy)
-		
-		for x in 4:
-			copy = edge_bottom_right.duplicate()
-			copy.rotation_degrees = 90 * x
-			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-			else : copy.position += Vector2(0, 64) * scale
-			copy.position.y -= 12 * scale.y
-			copy.position.x -= 24 * scale.x
-			outline_right.add_child(copy)
+		if outline_duplicate_edges:
+			
+			var copy : Node
+			
+			for x in 4:
+				copy = edge_top_left.duplicate()
+				copy.rotation_degrees = 90 * x
+				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
+				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
+				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
+				else : copy.position += Vector2(0, 64) * scale
+				outline_top.add_child(copy)
+			
+			for x in 4:
+				copy = edge_top_right.duplicate()
+				copy.rotation_degrees = 90 * x
+				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
+				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
+				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
+				else : copy.position += Vector2(0, 64) * scale
+				copy.position.y -= 32 * scale.y
+				copy.position.x -= 24 * scale.x
+				outline_right.add_child(copy)
+			
+			for x in 4:
+				copy = edge_bottom_left.duplicate()
+				copy.rotation_degrees = 90 * x
+				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
+				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
+				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
+				else : copy.position += Vector2(0, 64) * scale
+				copy.position.y -= 56 * scale.y
+				copy.position.x -= 0 * scale.x
+				outline_bottom.add_child(copy)
+			
+			for x in 4:
+				copy = edge_bottom_right.duplicate()
+				copy.rotation_degrees = 90 * x
+				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
+				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
+				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
+				else : copy.position += Vector2(0, 64) * scale
+				copy.position.y -= 12 * scale.y
+				copy.position.x -= 24 * scale.x
+				outline_right.add_child(copy)
 		
 		#edge_top_left.visible = false
 		#edge_top_right.visible = false
@@ -221,6 +230,18 @@ func _ready() -> void:
 		outline_bottom_overflow = Globals.random_bool(9, 1)
 		outline_left_overflow = Globals.random_bool(9, 1)
 		outline_right_overflow = Globals.random_bool(9, 1)
+	
+	
+	if outline_top_width != 8:
+		edge_top_left.scale *= outline_left_width / 8
+		edge_top_right.scale *= outline_top_width / 8
+		edge_bottom_left.scale *= outline_bottom_width / 8
+		edge_bottom_right.scale *= outline_right_width / 8
+		
+		edge_top_left.position += Vector2(-32, 1) * outline_left_width / 8
+		edge_top_right.position += Vector2(-8, -24) * outline_top_width / 8
+		edge_bottom_left.position += Vector2(1, 24) * outline_bottom_width / 8
+		edge_bottom_right.position += Vector2(24, -8) * outline_right_width / 8
 	
 	is_ready = true
 

@@ -78,6 +78,8 @@ func _ready() -> void:
 		removable = true
 
 func _process(delta):
+	if Globals.block_recording : return
+	
 	handle_playback(delta, playback_speed_multiplier)
 	handle_recording(delta)
 	

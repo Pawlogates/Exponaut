@@ -1,175 +1,42 @@
 extends Control
 
-var itemDisplay_scene = preload("res://Other/Scenes/User Interface/Quick Select/quickselect_itemDisplay.tscn")
-var previous_state = -1
+@onready var container_items: FlowContainer = $container_items
+@onready var bg: TextureRect = $bg
+
+
+var scene_display_item = load("res://Other/Scenes/User Interface/Quick Select/quickselect_display_item.tscn")
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Globals.World.level_type != "overworld":
-		queue_free()
+	position = Vector2(160.0, 2000.0)
+	scale = Vector2(1, 1)
+	visible = true
 	
-	Globals.weapon_collected.connect(show_weapon)
-	Globals.secondaryWeapon_collected.connect(show_secondaryWeapon)
+	Globals.Player.block_movement = true
 	
-	load_saved_unlocked_weapons()
-
+	create_displays_item()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#print("state:" + str(unlock_state_secondaryWeapon_basic))
-	if Input.is_action_pressed("quickselect"):
-		Globals.Player.block_movement = true
-		position.y = lerp(position.y, 345.0, 5 * delta)
-		scale = lerp(scale, Vector2(1.0, 1.0), 5 * delta)
-	
-	else:
-		Globals.Player.block_movement = false
-		position.y = lerp(position.y, 2000.0, delta)
-		scale = lerp(scale, Vector2(0.01, 0.01), 10 * delta)
+	if position.y != 140 : position.y = lerp(position.y, 140.0, delta * 4)
 
 
-func load_saved_unlocked_weapons():
-	if SaveData.saved_weapon_basic >= 0:
-		place_item_display("weapon_basic", 0)
-		
-	if SaveData.saved_weapon_short_shotDelay >= 0:
-		place_item_display("weapon_short_shotDelay", 0)
-		
-	if SaveData.saved_weapon_ice >= 0:
-		place_item_display("weapon_ice", 0)
-	
-	if SaveData.saved_weapon_fire >= 0:
-		place_item_display("weapon_fire", 0)
-	
-	if SaveData.saved_weapon_destructive_fast_speed >= 0:
-		place_item_display("weapon_destructive_fast_speed", 0)
-	
-	if SaveData.saved_weapon_veryFast_speed >= 0:
-		place_item_display("weapon_veryFast_speed", 0)
-	
-	if SaveData.saved_weapon_phaser >= 0:
-		place_item_display("weapon_phaser", 0)
-	
-	#secondary weapon types
-	if SaveData.saved_secondaryWeapon_basic >= 0:
-		place_item_display("secondaryWeapon_basic", 1)
-	
-	if SaveData.saved_secondaryWeapon_fast >= 0:
-		place_item_display("secondaryWeapon_fast", 1)
+func create_displays_item():
+	for item_info in Globals.qs_collected_items:
+		create_display_item(item_info)
+		await get_tree().create_timer(0.1, true).timeout
 
+func create_display_item(item_info : Array):
+	var display_item = scene_display_item.instantiate()
+	
+	display_item.item_name = item_info[0]
+	display_item.item_durability = item_info[1]
+	display_item.item_level = item_info[2]
+	display_item.item_rarity = item_info[3]
+	
+	container_items.add_child(display_item)
 
-func show_weapon():
-	var itemDisplay = itemDisplay_scene.instantiate()
-	itemDisplay.weaponMode = 0
-	
-	if $/root/World.player.weaponType == "basic":
-		itemDisplay.item = "weapon_basic"
-		
-	elif $/root/World.player.weaponType == "short_shotDelay":
-		itemDisplay.item = "weapon_short_shotDelay"
-		
-	elif $/root/World.player.weaponType == "ice":
-		itemDisplay.item = "weapon_ice"
-	
-	elif $/root/World.player.weaponType == "fire":
-		itemDisplay.item = "weapon_fire"
-	
-	elif $/root/World.player.weaponType == "destructive_fast_speed":
-		itemDisplay.item = "weapon_destructive_fast_speed"
-	
-	elif $/root/World.player.weaponType == "veryFast_speed":
-		itemDisplay.item = "weapon_veryFast_speed"
-	
-	elif $/root/World.player.weaponType == "phaser":
-		itemDisplay.item = "weapon_phaser"
-	
-	else:
-		return
-	
-	
-	var allowed = true
-	for checked_itemDisplay in get_tree().get_nodes_in_group("quickselect_itemDisplay"):
-		if checked_itemDisplay.item == itemDisplay.item:
-			allowed = false
-			#checked_itemDisplay.queue_free()
-	
-	if allowed:
-		var item = itemDisplay.item
-		%quickselect_items.add_child(itemDisplay)
-		previous_state = get("unlock_state_" + item)
-		if previous_state < 0:
-			set("unlock_state_" + item, 0)
-		
-	get_tree().get_first_node_in_group("quickselect_itemDisplay").get_node("%Button").grab_focus()
-
-
-func show_secondaryWeapon():
-	var itemDisplay = itemDisplay_scene.instantiate()
-	itemDisplay.weaponMode = 1
-	
-	if $/root/World.player.secondaryWeaponType == "basic":
-		itemDisplay.item = "secondaryWeapon_basic"
-	
-	if $/root/World.player.secondaryWeaponType == "fast":
-		itemDisplay.item = "secondaryWeapon_fast"
-	
-	
-	var allowed = true
-	for checked_itemDisplay in get_tree().get_nodes_in_group("quickselect_itemDisplay"):
-		if checked_itemDisplay.item == itemDisplay.item:
-			allowed = false
-			#checked_itemDisplay.queue_free()
-	
-	if allowed:
-		var item = itemDisplay.item
-		%quickselect_items.add_child(itemDisplay)
-		previous_state = get("unlock_state_" + item)
-		if previous_state < 0:
-			set("unlock_state_" + item, 0)
-		
-		
-	get_tree().get_first_node_in_group("quickselect_itemDisplay").get_node("%Button").grab_focus()
-	
-
-
-#item unlock states [-1 if locked, 0 if available for purchase (found once), 1 if unlocked]
-var unlock_state_weapon_basic = -1
-var unlock_state_weapon_veryFast_speed = -1
-var unlock_state_weapon_ice = -1
-var unlock_state_weapon_fire = -1
-var unlock_state_weapon_destructive_fast_speed = -1
-var unlock_state_weapon_short_shotDelay = -1
-var unlock_state_weapon_phaser = -1
-var unlock_state_secondaryWeapon_basic = -1
-var unlock_state_secondaryWeapon_fast = -1
-
-func place_item_display(item, weaponMode):
-	var itemDisplay = itemDisplay_scene.instantiate()
-	
-	itemDisplay.item = item
-	itemDisplay.weaponMode = weaponMode
-	
-	var allowed = true
-	for checked_itemDisplay in get_tree().get_nodes_in_group("quickselect_itemDisplay"):
-		if checked_itemDisplay.item == itemDisplay.item:
-			allowed = false
-			#checked_itemDisplay.queue_free()
-	
-	if allowed:
-		item = itemDisplay.item
-		if SaveData.get("saved_" + item) == 1:
-			itemDisplay.unlocked = true
-			set("unlock_state_" + item, 1)
-			
-		%quickselect_items.add_child(itemDisplay)
-		
-		previous_state = get("unlock_state_" + item)
-		if previous_state < 0:
-			set("unlock_state_" + item, 0)
-		
-		
-	get_tree().get_first_node_in_group("quickselect_itemDisplay").get_node("%Button").grab_focus()
-
-func reassign_player():
-	Globals.Player = get_tree().get_first_node_in_group("player_root")
+func delete():
+	Globals.Player.block_movement = false
+	queue_free()

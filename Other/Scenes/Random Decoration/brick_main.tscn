@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://cv1o8oepjdgqo"]
+
+[ext_resource type="Script" uid="uid://beytu5l283ya8" path="res://Scripts/random_decoration.gd" id="1_u342d"]
+[ext_resource type="Texture2D" uid="uid://c013wfrryywqo" path="res://Assets/Graphics/other/tiles_hidden.png" id="2_ta4ta"]
+
+[node name="random_decoration" type="Node2D"]
+modulate = Color(0.266575, 0.266575, 0.266575, 1)
+z_index = -5
+script = ExtResource("1_u342d")
+deco_type = "brick"
+deco_amount = 8
+deco_spread = 32
+make_black = false
+
+[node name="editor_marker" type="ColorRect" parent="."]
+z_index = -5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+mouse_filter = 2
+
+[node name="back" type="Sprite2D" parent="."]
+z_index = -3
+texture = ExtResource("2_ta4ta")
+region_enabled = true
+region_rect = Rect2(0, 0, 64, 64)
+
+[node name="front" type="ColorRect" parent="."]
+modulate = Color(1, 1, 1, 0.5)
+z_index = 3
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="container_decoration" type="Node2D" parent="."]
+
+[node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-200, -200, 400, 400)

@@ -46,6 +46,7 @@ var rolled_pivot_offset = Vector2(randi_range(-1000, 1000), randi_range(-1000, 1
 
 
 func _ready() -> void:
+	await get_tree().create_timer(0.5, true).timeout
 	if bg_simple:
 		Globals.dm("Made a Text Manager Character's simple background visible.", "GREEN")
 		bg.visible = true

@@ -1,0 +1,113 @@
+[gd_scene load_steps=4 format=3 uid="uid://btpbg3blgd3yr"]
+
+[ext_resource type="Script" uid="uid://cnurd6olln2ww" path="res://Other/Scenes/User Interface/HUD/player_experience.gd" id="1_dhjt0"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_40rwe"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_8c1nd"]
+
+[node name="player_experience" type="Control" groups=["hud_player_experience"]]
+z_index = 500
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_dhjt0")
+
+[node name="label_experience" type="Label" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 32.0
+theme = ExtResource("2_40rwe")
+theme_override_font_sizes/font_size = 16
+text = "9999/10000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="container_bar" type="Control" parent="."]
+anchors_preset = 0
+offset_top = 28.0
+offset_bottom = 28.0
+mouse_filter = 2
+
+[node name="experience" type="ColorRect" parent="container_bar"]
+z_index = 1
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 0
+offset_left = 12.0
+offset_top = 6.0
+offset_right = 512.0
+offset_bottom = 18.0
+mouse_filter = 2
+color = Color(1, 0, 0, 1)
+
+[node name="label_level" type="Label" parent="container_bar/experience"]
+layout_mode = 0
+offset_left = -124.0
+offset_top = -26.0
+offset_right = -28.0
+offset_bottom = 38.0
+theme = ExtResource("2_40rwe")
+text = "99"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="experience_bg" type="ColorRect" parent="container_bar"]
+custom_minimum_size = Vector2(0, 16)
+layout_mode = 0
+offset_left = 8.0
+offset_top = 4.0
+offset_right = 518.0
+offset_bottom = 20.0
+mouse_filter = 2
+color = Color(0, 0, 0.415686, 1)
+
+[node name="bar_bg" type="ColorRect" parent="container_bar"]
+z_index = -1
+custom_minimum_size = Vector2(0, 24)
+layout_mode = 0
+offset_right = 525.0
+offset_bottom = 24.0
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="debug" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_left = 608.0
+offset_top = 128.0
+offset_right = 992.0
+offset_bottom = 384.0
+mouse_filter = 2
+
+[node name="btn_increase_exp" type="Button" parent="debug"]
+layout_mode = 0
+offset_left = 416.0
+offset_right = 496.0
+offset_bottom = 80.0
+
+[node name="btn_increase_level" type="Button" parent="debug"]
+layout_mode = 0
+offset_left = 416.0
+offset_top = 96.0
+offset_right = 496.0
+offset_bottom = 176.0
+
+[node name="increase_value" type="TextEdit" parent="debug"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 528.0
+offset_top = 48.0
+offset_right = 272.0
+offset_bottom = -128.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "15"
+
+[node name="sfx_manager" parent="." instance=ExtResource("3_8c1nd")]
+
+[connection signal="pressed" from="debug/btn_increase_exp" to="." method="_on_btn_increase_exp_pressed"]
+[connection signal="pressed" from="debug/btn_increase_level" to="." method="_on_btn_increase_level_pressed"]

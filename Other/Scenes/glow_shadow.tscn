@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://bfdxhhhnhk4so"]
+
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="1_f4fg4"]
+
+[node name="glow_shadow2" type="PointLight2D"]
+modulate = Color(1, 1, 1, 0.588235)
+light_mask = 0
+visibility_layer = 0
+z_index = 333
+scale = Vector2(1, 0.25)
+energy = 4.0
+blend_mode = 1
+range_item_cull_mask = 512
+texture = ExtResource("1_f4fg4")
+texture_scale = 0.1

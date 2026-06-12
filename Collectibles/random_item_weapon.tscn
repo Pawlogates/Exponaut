@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://dusd5ftq64dre"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_hovet"]
+[ext_resource type="SpriteFrames" uid="uid://dpjuxdwy05dps" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_weapon_basic.tres" id="2_hovet"]
+
+[node name="random_item_weapon" instance=ExtResource("1_hovet")]
+hittable = true
+score_value = 10
+can_move = true
+ignore_gravity = false
+on_spawn_show_text = true
+on_collected_unlock_random_item_weapon = true
+item_text_message_copy_weapon_info = true
+start_animation = "none"
+on_collected_anim_name = "general/rotate_around_y_fade_out"
+text_delete_cooldown = -1.0
+text_add_scale = Vector2(1, 1)
+text_add_pos = Vector2(0, -96)
+sfx_self_collected_filepath = "uid://pj1ekmlcjqj2"
+entity_name = "random_item_weapon"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_hovet")
+
+[node name="scan_visible" parent="." index="11"]
+modulate = Color(1, 1, 1, 0.01)
+
+[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
+debug_color = Color(0, 0.6, 0.7, 0.01)

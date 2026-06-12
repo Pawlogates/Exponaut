@@ -101,6 +101,9 @@ var fade_multiplier : float = 0.25
 @onready var bg_back2_repeat_y = false
 
 
+@export var randomize : bool = true
+
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	Globals.trigger_bg_change_entered.connect(on_trigger_bg_change_entered)
@@ -138,6 +141,8 @@ func _ready():
 	await get_tree().create_timer(1.0, true).timeout
 	
 	fade_multiplier = 1.0
+	
+	if randomize : $cooldown_randomize_texture_filepath.start()
 
 
 @onready var animation_fade: AnimationPlayer = %animation_fade
@@ -446,4 +451,19 @@ func debug_simplify():
 	debug_simplify_active = Globals.opposite_bool(debug_simplify_active)
 
 func debug_toggle_active():
+	on_trigger_bg_change_entered()
+
+
+var dirpath : String = Globals.d_backgrounds + "/"
+
+func _on_cooldown_randomize_texture_filepath_timeout() -> void:
+	fade_multiplier = randf_range(0.1, 0.5)
+	$cooldown_randomize_texture_filepath.wait_time = randf_range(4, 60)
+	
+	Globals.bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	Globals.bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	Globals.bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	Globals.bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	
 	on_trigger_bg_change_entered()

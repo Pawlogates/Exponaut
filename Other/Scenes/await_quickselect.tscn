@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://dwafp1e55iwss"]
+
+[ext_resource type="Script" uid="uid://c02kit5x5oqd3" path="res://await_general.gd" id="1_x38n2"]
+
+[node name="await_quickselect" type="Node2D"]
+script = ExtResource("1_x38n2")
+scene_filepath = "uid://tolmaonlxbva"
+node_group_name = "quickselect_screen"
+on_action_name_spawn = "tab"
+on_action_name_delete = "tab"

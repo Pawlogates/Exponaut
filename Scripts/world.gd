@@ -6,8 +6,6 @@ extends Node2D
 @onready var music_manager: Node2D = $"Music Manager"
 @onready var ambience_manager: Node2D = $"Ambience Manager"
 
-var label_level_time : Label
-
 @onready var background : Node = $background
 @onready var foreground : Node = $foreground
 
@@ -22,6 +20,9 @@ var debug_screen: Control # Added and deleted on demand.
 @onready var hud_total_keys = Node
 
 var level_filepath : String = "default"
+
+
+var label_level_time : Node
 
 var level_time : int = -1
 var level_time_seconds : int = -1
@@ -57,6 +58,23 @@ var collected_majorCollectibles = 0
 
 var bg_instant_transitions = true
 var bg_instant_offset = true
+
+
+# Roguelord: - [START]:
+@export var rl_property_pickup_bool_quantity : int = 0
+@export var rl_property_pickup_int_float_quantity : int = 0
+@export var rl_property_pickup_Vector2_quantity : int = 0
+@export var rl_property_pickup_Array_quantity : int = 0
+@export var rl_property_pickup_range_int_float_quantity : int = 0
+@export var rl_property_pickup_range_vector2_quantity : int = 0
+
+@export var rl_item_pickup_weapon_quantity : int = 0
+
+@export var rl_collectible_quantity : int = 0
+
+@export var rl_enemy_quantity : int = 0
+# Roguelord: - [START]:
+
 
 @export var night = 0.0 # This variable affects the day-night cycle's visual and gameplay effects.
 
@@ -100,17 +118,46 @@ signal reset_puzzle_all_nodes_ready
 
 var is_ready : bool = false
 
+@export var randomized_deco_fade_offset : Vector2 = Vector2(-1, -1)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	level_start_time = Time.get_ticks_msec()
+	
 	set_process(false)
 	set_physics_process(false)
 	
 	Globals.level_finished.connect(level_finished)
 	
-	Globals.level_collected_collectibles = 0
+	if Globals.node_exists("entity_editor_preview"):
+		get_tree().get_first_node_in_group("entity_editor_preview").reassign_general()
 	
-	level_start_time = Time.get_ticks_msec()
+	if rl_collectible_quantity:
+		for pickup in range(rl_collectible_quantity):
+			if Globals.get_random_bool(75) : continue
+			Globals.spawn_scenes(self, load("res://Collectibles/apple.tscn"), 1, Vector2(randi_range(-2400, 2400), randi_range(-1200, 1200)), -1, Color(0, 0, 0, 0), Vector2(0, 0), 1, ["on_spawn_delete_if_stuck"], [true])
+	
+	if rl_enemy_quantity:
+		rl_enemy_quantity = rl_enemy_quantity * Globals.player_level * Globals.player_level
+		rl_spawn_scenes("res://Enemies/glades_walker.tscn", randi_range(4, rl_enemy_quantity * 0.9))
+		if Globals.player_level >= 3 : rl_spawn_scenes("res://Enemies/glades_walker2.tscn", randi_range(Globals.player_level - 2, rl_enemy_quantity * 0.1))
+		if Globals.player_level >= 7 : rl_spawn_scenes("res://Enemies/glades_walker3.tscn", randi_range(Globals.player_level - 6, rl_enemy_quantity * 0.1))
+	
+	if rl_item_pickup_weapon_quantity:
+		for pickup in range(rl_item_pickup_weapon_quantity):
+			if Globals.get_random_bool(75) : continue
+			Globals.spawn_scenes(self, load("res://Collectibles/random_item_weapon.tscn"), 1, Vector2(randi_range(-2400, 2400), randi_range(-2400, 2400)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["on_spawn_delete_if_stuck"], [true])
+	
+	if rl_property_pickup_bool_quantity:
+		for pickup in range(rl_property_pickup_bool_quantity):
+			if Globals.get_random_bool(75) : continue
+			Globals.spawn_scenes(self, load("res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_bool.tscn"), 1, Vector2(randi_range(-2400, 2400), randi_range(-2400, 2400)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["rl_pickup", "on_spawn_delete_if_stuck"], [true, true])
+	
+	if randomized_deco_fade_offset == Vector2(-1, -1):
+		randomized_deco_fade_offset = Vector2(randf_range(-1, 1), randf_range(-1, 1))
+	
+	Globals.level_collected_collectibles = 0
 	
 	Globals.bg_main_filepath = "none"
 	
@@ -139,7 +186,7 @@ func _ready():
 	
 	Globals.level_started.emit()
 	
-	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-200, 800), randi_range(-400, 0)), Vector2(4, 4), randi_range(-15, 15), 10)
+	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-1000, -2000), randi_range(4000, 1000)), Vector2(4, 4), randi_range(-15, 15), 10)
 	
 	Overlay.animation("black_fade_out", 0.2, false, false, 0)
 	
@@ -338,9 +385,18 @@ func _physics_process(delta):
 	# Current level's playtime.
 	level_time = Time.get_ticks_msec() - level_start_time
 	level_time_seconds = level_time / 1000
-	level_time_minutes = level_time / 60
+	level_time_minutes = level_time_seconds / 60
 	
-	label_level_time.text = str(level_time_seconds) + ":" + str(level_time - level_time_seconds * 1000)
+	if level_time_seconds >= 100 : label_level_time.visible_characters = 9
+	elif level_time_seconds >= 10 : label_level_time.visible_characters = 8
+	else : label_level_time.visible_characters = 7
+	
+	label_level_time.text = str(level_time_seconds) + " : " + str(level_time - level_time_seconds * 1000) + "00000000000000000"
+	
+	if level_time_seconds > 60 : label_level_time.modulate = Color.RED ; label_level_time.scale = Vector2(2, 2)
+	elif level_time_seconds > 45 : label_level_time.modulate = Color.PINK ; label_level_time.scale = Vector2(1.5, 1.5)
+	else : label_level_time.modulate = Color.WHITE ; label_level_time.scale = Vector2(1, 1)
+	
 	
 	if reset_puzzle_line_visible : queue_redraw()
 #MAIN END
@@ -862,7 +918,7 @@ func get_entity_status_all():
 
 func on_uncover_matching_id(id):
 	var uncovered_quantity = 0
-	print("YES  ", id)
+	
 	for zone_hidden in get_tree().get_nodes_in_group("zone_hidden"):
 		#if not zone_hidden.is_hidden : continue
 		
@@ -872,7 +928,9 @@ func on_uncover_matching_id(id):
 			uncovered_quantity += 1
 
 
-func _on_cooldown_check_entity_count_timeout() -> void:
-	var entities : Array = get_tree().get_nodes_in_group("entity")
-	if len(entities) > 250 : Globals.restart_level() ; print("RESTARTING DUE TO ENTITY COUNT")
-	else : print("ENTITY COUNT IS ACCEPTABLE")
+func _on_cooldown_restart_level_timeout() -> void:
+	Globals.restart_level()
+
+
+func rl_spawn_scenes(scene_filepath : String, quantity : int = 1):
+	Globals.spawn_scenes(self, scene_filepath, quantity, Vector2(0, 0), -1, Color(0, 0, 0, 0), Vector2(-1, -1) * randf_range(0.0, 0.25), 10, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(-2400, -1200), Vector2(2400, 800)])

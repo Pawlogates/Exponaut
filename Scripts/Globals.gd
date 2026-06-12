@@ -6,6 +6,9 @@ extends Node2D
 # await get_tree().create_timer(1.0, true).timeout
 # (time : float, process_always : bool)
 
+# Add a "list" custom property:
+# @export_enum(item1, item2, item3, etc.) var var_name : var_type = item1
+
 # Print the TYPE of a given property to the console:
 # print(type_string(typeof(property)))
 
@@ -46,6 +49,8 @@ const l_levelSet_name : Dictionary = {l_levelSet_id[0] : "Tutorial Levels", l_le
 const l_difficulty : Array = ["Beginner", "Intermediate", "Advanced", "Expert", "Grandmaster"]
 
 # Animations - [START]
+var l_animation_name_all : Array = []
+
 const l_animation_type_main : Array = ["general", "gear"] # The most generally reasonable option to choose.
 const l_animation_type_limited : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
 const l_animation_type_all : Array = ["general, gear, ui"] # Includes absolutely every animation type.
@@ -81,6 +86,24 @@ const l_entity_family = ["Player", "Enemy", "none", "all"]
 const l_animation_loop = ["none", "loop_upDown", "loop_upDown_slight", "loop_scale"]
 const l_temporary_powerUp = ["none", "higher_jump", "increased_speed", "teleport_forward_on_airJump"]
 
+# These lists contain every single entity scene from their respective folders.
+
+# Scenes:
+@onready var l_collectible = []
+@onready var l_enemy = []
+@onready var l_box = []
+@onready var l_projectile = []
+
+@onready var l_entity = []
+
+# Packed animation sets:
+@onready var l_sprite_collectible = []
+@onready var l_sprite_enemy = []
+@onready var l_sprite_box = []
+@onready var l_sprite_projectile = []
+
+@onready var l_sprite_entity = []
+
 
 # Reusable sentences (String):
 const s_levelSet_unlockedBy_portal = "Unlocked by opening a portal hidden somewhere in "
@@ -108,7 +131,7 @@ const scene_particle_special2_multiple = preload("res://Other/Particles/special2
 const scene_particle_splash = preload("res://Other/Particles/splash.tscn")
 const scene_particle_feather_multiple = preload("res://Other/Particles/feather.tscn")
 const scene_effect_dust = preload("res://Other/Effects/dust.tscn")
-const scene_particle_score = preload("res://Other/Particles/score.tscn")
+const scene_particle_homing_square = preload("res://Other/Particles/homing_square.tscn")
 
 
 # Sound effects:
@@ -194,7 +217,7 @@ const style_button_round_toggle = "res://Other/Styles/button_round_toggle.tres"
 const scene_start_screen = preload("res://Other/Scenes/start_screen.tscn")
 const scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
 
-const scene_debug_level = preload("res://Levels/DEBUG_9.tscn")
+const scene_debug_level = preload("res://Levels/debug_level.tscn")
 
 
 # Other scenes:
@@ -266,7 +289,35 @@ const scene_start_area = preload("res://Levels/overworld_factory.tscn")
 var l_sfx_menu_stabilize : Array = [sfx_mechanical, sfx_mechanical2, sfx_mechanical2, sfx_powerUp, sfx_powerUp2]
 
 
+var entity_editor_preview : Node
+
+
 func _ready() -> void:
+	# Entity Editor - [START]
+	var f_entity_editor_preview = load("res://Other/Scenes/entity_editor_preview.tscn").instantiate()
+	f_entity_editor_preview.entity_editor_preview = true
+	
+	Overlay.add_child(f_entity_editor_preview)
+	await get_tree().create_timer(1.0, true).timeout
+	entity_editor_preview = get_tree().get_first_node_in_group("entity_editor_preview")
+	if Globals.weapon["apply_default"] or Globals.gameState_debug: # Apply default values if the entity has never been edited.
+		for property_name in Globals.l_available_property_name:
+			Globals.weapon.get_or_add(property_name, Globals.get("l_" + property_name + "_button_info")["behavior_value"])
+			
+			Globals.weapon["apply_default"] = false # From this point, the default property values ("l_property_name_button_info[behavior_value]") will not be applied every time the entity editor spawns.
+	
+	for property_name in Globals.weapon:
+		if property_name == "none" : continue
+		
+		Globals.entity_editor_preview.set(property_name, Globals.weapon[property_name])
+	
+	# Entity Editor - [END]
+	
+	var animation_all = load("res://Other/Scenes/animation_all.tscn").instantiate()
+	for animation_library in animation_all.get_animation_library_list():
+		for animation_name in animation_all.get_animation_library(animation_library).get_animation_list():
+			l_animation_name_all.append(animation_library + "/" + animation_name)
+	
 	if gameState_debug:
 		block_recording = true
 		block_online = true
@@ -342,7 +393,7 @@ func handle_actions():
 	
 	
 	elif Input.is_action_just_pressed("pause"):
-		handle_pause()
+		toggle_pause()
 	
 	
 	elif Input.is_action_just_pressed("debug_mode"):
@@ -443,10 +494,12 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	get_tree().change_scene_to_packed(load(scene_filepath))
 	
 	main_scene_changed.emit()
+	
+	print("CHANGING")
 
 
-var block_online : bool = false
-var block_recording : bool = false
+var block_online : bool = true
+var block_recording : bool = true
 
 # Important gameplay-related properties.
 
@@ -490,11 +543,140 @@ var total_majorCollectibles_module_levelSet : int = 0
 var total_majorCollectibles_key_levelSet : int = 0
 var total_enemies_levelSet : int = 0
 
+# Entity Editor - [START]
 var weapon : Dictionary = {"apply_default" : true} # All the property values needed to construct the main projectile.
 var secondaryWeapon = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
 
+var weapon_main_unlocks : Dictionary = {
+	# [unlock state, min value, max value]
+	"speed" : [false, 0, 400],
+	"acceleration_multiplier_x" : [false, 0, 1.0],
+	"ignore_gravity" : [false, -1, -1], # The min/max value doesn't apply to [bool] type properties.
+	"on_timeout_change_ignore_gravity" : [false, -1, -1],
+	"on_timeout_change_ignore_gravity_cooldown" : [false, 0.05, 4.0],
+	"on_wall_bounce" : [false, -1, -1],
+	"on_floor_bounce" : [false, -1, -1],
+	"movement_type" : [false, "move_x", "normal"],
+	"on_death_spawn_entity" : [false, -1, -1],
+	"on_death_spawn_entity_scene_filepath" : [false, "res://Projectiles/bomb.tscn", "res://Projectiles/spiky_ball.tscn"],
+	"on_death_spawn_entity_quantity" : [false, 0, 1],
+	"on_death_spawn_entity_add_velocity" : [false, Vector2(-250, -250), Vector2(250, 250)],
+	"on_death_spawn_entity_add_velocity_range" : [false, [Vector2(-250, -250), Vector2(250, 250)]],
+	"on_hit_spawn_entity" : [false, -1, -1],
+	"on_hit_spawn_entity_scene_filepath" : [false, "res://Projectiles/bomb.tscn", "res://Projectiles/spiky_ball.tscn"],
+	"on_hit_spawn_entity_quantity" : [false, 0, 1],
+	"on_hit_spawn_entity_add_velocity" : [false, Vector2(-250, -250), Vector2(250, 250)],
+	"on_hit_spawn_entity_add_velocity_range" : [false, [Vector2(-250, -250), Vector2(250, 250)]],
+	"on_timeout_death" : [false, -1, -1],
+	"on_timeout_death_cooldown" : [false, 0.05, 4.0],
+	"on_spawn_copy_direction_x_player" : [false, -1, -1],
+	"on_spawn_copy_direction_x_active_player" : [false, -1, -1],
+	"copy_direction_x_player" : [false, -1, -1],
+	"copy_direction_x_active_player" : [false, -1, -1],
+	"direction_x" : [false, -1.0, 1.0],
+	"set_player_attack_cooldown_value" : [false, 2.0, 8.0],
+	"on_spawn_max_speed" : [false, -1, -1],
+	"always_max_speed" : [false, -1, -1],
+	"breakable" : [false, -1, -1]
+	}
+
+@onready var l_available_property_name = ["speed", "acceleration_multiplier_x", "ignore_gravity", "on_timeout_change_ignore_gravity", "on_timeout_change_ignore_gravity_cooldown", "on_wall_bounce", "on_floor_bounce", "movement_type", "on_death_spawn_entity", "on_death_spawn_entity_scene_filepath", "on_death_spawn_entity_quantity", "on_death_spawn_entity_add_velocity", "on_death_spawn_entity_add_velocity_range", "on_hit_spawn_entity", "on_hit_spawn_entity_scene_filepath", "on_hit_spawn_entity_quantity", "on_hit_spawn_entity_add_velocity", "on_hit_spawn_entity_add_velocity_range", "on_timeout_death", "on_timeout_death_cooldown", "on_spawn_copy_direction_x_player", "on_spawn_copy_direction_x_active_player", "copy_direction_x_player", "copy_direction_x_active_player", "direction_x", "set_player_attack_cooldown_value", "on_spawn_max_speed", "always_max_speed", "breakable"]
+
+@onready var l_speed_button_info : Dictionary = {"behavior_name" : "Movement Speed", "behavior_value" : 200, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_acceleration_multiplier_x_button_info : Dictionary = {"behavior_name" : "Acceleration", "behavior_value" : 1.0, "behavior_value_step" : 0.1, "behavior_value_min" : 0.25, "behavior_value_max" : 10.0, "behavior_available_options" : ["none"]}
+
+@onready var l_on_wall_bounce_button_info : Dictionary = {"behavior_name" : "Bounce off the ground", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_on_floor_bounce_button_info : Dictionary = {"behavior_name" : "Bounce off the walls", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+
+@onready var l_ignore_gravity_button_info : Dictionary = {"behavior_name" : "Ignore Gravity", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_on_timeout_change_ignore_gravity_button_info : Dictionary = {"behavior_name" : "Fall after a delay", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_on_timeout_change_ignore_gravity_cooldown_button_info : Dictionary = {"behavior_name" : "Fall delay", "behavior_value" : 1.0, "behavior_value_step" : 0.25, "behavior_value_min" : 0, "behavior_value_max" : 4.0, "behavior_available_options" : ["none"]}
+
+@onready var l_movement_type_button_info : Dictionary = {"behavior_name" : "Movement type", "behavior_value" : "move_x", "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity_movement_limited}
+
+@onready var l_on_timeout_death_button_info : Dictionary = {"behavior_name" : "Destroy after a delay", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_on_timeout_death_cooldown_button_info : Dictionary = {"behavior_name" : "Destruction cooldown", "behavior_value" : 1, "behavior_value_step" : 4, "behavior_value_min" : 0.0, "behavior_value_max" : 12.0, "behavior_available_options" : ["none"]}
+
+@onready var l_on_death_spawn_entity_button_info : Dictionary = {"behavior_name" : "Leave object after death", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_on_death_spawn_entity_scene_filepath_button_info : Dictionary = {"behavior_name" : "Chosen object", "behavior_value" : "res://Enemies/pursuitron.tscn", "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity}
+@onready var l_on_death_spawn_entity_quantity_button_info : Dictionary = {"behavior_name" : "Object quantity", "behavior_value" : 1, "behavior_value_step" : 1, "behavior_value_min" : 0, "behavior_value_max" : 15, "behavior_available_options" : ["none"]}
+@onready var l_on_death_spawn_entity_add_velocity_button_info : Dictionary = {"behavior_name" : "Object's throw direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_on_death_spawn_entity_add_velocity_range_button_info : Dictionary = {"behavior_name" : "Object's throw variability range", "behavior_value" : [Vector2(-400, -400), Vector2(400, 400)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_on_death_spawn_entity_pos_offset_button_info : Dictionary = {"behavior_name" : "Object's relative position direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_on_death_spawn_entity_pos_offset_range_button_info : Dictionary = {"behavior_name" : "Object's relative position variability range", "behavior_value" : [Vector2(-50, -600), Vector2(-400, 600)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+
+@onready var l_on_hit_spawn_entity_button_info : Dictionary = {"behavior_name" : "Leave object after hit", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_on_hit_spawn_entity_scene_filepath_button_info : Dictionary = {"behavior_name" : "Chosen object", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity}
+@onready var l_on_hit_spawn_entity_quantity_button_info : Dictionary = {"behavior_name" : "Object quantity", "behavior_value" : 1, "behavior_value_step" : 1, "behavior_value_min" : 0, "behavior_value_max" : 15, "behavior_available_options" : ["none"]}
+@onready var l_on_hit_spawn_entity_add_velocity_button_info : Dictionary = {"behavior_name" : "Object's throw direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_on_hit_spawn_entity_add_velocity_range_button_info : Dictionary = {"behavior_name" : "Object's throw variability range", "behavior_value" : [Vector2(0, 0), Vector2(0, 0)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_on_hit_spawn_entity_pos_offset_button_info : Dictionary = {"behavior_name" : "Object's relative position direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_on_hit_spawn_entity_pos_offset_range_button_info : Dictionary = {"behavior_name" : "Object's relative position variability range", "behavior_value" : [Vector2(0, 0), Vector2(0, 0)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+
+@onready var l_on_spawn_copy_direction_x_player_button_info : Dictionary = {"behavior_name" : "Start direction matches that of the player", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_on_spawn_copy_direction_x_active_player_button_info : Dictionary = {"behavior_name" : "But it cannot be inactive", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_copy_direction_x_player_button_info : Dictionary = {"behavior_name" : "Direction matches that of the player, at all times", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_copy_direction_x_active_player_button_info : Dictionary = {"behavior_name" : "But it cannot be inactive", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_direction_x_button_info : Dictionary = {"behavior_name" : "Start direction", "behavior_value" : 1, "behavior_value_step" : 1, "behavior_value_min" : -1, "behavior_value_max" : 1, "behavior_available_options" : ["none"]}
+
+@onready var l_set_player_attack_cooldown_value_button_info : Dictionary = {"behavior_name" : "Spawn cooldown", "behavior_value" : 1.5, "behavior_value_step" : 0.1, "behavior_value_min" : 0.1, "behavior_value_max" : 4.0, "behavior_available_options" : ["none"]}
+
+@onready var l_on_spawn_max_speed_button_info : Dictionary = {"behavior_name" : "Start at maximum speed", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_always_max_speed_button_info : Dictionary = {"behavior_name" : "Always at top speed", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+
+@onready var l_breakable_button_info : Dictionary = {"behavior_name" : "Breakable and bouncy", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+
+# Unused: - [START]
+@onready var l_int_float_button_info : Dictionary = {"behavior_name" : "Movement Speed", "behavior_value" : 400, "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_bool_button_info : Dictionary = {"behavior_name" : "Leave object after hit", "behavior_value" : false, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : [true, false]}
+@onready var l_Array_String_button_info : Dictionary = {"behavior_name" : "Chosen object", "behavior_value" : true, "behavior_value_step" : -1, "behavior_value_min" : -1, "behavior_value_max" : -1, "behavior_available_options" : Globals.l_entity}
+@onready var l_Vector2_button_info : Dictionary = {"behavior_name" : "Object's relative position direction", "behavior_value" : Vector2(0, 0), "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+@onready var l_Array_Vector2_range_button_info : Dictionary = {"behavior_name" : "Object's relative position variability range", "behavior_value" : [Vector2(-50, -600), Vector2(-400, 600)], "behavior_value_step" : 25, "behavior_value_min" : -1000, "behavior_value_max" : 1000, "behavior_available_options" : ["none"]}
+# Unused: - [END]
+
+var choosen_movement_type = "move_x"
+var choosen_family = "Player"
+
 var weapon_blocked = false
 
+func update_entity():
+	Globals.weapon = {"apply_default" : true}
+	
+	for property_name in Globals.l_available_property_name:
+		Globals.weapon.get_or_add(property_name, entity_editor_preview.get(property_name))
+
+# Entity Editor - [END]
+
+# Quickselect - [START]
+#var qs_collected_items : Array = [["none", -1.0, -1]]
+var qs_collected_items : Array = []
+
+var qs_list_weapon_name : Array = ["wpn_phaser", "ice_shard", "ice_spiky_ball", "wpn_fireball", "fire", "flamethrower", "saw", "boomerang", "bomb", "rocket", "saw_small"]
+
+var qs_item_info_wpn_phaser : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_phaser : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_ice_shard : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_ice_shard : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_ice_spiky_ball : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_ice_spiky_ball : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_fireball : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_fireball : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_fire : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_fire : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_flamethrower : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_flamethrower : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_saw : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_saw : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_boomerang : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_boomerang : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_bomb : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_bomb : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_rocket : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_rocket : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+var qs_item_info_wpn_saw_small : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_wpn_saw_small : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
+
+# Quickselect - [END]
 
 var gravity = 1.0
 
@@ -636,7 +818,7 @@ var gameState_level = false
 var gameState_levelSet_screen = false
 var gameState_start_screen = false
 
-var gameState_debug = false # This should only ever be equal to "true" if the game is currently being edited.
+var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
 
 var gameState_typing = false # Should be true when the player is inputting text. Used to block the function of "letter" keys, like "P", used to pause the game.
 var gameState_justStarted = true
@@ -727,7 +909,7 @@ func message(message_text, pause_duration : float = 0.0, message_add_pos : Vecto
 	#display_messages_queued.append(str(text))
 	#messages_added.emit() # This is a signal from this script (Globals.gd).
 	Overlay.reassign_general()
-	Overlay.display_messages.message_show(str(message_text), pause_duration, message_add_pos, anim_hide_cooldown, anim_speed_scale, camera_target_offset, camera_target_zoom, camera_target_rotation, camera_start_speed_multiplier)
+	Overlay.hud_display_messages.message_show(str(message_text), pause_duration, message_add_pos, anim_hide_cooldown, anim_speed_scale, camera_target_offset, camera_target_zoom, camera_target_rotation, camera_start_speed_multiplier)
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
@@ -759,29 +941,6 @@ func dm(text, importance = "none", remove_cooldown : float = -1.0): # This funct
 #@onready var list_secondaryWeapon = ["basic", "fast"]
 #@onready var list_potion = ["rooster", "bird", "chicken"]
 
-# These lists contain every single entity scene from their respective folders.
-
-# Scenes:
-@onready var l_collectible = []
-@onready var l_enemy = []
-@onready var l_box = []
-@onready var l_projectile = []
-
-@onready var l_entity = []
-
-# Packed animation sets:
-@onready var l_sprite_collectible = []
-@onready var l_sprite_enemy = []
-@onready var l_sprite_box = []
-@onready var l_sprite_projectile = []
-
-@onready var l_sprite_entity = []
-
-
-# Alternative lists with some types of entities excluded (Used when spawning large amounts of said entity type would otherwise cause issues).
-@onready var l_entity_blacklist_enemy = []
-@onready var l_entity_blacklist_enemy_projectile = []
-
 
 # Randomization:
 func randomize_everything():
@@ -798,9 +957,6 @@ func randomize_everything():
 	
 	
 	l_entity = l_collectible + l_box + l_enemy + l_projectile
-	
-	l_entity_blacklist_enemy = l_collectible + l_box + l_projectile
-	l_entity_blacklist_enemy_projectile = l_collectible + l_box
 	
 	
 	##properties
@@ -1024,12 +1180,12 @@ func prepare_lists():
 	
 	
 	l_entity = l_collectible + l_box + l_enemy + l_projectile
-	
-	l_entity_blacklist_enemy = l_collectible + l_box + l_projectile
-	l_entity_blacklist_enemy_projectile = l_collectible + l_box
 
 
 # General tools - [START]
+
+func get_random_bool(chance_true : float = 50.0):
+	return randf_range(0.0, 100.0) < chance_true # Returns "true" if the rolled number is smaller than the one provided.
 
 func random_bool(false_probability, true_probability):
 	var randomized_number = randf_range(-false_probability, true_probability)
@@ -1148,19 +1304,11 @@ func handle_debug_actions():
 		debug4.emit()
 
 
-func handle_pause():
-	if gameState_typing : return
-	
+func toggle_pause():
 	get_tree().paused = opposite_bool(get_tree().paused)
 	
-	if get_tree().paused:
-		Globals.message("Game paused.")
-	else:
-		Globals.message("Game resumed.")
-
-func set_pause(state : bool = true):
-	get_tree().paused = state
-
+	if get_tree().paused : Globals.message("Game paused.")
+	else : Globals.message("Game resumed.")
 
 @onready var window_size : Vector2 = Vector2(-1, -1)
 
@@ -1168,7 +1316,7 @@ func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none
 	if gameState_justStarted : update_player_info(true)
 	else : update_player_info()
 	
-	if SaveData.player_name == "none" : Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
+	if SaveData.player_name == "none" and not Globals.gameState_debug: Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
 	else : spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
 
 func handle_spawn_menu(manual_request : bool = false):
@@ -1374,11 +1522,15 @@ func get_filepath(file):
 
 
 func reload_level_scene(keep_player_pos : bool = false):
+	for entity in get_tree().get_nodes_in_group("menu_entity_editor_behavior_button") + get_tree().get_nodes_in_group("entity"):
+		if not entity.is_in_group("entity_editor_preview"):
+			entity.queue_free()
+	
+	await get_tree().create_timer(0.25 , true).timeout
+	print("HELLO ", Globals.weapon)
+	
 	if is_instance_valid(World):
-		for scene in Globals.l_entity:
-			ResourceLoader.load(scene, "PackedScene", 2)
-		
-		ResourceLoader.load(World.scene_file_path, "PackedScene", 2)
+		reload_scene_files_general()
 		
 		load_levelSet = false
 		load_levelState = false
@@ -1477,7 +1629,6 @@ func get_files(dirpath : String):
 	var list_filename : Array = []
 	
 	if dir != null:
-		
 		for filename in dir.get_files():
 			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".tmp") and not filename.ends_with(".uid"):
 				list_filename.append(filename)
@@ -1524,14 +1675,13 @@ func get_number_of_similar(filename_part : String):
 
 
 func node_exists(group_name : String):
-	if len(get_tree().get_nodes_in_group(group_name)) > 0:
-		return true
-	else:
-		return false
+	if len(get_tree().get_nodes_in_group(group_name)) > 0 : return true
+	else : return false
 
 
 func restart_level():
-	get_tree().call_group("entity", "queue_free")
+	#get_tree().call_group("entity", "queue_free")
+	get_tree().call_group("persistent", "queue_free")
 	get_tree().paused = true
 	
 	reset_values_level()
@@ -1622,6 +1772,8 @@ func set_nodes(target_node : Node, node_type, state_active : bool):
 
 
 func update_recordings_best():
+	if gameState_debug : return
+	
 	for filename in get_files(d_recordings_local_best):
 		delete_file(d_recordings_local_best + "/" + filename)
 	
@@ -1778,3 +1930,21 @@ func spawn_message_object(message_text : String = "message", target : Node = mai
 	message_object.add_position = add_position
 	message_object.message_text = message_text
 	target.add_child(message_object)
+
+
+func reload_scene_files_general():
+	ResourceLoader.load(World.scene_file_path, "PackedScene", 2)
+	ResourceLoader.load("res://Other/Scenes/entity_base.tscn", "PackedScene", 2)
+	ResourceLoader.load("res://Other/Scenes/entity_editor_preview.tscn", "PackedScene", 2)
+	
+	for scene in Globals.l_entity:
+		ResourceLoader.load(scene, "PackedScene", 2)
+
+# Roguelord - [START]
+var game_state_roguelord : bool = true
+
+var player_level : int = 1
+var player_experience : int = 0
+var world_evolution : float = 0.01
+
+# Roguelord - [END]

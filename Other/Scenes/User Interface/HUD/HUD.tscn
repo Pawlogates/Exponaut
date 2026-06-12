@@ -13,17 +13,14 @@ layer = 10
 script = ExtResource("1_fblkw")
 
 [node name="player_main" parent="." instance=ExtResource("1_iqrlt")]
-offset_left = 1488.0
-offset_top = 76.0
-offset_right = 1488.0
-offset_bottom = 76.0
 
 [node name="container_time" type="CenterContainer" parent="."]
-anchors_preset = 10
-anchor_right = 1.0
-offset_top = 24.0
-offset_bottom = 72.0
-grow_horizontal = 2
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+offset_right = 128.0
+grow_vertical = 0
 mouse_filter = 2
 
 [node name="label_level_time" type="Label" parent="container_time"]
@@ -31,11 +28,10 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 0)
 layout_mode = 2
 theme = ExtResource("4_l7t4o")
+theme_override_font_sizes/font_size = 16
 text = "-1"
 horizontal_alignment = 1
 vertical_alignment = 1
-visible_characters = 0
-visible_ratio = 0.0
 
 [node name="ScoreDisplay" parent="." instance=ExtResource("4_yr68u")]
 unique_name_in_owner = true
@@ -51,19 +47,20 @@ offset_bottom = 1046.0
 [node name="animation_ui" parent="." instance=ExtResource("9_v8p1v")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(400, 200)
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = -200.0
-offset_right = 400.0
+offset_left = 64.0
+offset_top = -184.0
+offset_right = 320.0
+offset_bottom = -56.0
 grow_vertical = 0
 
 [node name="filler_TotalCollectibles_collected" type="CenterContainer" parent="VBoxContainer"]
 layout_mode = 2
 
 [node name="filler_TotalCollectibles_collected" type="Label" parent="VBoxContainer/filler_TotalCollectibles_collected"]
-custom_minimum_size = Vector2(320, 40)
+custom_minimum_size = Vector2(240, 40)
 layout_mode = 2
 theme = ExtResource("2_2eo37")
 theme_override_font_sizes/font_size = 22

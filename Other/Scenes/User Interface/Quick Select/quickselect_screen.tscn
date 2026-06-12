@@ -1,36 +1,121 @@
-[gd_scene load_steps=3 format=3 uid="uid://tolmaonlxbva"]
+[gd_scene load_steps=7 format=3 uid="uid://tolmaonlxbva"]
 
 [ext_resource type="Script" uid="uid://odgblhkpw3bh" path="res://Scripts/quickselect_screen.gd" id="1_owl74"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_mi3sp"]
+[ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="3_rtc3l"]
+[ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="4_23pmt"]
+[ext_resource type="PackedScene" uid="uid://cx0qivojararm" path="res://Objects/Decorations/decoration_gear_random_type_small.tscn" id="5_cv0yi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iyhe0"]
+atlas = ExtResource("2_mi3sp")
+region = Rect2(1056, 384, 328, 136)
 
 [node name="quickselect_screen" type="Control" groups=["quickselect_screen"]]
+z_index = 500
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -390.0
-offset_top = -195.0
-offset_right = 390.0
-offset_bottom = 195.0
+offset_left = -800.0
+offset_top = -400.0
+offset_right = 800.0
+offset_bottom = 400.0
 grow_horizontal = 2
 grow_vertical = 2
-pivot_offset = Vector2(390, 0)
+mouse_filter = 2
 script = ExtResource("1_owl74")
 
-[node name="quickselect_deco" type="Sprite2D" parent="."]
-position = Vector2(408, 160)
-scale = Vector2(2.5, 2.5)
-texture = ExtResource("2_mi3sp")
-region_enabled = true
-region_rect = Rect2(896, 128, 336, 144)
-
-[node name="quickselect_items" type="FlowContainer" parent="."]
-unique_name_in_owner = true
+[node name="container_items" type="FlowContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
+
+[node name="bg" type="TextureRect" parent="."]
+modulate = Color(0.288518, 0.288518, 0.288518, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("AtlasTexture_iyhe0")
+
+[node name="menu_bg" parent="." instance=ExtResource("3_rtc3l")]
+z_index = 10
+layout_mode = 1
+randomize_basic = false
+margin = Vector2(64, 64)
+bg_z_index = -50
+
+[node name="gear" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(1184, 64)
+
+[node name="gear2" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(368, 688)
+
+[node name="gear3" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(528, 736)
+
+[node name="gear4" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(592, 48)
+rotation = -0.42237
+scale = Vector2(0.5, 0.5)
+
+[node name="gear7" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(32, 480)
+rotation = 1.47829
+scale = Vector2(0.5, 0.5)
+
+[node name="gear6" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(928, 16)
+rotation = -0.951204
+scale = Vector2(0.5, 0.5)
+
+[node name="gear5" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(1552, 272)
+scale = Vector2(0.75, 0.75)
+
+[node name="gear8" parent="." instance=ExtResource("4_23pmt")]
+modulate = Color(0, 0, 0, 1)
+z_index = -5
+position = Vector2(1552, 784)
+scale = Vector2(0.5, 0.5)
+
+[node name="decoration_gear" parent="." instance=ExtResource("5_cv0yi")]
+z_index = -4
+position = Vector2(16, 416)
+
+[node name="decoration_gear3" parent="." instance=ExtResource("5_cv0yi")]
+z_index = -4
+position = Vector2(1152, 16)
+
+[node name="decoration_gear2" parent="." instance=ExtResource("5_cv0yi")]
+z_index = -4
+position = Vector2(528, 0)
+scale = Vector2(0.33, 0.33)
+
+[node name="decoration_gear4" parent="." instance=ExtResource("5_cv0yi")]
+z_index = -4
+position = Vector2(1472, 784)
+scale = Vector2(0.33, 0.33)

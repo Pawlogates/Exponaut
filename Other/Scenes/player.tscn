@@ -35,7 +35,7 @@ light_mask = 0
 position = Vector2(0, -24)
 scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("2_2jh15")
-animation = &"idle"
+animation = &"crouch"
 
 [node name="cooldown_crouch_walk" type="Timer" parent="AnimatedSprite2D"]
 wait_time = 0.4
@@ -104,7 +104,7 @@ wait_time = 6.0
 one_shot = true
 
 [node name="timer_dash" type="Timer" parent="."]
-wait_time = 0.75
+wait_time = 0.85
 one_shot = true
 
 [node name="timer_dash_speed_block" type="Timer" parent="timer_dash"]
@@ -112,7 +112,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="cooldown_dash_end_slowdown_enable" type="Timer" parent="timer_dash"]
-wait_time = 0.3
+wait_time = 0.33
 one_shot = true
 
 [node name="cooldown_dash_end_slowdown_disable" type="Timer" parent="timer_dash"]

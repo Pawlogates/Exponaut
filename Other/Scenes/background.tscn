@@ -580,5 +580,9 @@ offset_bottom = 1080.0
 scale = Vector2(1, -1)
 texture = ExtResource("3_wrhkf")
 
+[node name="cooldown_randomize_texture_filepath" type="Timer" parent="."]
+wait_time = 5.0
+
 [connection signal="timeout" from="cooldown_check_fade" to="." method="_on_cooldown_check_fade_timeout"]
 [connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]
+[connection signal="timeout" from="cooldown_randomize_texture_filepath" to="." method="_on_cooldown_randomize_texture_filepath_timeout"]

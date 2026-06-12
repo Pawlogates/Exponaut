@@ -3,7 +3,7 @@
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_5w5jm"]
 [ext_resource type="Script" uid="uid://bt1ym7x1bvgf1" path="res://Other/Scenes/User Interface/Text Manager/text_manager_character.gd" id="1_sjc3v"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="2_sjkrq"]
-[ext_resource type="AudioStream" uid="uid://b5h2caqvndnvq" path="res://Assets/Sounds/sfx/break.wav" id="4_4ti24"]
+[ext_resource type="AudioStream" uid="uid://vm1ccgk5h0ag" path="res://Assets/Sounds/sfx/count.wav" id="4_4ti24"]
 
 [node name="text_manager_character" type="Control"]
 z_index = 5
@@ -19,12 +19,9 @@ script = ExtResource("1_sjc3v")
 light_mask = 2
 visibility_layer = 2
 clip_contents = false
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+custom_minimum_size = Vector2(16, 40)
+layout_mode = 0
+offset_right = 1.0
 mouse_filter = 2
 theme = ExtResource("1_5w5jm")
 text = "t"

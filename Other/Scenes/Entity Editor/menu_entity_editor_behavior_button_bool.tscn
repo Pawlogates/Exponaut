@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://tpmuttasyy0i"]
+[gd_scene load_steps=10 format=3 uid="uid://tpmuttasyy0i"]
 
 [ext_resource type="PackedScene" uid="uid://b212itlhyclqg" path="res://Other/Scenes/User Interface/Menus/menu_core.tscn" id="1_wofh5"]
 [ext_resource type="Script" uid="uid://u8362on3kbas" path="res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button.gd" id="2_wjmso"]
@@ -7,9 +7,12 @@
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_efgnf"]
 [ext_resource type="PackedScene" uid="uid://8melvub701c3" path="res://Other/Scenes/animation_entity_editor_general.tscn" id="5_wjmso"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="6_j1ii6"]
+[ext_resource type="PackedScene" uid="uid://drbm0wuk71bi" path="res://Other/Scenes/scan_stuck.tscn" id="8_r3hlu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wjmso"]
+size = Vector2(128, 128)
 
 [node name="menu_entity_editor_behavior_button_bool" groups=["menu_entity_editor_behavior_button"] instance=ExtResource("1_wofh5")]
-modulate = Color(1, 1, 1, 1)
 z_index = 1
 custom_minimum_size = Vector2(160, 160)
 offset_left = -80.0
@@ -18,6 +21,8 @@ offset_right = 80.0
 offset_bottom = 80.0
 mouse_filter = 0
 script = ExtResource("2_wjmso")
+rl_pickup = false
+type = "bool"
 
 [node name="container_buttons" type="Control" parent="." index="5"]
 z_index = 1
@@ -38,7 +43,6 @@ offset_bottom = 176.0
 text_manager_cooldown_create_message = 1.0
 decoration_base_size = Vector2(128, 64)
 decoration_base_size_multiplier = Vector2(0.5, 0.5)
-decoration_base_position = Vector2(-32, 0)
 decoration_edge_base_change_scale = true
 edge_decoration1_filepath = "none"
 edge_decoration2_filepath = "none"
@@ -100,7 +104,6 @@ offset_right = 512.0
 offset_bottom = 64.0
 grow_horizontal = 1
 grow_vertical = 1
-text_full = "none"
 character_bg_simple = true
 
 [node name="tm_behavior_value" parent="container_text_managers" index="1" instance=ExtResource("6_j1ii6")]
@@ -114,11 +117,24 @@ offset_right = 512.0
 offset_bottom = 128.0
 grow_horizontal = 1
 grow_vertical = 1
-text_full = "none"
 character_bg_simple = true
+
+[node name="hitbox" type="Area2D" parent="." index="11"]
+collision_layer = 8
+collision_mask = 8
+
+[node name="collision" type="CollisionShape2D" parent="hitbox" index="0"]
+position = Vector2(80, 80)
+shape = SubResource("RectangleShape2D_wjmso")
+
+[node name="scan_stuck" parent="." index="12" instance=ExtResource("8_r3hlu")]
+position = Vector2(144, 16)
+rotation = 0.785398
+scale = Vector2(4, 4)
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
 [connection signal="pressed" from="container_buttons/btn_toggle" to="." method="_on_btn_toggle_pressed"]
 [connection signal="timeout" from="cooldown_show_behavior_name" to="." method="_on_cooldown_show_behavior_name_timeout"]
 [connection signal="timeout" from="cooldown_show_behavior_value" to="." method="_on_cooldown_show_behavior_value_timeout"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]

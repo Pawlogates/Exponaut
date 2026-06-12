@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://csipyeliwxa3r"]
 
-[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration.tscn" id="1_c7wgx"]
+[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration_main.tscn" id="1_c7wgx"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mtdft"]
 size = Vector2(64, 64)

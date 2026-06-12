@@ -1,0 +1,83 @@
+[gd_scene load_steps=5 format=3 uid="uid://duqn436jfmxw0"]
+
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="1_fws4q"]
+[ext_resource type="Script" uid="uid://bolu5hxvxi0da" path="res://Other/Scenes/hint_scroll_down.gd" id="1_lvhjs"]
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="2_lvhjs"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_s26s3"]
+
+[node name="hint_scroll_down" type="Node2D" groups=["hint_scroll_down"]]
+z_index = 250
+script = ExtResource("1_lvhjs")
+
+[node name="hint" type="Node2D" parent="."]
+position = Vector2(0, -12)
+
+[node name="animation_all" parent="hint" instance=ExtResource("1_fws4q")]
+autoplay = "general/loop_up_down_slight"
+
+[node name="main" type="Node2D" parent="hint"]
+
+[node name="ColorRect" type="ColorRect" parent="hint/main"]
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 59.0
+offset_bottom = 6.0
+rotation = -0.523599
+
+[node name="ColorRect2" type="ColorRect" parent="hint/main"]
+offset_left = -45.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -24.0
+rotation = 0.523599
+
+[node name="bg" type="Node2D" parent="hint"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, -4)
+
+[node name="ColorRect" type="ColorRect" parent="hint/bg"]
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 59.0
+offset_bottom = 6.0
+rotation = -0.523599
+
+[node name="ColorRect2" type="ColorRect" parent="hint/bg"]
+offset_left = -45.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -24.0
+rotation = 0.523599
+
+[node name="TextureRect" type="TextureRect" parent="hint"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+offset_left = -64.0
+offset_top = -68.0
+offset_right = 64.0
+offset_bottom = 60.0
+texture = ExtResource("2_lvhjs")
+expand_mode = 1
+
+[node name="Label" type="Label" parent="hint"]
+offset_left = -256.0
+offset_top = -116.0
+offset_right = 256.0
+offset_bottom = -52.0
+theme = ExtResource("4_s26s3")
+theme_override_font_sizes/font_size = 24
+text = "T A B  -  Inventory"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="hint"]
+offset_left = -256.0
+offset_top = 12.0
+offset_right = 256.0
+offset_bottom = 76.0
+theme = ExtResource("4_s26s3")
+theme_override_font_sizes/font_size = 24
+text = "Q  -  Weapon modules"
+horizontal_alignment = 1
+vertical_alignment = 1

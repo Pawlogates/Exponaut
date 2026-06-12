@@ -6,7 +6,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jj8d4"]
 shader = ExtResource("1_8ur3g")
-shader_parameter/Shift_Hue = 0.0
+shader_parameter/hue_value = 0.0
 
 [sub_resource type="Animation" id="Animation_bux54"]
 length = 0.001
@@ -259,7 +259,7 @@ texture = ExtResource("2_waovt")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="hit_effect"]
 libraries = {
-"": SubResource("AnimationLibrary_s4tu2")
+&"": SubResource("AnimationLibrary_s4tu2")
 }
 autoplay = "loop"
 
@@ -272,7 +272,7 @@ texture = ExtResource("2_waovt")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="hit_effect2"]
 libraries = {
-"": SubResource("AnimationLibrary_s4tu2")
+&"": SubResource("AnimationLibrary_s4tu2")
 }
 
 [node name="hit_effect3" type="Sprite2D" parent="."]
@@ -284,7 +284,7 @@ texture = ExtResource("2_waovt")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="hit_effect3"]
 libraries = {
-"": SubResource("AnimationLibrary_s4tu2")
+&"": SubResource("AnimationLibrary_s4tu2")
 }
 
 [node name="Timer" type="Timer" parent="."]

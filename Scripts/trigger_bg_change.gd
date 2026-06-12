@@ -1,5 +1,11 @@
 extends Area2D
 
+@export var randomize_bg_main : bool = false
+@export var randomize_bg_front : bool = false
+@export var randomize_bg_front2 : bool = false
+@export var randomize_bg_back : bool = false
+@export var randomize_bg_back2 : bool = false
+
 @export_file("*.png") var bg_main_filepath : String = "res://Assets/Graphics/backgrounds/bg_castle.png"
 @export_file("*.png") var bg_front_filepath : String = "res://Assets/Graphics/backgrounds/bg_empty.png"
 @export_file("*.png") var bg_front2_filepath : String = "res://Assets/Graphics/backgrounds/bg_empty.png"
@@ -19,9 +25,25 @@ extends Area2D
 @export_file("*.png") var bg_back2_edge_top_filepath : String = "res://Assets/Graphics/backgrounds/bg_empty.png"
 
 
-# Called when the node enters the scene tree for the first time.
-#func _ready():
-	#pass # Replace with function body.
+var dirpath : String = Globals.d_backgrounds + "/"
+
+
+func _ready():
+	if randomize_bg_main:
+		if Globals.get_random_bool(50) : bg_main_filepath = dirpath + "bg_empty.png"
+		else : bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	if randomize_bg_front:
+		if Globals.get_random_bool(50) : bg_front_filepath = dirpath + "bg_empty.png"
+		else : bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	if randomize_bg_front2:
+		if Globals.get_random_bool(50) : bg_front2_filepath = dirpath + "bg_empty.png"
+		else : bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	if randomize_bg_back:
+		if Globals.get_random_bool(50) : bg_back_filepath = dirpath + "bg_empty.png"
+		else : bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	if randomize_bg_back2:
+		if Globals.get_random_bool(50) : bg_back2_filepath = dirpath + "bg_empty.png"
+		else : bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(_delta):

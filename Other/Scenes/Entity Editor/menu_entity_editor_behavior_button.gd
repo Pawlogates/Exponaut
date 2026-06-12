@@ -10,10 +10,15 @@ extends menu_general
 @onready var behavior_icon: Sprite2D = $behavior_icon
 @onready var cooldown_show_behavior_name: Timer = $cooldown_show_behavior_name
 @onready var cooldown_show_behavior_value: Timer = $cooldown_show_behavior_value
+
+@onready var container_text_managers: Control = $container_text_managers
 @onready var tm_behavior_name: Control = $container_text_managers/tm_behavior_name
 @onready var tm_behavior_value: Control = $container_text_managers/tm_behavior_value
 
 @onready var animation_entity_editor_general: AnimationPlayer = $behavior_icon/animation_entity_editor_general
+
+
+@export var rl_pickup : bool = false
 
 
 var behavior_name_visible = false
@@ -37,13 +42,19 @@ var behavior_available_options : Array = ["none"]
 
 var behavior_chosen_option = "none"
 
+var on_spawn_delete_if_stuck = true
+
 
 func _ready() -> void:
 	on_ready()
 	
 	entity_editor = get_tree().get_first_node_in_group("entity_editor")
 	
+	if rl_pickup:
+		handle_rl_pickup()
+	
 	Globals.dm("Applying behavior button's info:", "ORANGE")
+	print("info ", behavior_info)
 	
 	for property_name in behavior_info:
 		set(property_name, behavior_info[property_name])
@@ -128,14 +139,27 @@ func _on_cooldown_show_behavior_value_timeout() -> void:
 func on_property_value_changed(multiplier : float = 1.0):
 	if behavior_value is String:
 		# Convert the property value info a "String", that will be displayed in the game.
-		if entity_editor.get(property_name).ends_with(".tscn"):
-				var scene = load(entity_editor.get(property_name)).instantiate()
-				behavior_value = scene.entity_name
-				scene.queue_free()
+		if Globals.entity_editor_preview.get(property_name).ends_with(".tscn"):
+			var scene = load(Globals.get(property_name)).instantiate()
+			behavior_value = scene.entity_name
+			scene.queue_free()
 	
 	elif behavior_value is bool:
 		if behavior_value : behavior_value = "Yes."
 		else : behavior_value = "No."
+	
+	tm_behavior_name.queue_free()
+	tm_behavior_name = load("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn").instantiate()
+	tm_behavior_name.character_bg_simple = true
+	tm_behavior_name.size = Vector2(512, 64)
+	container_text_managers.add_child(tm_behavior_name)
+	
+	tm_behavior_value.queue_free()
+	tm_behavior_value = load("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn").instantiate()
+	tm_behavior_value.character_bg_simple = true
+	tm_behavior_value.position.y = 64
+	tm_behavior_value.size = Vector2(512, 64)
+	container_text_managers.add_child(tm_behavior_value)
 	
 	tm_behavior_name.text_full = (str("[anim_loop_up_down_slight]" + behavior_name)) # This line is most likely not needed.
 	tm_behavior_name.create_message(str("[anim_loop_up_down_slight]" + behavior_name))
@@ -163,30 +187,34 @@ func on_property_value_changed(multiplier : float = 1.0):
 	if type == "Array":
 		animation_entity_editor_general.play("scale_down_up_and_rotate")
 	
-	entity_editor.update_entity()
+	Globals.update_entity()
 
 
 func property_value_change(multiplier : float = 1.0):
-	if entity_editor.get(property_name) is float or entity_editor.get(property_name) is int:
-		entity_editor.set(property_name, clamp(entity_editor.get(property_name) + behavior_value_step * multiplier, behavior_value_min, behavior_value_max))
+	print("name: " + property_name)
+	print(Globals.entity_editor_preview.get(property_name))
+	if Globals.entity_editor_preview.get(property_name) is float or Globals.entity_editor_preview.get(property_name) is int:
+		Globals.entity_editor_preview.set(property_name, clamp(Globals.entity_editor_preview.get(property_name) + behavior_value_step * multiplier, behavior_value_min, behavior_value_max))
 	
-	elif entity_editor.get(property_name) is bool:
-		entity_editor.set(property_name, Globals.opposite_bool(entity_editor.get(property_name)))
+	elif Globals.entity_editor_preview.get(property_name) is bool:
+		Globals.entity_editor_preview.set(property_name, Globals.opposite_bool(Globals.entity_editor_preview.get(property_name)))
 	
-	elif entity_editor.get(property_name) is Vector2:
-		entity_editor.set(property_name, entity_editor.get(property_name) + Vector2(behavior_value_step, behavior_value_step) * multiplier)
+	elif Globals.entity_editor_preview.get(property_name) is Vector2:
+		Globals.entity_editor_preview.set(property_name, Globals.entity_editor_preview.get(property_name) + Vector2(behavior_value_step, behavior_value_step) * multiplier)
 	
-	elif entity_editor.get(property_name) is String:
+	elif Globals.entity_editor_preview.get(property_name) is String:
 		pass # The "one of multiple options within an Array" (like a scene filepath) type of property value is set (with the use of "apply_chosen_option()") by behavior buttons within a completely different menu, dedicated to Arrays.
 	
-	elif entity_editor.get(property_name) is Array:
+	elif Globals.entity_editor_preview.get(property_name) is Array:
 		if "range" in property_name:
-			entity_editor.set(property_name[0], entity_editor.get(property_name)[0] + Vector2(behavior_value_step, behavior_value_step) * multiplier)
-			entity_editor.set(property_name[1], entity_editor.get(property_name)[1] + Vector2(behavior_value_step, behavior_value_step) * multiplier)
+			Globals.entity_editor_preview.set(property_name[0], Globals.entity_editor_preview.get(property_name)[0] + Vector2(behavior_value_step, behavior_value_step) * multiplier)
+			Globals.entity_editor_preview.set(property_name[1], Globals.entity_editor_preview.get(property_name)[1] + Vector2(behavior_value_step, behavior_value_step) * multiplier)
 	
-	behavior_value = entity_editor.get(property_name)
+	behavior_value = Globals.entity_editor_preview.get(property_name)
+	print(behavior_value)
+	print(behavior_info)
 	
-	entity_editor.update_entity()
+	Globals.update_entity()
 
 
 func _on_btn_show_available_pressed() -> void:
@@ -210,12 +238,32 @@ func _on_btn_close_pressed() -> void:
 
 func apply_chosen_option():
 	behavior_value = behavior_chosen_option
-	entity_editor.set(property_name, behavior_value)
+	Globals.set(property_name, behavior_value)
 	on_property_value_changed()
 
 
 func _on_btn_toggle_pressed() -> void:
-	property_value = Globals.opposite_bool(entity_editor.get(property_name))
+	property_value = Globals.opposite_bool(Globals.entity_editor_preview.get(property_name))
 	behavior_value = property_value
-	entity_editor.set(property_name, property_value)
+	Globals.entity_editor_preview.set(property_name, property_value)
 	on_property_value_changed()
+
+
+func handle_rl_pickup():
+	z_index += 100
+	
+	property_name = Globals.l_available_property_name.pick_random()
+	behavior_info = Globals.get("l_" + property_name + "_button_info")
+	
+	if type == "bool":
+		pass
+
+
+func _on_hitbox_area_entered(area: Area2D) -> void:
+	if not Globals.is_valid_entity(area) : return
+	
+	Globals.weapon_main_unlocks[property_name][0] = true
+	
+	Globals.spawn_scenes(Globals.World, Globals.scene_particle_special, 10, position + size / 2)
+	Globals.message("New weapon module unlocked! Press Q to open the projectile editor.")
+	queue_free()

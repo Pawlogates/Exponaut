@@ -1,113 +1,64 @@
 extends Control
 
-var item = "none"
-var unlocked = false
+@onready var icon: Sprite2D = $icon
+@onready var container_sell: VBoxContainer = $container_main/container_sell
+@onready var label_sell_reward: Label = $container_main/container_sell/label_sell_reward
+@onready var btn_sell: Button = $container_main/container_sell/btn_sell
+@onready var container_dismantle: VBoxContainer = $container_main/container_dismantle
+@onready var btn_dismantle: Button = $container_main/container_dismantle/btn_dismantle
+@onready var label_dismantle_reward: Label = $container_main/container_dismantle/label_dismantle_reward
+@onready var label_name: Label = $container_main/label_name
+@onready var menu_bg: Control = $menu_bg
+@onready var container_main: Control = $container_main
 
 
-var weaponMode = 0
+@export var item_name : String = "wpn_phaser"
+@export var item_durability : float = 100.0
+@export var item_level : int = 1
+@export var item_rarity : int = 1
 
-var weapon_type = "none"
-var attack_delay = 1
-var secondaryWeapon_type = "none"
-var secondaryAttack_delay = 1
+@export var icon_rect : Rect2 = Rect2(384.0, 640.0, 64, 64)
 
-var unlock_price = 100000
-@onready var display_unlockPrice = %"Unlock Price Display"
+
+var sell_reward : int = 9999
+var dismantle_reward : int = 3
+var upgrade_level_price : int = 10000
+var upgrade_rarity_price : int = 500000
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	modulate.a = 0.2
+	label_name.text = str(item_name)
+	sell_reward = item_durability * item_level * (item_rarity * item_rarity)
+	label_sell_reward.text = str(sell_reward)
+	dismantle_reward = sell_reward / 10000
+	label_dismantle_reward.text = ""
+	for x in dismantle_reward:
+		label_dismantle_reward.text += "I"
 	
-	if weaponMode == 0:
-		if item == "weapon_basic":
-			unlock_price = 10000
-			%Icon.region_rect = Rect2(448, 698, 64, 64)
-			weapon_type = "basic"
-			attack_delay = 1.5
-		elif item == "weapon_short_shotDelay":
-			unlock_price = 150000
-			%Icon.region_rect = Rect2(128, 640, 64, 64)
-			weapon_type = "short_shotDelay"
-			attack_delay = 0.1
-		elif item == "weapon_ice":
-			unlock_price = 50000
-			%Icon.region_rect = Rect2(192, 640, 64, 64)
-			weapon_type = "ice"
-			attack_delay = 1.0
-		elif item == "weapon_fire":
-			unlock_price = 35000
-			%Icon.region_rect = Rect2(64, 640, 64, 64)
-			weapon_type = "fire"
-			attack_delay = 1.0
-		elif item == "weapon_destructive_fast_speed":
-			unlock_price = 70000
-			%Icon.region_rect = Rect2(0, 640, 64, 64)
-			weapon_type = "destructive_fast_speed"
-			attack_delay = 0.3
-		elif item == "weapon_veryFast_speed":
-			unlock_price = 25000
-			%Icon.region_rect = Rect2(256, 640, 64, 64)
-			weapon_type = "veryFast_speed"
-			attack_delay = 2
-		elif item == "weapon_phaser":
-			unlock_price = 35000
-			%Icon.region_rect = Rect2(1664, 768, 64, 64)
-			weapon_type = "phaser"
-			attack_delay = 999 #unused for the phaser weapon
+	if item_rarity == 1 : icon.modulate = Color.WHITE
+	if item_rarity == 2 : icon.modulate = Color.GREEN_YELLOW
+	if item_rarity == 3 : icon.modulate = Color.SKY_BLUE
+	if item_rarity == 4 : icon.modulate = Color.MEDIUM_PURPLE
+	if item_rarity == 5 : icon.modulate = Color.GOLD
 	
-	
-	if weaponMode == 1:
-		if item == "secondaryWeapon_basic":
-			unlock_price = 25000
-			%Icon.region_rect = Rect2(432, 768, 48, 48)
-			secondaryWeapon_type = "basic"
-			secondaryAttack_delay = 1.5
-		elif item == "secondaryWeapon_fast":
-			unlock_price = 100000
-			%Icon.region_rect = Rect2(432, 768, 48, 48)
-			secondaryWeapon_type = "fast"
-			secondaryAttack_delay = 0.1
-	
-	
-	display_unlockPrice.text = str(unlock_price)
-	
-	if unlocked:
-		display_unlockPrice.queue_free()
-		%"Unlock Label".queue_free()
+	if item_rarity == 1 : menu_bg.modulate = Color.WHITE
+	if item_rarity == 2 : menu_bg.modulate = Color.GREEN_YELLOW
+	if item_rarity == 3 : menu_bg.modulate = Color.SKY_BLUE
+	if item_rarity == 4 : menu_bg.modulate = Color.MEDIUM_PURPLE
+	if item_rarity == 5 : menu_bg.modulate = Color.GOLD
+
+func _process(delta):
+	if focused:
+		container_main.modulate.a = move_toward(container_main.modulate.a, 1.0, delta * 4)
+	else:
+		container_main.modulate.a = move_toward(container_main.modulate.a, 0.0, delta * 4)
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	if Input.is_action_just_released("quickselect"):
-		if %Button.focused:
-			if unlocked:
-				if weaponMode == 0:
-					$/root/World.player.get_node("%attack_cooldown").wait_time = attack_delay
-					$/root/World.player.weaponType = weapon_type
-				if weaponMode == 1:
-					$/root/World.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
-					$/root/World.player.secondaryWeaponType = secondaryWeapon_type
-			else:
-				pass
+var focused : bool = false
 
+func _on_mouse_entered() -> void:
+	focused = true
 
-
-func _on_button_pressed():
-	if Input.is_action_pressed("quickselect"):
-		if not unlocked:
-			if Globals.level_score >= unlock_price:
-				Globals.level_score -= unlock_price
-				Globals.score_reduced.emit()
-				display_unlockPrice.queue_free()
-				%"Unlock Label".queue_free()
-				unlocked = true
-				
-				var previous_state = $/root/World/HUD/quickselect_screen.get("unlock_state_" + item)
-				if previous_state < 1:
-					$/root/World/HUD/quickselect_screen.set("unlock_state_" + item, 1)
-		
-		#$/root/World.player.weaponType = weapon_type
-		#$/root/World.player.secondaryWeaponType = secondaryWeapon_type
-		#$/root/World.player.get_node("%attack_cooldown").wait_time = attack_delay
-		#$/root/World.player.get_node("%secondaryAttack_cooldown").wait_time = secondaryAttack_delay
-	#pass
+func _on_mouse_exited() -> void:
+	focused = false

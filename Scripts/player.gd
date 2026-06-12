@@ -316,6 +316,8 @@ var can_dash = true
 signal safe_standUp
 
 func _on_timer_dash_timeout():
+	animation_player_sprite_color.play("flash_white_faint")
+	
 	dash_active = false
 	
 	if can_stand_up == 0:
@@ -341,7 +343,8 @@ func _on_timer_dash_timeout():
 		can_dash = true
 		
 		state_crouch = 0
-		state_crouch_walk = 1
+		state_crouch_walk = 0
+		#state_crouch_walk = 1
 	
 	raycast_top.enabled = true
 
@@ -353,6 +356,8 @@ func _on_cooldown_dash_end_slowdown_enable_timeout():
 	if not dash_end_slowdown_canceled:
 		c_dash_end_slowdown_disable.start()
 		dash_end_slowdown_active = true
+		sprite.play_backwards("crouch")
+	
 	else:
 		dash_end_slowdown_canceled = false
 		dash_just_landed_queued = false
@@ -407,7 +412,6 @@ func handle_gravity(delta):
 			t_dash_speed_block.start()
 		
 		dash_speed_block_active = true
-		sprite.play("crouch")
 		
 		#if started_dash == false or dash_slowdown:
 			#velocity.x = 0
@@ -415,9 +419,22 @@ func handle_gravity(delta):
 		if Input.is_action_pressed("move_down"):
 			velocity.y += fall_speed * delta * 4 * gravity_multiplier
 			velocity.x = move_toward(velocity.x, 800 * direction_x, 6000 * delta)
+		
 		else:
-			velocity.y += fall_speed * delta * 2 * gravity_multiplier
-			velocity.x = move_toward(velocity.x, 800 * direction_x, 6000 * delta)
+			
+			if Input.is_action_pressed("jump"):
+				velocity.y += fall_speed * delta * 1 * gravity_multiplier
+				velocity.x = move_toward(velocity.x, 800 * direction_x, 6000 * delta)
+			else:
+				velocity.y += fall_speed * delta * 2.5 * gravity_multiplier
+				velocity.x = move_toward(velocity.x, 800 * direction_x, 6000 * delta)
+		
+		if abs(velocity.x) > 500:
+			state_crouch_walk = 1
+			state_crouch = 0
+		else:
+			state_crouch_walk = 0
+			state_crouch = 1
 	
 	else:
 		dash_active = false
@@ -449,6 +466,7 @@ func update_sprite():
 	sprite_animation()
 
 func sprite_animation():
+	if sprite.animation == "crouch" and sprite.frame != 0: return
 	
 	var queued_anim = "idle"
 	var x = 0
@@ -463,7 +481,7 @@ func sprite_animation():
 	if state_crouch_walk >= x : queued_anim = "crouch_walk"; x = state_crouch_walk
 	if state_death >= x : queued_anim = "death"; x = state_death
 	
-	sprite.play(queued_anim)
+	if not sprite.animation == queued_anim : sprite.play(queued_anim)
 
 
 func _on_cooldown_state_idle_timeout(): # Walking anim weight is disabled here, allowing for the Idle anim to take over after a delay after the player stops moving horizontally.
@@ -577,7 +595,7 @@ func handle_jump(delta):
 		if Input.is_action_just_released("jump") and velocity.y < jump_velocity / 2:
 			velocity.y = jump_velocity / 2
 			Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(0, 0), 10)
-		if can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_down"):
+		if Globals.gameState_debug and Input.is_action_just_pressed("jump") or can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("crouch"):
 			Globals.message_debug("player air jump")
 			print("player air jump")
 			Globals.spawn_scenes(World, Globals.scene_particle_special, 12, position + Vector2(0, 24), 8, Color(0, 1, 0, 0), Vector2(-0.6, -0.6), 10)
@@ -685,13 +703,14 @@ func _on_timer_state_shoot():
 # Player crouch/dash logic:
 func handle_crouch():
 	if can_dash and is_on_floor():
-		if Input.is_action_pressed("move_down") and not crouch_walk_active and not crouch_active:
+		if Input.is_action_pressed("crouch") and on_floor:
 			Globals.message_debug("player crouch")
 			c_crouch_walk.start()
 			c_crouch_walk_correct_collision.start()
 			crouch_active = true
 			state_crouch = 1
-			sprite.play("crouch")
+			if not (sprite.animation == "crouch" and sprite.frame == 4):
+				sprite.play("crouch")
 			
 			crouch_walk_multiplier = 0.6
 			if ability_crouch_walk:
@@ -711,7 +730,7 @@ func handle_crouch():
 			
 			raycast_top.enabled = false
 	
-	if not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_active or not Input.is_action_pressed("move_down") and can_stand_up == 0 and crouch_walk_active or not on_floor and can_stand_up == 0 and crouch_walk_active:
+	if Input.is_action_just_released("crouch"):
 		collision_main.shape.extents = collision_size
 		collision_main.position = collision_pos_offset
 		
@@ -796,6 +815,7 @@ func _on_cooldown_just_landed_timeout():
 	q_just_landed = true
 
 
+# UNUSED!!!
 func _on_await_jump_timer_timeout():
 	dash_end_slowdown_await_jump = false
 
@@ -878,7 +898,7 @@ func handle_attack_main():
 	elif dead : return
 	elif Globals.weapon_blocked : return
 	
-	if Input.is_action_pressed("attack_secondary"):
+	if Input.is_action_pressed("attack_main"):
 		if c_attack.time_left > 0.0 : return
 		c_attack.start()
 		
@@ -896,7 +916,7 @@ func handle_attack_main():
 			sprite.flip_h = (direction_x < 0)
 	
 	
-	elif Input.is_action_just_pressed("attack_main"):
+	elif Input.is_action_just_pressed("attack_secondary"):
 		if c_attack.time_left > 0.0 : return
 		c_attack.wait_time = 0.1
 		c_attack.start()
@@ -921,6 +941,11 @@ func attack_main_spawn_scene(filepath):
 	if filepath == "res://Projectiles/fireball.tscn":
 		var scene = load(filepath).instantiate()
 		
+		for property_name in Globals.weapon:
+			if property_name == "none" : continue
+			
+			scene.set(property_name, Globals.weapon[property_name])
+		
 		scene.position = position + attack_pos_offset * Globals.player_direction_x_active
 		scene.set_player_attack_cooldown = true
 		scene.family = "Player"
@@ -928,23 +953,18 @@ func attack_main_spawn_scene(filepath):
 		scene.always_active = true
 		
 		if Input.is_action_pressed("move_down"):
-			if not scene.direction_y: # If "direction_y" is equal to "0".
-				scene.direction_y = 1
-				scene.direction_x = 0
+			scene.direction_y = 1
+			scene.direction_x = 0
+			scene.movement_type = "move_xy"
+			scene.ignore_gravity = false
+			#scene.velocity.y = -scene.speed * 1.5
 		
 		elif Input.is_action_pressed("move_up"):
-			if not scene.direction_y:
-				scene.direction_y = -1
-				scene.direction_x = 0
-				scene.movement_type = "normal"
-				scene.ignore_gravity = false
-				scene.velocity.y = -scene.speed * 1.5
-		
-		
-		for property_name in Globals.weapon:
-			if property_name == "none" : continue
-			
-			scene.set(property_name, Globals.weapon[property_name])
+			scene.direction_y = -1
+			scene.direction_x = 0
+			scene.movement_type = "normal"
+			scene.ignore_gravity = false
+			scene.velocity.y = velocity.y * 2
 		
 		World.add_child(scene)
 		
@@ -1154,9 +1174,9 @@ func handle_manual_player_death():
 
 
 func handle_flight(delta):
-	if Input.is_action_pressed("jump") or Input.is_action_pressed("move_up"):
+	if Input.is_action_pressed("jump"):
 		velocity.y = move_toward(velocity.y, jump_velocity, delta * acceleration / 2)
-	elif Input.is_action_pressed("move_down"):
+	elif Input.is_action_pressed("crouch"):
 		velocity.y = move_toward(velocity.y, -jump_velocity, delta * acceleration / 2)
 	else:
 		velocity.y = move_toward(velocity.y, 0, delta * 600)
@@ -1348,15 +1368,13 @@ func _on_timer_invincible_timeout() -> void:
 var wall_run_speed_multiplier : float = 1.0
 
 func handle_wall_run(delta):
-	Engine.time_scale = 1
-	
 	if not on_wall:
 		state_crouch_walk = 0
 		wall_run_speed_multiplier = 1.0
 		return
 	
 	if Input.is_action_pressed("move_up"):
-		position.y += -4 * wall_run_speed_multiplier
+		position.y += -4 * wall_run_speed_multiplier * (delta * 100)
 		wall_run_speed_multiplier += delta * 2
 		
 		state_crouch_walk = 10

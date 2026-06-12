@@ -462,7 +462,7 @@ _data = {
 &"glow": SubResource("Animation_q78fb")
 }
 
-[node name="player_abilities" type="Control"]
+[node name="player_abilities" type="Control" groups=["hud_player_abilities"]]
 modulate = Color(2, 2, 2, 1)
 layout_mode = 3
 anchors_preset = 15
@@ -470,20 +470,24 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_rw8je")
 
 [node name="projectile_charges_left" type="Control" parent="."]
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="projectile_charges_left"]
 layout_mode = 0
 offset_right = 32.0
 offset_bottom = 64.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_rw8je")
 
 [node name="slot_fill" type="Control" parent="projectile_charges_left"]
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="fill" type="ColorRect" parent="projectile_charges_left/slot_fill"]
 z_index = -1
@@ -492,6 +496,7 @@ offset_left = 4.0
 offset_top = 15.0
 offset_right = 4.0
 offset_bottom = 54.0
+mouse_filter = 2
 color = Color(0, 0.352941, 1, 1)
 
 [node name="fill2" type="ColorRect" parent="projectile_charges_left/slot_fill"]
@@ -501,6 +506,7 @@ offset_left = 5.0
 offset_top = 54.0
 offset_right = 5.0
 offset_bottom = 59.0
+mouse_filter = 2
 color = Color(0, 0.352941, 1, 1)
 
 [node name="fill3" type="ColorRect" parent="projectile_charges_left/slot_fill"]
@@ -510,6 +516,7 @@ offset_left = 7.0
 offset_top = 57.0
 offset_right = 7.0
 offset_bottom = 60.0
+mouse_filter = 2
 color = Color(0, 0.352941, 1, 1)
 
 [node name="fill4" type="ColorRect" parent="projectile_charges_left/slot_fill"]
@@ -519,6 +526,7 @@ offset_left = 12.0
 offset_top = 59.0
 offset_right = 12.0
 offset_bottom = 61.0
+mouse_filter = 2
 color = Color(0, 0.352941, 1, 1)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="projectile_charges_left/slot_fill"]
@@ -528,11 +536,14 @@ libraries = {
 
 [node name="projectile_charges_middle" type="Control" parent="."]
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="projectile_charge_slot" parent="projectile_charges_middle" instance=ExtResource("3_q78fb")]
+mouse_filter = 2
 
 [node name="projectile_charges_right" type="Control" parent="."]
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="debug_charges +" type="Button" parent="."]
 visible = false

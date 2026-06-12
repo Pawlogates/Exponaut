@@ -58,7 +58,7 @@ func _process(_delta):
 			modulate = Color.WHITE
 			sprite.modulate.a = 1
 	
-	if Input.is_action_just_released("attack_main") and not charged and not started:
+	if Input.is_action_just_released("attack_secondary") and not charged and not started:
 		Globals.projectile_shot.emit()
 		charged_shot_buffer.stop()
 		x = rng.randf_range(0, 2)
@@ -88,7 +88,7 @@ func _process(_delta):
 				player_projectile_phaser.visible = true
 				projectile_shot = true
 	
-	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Input.is_action_pressed("move_down"):
+	elif charged == true and Input.is_action_just_released("attack_secondary") and charged and not started and not projectile_shot and Input.is_action_pressed("move_down"):
 		direction_y = 1
 		
 		damage_value = 3
@@ -105,7 +105,7 @@ func _process(_delta):
 		upward_shot = true
 	
 	
-	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.player_direction_x_active == 1:
+	elif charged == true and Input.is_action_just_released("attack_secondary") and charged and not started and not projectile_shot and Globals.player_direction_x_active == 1:
 		damage_value = 3
 		started = true
 		charged_shot.visible = false
@@ -116,7 +116,7 @@ func _process(_delta):
 		charged_shot_buffer.stop()
 		projectile_shot = true
 	
-	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.player_direction_x_active == -1:
+	elif charged == true and Input.is_action_just_released("attack_secondary") and charged and not started and not projectile_shot and Globals.player_direction_x_active == -1:
 		damage_value = 3
 		started = true
 		charged_shot.visible = false
@@ -173,13 +173,13 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 					
 					Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, target.position)
 			
-			target.velocity.x = direction_x * 500
-			target.velocity.y = -250
+			target.velocity.x = direction_x * 500 * randf_range(0.9, 1.1)
+			target.velocity.y = -250 * randf_range(0.9, 1.1)
 			
 			if direction_y == 1:
-				target.velocity.y = -250
+				target.velocity.y = -250 * randf_range(0.9, 1.1)
 			elif direction_y == -1:
-				target.velocity.y = -500
+				target.velocity.y = -500 * randf_range(0.9, 1.1)
 
 func toggle_direction_x():
 	direction_x *= -1

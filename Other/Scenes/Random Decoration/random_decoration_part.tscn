@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="1_tmvwb"]
 [ext_resource type="Script" uid="uid://bt33eekbl7oo5" path="res://Scripts/random_decoration_part.gd" id="2_pe2uk"]
 
-[node name="random_decoration_part" type="Sprite2D"]
+[node name="random_decoration" type="Sprite2D"]
 texture = ExtResource("1_tmvwb")
 region_enabled = true
 region_rect = Rect2(0, 0, 64, 64)

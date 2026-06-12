@@ -18,6 +18,8 @@ func _ready() -> void:
 	if randomize_opacity : modulate.a = randf_range(0, 0.5)
 	if randomize_rotation : rotation_degrees = randi_range(0, 360)
 	if randomize_scale : scale = Vector2(randf_range(0.5, 1.5), randf_range(-1.5, 1.5))
+	
+	if modulate.a < 0.1 : queue_free()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:

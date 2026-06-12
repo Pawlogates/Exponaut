@@ -1,0 +1,168 @@
+[gd_scene load_steps=5 format=3 uid="uid://b15k3q7jrwyig"]
+
+[ext_resource type="Script" uid="uid://cshmq1a1lmhp5" path="res://Scripts/display_text_falling.gd" id="1_xlg0u"]
+[ext_resource type="Material" uid="uid://baxn4hh7ugrk2" path="res://Other/Materials/score_bonus_rainbow2.tres" id="2_6ss58"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="3_o84r2"]
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_7vrt1"]
+
+[node name="display_text_falling" type="CharacterBody2D"]
+z_index = 50
+script = ExtResource("1_xlg0u")
+
+[node name="container_main" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -256.0
+offset_top = -64.0
+offset_right = 256.0
+offset_bottom = 64.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="label_text" type="Label" parent="container_main"]
+texture_filter = 1
+material = ExtResource("2_6ss58")
+layout_mode = 0
+offset_right = 512.0
+offset_bottom = 128.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline" type="Control" parent="container_main/label_text"]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="outline" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_top = -8.0
+offset_right = 512.0
+offset_bottom = 120.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline2" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.99998
+offset_top = -8.0
+offset_right = 520.0
+offset_bottom = 120.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline3" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.99998
+offset_right = 520.0
+offset_bottom = 128.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline4" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_left = 7.99998
+offset_top = 7.99994
+offset_right = 520.0
+offset_bottom = 136.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline5" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_top = 7.99994
+offset_right = 512.0
+offset_bottom = 136.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline6" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_left = -8.0
+offset_top = 7.99994
+offset_right = 504.0
+offset_bottom = 136.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline7" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_left = -8.0
+offset_right = 504.0
+offset_bottom = 128.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="outline8" type="Label" parent="container_main/label_text/outline"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+texture_filter = 1
+layout_mode = 0
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 504.0
+offset_bottom = 120.0
+pivot_offset = Vector2(256, 64)
+theme = ExtResource("3_o84r2")
+theme_override_font_sizes/font_size = 64
+text = "score"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="animation_all" parent="container_main/label_text" instance=ExtResource("4_7vrt1")]

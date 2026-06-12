@@ -13,14 +13,13 @@ can_move = true
 ignore_gravity = false
 on_floor_bounce = true
 start_animation = "none"
-on_collected_anim_name = "none"
+on_collected_spawn_star2 = false
 sfx_self_collected_filepath = "uid://vm1ccgk5h0ag"
+sfx_self_hit_filepath = "uid://bvklt3ov80jdg"
 entity_name = "coin_timed"
 
 [node name="sprite" parent="." index="1"]
-scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("2_syj8d")
 
 [node name="collision_main" parent="." index="2"]
-scale = Vector2(0.5, 0.5)
 shape = SubResource("RectangleShape2D_gymcb")

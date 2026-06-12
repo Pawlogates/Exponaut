@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://ba2c6a4hyj7m4"]
+
+[ext_resource type="Script" uid="uid://cgleyjbfaqtig" path="res://Other/Effects/effect_text.gd" id="1_v86s4"]
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="1_wkl3f"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_bn5v8"]
+[ext_resource type="PackedScene" uid="uid://de48x7q63qyx6" path="res://Objects/Decorations/orb_shadow.tscn" id="4_yx3y7"]
+
+[node name="effect_text" type="Node2D"]
+z_index = 100
+script = ExtResource("1_v86s4")
+
+[node name="label_message" type="Label" parent="."]
+offset_right = 79.0
+offset_bottom = 44.6667
+scale = Vector2(0.8, 0.8)
+theme = ExtResource("3_bn5v8")
+theme_override_font_sizes/font_size = 32
+text = "none"
+
+[node name="animation_all" parent="label_message" instance=ExtResource("1_wkl3f")]
+
+[node name="orb_shadow" parent="label_message" instance=ExtResource("4_yx3y7")]
+modulate = Color(0, 0, 0, 0.196078)
+z_index = -1
+layout_mode = 0
+offset_left = -48.0
+offset_top = -32.0
+offset_right = 452.0
+offset_bottom = 468.0
+scale = Vector2(0.25, 0.25)
+
+[connection signal="animation_finished" from="label_message/animation_all" to="." method="_on_animation_all_animation_finished"]

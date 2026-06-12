@@ -11,6 +11,7 @@ immortal = true
 award_score = false
 reset_puzzle = true
 on_collected_reset_puzzle = true
+start_animation = "general/loop_up_down_slight"
 can_change_sprite_anim = true
 
 [node name="sprite" parent="." index="1"]

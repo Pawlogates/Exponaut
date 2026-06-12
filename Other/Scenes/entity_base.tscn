@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://wgtcgh1uo037"]
+[gd_scene load_steps=16 format=3 uid="uid://wgtcgh1uo037"]
 
 [ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://Scripts/entity.gd" id="1_wx0ek"]
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="6_84r7y"]
 [ext_resource type="Script" uid="uid://12wkcbpatg3w" path="res://Enemies/general_timers_core.gd" id="7_fjle6"]
 [ext_resource type="PackedScene" uid="uid://wn4ag4k6r2t5" path="res://Other/Entity Behaviors/scan_patrolling_vision.tscn" id="7_spxko"]
+[ext_resource type="PackedScene" uid="uid://drbm0wuk71bi" path="res://Other/Scenes/scan_stuck.tscn" id="10_5wk4g"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
 size = Vector2(63, 63)
@@ -31,6 +32,8 @@ collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
 start_animation = "general/loop_up_down_slight"
+sfx_self_reflected_straight_filepath = "uid://v0g8agi72nyb"
+sfx_self_reflected_slope_filepath = "uid://v0g8agi72nyb"
 
 [node name="timeout_basic" type="Node2D" parent="."]
 
@@ -120,10 +123,6 @@ mouse_filter = 2
 position = Vector2(32, 0)
 target_position = Vector2(0, 64)
 
-[node name="scan_stuck" type="RayCast2D" parent="."]
-position = Vector2(0, -32)
-target_position = Vector2(0, 64)
-
 [node name="cooldown_collidable" type="Timer" parent="."]
 wait_time = 0.25
 one_shot = true
@@ -206,6 +205,8 @@ one_shot = true
 
 [node name="cooldown_attack_limit" type="Timer" parent="."]
 one_shot = true
+
+[node name="scan_stuck" parent="." instance=ExtResource("10_5wk4g")]
 
 [connection signal="timeout" from="timeout_basic/cooldown_jump" to="." method="_on_cooldown_jump_timeout"]
 [connection signal="timeout" from="timeout_basic/cooldown_change_direction_x" to="." method="_on_cooldown_change_direction_x_timeout"]

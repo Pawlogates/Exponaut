@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cr15cqjny1b63"]
 
 [ext_resource type="Script" uid="uid://pg24d22j4s7s" path="res://Other/Scenes/display_score.gd" id="1_yadvj"]
-[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="2_yadvj"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_4sgki"]
 
 [sub_resource type="Animation" id="Animation_yadvj"]
 length = 0.001
@@ -213,7 +213,7 @@ grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(256, 64)
-theme = ExtResource("2_yadvj")
+theme = ExtResource("2_4sgki")
 theme_override_font_sizes/font_size = 24
 text = "score"
 horizontal_alignment = 1
@@ -224,5 +224,6 @@ reset_on_save = false
 libraries = {
 &"": SubResource("AnimationLibrary_ihjei")
 }
+speed_scale = 2.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

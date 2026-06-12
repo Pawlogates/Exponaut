@@ -3,7 +3,7 @@
 [ext_resource type="Texture2D" uid="uid://bu8kndhsapfd4" path="res://Assets/Graphics/tilesets/tileset_decorations.png" id="1_uryi8"]
 [ext_resource type="Script" uid="uid://bt33eekbl7oo5" path="res://Scripts/random_decoration_part.gd" id="2_drga7"]
 
-[node name="random_decoration_part_column" type="Sprite2D"]
+[node name="random_decoration" type="Sprite2D"]
 modulate = Color(1, 1, 1, 0.588235)
 texture = ExtResource("1_uryi8")
 region_enabled = true

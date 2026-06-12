@@ -1,0 +1,150 @@
+[gd_scene load_steps=8 format=3 uid="uid://dq355i6wf2cc8"]
+
+[ext_resource type="Script" uid="uid://dysluxytnb3ip" path="res://Scripts/quickselect_itemDisplay.gd" id="1_guglv"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_ddiir"]
+[ext_resource type="Theme" uid="uid://iquv0go478mb" path="res://Other/Themes/text_ui.tres" id="3_nhwmq"]
+[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="4_txi6l"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_ddiir"]
+[ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="6_nhwmq"]
+[ext_resource type="PackedScene" uid="uid://de48x7q63qyx6" path="res://Objects/Decorations/orb_shadow.tscn" id="6_txi6l"]
+
+[node name="display_item" type="Control" groups=["quickselect_itemDisplay"]]
+z_index = 15
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 128.0
+offset_bottom = 128.0
+script = ExtResource("1_guglv")
+
+[node name="icon" type="Sprite2D" parent="."]
+z_index = 5
+position = Vector2(64, 64)
+texture = ExtResource("2_ddiir")
+region_enabled = true
+region_rect = Rect2(384, 640, 64, 64)
+
+[node name="container_main" type="Control" parent="."]
+z_index = 10
+anchors_preset = 0
+offset_left = -64.0
+offset_right = 192.0
+offset_bottom = 128.0
+mouse_filter = 2
+
+[node name="container_sell" type="VBoxContainer" parent="container_main"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 64.0
+grow_horizontal = 2
+mouse_filter = 2
+alignment = 1
+
+[node name="label_sell_reward" type="Label" parent="container_main/container_sell"]
+layout_mode = 2
+theme = ExtResource("3_nhwmq")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "100000"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="btn_sell" type="Button" parent="container_main/container_sell"]
+custom_minimum_size = Vector2(60, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme = ExtResource("4_txi6l")
+theme_override_font_sizes/font_size = 18
+text = "S E L L"
+
+[node name="container_dismantle" type="VBoxContainer" parent="container_main"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -64.0
+grow_horizontal = 2
+grow_vertical = 0
+mouse_filter = 2
+alignment = 1
+
+[node name="btn_dismantle" type="Button" parent="container_main/container_dismantle"]
+custom_minimum_size = Vector2(120, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+mouse_filter = 2
+theme = ExtResource("4_txi6l")
+theme_override_font_sizes/font_size = 18
+text = "D I S M A N T L E"
+
+[node name="label_dismantle_reward" type="Label" parent="container_main/container_dismantle"]
+layout_mode = 2
+theme = ExtResource("3_nhwmq")
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 20
+text = "III"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="label_name" type="Label" parent="container_main"]
+layout_mode = 0
+offset_left = -288.0
+offset_top = -64.0
+offset_right = 544.0
+theme = ExtResource("5_ddiir")
+text = "item name"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="orb_shadow" parent="container_main" instance=ExtResource("6_txi6l")]
+z_index = -1
+layout_mode = 0
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 288.0
+offset_bottom = 96.0
+mouse_filter = 2
+expand_mode = 1
+
+[node name="orb_shadow4" parent="container_main" instance=ExtResource("6_txi6l")]
+z_index = -1
+layout_mode = 0
+offset_left = -32.0
+offset_top = -48.0
+offset_right = 288.0
+offset_bottom = 80.0
+mouse_filter = 2
+expand_mode = 1
+
+[node name="orb_shadow2" parent="container_main" instance=ExtResource("6_txi6l")]
+z_index = -1
+layout_mode = 0
+offset_left = -32.0
+offset_top = 32.0
+offset_right = 288.0
+offset_bottom = 160.0
+mouse_filter = 2
+expand_mode = 1
+
+[node name="orb_shadow3" parent="container_main" instance=ExtResource("6_txi6l")]
+z_index = -1
+layout_mode = 0
+offset_left = -32.0
+offset_top = 48.0
+offset_right = 288.0
+offset_bottom = 176.0
+mouse_filter = 2
+expand_mode = 1
+
+[node name="menu_bg" parent="." instance=ExtResource("6_nhwmq")]
+layout_mode = 1
+outline_top_width = 4.0
+outline_bottom_width = 4.0
+outline_left_width = 4.0
+outline_right_width = 4.0
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

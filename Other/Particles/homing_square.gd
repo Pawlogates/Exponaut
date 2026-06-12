@@ -8,16 +8,16 @@ var SPEED = 250
 var homing = false
 var collected = false
 
-@onready var player = $/root/World.Player
-@onready var world = $/root/World
-@onready var particle_visual = $particle
+@onready var player = Globals.Player
+@onready var world = Globals.World
+@onready var rect: ColorRect = $rect
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	velocity = Vector2(randi_range(-300, 300), randi_range(-300, 50))
 	
 	var scale_base : float = randf_range(-2, 0.5)
-	particle_visual.scale = Vector2(scale_base, scale_base)
+	rect.scale = Vector2(scale_base, scale_base)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -26,7 +26,7 @@ func _process(delta):
 	if not homing:
 		velocity.x = move_toward(velocity.x, 0, delta * 10)
 		velocity.y += 5
-		particle_visual.rotation_degrees = move_toward(particle_visual.rotation_degrees, direction_v * SPEED * -1, delta * 20)
+		rect.rotation_degrees = move_toward(rect.rotation_degrees, direction_v * SPEED * -1, delta * 20)
 		
 		move_and_slide()
 		return
@@ -50,7 +50,7 @@ func _process(delta):
 	velocity.x = move_toward(velocity.x, direction * SPEED, SPEED * delta * 3)
 	velocity.y = move_toward(velocity.y, direction_v * SPEED, SPEED * delta * 6)
 	
-	particle_visual.rotation_degrees = move_toward(particle_visual.rotation_degrees, direction_v * SPEED, SPEED * delta / 2)
+	rect.rotation_degrees = move_toward(rect.rotation_degrees, direction_v * SPEED, SPEED * delta / 2)
 	
 	move_and_slide()
 

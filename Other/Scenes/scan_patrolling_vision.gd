@@ -20,4 +20,4 @@ func _ready():
 func _on_cooldown_spawn_particle_timeout() -> void:
 	var rolled_size : float = randf_range(2, 6)
 	
-	Globals.spawn_scenes(collision_patrolling, Globals.scene_particle_score, 1, Vector2(randi_range(-vision_size.x / 2, vision_size.x / 2), randi_range(-vision_size.y / 2, vision_size.y / 2)), 0.25, Color(0, -1, -1, randf_range(-0.5, -0.9)), Vector2(-rolled_size, -rolled_size))
+	Globals.spawn_scenes(collision_patrolling, Globals.scene_particle_homing_square, 1, Vector2(randi_range(-vision_size.x / 2, vision_size.x / 2), randi_range(-vision_size.y / 2, vision_size.y / 2)), 0.25, Color(0, -1, -1, randf_range(-0.5, -0.9)), Vector2(-rolled_size, -rolled_size))

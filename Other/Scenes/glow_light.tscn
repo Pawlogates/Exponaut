@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cuf4l1dof8met"]
+
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="1_taket"]
+
+[node name="glow_light2" type="PointLight2D"]
+light_mask = 0
+visibility_layer = 0
+z_index = 333
+energy = 0.25
+range_item_cull_mask = 512
+texture = ExtResource("1_taket")

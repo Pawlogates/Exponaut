@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://hq4cxsvbv03l"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_5yskg"]
-[ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_togglebot.tres" id="2_i7pjj"]
+[ext_resource type="SpriteFrames" uid="uid://7ree2fflq7ta" path="res://Assets/Graphics/sprites/packed/enemies/glades_slime.tres" id="2_i7pjj"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_i7pjj"]
 
 [sub_resource type="Animation" id="Animation_snhod"]

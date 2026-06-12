@@ -1,0 +1,131 @@
+[gd_scene load_steps=3 format=3 uid="uid://c0qu8d3gh4i0p"]
+
+[ext_resource type="Script" uid="uid://beytu5l283ya8" path="res://Scripts/random_decoration.gd" id="1_sy8ww"]
+[ext_resource type="PackedScene" uid="uid://de48x7q63qyx6" path="res://Objects/Decorations/orb_shadow.tscn" id="2_yitx3"]
+
+[node name="random_decoration" type="Node2D"]
+modulate = Color(0, 0, 0, 1)
+z_index = 5
+script = ExtResource("1_sy8ww")
+deco_amount = 8
+deco_spread = 12
+
+[node name="editor_marker" type="ColorRect" parent="."]
+z_index = -5
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+
+[node name="square" type="ColorRect" parent="."]
+z_index = 55
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
+
+[node name="container_orb_shadow" type="Node2D" parent="."]
+
+[node name="orb_shadow" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
+offset_left = -55.0
+offset_top = 9.0
+offset_right = 445.0
+offset_bottom = 509.0
+scale = Vector2(0.25, 0.1)
+
+[node name="orb_shadow3" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
+offset_left = -85.0
+offset_top = 22.0
+offset_right = 415.0
+offset_bottom = 522.0
+rotation = -0.764171
+scale = Vector2(0.25, 0.1)
+
+[node name="orb_shadow4" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
+offset_left = 50.0
+offset_top = -65.0
+offset_right = 550.0
+offset_bottom = 435.0
+rotation = 1.46002
+scale = Vector2(0.25, 0.1)
+
+[node name="orb_shadow5" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
+offset_left = -40.0
+offset_top = -73.0
+offset_right = 460.0
+offset_bottom = 427.0
+rotation = 0.217097
+scale = Vector2(0.25, 0.1)
+
+[node name="orb_shadow6" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
+offset_left = -77.0
+offset_top = -49.0
+offset_right = 423.0
+offset_bottom = 451.0
+rotation = -0.111712
+scale = Vector2(0.25, 0.1)
+
+[node name="orb_shadow7" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
+offset_left = -73.0
+offset_top = 45.0
+offset_right = 427.0
+offset_bottom = 545.0
+rotation = -1.31403
+scale = Vector2(0.25, 0.1)
+
+[node name="orb_shadow2" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
+offset_left = -82.0
+offset_top = 2.0
+offset_right = 418.0
+offset_bottom = 502.0
+scale = Vector2(0.25, 0.1)
+
+[node name="container_rectangle" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="container_rectangle"]
+offset_left = -31.0
+offset_top = -40.0
+offset_right = 38.0
+offset_bottom = -29.0
+rotation = 0.0640673
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="container_rectangle"]
+offset_left = 3.00001
+offset_top = -31.0
+offset_right = 30.0
+offset_bottom = -20.0
+rotation = -0.101754
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="container_rectangle"]
+offset_left = -40.0
+offset_top = 19.0
+offset_right = 16.0
+offset_bottom = 30.0
+rotation = -1.28398
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="container_rectangle"]
+offset_left = 27.0
+offset_top = 25.0
+offset_right = 83.0
+offset_bottom = 36.0
+rotation = -1.66665
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="container_rectangle"]
+offset_left = 32.0
+offset_top = 36.0
+offset_right = 88.0
+offset_bottom = 47.0
+rotation = -3.24924
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="container_rectangle"]
+offset_left = -19.0
+offset_top = 37.0
+offset_right = 7.0
+offset_bottom = 48.0
+rotation = -2.74736
+color = Color(0, 0, 0, 1)
