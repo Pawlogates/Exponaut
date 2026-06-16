@@ -91,7 +91,7 @@ offset_right = 768.0
 offset_bottom = 140.0
 theme = ExtResource("2_ygdap")
 theme_override_font_sizes/font_size = 20
-placeholder_text = "Leave it empty for a random name... Please don't though :("
+placeholder_text = "Leave empty for a random name."
 caret_blink = true
 
 [node name="Label" type="Label" parent="container_main"]
@@ -101,7 +101,7 @@ offset_top = 16.0
 offset_right = 760.0
 offset_bottom = 56.0
 theme = ExtResource("2_ygdap")
-text = "Type in your new username!"
+text = "Set player name."
 horizontal_alignment = 1
 
 [node name="sfx_manager" parent="container_main" instance=ExtResource("3_1ghu5")]
@@ -116,6 +116,7 @@ theme = ExtResource("2_ygdap")
 text = "Confirm"
 
 [node name="Label2" type="Label" parent="container_main"]
+visible = false
 layout_mode = 0
 offset_left = -240.0
 offset_top = 428.0
@@ -127,6 +128,7 @@ The name you provide here, will appear on the leaderboard, next to your score."
 horizontal_alignment = 1
 
 [node name="Label3" type="Label" parent="container_main"]
+visible = false
 layout_mode = 0
 offset_left = -112.0
 offset_top = -84.0
@@ -138,6 +140,7 @@ text = "This window appears instead of a menu if your username is not set."
 horizontal_alignment = 1
 
 [node name="Label4" type="Label" parent="container_main"]
+visible = false
 modulate = Color(1, 1, 1, 0.603922)
 layout_mode = 0
 offset_left = 32.0

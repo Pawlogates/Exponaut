@@ -341,7 +341,7 @@ func _on_timer_dash_timeout():
 		can_dash = true
 		
 		state_crouch = 0
-		state_crouch_walk = 1
+		state_crouch_walk = 0
 	
 	raycast_top.enabled = true
 
@@ -542,7 +542,7 @@ func handle_jump(delta):
 	# Regular jump:
 	if can_jump and on_floor or can_jump and t_leniency_jump.time_left > 0.0:
 		
-		if Input.is_action_just_pressed("jump"):
+		if not block_movement and Input.is_action_just_pressed("jump"):
 			Globals.spawn_scenes(World, Globals.scene_particle_special, 3, position + Vector2(24 * Globals.player_direction_x_active, 64), 8, Color(1, 1, 9, 0), Vector2(-0.6, -0.6), 10)
 			Globals.message_debug("player jump")
 			can_jump = false
@@ -577,7 +577,7 @@ func handle_jump(delta):
 		if Input.is_action_just_released("jump") and velocity.y < jump_velocity / 2:
 			velocity.y = jump_velocity / 2
 			Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(0, 0), 10)
-		if can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_down"):
+		if not block_movement and can_air_jump and Input.is_action_just_pressed("jump") and not Input.is_action_pressed("move_down"):
 			Globals.message_debug("player air jump")
 			print("player air jump")
 			Globals.spawn_scenes(World, Globals.scene_particle_special, 12, position + Vector2(0, 24), 8, Color(0, 1, 0, 0), Vector2(-0.6, -0.6), 10)
@@ -1356,7 +1356,7 @@ func handle_wall_run(delta):
 		return
 	
 	if Input.is_action_pressed("move_up"):
-		position.y += -4 * wall_run_speed_multiplier
+		position.y += -4 * wall_run_speed_multiplier * delta * 100
 		wall_run_speed_multiplier += delta * 2
 		
 		state_crouch_walk = 10

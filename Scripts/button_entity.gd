@@ -16,7 +16,10 @@ func _ready():
 
 
 func _on_area_2d_area_entered(area):
-	print(area.get_groups())
+	if not Globals.is_valid_entity(area, ["Player", "entity"]) : return
+	if "dead" in area.get_parent() and area.get_parent().dead : return
+	if "collected" in area.get_parent() and area.get_parent().collected : return
+	
 	if not pressed and area.is_in_group("player_exact") and not area.get_parent().is_in_group("weightless"):
 		button_pressed()
 	

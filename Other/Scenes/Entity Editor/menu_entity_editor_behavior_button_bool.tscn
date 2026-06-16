@@ -9,7 +9,6 @@
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="6_j1ii6"]
 
 [node name="menu_entity_editor_behavior_button_bool" groups=["menu_entity_editor_behavior_button"] instance=ExtResource("1_wofh5")]
-modulate = Color(1, 1, 1, 1)
 z_index = 1
 custom_minimum_size = Vector2(160, 160)
 offset_left = -80.0
@@ -38,7 +37,6 @@ offset_bottom = 176.0
 text_manager_cooldown_create_message = 1.0
 decoration_base_size = Vector2(128, 64)
 decoration_base_size_multiplier = Vector2(0.5, 0.5)
-decoration_base_position = Vector2(-32, 0)
 decoration_edge_base_change_scale = true
 edge_decoration1_filepath = "none"
 edge_decoration2_filepath = "none"
@@ -100,7 +98,6 @@ offset_right = 512.0
 offset_bottom = 64.0
 grow_horizontal = 1
 grow_vertical = 1
-text_full = "none"
 character_bg_simple = true
 
 [node name="tm_behavior_value" parent="container_text_managers" index="1" instance=ExtResource("6_j1ii6")]
@@ -114,7 +111,6 @@ offset_right = 512.0
 offset_bottom = 128.0
 grow_horizontal = 1
 grow_vertical = 1
-text_full = "none"
 character_bg_simple = true
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]

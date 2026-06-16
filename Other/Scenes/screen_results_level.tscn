@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://dijgiqym3g0vv"]
+[gd_scene load_steps=9 format=3 uid="uid://dijgiqym3g0vv"]
 
 [ext_resource type="Script" uid="uid://dhugjkxt3jd44" path="res://Scripts/results_screen.gd" id="1_w4h15"]
 [ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="3_22p50"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://r30hf3sf46ot" path="res://Other/Scenes/User Interface/Screens/icon_majorCollectable.tscn" id="5_wsjwu"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="6_v7v63"]
 [ext_resource type="PackedScene" uid="uid://b5onnei6gn30p" path="res://Other/Scenes/animation_ui.tscn" id="7_ap76s"]
+[ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="8_dvvxr"]
 
 [node name="screen_results_level" type="CanvasLayer" groups=["screen_results_level"]]
 process_mode = 3
@@ -177,6 +178,17 @@ color = Color(0, 0, 0, 1)
 [node name="sfx_manager" parent="." instance=ExtResource("6_v7v63")]
 
 [node name="count_sfx_manager" parent="." instance=ExtResource("6_v7v63")]
+
+[node name="text_manager" parent="." instance=ExtResource("8_dvvxr")]
+modulate = Color(1, 1, 1, 0.588235)
+offset_left = 64.0
+offset_top = 896.0
+text_full = "[anim_rotate_around_y_fade_out]PRESS SPACE TO CONTINUE..."
+text_animation_sync = false
+text_font_size = 48
+cooldown_create_message = 4.0
+character_anim_speed_scale = 2.0
+character_anim_backwards = true
 
 [connection signal="timeout" from="cooldown_show_results" to="." method="_on_cooldown_show_results_timeout"]
 [connection signal="focus_entered" from="container_rank" to="container_rank" method="_on_focus_entered"]

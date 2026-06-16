@@ -26,7 +26,7 @@ region_rect = Rect2(128, 896, 64, 64)
 [node name="AnimationPlayer" type="AnimationPlayer" parent="button_block_blue_UP/Sprite2D"]
 unique_name_in_owner = true
 libraries = {
-&"animation_button": ExtResource("3_geodn")
+&"": ExtResource("3_geodn")
 }
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_block_blue_UP"]

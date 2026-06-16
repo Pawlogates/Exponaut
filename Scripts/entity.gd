@@ -1761,7 +1761,7 @@ func handle_effects_collected():
 	
 	if award_score and on_collected_award_score:
 		spawn_display_score(score_value)
-		spawn_display_combo_score(score_value * Globals.combo_tier)
+		if Globals.combo_streak > 0 : spawn_display_combo_score(score_value * Globals.combo_tier)
 		
 		if Globals.random_bool(4, 1):
 			if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)

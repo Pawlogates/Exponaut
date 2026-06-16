@@ -44,7 +44,7 @@ text_manager_message = "[/]Resume game"
 decoration_base_size_multiplier = Vector2(0.5, 1)
 on_hover_message_text = "Resume the game. As in, stop it from being paused. Also works as a pause button... actually its more of a \"pause toggle\" for now. It shouldnt exist on the start screen but"
 
-[node name="btn_Level Set Screen" parent="container_buttons" index="3" instance=ExtResource("2_0mlty")]
+[node name="btn_Level Set Screen" parent="container_buttons" index="3" groups=["UI_button_level_set_screen"] instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Level Set Screen"
 decoration_base_size_multiplier = Vector2(0.6, 1)
@@ -61,7 +61,7 @@ modulate = Color(1, 1, 0.203922, 1)
 layout_mode = 2
 text_manager_message = "[/]Leaderboard"
 decoration_base_size_multiplier = Vector2(0.6, 1)
-on_hover_message_text = "Can you reach the top? Probably not! But trying your best at it being fun, is one of the core ideas behind this game!"
+on_hover_message_text = "Can you reach the top?"
 
 [node name="btn_Back to Overworld" parent="container_buttons" index="6" instance=ExtResource("2_0mlty")]
 z_index = 5
@@ -92,45 +92,55 @@ text_manager_message = "[/]Quit to Main Menu"
 decoration_base_size_multiplier = Vector2(0.7, 1)
 on_hover_message_text = "How funny would it be to-"
 
-[node name="btn_Quit Game" parent="container_buttons" index="10" instance=ExtResource("2_0mlty")]
-z_index = 25
-layout_mode = 2
-text_manager_message = "[/]Quit Game"
-decoration_base_size_multiplier = Vector2(0.4, 1)
-on_hover_message_text = "Please... PLEASE do not do it to me :("
-
-[node name="btn_Close" parent="container_buttons" index="11" instance=ExtResource("2_0mlty")]
+[node name="btn_Close" parent="container_buttons" index="10" instance=ExtResource("2_0mlty")]
 z_index = 25
 layout_mode = 2
 text_manager_message = "[/]Close"
 decoration_base_size_multiplier = Vector2(0.4, 1)
 on_hover_message_text = "Closes the MENU. You thought pressing ESC would do that? lil fella how silly of you"
 
-[node name="btn_next_level" parent="container_buttons" index="12" groups=["UI_button_next_level"] instance=ExtResource("2_0mlty")]
+[node name="btn_next_level" parent="container_buttons" index="11" groups=["UI_button_next_level"] instance=ExtResource("2_0mlty")]
+modulate = Color(0.322607, 0.99429, 4.62055e-06, 1)
 z_index = 25
 layout_mode = 2
 text_manager_message = "[anim_rotate_away_up_right]Next Level"
 text_manager_letter_animation_sync = false
 text_manager_character_anim_backwards = true
 decoration_base_size_multiplier = Vector2(0.4, 1)
-on_hover_message_text = "I mean I guess this score could be worse..."
+on_hover_message_text = "Continue onwards to the next level."
 
-[node name="btn_retry" parent="container_buttons" index="13" groups=["UI_button_retry"] instance=ExtResource("2_0mlty")]
+[node name="btn_retry" parent="container_buttons" index="12" groups=["UI_button_retry"] instance=ExtResource("2_0mlty")]
+modulate = Color(0.554776, 0.699911, 1, 1)
 z_index = 25
 layout_mode = 2
 text_manager_message = "Retry"
 text_manager_letter_animation_sync = false
 text_manager_character_anim_backwards = true
 decoration_base_size_multiplier = Vector2(0.4, 1)
-on_hover_message_text = "Improve that score!"
+on_hover_message_text = "Try to improve that score!"
 
-[node name="btn_Touch Controls" parent="container_buttons" index="14" instance=ExtResource("2_0mlty")]
+[node name="btn_Touch Controls" parent="container_buttons" index="13" instance=ExtResource("2_0mlty")]
 modulate = Color(0.87798, 0.696571, 0, 1)
 z_index = 25
 layout_mode = 2
 text_manager_message = "[/]Touch Controls"
 decoration_base_size_multiplier = Vector2(0.5, 1)
 on_hover_message_text = "Press this to be able to play on your phone."
+
+[node name="btn_change_player_name" parent="container_buttons" index="14" groups=["UI_button_change_player_name"] instance=ExtResource("2_0mlty")]
+modulate = Color(0.87798, 0.696571, 0, 1)
+z_index = 25
+layout_mode = 2
+text_manager_message = "[/]Change player name"
+decoration_base_size_multiplier = Vector2(0.5, 1)
+on_hover_message_text = "Press this to be able to play on your phone."
+
+[node name="btn_Quit Game" parent="container_buttons" index="15" instance=ExtResource("2_0mlty")]
+z_index = 25
+layout_mode = 2
+text_manager_message = "[/]Quit Game"
+decoration_base_size_multiplier = Vector2(0.4, 1)
+on_hover_message_text = "I hope you enjoyed the game!"
 
 [node name="debug_real_size_container_buttons" parent="." index="4"]
 color = Color(0.835718, 3.22476e-06, 7.70092e-07, 0.14902)
@@ -204,9 +214,10 @@ vertical_alignment = 1
 [connection signal="pressed" from="container_buttons/btn_Enable Score Attack mode" to="." method="_on_btn_enable_score_attack_mode_pressed" binds= [0.5]]
 [connection signal="pressed" from="container_buttons/btn_Settings" to="." method="_on_btn_settings_pressed" binds= [2.0]]
 [connection signal="pressed" from="container_buttons/btn_Quit to Main Menu" to="." method="_on_btn_quit_to_main_menu_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Quit Game" to="." method="_on_btn_quit_game_pressed" binds= [10.0]]
 [connection signal="pressed" from="container_buttons/btn_Close" to="." method="_on_btn_close_pressed"]
 [connection signal="pressed" from="container_buttons/btn_next_level" to="." method="_on_btn_next_level_pressed"]
 [connection signal="pressed" from="container_buttons/btn_retry" to="." method="_on_btn_retry_pressed"]
 [connection signal="pressed" from="container_buttons/btn_Touch Controls" to="." method="_on_btn_touch_controls_pressed"]
+[connection signal="pressed" from="container_buttons/btn_change_player_name" to="." method="_on_btn_change_player_name_pressed"]
+[connection signal="pressed" from="container_buttons/btn_Quit Game" to="." method="_on_btn_quit_game_pressed" binds= [10.0]]
 [connection signal="pressed" from="btn_level_chain" to="." method="_on_btn_level_chain_pressed"]

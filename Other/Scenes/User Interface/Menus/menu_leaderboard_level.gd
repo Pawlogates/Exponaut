@@ -46,7 +46,7 @@ func _ready() -> void:
 		Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
 		Globals.message("If your recording is missing, or none are present, please wait a moment and then refresh the leaderboard by pressing the 'refresh' button.", 0, Vector2(0, 120), 6)
 	
-	Globals.server_to_dirpath(Globals.d_recordings_online)
+	#Globals.server_to_dirpath(Globals.d_recordings_online)
 	
 	Globals.update_main_scene()
 	
@@ -67,7 +67,7 @@ func _ready() -> void:
 	await get_tree().create_timer(2, true).timeout
 	
 	await create_entries(level_id)
-	
+	Globals.server_to_dirpath(Globals.d_recordings_online)
 	await get_tree().create_timer(1.0, false).timeout
 	Globals.update_recordings_best()
 	await get_tree().create_timer(2.0, false).timeout

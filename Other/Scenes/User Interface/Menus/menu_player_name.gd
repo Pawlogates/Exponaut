@@ -29,6 +29,9 @@ func _ready() -> void:
 		start_pos = position
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("confirm"):
+		on_text_confirmed()
+	
 	#if effect_hide_active:
 		#position += effect_hide_direction * 1500 * delta
 		#rotation_degrees = lerp(rotation_degrees, float(effect_hide_rotation), delta)
@@ -53,8 +56,9 @@ func on_text_confirmed():
 	if insert_player_name.text != "":
 		SaveData.player_name = insert_player_name.text
 	else:
-		SaveData.player_name = Globals.l_color_all.pick_random().replace(" ", "").replace("_", "") + str(randi_range(0, 9999))
-		SaveData.player_name = SaveData.player_name
+		SaveData.player_name = Globals.l_color_all.pick_random() + str(randi_range(0, 9999))
+	
+	SaveData.player_name = SaveData.player_name.replace(" ", "").replace("_", "").replace("\n", "")
 	
 	var filepath = "user://player_info.json"
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
