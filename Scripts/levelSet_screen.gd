@@ -22,8 +22,6 @@ func _ready():
 	
 	SaveData.load_levelSet(Globals.levelSet_id)
 	
-	print(Globals.levelSet_id)
-	
 	if levelSet_id != "none":
 		levelSet_saved = SaveData.get("saved_" + levelSet_id)
 		levelSet_info = SaveData.get("info_" + levelSet_id)

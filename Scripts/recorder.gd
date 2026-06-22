@@ -77,7 +77,7 @@ func _ready() -> void:
 	else:
 		removable = true
 
-func _process(delta):
+func _physics_process(delta):
 	handle_playback(delta, playback_speed_multiplier)
 	handle_recording(delta)
 	
@@ -87,7 +87,6 @@ func _process(delta):
 			queue_free()
 
 func _input(event):
-	set_process(true)
 	if not recording_active : return
 	
 	if event is InputEventKey:
@@ -480,7 +479,7 @@ func on_main_scene_changed():
 	
 	playback_number += 1
 	
-	set_process(false)
+	set_physics_process(false)
 	recording_active = false
 	playback_active = false
 	recording_timer = 0.0
@@ -497,7 +496,7 @@ func on_main_scene_changed():
 	
 	insert_start_info()
 	
-	set_process(true)
+	set_physics_process(true)
 	recording_timer = 0.0
 	print("Recording started.")
 	
@@ -546,7 +545,7 @@ func start_recording():
 		btn_stop_playback.disabled = true
 		btn_start_playback.disabled = true
 	
-	set_process(true)
+	set_physics_process(true)
 	recording_timer = 0.0
 	print("Recording started.")
 	
@@ -575,7 +574,7 @@ func stop_recording(save_to_file : bool = true):
 		btn_stop_playback.disabled = false
 		btn_start_playback.disabled = false
 	
-	set_process(false)
+	set_physics_process(false)
 	recording_active = false
 	playback_active = false
 	recording_timer = 0.0
@@ -633,7 +632,7 @@ func start_playback(filepath : String = "none"):
 	
 	playback_index = 0
 	playback_timer = 0.0
-	set_process(true)
+	set_physics_process(true)
 
 func stop_playback():
 	Globals.recorder_playback_active = false
@@ -648,7 +647,7 @@ func stop_playback():
 		btn_stop_playback.disabled = true
 		btn_start_playback.disabled = false
 	
-	set_process(false)
+	set_physics_process(false)
 	playback_active = false
 	playback_index = 0
 	playback_index_last = -1

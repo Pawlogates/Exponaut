@@ -324,7 +324,7 @@ offset_bottom = 60.0
 texture = ExtResource("9_inrld")
 expand_mode = 1
 
-[node name="btn_change_toggle_unnamed" type="Button" parent="."]
+[node name="btn_toggle_show_unnamed" type="Button" parent="."]
 custom_minimum_size = Vector2(128, 40)
 layout_mode = 0
 offset_left = -569.0
@@ -336,7 +336,33 @@ theme = ExtResource("3_yq05p")
 theme_override_font_sizes/font_size = 24
 text = "show unnamed"
 
+[node name="btn_toggle_show_developer" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 40)
+layout_mode = 0
+offset_left = -569.0
+offset_top = 936.0
+offset_right = -345.0
+offset_bottom = 976.0
+size_flags_horizontal = 6
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 24
+text = "show developer"
+
+[node name="btn_change_player_name" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 40)
+layout_mode = 0
+offset_left = 1095.0
+offset_top = 984.0
+offset_right = 1319.0
+offset_bottom = 1024.0
+size_flags_horizontal = 6
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 24
+text = "change player name"
+
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_left" to="." method="_on_btn_change_level_left_pressed"]
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_right" to="." method="_on_btn_change_level_right_pressed"]
 [connection signal="pressed" from="btn_close" to="." method="_on_btn_close_pressed"]
-[connection signal="pressed" from="btn_change_toggle_unnamed" to="." method="_on_btn_change_toggle_unnamed_pressed"]
+[connection signal="pressed" from="btn_toggle_show_unnamed" to="." method="_on_btn_toggle_show_unnamed_pressed"]
+[connection signal="pressed" from="btn_toggle_show_developer" to="." method="_on_btn_toggle_show_developer_pressed"]
+[connection signal="pressed" from="btn_change_player_name" to="." method="_on_btn_change_player_name_pressed"]

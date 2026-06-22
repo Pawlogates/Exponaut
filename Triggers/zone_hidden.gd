@@ -72,7 +72,6 @@ func _on_scan_area_entered(area: Area2D) -> void:
 	entered = true
 	
 	Globals.dm("Player has entered a Hidden Zone.")
-	print("ENTERED")
 	
 	if uncover_on_timeout:
 		if uncover_on_timeout_start_on_proximity:

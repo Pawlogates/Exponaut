@@ -172,11 +172,3 @@ anim_hide_cooldown = 16.0
 pause_duration = 0.0
 start_hidden = true
 start_hidden_show_cooldown = 30.0
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@149716" to="tileset_objects/@Area2D@149716" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@149717" to="tileset_objects/@Area2D@149717" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@149718" to="tileset_objects/@Area2D@149718" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@149719" to="tileset_objects/@Area2D@149719" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@149720" to="tileset_objects/@Area2D@149720" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@149721" to="tileset_objects/@Area2D@149721" method="_on_area_entered"]

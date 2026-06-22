@@ -262,6 +262,7 @@ start_hidden_show_cooldown = 45.0
 [node name="info_sign4" parent="." index="47" instance=ExtResource("10_g7dew")]
 position = Vector2(1984, 928)
 message_text = "Press X or LMB (left mouse button) to use your MAIN ATTACK. Despite any sort of enemies seeming far away, your attacks will prove extremely useful if utilized in a skillful way!"
+message_add_pos = Vector2(0, -416)
 pause_duration = 0.0
 
 [node name="info_sign5" parent="." index="48" instance=ExtResource("10_g7dew")]
@@ -272,7 +273,7 @@ start_hidden = true
 start_hidden_show_cooldown = 30.0
 
 [node name="info_sign2" parent="." index="49" instance=ExtResource("10_g7dew")]
-position = Vector2(912, 160)
+position = Vector2(784, 160)
 message_text = "Your DASH (C or SHIFT) can be extended, giving you an additional speed boost alongside cancelling the end slowdown. It's tricky to perform, but after some practice you'll be zooming around the stages extremely fast! You need to press the JUMP button as soon as you LAND on the ground DURING A DASH. There's a nice practice spot to your left, good luck."
 anim_hide_cooldown = 24.0
 pause_duration = 0.0

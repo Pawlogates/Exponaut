@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_v0urb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v0urb"]
-size = Vector2(32, 32)
+size = Vector2(64, 64)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bsvfe"]
 size = Vector2(128, 128)
@@ -23,7 +23,6 @@ region_enabled = true
 region_rect = Rect2(0, 0, 64, 64)
 
 [node name="scan" type="Area2D" parent="."]
-modulate = Color(1, 1, 0, 0)
 collision_layer = 8
 collision_mask = 8
 

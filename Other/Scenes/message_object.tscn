@@ -5,8 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="2_rbxiv"]
 
 [node name="message_object" type="Node2D"]
-modulate = Color(1, 1, 1, 0.25)
-scale = Vector2(1e-05, 1e-05)
+z_index = 250
 script = ExtResource("1_20757")
 
 [node name="text_manager" parent="." instance=ExtResource("1_kvqn5")]
@@ -20,6 +19,7 @@ offset_left = -320.0
 offset_top = -32.0
 offset_right = 320.0
 offset_bottom = 32.0
+cooldown_next_character = 0.01
 character_bg_simple = true
 
-[node name="animation_all" parent="." instance=ExtResource("2_rbxiv")]
+[node name="animation_all" parent="text_manager" instance=ExtResource("2_rbxiv")]

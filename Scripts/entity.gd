@@ -1181,7 +1181,7 @@ func spawn_display_combo_score(value : int):
 	
 	node.position = position + Vector2(randi_range(-250, 250), randi_range(-100, 100))
 	node.value = value
-	node.scale += Vector2(1, 1) * randf_range(-0.3, 0.0)
+	node.scale += Vector2(1, 1) * 0.1 * Globals.combo_tier
 	node.z_index += Globals.combo_streak
 	
 	World.add_child(node)

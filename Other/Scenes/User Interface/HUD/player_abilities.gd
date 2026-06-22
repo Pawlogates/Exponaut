@@ -108,7 +108,7 @@ func _on_debug_charges_subtract_pressed() -> void:
 	if block_buttons : return
 	block_buttons = true
 	
-	add_charges(randi_range(-20, 21))
+	add_charges(randi_range(-2, 1))
 	
 	timer_block_buttons.wait_time = 4
 	timer_block_buttons.start()
@@ -116,7 +116,7 @@ func _on_debug_charges_subtract_pressed() -> void:
 	add_charges(-1)
 
 func _on_debug_charges_max_add_pressed() -> void:
-	add_slots(randi_range(-10, 10))
+	add_slots(randi_range(-1, 3))
 	
 	if block_buttons : return
 	block_buttons = true

@@ -99,15 +99,19 @@ var level_score_displayed = 0
 func _physics_process(delta):
 	if Input.is_action_just_pressed("jump"):
 		
-		if is_instance_valid(Globals.World) and SaveData.player_name != "none" and Globals.level_score != 0 and level_score_displayed > 0:
+		if SaveData.player_name != "none":
+			if is_instance_valid(Globals.World) and SaveData.player_name != "none" and Globals.level_score != 0 and level_score_displayed > 0:
+				
+				if Globals.level_id == "TUTORIAL_6":
+					await Globals.change_main_scene(Globals.scene_levelSet_screen)
+					queue_free()
+				
+				else:
+					await Globals.change_main_scene(Globals.World.next_level_filepath)
+					queue_free()
 			
-			if Globals.level_id == "TUTORIAL_6":
-				await Globals.change_main_scene(Globals.scene_levelSet_screen)
-				queue_free()
-			
-			else:
-				await Globals.change_main_scene(Globals.World.next_level_filepath)
-				queue_free()
+		else:
+			Globals.message("Press ENTER to confirm the player name and continue.")
 	
 	if Input.is_action_just_pressed("menu"):
 		if not Globals.node_exists("leaderboard"):
@@ -118,6 +122,8 @@ func _physics_process(delta):
 	label_score.modulate.r = move_toward(label_score.modulate.r, 1, delta)
 	label_score.modulate.g = move_toward(label_score.modulate.g, 1, delta)
 	label_score.modulate.b = move_toward(label_score.modulate.b, 1, delta)
+	
+	label_score.visible = true
 
 
 func delete():

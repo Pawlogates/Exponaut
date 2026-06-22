@@ -439,7 +439,3 @@ func _on_btn_next_level_pressed() -> void:
 func _on_btn_retry_pressed() -> void:
 	if is_instance_valid(Globals.World):
 		Globals.restart_level()
-
-
-func _on_btn_change_player_name_pressed() -> void:
-	pass # Replace with function body.

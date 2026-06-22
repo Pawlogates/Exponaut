@@ -2,7 +2,7 @@ extends Control
 
 func _ready() -> void:
 	if not Globals.gameState_levelSet_screen:
-		if Globals.random_bool(1, 1) : queue_free()
+		if Globals.random_bool(1, 4) : queue_free()
 	
 	if Globals.gameState_level or Globals.gameState_levelSet_screen:
 		if Globals.gameState_scoring_focus:

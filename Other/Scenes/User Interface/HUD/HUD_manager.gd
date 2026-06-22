@@ -45,6 +45,8 @@ func on_level_started():
 	update_collected_collectibles()
 
 func update_collected_collectibles():
+	Globals.total_collectibles_level = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
+	
 	total_collectibles_collected.text = str(Globals.level_collected_collectibles) + " / " + str(Globals.total_collectibles_level)
 	
 	if Globals.level_collected_collectibles == Globals.total_collectibles_level:

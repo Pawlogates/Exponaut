@@ -347,9 +347,7 @@ var never_saved = true
 
 
 func _ready() -> void:
-	load_levelSet("MAIN")
-	load_levelSet("BONUS")
-	load_levelSet("DEBUG")
+	load_levelSet_all()
 
 func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("5"):
@@ -572,13 +570,15 @@ func data_playerData():
 
 # Level sets are collections of levels, shown together on their level set screen.
 # Each level set has its own save files ("levelSet.save") to store its level states (separate from the actual level's collectibles, enemies, etc. state files - "levelState.save"). Level set's level state refers to whether each level has been unlocked, finished, fully cleared, etc.
+# For the actual save logic, see the "data_levelSet()" function.
 func save_levelSet(levelSet_id):
 	# Save all above properties to the "levelSet[id].save" file.
-	save_file(Globals.d_levelSet.replace("[replace_with_slot_id]", SaveData.slot_current) + "/levelSet_" + levelSet_id + ".save", "data_levelSet", [Globals.levelSet_id])
+	save_file(Globals.d_levelSet.replace("[replace_with_slot_id]", SaveData.slot_current) + "/levelSet_" + levelSet_id + ".save", "data_levelSet", [levelSet_id])
 
 
 func load_levelSet(levelSet_id : String = "MAIN"):
-	var save_filepath = Globals.dirpath_saves + "/levelSet_" + levelSet_id
+	var save_filepath = Globals.d_levelSet.replace("[replace_with_slot_id]", SaveData.slot_current) + "/levelSet_" + levelSet_id + ".save"
+	print("Attempting to load a levelSet save file:", save_filepath)
 	if not FileAccess.file_exists(save_filepath):
 		Globals.message_debug("Couldn't find the save file (levelSet.save - All of the LEVEL SET level completion states, scores, etc.) at " + save_filepath)
 		return
@@ -602,7 +602,7 @@ func load_levelSet(levelSet_id : String = "MAIN"):
 			if level_number > get("info_" + levelSet_id)[1]:
 				break
 			else:
-				set("saved_" + levelSet_id + str(level_number), data[("saved_" + levelSet_id + str(level_number))])
+				set("saved_" + levelSet_id + "_" + str(level_number), data[("saved_" + levelSet_id + "_" + str(level_number))])
 
 
 func reset_levelSet(slot_id : String, levelSet_id: String): # Example id: "MAIN, "BONUS", etc.
@@ -640,10 +640,8 @@ func data_levelSet(id):
 	
 	for level_number in range(1, get("info_" + id)[1] + 1):
 		Globals.message_debug("Saving levelSet state for " + str(id) + "_" + str(level_number))
-		contents.get_or_add(str(level_number), {
-			# Saved states and scores of levels from various level sets.
-			"state_" + str(id) + "_" + str(level_number) : get("saved_" + str(id) + "_" + str(level_number))
-		})
+		# Saved states and scores of levels from a single level set.
+		contents.get_or_add("saved_" + str(id) + "_" + str(level_number), get("saved_" + str(id) + "_" + str(level_number)))
 	
 	
 	return contents
@@ -963,3 +961,7 @@ func get_total_time(levelSet_id : String = "MAIN"):
 		level_number += 1
 	
 	return total_time
+
+func load_levelSet_all():
+	for levelSet_id : String in Globals.l_levelSet_id:
+		load_levelSet(levelSet_id)

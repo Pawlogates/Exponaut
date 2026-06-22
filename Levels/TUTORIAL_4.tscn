@@ -47,7 +47,7 @@ layer_2/tile_data = PackedInt32Array(-1245147, 458752, 17, -1310683, 589824, 17,
 layer_0/tile_data = PackedInt32Array(-65514, 0, 589824, -131063, 1, 65536, -983031, 1, 65536)
 
 [node name="tileset_objects_precise" parent="." index="4" instance=ExtResource("4_pm605")]
-layer_0/tile_data = PackedInt32Array(-3735491, 1, 262144)
+layer_0/tile_data = PackedInt32Array(-3735491, 1, 262144, -3080132, 3, 327680, -3342278, 3, 327680)
 
 [node name="triggers" type="Node2D" parent="." index="5"]
 
@@ -151,18 +151,14 @@ texture_scale = 2.0
 [node name="zone_hidden4" parent="." index="28" instance=ExtResource("11_0b1tj")]
 position = Vector2(992, -864)
 sprite_texture_region = Rect2(192, 64, 64, 64)
-uncover_on_proximity_distance = Vector2(64, 64)
+uncover_on_proximity_distance = Vector2(8, 8)
 uncover_on_timeout = true
-uncover_on_timeout_cooldown = 20.0
+uncover_on_timeout_cooldown = 8.0
 uncover_on_timeout_start_on_proximity = true
 
 [node name="zone_hidden5" parent="." index="29" instance=ExtResource("11_0b1tj")]
 position = Vector2(992, -928)
 sprite_texture_region = Rect2(192, 64, 64, 64)
-uncover_on_proximity_distance = Vector2(24, 24)
-uncover_on_timeout = true
-uncover_on_timeout_cooldown = 30.0
-uncover_on_timeout_start_on_proximity = true
 on_uncovered_uncover_connected = false
 
 [node name="trigger_positional" parent="." index="30" instance=ExtResource("12_oj6op")]
@@ -261,7 +257,7 @@ camera_add_offset = Vector2(0, 640)
 [node name="trigger_positional13" parent="." index="42" instance=ExtResource("12_oj6op")]
 position = Vector2(896, -64)
 scale = Vector2(6, 4)
-camera_add_offset = Vector2(-256, 0)
+camera_add_offset = Vector2(-128, -128)
 camera_zoom = true
 camera_add_zoom = Vector2(-0.1, -0.1)
 
@@ -270,5 +266,3 @@ position = Vector2(1344, -192)
 scale = Vector2(6, 8)
 reset_camera_offset = true
 reset_camera_zoom = true
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]

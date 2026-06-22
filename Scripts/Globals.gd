@@ -280,7 +280,7 @@ func _ready() -> void:
 	SaveData.create_dir_saves()
 	
 	SaveData.load_playerData()
-	SaveData.load_levelSet()
+	SaveData.load_levelSet_all()
 	
 	prepare_lists()
 	
@@ -1186,7 +1186,7 @@ func handle_spawn_menu(manual_request : bool = false):
 				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
 				return
 			elif gameState_levelSet_screen:
-				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
+				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
 				return
 		
 		elif gameState_level:
@@ -1237,7 +1237,7 @@ func on_gameState_changed():
 	
 	prepare_lists()
 	SaveData.load_playerData()
-	SaveData.load_levelSet()
+	SaveData.load_levelSet_all()
 	
 	create_directories()
 	
@@ -1781,8 +1781,10 @@ func handle_debug_tools():
 			Overlay.get_node("debug_display_messages").delete_messages(true)
 
 
-func spawn_message_object(message_text : String = "message", target : Node = main_scene, add_position : Vector2 = Player.position):
+func spawn_message_object(message_text : String = "message", target : Node = main_scene, add_position : Vector2 = Player.position, randomize_effects : bool = true, add_scale : Vector2 = Vector2(0, 0)):
 	var message_object = load("res://Other/Scenes/message_object.tscn").instantiate()
 	message_object.add_position = add_position
+	message_object.add_scale = add_scale
 	message_object.message_text = message_text
+	message_object.randomize_effects = randomize_effects
 	target.add_child(message_object)

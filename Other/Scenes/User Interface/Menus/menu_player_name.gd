@@ -53,7 +53,7 @@ func _on_insert_player_name_text_changed() -> void:
 	sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.8, 1.2))
 
 func on_text_confirmed():
-	if insert_player_name.text != "":
+	if insert_player_name.text != "" and insert_player_name.text != "\n":
 		SaveData.player_name = insert_player_name.text
 	else:
 		SaveData.player_name = Globals.l_color_all.pick_random() + str(randi_range(0, 9999))

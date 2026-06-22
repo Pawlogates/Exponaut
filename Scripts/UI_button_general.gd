@@ -82,6 +82,9 @@ var debug_markers : Array
 var button_quantity : int = 0
 
 var next_level_data : Array
+var level_data : Array
+
+var locked : bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -94,22 +97,7 @@ func _ready() -> void:
 	Globals.debug2.connect(debug_show_real_size)
 	Globals.refreshed2_0.connect(on_refreshed2_0)
 	
-	if is_in_group("UI_button_next_level"):
-		
-		if "saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)) in SaveData:
-			next_level_data = SaveData.get("saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)))
-			if next_level_data[0] < 0:
-				queue_free()
-		
-		if is_instance_valid(Globals.World) and not FileAccess.file_exists(Globals.World.next_level_filepath):
-			queue_free()
-	
-	if is_in_group("UI_button_level_set_screen"):
-		if SaveData.get("saved_TUTORIAL_6")[0] < 1:
-			queue_free()
-	
-	if is_in_group("UI_button_change_player_name"):
-		queue_free()
+	handle_exceptions_type_early()
 	
 	entity_editor = get_tree().get_first_node_in_group("entity_editor")
 	
@@ -156,6 +144,8 @@ func _ready() -> void:
 	if menu.type == "Array_choice":
 		text_manager.create_message(str(choice))
 		modulate.a = 1.0
+	
+	handle_exceptions_type_late()
 
 
 func _process(delta: float) -> void:
@@ -198,6 +188,11 @@ func _process(delta: float) -> void:
 	
 	decoration.modulate.a = previous_opacity
 	decoration.modulate.a = move_toward(decoration.modulate.a, 1.0, delta * stabilize_multiplier)
+	
+	
+	if locked:
+		modulate.a = 0.25
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
 
 
 func spawn_decoration(debug : bool = false):
@@ -539,3 +534,44 @@ func _on_pressed() -> void:
 		if target_node:
 			target_node.behavior_chosen_option = choice
 			target_node.apply_chosen_option()
+
+func handle_exceptions_type_early():
+	if is_in_group("UI_button_next_level"):
+		if "saved_" + Globals.level_id in SaveData:
+			level_data = SaveData.get("saved_" + Globals.level_id)
+			if level_data[0] < 1:
+				queue_free()
+	
+	if is_in_group("UI_button_change_player_name"):
+		queue_free()
+
+func handle_exceptions_type_late():
+	if is_in_group("UI_button_next_level"):
+		
+		# This way of checking whether the next level is unlocked or not, used to work before the level order of the TUTORIAL level set was changed from linear (1, 2, 3, etc...) to the current one (1, 4, 2, 5, 3, 6) in order to have the ones dedicated to a specific concept not be at the very end.
+		#if "saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)) in SaveData:
+			#next_level_data = SaveData.get("saved_" + Globals.level_id.replace(str(Globals.level_number), str(Globals.level_number + 1)))
+			#if next_level_data[0] < 0:
+				#queue_free()
+		
+		if is_instance_valid(Globals.World) and not FileAccess.file_exists(Globals.World.next_level_filepath):
+			locked = true
+			await get_tree().create_timer(1.0, true).timeout
+			Globals.spawn_message_object("Congratulations! You finished all " + Globals.levelSet_id + " levels.", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2)
+			await get_tree().create_timer(3, true).timeout
+			Globals.spawn_message_object("Make sure to check out the LEADERBOARD, to see how other players have aproached the levels...", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2 + Vector2(0, 16), false, Vector2(-0.0, -0.0))
+			await get_tree().create_timer(6.0, true).timeout
+			Globals.spawn_message_object("...or how the most skilled players managed to get their SCORE as high as they did!", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2 + Vector2(0, 32), false, Vector2(-0.0, -0.0))
+			await get_tree().create_timer(5.0, true).timeout
+			Globals.spawn_message_object("Hopefully your next time through these levels will end up with a way higher TOTAL SCORE!", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2 + Vector2(0, 48), false, Vector2(-0.0, -0.0))
+			await get_tree().create_timer(4.0, true).timeout
+			Globals.spawn_message_object("You can now go to the Level Set screen, in order to play more levels from other Level Sets.", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2 + Vector2(0, 64), false)
+			await get_tree().create_timer(7.0, true).timeout
+			Globals.spawn_message_object("Thanks For Playing <3", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2 + Vector2(0, -240), true, Vector2(2, 2))
+			queue_free()
+	
+	if is_in_group("UI_button_level_set_screen"):
+		if SaveData.get("saved_TUTORIAL_6")[0] < 1:
+			await get_tree().create_timer(1.0, true).timeout
+			Globals.spawn_message_object("To UNLOCK the Level Set screen, you need to finish all 6 of the tutorial levels.", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2 + Vector2(0, -32))
+			queue_free()

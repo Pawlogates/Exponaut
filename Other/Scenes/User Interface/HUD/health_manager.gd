@@ -27,7 +27,7 @@ func _ready() -> void:
 func update_display(): # The "health" variable represents the visible health value on the player's HUD. The "Globals.player_health" is the actual player health.
 	if health == Globals.player_health : return
 	
-	label_hp.text = str(health)
+	label_hp.text = str(clamp(health, 0, 999))
 	
 	if health < 8:
 		health_middle.visible = false
