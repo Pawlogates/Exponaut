@@ -30,20 +30,20 @@ var dirpath : String = Globals.d_backgrounds + "/"
 
 func _ready():
 	if randomize_bg_main:
-		if Globals.get_random_bool(50) : bg_main_filepath = dirpath + "bg_empty.png"
-		else : bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+		if Globals.get_random_bool(10) : bg_main_filepath = dirpath + "bg_empty.png"
+		else : bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
 	if randomize_bg_front:
-		if Globals.get_random_bool(50) : bg_front_filepath = dirpath + "bg_empty.png"
-		else : bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+		if Globals.get_random_bool(10) : bg_front_filepath = dirpath + "bg_empty.png"
+		else : bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
 	if randomize_bg_front2:
-		if Globals.get_random_bool(50) : bg_front2_filepath = dirpath + "bg_empty.png"
-		else : bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+		if Globals.get_random_bool(10) : bg_front2_filepath = dirpath + "bg_empty.png"
+		else : bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
 	if randomize_bg_back:
-		if Globals.get_random_bool(50) : bg_back_filepath = dirpath + "bg_empty.png"
-		else : bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+		if Globals.get_random_bool(10) : bg_back_filepath = dirpath + "bg_empty.png"
+		else : bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
 	if randomize_bg_back2:
-		if Globals.get_random_bool(50) : bg_back2_filepath = dirpath + "bg_empty.png"
-		else : bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+		if Globals.get_random_bool(10) : bg_back2_filepath = dirpath + "bg_empty.png"
+		else : bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(_delta):

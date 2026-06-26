@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd2c3g6pd8hfq"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_ny0gx"]
+[ext_resource type="SpriteFrames" uid="uid://cv5s4btsmmu6k" path="res://Assets/Graphics/sprites/packed/enemies/ice_shard.tres" id="2_spict"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_511gd"]
+size = Vector2(32, 32)
+
+[node name="ice_shard_small" instance=ExtResource("1_ny0gx")]
+scale = Vector2(0.5, 0.5)
+hittable = true
+damage_value = 3
+score_value = 1
+damage_to_entity = true
+set_player_attack_cooldown_value = 0.25
+can_move = true
+ignore_gravity = false
+on_timeout_death = true
+on_timeout_death_cooldown = 8.0
+on_touch_modulate = Color(0.384314, 0.270588, 1, 1)
+on_floor_bounce = true
+start_animation = "none"
+sprite_rotation_copy_velocity_x = true
+entity_name = "ice_shard_small"
+entity_type = "projectile"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_spict")
+
+[node name="collision_main" parent="." index="2"]
+shape = SubResource("RectangleShape2D_511gd")
+
+[node name="scan_stuck" parent="." index="20"]
+scale = Vector2(0.5, 0.5)

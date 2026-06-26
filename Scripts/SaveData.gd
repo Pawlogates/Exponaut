@@ -419,6 +419,8 @@ func save_playerData(save_player_position):
 
 
 func load_playerData():
+	return
+	
 	var filepath : String = Globals.d_playerData.replace("[replace_with_slot_id]", slot_current) + "/playerData" + ".save"
 	
 	if not FileAccess.file_exists(filepath):

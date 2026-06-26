@@ -107,10 +107,15 @@ func _ready() -> void:
 	outline_left.size.x = outline_left_width
 	outline_right.size.x = outline_right_width
 	
-	edge_top_left = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
-	edge_top_right = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
-	edge_bottom_left = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
-	edge_bottom_right = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	var edge_temp : Array
+	edge_temp = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	edge_top_left = edge_temp[0]
+	edge_temp = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	edge_top_right = edge_temp[0]
+	edge_temp = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	edge_bottom_left = edge_temp[0]
+	edge_temp = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	edge_bottom_right = edge_temp[0]
 	
 	if outline_top_width != 8:
 		

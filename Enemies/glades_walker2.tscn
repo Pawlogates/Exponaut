@@ -1,13 +1,8 @@
-[gd_scene load_steps=18 format=3 uid="uid://c75qy46i1032o"]
+[gd_scene load_steps=23 format=3 uid="uid://l48tylmdgnf7"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_xwnq2"]
-[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="2_xwnq2"]
 [ext_resource type="SpriteFrames" uid="uid://7ree2fflq7ta" path="res://Assets/Graphics/sprites/packed/enemies/glades_slime.tres" id="3_8nwbp"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="4_8ft2v"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_jdy65"]
-shader = ExtResource("2_xwnq2")
-shader_parameter/hue_value = 0.94
 
 [sub_resource type="Animation" id="Animation_snhod"]
 length = 0.001
@@ -507,43 +502,346 @@ _data = {
 &"rotate_around_y_fade_out": SubResource("Animation_75qk4")
 }
 
+[sub_resource type="Animation" id="Animation_vwi61"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.0005, 0, 0.0005, 0),
+"times": PackedFloat32Array(0, 0.001)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.0005, 0, 0.0005, 0),
+"times": PackedFloat32Array(0, 0.001)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.0005, 0, 0.0005, 0),
+"times": PackedFloat32Array(0, 0.001)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.0005, 0, 0.0005, 0),
+"times": PackedFloat32Array(0, 0.001)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:modulate")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_jmgrf"]
+resource_name = "fade_out"
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_1y7wk"]
+resource_name = "on_walk_alt"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_bpktg"]
+resource_name = "on_hit"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1), Color(1, 0, 0, 1), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:material:shader_parameter/hue_value")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-0.05, -0.25, 0, 0.25, 0, 0.3, -0.25, 0, 0.25, 0, -0.05, -0.25, 0, 0.25, 0, 0.3, -0.25, 0, 0.25, 0, -0.05, -0.25, 0, 0.25, 0, 0.3, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1)
+}
+
+[sub_resource type="Animation" id="Animation_002p8"]
+resource_name = "pulse_red_normal_slight"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.5, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.35, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_qujve"]
+resource_name = "scale_and_opacity_up"
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:r")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate:g")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath(".:modulate:b")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:modulate:a")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 0.5)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:scale:x")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.1, -0.25, 0, 0.25, 0, 1, -1, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath(".:scale:y")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0.1, -0.25, 0, 0.25, 0, 1, -1, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_recw2"]
+_data = {
+&"RESET": SubResource("Animation_vwi61"),
+&"fade_out": SubResource("Animation_jmgrf"),
+&"pulse_red_normal": SubResource("Animation_1y7wk"),
+&"pulse_red_normal_long": SubResource("Animation_bpktg"),
+&"pulse_red_normal_slight": SubResource("Animation_002p8"),
+&"scale_and_opacity_up": SubResource("Animation_qujve")
+}
+
 [node name="glades_walker" instance=ExtResource("1_xwnq2")]
 collision_layer = 0
 on_death_effect_thrownAway = true
 on_death_decoration_nodes_effect_thrownAway = true
 collectable = false
 hittable = true
-health_value = 400
-score_value = 750
-experience_value = 125
+health_value = 120
+score_value = 100
 movement_type = "move_x"
-speed = 50
+speed = 100
 family = "enemy"
+damage_from_entity = true
 pushable_by_entity = false
 pushable_by_player = false
 can_move = true
 ignore_gravity = false
 on_ledge_turn = true
-on_hit_change_direction_x_copy_entity = true
 on_death_spawn_entity = true
+on_death_spawn_entity_chance = 75.0
 on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
-on_death_spawn_entity_quantity = 12
 on_death_spawn_entity2 = true
-on_death_spawn_entity2_chance = 50.0
+on_death_spawn_entity2_chance = 20.0
 on_death_spawn_entity2_scene_filepath = "uid://1ryqdsnja4rm"
-on_death_spawn_entity2_quantity = 4
 on_death_spawn_entity3 = true
-on_death_spawn_entity3_scene_filepath = "uid://oxvewjp1soes"
+on_death_spawn_entity3_chance = 50.0
+on_death_spawn_entity3_scene_filepath = "uid://ck8hejss7023o"
+on_death_spawn_entity3_quantity = 2
 on_hit_spawn_entity = true
-on_hit_spawn_entity_chance = 5.0
+on_hit_spawn_entity_chance = 12.0
 on_hit_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
 on_hit_spawn_entity2 = true
-on_hit_spawn_entity2_chance = 1.0
+on_hit_spawn_entity2_chance = 0.1
 on_hit_spawn_entity2_scene_filepath = "uid://1ryqdsnja4rm"
-on_hit_spawn_entity3 = true
-on_hit_spawn_entity3_chance = 10.0
-on_hit_spawn_entity3_scene_filepath = "uid://oxvewjp1soes"
-on_hit_spawn_entity3_add_velocity_range = [Vector2(-100, -1200), Vector2(100, -200)]
 breakable = true
 start_animation = "none"
 can_change_sprite_anim = true
@@ -559,26 +857,26 @@ entity_name = "glades_walker"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="1"]
-material = SubResource("ShaderMaterial_jdy65")
+modulate = Color(0.345098, 1, 0, 1)
 sprite_frames = ExtResource("3_8nwbp")
-animation = &"flight"
+animation = &"damage"
 
 [node name="animation_general" parent="sprite" index="9"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w5jm")
 }
 
-[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("4_8ft2v")]
-z_index = -4
-position = Vector2(-21, -5)
-scale = Vector2(0.085, 0.085)
+[node name="animation_color" parent="sprite" index="10"]
+libraries = {
+&"": SubResource("AnimationLibrary_recw2")
+}
 
-[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("4_8ft2v")]
+[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("4_8ft2v")]
 z_index = -4
 position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)
 
-[node name="scan_visible" parent="." index="11"]
+[node name="scan_visible" parent="." index="10"]
 modulate = Color(1, 1, 1, 0.01)
 
 [node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]

@@ -13,7 +13,7 @@ func _ready() -> void:
 	text_manager.text_font_size = randi_range(16, 24)
 	
 	if message_text != "none":
-		text_manager.text_full = message_text
+		text_manager.text_full = "[anim_rotate_away_up_right]" + message_text
 		text_manager.create_message()
 	
 	animation_all.play("general/appear_move_up_slow")

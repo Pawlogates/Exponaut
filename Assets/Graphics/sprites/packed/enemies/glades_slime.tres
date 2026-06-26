@@ -1,4 +1,4 @@
-[gd_resource type="SpriteFrames" load_steps=44 format=3 uid="uid://7ree2fflq7ta"]
+[gd_resource type="SpriteFrames" load_steps=43 format=3 uid="uid://7ree2fflq7ta"]
 
 [ext_resource type="Texture2D" uid="uid://dg6jtka113eq1" path="res://Assets/Graphics/sprites/sprites_enemies.png" id="1_64stp"]
 
@@ -128,47 +128,43 @@ region = Rect2(1408, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5e0bd"]
 atlas = ExtResource("1_64stp")
-region = Rect2(384, 64, 64, 64)
+region = Rect2(896, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_w8otk"]
 atlas = ExtResource("1_64stp")
-region = Rect2(448, 64, 64, 64)
+region = Rect2(960, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_towck"]
 atlas = ExtResource("1_64stp")
-region = Rect2(512, 64, 64, 64)
+region = Rect2(1024, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qeu74"]
 atlas = ExtResource("1_64stp")
-region = Rect2(576, 64, 64, 64)
+region = Rect2(1088, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ps5nd"]
 atlas = ExtResource("1_64stp")
-region = Rect2(640, 64, 64, 64)
+region = Rect2(1152, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5rhvt"]
 atlas = ExtResource("1_64stp")
-region = Rect2(704, 64, 64, 64)
+region = Rect2(1216, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3prxi"]
 atlas = ExtResource("1_64stp")
-region = Rect2(768, 64, 64, 64)
+region = Rect2(1280, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hldud"]
 atlas = ExtResource("1_64stp")
-region = Rect2(832, 64, 64, 64)
+region = Rect2(1344, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_65fn7"]
 atlas = ExtResource("1_64stp")
-region = Rect2(896, 64, 64, 64)
+region = Rect2(512, 64, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sw6i4"]
 atlas = ExtResource("1_64stp")
-region = Rect2(1216, 64, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qveuy"]
-atlas = ExtResource("1_64stp")
-region = Rect2(1280, 64, 64, 64)
+region = Rect2(448, 64, 64, 64)
 
 [resource]
 animations = [{
@@ -210,7 +206,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"damage",
-"speed": 10.0
+"speed": 5.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -333,7 +329,52 @@ animations = [{
 "texture": SubResource("AtlasTexture_sw6i4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_qveuy")
+"texture": SubResource("AtlasTexture_5e0bd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8otk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_towck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qeu74")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ps5nd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rhvt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3prxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hldud")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5e0bd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w8otk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_towck")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qeu74")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ps5nd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5rhvt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3prxi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hldud")
 }],
 "loop": true,
 "name": &"walk",

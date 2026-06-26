@@ -79,8 +79,9 @@ var patrolling_target_spotted_queued = false
 @onready var sfx4 = $sfx_manager/sfx4
 
 
-var active = false # It becomes "true" if the entity enters the camera view.
-var enabled = true # It becomes "false" when set by various other objects, such as the "inactive_until_player" trigger. Prevents "basic_on_active()" from being executed.
+var active : bool = false # It becomes "true" if the entity enters the camera view.
+var enabled : bool = true # It becomes "false" when set by various other objects, such as the "inactive_until_player" trigger. Prevents "basic_on_active()" from being executed.
+var is_ready : bool = false # It becomes "true" after a very short time after spawning. It's used to prevent entities from being collected or hit too soon after being spawned.
 
 var block_movement : bool = true
 
@@ -188,14 +189,14 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export_enum("Player", "enemy", "none", "all") var family : String = "all"
 
-@export var damage_from_entity = true
-@export var damage_from_entity_contact = true
-@export var damage_from_player = true
-@export var damage_from_player_contact = false
+@export var damage_from_entity = false
+@export var damage_from_entity_contact = true # Only takes effect if "damage_from_entity" is true.
+@export var damage_from_player = false
+@export var damage_from_player_contact = true
 
-@export var damage_to_entity = true
+@export var damage_to_entity = false
 @export var damage_to_entity_contact = true
-@export var damage_to_player = true
+@export var damage_to_player = false
 @export var damage_to_player_contact = true
 
 @export var pushable_by_entity = true
@@ -225,6 +226,8 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_death_ignore_gravity_stop = true
 
 @export var on_spawn_move_delay : float = 0.0
+@export var on_spawn_velocity : Vector2 = Vector2(-1, -1)
+@export var on_spawn_velocity_range : Array = [Vector2(-1, -1), Vector2(-1, -1)]
 
 @export var ignore_collision = false
 @export var on_death_change_ignore_collision = true
@@ -288,8 +291,8 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export var on_hit_change_velocity_x_copy_entity = true
 @export var on_hit_change_velocity_y_copy_entity = false
-@export var on_hit_change_velocity_x_copy_entity_multiplier : float = 0.5
-@export var on_hit_change_velocity_y_copy_entity_multiplier : float = 0.5
+@export var on_hit_change_velocity_x_copy_entity_multiplier : float = 1.0
+@export var on_hit_change_velocity_y_copy_entity_multiplier : float = 1.0
 @export var on_hit_change_velocity_x = false
 @export var on_hit_change_velocity_y = true
 @export var on_hit_change_velocity_value : Vector2 = Vector2(0, -400) # Disabled if equal to "-1".
@@ -307,7 +310,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 # These properties affect all "on_[event]_spawn_entity" type behaviors.
 @export var spawn_entity_delay_range : Array = [0.0, 0.0]
-@export var spawn_entity_add_scale_range : Array = [Vector2(-0.5, 0.0), Vector2(0.0, 0.0)]
+@export var spawn_entity_add_scale_range : Array = [Vector2(-0.1, 0.1), Vector2(0.0, 0.0)]
 @export var spawn_entity_add_scale_range_keep_equal : bool = true # If equal to "true", the entity's "scale.y" will copy its "scale.x".
 @export var spawn_entity_family_copy_entity : bool = false # Should be disabled if the entity spawns collectibles.
 @export var spawn_entity_direction_copy_entity : bool = false
@@ -496,6 +499,8 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export var force_direction_x : bool = false
 @export var force_direction_y : bool = false
+@export var force_direction_x_inactive : bool = false # The direction will always be equal to 0.
+@export var force_direction_y_inactive : bool = false
 
 @export var on_entityEntered_change_direction_copyEntity = false
 @export var on_entityEntered_change_direction_basedOnPosition = false
@@ -731,6 +736,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_wall_bounce_velocity_multiplier : float = 0.5
 
 @export var on_landed_spawn_entity : bool = false
+@export var on_landed_spawn_entity_chance : float = 100.0
 @export_file("*.tscn") var on_landed_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_landed_spawn_entity_quantity = 1
 @export var on_landed_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
@@ -740,6 +746,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_landed_spawn_entity_cooldown = 0.5
 
 @export var on_floor_spawn_entity : bool = false
+@export var on_floor_spawn_entity_chance : float = 100.0
 @export_file("*.tscn") var on_floor_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var on_floor_spawn_entity_quantity = 1
 @export var on_floor_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
@@ -786,12 +793,14 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var idle_sfx_cooldown = 4.0
 @export var idle_sfx_randomize_cooldown = false
 
-@export var on_collected_spawn_star : bool = true
-@export var on_collected_spawn_star2 : bool = true
-@export var on_collected_spawn_orb_orange : bool = true
-@export var on_collected_spawn_orb_blue : bool = true
-@export var on_collected_spawn_homing_square : bool = true
-@export var on_collected_spawn_dust : bool = false
+@export var on_collected_spawn_star_chance : float = 10.0
+@export var on_collected_spawn_star2_chance : float = 10.0
+@export var on_collected_spawn_orb_orange_chance : float = 10.0
+@export var on_collected_spawn_orb_blue_chance : float = 10.0
+@export var on_collected_spawn_homing_square_chance : float = 10.0
+@export var on_collected_spawn_dust_chance : float = 10.0
+@export var on_collected_spawn_dead : float = 10.0
+@export var on_collected_spawn_oneShot : float = 10.0
 
 @export var text_message : String = "none"
 @export var text_message_visible : String = "none"
@@ -897,7 +906,7 @@ func _on_particle_limiter_timeout():
 
 
 func remove_if_corpse():
-	await get_tree().create_timer(0.2, false).timeout
+	if is_inside_tree() : await get_tree().create_timer(0.2, false).timeout
 	
 	if dead or collected or destroyed:
 		Globals.dm("Attempting to remove a dead entity on it leaving the screen.", 1)
@@ -911,11 +920,13 @@ func remove_if_corpse():
 
 # Executes on entity being added to the scene tree.
 func basic_on_spawn():
-	if sprite_glow_light : glow_light.visible = true
-	else : glow_light.queue_free()
+	if is_instance_valid(glow_light):
+		if sprite_glow_light : glow_light.visible = true
+		else : glow_light.queue_free()
 	
-	if sprite_glow_shadow : glow_shadow.visible = true
-	else : glow_shadow.queue_free()
+	if is_instance_valid(glow_shadow):
+		if sprite_glow_shadow : glow_shadow.visible = true
+		else : glow_shadow.queue_free()
 	
 	add_to_group(entity_type)
 	

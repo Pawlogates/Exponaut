@@ -56,7 +56,7 @@ func _ready() -> void:
 		Globals.dm("Deleted a Text Manager Character's simple background.", "RED")
 		bg.queue_free()
 	
-	await get_tree().create_timer(0.5, true).timeout
+	if is_inside_tree() : await get_tree().create_timer(0.5, true).timeout
 	
 	if character.text.is_valid_int():
 		custom_minimum_size.x = 22

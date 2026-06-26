@@ -3,12 +3,13 @@ extends AnimatedSprite2D
 var master_node : Node
 
 @export var outline_enabled : bool = true
+@export var outline_min_opacity : float = 0.1
 
 
 func _ready() -> void:
 	master_node = get_parent()
 	
-	await get_tree().create_timer(1.5, true).timeout
+	await get_tree().create_timer(randf_range(0.25, 1), true).timeout
 	
 	if outline_enabled:
 		for x in range(1, 9):
@@ -19,8 +20,8 @@ func _ready() -> void:
 			var rolled_color : String = str(Globals.l_color_all.pick_random()).to_upper()
 			
 			if Globals.random_bool(1, 111) : outline_segment.modulate = rolled_color
-			outline_segment.modulate *= randf_range(0.1, 10)
-			outline_segment.modulate.a = randf_range(0.1, 2)
+			outline_segment.modulate *= randf_range(outline_min_opacity, 10)
+			outline_segment.modulate.a = randf_range(outline_min_opacity, 2)
 			
 			outline_segment.visible = true
 			

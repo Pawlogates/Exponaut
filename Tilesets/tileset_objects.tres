@@ -88,7 +88,7 @@
 [ext_resource type="PackedScene" uid="uid://4dddq1sty5h7" path="res://Collectibles/orb_red.tscn" id="77_4ma8r"]
 [ext_resource type="PackedScene" uid="uid://hq4cxsvbv03l" path="res://Enemies/togglebot.tscn" id="77_38g62"]
 [ext_resource type="PackedScene" uid="uid://bixrhaa8e5a4r" path="res://Collectibles/jewel_pineapple_timed.tscn" id="77_mrtos"]
-[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration.tscn" id="77_rg5m4"]
+[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration_main.tscn" id="77_rg5m4"]
 [ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="78_2cubl"]
 [ext_resource type="PackedScene" uid="uid://cjiup7b3smvl7" path="res://Enemies/pursuitron.tscn" id="78_bc0rc"]
 [ext_resource type="PackedScene" uid="uid://b1yp3474kdoii" path="res://Collectibles/puzzle_reset_zone_x.tscn" id="79_2kxln"]

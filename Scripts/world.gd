@@ -68,10 +68,9 @@ var bg_instant_offset = true
 @export var rl_property_pickup_range_int_float_quantity : int = 0
 @export var rl_property_pickup_range_vector2_quantity : int = 0
 
+@export var rl_level_size : Vector2 = Vector2(1200, 600)
 @export var rl_item_pickup_weapon_quantity : int = 0
-
 @export var rl_collectible_quantity : int = 0
-
 @export var rl_enemy_quantity : int = 0
 # Roguelord: - [START]:
 
@@ -135,24 +134,21 @@ func _ready():
 	
 	if rl_collectible_quantity:
 		for pickup in range(rl_collectible_quantity):
-			if Globals.get_random_bool(75) : continue
-			Globals.spawn_scenes(self, load("res://Collectibles/apple.tscn"), 1, Vector2(randi_range(-2400, 2400), randi_range(-1200, 1200)), -1, Color(0, 0, 0, 0), Vector2(0, 0), 1, ["on_spawn_delete_if_stuck"], [true])
+			Globals.spawn_scenes(self, load("res://Collectibles/apple.tscn"), 1, Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(0, 0), 1, ["on_spawn_delete_if_stuck"], [true])
 	
 	if rl_enemy_quantity:
-		rl_enemy_quantity = rl_enemy_quantity * Globals.player_level * Globals.player_level
-		rl_spawn_scenes("res://Enemies/glades_walker.tscn", randi_range(4, rl_enemy_quantity * 0.9))
-		if Globals.player_level >= 3 : rl_spawn_scenes("res://Enemies/glades_walker2.tscn", randi_range(Globals.player_level - 2, rl_enemy_quantity * 0.1))
-		if Globals.player_level >= 7 : rl_spawn_scenes("res://Enemies/glades_walker3.tscn", randi_range(Globals.player_level - 6, rl_enemy_quantity * 0.1))
+		rl_enemy_quantity = rl_enemy_quantity + Globals.player_level * 2
+		rl_spawn_scenes("res://Enemies/glades_walker", randi_range(1, rl_enemy_quantity))
 	
 	if rl_item_pickup_weapon_quantity:
 		for pickup in range(rl_item_pickup_weapon_quantity):
 			if Globals.get_random_bool(75) : continue
-			Globals.spawn_scenes(self, load("res://Collectibles/random_item_weapon.tscn"), 1, Vector2(randi_range(-2400, 2400), randi_range(-2400, 2400)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["on_spawn_delete_if_stuck"], [true])
+			Globals.spawn_scenes(self, load("res://Collectibles/random_item_weapon.tscn"), 1, Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["on_spawn_delete_if_stuck"], [true])
 	
 	if rl_property_pickup_bool_quantity:
 		for pickup in range(rl_property_pickup_bool_quantity):
 			if Globals.get_random_bool(75) : continue
-			Globals.spawn_scenes(self, load("res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_bool.tscn"), 1, Vector2(randi_range(-2400, 2400), randi_range(-2400, 2400)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["rl_pickup", "on_spawn_delete_if_stuck"], [true, true])
+			Globals.spawn_scenes(self, load("res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_bool.tscn"), 1, Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["rl_pickup", "on_spawn_delete_if_stuck"], [true, true])
 	
 	if randomized_deco_fade_offset == Vector2(-1, -1):
 		randomized_deco_fade_offset = Vector2(randf_range(-1, 1), randf_range(-1, 1))
@@ -368,6 +364,12 @@ func _ready():
 	Player.velocity = Vector2(0, 0)
 	
 	Globals.total_collectibles_level = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
+	
+	Globals.set_mouse_mode(false)
+	
+	await get_tree().create_timer(randf_range(12, 24 + Globals.player_level * 2), false).timeout
+	
+	Globals.restart_level()
 
 
 #MAIN START
@@ -933,4 +935,24 @@ func _on_cooldown_restart_level_timeout() -> void:
 
 
 func rl_spawn_scenes(scene_filepath : String, quantity : int = 1):
-	Globals.spawn_scenes(self, scene_filepath, quantity, Vector2(0, 0), -1, Color(0, 0, 0, 0), Vector2(-1, -1) * randf_range(0.0, 0.25), 10, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(-2400, -1200), Vector2(2400, 800)])
+	for x in quantity:
+		var rarity : int = 1 # Rarity equal to 1 means no rarity.
+		
+		if Globals.get_random_bool(5 + Globals.player_level):
+			rarity += 1
+			if Globals.get_random_bool(5 + Globals.player_level * 2):
+				rarity += 1
+				if Globals.get_random_bool(10 + Globals.player_level * 2):
+					rarity += 1
+					if Globals.get_random_bool(10 + Globals.player_level * 4):
+						rarity += 1
+						if Globals.get_random_bool(15 + Globals.player_level * 4):
+							rarity += 1
+							if Globals.get_random_bool(15 + Globals.player_level * 8):
+								rarity += 1
+		
+		var new_scene_filepath : String
+		if rarity > 1 : new_scene_filepath = scene_filepath + str(rarity) + ".tscn"
+		else : new_scene_filepath = scene_filepath + ".tscn"
+		
+		Globals.spawn_scenes(self, new_scene_filepath, 1, Vector2(0, 0), -1, Color(0, 0, 0, 0), Vector2(1, 1) * randf_range(0.0, 0.25) + Vector2(0.1, 0.1) * rarity, 10, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y))])

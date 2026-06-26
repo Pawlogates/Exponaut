@@ -11,6 +11,7 @@ scale = Vector2(0.5, 0.5)
 collectable = false
 hittable = true
 family = "enemy"
+damage_to_entity = true
 can_move = true
 ignore_gravity = false
 on_floor_bounce = true
@@ -18,9 +19,9 @@ start_animation = "none"
 entity_name = "spiky_ball"
 entity_type = "projectile"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_4w7hp")
 animation = &"anim"
 
-[node name="collision_main" parent="." index="1"]
+[node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_511gd")

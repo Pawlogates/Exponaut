@@ -1,13 +1,14 @@
-[gd_scene load_steps=15 format=3 uid="uid://qvxb24kyh4pu"]
+[gd_scene load_steps=16 format=3 uid="uid://qvxb24kyh4pu"]
 
 [ext_resource type="Script" uid="uid://b01g011s3jleu" path="res://Scripts/background_manager.gd" id="1_buqj4"]
+[ext_resource type="Material" uid="uid://dwg2kvd7cw6l5" path="res://Other/Materials/cycle_darkRed_darkPink.tres" id="2_0vdwx"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_84qf3"]
 [ext_resource type="Texture2D" uid="uid://c8s83b6oo16dx" path="res://Assets/Graphics/backgrounds/bg_back_fields.png" id="3_q05dr"]
 [ext_resource type="Texture2D" uid="uid://cdbfp76xggdb5" path="res://Assets/Graphics/backgrounds/bg_empty.png" id="3_txf8u"]
 [ext_resource type="Texture2D" uid="uid://dvov3hse2b0mc" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_wrhkf"]
 [ext_resource type="Texture2D" uid="uid://cupe4xw6b4wer" path="res://Assets/Graphics/backgrounds/bg_back_clouds.png" id="6_uxftp"]
 [ext_resource type="Texture2D" uid="uid://c173cymed0aam" path="res://Assets/Graphics/backgrounds/bg_clouds.png" id="7_0vdwx"]
-[ext_resource type="Texture2D" uid="uid://o3vr6p2op5d1" path="res://Assets/Graphics/other/darkDeco_middle.png" id="7_htje4"]
+[ext_resource type="Texture2D" uid="uid://beg5rd27bs8du" path="res://Assets/Graphics/backgrounds/fg_glades_mountain.png" id="8_0vdwx"]
 [ext_resource type="Texture2D" uid="uid://dvacl2dcsnmof" path="res://Assets/Graphics/backgrounds/bg_castle.png" id="8_htje4"]
 [ext_resource type="Texture2D" uid="uid://crmecc3lw0x7k" path="res://Assets/Graphics/backgrounds/bg_autumn.png" id="9_7vt02"]
 [ext_resource type="Texture2D" uid="uid://clo33vs031q42" path="res://Assets/Graphics/backgrounds/bg_fields.png" id="10_tt6fo"]
@@ -134,10 +135,14 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_main_A/layer"]
-texture_filter = 2
+texture_filter = 1
+texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("8_htje4")
+expand_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="label_debug" type="Label" parent="bg_main_A/layer/texture"]
 visible = false
@@ -168,11 +173,13 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_front_A/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("3_q05dr")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_front_A/layer/texture"]
 visible = false
@@ -203,11 +210,13 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_front2_A/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("7_0vdwx")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_front2_A/layer/texture"]
 visible = false
@@ -238,11 +247,13 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_back_A/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("6_uxftp")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_back_A/layer/texture"]
 visible = false
@@ -273,11 +284,14 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_back2_A/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
+clip_contents = true
 offset_right = 1920.0
 offset_bottom = 2160.0
-texture = ExtResource("7_htje4")
+texture = ExtResource("8_0vdwx")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_back2_A/layer/texture"]
 visible = false
@@ -308,10 +322,13 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_main_B/layer"]
-texture_filter = 2
+texture_filter = 1
+texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("3_txf8u")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_main_B/layer/texture"]
 visible = false
@@ -343,11 +360,13 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_front_B/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("7_0vdwx")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_front_B/layer/texture"]
 visible = false
@@ -379,11 +398,13 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_front2_B/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("8_htje4")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_front2_B/layer/texture"]
 visible = false
@@ -415,11 +436,13 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_back_B/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("9_7vt02")
+expand_mode = 1
 
 [node name="label_debug" type="Label" parent="bg_back_B/layer/texture"]
 visible = false
@@ -451,11 +474,14 @@ motion_offset = Vector2(0, -1080)
 motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_back2_B/layer"]
-texture_filter = 2
+texture_filter = 1
 texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("10_tt6fo")
+expand_mode = 1
+flip_h = true
 
 [node name="label_debug" type="Label" parent="bg_back2_B/layer/texture"]
 visible = false
@@ -494,11 +520,14 @@ motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_main_edge_top/layer"]
 texture_filter = 1
+texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_top = 540.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 scale = Vector2(1, -1)
 texture = ExtResource("3_wrhkf")
+expand_mode = 1
 
 [node name="bg_front_edge_top" type="ParallaxBackground" parent="."]
 layer = -9
@@ -514,11 +543,14 @@ motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_front_edge_top/layer"]
 texture_filter = 1
+texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_top = 540.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 scale = Vector2(1, -1)
 texture = ExtResource("3_wrhkf")
+expand_mode = 1
 
 [node name="bg_front2_edge_top" type="ParallaxBackground" parent="."]
 layer = -8
@@ -534,11 +566,14 @@ motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_front2_edge_top/layer"]
 texture_filter = 1
+texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_top = 540.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 scale = Vector2(1, -1)
 texture = ExtResource("3_wrhkf")
+expand_mode = 1
 
 [node name="bg_back_edge_top" type="ParallaxBackground" parent="."]
 layer = -11
@@ -554,11 +589,14 @@ motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_back_edge_top/layer"]
 texture_filter = 1
+texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_top = 540.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 scale = Vector2(1, -1)
 texture = ExtResource("3_wrhkf")
+expand_mode = 1
 
 [node name="bg_back2_edge_top" type="ParallaxBackground" parent="."]
 layer = -12
@@ -574,14 +612,18 @@ motion_mirroring = Vector2(1920, 0)
 
 [node name="texture" type="TextureRect" parent="bg_back2_edge_top/layer"]
 texture_filter = 1
+texture_repeat = 3
+material = ExtResource("2_0vdwx")
 offset_top = 540.0
 offset_right = 1920.0
 offset_bottom = 1080.0
 scale = Vector2(1, -1)
 texture = ExtResource("3_wrhkf")
+expand_mode = 1
 
 [node name="cooldown_randomize_texture_filepath" type="Timer" parent="."]
 wait_time = 5.0
+one_shot = true
 
 [connection signal="timeout" from="cooldown_check_fade" to="." method="_on_cooldown_check_fade_timeout"]
 [connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]

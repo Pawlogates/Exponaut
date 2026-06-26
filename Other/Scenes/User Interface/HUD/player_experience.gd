@@ -31,6 +31,10 @@ func _ready() -> void:
 	on_level_next()
 
 func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("alt"):
+		level_current = 0
+		on_level_next()
+	
 	container_bar.modulate.r = move_toward(container_bar.modulate.r, 1, delta)
 	container_bar.modulate.g = move_toward(container_bar.modulate.g, 1, delta)
 	container_bar.modulate.b = move_toward(container_bar.modulate.b, 1, delta)
@@ -80,7 +84,7 @@ func on_level_next():
 	Globals.spawn_scenes(container_bar, Globals.scene_particle_star, level_current, Vector2(experience_bar_length / 2, 8))
 	Globals.spawn_scenes(container_bar, Globals.scene_particle_special, level_current, Vector2(experience_bar_length / 2, 8), 5, Color.WHITE, Vector2(0, 0), 11, ["rotation_degrees"], [180])
 	Globals.spawn_scenes(Globals.World, Globals.scene_particle_homing_square, level_current, Globals.Player.position, 10, Globals.l_color_all.pick_random(), Vector2(0, 0), 10)
-	Globals.spawn_scenes(container_bar, load("res://Other/Effects/display_text_falling.tscn"), 1, Vector2(experience_bar_length / 2, 64 + 2 * level_current), 20, Color(0, 0, 0, 0), Vector2(-0.5, -0.5) + Vector2(0.025, 0.025) * level_current, 10, ["text_message", "gravity", "rotation_speed", "rotation_degrees"], [str(level_current), -50, 0.1 * level_current, 45])
+	Globals.spawn_scenes(container_bar, load("res://Other/Effects/display_text_falling.tscn"), 1, Vector2(experience_bar_length / 2, 256 + 2 * level_current), 20, Color(0, 0, 0, 0), Vector2(0.5, 0.5) + Vector2(0.025, 0.025) * level_current, 10, ["text_message", "gravity", "rotation_speed", "rotation_degrees"], [str(level_current), -50, 0.1 * level_current, 45])
 	
 	container_bar.modulate = Color.GREEN
 	bar_experience.color = Color.YELLOW * 4
@@ -94,5 +98,5 @@ func on_level_next():
 func experience_increase(value : int = 125):
 	experience_current += value
 	
-	bar_bg.color = Color.BLACK.blend(Color.GOLD * percentage_experience_next / 100)
-	Globals.spawn_scenes(container_bar, load("res://Other/Effects/display_text_falling.tscn"), 1, Vector2(randi_range(-240, 240), randi_range(-32, 32)) + Vector2(experience_bar_length / 2, 64 + 2 * level_current), 20, Color(0, 0, 0, 0), Vector2(-0.85, -0.85) + Vector2(0.025, 0.025) * level_current, 10, ["text_message", "gravity", "rotation_speed", "rotation_degrees", "font_basic"], ["+" + str(value) + " exp", -50, 1 * level_current, 180, true])
+	bar_bg.color = Color.BLACK.blend(Color.GOLD * percentage_experience_next / 75)
+	Globals.spawn_scenes(container_bar, load("res://Other/Effects/display_text_falling.tscn"), 1, Vector2(randi_range(-240, 240), randi_range(-32, 32)) + Vector2(experience_bar_length / 2, 64 + 2 * level_current), 20, Color(0, 0, 0, 0), Vector2(-0.85, -0.85) + Vector2(0.025, 0.025) * level_current, 10, ["text_message", "gravity", "rotation_speed", "rotation_degrees", "font_basic"], ["+" + str(value) + " exp", -50, 1 * level_current, randi_range(0, 360), true])

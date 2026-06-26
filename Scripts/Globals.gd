@@ -383,7 +383,7 @@ func _input(event: InputEvent) -> void:
 
 func handle_actions():
 	if Input.is_action_just_pressed("restart"):
-		restart_level()
+		reload_level_scene(false)
 	
 	if Input.is_action_just_pressed("menu_start_screen"):
 		change_main_scene(scene_start_screen)
@@ -544,8 +544,9 @@ var total_majorCollectibles_key_levelSet : int = 0
 var total_enemies_levelSet : int = 0
 
 # Entity Editor - [START]
+var weapon_main : String = "fireball"
+var weapon_secondary : String = "phaser" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
 var weapon : Dictionary = {"apply_default" : true} # All the property values needed to construct the main projectile.
-var secondaryWeapon = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
 
 var weapon_main_unlocks : Dictionary = {
 	# [unlock state, min value, max value]
@@ -651,7 +652,7 @@ func update_entity():
 #var qs_collected_items : Array = [["none", -1.0, -1]]
 var qs_collected_items : Array = []
 
-var qs_list_weapon_name : Array = ["wpn_phaser", "ice_shard", "ice_spiky_ball", "wpn_fireball", "fire", "flamethrower", "saw", "boomerang", "bomb", "rocket", "saw_small"]
+var qs_list_weapon_name : Array = ["iceball_shard_small", "iceball_into_shards_on_timeout", "iceball_shards_on_landed", "fireball", "fireball_into_bomb", "fireball_into_bombs_over_time", "fire", "flamethrower", "saw", "boomerang", "bomb", "rocket", "saw_small"]
 
 var qs_item_info_wpn_phaser : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
 var qs_item_saved_wpn_phaser : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
@@ -795,11 +796,11 @@ var bg_front2_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.pn
 var bg_back_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
 var bg_back2_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
 
-var bg_main_repeat_y = true
+var bg_main_repeat_y = false
 var bg_front_repeat_y = false
 var bg_front2_repeat_y = false
 var bg_back_repeat_y = false
-var bg_back2_repeat_y = false
+var bg_back2_repeat_y = true
 
 
 # Main scene refers to the current root scene (the parent node at the top of the node tree).
@@ -1102,8 +1103,7 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 	if remove_cooldown != -1:
 		spawn_scenes_delete(spawned_nodes, remove_cooldown)
 	
-	if len(spawned_nodes) == 1 : return spawned_nodes[0]
-	else : return spawned_nodes
+	return spawned_nodes
 
 func spawn_scenes_delete(p_spawned_nodes, p_remove_cooldown):
 	if p_remove_cooldown : await get_tree().create_timer(p_remove_cooldown, true).timeout
@@ -1224,8 +1224,11 @@ func handle_debug_actions():
 	
 	if Input.is_action_pressed("alt"):
 		
-		if Input.is_action_just_pressed("1"):
+		if Input.is_action_just_pressed("restart"):
 			reload_level_scene(true)
+		
+		if Input.is_action_just_pressed("1"):
+			delete_all_entities()
 		
 		elif Input.is_action_just_pressed("2"):
 			if not target_camera:
@@ -1246,6 +1249,9 @@ func handle_debug_actions():
 			dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
 		
 		elif Input.is_action_just_pressed("3"):
+			Overlay.HUD.visible = opposite_bool(Overlay.HUD.visible)
+		
+		elif Input.is_action_just_pressed("4"):
 			if Engine.time_scale == 1.0:
 				Engine.time_scale = randf_range(0.1, 0.5)
 			else:
@@ -1253,10 +1259,10 @@ func handle_debug_actions():
 			
 			spawn_message_object(str("Engine time scale has been set to: %s." % Engine.time_scale), main_scene, Player.position)
 		
-		elif Input.is_action_just_pressed("4"):
+		elif Input.is_action_just_pressed("5"):
 			Globals.level_score = randi_range(-100000, 999999)
 		
-		elif Input.is_action_just_pressed("5"):
+		elif Input.is_action_just_pressed("8"):
 			if get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_VIEWPORT:
 				get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_DISABLED
 				message(str("Display resolution is: %s. Scaling is disabled." % window_size))
@@ -1267,7 +1273,7 @@ func handle_debug_actions():
 				get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
 				message(str("Display resolution is: %s. Scaling is enabled (viewport)." % window_size))
 		
-		elif Input.is_action_just_pressed("6"):
+		elif Input.is_action_just_pressed("9"):
 			if get_window().content_scale_factor == 1.0:
 				get_window().content_scale_factor = 0.75
 			elif get_window().content_scale_factor == 0.75:
@@ -1281,7 +1287,7 @@ func handle_debug_actions():
 				
 			message(str("Content scale factor set to: %s." % get_window().content_scale_factor))
 		
-		elif Input.is_action_just_pressed("7"):
+		elif Input.is_action_just_pressed("0"):
 			if ProjectSettings.get_setting("display/window/size/viewport_width") == 1280:
 				ProjectSettings.set_setting("display/window/size/viewport_width", 1920)
 				ProjectSettings.set_setting("display/window/size/viewport_height", 1080)
@@ -1527,7 +1533,6 @@ func reload_level_scene(keep_player_pos : bool = false):
 			entity.queue_free()
 	
 	await get_tree().create_timer(0.25 , true).timeout
-	print("HELLO ", Globals.weapon)
 	
 	if is_instance_valid(World):
 		reload_scene_files_general()
@@ -1623,7 +1628,7 @@ func update_window_size(handle_scaling : bool = false):
 			get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT
 
 
-func get_files(dirpath : String):
+func get_files(dirpath : String, keyword : String = "none"):
 	var dir = DirAccess.open(dirpath)
 	
 	var list_filename : Array = []
@@ -1631,7 +1636,11 @@ func get_files(dirpath : String):
 	if dir != null:
 		for filename in dir.get_files():
 			if not filename.ends_with(".import") and not filename.ends_with(".gd") and not filename.ends_with(".tmp") and not filename.ends_with(".uid"):
-				list_filename.append(filename)
+				if keyword == "none":
+					list_filename.append(filename)
+				else:
+					if keyword in filename:
+						list_filename.append(filename)
 	
 	return list_filename
 
@@ -1948,3 +1957,9 @@ var player_experience : int = 0
 var world_evolution : float = 0.01
 
 # Roguelord - [END]
+
+
+func delete_all_entities():
+	for entity in get_tree().get_nodes_in_group("menu_entity_editor_behavior_button") + get_tree().get_nodes_in_group("entity"):
+		if not entity.is_in_group("entity_editor_preview"):
+			entity.queue_free()

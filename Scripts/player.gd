@@ -3,6 +3,9 @@ extends CharacterBody2D
 @onready var World = Globals.reassign_general()[0]
 @onready var Player = Globals.reassign_general()[1]
 
+
+@export var camera_speed_multiplier : float = 1.0
+
 @export var speed_x = 400.0
 @export var speed_y = 400.0
 @export var jump_velocity = -575.0
@@ -162,6 +165,8 @@ signal player_just_left_wind
 
 func _ready():
 	World = Globals.reassign_general()[0]
+	
+	camera.position_smoothing_speed *= camera_speed_multiplier
 	
 	base_speed_x = speed_x
 	base_speed_y = speed_y
@@ -894,6 +899,10 @@ func _on_dash_check_timeout():
 
 # Attack (main and secondary): - [START]
 func handle_attack_main():
+	if Input.is_action_just_pressed("e"):
+		Globals.weapon_main = Globals.qs_list_weapon_name.pick_random()
+		Globals.spawn_message_object(Globals.weapon_main)
+	
 	if block_movement : return
 	elif dead : return
 	elif Globals.weapon_blocked : return
@@ -903,7 +912,7 @@ func handle_attack_main():
 		c_attack.start()
 		
 		if Globals.weapon is Dictionary:
-			attack_main_spawn_scene("res://Projectiles/fireball.tscn")
+			attack_main_spawn_scene("res://Projectiles/" + Globals.weapon_main + ".tscn")
 		
 		
 		#SHOOTING ANIMATION
@@ -938,37 +947,60 @@ func handle_attack_main():
 		sfx_manager.sfx_play(Globals.sfx_slash)
 
 func attack_main_spawn_scene(filepath):
-	if filepath == "res://Projectiles/fireball.tscn":
-		var scene = load(filepath).instantiate()
-		
+	if not FileAccess.file_exists(filepath) : filepath = "res://Projectiles/iceball_shard_small.tscn"
+	
+	var scene = load(filepath).instantiate()
+	
+	if Globals.weapon_main == "custom":
 		for property_name in Globals.weapon:
 			if property_name == "none" : continue
 			
 			scene.set(property_name, Globals.weapon[property_name])
-		
-		scene.position = position + attack_pos_offset * Globals.player_direction_x_active
-		scene.set_player_attack_cooldown = true
-		scene.family = "Player"
+	
+	scene.position = position + attack_pos_offset * Globals.player_direction_x_active
+	#scene.set_player_attack_cooldown = true
+	c_attack.wait_time = scene.set_player_attack_cooldown_value
+	scene.collectable = false
+	scene.family = "Player"
+	scene.direction_x = Globals.player_direction_x_active
+	scene.on_spawn_copy_direction_x_active_player = true
+	scene.always_active = true
+	if not scene.on_spawn_copy_direction_x_player and not scene.on_spawn_copy_direction_x_active_player:
+		scene.on_spawn_velocity.x *= scene.direction_x
+	
+	if Input.is_action_pressed("move_down"):
+		scene.direction_y = 1
+		scene.direction_x = 0
+		scene.movement_type = "normal"
+		scene.ignore_gravity = false
+		scene.velocity.y = scene.jump_velocity_y + velocity.y
+		scene.velocity.y += velocity.y
+		scene.velocity.x = 0
+		scene.on_spawn_velocity.x /= 4
+		if scene.on_spawn_velocity.x <= 250 : scene.on_spawn_velocity.x = 0
+		scene.on_spawn_velocity.y = scene.velocity.y
+		scene.on_spawn_max_speed = false
+		scene.always_max_speed = false
+	
+	elif Input.is_action_pressed("move_up"):
+		scene.direction_y = -1
 		scene.direction_x = Globals.player_direction_x_active
-		scene.always_active = true
-		
-		if Input.is_action_pressed("move_down"):
-			scene.direction_y = 1
-			scene.direction_x = 0
-			scene.movement_type = "move_xy"
-			scene.ignore_gravity = false
-			#scene.velocity.y = -scene.speed * 1.5
-		
-		elif Input.is_action_pressed("move_up"):
-			scene.direction_y = -1
-			scene.direction_x = 0
-			scene.movement_type = "normal"
-			scene.ignore_gravity = false
-			scene.velocity.y = velocity.y * 2
-		
-		World.add_child(scene)
-		
-		Globals.projectile_shot.emit()
+		scene.movement_type = "normal"
+		scene.ignore_gravity = false
+		scene.velocity = Vector2(scene.jump_velocity_x * Globals.player_direction_x_active, scene.jump_velocity_y)
+		scene.velocity.y += velocity.y * 2
+		scene.on_spawn_max_speed = false
+		scene.always_max_speed = false
+	
+	if scene.on_spawn_velocity_range != [Vector2(-1, -1), Vector2(-1, -1)]:
+		scene.on_spawn_velocity_range[0].x *= scene.direction_x
+		scene.on_spawn_velocity_range[1].x *= scene.direction_x
+		scene.on_spawn_velocity_range[0].y *= -scene.direction_y
+		scene.on_spawn_velocity_range[1].y *= -scene.direction_y
+	
+	World.add_child(scene)
+	
+	Globals.projectile_shot.emit()
 
 func secondaryAttack_spawn_scene(filepath):
 	pass

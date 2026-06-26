@@ -94,11 +94,11 @@ var fade_multiplier : float = 0.25
 @onready var bg_back_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
 @onready var bg_back2_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_empty.png"
 
-@onready var bg_main_repeat_y = true
-@onready var bg_front_repeat_y = false
-@onready var bg_front2_repeat_y = false
-@onready var bg_back_repeat_y = false
-@onready var bg_back2_repeat_y = false
+@export var bg_main_repeat_y = false
+@export var bg_front_repeat_y = false
+@export var bg_front2_repeat_y = false
+@export var bg_back_repeat_y = false
+@export var bg_back2_repeat_y = true
 
 
 @export var randomize : bool = true
@@ -124,7 +124,6 @@ func _ready():
 	
 	fade_multiplier = 20.0
 	
-	
 	for layer_node_name in list_l_A_node_name:
 		var bg_layer = get_node(layer_node_name)
 		bg_layer.visible = true
@@ -142,7 +141,9 @@ func _ready():
 	
 	fade_multiplier = 1.0
 	
-	if randomize : $cooldown_randomize_texture_filepath.start()
+	if randomize:
+		_on_cooldown_randomize_texture_filepath_timeout()
+		#$cooldown_randomize_texture_filepath.start()
 
 
 @onready var animation_fade: AnimationPlayer = %animation_fade
@@ -459,11 +460,40 @@ var dirpath : String = Globals.d_backgrounds + "/"
 func _on_cooldown_randomize_texture_filepath_timeout() -> void:
 	fade_multiplier = randf_range(0.1, 0.5)
 	$cooldown_randomize_texture_filepath.wait_time = randf_range(4, 60)
+	#$cooldown_randomize_texture_filepath.start()
 	
-	Globals.bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
-	Globals.bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
-	Globals.bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
-	Globals.bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
-	Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	Globals.bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+	Globals.bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+	Globals.bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+	Globals.bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+	if Globals.World.overworld_level_id != "none":
+		Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, "bg_" + Globals.World.overworld_level_id + "_sky.png").pick_random()
+	else:
+		Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	
+	handle_randomize()
 	
 	on_trigger_bg_change_entered()
+	
+	await get_tree().create_timer(3.0, true).timeout
+	
+	handle_randomize()
+	bg_fade_active = true
+
+func handle_randomize():
+	for r_bg_layer in list_lv_property_name:
+		var bg_layer = get(r_bg_layer)
+		var bg_texture = get(r_bg_layer).get_child(0)
+		
+		bg_layer.motion_offset.x = randi_range(-1200, 1200)
+		bg_layer.motion_offset.y = -1080 + randi_range(-100, 50)
+		bg_texture.flip_h = Globals.get_random_bool(50)
+		if Globals.World.overworld_level_id != "none" : bg_texture.material = null
+		else : if Globals.get_random_bool(50) : bg_texture.material = null
+		bg_layer.modulate.a = randf_range(0.25, 1)
+		bg_texture.modulate.a = randf_range(0.25, 1)
+		
+		if bg_texture.clip_contents:
+			bg_layer.modulate.a = 1
+			bg_texture.modulate.a = 1
+			bg_texture.get_parent().motion_offset.y = -400

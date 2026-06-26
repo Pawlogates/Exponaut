@@ -208,6 +208,10 @@ one_shot = true
 
 [node name="scan_stuck" parent="." instance=ExtResource("10_5wk4g")]
 
+[node name="cooldown_toggle_hitbox" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
 [connection signal="timeout" from="timeout_basic/cooldown_jump" to="." method="_on_cooldown_jump_timeout"]
 [connection signal="timeout" from="timeout_basic/cooldown_change_direction_x" to="." method="_on_cooldown_change_direction_x_timeout"]
 [connection signal="timeout" from="timeout_basic/cooldown_spawn_entity" to="." method="_on_cooldown_spawn_scene_timeout"]
@@ -240,3 +244,4 @@ one_shot = true
 [connection signal="timeout" from="general_timers_core/t5" to="." method="t5_trigger"]
 [connection signal="timeout" from="general_timers_core/t6" to="." method="t6_trigger"]
 [connection signal="timeout" from="cooldown_attack_limit" to="." method="_on_cooldown_attack_limit_timeout"]
+[connection signal="timeout" from="cooldown_toggle_hitbox" to="." method="_on_cooldown_toggle_hitbox_timeout"]

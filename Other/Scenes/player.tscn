@@ -64,6 +64,7 @@ wait_time = 0.15
 one_shot = true
 
 [node name="camera" parent="." instance=ExtResource("7_1fkbh")]
+position_smoothing_speed = 1.0
 
 [node name="hitbox_main" type="Area2D" parent="." groups=["Player", "player_hitbox"]]
 collision_layer = 8

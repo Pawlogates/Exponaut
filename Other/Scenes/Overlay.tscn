@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c72fsx7pp0uvj"]
+[gd_scene load_steps=20 format=3 uid="uid://c72fsx7pp0uvj"]
 
 [ext_resource type="Script" uid="uid://dieqnkuu77dpu" path="res://Scripts/Overlay.gd" id="1_xupot"]
 [ext_resource type="PackedScene" uid="uid://bec60ts473x1w" path="res://Other/Scenes/User Interface/Debug/await_debug.tscn" id="3_xupot"]
@@ -8,6 +8,9 @@
 [ext_resource type="PackedScene" uid="uid://cg04s4qy3yjao" path="res://Other/Scenes/User Interface/Debug/await_recorder.tscn" id="6_050b7"]
 [ext_resource type="PackedScene" uid="uid://bm7mkpe0yeno5" path="res://Other/Scenes/recorder_level.tscn" id="7_gplty"]
 [ext_resource type="PackedScene" uid="uid://dwafp1e55iwss" path="res://Other/Scenes/await_quickselect.tscn" id="8_ux5vd"]
+[ext_resource type="Script" uid="uid://b5w5egomj0e46" path="res://Other/Scenes/info_direction.gd" id="9_a0bpe"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="10_sduws"]
+[ext_resource type="Script" uid="uid://dc2exr5qq34o2" path="res://Other/Scenes/on_timeout_delete_parent.gd" id="11_kkjsy"]
 
 [sub_resource type="Animation" id="Animation_g0n3s"]
 length = 0.001
@@ -267,3 +270,237 @@ libraries = {
 [node name="await_recorder" parent="." instance=ExtResource("6_050b7")]
 
 [node name="await_quickselect" parent="." instance=ExtResource("8_ux5vd")]
+
+[node name="info_direction" type="Node2D" parent="."]
+position = Vector2(109, 397)
+script = ExtResource("9_a0bpe")
+
+[node name="arrow_up" type="Node2D" parent="info_direction"]
+position = Vector2(7, 6)
+
+[node name="ColorRect" type="ColorRect" parent="info_direction/arrow_up"]
+offset_right = 128.0
+offset_bottom = 128.0
+color = Color(0.144063, 0.144063, 0.144063, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="info_direction/arrow_up"]
+z_index = -1
+offset_right = 132.0
+offset_bottom = 132.0
+
+[node name="ColorRect7" type="ColorRect" parent="info_direction/arrow_up"]
+z_index = -1
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 132.0
+offset_bottom = 132.0
+color = Color(1, 1, 1, 0.624)
+
+[node name="ColorRect2" type="ColorRect" parent="info_direction/arrow_up"]
+offset_left = 60.6274
+offset_top = 15.2426
+offset_right = 68.6274
+offset_bottom = 111.243
+
+[node name="ColorRect3" type="ColorRect" parent="info_direction/arrow_up"]
+offset_left = 60.6274
+offset_top = 15.2426
+offset_right = 66.6274
+offset_bottom = 47.2426
+rotation = -0.785398
+
+[node name="ColorRect4" type="ColorRect" parent="info_direction/arrow_up"]
+offset_left = 64.6274
+offset_top = 11.2426
+offset_right = 70.6274
+offset_bottom = 43.2426
+rotation = 0.785398
+
+[node name="arrow_down" type="Node2D" parent="info_direction"]
+position = Vector2(135, 280)
+rotation = 3.14159
+
+[node name="ColorRect" type="ColorRect" parent="info_direction/arrow_down"]
+offset_right = 128.0
+offset_bottom = 128.0
+color = Color(0.144, 0.144, 0.144, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="info_direction/arrow_down"]
+z_index = -1
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 132.0
+offset_bottom = 132.0
+color = Color(1, 1, 1, 0.624)
+
+[node name="ColorRect7" type="ColorRect" parent="info_direction/arrow_down"]
+z_index = -1
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="ColorRect2" type="ColorRect" parent="info_direction/arrow_down"]
+offset_left = 60.1299
+offset_top = 17.0
+offset_right = 68.1299
+offset_bottom = 113.0
+
+[node name="ColorRect3" type="ColorRect" parent="info_direction/arrow_down"]
+offset_left = 60.1299
+offset_top = 17.0
+offset_right = 66.1299
+offset_bottom = 49.0
+rotation = -0.785398
+
+[node name="ColorRect4" type="ColorRect" parent="info_direction/arrow_down"]
+offset_left = 64.13
+offset_top = 13.0
+offset_right = 70.13
+offset_bottom = 45.0
+rotation = 0.785398
+
+[node name="attack_main" type="Node2D" parent="info_direction"]
+position = Vector2(287, 78)
+rotation = 1.5708
+
+[node name="ColorRect" type="ColorRect" parent="info_direction/attack_main"]
+offset_right = 128.0
+offset_bottom = 128.0
+color = Color(0.144, 0.144, 0.144, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="info_direction/attack_main"]
+z_index = -1
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 132.0
+offset_bottom = 132.0
+color = Color(1, 1, 1, 0.624)
+
+[node name="ColorRect7" type="ColorRect" parent="info_direction/attack_main"]
+z_index = -1
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 128.0
+offset_bottom = 128.0
+
+[node name="ColorRect2" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.1299
+offset_top = 17.0
+offset_right = 68.1299
+offset_bottom = 113.0
+
+[node name="ColorRect3" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.1299
+offset_top = 17.0
+offset_right = 66.1299
+offset_bottom = 49.0
+rotation = -0.785398
+metadata/_edit_use_anchors_ = true
+
+[node name="ColorRect4" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 64.13
+offset_top = 13.0
+offset_right = 70.13
+offset_bottom = 45.0
+rotation = 0.785398
+
+[node name="ColorRect5" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.13
+offset_top = 112.757
+offset_right = 68.13
+offset_bottom = 208.757
+scale = Vector2(1, -1)
+
+[node name="ColorRect8" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.1299
+offset_top = 112.757
+offset_right = 66.1299
+offset_bottom = 144.757
+rotation = -0.785398
+scale = Vector2(1, -1)
+
+[node name="ColorRect9" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 64.13
+offset_top = 108.757
+offset_right = 70.13
+offset_bottom = 140.757
+rotation = 0.785398
+scale = Vector2(1, -1)
+
+[node name="ColorRect10" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.1299
+offset_top = 17.0
+offset_right = 68.1299
+offset_bottom = 113.0
+rotation = -0.371575
+
+[node name="ColorRect11" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.1299
+offset_top = 17.0
+offset_right = 66.1299
+offset_bottom = 49.0
+rotation = -1.15697
+
+[node name="ColorRect12" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 64.13
+offset_top = 13.0
+offset_right = 70.13
+offset_bottom = 45.0
+rotation = 0.413823
+
+[node name="ColorRect13" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.13
+offset_top = 112.757
+offset_right = 68.13
+offset_bottom = 208.757
+rotation = -0.371575
+scale = Vector2(1, -1)
+
+[node name="ColorRect14" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 60.1299
+offset_top = 112.757
+offset_right = 66.1299
+offset_bottom = 144.757
+rotation = -1.15697
+scale = Vector2(1, -1)
+
+[node name="ColorRect15" type="ColorRect" parent="info_direction/attack_main"]
+offset_left = 64.13
+offset_top = 108.757
+offset_right = 70.13
+offset_bottom = 140.757
+rotation = 0.413823
+scale = Vector2(1, -1)
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -429.0
+offset_top = 84.0
+offset_right = 429.0
+offset_bottom = 139.833
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("10_sduws")
+theme_override_font_sizes/font_size = 40
+text = "Press the E key to select a new weapon type."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Timer" type="Timer" parent="Label"]
+wait_time = 24.0
+autostart = true
+script = ExtResource("11_kkjsy")
+
+[node name="Label" type="Label" parent="Label"]
+layout_mode = 0
+offset_top = 72.0
+offset_right = 1027.0
+offset_bottom = 200.0
+text = "Press X or LMB to use your MAIN attack.
+Press V or RMB to use your SECONDARY attack.
+Hold either UP or DOWN while attacking, to alter the projectile behavior."

@@ -50,9 +50,9 @@ func _ready() -> void:
 		for character in $row1.get_children():
 			character.removable = true
 			character.animation_player.stop()
-			await get_tree().create_timer(clamp(cooldown_next_character, 0.01, 0.25), true).timeout
+			if is_inside_tree() : await get_tree().create_timer(clamp(cooldown_next_character, 0.01, 0.25), true).timeout
 		
-		await get_tree().create_timer(4, true).timeout
+		if is_inside_tree() : await get_tree().create_timer(4, true).timeout
 		queue_free()
 
 

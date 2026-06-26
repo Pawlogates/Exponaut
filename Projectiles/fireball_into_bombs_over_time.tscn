@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://c1tbpvxg1p0ux"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_r8ss1"]
+[ext_resource type="SpriteFrames" uid="uid://fvwbdon5rq11" path="res://Assets/Graphics/sprites/packed/projectiles/fireball.tres" id="2_1myyb"]
+[ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="3_fj5r0"]
+[ext_resource type="SpriteFrames" uid="uid://c5t7xftw3kkck" path="res://Assets/Graphics/sprites/packed/collectibles/bomb.tres" id="4_m8iop"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w0vbj"]
+size = Vector2(64, 64)
+
+[node name="fireball_into_bombs_over_time" instance=ExtResource("1_r8ss1")]
+on_death_effect_thrownAway = true
+on_death_effect_thrownAway_cooldown = 1.0
+effect_thrownAway_randomize_velocity_multiplier_x = 0.25
+effect_thrownAway_randomize_velocity_multiplier_y = 0.5
+collectable = false
+hittable = true
+health_value = 1
+movement_type = "move_xy"
+speed = 150
+always_max_speed = true
+on_spawn_max_speed = true
+family = "none"
+damage_to_entity = true
+pushable_by_entity = false
+can_move = true
+on_floor_change_direction_y = true
+on_floor_change_speed = true
+on_timeout_jump = true
+on_timeout_jump_cooldown = 4.5
+on_timeout_jump_velocity = -800.0
+on_timeout_change_ignore_gravity = true
+on_timeout_change_ignore_gravity_cooldown = 4.5
+on_timeout_death = true
+on_timeout_death_cooldown = 5.0
+on_timeout_spawn_entity = true
+on_timeout_spawn_entity_cooldown = 1.0
+on_timeout_spawn_entity_scene_filepath = "uid://oxvewjp1soes"
+on_timeout_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
+on_timeout_spawn_entity_add_velocity_range = [Vector2(-50, -200), Vector2(50, -100)]
+on_timeout_change_movement_type = true
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://nlbbhgnny7rs"
+on_death_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
+on_death_spawn_entity_add_velocity_range = [Vector2(0, 0), Vector2(0, 0)]
+can_collect = true
+immortal = true
+on_floor_bounce = true
+on_floor_bounce_velocity_multiplier = 0.95
+start_animation = "none"
+effect_shrink_target_scale = Vector2(0.5, 0.5)
+effect_shrink_delete = false
+entity_name = "fireball"
+entity_type = "projectile"
+
+[node name="sprite" parent="." index="1"]
+modulate = Color(6.077, 1, 1, 1)
+sprite_frames = ExtResource("2_1myyb")
+
+[node name="sprite_fg" parent="sprite" index="8" instance=ExtResource("3_fj5r0")]
+z_index = 1
+position = Vector2(3, -3)
+scale = Vector2(0.75, 0.75)
+sprite_frames = ExtResource("4_m8iop")
+
+[node name="sprite" parent="sprite/sprite_fg" index="8" instance=ExtResource("3_fj5r0")]
+z_index = -1
+position = Vector2(4, -9.33333)
+scale = Vector2(0.66, 0.66)
+sprite_frames = ExtResource("4_m8iop")
+
+[node name="sprite2" parent="sprite/sprite_fg" index="9" instance=ExtResource("3_fj5r0")]
+z_index = -1
+position = Vector2(-14.6667, -6.66667)
+scale = Vector2(-0.8, 0.8)
+sprite_frames = ExtResource("4_m8iop")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_w0vbj")

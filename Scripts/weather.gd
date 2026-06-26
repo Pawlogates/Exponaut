@@ -2,8 +2,6 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	position.y = -2000
-	
 	if weather_type == "leaves":
 		$Timer.start()
 		$Timer2.start()

@@ -6,5 +6,5 @@
 script = ExtResource("1_8mfcx")
 
 [node name="scan" type="RayCast2D" parent="."]
-position = Vector2(0, -20)
-target_position = Vector2(0, 40)
+position = Vector2(0, -25)
+hit_from_inside = true
