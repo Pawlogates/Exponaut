@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7mca5p5so5m"]
+
+[ext_resource type="Script" uid="uid://bgjh2pl0phi8k" path="res://Other/Scenes/decoration_collision_particles.gd" id="1_eb1xr"]
+
+[node name="decoration_collision_particles" type="Node2D"]
+script = ExtResource("1_eb1xr")
+
+[node name="cooldown_spawn_particle" type="Timer" parent="."]
+wait_time = 0.25
+
+[connection signal="timeout" from="cooldown_spawn_particle" to="." method="_on_cooldown_spawn_particle_timeout"]

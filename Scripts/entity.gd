@@ -48,6 +48,8 @@ func _ready():
 		add_to_group("entity_editor_preview")
 		remove_from_group("persistent")
 		remove_from_group("Persist")
+		visible = false
+		set_hitbox(false)
 		return
 	
 	if always_active : set_hitbox(true)
@@ -185,7 +187,16 @@ func _ready():
 @onready var debug_label3 : Label
 @onready var debug_label4 : Label
 
+var attack_melee_block_movement : bool = false
+
+
 func _process(delta):
+	if is_on_floor() : on_floor = true
+	else : on_floor = false
+	
+	if is_on_wall() : on_wall = true
+	else : on_wall = false
+	
 	if entity_editor_preview : return
 	
 	if sprite_glow_shadow:
@@ -200,12 +211,12 @@ func _process(delta):
 	
 	if can_move:
 		
-		if is_on_wall() and is_collidable:
+		if on_wall and is_collidable:
 			set_not_collidable_queue()
 			
 			wall_normal = get_wall_normal()
 		
-		if is_on_floor() and is_collidable:
+		if on_floor and is_collidable:
 			set_not_collidable_queue()
 			
 			floor_normal = get_floor_normal()
@@ -250,12 +261,6 @@ func _process(delta):
 	
 	#if dead : modulate.a = move_toward(modulate.a, 0.5, delta / 4)
 	
-	if is_on_floor() : on_floor = true
-	else : on_floor = false
-	
-	if is_on_wall() : on_wall = true
-	else : on_wall = false
-	
 	if can_move and not block_movement : handle_movement(delta)
 	
 	# Handle JUST (1/3):
@@ -276,8 +281,8 @@ func _process(delta):
 			direction_x = Globals.player_direction_x
 	
 	if can_move:
-		if abs(velocity.x) > 0.0 : velocity_last_x = velocity.x
-		if abs(velocity.y) > 0.0 : velocity_last_y = velocity.y
+		if abs(velocity.x) > 100.0 : velocity_last_x = velocity.x
+		if abs(velocity.y) > 100.0 : velocity_last_y = velocity.y
 	
 	if direction_x != 0:
 		direction_active_x = direction_x
@@ -341,7 +346,7 @@ func _process(delta):
 	
 	if patrolling : handle_patrolling()
 	
-	if can_move:
+	if can_move and is_collidable:
 		if on_floor : handle_on_floor()
 		if on_wall : handle_on_wall()
 		
@@ -387,7 +392,7 @@ func _process(delta):
 							velocity.x += randf_range(-abs(inside_entity_last.velocity.x), 10) / 10
 	
 	
-	if can_move and not block_movement or effect_thrownAway_active : move_and_slide()
+	if can_move and not block_movement and not attack_melee_block_movement or effect_thrownAway_active : move_and_slide()
 	
 	
 	# Handle JUST (3/3):
@@ -982,11 +987,12 @@ func chase_target_xy(delta, target : Node):
 	#direction_y = value
 
 func change_direction_x(floor_normal : Vector2 = Vector2(0, 0)):
+	#Globals.spawn_message_object(str(wall_normal))
+	
 	if floor_normal == Vector2(0, 0):
 		direction_x *= -1
 	
 	else:
-		
 		if on_wall_sprite_anim_reflect_straight : effects_reflect_straight()
 		
 		if floor_normal == Vector2(-1, 0): #right
@@ -994,6 +1000,8 @@ func change_direction_x(floor_normal : Vector2 = Vector2(0, 0)):
 		
 		elif floor_normal == Vector2(1, 0): #left
 			direction_x = 1
+	
+	velocity.x = -velocity_last_x
 
 func change_direction_y(wall_normal : Vector2 = Vector2(0, 0)):
 	if wall_normal == Vector2(0, 0):
@@ -1004,7 +1012,7 @@ func change_direction_y(wall_normal : Vector2 = Vector2(0, 0)):
 		if on_wall_sprite_anim_reflect_straight : effects_reflect_straight()
 		
 		if wall_normal == Vector2(0, -1): #bottom
-			direction_y = -1
+			direction_y = 1
 		
 		elif wall_normal == Vector2(0, 1): #top
 			direction_y = 1
@@ -1124,7 +1132,7 @@ func handle_collectable(target : Node): # The main function of the "collectible"
 	
 	if on_collected_unlock_random_item_weapon:
 		Globals.qs_collected_items.append(item_weapon_info)
-		Globals.spawn_scenes(Overlay, load("res://Other/Scenes/hint_scroll_down.tscn"), 1, Vector2(960, 960), -1)
+		Globals.spawn_scenes(Overlay, load("res://Other/Scenes/hint_scroll_down.tscn"), 1, Vector2(960, 900), -1)
 	
 	if on_collected_gain_movement != "none":
 		reassign_movement_type_id(on_collected_gain_movement)
@@ -1233,13 +1241,13 @@ func spawn_display_score_bonus(value : int, add_scale : Vector2 = Vector2(1, 1),
 	World.add_child(node)
 
 
-func handle_hit(target):
+func handle_hit(target : Node, f_damage_value : int = target.damage_value):
 	Globals.entity_hit.emit()
 	
 	if not immortal:
-		handle_damage(target.damage_value * Globals.player_level, "normal", target)
+		handle_damage(f_damage_value, "normal", target)
 	
-	handle_effects_hit(target)
+	handle_effects_hit(target, f_damage_value)
 	
 	if on_hit_spawn_entity:
 		if Globals.get_random_bool(on_hit_spawn_entity_chance) : spawn_entity(on_hit_spawn_entity_scene_filepath, on_hit_spawn_entity_quantity, on_hit_spawn_entity_add_velocity, on_hit_spawn_entity_add_velocity_range, on_hit_spawn_entity_pos_offset, on_hit_spawn_entity_pos_offset_range)
@@ -1541,16 +1549,8 @@ func effect_death_random():
 	animation_all.play(Globals.l_animation_name_all.pick_random())
 
 
-func handle_effects_hit(target):
-	var effect_text : Node2D = load("res://Other/Effects/effect_text.tscn").instantiate()
-	effect_text.position = position + Vector2(randi_range(-100, 100), randi_range(-100, 100))
-	effect_text.text_message = str(target.damage_value * Globals.player_level)
-	effect_text.effect_speed = randf_range(1, 4)
-	effect_text.scale *= 0.25 + 0.01 * target.damage_value * Globals.player_level
-	if Globals.get_random_bool(50) : effect_text.scale.x *= -1
-	effect_text.rotation_degrees = randi_range(-30, 30)
-	effect_text.modulate = effect_text.modulate.blend(Color.RED * randf_range(0.1, 1.0))
-	World.add_child(effect_text)
+func handle_effects_hit(target : Node, f_damage_value : int = target.damage_value):
+	spawn_text_damage(f_damage_value)
 	
 	if not target.dead:
 		state_damage = true
@@ -2025,19 +2025,17 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 
 
 func handle_bounce():
-	if is_on_floor():
-		if is_collidable:
-			if velocity_last_y > 100:
-				if on_floor_bounce:
-					velocity.y = -velocity_last_y * on_floor_bounce_velocity_multiplier
-					handle_effects_bounce()
+	if on_floor:
+		if velocity_last_y > 100:
+			if on_floor_bounce:
+				velocity.y = -velocity_last_y * on_floor_bounce_velocity_multiplier
+				handle_effects_bounce()
 	
-	if is_on_wall():
-		if is_collidable:
-			if abs(velocity_last_x) > 50:
-				if on_wall_bounce:
-					velocity.x = -velocity_last_x * on_wall_bounce_velocity_multiplier
-					handle_effects_bounce()
+	if on_wall:
+		if abs(velocity_last_x) > 50:
+			if on_wall_bounce:
+				velocity.x = -velocity_last_x * on_wall_bounce_velocity_multiplier
+				handle_effects_bounce()
 
 
 func _on_cooldown_on_death_effect_thrownAway_timeout() -> void:
@@ -2297,3 +2295,20 @@ func is_friendly(target):
 	elif target.is_in_group("entity") and target.family == "Player" and family == "enemy" : false
 	elif target.is_in_group("entity") and target.family == "entity" and family == "Player" : false
 	elif target.is_in_group("Player") and family == "enemy" : false
+
+
+func _on_timer_invulnerable_timeout() -> void:
+	invulnerable = false
+
+
+func spawn_text_damage(damage_value : int):
+	var effect_text : Node2D = load("res://Other/Effects/effect_text.tscn").instantiate()
+	effect_text.position = position + Vector2(randi_range(-100, 100), randi_range(-100, 100))
+	effect_text.text_message = str(damage_value * Globals.player_level)
+	effect_text.effect_speed = randf_range(1, 2)
+	effect_text.scale.x += -0.5 + 0.01 * damage_value
+	effect_text.scale.y = effect_text.scale.x
+	#if Globals.get_random_bool(50) : effect_text.scale.x *= -1
+	effect_text.rotation_degrees = randi_range(-30, 30)
+	effect_text.modulate = effect_text.modulate.blend(Color.RED * randf_range(0.1, 1.0))
+	World.add_child(effect_text)

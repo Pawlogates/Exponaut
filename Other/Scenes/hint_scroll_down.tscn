@@ -6,52 +6,65 @@
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_s26s3"]
 
 [node name="hint_scroll_down" type="Node2D" groups=["hint_scroll_down"]]
+light_mask = 0
 z_index = 250
 script = ExtResource("1_lvhjs")
 
 [node name="hint" type="Node2D" parent="."]
+light_mask = 0
 position = Vector2(0, -12)
 
 [node name="animation_all" parent="hint" instance=ExtResource("1_fws4q")]
 autoplay = "general/loop_up_down_slight"
 
 [node name="main" type="Node2D" parent="hint"]
+light_mask = 0
 
 [node name="ColorRect" type="ColorRect" parent="hint/main"]
+light_mask = 0
 offset_left = -1.0
 offset_top = -2.0
 offset_right = 59.0
 offset_bottom = 6.0
 rotation = -0.523599
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect2" type="ColorRect" parent="hint/main"]
+light_mask = 0
 offset_left = -45.0
 offset_top = -32.0
 offset_right = 15.0
 offset_bottom = -24.0
 rotation = 0.523599
+metadata/_edit_use_anchors_ = true
 
 [node name="bg" type="Node2D" parent="hint"]
 modulate = Color(0, 0, 0, 1)
+light_mask = 0
 z_index = -1
 position = Vector2(0, -4)
 
 [node name="ColorRect" type="ColorRect" parent="hint/bg"]
+light_mask = 0
 offset_left = -1.0
 offset_top = -2.0
 offset_right = 59.0
 offset_bottom = 6.0
 rotation = -0.523599
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect2" type="ColorRect" parent="hint/bg"]
+light_mask = 0
 offset_left = -45.0
 offset_top = -32.0
 offset_right = 15.0
 offset_bottom = -24.0
 rotation = 0.523599
+metadata/_edit_use_anchors_ = true
 
 [node name="TextureRect" type="TextureRect" parent="hint"]
 modulate = Color(0, 0, 0, 1)
+light_mask = 0
 z_index = -1
 offset_left = -64.0
 offset_top = -68.0
@@ -59,8 +72,10 @@ offset_right = 64.0
 offset_bottom = 60.0
 texture = ExtResource("2_lvhjs")
 expand_mode = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Label" type="Label" parent="hint"]
+light_mask = 0
 offset_left = -256.0
 offset_top = -116.0
 offset_right = 256.0
@@ -70,8 +85,10 @@ theme_override_font_sizes/font_size = 24
 text = "T A B  -  Inventory"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true
 
 [node name="Label2" type="Label" parent="hint"]
+light_mask = 0
 offset_left = -256.0
 offset_top = 12.0
 offset_right = 256.0
@@ -81,3 +98,4 @@ theme_override_font_sizes/font_size = 24
 text = "Q  -  Weapon modules"
 horizontal_alignment = 1
 vertical_alignment = 1
+metadata/_edit_use_anchors_ = true

@@ -127,6 +127,9 @@ target_position = Vector2(0, 64)
 wait_time = 0.25
 one_shot = true
 
+[node name="timer_invulnerable" type="Timer" parent="."]
+one_shot = true
+
 [node name="cooldown_remove_corpse" type="Timer" parent="."]
 
 [node name="cooldown_on_death_effect_thrownAway" type="Timer" parent="."]
@@ -226,6 +229,7 @@ autostart = true
 [connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]
 [connection signal="timeout" from="cooldown_collidable" to="." method="_on_cooldown_collidable_timeout"]
+[connection signal="timeout" from="timer_invulnerable" to="." method="_on_timer_invulnerable_timeout"]
 [connection signal="timeout" from="cooldown_remove_corpse" to="." method="_on_cooldown_remove_corpse_timeout"]
 [connection signal="timeout" from="cooldown_on_death_effect_thrownAway" to="." method="_on_cooldown_on_death_effect_thrownAway_timeout"]
 [connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]

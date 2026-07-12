@@ -5,10 +5,11 @@
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="2_rbxiv"]
 
 [node name="message_object" type="Node2D"]
-scale = Vector2(1e-05, 1e-05)
+z_index = 999
 script = ExtResource("1_20757")
 
 [node name="text_manager" parent="." instance=ExtResource("1_kvqn5")]
+z_index = 999
 custom_minimum_size = Vector2(640, 64)
 anchors_preset = 8
 anchor_left = 0.5

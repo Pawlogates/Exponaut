@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bmlgh0xj25hvb"]
+
+[node name="container_rectangle" type="Node2D"]
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -31.0
+offset_top = -40.0
+offset_right = 38.0
+offset_bottom = -29.0
+rotation = 0.0640673
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+offset_left = 3.00001
+offset_top = -31.0
+offset_right = 30.0
+offset_bottom = -20.0
+rotation = -0.101754
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+offset_left = -40.0
+offset_top = 19.0
+offset_right = 16.0
+offset_bottom = 30.0
+rotation = -1.28398
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+offset_left = 27.0
+offset_top = 25.0
+offset_right = 83.0
+offset_bottom = 36.0
+rotation = -1.66665
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+offset_left = 32.0
+offset_top = 36.0
+offset_right = 88.0
+offset_bottom = 47.0
+rotation = -3.24924
+mouse_filter = 2
+color = Color(0, 0, 0, 1)
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+offset_left = -19.0
+offset_top = 37.0
+offset_right = 7.0
+offset_bottom = 48.0
+rotation = -2.74736
+mouse_filter = 2
+color = Color(0, 0, 0, 1)

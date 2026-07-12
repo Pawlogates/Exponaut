@@ -1,10 +1,10 @@
 [gd_scene load_steps=17 format=3 uid="uid://cxggeqhxdo0c"]
 
-[ext_resource type="Script" uid="uid://dgydaly37njij" path="res://Other/Scenes/projectile_charged_general.gd" id="1_pnsbe"]
-[ext_resource type="Texture2D" uid="uid://bhcgyl112uc1i" path="res://Assets/Graphics/other/basic_projectile.png" id="2_vfw7e"]
-[ext_resource type="Material" uid="uid://b7voscs0a3njp" path="res://Other/Materials/screenTextureEffect.tres" id="3_4owlt"]
-[ext_resource type="Texture2D" uid="uid://cqilw70a4xuvb" path="res://Assets/Graphics/other/testShader.png" id="4_xj8tl"]
-[ext_resource type="AudioStream" uid="uid://ms888p57udxv" path="res://Assets/Sounds/sfx/medium_effect2.wav" id="5_rghj1"]
+[ext_resource type="Script" uid="uid://dgydaly37njij" path="res://Other/Scenes/projectile_charged_general.gd" id="1_i65g7"]
+[ext_resource type="SpriteFrames" uid="uid://ct4fkudxg4k4l" path="res://Assets/Graphics/sprites/packed/projectiles/tie.tres" id="2_i65g7"]
+[ext_resource type="Material" uid="uid://b7voscs0a3njp" path="res://Other/Materials/screenTextureEffect.tres" id="3_rcvls"]
+[ext_resource type="Texture2D" uid="uid://cqilw70a4xuvb" path="res://Assets/Graphics/other/testShader.png" id="4_1diuq"]
+[ext_resource type="AudioStream" uid="uid://ms888p57udxv" path="res://Assets/Sounds/sfx/medium_effect2.wav" id="5_2xdw0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8hc3l"]
 size = Vector2(85.3333, 80)
@@ -835,26 +835,28 @@ size = Vector2(85.3333, 80)
 [node name="player_projectile_phaser" type="CharacterBody2D" groups=["entity", "player_projectile"]]
 collision_layer = 2
 collision_mask = 4
-script = ExtResource("1_pnsbe")
+script = ExtResource("1_i65g7")
 
 [node name="Area2D" type="Area2D" parent="." groups=["player_projectile"]]
 collision_layer = 8
 collision_mask = 8
 
-[node name="sprite" type="Sprite2D" parent="Area2D"]
+[node name="sprite" type="AnimatedSprite2D" parent="Area2D"]
 modulate = Color(1, 1, 1, 0)
 scale = Vector2(-1, -1)
-texture = ExtResource("2_vfw7e")
+sprite_frames = ExtResource("2_i65g7")
+animation = &"idle"
+autoplay = "idle"
 
 [node name="projectile_hitbox" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(1.90735e-06, 1.90735e-06)
 shape = SubResource("RectangleShape2D_8hc3l")
 
 [node name="charged_shot" type="Sprite2D" parent="Area2D"]
-material = ExtResource("3_4owlt")
+material = ExtResource("3_rcvls")
 rotation = 3.14159
 scale = Vector2(1e-05, 1e-05)
-texture = ExtResource("4_xj8tl")
+texture = ExtResource("4_1diuq")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -864,7 +866,7 @@ autoplay = "charge_grow"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 rotation = 0.00793694
-stream = ExtResource("5_rghj1")
+stream = ExtResource("5_2xdw0")
 area_mask = 65537
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

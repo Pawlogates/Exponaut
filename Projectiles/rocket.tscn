@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://now2j3wfjnvh"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_a0w8a"]
+[ext_resource type="SpriteFrames" uid="uid://b1g682gj83xbu" path="res://Assets/Graphics/sprites/packed/collectibles/rocket.tres" id="2_a0w8a"]
+
+[node name="rocket" instance=ExtResource("1_a0w8a")]
+on_death_effect_thrownAway = true
+collectable = false
+hittable = true
+health_value = 1
+movement_type = "move_x"
+speed = 1500
+acceleration = 750
+family = "enemy"
+damage_from_entity = true
+can_move = true
+can_move_y = false
+ignore_gravity = false
+on_wall_death = true
+spawn_entity_family_copy_entity = true
+on_timeout_death = true
+on_timeout_death_cooldown = 3.5
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://nlbbhgnny7rs"
+on_death_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
+on_spawn_show_text = true
+start_animation = "none"
+text_message = "[anim_rotate_around_y_fade_out]321"
+text_message_visible = "321"
+text_spawn_cooldown = 0.0
+text_delete_cooldown = 0.5
+text_anim_speed_scale = 4.0
+text_anim_backwards = true
+text_next_character_cooldown = 0.5
+text_add_pos = Vector2(0, 0)
+tie_add_modulate = Color(0.255659, 0.255659, 0.255659, 1)
+entity_name = "bomb"
+entity_type = "projectile"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_a0w8a")
+frame_progress = 0.907816
+outline_min_opacity = 1.0

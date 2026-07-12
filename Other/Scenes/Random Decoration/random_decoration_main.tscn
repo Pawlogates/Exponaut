@@ -16,6 +16,7 @@ offset_left = -16.0
 offset_top = -16.0
 offset_right = 16.0
 offset_bottom = 16.0
+mouse_filter = 2
 
 [node name="square" type="ColorRect" parent="."]
 z_index = 55
@@ -23,6 +24,7 @@ offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
+mouse_filter = 2
 
 [node name="container_orb_shadow" type="Node2D" parent="."]
 
@@ -32,6 +34,7 @@ offset_top = 9.0
 offset_right = 445.0
 offset_bottom = 509.0
 scale = Vector2(0.25, 0.1)
+mouse_filter = 2
 
 [node name="orb_shadow3" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
 offset_left = -85.0
@@ -40,6 +43,7 @@ offset_right = 415.0
 offset_bottom = 522.0
 rotation = -0.764171
 scale = Vector2(0.25, 0.1)
+mouse_filter = 2
 
 [node name="orb_shadow4" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
 offset_left = 50.0
@@ -48,6 +52,7 @@ offset_right = 550.0
 offset_bottom = 435.0
 rotation = 1.46002
 scale = Vector2(0.25, 0.1)
+mouse_filter = 2
 
 [node name="orb_shadow5" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
 offset_left = -40.0
@@ -56,6 +61,7 @@ offset_right = 460.0
 offset_bottom = 427.0
 rotation = 0.217097
 scale = Vector2(0.25, 0.1)
+mouse_filter = 2
 
 [node name="orb_shadow6" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
 offset_left = -77.0
@@ -64,6 +70,7 @@ offset_right = 423.0
 offset_bottom = 451.0
 rotation = -0.111712
 scale = Vector2(0.25, 0.1)
+mouse_filter = 2
 
 [node name="orb_shadow7" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
 offset_left = -73.0
@@ -72,6 +79,7 @@ offset_right = 427.0
 offset_bottom = 545.0
 rotation = -1.31403
 scale = Vector2(0.25, 0.1)
+mouse_filter = 2
 
 [node name="orb_shadow2" parent="container_orb_shadow" instance=ExtResource("2_yitx3")]
 offset_left = -82.0
@@ -79,6 +87,7 @@ offset_top = 2.0
 offset_right = 418.0
 offset_bottom = 502.0
 scale = Vector2(0.25, 0.1)
+mouse_filter = 2
 
 [node name="container_rectangle" type="Node2D" parent="."]
 
@@ -88,6 +97,7 @@ offset_top = -40.0
 offset_right = 38.0
 offset_bottom = -29.0
 rotation = 0.0640673
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect2" type="ColorRect" parent="container_rectangle"]
@@ -96,6 +106,7 @@ offset_top = -31.0
 offset_right = 30.0
 offset_bottom = -20.0
 rotation = -0.101754
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect3" type="ColorRect" parent="container_rectangle"]
@@ -104,6 +115,7 @@ offset_top = 19.0
 offset_right = 16.0
 offset_bottom = 30.0
 rotation = -1.28398
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect4" type="ColorRect" parent="container_rectangle"]
@@ -112,6 +124,7 @@ offset_top = 25.0
 offset_right = 83.0
 offset_bottom = 36.0
 rotation = -1.66665
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect5" type="ColorRect" parent="container_rectangle"]
@@ -120,6 +133,7 @@ offset_top = 36.0
 offset_right = 88.0
 offset_bottom = 47.0
 rotation = -3.24924
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 
 [node name="ColorRect6" type="ColorRect" parent="container_rectangle"]
@@ -128,4 +142,5 @@ offset_top = 37.0
 offset_right = 7.0
 offset_bottom = 48.0
 rotation = -2.74736
+mouse_filter = 2
 color = Color(0, 0, 0, 1)

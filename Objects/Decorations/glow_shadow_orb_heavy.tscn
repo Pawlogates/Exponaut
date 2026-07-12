@@ -3,5 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="1_i6er2"]
 
 [node name="glow_shadowOrbHeavy" type="PointLight2D"]
+z_index = 50
 blend_mode = 1
+range_layer_min = -100
+range_layer_max = 250
 texture = ExtResource("1_i6er2")

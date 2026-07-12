@@ -12,8 +12,11 @@ extends CharacterBody2D
 @onready var audio_stream_player_2d = $AudioStreamPlayer2D
 
 @onready var projectile_hitbox: CollisionShape2D = $Area2D/projectile_hitbox
-@onready var sprite: Sprite2D = $Area2D/sprite
+@onready var sprite: AnimatedSprite2D = $Area2D/sprite
 
+var attack_melee_block_movement = false
+var block_movement = false
+var invulnerable = false
 
 var set_player_attack_cooldown = true
 var family = "Player"
@@ -42,7 +45,7 @@ var can_move = true
 var collected = false
 var entity_type = "projectile"
 var dead = false
-var damage_value = 1
+var damage_value = 15
 
 
 func _ready():

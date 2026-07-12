@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://1ryqdsnja4rm"]
+[gd_scene load_steps=14 format=3 uid="uid://1ryqdsnja4rm"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_ef3yb"]
 [ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_ef3yb"]
@@ -81,10 +81,8 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gymcb"]
-size = Vector2(32, 32)
-
 [node name="gem_timed" instance=ExtResource("1_ef3yb")]
+scale = Vector2(0.5, 0.5)
 score_value = 250
 fall_speed = 250
 can_move = true
@@ -92,12 +90,10 @@ ignore_gravity = false
 on_floor_death = true
 start_animation = "none"
 on_collected_anim_name = "general/rotate_around_y_fade_out"
-effect_grow_target_scale = Vector2(0.5, 0.5)
 entity_name = "gem_timed"
 
 [node name="sprite" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_itbk8")
-frame_progress = 0.684993
 
-[node name="collision_main" parent="." index="2"]
-shape = SubResource("RectangleShape2D_gymcb")
+[node name="scan_stuck" parent="." index="20"]
+scale = Vector2(0.5, 0.5)

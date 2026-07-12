@@ -10,6 +10,4 @@ script = ExtResource("1_xyntk")
 [node name="cooldown_spawn_particle" type="Timer" parent="."]
 wait_time = 0.25
 
-[node name="Timer" type="Timer" parent="."]
-
 [connection signal="timeout" from="cooldown_spawn_particle" to="." method="_on_cooldown_spawn_particle_timeout"]

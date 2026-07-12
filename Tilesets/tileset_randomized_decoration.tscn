@@ -366,6 +366,7 @@ sources/0 = SubResource("TileSetScenesCollectionSource_r6dy3")
 sources/1 = SubResource("TileSetAtlasSource_tx1mb")
 
 [node name="tileset_randomized_decoration" type="TileMap"]
+z_index = 5
 tile_set = SubResource("TileSet_k87pt")
 format = 2
 layer_0/name = "main"

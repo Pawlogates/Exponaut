@@ -16,7 +16,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		arrow_down.modulate.a = 0.5
 	
-	if Input.is_action_pressed("attack_main"):
+	if Input.is_action_pressed("attack_secondary"):
 		attack_main.modulate.a = 1
 	else:
 		attack_main.modulate.a = 0.5

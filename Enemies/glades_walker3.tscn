@@ -508,8 +508,8 @@ on_death_effect_thrownAway = true
 on_death_decoration_nodes_effect_thrownAway = true
 collectable = false
 hittable = true
-health_value = 500
 score_value = 100
+experience_value = 750
 movement_type = "move_x"
 speed = 100
 family = "enemy"
@@ -556,7 +556,7 @@ sprite_frames = ExtResource("3_lg6xb")
 animation = &"walk"
 frame_progress = 0.358856
 
-[node name="animation_general" parent="sprite" index="9"]
+[node name="animation_general" parent="sprite" index="17"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w5jm")
 }
@@ -571,7 +571,7 @@ z_index = -4
 position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)
 
-[node name="scan_visible" parent="." index="10"]
+[node name="scan_visible" parent="." index="11"]
 modulate = Color(1, 1, 1, 0.01)
 
 [node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]

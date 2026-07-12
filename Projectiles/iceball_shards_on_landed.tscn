@@ -51,6 +51,7 @@ on_landed_spawn_entity_quantity = 2
 start_animation = "none"
 effect_shrink_target_scale = Vector2(0.5, 0.5)
 effect_shrink_delete = false
+tie_add_modulate = Color(0.623529, 0.262745, 1, 1)
 entity_name = "iceball_shards_on_landed"
 entity_type = "projectile"
 

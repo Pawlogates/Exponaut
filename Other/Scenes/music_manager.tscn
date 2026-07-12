@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bl2wojdbpaurx"]
+[gd_scene load_steps=5 format=3 uid="uid://bl2wojdbpaurx"]
 
 [ext_resource type="Script" uid="uid://b6k31rfs2ykm0" path="res://Scripts/music_manager.gd" id="1_5q24m"]
 [ext_resource type="AudioStream" uid="uid://c18w3lacd3ejv" path="res://Assets/Sounds/music/mysterious.mp3" id="2_77hva"]
 [ext_resource type="AudioStream" uid="uid://duxrie17bom7y" path="res://Assets/Sounds/ambience/mysterious_loop.mp3" id="2_ss5m0"]
+[ext_resource type="AudioStream" uid="uid://bbwx20npw8g2s" path="res://Assets/Sounds/music/castle1.mp3" id="3_1peaa"]
 
 [node name="Music Manager" type="Node2D"]
 script = ExtResource("1_5q24m")
@@ -16,6 +17,7 @@ one_shot = true
 
 [node name="layer1_alt" type="AudioStreamPlayer" parent="layer1"]
 unique_name_in_owner = true
+stream = ExtResource("3_1peaa")
 
 [node name="layer2" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true

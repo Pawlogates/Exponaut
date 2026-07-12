@@ -30,5 +30,5 @@ sprite_frames = ExtResource("2_spict")
 [node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_511gd")
 
-[node name="scan_stuck" parent="." index="20"]
+[node name="scan_stuck" parent="." index="21"]
 scale = Vector2(0.5, 0.5)

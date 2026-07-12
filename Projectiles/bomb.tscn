@@ -25,6 +25,7 @@ text_anim_speed_scale = 4.0
 text_anim_backwards = true
 text_next_character_cooldown = 0.5
 text_add_pos = Vector2(0, 0)
+tie_add_modulate = Color(0.151276, 0.151276, 0.151276, 1)
 entity_name = "bomb"
 entity_type = "projectile"
 

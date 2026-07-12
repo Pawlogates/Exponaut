@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://b6sm67hlya8p"]
+[gd_scene load_steps=3 format=3 uid="uid://b6sm67hlya8p"]
 
 [ext_resource type="TileSet" uid="uid://c04omo3n0mpkt" path="res://Tilesets/tileset_main.tres" id="1_m3yry"]
+[ext_resource type="Script" uid="uid://cho1ckpr6qcei" path="res://Tilesets/tileset_main.gd" id="2_c51kl"]
 
 [node name="tileset_main" type="TileMap"]
 texture_filter = 1
@@ -28,3 +29,4 @@ layer_9/name = "front"
 layer_9/z_index = 100
 layer_10/name = "front2"
 layer_10/z_index = 101
+script = ExtResource("2_c51kl")

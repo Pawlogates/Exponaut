@@ -56,7 +56,7 @@ var on_wall_normal = Vector2.ZERO
 
 var gravity = Globals.gravity
 
-@onready var sprite = $AnimatedSprite2D
+@onready var sprite = $sprite
 @onready var camera = $camera
 @onready var sfx_manager = $sfx_manager
 @onready var combo_manager = $"Combo Manager"
@@ -81,16 +81,16 @@ var gravity = Globals.gravity
 @onready var t_invincible = $timer_invincible
 @onready var c_state_idle: Timer = $cooldown_state_idle
 
-@onready var animation_player_sprite_general = %animation_player_sprite_general
-@onready var animation_player_sprite_color = %animation_player_sprite_color
+@onready var animation_player_sprite_general = $sprite/animation_player_sprite_general
+@onready var animation_player_sprite_color = $sprite/animation_player_sprite_color
 
 @onready var t_state_shoot = $timer_state_shoot
 @onready var t_state_damage = $timer_state_damage
 #@onready var t_state_crouch = $timer_state_crouch
 #@onready var t_state_walk = $timer_state_walk
 
-@onready var c_crouch_walk = $AnimatedSprite2D/cooldown_crouch_walk
-@onready var c_crouch_walk_correct_collision = $AnimatedSprite2D/cooldown_crouch_walk_correct_collision
+@onready var c_crouch_walk = $sprite/cooldown_crouch_walk
+@onready var c_crouch_walk_correct_collision = $sprite/cooldown_crouch_walk_correct_collision
 
 @onready var hitbox_dash_scan_solid = $hitbox_dash_scan_solid
 
@@ -209,15 +209,15 @@ func _process(delta):
 	# delete this hack as soon as possible... and replace it
 	# hack - [start]
 	if dead:
-		sprite.position.y = 36
+		#sprite.position.y = 36
 		sprite.modulate = Color.RED
-		sprite.rotation_degrees = move_toward(sprite.rotation_degrees, 100 * randi_range(-20, 20), delta * 100 * randf_range(-4, 4))
+		#sprite.rotation_degrees = move_toward(sprite.rotation_degrees, 100 * randi_range(-20, 20), delta * 100 * randf_range(-4, 4))
 	elif sprite.modulate != Color(0,0,0,0):
-		sprite.position.y = -24
+		#sprite.position.y = -24
 		sprite.modulate.r = move_toward(sprite.modulate.r, 1, delta / 4)
 		sprite.modulate.g = move_toward(sprite.modulate.g, 1, delta / 4)
 		sprite.modulate.b = move_toward(sprite.modulate.b, 1, delta / 4)
-		sprite.rotation_degrees = 0
+		#sprite.rotation_degrees = 0
 	
 	if dead:
 		if on_floor:
@@ -262,8 +262,9 @@ func _process(delta):
 		if on_floor : handle_walk(delta)
 		handle_air_acceleration(delta)
 	
-	#SHOOTING LOGIC
+	
 	handle_attack_main()
+	handle_attack_secondary()
 	
 	handle_friction(delta)
 	handle_air_slowdown(delta)
@@ -291,7 +292,7 @@ func _process(delta):
 		update_sprite()
 	
 	if not state_damage and not dead and velocity.y == 0 and is_on_floor() and not on_floor and not state_shoot and not crouch_walk_active and not crouch_active:
-		sprite.play("idle")
+		if not attack_melee_active : sprite.play("idle")
 	
 	handle_spawn_dust()
 	
@@ -471,6 +472,7 @@ func update_sprite():
 	sprite_animation()
 
 func sprite_animation():
+	if attack_melee_active : return
 	if sprite.animation == "crouch" and sprite.frame != 0: return
 	
 	var queued_anim = "idle"
@@ -573,16 +575,16 @@ func handle_jump(delta):
 			sfx(Globals.sfx_player_jump, 1.0, 1.0)
 			var x = randi_range(0, 1)
 			if not dash_active and x or not dash_active and not direction_x:
-				%animation_player_sprite_general.stop()
-				%animation_player_sprite_general.speed_scale = 2
-				%animation_player_sprite_general.play("jumped")
+				animation_player_sprite_general.stop()
+				animation_player_sprite_general.speed_scale = 2
+				animation_player_sprite_general.play("jumped")
 			else:
-				%animation_player_sprite_general.stop()
-				%animation_player_sprite_general.speed_scale = 1.5
+				animation_player_sprite_general.stop()
+				animation_player_sprite_general.speed_scale = 1.5
 				if direction_x == 1:
-					%animation_player_sprite_general.play("rotate_right")
+					animation_player_sprite_general.play("rotate_right")
 				if direction_x == -1:
-					%animation_player_sprite_general.play("rotate_left")
+					animation_player_sprite_general.play("rotate_left")
 			
 			velocity.y = jump_velocity
 			
@@ -616,16 +618,16 @@ func handle_jump(delta):
 			
 			var x = randi_range(0, 1)
 			if x or not direction_x:
-				%animation_player_sprite_general.stop()
-				%animation_player_sprite_general.speed_scale = 3
-				%animation_player_sprite_general.play("air_jumped")
+				animation_player_sprite_general.stop()
+				animation_player_sprite_general.speed_scale = 3
+				animation_player_sprite_general.play("air_jumped")
 			else:
-				%animation_player_sprite_general.stop()
-				%animation_player_sprite_general.speed_scale = 1
+				animation_player_sprite_general.stop()
+				animation_player_sprite_general.speed_scale = 1
 				if direction_x == 1:
-					%animation_player_sprite_general.play("rotate_right")
+					animation_player_sprite_general.play("rotate_right")
 				if direction_x == -1:
-					%animation_player_sprite_general.play("rotate_left")
+					animation_player_sprite_general.play("rotate_left")
 			
 			dash_end_slowdown_canceled = true
 			if dash_end_slowdown_await_jump:
@@ -664,16 +666,16 @@ func handle_wall_jump():
 		
 		var x = randi_range(0, 1)
 		if x or not direction_x:
-			%animation_player_sprite_general.stop()
-			%animation_player_sprite_general.speed_scale = 3
-			%animation_player_sprite_general.play("air_jumped")
+			animation_player_sprite_general.stop()
+			animation_player_sprite_general.speed_scale = 3
+			animation_player_sprite_general.play("air_jumped")
 		else:
-			%animation_player_sprite_general.stop()
-			%animation_player_sprite_general.speed_scale = 1
+			animation_player_sprite_general.stop()
+			animation_player_sprite_general.speed_scale = 1
 			if direction_x == -1:
-				%animation_player_sprite_general.play("rotate_left")
+				animation_player_sprite_general.play("rotate_left")
 			if direction_x == 1:
-				%animation_player_sprite_general.play("rotate_right")
+				animation_player_sprite_general.play("rotate_right")
 
 
 # Player damage (Received by player).
@@ -767,23 +769,26 @@ func _on_cooldown_crouch_walk_correct_collision_timeout():
 
 func handle_dash():
 	if can_dash and Input.is_action_just_pressed("dash") and is_on_floor() and dash_active == false and not crouch_walk_active and not crouch_active:
-		Globals.message_debug("Player is now performing a dash.")
+		dash()
+
+func dash():
+	Globals.message_debug("Player is now performing a dash.")
 		
-		velocity.x = -500 * Globals.player_direction_x_active
-		
-		dash_active = true
-		can_dash = false
-		dash_end_slowdown_canceled = false
-		t_dash.start()
-		state_crouch = 1
-		
-		collision_main.shape.extents = dash_hitbox_size
-		collision_main.position += dash_hitbox_pos_offset
-		
-		collision_hitbox.shape.extents = dash_hitbox_size * 0.8
-		collision_hitbox.position += dash_hitbox_pos_offset * 0.8
-		
-		raycast_top.enabled = false
+	velocity.x = -500 * Globals.player_direction_x_active
+	
+	dash_active = true
+	can_dash = false
+	dash_end_slowdown_canceled = false
+	t_dash.start()
+	state_crouch = 1
+	
+	collision_main.shape.extents = dash_hitbox_size
+	collision_main.position += dash_hitbox_pos_offset
+	
+	collision_hitbox.shape.extents = dash_hitbox_size * 0.8
+	collision_hitbox.position += dash_hitbox_pos_offset * 0.8
+	
+	raycast_top.enabled = false
 
 
 func _on_timer_jump_timeout():
@@ -897,54 +902,88 @@ func _on_dash_check_timeout():
 		safe_standUp.emit()
 
 
-# Attack (main and secondary): - [START]
 func handle_attack_main():
+	handle_attack_melee()
+
+# Attack (main and secondary): - [START]
+func handle_attack_secondary():
+	if Input.is_action_pressed("e"):
+		if Input.is_action_just_pressed("decrease"):
+			var new_weapon_name: String = Globals.suffix_increase(Globals.weapon_secondary, -1)
+			var new_suffix : String = Globals.get_suffix(new_weapon_name)
+			
+			if Globals.get_suffix(Globals.weapon_main) != "none":
+				if int(new_suffix) > 4 or int(new_suffix) < 1 or new_suffix == "none":
+					Globals.weapon_secondary = Globals.suffix_increase(Globals.weapon_secondary, 0)
+				else:
+					Globals.weapon_secondary = Globals.weapon_secondary
+			
+			Globals.spawn_message_object(Globals.weapon_secondary)
+		
+		elif Input.is_action_just_pressed("increase"):
+			var new_weapon_name: String = Globals.suffix_increase(Globals.weapon_secondary, 1)
+			var new_suffix : String = Globals.get_suffix(new_weapon_name)
+			
+			if Globals.get_suffix(Globals.weapon_main) != "none":
+				print(Globals.suffix_increase(Globals.weapon_secondary, 1))
+				if int(new_suffix) > 4 or int(new_suffix) < 1:
+					Globals.weapon_secondary = Globals.suffix_increase(Globals.weapon_secondary, 0)
+				else:
+					Globals.weapon_secondary = new_weapon_name
+			else:
+				Globals.weapon_secondary = Globals.weapon_secondary + "_1"
+			
+			Globals.spawn_message_object(Globals.weapon_secondary)
+	
 	if Input.is_action_just_pressed("e"):
-		Globals.weapon_main = Globals.qs_list_weapon_name.pick_random()
-		Globals.spawn_message_object(Globals.weapon_main)
+		Globals.weapon_secondary = Globals.qs_list_weapon_name.pick_random()
+		while Globals.get_suffix(Globals.weapon_secondary) != "none" : Globals.weapon_secondary = Globals.qs_list_weapon_name.pick_random()
+		
+		Globals.spawn_message_object(Globals.weapon_secondary)
 	
 	if block_movement : return
 	elif dead : return
 	elif Globals.weapon_blocked : return
 	
-	if Input.is_action_pressed("attack_main"):
-		if c_attack.time_left > 0.0 : return
-		c_attack.start()
+	if Input.is_action_pressed("attack_secondary"):
+		if not Globals.weapon_secondary == "phaser_charged":
 		
-		if Globals.weapon is Dictionary:
-			attack_main_spawn_scene("res://Projectiles/" + Globals.weapon_main + ".tscn")
+			if c_attack.time_left > 0.0 : return
+			c_attack.start()
+			
+			#if Globals.weapon is Dictionary:
+			attack_main_spawn_scene("res://Projectiles/" + Globals.weapon_secondary + ".tscn")
+			
+			
+			#SHOOTING ANIMATION
+			state_shoot = 1
+			t_state_shoot.start()
+			
+			sfx_manager.sfx_play(Globals.sfx_slash)
+			
+			if direction_x != 0:
+				sprite.flip_h = (direction_x < 0)
 		
-		
-		#SHOOTING ANIMATION
-		state_shoot = 1
-		t_state_shoot.start()
-		
-		sfx_manager.sfx_play(Globals.sfx_slash)
-		
-		if direction_x != 0:
-			sprite.flip_h = (direction_x < 0)
-	
-	
-	elif Input.is_action_just_pressed("attack_secondary"):
-		if c_attack.time_left > 0.0 : return
-		c_attack.wait_time = 0.1
-		c_attack.start()
-		
-		var scene = load("res://Other/Scenes/player_projectile_charged_phaser.tscn").instantiate()
-		
-		scene.set_player_attack_cooldown = true
-		scene.family = "Player"
-		
-		add_child(scene)
-		
-		if direction_x != 0:
-			sprite.flip_h = (direction_x < 0)
-		
-		#SHOOTING ANIMATION
-		state_shoot = 1
-		t_state_shoot.start()
-		
-		sfx_manager.sfx_play(Globals.sfx_slash)
+		elif Input.is_action_just_pressed("attack_secondary"):
+			if c_attack.time_left > 0.0 : return
+			c_attack.wait_time = 0.1
+			c_attack.start()
+			
+			var scene = load("res://Projectiles/phaser_charged.tscn").instantiate()
+			
+			scene.set_player_attack_cooldown = true
+			scene.family = "Player"
+			
+			add_child(scene)
+			
+			if direction_x != 0:
+				sprite.flip_h = (direction_x < 0)
+			
+			#SHOOTING ANIMATION
+			state_shoot = 1
+			t_state_shoot.start()
+			
+			sfx_manager.sfx_play(Globals.sfx_slash)
 
 func attack_main_spawn_scene(filepath):
 	if not FileAccess.file_exists(filepath) : filepath = "res://Projectiles/iceball_shard_small.tscn"
@@ -999,6 +1038,18 @@ func attack_main_spawn_scene(filepath):
 		scene.on_spawn_velocity_range[1].y *= -scene.direction_y
 	
 	World.add_child(scene)
+	
+	if not Globals.weapon_secondary == "phaser_charged":
+		var entity_bg_sprite : AnimatedSprite2D = load("res://Other/Scenes/sprite.tscn").instantiate()
+		#scene.sprite.sprite_frames = load("res://Assets/Graphics/sprites/packed/projectiles/tie.tres")
+		entity_bg_sprite.z_index = -4
+		entity_bg_sprite.sprite_frames = load("res://Assets/Graphics/sprites/packed/projectiles/tie.tres")
+		entity_bg_sprite.play()
+		entity_bg_sprite.modulate = scene.tie_add_modulate
+		scene.sprite.add_child(entity_bg_sprite)
+		#scene.sprite.scale /= 2
+		#scene.sprite_start_scale /= 2
+		#scene.effect_grow_target_scale /= 2
 	
 	Globals.projectile_shot.emit()
 
@@ -1351,7 +1402,7 @@ func just_handle():
 # Player just landed on the ground (the "just" refers to something that just got set to true, and then immediately gets set back to false right after all relevant consequences are applied).
 func on_just_landed():
 	Globals.message_debug("Player landed.")
-	%animation_player_sprite_general.play("RESET")
+	animation_player_sprite_general.play("RESET")
 	
 	state_jump = 0
 
@@ -1430,3 +1481,230 @@ func handle_wall_run(delta):
 
 func handle_damage(value : int = -1, source : Node = self):
 	Globals.player_damage.emit(value, source)
+
+
+var attack_melee_active : bool = false
+@onready var timer_block_attack_melee: Timer = $attack_melee/timer_block_attack_melee
+@onready var timer_end_attack_melee: Timer = $attack_melee/timer_end_attack_melee
+@onready var timer_windup: Timer = $attack_melee/timer_windup
+@onready var attack_melee_attack: Node2D = $attack_melee/attack
+@onready var attack_melee_hitbox: Area2D = $attack_melee/attack/hitbox
+@onready var attack_melee_collision: CollisionShape2D = $attack_melee/attack/hitbox/collision
+@onready var attack_melee_decoration_collision_particles: Node2D = $attack_melee/attack/hitbox/collision/decoration_collision_particles
+
+var attack_throw_active : bool = false
+@onready var timer_attack_throw: Timer = $attack_throw/timer_attack_throw
+
+func attack_melee():
+	if timer_block_attack_melee.time_left > 0.0 : return
+	
+	attack_melee_decoration_collision_particles.visible = true
+	
+	sprite.stop()
+	
+	if attack_melee_current_id == "none":
+		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'smash_down' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
+		attack_melee_current_id = "smash_down"
+		attack_melee_set_hitbox(Vector2(192, 32), Vector2(64, 48))
+		
+		sprite.play("smash_down")
+		timer_windup.wait_time = 0.33
+		timer_block_attack_melee.wait_time = 0.25
+		timer_end_attack_melee.wait_time = 2.5
+	
+	elif attack_melee_current_id == "smash_down" or attack_melee_current_id == "spin_down_ender":
+		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'kick_up' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
+		attack_melee_current_id = "kick_up"
+		attack_melee_set_hitbox(Vector2(128, 192), Vector2(64, -64))
+		
+		sprite.play("kick_up")
+		timer_windup.wait_time = 0.25
+		timer_block_attack_melee.wait_time = 0.5
+		timer_end_attack_melee.wait_time = 2
+	
+	elif attack_melee_current_id == "kick_up":
+		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'slide' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
+		attack_melee_current_id = "slide"
+		attack_melee_set_hitbox(Vector2(128, 128), Vector2(64, 0))
+		
+		dash()
+		sprite.play("slide")
+		#sprite.rotation_degrees = -45
+		#sprite.position.y = -20
+		#sprite.modulate = Color.BLUE
+		timer_windup.wait_time = 0.25
+		timer_block_attack_melee.wait_time = 0.5
+		timer_end_attack_melee.wait_time = 2.5
+		
+	
+	elif attack_melee_current_id == "slide":
+		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'smash_down' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
+		attack_melee_current_id = "smash_down"
+		attack_melee_set_hitbox(Vector2(256, 128), Vector2(64, 0))
+		
+		sprite.play("smash_down")
+		timer_windup.wait_time = 0.25
+		timer_block_attack_melee.wait_time = 0.5
+		timer_end_attack_melee.wait_time = 1.5
+	
+	attack_melee_active = true
+	
+	timer_windup.start()
+	timer_block_attack_melee.start()
+	timer_end_attack_melee.start()
+	spawn_messages_timers()
+	
+	for entity in attack_melee_hitbox.get_overlapping_areas():
+		var target : Node = entity.get_parent()
+		if target.is_in_group("entity"):
+			target.attack_melee_block_movement = false
+
+func stop_attack_melee():
+	attack_melee_active = false
+	attack_melee_current_id = "none"
+	
+	attack_melee_decoration_collision_particles.visible = false
+	
+	sprite.stop()
+	sprite.play("walk")
+	
+	sprite.rotation = 0
+	sprite.position.y = -32
+	#sprite.modulate = Color.RED
+
+var attack_melee_current_id : String = "none"
+var attack_melee_damage_value : int = 25 # This value is often changed right before an attack.
+
+func handle_attack_melee(): # The word "handle" refers to a function being executed every frame.
+	if Input.is_action_just_pressed("attack_main") : attack_melee()
+	
+	attack_melee_hitbox.scale.x = Globals.player_direction_x_active
+	attack_melee_decoration_collision_particles.visible = attack_melee_active and timer_windup.time_left == 0.0 and timer_end_attack_melee.time_left > 0.0 # Will be true if the windup timer is finished and the attack timer is active.
+	
+	if not attack_melee_active : return
+	
+	if attack_melee_current_id == "smash_down" and not sprite.is_playing():
+		if Input.is_action_pressed("attack_main"):
+			#Globals.spawn_message_object(str("attack_melee_current_id was set to 'spin_down' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
+			attack_melee_current_id = "spin_down"
+			attack_melee_set_hitbox(Vector2(128, 128), Vector2(64, 0))
+		
+		else:
+			stop_attack_melee()
+	
+	if attack_melee_current_id == "spin_down":
+		if Input.is_action_pressed("attack_main"):
+			sprite.play("spin_down")
+		else:
+			#Globals.spawn_message_object(str("attack_melee_current_id was set to 'spin_down_ender' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
+			attack_melee_current_id = "spin_down_ender"
+			attack_melee_set_hitbox(Vector2(64, 32), Vector2(0, -96))
+			
+			sprite.play("spin_down_ender")
+			
+			timer_windup.wait_time = 0.25
+			timer_block_attack_melee.wait_time = 0.25
+			timer_end_attack_melee.wait_time = 1
+			
+			spawn_messages_timers()
+			
+			timer_windup.start()
+			timer_block_attack_melee.start()
+			timer_end_attack_melee.start()
+	
+	for entity in attack_melee_hitbox.get_overlapping_areas():
+		if timer_windup.time_left > 0.0 : return
+		
+		var target : Node = entity.get_parent()
+		if target.is_in_group("entity") and not target.invulnerable and not target.dead and not target.collected and not target.is_in_group("entity_editor_preview"):
+			if "entity_name" in target : print(target.entity_name)
+			if attack_melee_current_id == "smash_down":
+				sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+				
+				if timer_end_attack_melee.time_left < 2.0:
+					# Handle the short kick at the start of smash down.
+					attack_melee_hit(target, 0.3, Vector2(600, -200), 0.85, 25)
+					Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.RED, Vector2(-0.75, -0.75), 10)
+					Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
+				
+				else:
+					attack_melee_hit(target, 0.3, Vector2(600, -200), 0.85, 40)
+					Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.RED, Vector2(-0.75, -0.75), 10)
+					Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
+			
+			elif attack_melee_current_id == "spin_down":
+				attack_melee_hit(target, 0.1, Vector2(100, -100), 0.85, randi_range(2, 4))
+				sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+				$sfx_manager_spin_down.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+			
+			elif attack_melee_current_id == "kick_up":
+				attack_melee_hit(target, 0.5, Vector2(300, -600), 4, 60)
+				sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+			
+			elif attack_melee_current_id == "slide":
+				attack_melee_hit(target, 0.5, Vector2(1200, -400), 4, 75)
+				sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+
+func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocity : Vector2 = Vector2(400, -600), invulnerable_duration_multiplier : float = 0.85, f_damage_value : int = 25):
+	#Globals.spawn_message_object(str(timer_block_attack_melee.time_left), World, position + Vector2(200, -0))
+	
+	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
+	
+	Player.block_movement_full = true
+	target.attack_melee_block_movement = true
+	target.modulate = Color.RED
+	target.invulnerable = true
+	if invulnerable_duration_multiplier > 1.0 : target.timer_invulnerable.wait_time = freeze_duration * invulnerable_duration_multiplier
+	else : target.timer_invulnerable.wait_time = freeze_duration
+	target.timer_invulnerable.start()
+	
+	if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
+	if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
+	if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special2, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
+	
+	target.handle_hit(self, f_damage_value * (1 + 0.1 * Globals.player_level))
+	
+	await Globals.effect_melee_freeze(clamp(freeze_duration * invulnerable_duration_multiplier, 0.05, 1.0))
+	
+	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
+	
+	Player.block_movement_full = false
+	target.attack_melee_block_movement = false
+	#await get_tree().create_timer(0.1, true).timeout
+	target.velocity = Vector2(add_velocity.x * randf_range(0.95, 1.05) * Globals.player_direction_x_active, add_velocity.y * randf_range(0.95, 1.05))
+	target.modulate = Color.WHITE
+
+func attack_throw():
+	attack_throw_active = true
+
+func stop_attack_throw():
+	attack_throw_active = false
+	
+	sprite.stop()
+	sprite.play("walk")
+
+
+func _on_timer_attack_throw_timeout() -> void:
+	stop_attack_throw()
+
+
+func _on_timer_end_attack_melee_timeout() -> void:
+	stop_attack_melee()
+
+func _on_timer_block_attack_melee_timeout() -> void:
+	return
+
+func _on_timer_windup_timeout() -> void:
+	return
+
+func spawn_messages_timers():
+	return
+	#Globals.spawn_message_object(str("windup timer was set to %s." % timer_windup.wait_time), World, position + Vector2(-600, -300))
+	#Globals.spawn_message_object(str("block timer was set to %s." % timer_block_attack_melee.wait_time), World, position + Vector2(0, -300))
+	#Globals.spawn_message_object(str("end timer was set to %s." % timer_end_attack_melee.wait_time), World, position + Vector2(600, -300))
+
+func attack_melee_set_hitbox(collision_size : Vector2 = Vector2(64, 64), collision_position : Vector2 = Vector2(-1, 0)):
+	if collision_size.x != -1 : attack_melee_collision.shape.size.x = collision_size.x
+	if collision_size.y != -1 : attack_melee_collision.shape.size.y = collision_size.y
+	if collision_position.x != -1 : attack_melee_collision.position.x = collision_position.x
+	if collision_position.y != -1 : attack_melee_collision.position.y = collision_position.y

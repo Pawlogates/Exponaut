@@ -11,64 +11,128 @@ script = ExtResource("2_xb8wd")
 
 [node name="outline1" type="AnimatedSprite2D" parent="."]
 visible = false
-modulate = Color(0, 0, 0, 1)
+modulate = Color(100, 100, 100, 1)
 z_index = -1
-position = Vector2(-1, 0)
+position = Vector2(-2, 0)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
 [node name="outline2" type="AnimatedSprite2D" parent="."]
 visible = false
-modulate = Color(0, 0, 0, 1)
+modulate = Color(100, 100, 100, 1)
 z_index = -1
-position = Vector2(0, 1)
+position = Vector2(0, -2)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
 [node name="outline3" type="AnimatedSprite2D" parent="."]
 visible = false
-modulate = Color(0, 0, 0, 1)
+modulate = Color(100, 100, 100, 1)
 z_index = -1
-position = Vector2(1, 0)
+position = Vector2(2, 0)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
 [node name="outline4" type="AnimatedSprite2D" parent="."]
 visible = false
-modulate = Color(0, 0, 0, 1)
+modulate = Color(100, 100, 100, 1)
 z_index = -1
-position = Vector2(0, -1)
+position = Vector2(0, 2)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
 [node name="outline5" type="AnimatedSprite2D" parent="."]
 visible = false
 modulate = Color(100, 100, 100, 1)
-z_index = -2
-position = Vector2(-3, 0)
+z_index = -1
+position = Vector2(-2, 2)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
 [node name="outline6" type="AnimatedSprite2D" parent="."]
 visible = false
 modulate = Color(100, 100, 100, 1)
-z_index = -2
-position = Vector2(0, -3)
+z_index = -1
+position = Vector2(2, -2)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
 [node name="outline7" type="AnimatedSprite2D" parent="."]
 visible = false
 modulate = Color(100, 100, 100, 1)
-z_index = -2
-position = Vector2(3, 0)
+z_index = -1
+position = Vector2(-2, -2)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"
 
 [node name="outline8" type="AnimatedSprite2D" parent="."]
 visible = false
 modulate = Color(100, 100, 100, 1)
+z_index = -1
+position = Vector2(2, 2)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s1" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(-3, 0)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s2" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(3, 0)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s3" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(0, -3)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s4" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
 z_index = -2
 position = Vector2(0, 3)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s5" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(-3, -3)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s6" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(3, 3)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s7" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(-3, 3)
+sprite_frames = ExtResource("1_xb8wd")
+animation = &"idle"
+
+[node name="outline_s8" type="AnimatedSprite2D" parent="."]
+visible = false
+modulate = Color(0, 0, 0, 1)
+z_index = -2
+position = Vector2(3, -3)
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"

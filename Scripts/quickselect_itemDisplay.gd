@@ -12,7 +12,7 @@ extends Control
 @onready var container_main: Control = $container_main
 
 
-@export var item_name : String = "wpn_phaser"
+@export var item_name : String = "phaser"
 @export var item_durability : float = 100.0
 @export var item_level : int = 1
 @export var item_rarity : int = 1
@@ -24,6 +24,9 @@ var sell_reward : int = 9999
 var dismantle_reward : int = 3
 var upgrade_level_price : int = 10000
 var upgrade_rarity_price : int = 500000
+
+var focused : bool = false
+var hovered : bool = false # Should be true only if mouse is currently placed over it.
 
 
 # Called when the node enters the scene tree for the first time.
@@ -49,16 +52,27 @@ func _ready():
 	if item_rarity == 5 : menu_bg.modulate = Color.GOLD
 
 func _process(delta):
+	if hovered:
+		if Input.is_action_just_pressed("RMB"):
+			focused = true
+		
+		elif Input.is_action_just_pressed("LMB"):
+			if item_name in Globals.qs_list_weapon_name:
+				if item_rarity > 1 and FileAccess.file_exists("res://Projectiles/" + item_name + "_" + str(item_rarity) + ".tscn"):
+					Globals.weapon_secondary = item_name + "_" + str(item_rarity)
+				elif FileAccess.file_exists("res://Projectiles/" + item_name + ".tscn"):
+					Globals.weapon_secondary = item_name
+				
+				Globals.spawn_message_object("Equipped: %s (press RMB or V to use it)." % Globals.weapon_secondary, 2.0, Overlay, Vector2(960, 540))
+	
 	if focused:
 		container_main.modulate.a = move_toward(container_main.modulate.a, 1.0, delta * 4)
 	else:
 		container_main.modulate.a = move_toward(container_main.modulate.a, 0.0, delta * 4)
 
 
-var focused : bool = false
-
 func _on_mouse_entered() -> void:
-	focused = true
+	hovered = true
 
 func _on_mouse_exited() -> void:
-	focused = false
+	hovered = false

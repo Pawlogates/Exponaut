@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_8c1nd"]
 
 [node name="player_experience" type="Control" groups=["hud_player_experience"]]
+light_mask = 0
 z_index = 500
 layout_mode = 3
 anchors_preset = 15
@@ -16,6 +17,7 @@ mouse_filter = 2
 script = ExtResource("1_dhjt0")
 
 [node name="label_experience" type="Label" parent="."]
+light_mask = 0
 layout_mode = 0
 offset_top = 60.0
 offset_right = 1920.0
@@ -27,12 +29,14 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="container_bar" type="Control" parent="."]
+light_mask = 0
 anchors_preset = 0
 offset_top = 40.0
 offset_bottom = 40.0
 mouse_filter = 2
 
 [node name="experience" type="ColorRect" parent="container_bar"]
+light_mask = 0
 z_index = 1
 custom_minimum_size = Vector2(0, 12)
 layout_mode = 0
@@ -44,6 +48,7 @@ mouse_filter = 2
 color = Color(1, 0, 0, 1)
 
 [node name="label_level" type="Label" parent="container_bar/experience"]
+light_mask = 0
 layout_mode = 0
 offset_left = -124.0
 offset_top = -26.0
@@ -55,6 +60,7 @@ horizontal_alignment = 2
 vertical_alignment = 1
 
 [node name="experience_bg" type="ColorRect" parent="container_bar"]
+light_mask = 0
 custom_minimum_size = Vector2(0, 16)
 layout_mode = 0
 offset_left = 8.0
@@ -65,6 +71,7 @@ mouse_filter = 2
 color = Color(0, 0, 0.415686, 1)
 
 [node name="bar_bg" type="ColorRect" parent="container_bar"]
+light_mask = 0
 z_index = -1
 custom_minimum_size = Vector2(0, 24)
 layout_mode = 0
@@ -75,6 +82,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="debug" type="Control" parent="."]
 visible = false
+light_mask = 0
 anchors_preset = 0
 offset_left = 608.0
 offset_top = 128.0
@@ -83,12 +91,14 @@ offset_bottom = 384.0
 mouse_filter = 2
 
 [node name="btn_increase_exp" type="Button" parent="debug"]
+light_mask = 0
 layout_mode = 0
 offset_left = 416.0
 offset_right = 496.0
 offset_bottom = 80.0
 
 [node name="btn_increase_level" type="Button" parent="debug"]
+light_mask = 0
 layout_mode = 0
 offset_left = 416.0
 offset_top = 96.0
@@ -96,6 +106,7 @@ offset_right = 496.0
 offset_bottom = 176.0
 
 [node name="increase_value" type="TextEdit" parent="debug"]
+light_mask = 0
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

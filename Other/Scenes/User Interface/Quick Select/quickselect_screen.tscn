@@ -37,7 +37,7 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="bg" type="TextureRect" parent="."]
-modulate = Color(0.288518, 0.288518, 0.288518, 1)
+modulate = Color(0.290196, 0.290196, 0.290196, 0.364706)
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -119,3 +119,11 @@ scale = Vector2(0.33, 0.33)
 z_index = -4
 position = Vector2(1472, 784)
 scale = Vector2(0.33, 0.33)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1129.0
+offset_top = 823.0
+offset_right = 1352.0
+offset_bottom = 845.333
+text = "Press TAB to close inventory."

@@ -37,3 +37,5 @@ grow_vertical = 1
 
 [node name="player_experience" parent="." groups=["hud_player_main"] instance=ExtResource("4_wanwr")]
 layout_mode = 1
+offset_top = 960.0
+offset_bottom = 960.0

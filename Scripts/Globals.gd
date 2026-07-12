@@ -333,7 +333,7 @@ func _ready() -> void:
 	SaveData.load_playerData()
 	SaveData.load_levelSet()
 	
-	prepare_lists()
+	reload_lists_general()
 	
 	gameState_changed.connect(on_gameState_changed)
 	
@@ -544,9 +544,10 @@ var total_majorCollectibles_key_levelSet : int = 0
 var total_enemies_levelSet : int = 0
 
 # Entity Editor - [START]
-var weapon_main : String = "fireball"
-var weapon_secondary : String = "phaser" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
+var weapon_main : String = "melee_tie_spinner"
+var weapon_secondary : String = "phaser_charged" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
 var weapon : Dictionary = {"apply_default" : true} # All the property values needed to construct the main projectile.
+# Note: At some point, the "weapon" variable should be renamed to "weapon_custom", which is more accurate.
 
 var weapon_main_unlocks : Dictionary = {
 	# [unlock state, min value, max value]
@@ -652,7 +653,7 @@ func update_entity():
 #var qs_collected_items : Array = [["none", -1.0, -1]]
 var qs_collected_items : Array = []
 
-var qs_list_weapon_name : Array = ["iceball_shard_small", "iceball_into_shards_on_timeout", "iceball_shards_on_landed", "fireball", "fireball_into_bomb", "fireball_into_bombs_over_time", "fire", "flamethrower", "saw", "boomerang", "bomb", "rocket", "saw_small"]
+var qs_list_weapon_name : Array = ["phaser_charged", "iceball_shard_small", "iceball_into_shards_on_timeout", "iceball_shards_on_landed", "fireball", "fireball_into_bomb", "fireball_into_bombs_over_time", "fire", "flamethrower", "saw", "boomerang", "bomb", "rocket", "saw_small"]
 
 var qs_item_info_wpn_phaser : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
 var qs_item_saved_wpn_phaser : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
@@ -1166,21 +1167,6 @@ func list_files_in_dirpath(directory_path : String, exclude : Array):
 	
 	return list
 
-# Prepare lists:
-func prepare_lists():
-	
-	# Sprites:
-	l_sprite_entity = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
-	
-	# Entities:
-	l_collectible = prepare_list_all("Collectibles", [])
-	l_enemy = prepare_list_all("Enemies", [])
-	l_box = prepare_list_all("Boxes", [])
-	l_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
-	
-	
-	l_entity = l_collectible + l_box + l_enemy + l_projectile
-
 
 # General tools - [START]
 
@@ -1261,6 +1247,9 @@ func handle_debug_actions():
 		
 		elif Input.is_action_just_pressed("5"):
 			Globals.level_score = randi_range(-100000, 999999)
+		
+		elif Input.is_action_just_pressed("6"):
+			change_main_scene(load("res://Levels/rl_debug.tscn"))
 		
 		elif Input.is_action_just_pressed("8"):
 			if get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_VIEWPORT:
@@ -1385,11 +1374,11 @@ func on_gameState_changed():
 	
 	handle_spawn_menu(false)
 	
-	prepare_lists()
 	SaveData.load_playerData()
 	SaveData.load_levelSet()
 	
 	create_directories()
+	reload_lists_general()
 	
 	await get_tree().create_timer(5, true).timeout
 	
@@ -1755,15 +1744,31 @@ func delete_file(filepath : String):
 	DirAccess.remove_absolute(filepath)
 
 
-func suffix_increase(text : String, add_value : int = 1):
+func suffix_increase(text : String, add_value : int = 1, ignore_underscore : bool = false):
 	for x in range(1, 101):
 		if text.ends_with(str(x)):
-			text = text.trim_suffix(str(x)) + str(x + add_value)
-			return text
+			if add_value == 0: # The value equal to 0 will remove the suffix.
+				text = text.trim_suffix(str(x))
+			else:
+				text = text.trim_suffix(str(x)) + str(x + add_value)
+			
+			if ignore_underscore : return text
+			else:
+				if text.ends_with("_"):
+					return text.trim_suffix("_")
+				else:
+					return text
 	
-	print("Suffix couldn't be increased, because the given String does not end with a number between 1 and 100.")
+	print("Suffix couldn't be increased, because the given String (%s) does not end with a number between 1 and 100." % text)
 	return "none"
 
+func get_suffix(text : String, type : String = "int"):
+	if type == "int":
+		for x in range(1, 101):
+			if text.ends_with(str(x)):
+				return str(x)
+	
+	return "none"
 
 # Im so sorry for this...
 func set_nodes(target_node : Node, node_type, state_active : bool):
@@ -1934,16 +1939,18 @@ func handle_debug_tools():
 			Overlay.get_node("debug_display_messages").delete_messages(true)
 
 
-func spawn_message_object(message_text : String = "message", target : Node = main_scene, add_position : Vector2 = Player.position):
+func spawn_message_object(message_text : String = "message", message_anim_speed : float = 4.0, target : Node = main_scene, add_position : Vector2 = Player.position):
 	var message_object = load("res://Other/Scenes/message_object.tscn").instantiate()
 	message_object.add_position = add_position
 	message_object.message_text = message_text
+	message_object.message_anim_speed = message_anim_speed
 	target.add_child(message_object)
 
 
 func reload_scene_files_general():
 	ResourceLoader.load(World.scene_file_path, "PackedScene", 2)
 	ResourceLoader.load("res://Other/Scenes/entity_base.tscn", "PackedScene", 2)
+	ResourceLoader.load("res://Other/Scenes/player.tscn", "PackedScene", 2)
 	ResourceLoader.load("res://Other/Scenes/entity_editor_preview.tscn", "PackedScene", 2)
 	
 	for scene in Globals.l_entity:
@@ -1963,3 +1970,37 @@ func delete_all_entities():
 	for entity in get_tree().get_nodes_in_group("menu_entity_editor_behavior_button") + get_tree().get_nodes_in_group("entity"):
 		if not entity.is_in_group("entity_editor_preview"):
 			entity.queue_free()
+
+func reload_lists_general():
+	#qs_list_weapon_name = await get_files("res://Projectiles", "rocket")
+	qs_list_weapon_name = await get_files("res://Projectiles")
+	await get_tree().create_timer(1.5, true).timeout
+	for weapon_name in qs_list_weapon_name:
+		qs_list_weapon_name[qs_list_weapon_name.find(weapon_name)] = weapon_name.replace(".tscn", "")
+	
+	# Sprites:
+	l_sprite_entity = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
+	
+	# Entities:
+	l_collectible = prepare_list_all("Collectibles", [])
+	l_enemy = prepare_list_all("Enemies", [])
+	l_box = prepare_list_all("Boxes", [])
+	l_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
+	
+	await get_tree().create_timer(0.5, true).timeout
+	
+	l_entity = l_collectible + l_box + l_enemy + l_projectile
+
+
+func effect_melee_freeze(duration : float = 0.25):
+	for entity in get_tree().get_nodes_in_group("entity"):
+		entity.block_movement = true
+	
+	Globals.Player.camera.effect((Player.position - Globals.player_position) * 2, Vector2(1.25, 1.25), randi_range(-10, 10), 4)
+	
+	await get_tree().create_timer(duration, true).timeout
+	
+	for entity in get_tree().get_nodes_in_group("entity"):
+		entity.block_movement = false
+	
+	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)

@@ -1,7 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://bhr1lcrcu25lb"]
+[gd_scene load_steps=2 format=3 uid="uid://bhr1lcrcu25lb"]
 
 [ext_resource type="Script" uid="uid://beytu5l283ya8" path="res://Scripts/random_decoration.gd" id="1_l6coa"]
-[ext_resource type="Texture2D" uid="uid://7hm3mqawe5lc" path="res://Assets/Graphics/tilesets/tileset_glades.png" id="2_y0cgo"]
 
 [node name="random_decoration" type="Node2D"]
 script = ExtResource("1_l6coa")
@@ -10,27 +9,26 @@ deco_skip_chance = 90
 deco_spread = 32
 make_black = false
 
-[node name="back" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("2_y0cgo")
-region_enabled = true
-region_rect = Rect2(0, 0, 32, 32)
-
-[node name="front" type="ColorRect" parent="."]
-modulate = Color(1, 1, 1, 0.8)
-z_index = 1
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-mouse_filter = 2
-color = Color(0, 0, 0, 0.25)
-
 [node name="container_decoration" type="Node2D" parent="."]
 
 [node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
 visible = false
+scale = Vector2(4, 4)
 rect = Rect2(-400, -400, 800, 800)
+
+[node name="debug_marker" type="ColorRect" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.529412, 0.223529, 0, 1)
 
 [connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]
 [connection signal="screen_exited" from="scan_visible" to="." method="_on_scan_visible_screen_exited"]

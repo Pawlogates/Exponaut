@@ -115,6 +115,9 @@ var collected = false
 var dead = false
 var destroyed = false
 
+var invulnerable = false
+@onready var timer_invulnerable: Timer = $timer_invulnerable
+
 var rotten = false
 
 var only_visual = false
@@ -170,7 +173,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export_group("Main information.") # Section start.
 
-@export var health_value : int = 30
+@export var health_value : int = 500
 @export var damage_value : int = 10
 @export var score_value : int = 25
 @export var experience_value : int = 10
@@ -876,6 +879,9 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export var block_effect_dead : bool = false
 
+# Effects applied to the tie background sprite that shows up only if the entity was spawned by the player, as a tie.
+@export var tie_add_modulate : Color = Color.WHITE
+@export var tie_add_scale : Vector2 = Vector2(0, 0)
 
 @export_group("") # End of section.
 

@@ -1,12 +1,15 @@
 extends Node2D
 
 @onready var square: ColorRect = $square
-@onready var container_orb_shadow: Node2D = $container_orb_shadow
-@onready var container_rectangle: Node2D = $container_rectangle
 @onready var back: Sprite2D = $back
 @onready var front: ColorRect = $front
+
 @onready var container_decoration: Node2D = $container_decoration
+@onready var container_orb_shadow: Node2D = $container_orb_shadow
+@onready var container_rectangle: Node2D = $container_rectangle
+
 @onready var scan_visible: VisibleOnScreenNotifier2D = $scan_visible
+@onready var debug_marker: ColorRect = $debug_marker
 
 
 @export_enum("dirt", "stone", "wood", "brick") var deco_type : String = "dirt"
@@ -21,20 +24,35 @@ extends Node2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if is_instance_valid(debug_marker) : debug_marker.queue_free()
 	scan_visible.visible = true
-	#decoration_create()
+	
+	await get_tree().create_timer(4.0, true).timeout
+	
+	if not scan_visible.is_on_screen():
+		decoration_delete()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass
 
 func spawn_glow_shadow():
-	if Globals.get_random_bool(25) : return
-	Globals.spawn_scenes(container_decoration, load("res://Objects/Decorations/glow_shadow_orb_heavy.tscn"), 1, Vector2(randi_range(-200, 200), randi_range(-200, 200)), -1, Color(0, 0, 0, 0), Vector2(randf_range(-1, 1), randf_range(-1, 1)), 1, ["energy", "rotation_degrees"], [randf_range(0.0, 1.0), randf_range(-10, 10)], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(0, 0), Vector2(0, 0)], [Vector2(0, 0), Vector2(0, 0)], false)
+	if Globals.get_random_bool(2) : return
+	Globals.spawn_scenes(container_decoration, load("res://Objects/Decorations/glow_shadow_orb_heavy.tscn"), 1, Vector2(randi_range(0, 0), randi_range(0, 0)), -1, Color(0, 0, 0, 0), Vector2(randf_range(-1, 1), randf_range(-1, 1)), 1, ["energy", "rotation_degrees"], [randf_range(0.0, 1.0), randf_range(-10, 10)], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(0, 0), Vector2(0, 0)], [Vector2(0, 0), Vector2(0, 0)], false)
 
 
 func decoration_create():
 	if deco_layer == "main":
+		if not is_instance_valid(container_orb_shadow):
+			var new_container_orb_shadow : Node = load("res://Other/Scenes/Random Decoration/container_orb_shadow.tscn").instantiate()
+			add_child(new_container_orb_shadow)
+			container_orb_shadow = new_container_orb_shadow
+	
+		if not is_instance_valid(container_rectangle):
+			var new_container_rectangle : Node = load("res://Other/Scenes/Random Decoration/container_rectangle.tscn").instantiate()
+			add_child(new_container_rectangle)
+			container_rectangle = new_container_rectangle
+		
 		if Globals.get_random_bool(1) : Globals.spawn_scenes(container_decoration, load("res://Objects/Decorations/decoration_gear_random_type_tiny.tscn"), 1, Vector2(randi_range(-64, 64), randi_range(-32, 64)), -1)
 		
 		if is_instance_valid(back):
@@ -104,7 +122,7 @@ func decoration_create():
 			deco_part.modulate.b = randf_range(0, 0.05)
 			deco_part.modulate.r = deco_part.modulate.b - Globals.World.randomized_deco_fade_offset.y + randf_range(1, 0.0001 * (randi_range(-1200, 1200) + position.x))
 			deco_part.modulate.g = deco_part.modulate.b - Globals.World.randomized_deco_fade_offset.x + randf_range(1, 0.0001 * (randi_range(-1200, 1200) + position.y))
-			deco_part.modulate.a = randf_range(0, 0.05) + 0.1 + randf_range(0, 0.0001 * position.x - (00 + position.y) / 1000)
+			deco_part.modulate.a = randf_range(0, 0.05) + 0.1 + randf_range(0, 0.0001 * position.x - (-500 + position.y) / 1000)
 			#deco_part.modulate.a = clamp(deco_part.modulate.a, 0.01, 1)
 		
 		if Globals.random_bool(9, 1):
@@ -119,8 +137,13 @@ func decoration_create():
 		if not Globals.get_random_bool(deco_skip_chance) : container_decoration.add_child(deco_part)
 
 func decoration_delete():
-	for node in container_decoration.get_children():
-		node.queue_free()
+	if is_instance_valid(container_decoration):
+		for node in container_decoration.get_children():
+			node.queue_free()
+	if is_instance_valid(container_rectangle):
+		container_rectangle.queue_free()
+	if is_instance_valid(container_orb_shadow):
+		container_orb_shadow.queue_free()
 
 
 func _on_scan_visible_screen_entered() -> void:

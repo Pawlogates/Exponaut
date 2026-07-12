@@ -122,6 +122,9 @@ var is_ready : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	Player.position.x += randi_range(-1000, 1000)
+	Player.position.y += randi_range(-400, 100)
+	
 	level_start_time = Time.get_ticks_msec()
 	
 	set_process(false)
@@ -360,6 +363,8 @@ func _ready():
 	
 	await get_tree().create_timer(1.5, false).timeout
 	
+	Globals.spawn_message_object("A new wave has started! Current wave level: %s." % Globals.player_level, 1.0)
+	
 	Player.block_movement_full = false
 	Player.velocity = Vector2(0, 0)
 	
@@ -367,7 +372,7 @@ func _ready():
 	
 	Globals.set_mouse_mode(false)
 	
-	await get_tree().create_timer(randf_range(12, 24 + Globals.player_level * 2), false).timeout
+	await get_tree().create_timer(randf_range(24, 48 + Globals.player_level * 8), false).timeout
 	
 	Globals.restart_level()
 

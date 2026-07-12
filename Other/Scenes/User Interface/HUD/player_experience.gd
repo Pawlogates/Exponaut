@@ -31,9 +31,9 @@ func _ready() -> void:
 	on_level_next()
 
 func _physics_process(delta: float) -> void:
-	if Input.is_action_just_pressed("alt"):
-		level_current = 0
-		on_level_next()
+	#if Input.is_action_just_pressed("alt"):
+		#level_current = 0
+		#on_level_next()
 	
 	container_bar.modulate.r = move_toward(container_bar.modulate.r, 1, delta)
 	container_bar.modulate.g = move_toward(container_bar.modulate.g, 1, delta)
@@ -71,6 +71,8 @@ func _on_btn_increase_level_pressed() -> void:
 
 
 func on_level_next():
+	Globals.spawn_message_object("LEVEL UP! Melee damage and wave difficulty have increased.", 0.5, self, Vector2(960, 0))
+	
 	experience_current = 0
 	level_current += 1
 	Globals.player_level = level_current

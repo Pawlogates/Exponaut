@@ -1,0 +1,39 @@
+[gd_resource type="SpriteFrames" load_steps=6 format=3 uid="uid://b1g682gj83xbu"]
+
+[ext_resource type="Texture2D" uid="uid://bya3gslhww47d" path="res://Assets/Graphics/sprites/sprites_other3.png" id="1_nkpll"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1f0wf"]
+atlas = ExtResource("1_nkpll")
+region = Rect2(640, 304, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jooos"]
+atlas = ExtResource("1_nkpll")
+region = Rect2(672, 304, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mmbq"]
+atlas = ExtResource("1_nkpll")
+region = Rect2(704, 304, 32, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ecaof"]
+atlas = ExtResource("1_nkpll")
+region = Rect2(736, 304, 32, 16)
+
+[resource]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1f0wf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jooos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mmbq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ecaof")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]

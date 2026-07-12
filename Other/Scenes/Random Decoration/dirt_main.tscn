@@ -1,146 +1,23 @@
 [gd_scene load_steps=4 format=3 uid="uid://bwr75mttg00q4"]
 
 [ext_resource type="Script" uid="uid://beytu5l283ya8" path="res://Scripts/random_decoration.gd" id="1_wit3c"]
-[ext_resource type="Texture2D" uid="uid://7hm3mqawe5lc" path="res://Assets/Graphics/tilesets/tileset_glades.png" id="2_wit3c"]
-[ext_resource type="PackedScene" uid="uid://de48x7q63qyx6" path="res://Objects/Decorations/orb_shadow.tscn" id="3_vonnc"]
+[ext_resource type="PackedScene" uid="uid://ctk5elqvmpdtp" path="res://Other/Scenes/Random Decoration/container_orb_shadow.tscn" id="2_vonnc"]
+[ext_resource type="PackedScene" uid="uid://bmlgh0xj25hvb" path="res://Other/Scenes/Random Decoration/container_rectangle.tscn" id="3_q077x"]
 
 [node name="random_decoration" type="Node2D"]
 z_index = 10
 script = ExtResource("1_wit3c")
 deco_spread = 32
 
-[node name="editor_marker" type="ColorRect" parent="."]
-z_index = -5
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
+[node name="container_orb_shadow" parent="." instance=ExtResource("2_vonnc")]
 
-[node name="back" type="Sprite2D" parent="."]
-scale = Vector2(2, 2)
-texture = ExtResource("2_wit3c")
-region_enabled = true
-region_rect = Rect2(0, 0, 32, 32)
-
-[node name="front" type="ColorRect" parent="."]
-z_index = 1
-offset_left = -32.0
-offset_top = -32.0
-offset_right = 32.0
-offset_bottom = 32.0
-mouse_filter = 2
-color = Color(0, 0, 0, 1)
-
-[node name="container_orb_shadow" type="Node2D" parent="."]
-
-[node name="orb_shadow" parent="container_orb_shadow" instance=ExtResource("3_vonnc")]
-offset_left = -55.0
-offset_top = 9.0
-offset_right = 445.0
-offset_bottom = 509.0
-scale = Vector2(0.25, 0.1)
-
-[node name="orb_shadow3" parent="container_orb_shadow" instance=ExtResource("3_vonnc")]
-offset_left = -85.0
-offset_top = 22.0
-offset_right = 415.0
-offset_bottom = 522.0
-rotation = -0.764171
-scale = Vector2(0.25, 0.1)
-
-[node name="orb_shadow4" parent="container_orb_shadow" instance=ExtResource("3_vonnc")]
-offset_left = 50.0
-offset_top = -65.0
-offset_right = 550.0
-offset_bottom = 435.0
-rotation = 1.46002
-scale = Vector2(0.25, 0.1)
-
-[node name="orb_shadow5" parent="container_orb_shadow" instance=ExtResource("3_vonnc")]
-offset_left = -40.0
-offset_top = -73.0
-offset_right = 460.0
-offset_bottom = 427.0
-rotation = 0.217097
-scale = Vector2(0.25, 0.1)
-
-[node name="orb_shadow6" parent="container_orb_shadow" instance=ExtResource("3_vonnc")]
-offset_left = -77.0
-offset_top = -49.0
-offset_right = 423.0
-offset_bottom = 451.0
-rotation = -0.111712
-scale = Vector2(0.25, 0.1)
-
-[node name="orb_shadow7" parent="container_orb_shadow" instance=ExtResource("3_vonnc")]
-offset_left = -73.0
-offset_top = 45.0
-offset_right = 427.0
-offset_bottom = 545.0
-rotation = -1.31403
-scale = Vector2(0.25, 0.1)
-
-[node name="orb_shadow2" parent="container_orb_shadow" instance=ExtResource("3_vonnc")]
-offset_left = -82.0
-offset_top = 2.0
-offset_right = 418.0
-offset_bottom = 502.0
-scale = Vector2(0.25, 0.1)
-
-[node name="container_rectangle" type="Node2D" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="container_rectangle"]
-offset_left = -31.0
-offset_top = -40.0
-offset_right = 38.0
-offset_bottom = -29.0
-rotation = 0.0640673
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect2" type="ColorRect" parent="container_rectangle"]
-offset_left = 3.00001
-offset_top = -31.0
-offset_right = 30.0
-offset_bottom = -20.0
-rotation = -0.101754
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect3" type="ColorRect" parent="container_rectangle"]
-offset_left = -40.0
-offset_top = 19.0
-offset_right = 16.0
-offset_bottom = 30.0
-rotation = -1.28398
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect4" type="ColorRect" parent="container_rectangle"]
-offset_left = 27.0
-offset_top = 25.0
-offset_right = 83.0
-offset_bottom = 36.0
-rotation = -1.66665
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect5" type="ColorRect" parent="container_rectangle"]
-offset_left = 32.0
-offset_top = 36.0
-offset_right = 88.0
-offset_bottom = 47.0
-rotation = -3.24924
-color = Color(0, 0, 0, 1)
-
-[node name="ColorRect6" type="ColorRect" parent="container_rectangle"]
-offset_left = -19.0
-offset_top = 37.0
-offset_right = 7.0
-offset_bottom = 48.0
-rotation = -2.74736
-color = Color(0, 0, 0, 1)
+[node name="container_rectangle" parent="." instance=ExtResource("3_q077x")]
 
 [node name="container_decoration" type="Node2D" parent="."]
 
 [node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
 visible = false
+scale = Vector2(4, 4)
 rect = Rect2(-400, -400, 800, 800)
 
 [connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]

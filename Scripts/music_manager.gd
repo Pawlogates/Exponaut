@@ -121,6 +121,14 @@ func _ready():
 	if random_cooldown_toggle_fade:
 		randomize_cooldown_toggle_fade("all")
 		start_cooldown_toggle_fade("all")
+	
+	if Globals.get_random_bool(33) : layer1.stop()
+	
+	if Globals.get_random_bool(25) : await get_tree().create_timer(1.0, true).timeout
+	else : await get_tree().create_timer(randf_range(4, 60), true).timeout
+	
+	var music_filepath = "res://Assets/Sounds/music/" + Globals.get_files("res://Assets/Sounds/music").pick_random()
+	music_change(music_filepath, true, randf_range(0.25, 1.0))
 
 
 func _process(delta):

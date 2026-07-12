@@ -32,6 +32,7 @@ on_floor_bounce_velocity_multiplier = 0.95
 start_animation = "none"
 effect_shrink_target_scale = Vector2(0.5, 0.5)
 effect_shrink_delete = false
+tie_add_modulate = Color(1, 0.647059, 0.184314, 1)
 entity_name = "fireball"
 entity_type = "projectile"
 

@@ -6,6 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://vm1ccgk5h0ag" path="res://Assets/Sounds/sfx/count.wav" id="4_4ti24"]
 
 [node name="text_manager_character" type="Control"]
+visible = false
 z_index = 5
 custom_minimum_size = Vector2(16, 40)
 layout_mode = 3

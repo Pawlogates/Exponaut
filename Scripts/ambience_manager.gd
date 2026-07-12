@@ -40,6 +40,11 @@ var active = false # Equal to "true" while any sound is being played currently.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	layer1.stream = load("res://Assets/Sounds/ambience/" + Globals.get_files("res://Assets/Sounds/ambience").pick_random())
+	layer2.stream = load("res://Assets/Sounds/ambience/" + Globals.get_files("res://Assets/Sounds/ambience").pick_random())
+	layer3.stream = load("res://Assets/Sounds/ambience/" + Globals.get_files("res://Assets/Sounds/ambience").pick_random())
+	layer4.stream = load("res://Assets/Sounds/ambience/" + Globals.get_files("res://Assets/Sounds/ambience").pick_random())
+	
 	layer_randomize_delay()
 	layer_randomize_pitch()
 	layer_randomize_volume()
