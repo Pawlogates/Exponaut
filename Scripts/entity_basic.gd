@@ -110,6 +110,7 @@ var start_scale = Vector2(-1, -1)
 
 var sprite_start_pos = Vector2(-1, -1)
 var sprite_start_scale = Vector2(-1, -1)
+var sprite_start_modulate = Color(-1, -1, -1, -1)
 
 var collected = false
 var dead = false
@@ -173,7 +174,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export_group("Main information.") # Section start.
 
-@export var health_value : int = 500
+@export var health_value : int = 100
 @export var damage_value : int = 10
 @export var score_value : int = 25
 @export var experience_value : int = 10
@@ -313,7 +314,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 # These properties affect all "on_[event]_spawn_entity" type behaviors.
 @export var spawn_entity_delay_range : Array = [0.0, 0.0]
-@export var spawn_entity_add_scale_range : Array = [Vector2(-0.1, 0.1), Vector2(0.0, 0.0)]
+@export var spawn_entity_add_scale_range : Array = [Vector2(-0.15, -0.15), Vector2(0.0, 0.0)]
 @export var spawn_entity_add_scale_range_keep_equal : bool = true # If equal to "true", the entity's "scale.y" will copy its "scale.x".
 @export var spawn_entity_family_copy_entity : bool = false # Should be disabled if the entity spawns collectibles.
 @export var spawn_entity_direction_copy_entity : bool = false
@@ -355,7 +356,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export_enum("normal", "move_x", "move_y", "move_xy", "follow_player_x", "follow_player_y", "follow_player_xy", "follow_player_x_if_spotted", "follow_player_y_if_spotted", "follow_player_xy_if_spotted", "chase_player_x", "chase_player_y", "chase_player_xy", "chase_player_x_if_spotted", "chase_player_y_if_spotted", "chase_player_xy_if_spotted", "wave_H", "wave_V", "move_around_startPosition_x", "move_around_startPosition_y", "move_around_startPosition_xy", "move_around_startPosition_x_if_not_spotted", "move_around_startPosition_y_if_not_spotted", "move_around_startPosition_xy_if_not_spotted") var on_timeout_change_movement_type_name : String = "normal"
 
 
-@export var collidable_cooldown = 0.1
+@export var collidable_cooldown = 0.05
 
 
 # Behavior triggered on entity death:
@@ -593,6 +594,13 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_collected_gain_movement : String = "none"
 @export var on_collected_block_movement : bool = true
 
+
+@export var on_collected_unlock_item_name : String = "none"
+@export var on_collected_unlock_item_rarity : int = 0 # Rarity range is 0-4.
+@export var on_collected_unlock_item_level : int = 1
+@export var on_collected_unlock_item_durability : float = 100.0 # Durability of -1 means a permanent unlock.
+var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, item_level, item_durability]
+
 @export var on_collected_unlock_random_item_weapon : bool = false
 @export var item_text_message_copy_weapon_info : bool = false
 
@@ -738,6 +746,9 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_wall_bounce = true
 @export var on_wall_bounce_velocity_multiplier : float = 0.5
 
+@export var on_floor_jump : bool = false
+@export var on_floor_jump_and_move : bool = false
+
 @export var on_landed_spawn_entity : bool = false
 @export var on_landed_spawn_entity_chance : float = 100.0
 @export_file("*.tscn") var on_landed_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
@@ -775,8 +786,12 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export_group("Other properties (visual).") # Section start.
 
 @export_enum("none", "general/loop_up_down", "general/loop_up_down_slight", "general/loop_scale", "gear/rotate") var start_animation = "general/loop_up_down"
+@export var on_spawn_anim_speed : float = 1.0
 @export_enum("none", "general/fade_out_up", "general/rotate_around_y_fade_out", "general/reflect_straight", "general/rotate_away_up_right", "general/rotate_away_up_right_scale_up") var on_collected_anim_name : String = "general/fade_out_up"
 @export var on_collected_anim_speed : float = 1.0
+@export_enum("none", "general/fade_out_up", "general/rotate_around_y_fade_out", "general/reflect_straight", "general/rotate_away_up_right", "general/rotate_away_up_right_scale_up") var on_death_anim_name : String = "none"
+@export var on_death_anim_speed : float = 1.0
+
 @export var anim_advance_position_x : bool = true
 
 @export var can_change_sprite_anim : bool = false
@@ -792,18 +807,55 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export var override_death_type : String = "none"
 
+# For some reason, declaring these properties in the core entity script causes it all to break (all exported properties are set to null). They will be put there after I figure out what is going on.
+# Effect Thrown Away: - [START]
+@export var on_collected_effect_thrownAway = false
+@export var on_death_effect_thrownAway = false
+@export var on_death_effect_thrownAway_cooldown = 0.0
+@export var effect_effect_thrownAway_delete : bool = true
+@export var effect_thrownAway_randomize_velocity = true
+@export var effect_thrownAway_randomize_velocity_multiplier_x = 1.0
+@export var effect_thrownAway_randomize_velocity_multiplier_y = 1.0
+
+@export var on_collected_decoration_nodes_effect_thrownAway = false
+@export var on_death_decoration_nodes_effect_thrownAway = false
+
+var effect_thrownAway_active = false
+var rolled_effect_thrownAway_scale = randf_range(0.1, 6)
+var rolled_effect_thrownAway_scale_to_front = Globals.random_bool(1, 3)
+var effect_thrownAway_scale = Vector2(rolled_effect_thrownAway_scale, rolled_effect_thrownAway_scale)
+var effect_thrownAway_rotation = randi_range(-720, 720)
+var effect_thrownAway_velocity : Vector2 = Vector2(0, 0)
+var effect_thrownAway_applied_velocity = false
+
+var unique_number = randi_range(0, 999)
+# Effect Thrown Away: - [END]
+
 @export var idle_sfx = false
 @export var idle_sfx_cooldown = 4.0
 @export var idle_sfx_randomize_cooldown = false
 
-@export var on_collected_spawn_star_chance : float = 10.0
-@export var on_collected_spawn_star2_chance : float = 10.0
-@export var on_collected_spawn_orb_orange_chance : float = 10.0
-@export var on_collected_spawn_orb_blue_chance : float = 10.0
-@export var on_collected_spawn_homing_square_chance : float = 10.0
-@export var on_collected_spawn_dust_chance : float = 10.0
-@export var on_collected_spawn_dead : float = 10.0
-@export var on_collected_spawn_oneShot : float = 10.0
+@export var on_collected_spawn_star_chance : float = 100.0
+@export var on_collected_spawn_star2_chance : float = 100.0
+@export var on_collected_spawn_orb_orange_chance : float = 100.0
+@export var on_collected_spawn_orb_blue_chance : float = 100.0
+@export var on_collected_spawn_homing_square_chance : float = 100.0
+@export var on_collected_spawn_dust_chance : float = 100.0
+@export var on_collected_spawn_dead_chance : float = 100.0
+@export var on_collected_spawn_oneShot_chance : float = 100.0
+@export var on_collected_spawn_leaf_chance : float = 100.0
+@export var on_collected_spawn_leaf2_chance : float = 100.0
+
+@export var on_death_spawn_star_chance : float = 100.0
+@export var on_death_spawn_star2_chance : float = 100.0
+@export var on_death_spawn_orb_orange_chance : float = 50.0
+@export var on_death_spawn_orb_blue_chance : float = 50.0
+@export var on_death_spawn_homing_square_chance : float = 100.0
+@export var on_death_spawn_dust_chance : float = 10.0
+@export var on_death_spawn_dead_chance : float = 100.0
+@export var on_death_spawn_oneShot_chance : float = 10.0
+@export var on_death_spawn_leaf_chance : float = 100.0
+@export var on_death_spawn_leaf2_chance : float = 100.0
 
 @export var text_message : String = "none"
 @export var text_message_visible : String = "none"
@@ -975,7 +1027,7 @@ func basic_on_spawn():
 	
 	if idle_sfx:
 		if idle_sfx_cooldown : cooldown_sfx_idle.wait_time = idle_sfx_cooldown # If "idle_sfx_cooldown" is not equal to "0".
-		if idle_sfx_randomize_cooldown : cooldown_sfx_idle.wait_time = randf_range(0.5, 8)
+		if idle_sfx_randomize_cooldown : cooldown_sfx_idle.wait_time = randf_range(1, 8)
 		cooldown_sfx_idle.start()
 	
 	if on_timeout_death:
@@ -985,12 +1037,20 @@ func basic_on_spawn():
 	if on_timeout_change_ignore_gravity:
 		c_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown
 		c_change_ignore_gravity.start()
+	
+	await get_tree().create_timer(1.0, true).timeout
+	
+	if not scan_visible.is_on_screen() : basic_on_inactive()
 
 
 # Executes on entity entering the camera view.
 func basic_on_inactive():
 	if entity_editor_preview : return
 	if always_active : return
+	if not is_ready : print("entity is not ready") ; return
+	
+	if not effect_thrownAway_active and not reset_puzzle and not reset_puzzle_inside_zone:
+		spawn_await_screen_entered()
 	
 	active = false
 	
@@ -1006,6 +1066,7 @@ func basic_on_inactive():
 	
 	sprite.pause()
 	sprite.visible = false
+	sprite.set_active(false)
 	
 	collision_main.disabled = true
 	
@@ -1042,6 +1103,7 @@ func basic_on_active():
 	
 	sprite.play()
 	sprite.visible = true
+	sprite.set_active(true)
 	
 	if not ignore_collision : collision_main.disabled = false
 	
@@ -1158,3 +1220,14 @@ func save():
 	
 	}
 	return save_dict
+
+
+func spawn_await_screen_entered():
+	var offscreen_manager = load("res://Other/Scenes/on_onscreen_spawn_master_node.tscn").instantiate()
+	offscreen_manager.master_filepath = scene_file_path
+	offscreen_manager.master_position = position
+	offscreen_manager.master_velocity = velocity
+	offscreen_manager.master_health_value = health_value
+	offscreen_manager.position = position
+	Globals.World.add_child(offscreen_manager)
+	queue_free()

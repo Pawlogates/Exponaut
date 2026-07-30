@@ -19,10 +19,10 @@ func blueButton_pressed():
 	if blockType == "blue":
 		activated = true
 		if blockDirection == 0:
-			%AnimationPlayer.play("blue_move_up")
+			%AnimationPlayer.play("animation_button/blue_move_up")
 		
 		elif blockDirection == 1:
-			%AnimationPlayer.play("blue_move_down")
+			%AnimationPlayer.play("animation_button/blue_move_down")
 
 func redButton_pressed():
 	if blockType == "red":

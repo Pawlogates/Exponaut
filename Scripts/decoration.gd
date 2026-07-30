@@ -10,6 +10,8 @@ extends Node2D
 @onready var glow_light: PointLight2D = $glow_light
 
 
+var start_scale : Vector2 = Vector2(-1, -1)
+
 @export var anim_name : String = "loop_right_left"
 @export var anim_speed : float = 1.0
 @export var anim_reverse : bool = false
@@ -17,6 +19,8 @@ extends Node2D
 @export var anim_name2 : String = "rotate"
 @export var anim_speed2 : float = 1.0
 @export var anim_reverse2 : bool = false
+
+@export var on_entity_collected_rotate : bool = false
 
 # Randomization:
 @export var randomize_everything : bool = true
@@ -55,6 +59,9 @@ var effect_thrownAway_velocity = Vector2(randi_range(-1000, 1000), randi_range(-
 func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 3 to a Decoration Core, with the target function being 'debug_show_anim_names'.")
 	Globals.debug3.connect(debug_show_anim_names)
+	if on_entity_collected_rotate : Globals.entity_collected.connect(on_entity_collected)
+	
+	if start_scale == Vector2(-1, -1) : start_scale = scale
 	
 	if Globals.gameState_level : randomize_modulate_dark_chance = 75.0
 	
@@ -210,3 +217,20 @@ func randomize_type_gear():
 	decoration.queue_free()
 	add_child(scene.instantiate())
 	reassign_general()
+
+
+func on_entity_collected():
+	animation_gear.stop()
+	animation_gear.speed_scale = 2 + randf_range(-1, 0.5)
+	if Globals.get_random_bool(75) : animation_gear.play("rotate_back_out")
+	else : animation_gear.play_backwards("rotate_back_out")
+	scale.x += randf_range(-0.025, 0.025)
+	scale.y = scale.x
+	await get_tree().create_timer(1.0, true).timeout
+	scale.x -= randf_range(-0.05, 0.05)
+	scale.y = scale.x
+	
+	if scale.x > start_scale.x * 1.5 or scale.x < start_scale.x * 0.5: scale.x = start_scale.x
+	scale.y = scale.x
+	
+	play_anim(randomize_everything)

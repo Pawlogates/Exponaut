@@ -26,12 +26,14 @@ func _physics_process(_delta: float) -> void:
 
 
 # Called from anywhere outside of this script. Example: animation("black_fade_in", 1.0, false, true)
-func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true, delay : float = 0.25, await_delay : float = 0.25):
-	animation_player.stop()
-	
+func animation(anim_name : String = "black_fade_in", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true, delay : float = 0.25, await_delay : float = 0.25):
 	animation_player.speed_scale = speed
 	
 	if delay : await get_tree().create_timer(delay, true).timeout
+	
+	if not play_backwards:
+		if anim_name == "black_fade_in" : screen_hide()
+		elif anim_name == "black_fade_out" : screen_black()
 	
 	if play_backwards:
 		animation_player.play_backwards(str(anim_name))
@@ -49,3 +51,12 @@ func reassign_general():
 	hud_player_health = get_tree().get_first_node_in_group("hud_player_health")
 	hud_player_abilities = get_tree().get_first_node_in_group("hud_player_abilities")
 	hud_player_experience = get_tree().get_first_node_in_group("hud_player_experience")
+
+
+func screen_black():
+	animation_player.stop()
+	screen_color.color = Color.BLACK # Using the "modulate" property on the full-screen object should be the last resort.
+
+func screen_hide():
+	animation_player.stop()
+	screen_color.color = Color(1, 1, 1, 0)

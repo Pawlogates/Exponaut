@@ -7,12 +7,18 @@
 size = Vector2(32, 32)
 
 [node name="coin_timed" instance=ExtResource("1_bmcnr")]
-on_collected_effect_thrownAway = true
+scale = Vector2(0.75, 0.75)
 score_value = 10
+damage_from_entity_contact = false
+damage_from_player_contact = false
+damage_to_entity = true
+damage_to_entity_contact = false
 can_move = true
 ignore_gravity = false
+on_timeout_death = true
 on_floor_bounce = true
 start_animation = "none"
+on_collected_effect_thrownAway = true
 sfx_self_collected_filepath = "uid://vm1ccgk5h0ag"
 sfx_self_hit_filepath = "uid://bvklt3ov80jdg"
 entity_name = "coin_timed"
@@ -23,5 +29,5 @@ sprite_frames = ExtResource("2_syj8d")
 [node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_gymcb")
 
-[node name="scan_stuck" parent="." index="20"]
+[node name="scan_stuck" parent="." index="21"]
 scale = Vector2(0.5, 0.5)

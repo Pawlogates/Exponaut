@@ -1,40 +1,27 @@
 extends entity_basic
 
-# For some reason, declaring these properties in the core entity script causes it all to break (all exported properties are set to null). They will be put there after I figure out what is going on.
-# Effect - Thrown Away:
-@export var on_collected_effect_thrownAway = false
-@export var on_death_effect_thrownAway = false
-@export var on_death_effect_thrownAway_cooldown = 0.0
-@export var effect_effect_thrownAway_delete : bool = true
-@export var effect_thrownAway_randomize_velocity = true
-@export var effect_thrownAway_randomize_velocity_multiplier_x = 1.0
-@export var effect_thrownAway_randomize_velocity_multiplier_y = 1.0
-
-@export var on_collected_decoration_nodes_effect_thrownAway = false
-@export var on_death_decoration_nodes_effect_thrownAway = false
-
-
-var effect_thrownAway_active = false
-var rolled_effect_thrownAway_scale = randf_range(0.1, 6)
-var rolled_effect_thrownAway_scale_to_front = Globals.random_bool(1, 3)
-var effect_thrownAway_scale = Vector2(rolled_effect_thrownAway_scale, rolled_effect_thrownAway_scale)
-var effect_thrownAway_rotation = randi_range(-720, 720)
-var effect_thrownAway_velocity : Vector2 = Vector2(0, 0)
-var effect_thrownAway_applied_velocity = false
-
-var unique_number = randi_range(0, 999)
-
 func _ready():
+	set_hitbox(false)
+	
+	scan_visible.visible = true
+	
 	if Globals.game_state_roguelord:
 		z_index = 100
+	
+	if on_collected_unlock_item_name != "none":
+		unlock_item_info = [on_collected_unlock_item_name, on_collected_unlock_item_rarity, on_collected_unlock_item_level, on_collected_unlock_item_durability]
+		
+		#var item_saved_var_name : String = "qs_item_" + on_collected_unlock_item_name
+		#if get(item_saved_var_name) == -1: # If item's level is equal to -1, meaning its not been unlocked.
+			#set(item_saved_var_name, 0)
 	
 	if on_collected_unlock_random_item_weapon:
 		var rolled_weapon_name = Globals.qs_list_weapon_name.pick_random()
 		
-		if Globals.get_random_bool(9) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 10.0), randi_range(1, 10), 1]
-		elif Globals.get_random_bool(8) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 25.0), randi_range(1, 25), randi_range(1, 2)]
-		elif Globals.get_random_bool(8) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 100.0), randi_range(1, 50), randi_range(1, 3)]
-		elif Globals.get_random_bool(9) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 100.0), randi_range(1, 75), randi_range(1, 4)]
+		if Globals.get_random_bool(75) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 10.0), randi_range(1, 10), 1]
+		elif Globals.get_random_bool(75) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 25.0), randi_range(1, 25), randi_range(1, 2)]
+		elif Globals.get_random_bool(75) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 100.0), randi_range(1, 50), randi_range(1, 3)]
+		elif Globals.get_random_bool(75) : item_weapon_info = [rolled_weapon_name, randf_range(0.1, 100.0), randi_range(1, 75), randi_range(1, 4)]
 		else: item_weapon_info = [rolled_weapon_name, randf_range(0.1, 100.0), randi_range(1, 200), randi_range(1, 5)]
 	
 	if item_text_message_copy_weapon_info:
@@ -59,6 +46,7 @@ func _ready():
 	
 	if sprite_start_pos == Vector2(-1, -1) : sprite_start_pos = sprite.position
 	if sprite_start_scale == Vector2(-1, -1) : sprite_start_scale = sprite.scale
+	if sprite_start_modulate == Color(-1, -1, -1, -1) : sprite_start_modulate = sprite.modulate
 	
 	if effect_grow_target_scale == Vector2(-1, -1):
 		effect_grow_target_scale = sprite_start_scale
@@ -191,6 +179,9 @@ var attack_melee_block_movement : bool = false
 
 
 func _process(delta):
+	#if is_ready : sprite.modulate = Color.BLUE
+	#else : sprite.modulate = Color.GREEN
+	
 	if is_on_floor() : on_floor = true
 	else : on_floor = false
 	
@@ -206,8 +197,8 @@ func _process(delta):
 		if not collected : sprite.material.set_shader_parameter("hue_value", sprite.material.get_shader_parameter("hue_value") + randf_range(-0.001, 0.0015))
 	
 	if is_instance_valid(scan_ledge):
-		if direction_active_x > 0 : scan_ledge.position.x = -32
-		elif direction_active_x < 0 : scan_ledge.position.x = 32
+		if direction_active_x > 0 : scan_ledge.position.x = collision_main.shape.size.x / 2
+		elif direction_active_x < 0 : scan_ledge.position.x = -collision_main.shape.size.x / 2
 	
 	if can_move:
 		
@@ -226,7 +217,7 @@ func _process(delta):
 		z_index = 100
 		
 		if is_instance_valid(debug_label4):
-			debug_label.text = "Velocity x/y: " + str(int(velocity.x)) + "/" + str(int(velocity.y))
+			debug_label.text = "Velocity x/y: " + str(int(velocity_last_x)) + "/" + str(int(velocity_last_y))
 			debug_label2.text = "Direction x/y: " + str(direction_x) + "/" + str(direction_y)
 			debug_label3.text = "Movement type: " + movement_type
 			debug_label4.text = "Entity name: " + entity_name
@@ -270,8 +261,8 @@ func _process(delta):
 	
 	if is_on_ceiling():
 		#if ascending:
-		if velocity_last_y < -100:
-			velocity.y = -velocity_last_y * 0.8
+		if abs(velocity_last_y) > 50:
+			velocity.y = -velocity_last_y * 0.85
 	
 	if copy_direction_x_player:
 		if copy_direction_x_active_player:
@@ -279,13 +270,6 @@ func _process(delta):
 		
 		else:
 			direction_x = Globals.player_direction_x
-	
-	if can_move:
-		if abs(velocity.x) > 100.0 : velocity_last_x = velocity.x
-		if abs(velocity.y) > 100.0 : velocity_last_y = velocity.y
-	
-	if direction_x != 0:
-		direction_active_x = direction_x
 	
 	if look_at_player_rotate:
 		rotation_degrees = 0
@@ -381,15 +365,18 @@ func _process(delta):
 			if inside_entity > 0 and is_instance_valid(inside_entity_last):
 				if abs(inside_entity_last.velocity.x) < 250 and abs(inside_entity_last.velocity.x) > 5:
 					if abs(inside_entity_last.velocity.x) < 75:
-						if inside_entity_last.velocity_last_x > 0:
+						if abs(inside_entity_last.velocity_last_x) > 0:
 							velocity.x += randf_range(-1, 4)
-						elif inside_entity_last.velocity_last_x < 0:
+						elif abs(inside_entity_last.velocity_last_x) < 0:
 							velocity.x += randf_range(-4, 1)
 					else:
-						if inside_entity_last.velocity_last_x > 0:
+						if abs(inside_entity_last.velocity_last_x) > 0:
 							velocity.x += randf_range(-10, abs(inside_entity_last.velocity.x)) / 10
-						elif inside_entity_last.velocity_last_x < 0:
+						elif abs(inside_entity_last.velocity_last_x) < 0:
 							velocity.x += randf_range(-abs(inside_entity_last.velocity.x), 10) / 10
+				
+				if abs(velocity.x) > abs(inside_entity_last.velocity.x) * 1.1:
+					velocity.x = inside_entity_last.velocity.x * 1.1
 	
 	
 	if can_move and not block_movement and not attack_melee_block_movement or effect_thrownAway_active : move_and_slide()
@@ -402,6 +389,9 @@ func _process(delta):
 	if set_not_collidable:
 		is_collidable = false
 		set_not_collidable = false # The property is set at the very end of the "_process()" function, because there are multiple events that can affect it, and they would be cancelled otherwise.
+	
+	if can_move:
+		update_velocity_last()
 
 
 func handle_gravity(delta):
@@ -409,8 +399,11 @@ func handle_gravity(delta):
 	
 	if can_move:
 		if can_move_y:
-			if not on_floor and not ignore_gravity:
-				velocity.y += fall_speed * gravity * gravity_multiplier_y * delta
+			if not on_floor:
+				if not ignore_gravity:
+					velocity.y += fall_speed * gravity * gravity_multiplier_y * delta
+				else:
+					velocity.y = move_toward(velocity.y, 0, gravity * gravity_multiplier_y * 100 * delta)
 		
 		else:
 			velocity.y = 0
@@ -708,20 +701,10 @@ var handle_gravity_in_movement_type = false # If true, the gravity is not handle
 @onready var movement_function_name = "movement_" + movement_type
 
 func handle_movement(delta):
-	if force_direction_x:
-		if not direction_x:
-			direction_x = direction_active_x # Active means "last value considered active", which in case of velocity, would be anything except 0 (but in this case its actually everything between -25 and 25).
-	
-	if force_direction_y:
-		if not direction_y:
-			direction_y = direction_active_y
-	
-	
 	if entity_name == "orb_zeroScore" : return
 	if reset_puzzle_block_movement : return
 	call(movement_function_name, delta)
 	#call("movement_" + str(Globals.l_entity_movement[movement_type_id]), delta)
-	if dead : direction_x = 0
 	if ascending:
 		velocity.y = lerp(velocity.y, float(jump_velocity_y), delta)
 	else:
@@ -990,7 +973,12 @@ func change_direction_x(floor_normal : Vector2 = Vector2(0, 0)):
 	#Globals.spawn_message_object(str(wall_normal))
 	
 	if floor_normal == Vector2(0, 0):
-		direction_x *= -1
+		
+		if direction_x != 0:
+			direction_x *= -1
+		
+		else:
+			direction_active_x *= -1
 	
 	else:
 		if on_wall_sprite_anim_reflect_straight : effects_reflect_straight()
@@ -1001,7 +989,21 @@ func change_direction_x(floor_normal : Vector2 = Vector2(0, 0)):
 		elif floor_normal == Vector2(1, 0): #left
 			direction_x = 1
 	
+	if force_direction_x:
+		if not direction_x:
+			direction_x = direction_active_x # Active means "last value considered active", which in case of velocity, would be anything except 0 (but in this case its actually everything between -25 and 25).
+	
+	if force_direction_y:
+		if not direction_y:
+			direction_y = direction_active_y
+	
+	if dead : direction_x = 0
+	
+	if direction_x : direction_active_x = direction_x
+	
 	velocity.x = -velocity_last_x
+	
+	#Globals.spawn_message_object(velocity_last_x)
 
 func change_direction_y(wall_normal : Vector2 = Vector2(0, 0)):
 	if wall_normal == Vector2(0, 0):
@@ -1130,6 +1132,10 @@ func handle_collectable(target : Node): # The main function of the "collectible"
 		if is_instance_valid(Overlay.hud_player_experience):
 			Overlay.hud_player_experience.experience_increase(experience_value + (randi_range(0, Globals.player_level * Globals.player_level)) + randi_range(-experience_value * 0.1, experience_value * 0.1))
 	
+	if on_collected_unlock_item_name != "none":
+		Globals.qs_collected_items.append(unlock_item_info)
+		Globals.spawn_scenes(Overlay, load("res://Other/Scenes/hint_scroll_down.tscn"), 1, Vector2(960, 900), -1)
+	
 	if on_collected_unlock_random_item_weapon:
 		Globals.qs_collected_items.append(item_weapon_info)
 		Globals.spawn_scenes(Overlay, load("res://Other/Scenes/hint_scroll_down.tscn"), 1, Vector2(960, 900), -1)
@@ -1220,15 +1226,26 @@ func handle_collidable(body):
 	pass
 
 
-func spawn_display_score(value : int, add_scale : Vector2 = Vector2(1, 1) * randf_range(-0.25, 0.5)):
+func spawn_display_score(value : int):
 	var node = Globals.scene_effect_score_value.instantiate()
 	
 	node.position = position + Vector2(randi_range(-50, 50), randi_range(-50, 50))
 	node.value = value
-	node.scale += add_scale
+	node.scale += Vector2(1, 1) * randf_range(-0.1, 0.1) - (Vector2(1, 1) - scale)
 	node.z_index += Globals.combo_streak
 	
 	World.add_child(node)
+
+func spawn_display_combo_score(value : int):
+	var node = Globals.scene_effect_combo_score_value.instantiate()
+	
+	node.position = position + Vector2(randi_range(-250, 250), randi_range(-100, 100))
+	node.value = value
+	node.scale += Vector2(1, 1) * 0.1 * Globals.combo_tier
+	node.z_index += Globals.combo_streak
+	
+	World.add_child(node)
+
 
 func spawn_display_score_bonus(value : int, add_scale : Vector2 = Vector2(1, 1), ignore_gravity : bool = false):
 	var node = Globals.scene_effect_score_bonus.instantiate()
@@ -1438,7 +1455,14 @@ func handle_breakable(target):
 
 
 func handle_damage(value, type : String = "normal", source : Node = self):
-	if not immortal : health_value -= value ; health_value = clamp(health_value, 0, 9999)
+	if not immortal:
+		if source.family == "Player" and family == "enemy":
+			if damage_from_player:
+				health_value -= value ; health_value = clamp(health_value, 0, 9999)
+				
+		elif source.family == "enemy" and family == "Player":
+			if damage_from_entity:
+				health_value -= value ; health_value = clamp(health_value, 0, 9999)
 	
 	state_damage = true
 	t_state_damage.start()
@@ -1460,16 +1484,8 @@ func handle_damage(value, type : String = "normal", source : Node = self):
 	
 	if Globals.get_random_bool(5):
 		if source != self and not source.is_in_group("player_projectile"):
-			get_tree().paused = true
-			set_process(false)
-			set_physics_process(false)
 			Globals.Player.camera.effect((position - Globals.player_position) * 2, Vector2(3, 3), randi_range(-10, 10), 4)
-			
 			await get_tree().create_timer(0.2, true).timeout
-			
-			get_tree().paused = false
-			set_process(true)
-			set_physics_process(true)
 			Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
 
 
@@ -1497,22 +1513,25 @@ func handle_effects_death(type : String = "normal"): # Death types: "normal", "b
 	if on_death_effect_shrink:
 		effect_shrink = true
 		effect_grow = false
+	
+	animation_all.speed_scale = on_death_anim_speed
+	if on_death_anim_name != "none" : animation_all.play(on_death_anim_name)
 
 
 func effect_death_normal():
 	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, randf_range(0.75, 1.25))
 	
-	handle_particles_general()
+	handle_particles_death()
 
 func effect_death_instant():
 	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, randf_range(0.75, 1.25))
 	
-	handle_particles_general()
+	handle_particles_death()
 
 func effect_death_break():
 	sfx_manager.sfx_play(sfx_self_death_filepath, 2.0, randf_range(0.75, 1.25))
 	
-	handle_particles_general()
+	handle_particles_death()
 	
 	animation_all.stop()
 	animation_all.speed_scale = 2.0
@@ -1521,7 +1540,7 @@ func effect_death_break():
 func effect_death_self_destruct():
 	sfx_manager.sfx_play(sfx_self_death_filepath, 2.0, randf_range(0.75, 1.25))
 	
-	handle_particles_general()
+	handle_particles_death()
 	
 	animation_all.stop()
 	animation_all.speed_scale = 2.0
@@ -1542,7 +1561,7 @@ func effect_death_electrocute():
 func effect_death_random():
 	sfx_manager.sfx_play(sfx_self_death_filepath, 2.0, randf_range(0.75, 1.25))
 	
-	handle_particles_general()
+	handle_particles_death()
 	
 	animation_all.stop()
 	animation_all.speed_scale = 2.0
@@ -1550,17 +1569,34 @@ func effect_death_random():
 
 
 func handle_effects_hit(target : Node, f_damage_value : int = target.damage_value):
-	spawn_text_damage(f_damage_value)
+	#Globals.spawn_message_object(str(target.family) + " " + (family))
+	
+	if target.family == "Player" and family == "enemy":
+		if damage_from_player:
+			sfx_manager.sfx_play(sfx_self_hit_filepath, randf_range(0.5, 1))
+			spawn_text_damage(f_damage_value)
+		else:
+			sfx_manager.sfx_play(sfx_self_hit_filepath, randf_range(0.05, 0.1))
+	
+	elif target.family == "enemy" and family == "Player":
+		if damage_from_entity:
+			sfx_manager.sfx_play(sfx_self_hit_filepath, randf_range(0.5, 1))
+			spawn_text_damage(f_damage_value)
+		else:
+			sfx_manager.sfx_play(sfx_self_hit_filepath, randf_range(0.05, 0.1))
 	
 	if not target.dead:
 		state_damage = true
 		t_state_damage.start()
 	
-	sfx_manager.sfx_play(sfx_self_hit_filepath, randf_range(0.5, 1))
 	animation_color.stop()
 	animation_color.play("pulse_red_normal_long")
 	
-	handle_particles_general()
+	handle_particles_hit()
+	
+	sprite.self_modulate.a = 0
+	await get_tree().create_timer(0.5, true).timeout
+	sprite.self_modulate = sprite_start_modulate
 
 func handle_effects_bounce():
 	sfx_manager.sfx_play(sfx_self_bounced_filepath, 0.25, 2)
@@ -1629,8 +1665,9 @@ func sprite_animation():
 	elif state_damage : sprite.play("damage")
 	elif state_attacking : sprite.play("attack")
 	else:
-		if abs(velocity.x) > 25 : sprite.play("walk")
-		else : sprite.play("walk")
+		if not effect_collected_multiple_active:
+			if can_move and abs(velocity.x) > 25 : sprite.play("walk")
+			else : sprite.play("idle")
 
 
 func _on_cooldown_sfx_idle_timeout() -> void:
@@ -1724,17 +1761,7 @@ func handle_on_spotted():
 	sfx_manager.sfx_play(sfx_spotted_filepath, 1.0, randf_range(0.95, 1.2))
 	
 	if direction_x : # This check causes repeats less noticable, because the direction is set to "0' on losing sight of the target, and only gets set to active after a timer (patrolling direction) goes off.
-		var confusion_text_node = load("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn").instantiate()
-		
-		confusion_text_node.text_full = "[anim_loop_up_down]!"
-		confusion_text_node.cooldown_remove_message = 0.05
-		confusion_text_node.character_anim_speed_scale = 8.0
-		confusion_text_node.character_anim_backwards = true
-		confusion_text_node.text_animation_add_offset = 1.75
-		confusion_text_node.scale *= 2
-		confusion_text_node.position += Vector2(48 * direction_x, -120)
-		
-		text_container.add_child(confusion_text_node)
+		spawn_message("[anim_loop_up_down]!", 0.5, 8.0, true, 0.0, Vector2(0.25, 0.25), Vector2(64 * direction_x, -64))
 	
 	
 	c_patrolling_target_spotted.start()
@@ -1755,10 +1782,10 @@ func _on_cooldown_patrolling_change_direction_timeout() -> void:
 func handle_effects_collected():
 	text_container.queue_free()
 	
-	z_index = 100
-	modulate.r *= 100
-	modulate.g *= 100
-	modulate.b *= 100
+	#z_index = 100
+	#modulate.r *= 100
+	#modulate.g *= 100
+	#modulate.b *= 100
 	
 	if sprite_glow_light:
 		sprite_glow_light = false
@@ -1769,15 +1796,15 @@ func handle_effects_collected():
 		glow_shadow.queue_free()
 	
 	sfx_manager.sfx_play(sfx_self_collected_filepath, 1.0, randf_range(0.9, 1.1) + (0.025 * (Globals.combo_streak)))
-	if on_collected_anim_name != "none" : animation_all.play(on_collected_anim_name)
+	
 	animation_all.speed_scale = on_collected_anim_speed
+	if on_collected_anim_name != "none" : animation_all.play(on_collected_anim_name)
 	
 	if award_score and on_collected_award_score:
-		spawn_display_score(score_value * Globals.combo_tier)
+		spawn_display_score(score_value)
 		
-		if Globals.random_bool(4, 1):
-			if Globals.combo_streak > 1 : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)
-			elif Globals.debug_mode : spawn_display_score_bonus(Globals.combo_score, -Vector2(-0.5, -0.5))
+		if Globals.combo_streak > 0 : spawn_display_combo_score(score_value * Globals.combo_tier)
+		if Globals.combo_streak > 1 and Globals.get_random_bool(5) : spawn_display_score_bonus(Globals.combo_score, Vector2(-0.9, -0.9) + Vector2((0.05), (0.05)) * Globals.combo_streak)
 	
 	handle_particles_general()
 	
@@ -1851,10 +1878,12 @@ func handle_reset_puzzle():
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
+	Globals.World.reset_puzzle_all_nodes_ready.emit()
+	
+	await get_tree().create_timer(2.0, true).timeout
+	
 	collectable = true
 	hittable = true
-	
-	Globals.World.reset_puzzle_all_nodes_ready.emit()
 
 func reset_all():
 	call_deferred("spawn_entity_copy")
@@ -2025,8 +2054,9 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 
 
 func handle_bounce():
+	# If there is an issue with "velocity_last", it's probably because of "is_collidable" not being true on time.
 	if on_floor:
-		if velocity_last_y > 100:
+		if abs(velocity_last_y) > 50:
 			if on_floor_bounce:
 				velocity.y = -velocity_last_y * on_floor_bounce_velocity_multiplier
 				handle_effects_bounce()
@@ -2126,11 +2156,14 @@ func handle_on_floor():
 	if on_floor_death : handle_death()
 	if on_floor_change_direction_x : change_direction_x()
 	if on_floor_reverse_velocity_x : velocity.x = -velocity_last_x
+	if on_floor_jump : handle_jump()
+	if on_floor_jump_and_move : handle_jump(jump_velocity_y, jump_velocity_x * direction_active_x)
 
 func handle_on_wall():
 	if on_wall_death : handle_death()
 	
 	if on_wall_change_direction_x:
+		#Globals.spawn_message_object(str(wall_normal))
 		change_direction_x(wall_normal)
 	else:
 		velocity.x = 0
@@ -2197,7 +2230,7 @@ func t_trigger(id : int = 0):
 		handle_jump()
 	
 	if t_trigger_jump_and_move == id:
-		handle_jump(jump_velocity_y, jump_velocity_x * direction_x)
+		handle_jump(jump_velocity_y, jump_velocity_x * direction_active_x)
 		print(jump_velocity_y)
 	
 	if t_trigger_randomize_speed_and_jump_velocity == id:
@@ -2265,6 +2298,8 @@ func set_not_collidable_queue():
 	set_not_collidable = true
 	c_collidable.wait_time = collidable_cooldown
 	c_collidable.start()
+	
+	#update_velocity_last()
 
 
 func _on_cooldown_change_movement_type_timeout() -> void:
@@ -2279,12 +2314,27 @@ func handle_particles_general():
 	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
 	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0)
-	if Globals.get_random_bool(on_collected_spawn_dust_chance) : Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position)
-	if Globals.get_random_bool(on_collected_spawn_dead) : Globals.spawn_scenes(World, Globals.scene_effect_dead_enemy, 1, position, -1)
-	if Globals.get_random_bool(on_collected_spawn_oneShot) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, position, -1)
 
+func handle_particles_hit():
+	if Globals.get_random_bool(on_collected_spawn_star_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_collected_spawn_star2_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance / 4) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0)
+	if Globals.get_random_bool(on_collected_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0.2, 0.2, 0.2, 1))
+
+func handle_particles_death():
+	if Globals.get_random_bool(on_death_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_death_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_death_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_death_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
+	if Globals.get_random_bool(on_death_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0)
+	if Globals.get_random_bool(on_death_spawn_leaf_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf, 1 + 1 * Globals.combo_tier, position, 12.0)
+	if Globals.get_random_bool(on_death_spawn_leaf2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf2, 1 + 1 * Globals.combo_tier, position, 12.0)
 
 func _on_cooldown_toggle_hitbox_timeout() -> void:
+	if not is_ready : return
+	
 	if not always_active : set_hitbox(Globals.opposite_bool(hitbox.monitoring))
 	else : set_hitbox(true)
 
@@ -2304,11 +2354,30 @@ func _on_timer_invulnerable_timeout() -> void:
 func spawn_text_damage(damage_value : int):
 	var effect_text : Node2D = load("res://Other/Effects/effect_text.tscn").instantiate()
 	effect_text.position = position + Vector2(randi_range(-100, 100), randi_range(-100, 100))
-	effect_text.text_message = str(damage_value * Globals.player_level)
+	effect_text.text_message = str(damage_value)
 	effect_text.effect_speed = randf_range(1, 2)
-	effect_text.scale.x += -0.5 + 0.01 * damage_value
+	if entity_type == "enemy" : effect_text.scale.x += -0.5 + 0.01 * damage_value
+	else : effect_text.scale.x += -0.85 + 0.01 * damage_value
 	effect_text.scale.y = effect_text.scale.x
 	#if Globals.get_random_bool(50) : effect_text.scale.x *= -1
 	effect_text.rotation_degrees = randi_range(-30, 30)
 	effect_text.modulate = effect_text.modulate.blend(Color.RED * randf_range(0.1, 1.0))
 	World.add_child(effect_text)
+
+
+func spawn_message(message_text : String = "none", mesage_cooldown_remove_message : float = 2.0, message_character_anim_speed_scale : float = 1.0, message_character_anim_backwards : bool = false, message_text_animation_add_offset : float = 0.0, message_add_scale : Vector2 = Vector2(0, 0), message_add_pos : Vector2 = Vector2(0, 0)):
+	var text_manager = load("res://Other/Scenes/User Interface/Text Manager/text_manager.tscn").instantiate()
+		
+	text_manager.text_full = message_text
+	text_manager.cooldown_remove_message = mesage_cooldown_remove_message
+	text_manager.character_anim_speed_scale = message_character_anim_speed_scale
+	text_manager.character_anim_backwards = message_character_anim_backwards
+	text_manager.text_animation_add_offset = message_text_animation_add_offset
+	text_manager.scale += message_add_scale
+	text_manager.position += message_add_pos
+	
+	text_container.add_child(text_manager)
+
+func update_velocity_last():
+	if abs(velocity.x) > 5.0 : velocity_last_x = velocity.x
+	if abs(velocity.y) > 5.0 : velocity_last_y = velocity.y

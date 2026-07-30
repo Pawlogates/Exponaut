@@ -10,6 +10,10 @@ region = Rect2(0, 0, 64, 64)
 atlas = ExtResource("1_xsrye")
 region = Rect2(64, 0, 64, 64)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0gfe"]
+atlas = ExtResource("1_xsrye")
+region = Rect2(704, 0, 64, 64)
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_7jrqi"]
 atlas = ExtResource("1_xsrye")
 region = Rect2(128, 0, 64, 64)
@@ -29,10 +33,6 @@ region = Rect2(320, 0, 64, 64)
 [sub_resource type="AtlasTexture" id="AtlasTexture_qowm2"]
 atlas = ExtResource("1_xsrye")
 region = Rect2(640, 0, 64, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0gfe"]
-atlas = ExtResource("1_xsrye")
-region = Rect2(704, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_forvi"]
 atlas = ExtResource("1_xsrye")
@@ -104,6 +104,9 @@ animations = [{
 "texture": SubResource("AtlasTexture_7app8")
 }, {
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_x0gfe")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_7jrqi")
 }, {
 "duration": 1.0,
@@ -131,7 +134,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"damage",
-"speed": 3.0
+"speed": 20.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -172,7 +175,22 @@ animations = [{
 "name": &"idle",
 "speed": 5.0
 }, {
-"frames": [],
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vqyv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4dguw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hvh0w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_74htl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uy7sj")
+}],
 "loop": true,
 "name": &"jump",
 "speed": 5.0

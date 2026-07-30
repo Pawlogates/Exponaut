@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://ekexbeexschj"]
+
+[ext_resource type="Script" uid="uid://1wry1k0olnlr" path="res://Other/Scenes/on_onscreen_spawn_master_node.gd" id="1_nx7bk"]
+
+[node name="offscreen_manager" type="Node2D"]
+script = ExtResource("1_nx7bk")
+
+[node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-50, -50, 100, 100)
+
+[connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]

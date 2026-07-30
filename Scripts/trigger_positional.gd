@@ -45,13 +45,16 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if not active:
-		return
+	if not active : return
+	elif Globals.level_time < 5.0 : return
 	
 	if Globals.debug_mode:
 		label_value.text = str(trigger_value)
 		label_value.visible = true
+		if not active : Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 1, position)
+		
 	else:
+		
 		label_value.visible = false
 	
 	for area in get_overlapping_areas():
@@ -104,15 +107,25 @@ func _process(delta: float) -> void:
 				Globals.Player.camera.effect(Vector2(-1, -1), camera_add_zoom * trigger_value + Vector2(1, 1), -1, 1)
 
 func _on_timer_timeout():
+	if player_inside : return
 	active = false
+
+
+var player_inside : bool = false
 
 func _on_area_entered(area: Area2D) -> void:
 	if not Globals.is_valid_entity(area) : return
+	player_inside = true
+	if active : return
+	if Globals.Player.block_movement : return # Needed for when a message sign triggers a camera effect.
 	
 	timer_inactive.stop()
 	active = true
 
 func _on_area_exited(area: Area2D) -> void:
 	if not Globals.is_valid_entity(area) : return
+	player_inside = false
+	if not active : return
+	if Globals.Player.block_movement : return
 	
 	timer_inactive.start()

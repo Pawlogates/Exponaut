@@ -46,7 +46,7 @@ func _on_area_2d_area_entered(area):
 	if not active : return
 	
 	if effect_active : Globals.message(str(message_text), pause_duration, message_add_pos, anim_hide_cooldown, anim_speed_scale, camera_target_offset, camera_target_zoom, camera_target_rotation, camera_start_speed_multiplier)
-	else : Globals.message(str(message_text), 0.0)
+	else : Globals.message(str(message_text), 0.0, message_add_pos, anim_hide_cooldown, anim_speed_scale, camera_target_offset, camera_target_zoom, camera_target_rotation, camera_start_speed_multiplier)
 	
 	effect_active = false
 	t_effect_inactive.start()

@@ -7,10 +7,6 @@
 size = Vector2(64, 64)
 
 [node name="fire" instance=ExtResource("1_kanf5")]
-on_death_effect_thrownAway = true
-on_death_effect_thrownAway_cooldown = 1.0
-effect_thrownAway_randomize_velocity_multiplier_x = 0.25
-effect_thrownAway_randomize_velocity_multiplier_y = 0.5
 collectable = false
 hittable = true
 health_value = 1
@@ -30,6 +26,10 @@ on_timeout_change_movement_type = true
 can_collect = true
 immortal = true
 start_animation = "none"
+on_death_effect_thrownAway = true
+on_death_effect_thrownAway_cooldown = 1.0
+effect_thrownAway_randomize_velocity_multiplier_x = 0.25
+effect_thrownAway_randomize_velocity_multiplier_y = 0.5
 effect_shrink_target_scale = Vector2(0.5, 0.5)
 effect_shrink_delete = false
 entity_name = "fire"

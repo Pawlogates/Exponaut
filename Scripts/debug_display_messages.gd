@@ -17,6 +17,8 @@ const letter_y = 18
 
 
 func _ready():
+	Globals.display_messages_debug_active = true
+	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	insert_queued_messages()
@@ -116,6 +118,7 @@ func update_bg(message, message_id):
 func _on_animation_ui_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "hide":
 		queue_free()
+		Globals.display_messages_debug_active = false
 
 
 var message_following_mouse_id : int = -1

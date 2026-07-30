@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://dsctrhykwjmwb"]
+
+[ext_resource type="Script" uid="uid://cj8poulm4h8xq" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.gd" id="1_tpcbj"]
+
+[node name="handle_offscreen" type="Node2D"]
+script = ExtResource("1_tpcbj")
+
+[node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-100, -100, 200, 200)

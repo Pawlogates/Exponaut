@@ -6,15 +6,18 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_apas7"]
 shader = ExtResource("2_apas7")
-shader_parameter/Shift_Hue = 0.675
+shader_parameter/hue_value = 0.0
 
 [node name="piggybank_orb_blue" instance=ExtResource("1_apas7")]
 collectable = false
 hittable = true
-health_value = 10
+health_value = 150
 family = "enemy"
-damage_to_player = false
-pushable_by_player = false
+damage_from_entity = true
+damage_from_entity_contact = false
+damage_from_player = true
+damage_from_player_contact = false
+damage_to_player_contact = false
 can_move = true
 ignore_gravity = false
 spawn_entity_add_scale_range = [Vector2(0.2, 1), Vector2(1, 1)]

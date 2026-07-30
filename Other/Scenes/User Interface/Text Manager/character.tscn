@@ -6,7 +6,6 @@
 [ext_resource type="AudioStream" uid="uid://vm1ccgk5h0ag" path="res://Assets/Sounds/sfx/count.wav" id="4_4ti24"]
 
 [node name="text_manager_character" type="Control"]
-visible = false
 z_index = 5
 custom_minimum_size = Vector2(16, 40)
 layout_mode = 3
@@ -15,6 +14,7 @@ offset_right = 20.0
 offset_bottom = 40.0
 mouse_filter = 2
 script = ExtResource("1_sjc3v")
+bg_simple_color = Color(0, 0, 0, 0.588235)
 
 [node name="character" type="RichTextLabel" parent="."]
 light_mask = 2
@@ -22,7 +22,8 @@ visibility_layer = 2
 clip_contents = false
 custom_minimum_size = Vector2(16, 40)
 layout_mode = 0
-offset_right = 1.0
+offset_right = 16.0
+offset_bottom = 40.0
 mouse_filter = 2
 theme = ExtResource("1_5w5jm")
 text = "t"

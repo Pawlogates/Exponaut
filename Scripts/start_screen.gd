@@ -1,5 +1,7 @@
 extends Control
 
+@onready var music_manager: Node2D = $"Music Manager"
+
 var can_quit = true
 
 func _ready():
@@ -8,7 +10,11 @@ func _ready():
 	Globals.gameState_level = false
 	Globals.gameState_changed.emit()
 	
-	Overlay.animation("black_fade_out", 1.0, false, false)
+	await Overlay.animation("black_fade_out", 1.0, false, true)
+	
+	#await get_tree().create_timer(2.0, true).timeout
+	
+	Globals.handle_spawn_menu()
 	
 	#SaveData.gameplay_recorder.selected_playback_id = 0
 	
@@ -24,21 +30,6 @@ func _ready():
 	RenderingServer.set_default_clear_color(Color.BLACK)
 	
 	await get_tree().create_timer(1.0, true).timeout
-	
-	$AudioStreamPlayer2D.play()
-
-
-func start_new_game(): #starts a brand new playthrough and deletes save files
-	SaveData.reset_levelState()
-	SaveData.reset_playerData()
-	SaveData.saved_levelState()
-	
-	Globals.transitioned = false
-	Globals.next_transition = 0
-	Globals.just_started_new_game = true
-	
-	Overlay.animation("fade_black", 0, 1.0, true)
-	get_tree().change_scene_to_packed(Globals.scene_start_area)
 
 
 func display_stretch_viewport_on():

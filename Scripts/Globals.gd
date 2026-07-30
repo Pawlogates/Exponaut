@@ -12,6 +12,10 @@ extends Node2D
 # Print the TYPE of a given property to the console:
 # print(type_string(typeof(property)))
 
+# Get the caller of a function:
+# print_stack()
+# Note that it needs to be put inside the function you want to find the caller of.
+
 # REMINDERS [END]
 
 var World : Node
@@ -132,6 +136,8 @@ const scene_particle_splash = preload("res://Other/Particles/splash.tscn")
 const scene_particle_feather_multiple = preload("res://Other/Particles/feather.tscn")
 const scene_effect_dust = preload("res://Other/Effects/dust.tscn")
 const scene_particle_homing_square = preload("res://Other/Particles/homing_square.tscn")
+const scene_particle_leaf = preload("res://Other/Particles/leaf.tscn")
+const scene_particle_leaf2 = preload("res://Other/Particles/leaf2.tscn")
 
 
 # Sound effects:
@@ -357,6 +363,8 @@ func _ready() -> void:
 	
 	spawn_camera_if_none()
 	
+	await get_tree().create_timer(2.0, true).timeout
+	
 	update_window_size(true)
 	
 	await get_tree().create_timer(2.0, true).timeout
@@ -457,7 +465,7 @@ func handle_actions():
 		
 		for x in range(10):
 			if Input.is_action_just_pressed(str(x)):
-				await Overlay.animation("black_fade_in", 2.0, false, true, 0.0)
+				await Overlay.animation("black_fade_in", 1.0, false, true)
 				
 				dm(str("Loading a quicksave (quicksave id: '%s')." % x))
 				SaveData.load_levelState(level_id, x)
@@ -479,14 +487,20 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	if scene_filepath is PackedScene:
 		var scene = scene_filepath.instantiate()
 		scene_filepath = scene.scene_file_path
+		scene.queue_free()
 	
-	if debug_mode:
-		anim_name = "none"
-		instant = true
+	#if debug_mode:
+		#anim_name = "none"
+		#instant = true
 	
 	Globals.message_debug("Changing the Main Scene to %s" % scene_filepath)
 	
+	#if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
 	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
+	
+	#await get_tree().create_timer(0.5, true).timeout
+	
+	#Overlay.animation(anim_name, 1.0, true, opposite_bool(instant), anim_delay)
 	
 	main_scene_previous_filepath = main_scene_filepath
 	main_scene_next_filepath = scene_filepath
@@ -494,8 +508,6 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	get_tree().change_scene_to_packed(load(scene_filepath))
 	
 	main_scene_changed.emit()
-	
-	print("CHANGING")
 
 
 var block_online : bool = true
@@ -545,7 +557,7 @@ var total_enemies_levelSet : int = 0
 
 # Entity Editor - [START]
 var weapon_main : String = "melee_tie_spinner"
-var weapon_secondary : String = "phaser_charged" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
+var weapon_secondary : String = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
 var weapon : Dictionary = {"apply_default" : true} # All the property values needed to construct the main projectile.
 # Note: At some point, the "weapon" variable should be renamed to "weapon_custom", which is more accurate.
 
@@ -650,34 +662,33 @@ func update_entity():
 # Entity Editor - [END]
 
 # Quickselect - [START]
-#var qs_collected_items : Array = [["none", -1.0, -1]]
+# ["example" (name), 4 (rarity : 0-4), 100.0 (durability : 0.0-9999.9)]
 var qs_collected_items : Array = []
 
-var qs_list_weapon_name : Array = ["phaser_charged", "iceball_shard_small", "iceball_into_shards_on_timeout", "iceball_shards_on_landed", "fireball", "fireball_into_bomb", "fireball_into_bombs_over_time", "fire", "flamethrower", "saw", "boomerang", "bomb", "rocket", "saw_small"]
+var qs_list_weapon_name : Array = ["tie_charged", "iceball_shard_small", "iceball_into_shards_on_timeout", "iceball_shards_on_landed", "fireball", "fireball_into_bomb", "fireball_into_bombs_over_time", "fire", "flamethrower", "saw", "boomerang", "bomb", "rocket", "saw_small"]
 
-var qs_item_info_wpn_phaser : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_phaser : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_ice_shard : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_ice_shard : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_ice_spiky_ball : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_ice_spiky_ball : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_fireball : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_fireball : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_fire : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_fire : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_flamethrower : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_flamethrower : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_saw : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_saw : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_boomerang : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_boomerang : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_bomb : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_bomb : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_rocket : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_rocket : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-var qs_item_info_wpn_saw_small : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
-var qs_item_saved_wpn_saw_small : Dictionary = {"item_durability" : 100.0, "item_level" : 1}
-
+var qs_item_info_tie_charged : Dictionary = {"item_scene_filepath" : load("res://Projectiles/tie_charged.tscn"), "icon_rect" : Rect2(384.0, 256.0, 128, 128)}
+var qs_item_saved_tie_charged : Dictionary = {"item_level" : -1} # Item level of -1 means that the item has not yet been unlocked for quickselect.
+var qs_item_info_ice_shard : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_ice_shard : Dictionary = {"item_level" : -1}
+var qs_item_info_ice_spiky_ball : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_ice_spiky_ball : Dictionary = {"item_level" : -1}
+var qs_item_info_fireball : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_fireball : Dictionary = {"item_level" : -1}
+var qs_item_info_fire : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_fire : Dictionary = {"item_level" : -1}
+var qs_item_info_flamethrower : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_flamethrower : Dictionary = {"item_level" : -1}
+var qs_item_info_saw : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_saw : Dictionary = {"item_level" : -1}
+var qs_item_info_boomerang : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_boomerang : Dictionary = {"item_level" : -1}
+var qs_item_info_bomb : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_bomb : Dictionary = {"item_level" : -1}
+var qs_item_info_rocket : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_rocket : Dictionary = {"item_level" : -1}
+var qs_item_info_saw_small : Dictionary = {"item_scene_filepath" : load("res://Projectiles/gear_chase_player_xy.tscn"), "icon_rect" : Rect2(384.0, 640.0, 64, 64)}
+var qs_item_saved_saw_small : Dictionary = {"item_level" : -1}
 # Quickselect - [END]
 
 var gravity = 1.0
@@ -749,6 +760,7 @@ signal quickload(slot_number : int)
 signal play_music_random
 
 signal combo_end
+signal not_enough_score
 
 
 var settings_quicksaves = false
@@ -818,7 +830,7 @@ var worldState_leftStartArea = false
 # Game states:
 var gameState_level = false
 var gameState_levelSet_screen = false
-var gameState_start_screen = false
+var gameState_start_screen = true
 
 var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
 
@@ -915,19 +927,13 @@ func message(message_text, pause_duration : float = 0.0, message_add_pos : Vecto
 
 # Debug display loads in only when this array has any value inside of it. The values will get added to the display's text container one after another, and when there are none to add anymore, it will disappear after a time.
 @onready var display_messages_debug_queued : Array = ["Welcome to the debug message display!//99i//1.0s//8t", "All debug messages will be shown here for a while, as well as printed to the console.//99i//1.5s//8t"]
+var display_messages_debug_active : bool = false
 
 func message_debug(text, importance = "none", remove_cooldown : float = -1.0):
-	if not debug_mode : return
+	if not display_messages_debug_active : return
 	
-	if len(display_messages_debug_queued) > 400 : display_messages_debug_queued = []
-	
-	if importance is String and importance == "debug":
-		print("DM: " + str(text))
-	
-	if gameState_debug:
-		if not importance is String or importance != "debug" : return
-		
-		importance = "none"
+	#if importance is String and importance == "debug":
+	print("DM: " + str(text))
 	
 	display_messages_debug_queued.append(str(text) + str("[/BREAK/]%si" % importance) + str("[/BREAK/]%st" % remove_cooldown)) # Note that the "%s" is replaced by what is after the "%" at the end.
 	Globals.messages_debug_added.emit()
@@ -1213,6 +1219,9 @@ func handle_debug_actions():
 		if Input.is_action_just_pressed("restart"):
 			reload_level_scene(true)
 		
+		elif Input.is_action_just_pressed("C"):
+			Player.debug_movement = opposite_bool(Player.debug_movement)
+		
 		if Input.is_action_just_pressed("1"):
 			delete_all_entities()
 		
@@ -1243,13 +1252,17 @@ func handle_debug_actions():
 			else:
 				Engine.time_scale = 1.0
 			
-			spawn_message_object(str("Engine time scale has been set to: %s." % Engine.time_scale), main_scene, Player.position)
+			spawn_message_object(str("Engine time scale has been set to: %s." % Engine.time_scale))
+			
+			Overlay.hud_player_experience.level_current = 0
+			Overlay.hud_player_experience.on_level_next()
 		
 		elif Input.is_action_just_pressed("5"):
 			Globals.level_score = randi_range(-100000, 999999)
+			Overlay.hud_player_experience.on_level_next()
 		
 		elif Input.is_action_just_pressed("6"):
-			change_main_scene(load("res://Levels/rl_debug.tscn"))
+			change_main_scene(load("res://Levels/debug.tscn"))
 		
 		elif Input.is_action_just_pressed("8"):
 			if get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_VIEWPORT:
@@ -1311,40 +1324,25 @@ func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none
 	if gameState_justStarted : update_player_info(true)
 	else : update_player_info()
 	
-	if SaveData.player_name == "none" and not Globals.gameState_debug: Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
+	if SaveData.player_name == "none" : Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
 	else : spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
 
 func handle_spawn_menu(manual_request : bool = false):
 	if len(get_tree().get_nodes_in_group("menu_main")) > 0:
 		return
 	
-	if manual_request:
-		
-		if gameState_scoring_focus:
-			if gameState_level:
-				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
-				return
-			elif gameState_levelSet_screen:
-				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
-				return
-		
-		elif gameState_level:
-			spawn_menu()
-			return
+	if gameState_level:
+		if not manual_request : return
+		spawn_menu(scene_menu_main, ["start_new_game", "continue", "next_level", "retry", "select_level_set", "quit_game", "score_attack_mode", "settings", "close", "touch_controls"])
+		return
 	
-	if gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+	elif gameState_levelSet_screen:
+		spawn_menu(scene_menu_main, ["start_new_game", "continue","next_level", "retry", "resume", "select_level_set", "settings", "quit_to_main_menu", "close", "touch_controls"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 		return
 	
 	elif gameState_start_screen:
-		spawn_menu(scene_menu_main)
-		#spawn_menu(scene_menu_main, ["Level Set screen", "Enable Score Attack mode", "Level Set Screen", "Resume game", "Back to Overworld", "Quit to Main Menu"])
+		spawn_menu(scene_menu_main, ["resume", "level_set_screen", "next_level", "retry", "score_attack_mode", "back_to_overworld", "quit_to_main_menu","close", "touch_controls"])
 		return
-	
-	#elif gameState_level:
-		#if gameState_scoring_focus:
-			#spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
-			#return
 
 
 func set_gameState(disable_all : bool = true, level : bool = false, levelSet_screen : bool = false, start_screen : bool = false, typing : bool = false, justStarted : bool = false):
@@ -1380,7 +1378,11 @@ func on_gameState_changed():
 	create_directories()
 	reload_lists_general()
 	
-	await get_tree().create_timer(5, true).timeout
+	await get_tree().create_timer(2.5, true).timeout
+	
+	handle_spawn_menu()
+	
+	await get_tree().create_timer(2.5, true).timeout
 	
 	update_recordings_best()
 
@@ -1521,7 +1523,7 @@ func reload_level_scene(keep_player_pos : bool = false):
 		if not entity.is_in_group("entity_editor_preview"):
 			entity.queue_free()
 	
-	await get_tree().create_timer(0.25 , true).timeout
+	await Overlay.animation("black_fade_in", 1.0, false, true)
 	
 	if is_instance_valid(World):
 		reload_scene_files_general()
@@ -1678,13 +1680,14 @@ func node_exists(group_name : String):
 
 
 func restart_level():
+	return
 	#get_tree().call_group("entity", "queue_free")
 	get_tree().call_group("persistent", "queue_free")
 	get_tree().paused = true
 	
 	reset_values_level()
 	
-	Overlay.animation("fade_black", true, 1.0, true)
+	await Overlay.animation("black_fade_in", 1.0, false, true)
 	
 	get_tree().reload_current_scene()
 
@@ -1786,6 +1789,8 @@ func set_nodes(target_node : Node, node_type, state_active : bool):
 
 
 func update_recordings_best():
+	if block_recording : return
+	if block_online : return
 	if gameState_debug : return
 	
 	for filename in get_files(d_recordings_local_best):
@@ -1939,7 +1944,9 @@ func handle_debug_tools():
 			Overlay.get_node("debug_display_messages").delete_messages(true)
 
 
-func spawn_message_object(message_text : String = "message", message_anim_speed : float = 4.0, target : Node = main_scene, add_position : Vector2 = Player.position):
+func spawn_message_object(message_text = "message", message_anim_speed : float = 4.0, target : Node = main_scene, add_position : Vector2 = Player.position):
+	message_text = str(message_text)
+	
 	var message_object = load("res://Other/Scenes/message_object.tscn").instantiate()
 	message_object.add_position = add_position
 	message_object.message_text = message_text
@@ -1957,7 +1964,7 @@ func reload_scene_files_general():
 		ResourceLoader.load(scene, "PackedScene", 2)
 
 # Roguelord - [START]
-var game_state_roguelord : bool = true
+var game_state_roguelord : bool = false
 
 var player_level : int = 1
 var player_experience : int = 0

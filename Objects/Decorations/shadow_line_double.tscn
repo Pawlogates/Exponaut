@@ -1,0 +1,75 @@
+[gd_scene load_steps=3 format=3 uid="uid://dux1wg1jiqqc2"]
+
+[ext_resource type="Texture2D" uid="uid://cpxkyob22k2x5" path="res://Assets/Graphics/other/smooth_line_black.png" id="1_c1x62"]
+[ext_resource type="Texture2D" uid="uid://bpa7a6aek3mqc" path="res://Assets/Graphics/other/smooth_line_edge_black.png" id="2_wm6p8"]
+
+[node name="shadow" type="Control"]
+z_index = -2
+layout_mode = 3
+anchors_preset = 0
+offset_left = -8.0
+offset_top = 8.0
+offset_right = -8.0
+offset_bottom = 8.0
+
+[node name="line" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 64.0
+offset_top = -56.0
+offset_right = 120.0
+offset_bottom = 8.0
+texture = ExtResource("1_c1x62")
+expand_mode = 1
+
+[node name="line_edge" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 120.0
+offset_top = -56.0
+offset_right = 184.0
+offset_bottom = 8.0
+texture = ExtResource("2_wm6p8")
+expand_mode = 1
+
+[node name="line_edge2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_top = -56.0
+offset_right = 64.0
+offset_bottom = 8.0
+texture = ExtResource("2_wm6p8")
+expand_mode = 1
+flip_h = true
+
+[node name="shadow_line" type="Control" parent="."]
+z_index = -2
+layout_mode = 3
+anchors_preset = 0
+offset_top = 16.0
+offset_bottom = 16.0
+scale = Vector2(1, -1)
+
+[node name="line" type="TextureRect" parent="shadow_line"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = -56.0
+offset_right = 120.0
+offset_bottom = 8.0
+texture = ExtResource("1_c1x62")
+expand_mode = 1
+
+[node name="line_edge" type="TextureRect" parent="shadow_line"]
+layout_mode = 0
+offset_left = 120.0
+offset_top = -56.0
+offset_right = 184.0
+offset_bottom = 8.0
+texture = ExtResource("2_wm6p8")
+expand_mode = 1
+
+[node name="line_edge2" type="TextureRect" parent="shadow_line"]
+layout_mode = 0
+offset_top = -56.0
+offset_right = 64.0
+offset_bottom = 8.0
+texture = ExtResource("2_wm6p8")
+expand_mode = 1
+flip_h = true

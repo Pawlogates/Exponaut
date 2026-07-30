@@ -11,7 +11,6 @@ on_collected_spawn_entity_quantity = 4
 on_collected_spawn_entity_pos_offset_range = [Vector2(0, 0), Vector2(0, 0)]
 on_collected_spawn_entity_add_velocity_range = [Vector2(-300, 200), Vector2(300, -800)]
 on_collected_anim_name = "general/rotate_around_y_fade_out"
-on_collected_anim_speed = 2.0
 sfx_self_collected_filepath = "uid://cvl56la70f8k3"
 entity_name = "apple"
 

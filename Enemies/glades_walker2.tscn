@@ -811,8 +811,6 @@ _data = {
 
 [node name="glades_walker" instance=ExtResource("1_xwnq2")]
 collision_layer = 0
-on_death_effect_thrownAway = true
-on_death_decoration_nodes_effect_thrownAway = true
 collectable = false
 hittable = true
 score_value = 100
@@ -845,6 +843,8 @@ on_hit_spawn_entity2_scene_filepath = "uid://1ryqdsnja4rm"
 breakable = true
 start_animation = "none"
 can_change_sprite_anim = true
+on_death_effect_thrownAway = true
+on_death_decoration_nodes_effect_thrownAway = true
 on_alt_walk_alt_show_text = true
 on_alt_walk_alt_text_message = "[anim_rotate_around_y_fade_out]++++++++++"
 on_alt_walk_alt_text_delete_cooldown = 1.0

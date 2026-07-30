@@ -223,10 +223,15 @@ func _on_button_down() -> void:
 	if not enabled : return
 	
 	is_pressed = true
+	#decoration.z_index = 250
+	#text_manager.z_index = 251
+	# If there are any z sorting issues with the text manager, this is most likely the cause.
 
 
 func _on_button_up() -> void:
 	is_pressed = false
+	#decoration.z_index = 0
+	#text_manager.z_index = 1
 	
 	button_clicked.emit()
 	
@@ -448,6 +453,8 @@ func adjust_decoration():
 	
 	decoration.pivot_offset = decoration.size / 2
 	decoration.position = Vector2(0, 0)
+	
+	text_manager.position.y = decoration.size.y / 6
 	
 	# This property should be disabled if the parent of the button is not a container (or only if it's a vertical one, not sure).
 	if adjust_decoration_position:

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6qswotncgfjk"]
+[gd_scene load_steps=10 format=3 uid="uid://b6qswotncgfjk"]
 
 [ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="1_31nnm"]
 [ext_resource type="Script" uid="uid://l0b1e8ll85n5" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.gd" id="1_smdru"]
@@ -7,7 +7,8 @@
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="4_5mtm8"]
 [ext_resource type="PackedScene" uid="uid://c18ilvvgo4lyp" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_button_change_source.tscn" id="4_bu7xr"]
 [ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="5_1qj11"]
-[ext_resource type="PackedScene" uid="uid://duqn436jfmxw0" path="res://Other/Scenes/hint_scroll_down.tscn" id="8_xcvuo"]
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="8_xcvuo"]
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="9_inrld"]
 
 [node name="menu_leaderboard_level" type="Control" groups=["leaderboard", "leaderboard_level"]]
 layout_mode = 3
@@ -133,6 +134,7 @@ source_name = "local_best"
 
 [node name="menu_bg" parent="." instance=ExtResource("1_31nnm")]
 layout_mode = 1
+mouse_filter = 2
 margin = Vector2(-25, -25)
 
 [node name="container_main_scroll" type="ScrollContainer" parent="."]
@@ -267,10 +269,62 @@ theme = ExtResource("3_yq05p")
 theme_override_font_sizes/font_size = 48
 text = "close"
 
-[node name="hint_scroll_down" parent="." instance=ExtResource("8_xcvuo")]
+[node name="hint_scroll_down" type="Node2D" parent="."]
+z_index = 250
 position = Vector2(375, 824)
 
-[node name="btn_change_toggle_unnamed" type="Button" parent="."]
+[node name="hint" type="Node2D" parent="hint_scroll_down"]
+position = Vector2(0, -12)
+
+[node name="animation_all" parent="hint_scroll_down/hint" instance=ExtResource("8_xcvuo")]
+autoplay = "general/loop_up_down_slight"
+
+[node name="main" type="Node2D" parent="hint_scroll_down/hint"]
+
+[node name="ColorRect" type="ColorRect" parent="hint_scroll_down/hint/main"]
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 59.0
+offset_bottom = 6.0
+rotation = -0.523599
+
+[node name="ColorRect2" type="ColorRect" parent="hint_scroll_down/hint/main"]
+offset_left = -45.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -24.0
+rotation = 0.523599
+
+[node name="bg" type="Node2D" parent="hint_scroll_down/hint"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, -4)
+
+[node name="ColorRect" type="ColorRect" parent="hint_scroll_down/hint/bg"]
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 59.0
+offset_bottom = 6.0
+rotation = -0.523599
+
+[node name="ColorRect2" type="ColorRect" parent="hint_scroll_down/hint/bg"]
+offset_left = -45.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -24.0
+rotation = 0.523599
+
+[node name="TextureRect" type="TextureRect" parent="hint_scroll_down/hint"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+offset_left = -64.0
+offset_top = -68.0
+offset_right = 64.0
+offset_bottom = 60.0
+texture = ExtResource("9_inrld")
+expand_mode = 1
+
+[node name="btn_toggle_show_unnamed" type="Button" parent="."]
 custom_minimum_size = Vector2(128, 40)
 layout_mode = 0
 offset_left = -569.0
@@ -282,7 +336,33 @@ theme = ExtResource("3_yq05p")
 theme_override_font_sizes/font_size = 24
 text = "show unnamed"
 
+[node name="btn_toggle_show_developer" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 40)
+layout_mode = 0
+offset_left = -569.0
+offset_top = 936.0
+offset_right = -345.0
+offset_bottom = 976.0
+size_flags_horizontal = 6
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 24
+text = "show developer"
+
+[node name="btn_change_player_name" type="Button" parent="."]
+custom_minimum_size = Vector2(128, 40)
+layout_mode = 0
+offset_left = 1095.0
+offset_top = 984.0
+offset_right = 1319.0
+offset_bottom = 1024.0
+size_flags_horizontal = 6
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 24
+text = "change player name"
+
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_left" to="." method="_on_btn_change_level_left_pressed"]
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_right" to="." method="_on_btn_change_level_right_pressed"]
 [connection signal="pressed" from="btn_close" to="." method="_on_btn_close_pressed"]
-[connection signal="pressed" from="btn_change_toggle_unnamed" to="." method="_on_btn_change_toggle_unnamed_pressed"]
+[connection signal="pressed" from="btn_toggle_show_unnamed" to="." method="_on_btn_toggle_show_unnamed_pressed"]
+[connection signal="pressed" from="btn_toggle_show_developer" to="." method="_on_btn_toggle_show_developer_pressed"]
+[connection signal="pressed" from="btn_change_player_name" to="." method="_on_btn_change_player_name_pressed"]

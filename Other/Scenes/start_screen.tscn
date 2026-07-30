@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://c370w0v3janyp"]
 
 [ext_resource type="Script" uid="uid://b35bcs44idcyg" path="res://Scripts/start_screen.gd" id="2_2hc0d"]
-[ext_resource type="AudioStream" uid="uid://dthp85jtf0u5e" path="res://Assets/Sounds/music/exponaut.mp3" id="2_ooxfa"]
+[ext_resource type="PackedScene" uid="uid://bl2wojdbpaurx" path="res://Other/Scenes/music_manager.tscn" id="2_q74v4"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_q74v4"]
 [ext_resource type="Shader" uid="uid://dusauslpvytm6" path="res://Other/Shaders/palette_changeShader.gdshader" id="5_mmt5r"]
 [ext_resource type="Material" uid="uid://b6n3mjh3jswls" path="res://Other/Materials/palette_change.tres" id="7_2hc0d"]
@@ -40,12 +40,11 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_2hc0d")
 
+[node name="Music Manager" parent="." instance=ExtResource("2_q74v4")]
+layer1_music_filepath = "uid://dthp85jtf0u5e"
+
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 position = Vector2(960, 540)
-
-[node name="AudioStreamPlayer2D" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("2_ooxfa")
-volume_db = -5.0
 
 [node name="background" type="TextureRect" parent="."]
 unique_name_in_owner = true
@@ -69,6 +68,7 @@ color = Color(0.242311, 2.19597e-07, 5.41471e-08, 1)
 polygon = PackedVector2Array(528, 224, 1520, 352, 1624, 728, 296, 888)
 
 [node name="Control" type="Control" parent="."]
+visible = false
 layout_mode = 2
 anchors_preset = 0
 offset_left = 960.0
@@ -105,6 +105,7 @@ wait_time = 5.0
 one_shot = true
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 2
 offset_left = 11.0
 offset_top = 915.0

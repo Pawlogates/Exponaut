@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://cr15cqjny1b63"]
 
 [ext_resource type="Script" uid="uid://pg24d22j4s7s" path="res://Other/Scenes/display_score.gd" id="1_yadvj"]
-[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_4sgki"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="2_yadvj"]
 
 [sub_resource type="Animation" id="Animation_yadvj"]
 length = 0.001
@@ -197,7 +197,7 @@ _data = {
 script = ExtResource("1_yadvj")
 
 [node name="label_score" type="Label" parent="."]
-modulate = Color(1, 1, 1, 0)
+modulate = Color(1, 1, 1, 0.25)
 z_index = 25
 texture_filter = 2
 anchors_preset = 8
@@ -205,15 +205,15 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -240.0
-offset_top = -60.0
-offset_right = 272.0
-offset_bottom = 68.0
+offset_left = -256.0
+offset_top = -64.0
+offset_right = 256.0
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1e-05, 1e-05)
 pivot_offset = Vector2(256, 64)
-theme = ExtResource("2_4sgki")
+theme = ExtResource("2_yadvj")
 theme_override_font_sizes/font_size = 24
 text = "score"
 horizontal_alignment = 1
@@ -224,6 +224,6 @@ reset_on_save = false
 libraries = {
 &"": SubResource("AnimationLibrary_ihjei")
 }
-speed_scale = 2.0
+speed_scale = 3.0
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

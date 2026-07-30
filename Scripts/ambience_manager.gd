@@ -5,41 +5,52 @@ extends Node2D
 @onready var layer3 = %layer3
 @onready var layer4 = %layer4
 
-@export var layer1_delay_base = 90
-@export var layer2_delay_base = 90
-@export var layer3_delay_base = 90
-@export var layer4_delay_base = 90
+@export var layer1_delay_base : float = 90
+@export var layer2_delay_base : float = 90
+@export var layer3_delay_base : float = 90
+@export var layer4_delay_base : float = 90
 
-@export var layer1_delay_range = 75
-@export var layer2_delay_range = 75
-@export var layer3_delay_range = 75
-@export var layer4_delay_range = 75
+@export var layer1_delay_range : float = 75
+@export var layer2_delay_range : float = 75
+@export var layer3_delay_range : float = 75
+@export var layer4_delay_range : float = 75
 
-@export var layer1_pitch_base = 1
-@export var layer2_pitch_base = 1
-@export var layer3_pitch_base = 1
-@export var layer4_pitch_base = 1
+@export var layer1_pitch_base : float = 1.0
+@export var layer2_pitch_base : float = 1.0
+@export var layer3_pitch_base : float = 1.0
+@export var layer4_pitch_base : float = 1.0
 
-@export var layer1_pitchRange = 0.2
-@export var layer2_pitchRange = 0.2
-@export var layer3_pitchRange = 0.2
-@export var layer4_pitchRange = 0.2
+@export var layer1_pitchRange : float = 0.25
+@export var layer2_pitchRange : float = 0.25
+@export var layer3_pitchRange : float = 0.25
+@export var layer4_pitchRange : float = 0.25
 
-@export var layer1_volume_base = 1
-@export var layer2_volume_base = 1
-@export var layer3_volume_base = 1
-@export var layer4_volume_base = 1
+@export var layer1_volume_base : float = 1.0
+@export var layer2_volume_base : float = 1.0
+@export var layer3_volume_base : float = 1.0
+@export var layer4_volume_base : float = 1.0
 
-@export var layer1_volume_range = 0.6
-@export var layer2_volume_range = 0.6
-@export var layer3_volume_range = 0.6
-@export var layer4_volume_range = 0.6
+@export var layer1_volume_range : float = 0.5
+@export var layer2_volume_range : float = 0.5
+@export var layer3_volume_range : float = 0.5
+@export var layer4_volume_range : float = 0.5
 
 @export var enabled = true
 var active = false # Equal to "true" while any sound is being played currently.
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if Globals.gameState_debug:
+		layer1_volume_base = 0.1
+		layer2_volume_base = 0.1
+		layer3_volume_base = 0.1
+		layer4_volume_base = 0.1
+		
+		layer1_volume_range = 0.0
+		layer2_volume_range = 0.0
+		layer3_volume_range = 0.0
+		layer4_volume_range = 0.0
+	
 	layer1.stream = load("res://Assets/Sounds/ambience/" + Globals.get_files("res://Assets/Sounds/ambience").pick_random())
 	layer2.stream = load("res://Assets/Sounds/ambience/" + Globals.get_files("res://Assets/Sounds/ambience").pick_random())
 	layer3.stream = load("res://Assets/Sounds/ambience/" + Globals.get_files("res://Assets/Sounds/ambience").pick_random())
@@ -95,7 +106,7 @@ func layer_randomize_volume():
 		layer_volume = abs(layer_volume)
 		
 		var audioStreamPlayer = get_node("%layer" + str(x))
-		audioStreamPlayer.volume_db = layer_volume
+		audioStreamPlayer.volume_linear = layer_volume
 		
 		x += 1
 
@@ -136,7 +147,7 @@ func single_layer_randomize_volume(x):
 	layer_volume = abs(layer_volume)
 	
 	var audioStreamPlayer = get_node("%layer" + str(x))
-	audioStreamPlayer.volume_db = layer_volume
+	audioStreamPlayer.volume_linear = layer_volume
 	
 	print(str(layer_volume) + " is the rolled ambience volume.")
 	

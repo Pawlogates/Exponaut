@@ -23,6 +23,8 @@ var level_damage_taken : float = -1
 var entry_position : int = -1
 
 var entry_filepath : String = "none"
+var is_unnamed : bool = false
+var is_developer : bool = false
 
 
 func _ready() -> void:
@@ -30,7 +32,9 @@ func _ready() -> void:
 	
 	update_info()
 	
-	if player_name == SaveData.player_name : label_player_name.modulate = Color.GREEN
+	if is_unnamed : label_player_name.modulate = Color.DARK_RED
+	elif is_developer : label_player_name.modulate = Color.WEB_PURPLE
+	elif player_name == SaveData.player_name : label_player_name.modulate = Color.GREEN
 
 func _physics_process(delta: float) -> void:
 	menu_bg.modulate.a = move_toward(menu_bg.modulate.a, target_modulate.a, delta)

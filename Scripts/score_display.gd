@@ -79,7 +79,6 @@ func count_score():
 
 func _ready():
 	Globals.gameState_changed.connect(on_gameState_changed)
-	
 	Globals.levelState_loaded.connect(score_correct_saved)
 	
 	Globals.score_reduced.connect(score_correct)
@@ -89,6 +88,8 @@ func _ready():
 	Globals.entity_hit.connect(on_entity_hit)
 	Globals.entity_killed.connect(on_entity_killed)
 	Globals.combo_refreshed.connect(on_combo_refreshed)
+	
+	Globals.not_enough_score.connect(on_not_enough_score)
 
 
 func score_correct_saved():
@@ -129,3 +130,9 @@ func on_combo_tier_updated():
 	multiplier_label["theme_override_font_sizes/font_size"] = 64.0
 	multiplier_label_target_font_size = 24 + Globals.combo_tier * 4
 	Globals.spawn_scenes(multiplier_label, Globals.scene_particle_star, 4, multiplier_label.size / 2)
+
+
+@onready var animation_general: AnimationPlayer = $Control/animation_general
+
+func on_not_enough_score():
+	animation_general.play("shake")

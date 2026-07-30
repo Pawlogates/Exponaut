@@ -18,7 +18,7 @@ size = Vector2(63, 63)
 size = Vector2(32, 32)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_84r7y"]
-size = Vector2(1024, 48)
+size = Vector2(1024, 128)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_fjle6"]
 size = Vector2(2048, 2048)
@@ -124,7 +124,7 @@ position = Vector2(32, 0)
 target_position = Vector2(0, 64)
 
 [node name="cooldown_collidable" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.05
 one_shot = true
 
 [node name="timer_invulnerable" type="Timer" parent="."]
@@ -140,8 +140,14 @@ one_shot = true
 [node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
 visible = false
 modulate = Color(1, 1, 1, 0.196078)
-position = Vector2(7.62939e-06, -1.52588e-05)
-scale = Vector2(51.2, 51.2)
+rect = Rect2(-250, -250, 500, 500)
+
+[node name="ColorRect" type="ColorRect" parent="scan_visible"]
+visible = false
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
 
 [node name="cooldown_sfx_idle" type="Timer" parent="."]
 wait_time = 2.0
@@ -150,7 +156,7 @@ wait_time = 2.0
 
 [node name="collision_patrolling" type="CollisionShape2D" parent="scan_patrolling_vision"]
 visible = false
-position = Vector2(512, 0)
+position = Vector2(512, 24)
 shape = SubResource("RectangleShape2D_84r7y")
 debug_color = Color(0, 0.595, 0.7, 0)
 

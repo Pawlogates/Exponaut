@@ -134,8 +134,10 @@ func _ready():
 	
 	for layer_node_name in list_l_node_name:
 		var bg_layer = get_node(layer_node_name)
-		bg_layer.scroll_base_offset.y = 1200
+		bg_layer.offset.y = -400
 	
+	#$bg_back2_A.offset.y -= 200
+	#$bg_back2_B.offset.y -= 200
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
@@ -462,23 +464,26 @@ func _on_cooldown_randomize_texture_filepath_timeout() -> void:
 	$cooldown_randomize_texture_filepath.wait_time = randf_range(4, 60)
 	#$cooldown_randomize_texture_filepath.start()
 	
-	Globals.bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
-	Globals.bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
-	Globals.bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
-	Globals.bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
-	if Globals.World.overworld_level_id != "none":
-		Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, "bg_" + Globals.World.overworld_level_id + "_sky.png").pick_random()
-	else:
-		Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
+	if Globals.game_state_roguelord:
+		Globals.bg_main_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+		Globals.bg_front_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+		Globals.bg_front2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+		Globals.bg_back_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+		
+		if Globals.World.overworld_level_id != "none":
+			Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, "bg_" + Globals.World.overworld_level_id + "_sky.png").pick_random()
+		else:
+			Globals.bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds).pick_random()
 	
-	handle_randomize()
-	
-	on_trigger_bg_change_entered()
-	
-	await get_tree().create_timer(3.0, true).timeout
-	
-	handle_randomize()
-	bg_fade_active = true
+	# what is this?
+	#handle_randomize()
+	#
+	#on_trigger_bg_change_entered()
+	#
+	#await get_tree().create_timer(3.0, true).timeout
+	#
+	#handle_randomize()
+	#bg_fade_active = true
 
 func handle_randomize():
 	for r_bg_layer in list_lv_property_name:

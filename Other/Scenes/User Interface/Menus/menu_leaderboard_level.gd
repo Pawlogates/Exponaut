@@ -12,6 +12,7 @@ extends Control
 @onready var btn_change_source_local: Button = $container_bottom/container_top_menu/btn_change_source_local
 @onready var btn_change_source_online: Button = $container_bottom/container_top_menu/btn_change_source_online
 @onready var btn_change_source_local_best: Button = $container_bottom/container_top_menu/btn_change_source_local_best
+@onready var btn_change_player_name: Button = $btn_change_player_name
 
 
 var level_id : String = "none"
@@ -30,6 +31,8 @@ var entry_filepath : String = "none"
 var entry_filedata
 var entry_data : Array
 
+var recording_data_start_info : Dictionary
+
 
 var list_entry_filename : Array
 
@@ -37,7 +40,9 @@ var source : String = "online" # "local, local_best, online
 
 
 func _ready() -> void:
-	btn_change_toggle_unnamed.visible = false
+	btn_toggle_show_unnamed.visible = false
+	btn_toggle_show_developer.visible = false
+	btn_change_player_name.visible = false
 	
 	if SaveData.player_name == "none": # If the player name has not been set, all local recordings (it should be a single recording) will be sent to the leaderboard.
 		Globals.dirpath_to_server(Globals.d_recordings_local, "leaderboard/upload")
@@ -46,7 +51,7 @@ func _ready() -> void:
 		Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
 		Globals.message("If your recording is missing, or none are present, please wait a moment and then refresh the leaderboard by pressing the 'refresh' button.", 0, Vector2(0, 120), 6)
 	
-	Globals.server_to_dirpath(Globals.d_recordings_online)
+	#Globals.server_to_dirpath(Globals.d_recordings_online)
 	
 	Globals.update_main_scene()
 	
@@ -67,7 +72,7 @@ func _ready() -> void:
 	await get_tree().create_timer(2, true).timeout
 	
 	await create_entries(level_id)
-	
+	Globals.server_to_dirpath(Globals.d_recordings_online)
 	await get_tree().create_timer(1.0, false).timeout
 	Globals.update_recordings_best()
 	await get_tree().create_timer(2.0, false).timeout
@@ -89,12 +94,12 @@ func _process(delta: float) -> void:
 	else : hint_scroll_down.visible = true
 
 
-func entry_create(entry_data : Array):
+func entry_create(entry_data : Array, is_unnamed : bool = false, is_developer : bool = false):
 	var entry = load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level_entry.tscn").instantiate()
 	
 	entry.entry_filepath = entry_filepath
-	
-	if not show_unnamed and entry_data[0] == "none" : return
+	entry.is_unnamed = is_unnamed
+	entry.is_developer = is_developer
 	
 	entry.player_name = entry_data[0]
 	entry.level_score = entry_data[1]
@@ -138,7 +143,26 @@ func create_entries(f_level_id : String = "all"):
 			if entry_filedata == null : continue
 			entry_data = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], randi_range(1, 999)]
 			list_entry_data.append(entry_data)
-			entry_create(entry_data)
+			
+			recording_data_start_info = entry_filedata[0]
+			
+			if show_unnamed and show_developer:
+				if is_entry_developer(recording_data_start_info) : entry_create(entry_data, false, true)
+				elif entry_data[0] == "none" : entry_create(entry_data, true, false)
+				else : entry_create(entry_data)
+			
+			elif show_unnamed and not show_developer:
+				if not is_entry_developer(recording_data_start_info):
+					if entry_data[0] == "none" : entry_create(entry_data, true, false)
+					else : entry_create(entry_data)
+			
+			elif not show_unnamed and show_developer:
+				if not entry_data[0] == "none":
+					if is_entry_developer(recording_data_start_info) : entry_create(entry_data, false, true)
+					else : entry_create(entry_data)
+			
+			elif not show_unnamed and not show_developer:
+				if not is_entry_developer(recording_data_start_info) and not entry_data[0] == "none" : entry_create(entry_data)
 			
 			if not entry_data[0] == "none":
 				if len(container_main.get_children()) < 10:
@@ -159,7 +183,9 @@ func create_entries(f_level_id : String = "all"):
 		
 	Globals.set_nodes(self, Button, true)
 	btn_change_level_general()
-	btn_change_toggle_unnamed.visible = true
+	btn_toggle_show_unnamed.visible = true
+	btn_toggle_show_developer.visible = true
+	btn_change_player_name.visible = true
 
 func delete_entries():
 	for entry in container_main.get_children():
@@ -238,12 +264,36 @@ func sort_entries(type : String = "score"):
 		else : entry.target_modulate = Color(1, 1, 1, 1 / float(-1 + len(container_main.get_children())))
 
 
-@onready var btn_change_toggle_unnamed: Button = $btn_change_toggle_unnamed
+@onready var btn_toggle_show_unnamed: Button = $btn_toggle_show_unnamed
 var show_unnamed : bool = false
 
-func _on_btn_change_toggle_unnamed_pressed() -> void:
+func _on_btn_toggle_show_unnamed_pressed() -> void:
 	show_unnamed = Globals.opposite_bool(show_unnamed)
 	refresh_entries(level_id)
 	
-	if show_unnamed : btn_change_toggle_unnamed.text = "hide unnamed"
-	else : btn_change_toggle_unnamed.text = "show unnamed"
+	if show_unnamed : btn_toggle_show_unnamed.text = "hide unnamed"
+	else : btn_toggle_show_unnamed.text = "show unnamed"
+
+@onready var btn_toggle_show_developer: Button = $btn_toggle_show_developer
+var show_developer : bool = false
+
+func _on_btn_toggle_show_developer_pressed() -> void:
+	show_developer = Globals.opposite_bool(show_developer)
+	refresh_entries(level_id)
+	
+	if show_developer : btn_toggle_show_developer.text = "hide developer"
+	else : btn_toggle_show_developer.text = "show developer"
+
+
+func is_entry_developer(recording_data_start_info : Dictionary):
+	var is_developer : bool = false
+	
+	if recording_data_start_info["processor_name"] == "Intel(R) Core(TM) i7-7500U CPU @ 2.70GHz" and recording_data_start_info["screen_refreshrate"] == 60.0204238891602 and recording_data_start_info["screen_resolution"] == "(1920, 1080)" : is_developer = true
+	elif recording_data_start_info["processor_name"] == "Intel(R) Core(TM) i5-8400 CPU @ 2.80GHz" and recording_data_start_info["screen_refreshrate"] == 60.0 and recording_data_start_info["screen_resolution"] == "(1920, 1080)" : is_developer = true
+	
+	return is_developer
+
+func _on_btn_change_player_name_pressed() -> void:
+	SaveData.player_name = "none"
+	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
+	queue_free()

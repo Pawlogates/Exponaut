@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://ckno8j7uupljt"]
+[gd_scene load_steps=6 format=3 uid="uid://ckno8j7uupljt"]
 
 [ext_resource type="Script" uid="uid://cxil1avs8x8op" path="res://Other/Scenes/User Interface/HUD/health_manager.gd" id="1_3m55f"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="1_04vke"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_wts6p"]
+[ext_resource type="PackedScene" uid="uid://dux1wg1jiqqc2" path="res://Objects/Decorations/shadow_line_double.tscn" id="4_nnvog"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3m55f"]
 atlas = ExtResource("1_04vke")
@@ -628,6 +629,15 @@ theme_override_font_sizes/font_size = 24
 text = "100"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="shadow" parent="." instance=ExtResource("4_nnvog")]
+modulate = Color(1, 1, 1, 0.615686)
+layout_mode = 0
+offset_left = -32.0
+offset_top = 24.0
+offset_right = -32.0
+offset_bottom = 24.0
+scale = Vector2(1.75, 1)
 
 [connection signal="pressed" from="debug_hp +" to="." method="_on_debug_hp_add_pressed"]
 [connection signal="pressed" from="debug_hp -" to="." method="_on_debug_hp_subtract_pressed"]

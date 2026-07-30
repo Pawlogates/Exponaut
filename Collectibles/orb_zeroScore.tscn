@@ -4,9 +4,9 @@
 [ext_resource type="SpriteFrames" uid="uid://c7v0pqujkeomb" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_orb_blue.tres" id="2_4kauy"]
 
 [node name="orb_zeroScore" instance=ExtResource("1_sofbr")]
-on_collected_effect_thrownAway = true
 score_value = 0
 on_collected_anim_name = "none"
+on_collected_effect_thrownAway = true
 sfx_self_collected_filepath = "uid://br4vgarvwnes0"
 entity_name = "orb_zeroScore"
 

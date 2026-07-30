@@ -7,7 +7,7 @@ extends Area2D
 
 
 func _on_area_entered(area):
-	if not area.is_in_group("Player") : return
+	if not area.get_parent().is_in_group("Player") : return
 	Globals.dm("A 'music_change' trigger has been entered by the player.", "RED")
 	
 	if not Globals.mode_scoreAttack:

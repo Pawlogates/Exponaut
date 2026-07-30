@@ -53,6 +53,8 @@ func _ready():
 
 func _process(delta):
 	if hovered:
+		label_name.modulate.a = move_toward(label_name.modulate.a, 1.0, delta)
+		
 		if Input.is_action_just_pressed("RMB"):
 			focused = true
 		
@@ -64,6 +66,10 @@ func _process(delta):
 					Globals.weapon_secondary = item_name
 				
 				Globals.spawn_message_object("Equipped: %s (press RMB or V to use it)." % Globals.weapon_secondary, 2.0, Overlay, Vector2(960, 540))
+	
+	else:
+		label_name.modulate.a = move_toward(label_name.modulate.a, 0.0, delta)
+	
 	
 	if focused:
 		container_main.modulate.a = move_toward(container_main.modulate.a, 1.0, delta * 4)

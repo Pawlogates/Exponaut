@@ -122,8 +122,9 @@ var is_ready : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	Player.position.x += randi_range(-1000, 1000)
-	Player.position.y += randi_range(-400, 100)
+	if Globals.game_state_roguelord:
+		Player.position.x += randi_range(-1000, 1000)
+		Player.position.y += randi_range(-400, 100)
 	
 	level_start_time = Time.get_ticks_msec()
 	
@@ -185,9 +186,7 @@ func _ready():
 	
 	Globals.level_started.emit()
 	
-	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-1000, -2000), randi_range(4000, 1000)), Vector2(4, 4), randi_range(-15, 15), 10)
-	
-	Overlay.animation("black_fade_out", 0.2, false, false, 0)
+	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-1000, 4000), randi_range(8000, -2000)), Vector2(4, 4), randi_range(-15, 15), 10)
 	
 	#if Globals.gameState_debug: # False if the game is currently being worked on.
 		#SaveData.delete_progress()
@@ -273,7 +272,7 @@ func _ready():
 	#Globals.cheated_state = false
 	
 	if bg_instant_transitions:
-		$background/animation_fade.speed_scale = 20.0
+		$background/animation_fade.speed_scale = 5.0
 	
 	
 	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
@@ -363,6 +362,8 @@ func _ready():
 	
 	await get_tree().create_timer(1.5, false).timeout
 	
+	Overlay.animation("black_fade_out", 0.25, false, false, 0)
+	
 	Globals.spawn_message_object("A new wave has started! Current wave level: %s." % Globals.player_level, 1.0)
 	
 	Player.block_movement_full = false
@@ -372,9 +373,9 @@ func _ready():
 	
 	Globals.set_mouse_mode(false)
 	
-	await get_tree().create_timer(randf_range(24, 48 + Globals.player_level * 8), false).timeout
-	
-	Globals.restart_level()
+	if Globals.game_state_roguelord:
+		await get_tree().create_timer(randf_range(24, 48 + Globals.player_level * 8), false).timeout
+		Globals.restart_level()
 
 
 #MAIN START
@@ -392,6 +393,7 @@ func _physics_process(delta):
 	# Current level's playtime.
 	level_time = Time.get_ticks_msec() - level_start_time
 	level_time_seconds = level_time / 1000
+	Globals.level_time = level_time_seconds
 	level_time_minutes = level_time_seconds / 60
 	
 	if level_time_seconds >= 100 : label_level_time.visible_characters = 9
@@ -961,3 +963,8 @@ func rl_spawn_scenes(scene_filepath : String, quantity : int = 1):
 		else : new_scene_filepath = scene_filepath + ".tscn"
 		
 		Globals.spawn_scenes(self, new_scene_filepath, 1, Vector2(0, 0), -1, Color(0, 0, 0, 0), Vector2(1, 1) * randf_range(0.0, 0.25) + Vector2(0.1, 0.1) * rarity, 10, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y))])
+
+
+func set_triggers_camera(state : bool = true):
+	for trigger in get_tree().get_nodes_in_group("trigger_camera"):
+		trigger.active = state

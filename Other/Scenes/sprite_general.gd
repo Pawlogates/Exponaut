@@ -1,5 +1,7 @@
 extends AnimatedSprite2D
 
+var active : bool = false
+
 var master_node : Node
 
 @export var outline_enabled : bool = true
@@ -7,6 +9,7 @@ var master_node : Node
 var outline_part_quantity : int = 4 # Simple outline means that there are 4 outline parts, with 4 shadow outline parts.
 @export var outline_min_opacity : float = 0.1
 @export var outline_width : int = 1
+@export var outline_color : Color = Color(-1, -1, -1, -1) # Outline color is randomized by default.
 
 
 func _ready() -> void:
@@ -38,9 +41,11 @@ func _ready() -> void:
 			#if outline_width != 1 : outline_segment.position *= outline_width
 			#outline_segment.sprite_frames = sprite_frames
 			
-			var rolled_color : String = str(Globals.l_color_all.pick_random()).to_upper()
+			var rolled_color : Color
+			if outline_color == Color(-1, -1, -1, -1) : rolled_color = str(Globals.l_color_all.pick_random()).to_upper()
+			else : rolled_color = outline_color
 			
-			if Globals.random_bool(1, 111) : outline_segment.modulate = rolled_color
+			outline_segment.modulate = rolled_color
 			outline_segment.modulate *= randf_range(outline_min_opacity, 10)
 			outline_segment.modulate.a = randf_range(outline_min_opacity, 2)
 			
@@ -75,3 +80,9 @@ func _process(delta: float) -> void:
 			outline_s_segment.flip_v = flip_v
 			outline_s_segment.animation = animation
 			outline_s_segment.frame = frame
+
+
+func set_active(state : bool = true):
+	active = state
+	set_process(state)
+	set_physics_process(false)

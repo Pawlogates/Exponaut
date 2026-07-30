@@ -6,7 +6,7 @@ extends Area2D
 @export var randomize_bg_back : bool = false
 @export var randomize_bg_back2 : bool = false
 
-@export_file("*.png") var bg_main_filepath : String = "res://Assets/Graphics/backgrounds/bg_castle.png"
+@export_file("*.png") var bg_main_filepath : String = "res://Assets/Graphics/backgrounds/bg_empty.png"
 @export_file("*.png") var bg_front_filepath : String = "res://Assets/Graphics/backgrounds/bg_empty.png"
 @export_file("*.png") var bg_front2_filepath : String = "res://Assets/Graphics/backgrounds/bg_empty.png"
 @export_file("*.png") var bg_back_filepath : String = "res://Assets/Graphics/backgrounds/bg_empty.png"

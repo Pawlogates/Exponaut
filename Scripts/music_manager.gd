@@ -97,7 +97,11 @@ var random_cooldown_fade_range : float = 600.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#layer1_max_volume = 0.05 # DEBUG
+	if Globals.gameState_debug:
+		layer1_max_volume = 0.1
+		layer2_max_volume = 0.1
+		layer3_max_volume = 0.1
+		layer4_max_volume = 0.1
 	
 	Globals.play_music_random.connect(play_music_random)
 	Globals.refreshed0_5.connect(update_is_playing)
@@ -122,13 +126,14 @@ func _ready():
 		randomize_cooldown_toggle_fade("all")
 		start_cooldown_toggle_fade("all")
 	
-	if Globals.get_random_bool(33) : layer1.stop()
-	
-	if Globals.get_random_bool(25) : await get_tree().create_timer(1.0, true).timeout
-	else : await get_tree().create_timer(randf_range(4, 60), true).timeout
-	
-	var music_filepath = "res://Assets/Sounds/music/" + Globals.get_files("res://Assets/Sounds/music").pick_random()
-	music_change(music_filepath, true, randf_range(0.25, 1.0))
+	if Globals.game_state_roguelord:
+		if Globals.get_random_bool(33) : layer1.stop()
+		
+		if Globals.get_random_bool(25) : await get_tree().create_timer(1.0, true).timeout
+		else : await get_tree().create_timer(randf_range(4, 60), true).timeout
+		
+		var music_filepath = "res://Assets/Sounds/music/" + Globals.get_files("res://Assets/Sounds/music").pick_random()
+		music_change(music_filepath, true, randf_range(0.25, 1.0))
 
 
 func _process(delta):
@@ -145,6 +150,7 @@ func _process(delta):
 			print_limit -= 1
 		
 		else:
+			return
 			Globals.dm("Current main ('1') music layer's volume: " + str(layer1.volume_linear), "PURPLE")
 			Globals.dm("Current main ('1_alt') music layer's volume: " + str(layer1_alt.volume_linear), "DARK_MAGENTA")
 			Globals.dm("Music layer_1's fade direction: " + str(layer1_fade_direction) + " (" + str(layer1_fade_active) + ").", 1, 0.5)

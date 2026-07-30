@@ -135,7 +135,7 @@
 [ext_resource type="PackedScene" uid="uid://rpgaf3ib74ux" path="res://Enemies/scannot.tscn" id="104_8hd6h"]
 [ext_resource type="PackedScene" uid="uid://bj2ap2m7h7t47" path="res://Enemies/hopper.tscn" id="105_colf5"]
 [ext_resource type="PackedScene" uid="uid://dk7a7juo42qwa" path="res://Enemies/entity_randomized.tscn" id="108_y6jnx"]
-[ext_resource type="PackedScene" uid="uid://b17i5uq6owibc" path="res://Boxes/piggybank_timed.tscn" id="110_b33ec"]
+[ext_resource type="PackedScene" uid="uid://b17i5uq6owibc" path="res://Boxes/piggybank_coins_timed.tscn" id="110_b33ec"]
 [ext_resource type="PackedScene" uid="uid://xtsa3kj57iry" path="res://Boxes/gem_level_portal.tscn" id="111_0kb8g"]
 [ext_resource type="PackedScene" uid="uid://bkcka0v37j3sl" path="res://Boxes/piggybank_orb_red.tscn" id="112_fndqm"]
 [ext_resource type="PackedScene" uid="uid://crlaglwdng51c" path="res://Boxes/piggybank_orb_green.tscn" id="113_qcqlf"]

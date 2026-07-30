@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://dlib52nubroxy"]
+
+[ext_resource type="TileSet" uid="uid://c04omo3n0mpkt" path="res://Tilesets/tileset_main.tres" id="1_aays4"]
+[ext_resource type="Script" uid="uid://cho1ckpr6qcei" path="res://Tilesets/tileset_main.gd" id="2_kahqn"]
+
+[node name="tileset_main_small" type="TileMap"]
+light_mask = 512
+texture_filter = 1
+scale = Vector2(0.5, 0.5)
+tile_set = ExtResource("1_aays4")
+rendering_quadrant_size = 64
+format = 2
+layer_0/name = "main"
+layer_0/z_index = 1
+layer_1/name = "bg"
+layer_2/name = "bg2"
+layer_2/z_index = -1
+layer_3/name = "bg3"
+layer_3/z_index = -2
+layer_4/name = "fg"
+layer_4/z_index = 2
+layer_5/name = "fg2"
+layer_5/z_index = 3
+layer_6/name = "fg3"
+layer_6/z_index = 4
+layer_7/name = "back"
+layer_7/z_index = -25
+layer_8/name = "back2"
+layer_8/z_index = -26
+layer_9/name = "front"
+layer_9/z_index = 100
+layer_10/name = "front2"
+layer_10/z_index = 101
+script = ExtResource("2_kahqn")

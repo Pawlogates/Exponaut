@@ -312,8 +312,9 @@ var saved_health = 0
 var saved_score = 0 # Saved overworld score, to be restored when loading back into any of the overworld-type levels.
 var saved_module_points = 0
 
-var saved_weapon = Array()
-var saved_secondaryWeapon = Array()
+var saved_weapon_main : String = "none"
+var saved_weapon_secondary : String = "none"
+var saved_weapon : Dictionary = {"apply_default" : true}
 
 var saved_bg_main_visible_filepath = "none"
 var saved_bg_front_visible_filepath = "none"
@@ -373,8 +374,9 @@ func save_playerData(save_player_position):
 	saved_score = Globals.level_score
 	saved_module_points = Globals.total_collected_majorCollectibles_module
 	
+	saved_weapon_main = Globals.weapon_main
+	saved_weapon_secondary = Globals.weapon_secondary
 	saved_weapon = Globals.weapon
-	saved_secondaryWeapon = Globals.secondaryWeapon
 	
 	saved_bg_main_visible_filepath = Globals.bg_main_visible_filepath
 	saved_bg_front_visible_filepath = Globals.bg_front_visible_filepath
@@ -448,8 +450,8 @@ func load_playerData():
 		saved_score = data["saved_score"]
 		saved_module_points = data["saved_module_points"]
 		
-		saved_weapon = data["saved_weapon"]
-		saved_secondaryWeapon = data["saved_secondaryWeapon"]
+		saved_weapon_main = data["saved_weapon_main"]
+		saved_weapon_secondary = data["saved_weapon_secondary"]
 		
 		saved_bg_main_visible_filepath = data["saved_bg_main_visible_filepath"]
 		saved_bg_back_visible_filepath = data["saved_bg_back_visible_filepath"]
@@ -487,8 +489,9 @@ func reset_playerData(slot_id : String = slot_current, levelSet_id : String = Gl
 	saved_score = 0 # Saved overworld score, to be restored when loading back into any of the overworld-type levels.
 	saved_module_points = 0
 	
-	saved_weapon = []
-	saved_secondaryWeapon = []
+	saved_weapon_main = "none"
+	saved_weapon_secondary = "none"
+	saved_weapon = {"apply_default" : true}
 	
 	saved_bg_main_visible_filepath = "none"
 	saved_bg_front_visible_filepath = "none"
@@ -540,8 +543,8 @@ func data_playerData():
 		"saved_score" : saved_score,
 		"saved_module_points" : saved_module_points,
 		
-		"saved_weapon" : saved_weapon,
-		"saved_secondaryWeapon" : saved_secondaryWeapon,
+		"saved_weapon_main" : saved_weapon_main,
+		"saved_weapon_secondary" : saved_weapon_secondary,
 		
 		"saved_bg_main_visible_filepath" : saved_bg_main_visible_filepath,
 		"saved_bg_back_visible_filepath" : saved_bg_back_visible_filepath,

@@ -46,6 +46,7 @@ var rolled_pivot_offset = Vector2(randi_range(-1000, 1000), randi_range(-1000, 1
 
 
 func _ready() -> void:
+	z_index = 251
 	await get_tree().create_timer(0.25, true).timeout
 	
 	if bg_simple:
@@ -61,17 +62,22 @@ func _ready() -> void:
 	
 	if character.text.is_valid_int():
 		custom_minimum_size.x = 22
+		character.custom_minimum_size.x = 22
 		character.theme = load("res://Other/Themes/text_score_display.tres")
 	
 	if character.text == "m":
 		custom_minimum_size.x = 22
+		character.custom_minimum_size.x = 22
+	elif character.text == "i" or character.text == "t":
+		custom_minimum_size.x = 12
+		character.custom_minimum_size.x = 12
 	
 	visible = true
 
 func _process(delta: float) -> void:
 	if removable:
 		character.modulate.a = move_toward(character.modulate.a, 0, delta * 2)
-		character.rotation_degrees = move_toward(character.rotation_degrees, rolled_rotation, delta * 10)
+		character.rotation_degrees = move_toward(character.rotation_degrees, rolled_rotation, delta * 25)
 		character.pivot_offset.x = move_toward(character.pivot_offset.x, rolled_pivot_offset.x, delta * 10)
 		character.pivot_offset.y = move_toward(character.pivot_offset.y, rolled_pivot_offset.y, delta * 10)
 

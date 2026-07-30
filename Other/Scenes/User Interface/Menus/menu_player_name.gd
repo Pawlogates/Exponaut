@@ -68,11 +68,7 @@ func on_text_confirmed():
 	
 	animation_all.play("general/scale_down_left_back_in")
 	
-	if Globals.gameState_scoring_focus:
-		await get_tree().create_timer(0.5, true).timeout
-		Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
-	else:
-		Globals.handle_spawn_menu(false)
+	Globals.handle_spawn_menu(false)
 		
 	await get_tree().create_timer(0.5, true).timeout
 	effect_hide_active = true

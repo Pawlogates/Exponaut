@@ -26,80 +26,80 @@ grow_vertical = 2
 mouse_filter = 2
 alignment = 1
 
-[node name="btn_Start New Game" parent="container_buttons" index="0" instance=ExtResource("2_0mlty")]
+[node name="btn_start_new_game" parent="container_buttons" index="0" groups=["UI_button_start_new_game"] instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Start New Game"
-decoration_base_size_multiplier = Vector2(0.5, 1)
+decoration_base_size_multiplier = Vector2(0.7, 1)
 on_hover_message_text = "duh?"
 
-[node name="btn_Continue" parent="container_buttons" index="1" instance=ExtResource("2_0mlty")]
+[node name="btn_continue" parent="container_buttons" index="1" groups=["UI_button_continue"] instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Continue"
-decoration_base_size_multiplier = Vector2(0.4, 1)
+decoration_base_size_multiplier = Vector2(0.6, 1)
 on_hover_message_text = "Continue your game from the point you left it at. Don't try to be funny and press it right after booting this up for the first time..."
 
-[node name="btn_Resume game" parent="container_buttons" index="2" instance=ExtResource("2_0mlty")]
+[node name="btn_resume" parent="container_buttons" index="2" groups=["UI_button_resume"] instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Resume game"
 decoration_base_size_multiplier = Vector2(0.5, 1)
 on_hover_message_text = "Resume the game. As in, stop it from being paused. Also works as a pause button... actually its more of a \"pause toggle\" for now. It shouldnt exist on the start screen but"
 
-[node name="btn_Level Set Screen" parent="container_buttons" index="3" instance=ExtResource("2_0mlty")]
+[node name="btn_level_set_screen" parent="container_buttons" index="3" groups=["UI_button_level_set_screen"] instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Level Set Screen"
-decoration_base_size_multiplier = Vector2(0.6, 1)
+decoration_base_size_multiplier = Vector2(0.5, 1)
 on_hover_message_text = "Level Set screen is where you choose one out of many levels present within a \"Level Set\"."
 
-[node name="btn_Select Level Set" parent="container_buttons" index="4" instance=ExtResource("2_0mlty")]
+[node name="btn_select_level_set" parent="container_buttons" index="4" groups=["UI_button_select_level_set"] instance=ExtResource("2_0mlty")]
 layout_mode = 2
 text_manager_message = "[/]Select Level Set"
-decoration_base_size_multiplier = Vector2(0.6, 1)
+decoration_base_size_multiplier = Vector2(0.525, 1)
 on_hover_message_text = "Choose between multiple sets of levels."
 
-[node name="btn_Leaderboard" parent="container_buttons" index="5" instance=ExtResource("2_0mlty")]
+[node name="btn_leaderboard" parent="container_buttons" index="5" groups=["UI_button_leaderboard"] instance=ExtResource("2_0mlty")]
 modulate = Color(1, 1, 0.203922, 1)
 layout_mode = 2
 text_manager_message = "[/]Leaderboard"
-decoration_base_size_multiplier = Vector2(0.6, 1)
+decoration_base_size_multiplier = Vector2(0.475, 1)
 on_hover_message_text = "Can you reach the top? Probably not! But trying your best at it being fun, is one of the core ideas behind this game!"
 
-[node name="btn_Back to Overworld" parent="container_buttons" index="6" instance=ExtResource("2_0mlty")]
+[node name="btn_back_to_overworld" parent="container_buttons" index="6" groups=["UI_button_back_to_overworld"] instance=ExtResource("2_0mlty")]
 z_index = 5
 layout_mode = 2
 text_manager_message = "[/]Back to Overworld"
 decoration_base_size_multiplier = Vector2(0.7, 1)
 on_hover_message_text = "How funny would it be to press this thing before ever having been in the Overworld. not very much"
 
-[node name="btn_Enable Score Attack mode" parent="container_buttons" index="7" instance=ExtResource("2_0mlty")]
+[node name="btn_score_attack_mode" parent="container_buttons" index="7" groups=["UI_button_score_attack_mode"] instance=ExtResource("2_0mlty")]
 z_index = 10
 layout_mode = 2
 text_manager_message = "[/]Enable Score Attack mode"
 decoration_base_size_multiplier = Vector2(0.9, 1)
 on_hover_message_text = "It's literally just not reimplemented after the refactor broke it. This button is here only because it makes the randomized menu look way nicer (press ESC a few times to see how different it can look!)."
 
-[node name="btn_Settings" parent="container_buttons" index="8" instance=ExtResource("2_0mlty")]
+[node name="btn_settings" parent="container_buttons" index="8" groups=["UI_button_settings"] instance=ExtResource("2_0mlty")]
 z_index = 15
 layout_mode = 2
 theme = ExtResource("3_4o7a4")
 text_manager_message = "[/]Settings"
-decoration_base_size_multiplier = Vector2(0.3, 1)
+decoration_base_size_multiplier = Vector2(0.455, 1)
 on_hover_message_text = "Not reimplemented after being broken by the refactor. bummer!!"
 
-[node name="btn_Quit to Main Menu" parent="container_buttons" index="9" instance=ExtResource("2_0mlty")]
+[node name="btn_quit_to_main_menu" parent="container_buttons" index="9" groups=["UI_button_quit_to_main_menu"] instance=ExtResource("2_0mlty")]
 z_index = 20
 layout_mode = 2
 text_manager_message = "[/]Quit to Main Menu"
 decoration_base_size_multiplier = Vector2(0.7, 1)
 on_hover_message_text = "How funny would it be to-"
 
-[node name="btn_Quit Game" parent="container_buttons" index="10" instance=ExtResource("2_0mlty")]
+[node name="btn_quit_game" parent="container_buttons" index="10" groups=["UI_button_quit_game"] instance=ExtResource("2_0mlty")]
 z_index = 25
 layout_mode = 2
 text_manager_message = "[/]Quit Game"
-decoration_base_size_multiplier = Vector2(0.4, 1)
+decoration_base_size_multiplier = Vector2(0.44, 1)
 on_hover_message_text = "Please... PLEASE do not do it to me :("
 
-[node name="btn_Close" parent="container_buttons" index="11" instance=ExtResource("2_0mlty")]
+[node name="btn_close" parent="container_buttons" index="11" groups=["UI_button_close"] instance=ExtResource("2_0mlty")]
 z_index = 25
 layout_mode = 2
 text_manager_message = "[/]Close"
@@ -124,7 +124,7 @@ text_manager_character_anim_backwards = true
 decoration_base_size_multiplier = Vector2(0.4, 1)
 on_hover_message_text = "Improve that score!"
 
-[node name="btn_Touch Controls" parent="container_buttons" index="14" instance=ExtResource("2_0mlty")]
+[node name="btn_touch_controls" parent="container_buttons" index="14" groups=["UI_button_touch_controls"] instance=ExtResource("2_0mlty")]
 modulate = Color(0.87798, 0.696571, 0, 1)
 z_index = 25
 layout_mode = 2
@@ -142,71 +142,58 @@ offset_top = 48.0
 offset_right = -1488.0
 offset_bottom = -648.0
 
-[node name="btn_level_chain" type="Button" parent="." index="7"]
-visible = false
-layout_mode = 0
-offset_left = 1504.0
-offset_top = 384.0
-offset_right = 1792.0
-offset_bottom = 480.0
-text = "Press this button when you get
-bored of, or get stuck somewhere
-in the main game."
+[node name="display_version" type="Control" parent="." index="7"]
+anchors_preset = 0
+offset_left = 1536.0
+offset_top = 64.0
+offset_right = 1856.0
+offset_bottom = 224.0
 
-[node name="bg" type="ColorRect" parent="." index="8"]
-z_index = -5
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -1960.0
-offset_top = -1540.0
-offset_right = 2040.0
-offset_bottom = 1460.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-color = Color(0, 0, 0, 0.364706)
-
-[node name="Label" type="Label" parent="." index="9"]
+[node name="Label" type="Label" parent="display_version" index="0"]
 layout_mode = 0
-offset_left = 720.0
-offset_top = -256.0
-offset_right = 1232.0
-offset_bottom = -192.0
+offset_right = 320.0
+offset_bottom = 64.0
 theme = ExtResource("3_4o7a4")
-text = "Press ESC to close the menu."
+text = "Thanks for playing!"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="Label2" type="Label" parent="." index="10"]
+[node name="Label2" type="Label" parent="display_version" index="1"]
 modulate = Color(1, 1, 1, 0.47451)
 layout_mode = 0
-offset_left = 720.0
-offset_top = -224.0
-offset_right = 1232.0
-offset_bottom = -96.0
+offset_top = 64.0
+offset_right = 320.0
+offset_bottom = 160.0
 theme_override_constants/line_spacing = 8
-text = "Exponaut v0.9.6 (post refactor)
+text = "Exponaut v0.9.7 (post refactor)
 Created by: Pawlogates
 Thanks for playing!"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[connection signal="pressed" from="container_buttons/btn_Start New Game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Continue" to="." method="_on_btn_continue_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Resume game" to="." method="_on_btn_resume_game_pressed" binds= [2.0]]
-[connection signal="pressed" from="container_buttons/btn_Level Set Screen" to="." method="_on_btn_level_set_screen_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Select Level Set" to="." method="_on_btn_select_level_set_pressed" binds= [2.0]]
-[connection signal="pressed" from="container_buttons/btn_Leaderboard" to="." method="_on_btn_leaderboard_pressed"]
-[connection signal="pressed" from="container_buttons/btn_Back to Overworld" to="." method="_on_btn_back_to_overworld_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Enable Score Attack mode" to="." method="_on_btn_enable_score_attack_mode_pressed" binds= [0.5]]
-[connection signal="pressed" from="container_buttons/btn_Settings" to="." method="_on_btn_settings_pressed" binds= [2.0]]
-[connection signal="pressed" from="container_buttons/btn_Quit to Main Menu" to="." method="_on_btn_quit_to_main_menu_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Quit Game" to="." method="_on_btn_quit_game_pressed" binds= [10.0]]
-[connection signal="pressed" from="container_buttons/btn_Close" to="." method="_on_btn_close_pressed"]
+[node name="bg" type="ColorRect" parent="." index="8"]
+z_index = -5
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.364706)
+
+[connection signal="pressed" from="container_buttons/btn_start_new_game" to="." method="_on_btn_start_new_game_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_continue" to="." method="_on_btn_continue_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_resume" to="." method="_on_btn_resume_game_pressed" binds= [2.0]]
+[connection signal="pressed" from="container_buttons/btn_level_set_screen" to="." method="_on_btn_level_set_screen_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_select_level_set" to="." method="_on_btn_select_level_set_pressed" binds= [2.0]]
+[connection signal="pressed" from="container_buttons/btn_leaderboard" to="." method="_on_btn_leaderboard_pressed"]
+[connection signal="pressed" from="container_buttons/btn_back_to_overworld" to="." method="_on_btn_back_to_overworld_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_score_attack_mode" to="." method="_on_btn_enable_score_attack_mode_pressed" binds= [0.5]]
+[connection signal="pressed" from="container_buttons/btn_settings" to="." method="_on_btn_settings_pressed" binds= [2.0]]
+[connection signal="pressed" from="container_buttons/btn_quit_to_main_menu" to="." method="_on_btn_quit_to_main_menu_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_quit_game" to="." method="_on_btn_quit_game_pressed" binds= [10.0]]
+[connection signal="pressed" from="container_buttons/btn_close" to="." method="_on_btn_close_pressed"]
 [connection signal="pressed" from="container_buttons/btn_next_level" to="." method="_on_btn_next_level_pressed"]
 [connection signal="pressed" from="container_buttons/btn_retry" to="." method="_on_btn_retry_pressed"]
-[connection signal="pressed" from="container_buttons/btn_Touch Controls" to="." method="_on_btn_touch_controls_pressed"]
-[connection signal="pressed" from="btn_level_chain" to="." method="_on_btn_level_chain_pressed"]
+[connection signal="pressed" from="container_buttons/btn_touch_controls" to="." method="_on_btn_touch_controls_pressed"]

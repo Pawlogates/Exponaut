@@ -67,6 +67,7 @@ func sfx_combined_fade(delta):
 
 func handle_play_sound(sfx_player : Node, filepath : String, volume : float = 1.0, pitch : float = 1.0):
 	sfx_player.stream = load(filepath)
-	sfx_player.volume_linear = volume
+	if Globals.gameState_debug : sfx_player.volume_linear = volume * 0.1
+	else : sfx_player.volume_linear = volume * 0.75
 	sfx_player.pitch_scale = pitch
 	sfx_player.play()

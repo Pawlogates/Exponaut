@@ -12,6 +12,7 @@ script = ExtResource("1_bbqoc")
 [node name="layer1" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_edpwh")
+volume_db = -21.55
 
 [node name="cooldown" type="Timer" parent="layer1"]
 one_shot = true
@@ -19,6 +20,7 @@ one_shot = true
 [node name="layer2" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_pxqo3")
+volume_db = -27.171
 
 [node name="cooldown" type="Timer" parent="layer2"]
 one_shot = true
@@ -26,6 +28,7 @@ one_shot = true
 [node name="layer3" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("4_g7kp7")
+volume_db = -16.865
 
 [node name="cooldown" type="Timer" parent="layer3"]
 one_shot = true
@@ -33,6 +36,7 @@ one_shot = true
 [node name="layer4" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("5_kiwfk")
+volume_db = -12.18
 
 [node name="cooldown" type="Timer" parent="layer4"]
 one_shot = true

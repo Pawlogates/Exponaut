@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=3 uid="uid://bc4lqr8ajy0k8"]
 
-[ext_resource type="Script" uid="uid://hyt7g7hh0wov" path="res://Scripts/deco_waterfall.gd" id="1_w8l0f"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_7aofv"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_uenbq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_yk0hf"]
 atlas = ExtResource("2_7aofv")
@@ -111,7 +111,6 @@ offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
-script = ExtResource("1_w8l0f")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.434597)
@@ -140,15 +139,10 @@ sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.525694
 
-[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
-position = Vector2(-96, -192)
-rect = Rect2(0, 0, 256, 512)
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_tpxjg")
+&"": SubResource("AnimationLibrary_tpxjg")
 }
 autoplay = "loop"
 
-[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
-[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[node name="handle_offscreen" parent="." instance=ExtResource("2_uenbq")]

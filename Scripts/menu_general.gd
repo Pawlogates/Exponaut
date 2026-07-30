@@ -26,13 +26,13 @@ var button_color : String = "none"
 var is_focused = false
 var button_is_focused = false
 
+var is_ready : bool = false # This is true if the menu has been fully generated and its buttons stabilized.
+
 
 func _ready() -> void:
-	get_tree().paused = false
+	print("Spawned a menu.")
 	
-	if Globals.gameState_scoring_focus:
-		if Globals.node_exists("screen_results_level") and Globals.gameState_level:
-			if not is_in_group("menu_single_button") : position += Vector2(-560, -300)
+	get_tree().paused = false
 	
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = true
 	
@@ -43,26 +43,25 @@ func _ready() -> void:
 	
 	on_ready()
 	
-	await get_tree().create_timer(1, true).timeout
+	await get_tree().create_timer(0.5, true).timeout
 	
-	if Globals.gameState_scoring_focus:
-		if Globals.node_exists("screen_results_level"):
-			if is_instance_valid(bg) : bg.visible = false
+	is_ready = true
+	
+	if Globals.node_exists("screen_results_level"):
+		if is_instance_valid(bg) : bg.visible = false
 	
 	await get_tree().create_timer(randf_range(0.05, 1), true).timeout
 	
 	if is_in_group("menu_main"):
 		for node in get_tree().get_nodes_in_group("menu_main"):
 			if node != self : node.queue_free()
-	
-	await get_tree().create_timer(randf_range(5, 20), true).timeout
-	
-	Globals.message("Press ESC to close the menu.", 0, Vector2(0, 105), 6, 4)
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		if ready_show:
 			delete_menu()
+	
+	if ready_show : modulate.a = move_toward(modulate.a, 1.0, delta * 4)
 	
 	#debug_real_size_container_buttons.position = container_buttons.position
 	#debug_real_size_container_buttons.size = container_buttons.size
@@ -91,8 +90,9 @@ func on_ready():
 	
 	adjust_buttons()
 	
+	await get_tree().create_timer(0.25, true).timeout
+	
 	ready_show = true
-	modulate.a = 1.0
 	
 	if Globals.debug_mode : $debug_real_size_container_buttons.visible = true
 
@@ -284,7 +284,7 @@ func handle_button_pressed_general(p_block_buttons_time): # The "p" stands for "
 func _on_btn_resume_game_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
 	
-	Globals.handle_pause()
+	Globals.toggle_pause()
 
 func _on_btn_level_set_screen_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
@@ -366,10 +366,10 @@ func _on_btn_return_settings_pressed() -> void:
 
 
 func disable_buttons():
-	for button_name in l_disable_buttons:
+	for button_id in l_disable_buttons:
 		for button in container_buttons.get_children():
-			if button.name == button_name or button.name == "btn_" + button_name:
-				Globals.message_debug(str("Removing the %s button from a menu." % button_name))
+			if button.is_in_group("UI_button_" + button_id) or button.is_in_group(button_id):
+				Globals.message_debug(str("Removing the %s button from a menu." % button_id))
 				button.queue_free()
 
 
@@ -410,8 +410,9 @@ func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
 
 
 func delete_menu(): # Will add some menu deletion effect making heavy use of the general tween tool (doesn't exist yet) for each button.
+	print("Attempting to delete a menu.")
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = false
-	queue_free()
+	if is_ready : queue_free()
 
 
 func _on_btn_level_chain_pressed() -> void:

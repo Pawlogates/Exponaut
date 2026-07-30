@@ -1,0 +1,34 @@
+[gd_scene load_steps=3 format=3 uid="uid://wy6nwo2heb78"]
+
+[ext_resource type="Texture2D" uid="uid://cpxkyob22k2x5" path="res://Assets/Graphics/other/smooth_line_black.png" id="1_lyohf"]
+[ext_resource type="Texture2D" uid="uid://bpa7a6aek3mqc" path="res://Assets/Graphics/other/smooth_line_edge_black.png" id="2_r1nol"]
+
+[node name="shadow2" type="Control"]
+z_index = -2
+layout_mode = 3
+anchors_preset = 0
+
+[node name="line" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -32.0
+offset_right = 32.0
+offset_bottom = 64.0
+texture = ExtResource("1_lyohf")
+expand_mode = 1
+
+[node name="line_edge" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 96.0
+offset_bottom = 64.0
+texture = ExtResource("2_r1nol")
+expand_mode = 1
+
+[node name="line_edge2" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -96.0
+offset_right = -32.0
+offset_bottom = 64.0
+texture = ExtResource("2_r1nol")
+expand_mode = 1
+flip_h = true

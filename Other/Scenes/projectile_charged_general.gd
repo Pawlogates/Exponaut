@@ -164,14 +164,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		if target.can_move and not target.dead:
 			if target.entity_type == "enemy":
 				if abs(target.velocity.y) <= 50:
-					get_tree().paused = true
-					set_process(false)
-					set_physics_process(false)
-					Globals.Player.camera.effect((target.position - Globals.player_position) * 2, Vector2(3, 3), randi_range(-10, 10), 4)
-					await get_tree().create_timer(0.2, true).timeout
-					get_tree().paused = false
-					set_process(true)
-					set_physics_process(true)
+					target.handle_hit(self, damage_value * (1 + 0.1 * Globals.player_level))
+					Globals.Player.camera.effect((target.position - Globals.player_position) * 2, Vector2(1.5, 1.5), randi_range(-10, 10), 4)
+					await get_tree().create_timer(0.25, true).timeout
 					Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
 					
 					Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, target.position)

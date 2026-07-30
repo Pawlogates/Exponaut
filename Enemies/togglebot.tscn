@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://hq4cxsvbv03l"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_5yskg"]
-[ext_resource type="SpriteFrames" uid="uid://7ree2fflq7ta" path="res://Assets/Graphics/sprites/packed/enemies/glades_slime.tres" id="2_i7pjj"]
+[ext_resource type="SpriteFrames" uid="uid://bvnvwo50exknp" path="res://Assets/Graphics/sprites/packed/enemies/enemy_togglebot.tres" id="2_i7pjj"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_i7pjj"]
 
 [sub_resource type="Animation" id="Animation_snhod"]
@@ -504,11 +504,8 @@ _data = {
 
 [node name="togglebot" instance=ExtResource("1_5yskg")]
 collision_layer = 0
-on_death_effect_thrownAway = true
-on_death_decoration_nodes_effect_thrownAway = true
 collectable = false
 hittable = true
-health_value = 100
 score_value = 100
 movement_type = "move_x"
 speed = 100
@@ -528,6 +525,8 @@ anim_alternate_walk = true
 anim_alternate_walk_hittable_only_during = true
 start_animation = "none"
 can_change_sprite_anim = true
+on_death_effect_thrownAway = true
+on_death_decoration_nodes_effect_thrownAway = true
 idle_sfx = true
 idle_sfx_randomize_cooldown = true
 on_alt_walk_alt_show_text = true
@@ -542,10 +541,8 @@ entity_type = "enemy"
 
 [node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_i7pjj")
-animation = &"walk_alt"
-frame_progress = 0.0560121
 
-[node name="animation_general" parent="sprite" index="9"]
+[node name="animation_general" parent="sprite" index="17"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w5jm")
 }

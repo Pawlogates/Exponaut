@@ -166,3 +166,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="animation_all" parent="container_main/label_text" instance=ExtResource("4_7vrt1")]
+speed_scale = 4.0

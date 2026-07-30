@@ -7,8 +7,10 @@
 collectable = false
 hittable = true
 family = "enemy"
-damage_to_player = false
-pushable_by_player = false
+damage_from_entity = true
+damage_from_entity_contact = false
+damage_from_player = true
+damage_to_player_contact = false
 can_move = true
 ignore_gravity = false
 on_death_spawn_entity = true

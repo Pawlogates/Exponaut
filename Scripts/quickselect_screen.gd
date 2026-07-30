@@ -14,6 +14,7 @@ func _ready():
 	visible = true
 	
 	Globals.Player.block_movement = true
+	Globals.set_mouse_mode(true)
 	
 	create_displays_item()
 

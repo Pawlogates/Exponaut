@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://cujuoar1ksmaa"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_him6n"]
+[ext_resource type="SpriteFrames" uid="uid://ct4fkudxg4k4l" path="res://Assets/Graphics/sprites/packed/projectiles/tie.tres" id="2_7j627"]
+
+[node name="item_tie_charged" instance=ExtResource("1_him6n")]
+hittable = true
+score_value = 0
+on_spawn_show_text = true
+on_collected_unlock_item_name = "tie_charged"
+on_collected_unlock_item_durability = -1.0
+start_animation = "none"
+on_collected_anim_name = "general/rotate_around_y_fade_out"
+text_delete_cooldown = -1.0
+text_add_pos = Vector2(0, -64)
+sfx_self_collected_filepath = "uid://pj1ekmlcjqj2"
+entity_name = "item_tie_charged"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_7j627")
+
+[node name="scan_visible" parent="." index="11"]
+modulate = Color(1, 1, 1, 0.01)
+
+[node name="CollisionShape2D" parent="scan_reset_puzzle_coverage" index="0"]
+debug_color = Color(0, 0.6, 0.7, 0.01)

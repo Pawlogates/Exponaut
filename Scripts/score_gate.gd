@@ -16,9 +16,10 @@ func _ready():
 	text_manager_target_score.create_message()
 
 func _on_area_2d_area_entered(area):
+	if activated : return
+	
 	if area.is_in_group("Player"):
-		if activated:
-			return
+		
 		Globals.combo_end.emit()
 		Overlay.HUD.get_node("ScoreDisplay").displayScore = Globals.level_score + Globals.combo_score
 		
@@ -29,6 +30,13 @@ func _on_area_2d_area_entered(area):
 			collision.set_deferred("disabled", true)
 			animation_color.play("fade_out")
 			$sfx_manager.sfx_play(Globals.sfx_medium_effect3, 1.0, 0.75)
+			
+			Globals.Player.combo_manager.reset_combo_tier()
+			Globals.combo_score -= target_score
+			Globals.level_score -= target_score
+			if Globals.level_score < 0 : Globals.level_score = 0
+			
+			Globals.spawn_message_object("-" + str(target_score) + "$")
 		
 		else:
 			animation_color.play("fade_out")
@@ -45,3 +53,6 @@ func _on_area_2d_area_entered(area):
 			text_manager_target_score.text_animation_sync = false
 			text_manager_target_score.character_anim_backwards = true
 			text_manager_target_score.create_message()
+			
+			Globals.not_enough_score.emit()
+			if Globals.level_score < 0 : Globals.level_score = 0

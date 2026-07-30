@@ -22,7 +22,7 @@ z_index = 5
 position = Vector2(64, 64)
 texture = ExtResource("2_ddiir")
 region_enabled = true
-region_rect = Rect2(384, 640, 64, 64)
+region_rect = Rect2(0, 256, 128, 128)
 
 [node name="container_main" type="Control" parent="."]
 z_index = 10

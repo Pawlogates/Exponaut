@@ -32,6 +32,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -73,7 +74,7 @@ anchor_bottom = 1.0
 offset_left = 16.0
 offset_top = 280.0
 offset_right = -16.0
-offset_bottom = -8.0
+offset_bottom = 40.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ky7ft")
@@ -101,6 +102,7 @@ mouse_filter = 2
 [node name="outline" type="Control" parent="."]
 z_index = -1
 anchors_preset = 0
+scale = Vector2(1, 1.1)
 mouse_filter = 2
 
 [node name="border" type="Node2D" parent="outline"]
@@ -171,6 +173,7 @@ offset_left = -5.0
 offset_top = -1.0
 offset_right = -5.0
 offset_bottom = -1.0
+scale = Vector2(1, 1.1)
 mouse_filter = 2
 
 [node name="border" type="Node2D" parent="outline2"]
@@ -263,17 +266,17 @@ anim_speed2 = 1.0
 z_index = 500
 layout_mode = 0
 offset_left = 48.0
-offset_top = 400.0
+offset_top = 432.0
 offset_right = 336.0
-offset_bottom = 496.0
+offset_bottom = 528.0
 theme = ExtResource("1_ky7ft")
 underline = 1
 uri = "https://discord.gg/TCYFZfZ373"
 
 [node name="menu_single_button" parent="." instance=ExtResource("3_fvvwl")]
 layout_mode = 1
-offset_top = 384.0
-offset_bottom = 128.0
+offset_top = 416.0
+offset_bottom = 160.0
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
@@ -285,40 +288,42 @@ text = "Close"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -8
-position = Vector2(192, 536)
+position = Vector2(192, 568)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("5_yy13d")
 
-[node name="Label" type="Label" parent="."]
+[node name="info_secondary" type="Label" parent="."]
+z_index = -10
 layout_mode = 0
-offset_left = 544.0
-offset_top = 64.0
-offset_right = 928.0
-offset_bottom = 512.0
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 376.0
+offset_bottom = 408.0
 theme = ExtResource("1_ky7ft")
 theme_override_font_sizes/font_size = 12
-text = "Your GOAL is to reach a TOTAL SCORE of 1000000.
-The reward is the rest of the game, good luck!
+text = "Your GOAL is to traverse the vast and interconnected
+overworld of Exponaut, in order to reach THE EXPONAUTORIUM...
 
 Controls:
 Z / SPACE - Jump
 X / LMB - Attack
 C / SHIFT - Dash
 V / RMB - Secondary attack
+ALT - Crouch
 ESC - Menu
-You can crouch by holding the down arrow.
+
 Try holding a direction while attacking!
 
 To PAUSE or UNPAUSE the game, press the P key.
 
-In case you didn't notice yet:
-- You can WALL JUMP by pressing jump while touching a wall
+You can WALL JUMP by pressing jump while touching a wall
 (You need to be holding the directional key).
-- You can AIR JUMP
+
+You can AIR JUMP
 (remember to HOLD the jump key to extend this one, as well
 as the regular jump."
 
-[node name="ColorRect" type="ColorRect" parent="Label"]
+[node name="ColorRect" type="ColorRect" parent="info_secondary"]
 z_index = -5
 layout_mode = 1
 anchors_preset = 15
@@ -326,8 +331,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = -8.0
 offset_top = -8.0
-offset_right = -24.0
-offset_bottom = -40.0
+offset_right = 8.0
+offset_bottom = 8.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
