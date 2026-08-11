@@ -21,6 +21,7 @@ camera_boundary_top = -960.0
 next_level_filepath = "res://Levels/TUTORIAL_3.tscn"
 levelSet_id = "TUTORIAL"
 level_number = 5
+force_mode_score_attack_disable = true
 delete_background_layers = true
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_4dye8")]

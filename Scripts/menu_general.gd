@@ -26,9 +26,19 @@ var button_color : String = "none"
 var is_focused = false
 var button_is_focused = false
 
+var manual_request : bool = false # Whether the menu was spawned on pressing the "menu" action (ESC), or automatically on a game state change.
+var force_info_delete : bool = false
+
+var screen_results : Node
+var target_button : Node
+var button_focused : bool = false
+
 
 func _ready() -> void:
-	get_tree().paused = false
+	if Globals.gameState_level : get_tree().paused = true
+	
+	screen_results = get_tree().get_first_node_in_group("screen_results_level")
+	target_button = $container_buttons/btn_Leaderboard
 	
 	if Globals.gameState_scoring_focus:
 		if Globals.node_exists("screen_results_level") and Globals.gameState_level:
@@ -44,6 +54,11 @@ func _ready() -> void:
 	on_ready()
 	
 	await get_tree().create_timer(1, true).timeout
+	
+	if is_instance_valid(get_tree().get_first_node_in_group("UI_button_toggle_score_attack_mode")) : effects_button_toggle_score_attack_mode()
+	
+	if manual_request:
+		if is_instance_valid(target_button) : target_button.grab_focus()
 	
 	if Globals.gameState_scoring_focus:
 		if Globals.node_exists("screen_results_level"):
@@ -63,6 +78,11 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
 		if ready_show:
 			delete_menu()
+	
+	if ready_show and not button_focused:
+		if Input.is_action_just_pressed("move_up") or Input.is_action_just_pressed("move_down"):
+			if is_instance_valid(target_button) : target_button.grab_focus()
+			button_focused = true
 	
 	#debug_real_size_container_buttons.position = container_buttons.position
 	#debug_real_size_container_buttons.size = container_buttons.size
@@ -307,6 +327,25 @@ func _on_btn_back_to_overworld_pressed(block_buttons_time : float = 1.0) -> void
 
 func _on_btn_enable_score_attack_mode_pressed(block_buttons_time : float = 1.0) -> void: # The argument here is useless, and can be safely replaced by any float value in each "_on_btn_[button]_pressed" function.
 	if handle_button_pressed_general(block_buttons_time) : return
+	
+	Globals.mode_score_attack_active = Globals.opposite_bool(Globals.mode_score_attack_active)
+	effects_button_toggle_score_attack_mode()
+
+func effects_button_toggle_score_attack_mode():
+	var target_node : Node = get_tree().get_first_node_in_group("UI_button_toggle_score_attack_mode")
+	
+	if Globals.mode_score_attack_active:
+		target_node.modulate = Color.ORANGE * 2
+		target_node.text_manager.scale = Vector2(1, 1)
+		target_node.text_manager.position.x = 32
+		target_node.text_manager.position.y = 0
+		target_node.text_manager.message("[anim_fade_out_up]Score Attack Mode : ENABLED", -1, false, -1, 0.0, 0.0, 0.05, 2.0, true)
+	else:
+		target_node.modulate = Color.RED
+		target_node.text_manager.scale = Vector2(1.2, 1.2)
+		target_node.text_manager.position.x = -32
+		target_node.text_manager.position.y = -8
+		target_node.text_manager.message("[anim_rotate_around_y_fade_out]Score Attack Mode : DISABLED", -1, true, -1, 0.05, 0.0, 0.05, 2.0, true)
 
 func _on_btn_settings_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
@@ -410,7 +449,15 @@ func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
 
 
 func delete_menu(): # Will add some menu deletion effect making heavy use of the general tween tool (doesn't exist yet) for each button.
+	get_tree().paused = false
+	
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = false
+	
+	if is_instance_valid(Globals.World):
+		if Globals.mode_score_attack_active and not Globals.World.force_mode_score_attack_disable or Globals.World.force_mode_score_attack_enable:
+			if not get_tree().get_nodes_in_group("mode_score_attack"):
+				Globals.spawn_scenes(Globals.World, load("res://Other/Game Modes/mode_score_attack.tscn"), 1, Vector2(0, 0), -1)
+	
 	queue_free()
 
 

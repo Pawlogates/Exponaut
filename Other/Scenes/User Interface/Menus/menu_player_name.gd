@@ -17,6 +17,7 @@ var effect_hide_rotation : int = randi_range(-360, 360)
 
 func _ready() -> void:
 	Globals.gameState_typing = true
+	Globals.set_pause(true)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	for node in get_tree().get_nodes_in_group("menu_player_name"):
@@ -68,6 +69,7 @@ func on_text_confirmed():
 	
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+	Globals.set_pause(false)
 	Globals.gameState_typing = false
 	
 	animation_all.play("general/scale_down_left_back_in")

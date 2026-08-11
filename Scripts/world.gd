@@ -31,6 +31,10 @@ var level_start_time = 0.0
 
 
 @onready var tileset_main = $tileset_main
+@onready var tileset_main_small: TileMap = $tileset_main_small
+@onready var tileset_main_very_small: TileMap = $tileset_main_very_small
+@onready var tileset_main_precise: TileMap = $tileset_main_precise
+
 @onready var tileset_objects = Node
 @onready var tileset_objects_precise = Node
 
@@ -74,8 +78,10 @@ var bg_instant_offset = true
 @export var overworld_level_id = "none"
 
 
-@export var force_mode_scoreAttack = false
-@export var force_mode_memeMode = false
+@export var force_mode_score_attack_enable = false
+@export var force_mode_score_attack_disable = false
+
+@export var force_mode_meme = false
 
 @export var delete_background_layers = false
 
@@ -100,13 +106,24 @@ signal reset_puzzle_all_nodes_ready
 
 var is_ready : bool = false
 
+var mode_challenge_active : bool = false
+var mode_score_attack_active : bool = false
+var mode_collect_note_active : bool = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	set_process(false)
 	set_physics_process(false)
 	
-	Globals.level_finished.connect(level_finished)
+	Globals.exit_activated.connect(level_finished)
+	
+	if Globals.mode_score_attack_active and not force_mode_score_attack_disable or force_mode_score_attack_enable:
+		Globals.spawn_scenes(self, load("res://Other/Game Modes/mode_score_attack.tscn"), 1, Vector2(0, 0), -1)
+		mode_score_attack_active = true
+	
+	weather_rain = Globals.get_random_bool(25)
+	weather_leaves = Globals.get_random_bool(66)
 	
 	Globals.level_collected_collectibles = 0
 	
@@ -141,7 +158,8 @@ func _ready():
 	
 	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-200, 800), randi_range(-400, 0)), Vector2(4, 4), randi_range(-15, 15), 10)
 	
-	Overlay.animation("black_fade_out", 0.2, false, false, 0)
+	#Overlay.animation("black_fade_out", 0.2, false, false, 0)
+	await Overlay.animation("black_fade_out", 1.0, false, false, 0, false, "res://Other/Scenes/transition_gears.tscn", 2.0, Vector2(-2, 0))
 	
 	#if Globals.gameState_debug: # False if the game is currently being worked on.
 		#SaveData.delete_progress()
@@ -172,6 +190,22 @@ func _ready():
 	if random_music:
 		play_music_random()
 	
+	# randomized tileset color:
+	#if Globals.random_bool(1, 9):
+		#tileset_main.modulate = Globals.l_color_all.pick_random()
+		#var previous_modulate = tileset_main.modulate
+		#tileset_main.modulate = Globals.l_color_all.pick_random()
+		#tileset_main.modulate = tileset_main.modulate.blend(previous_modulate)
+		#if is_instance_valid(tileset_main_small) : tileset_main_small.modulate = Globals.l_color_all.pick_random()
+		#if is_instance_valid(tileset_main_very_small) : tileset_main_very_small.modulate = $tileset_main_small.modulate
+	#
+	#if Globals.random_bool(3, 1):
+		#tileset_main.material = Globals.material_tileset_hue_shift
+		#if is_instance_valid(tileset_main_precise) : tileset_main_precise.material = Globals.material_tileset_hue_shift
+		#if Globals.random_bool(1, 2):
+			#if is_instance_valid(tileset_main_small) : tileset_main_small.material = Globals.material_tileset_hue_shift
+			#if is_instance_valid(tileset_main_very_small) : tileset_main_very_small.material = tileset_main_small.material
+		#tileset_main.material.set_shader_parameter("hue_value", randf_range(0, 1))
 	
 	if Globals.level_id != "factory_a_1": # This should not be the main way to check whether the current game was started for the first time.
 		Globals.worldState_leftStartArea = true
@@ -240,7 +274,7 @@ func _ready():
 	Globals.Player.camera.position_smoothing_enabled = false
 	
 	
-	if force_mode_memeMode:
+	if force_mode_meme:
 		$/root/World/HUD.visible = false
 		
 		var meme_mode_SubViewportContainer = SubViewportContainer
@@ -298,7 +332,7 @@ func _ready():
 		background.queue_free()
 		foreground.queue_free()
 	
-	if force_mode_memeMode:
+	if force_mode_meme:
 		var memeMode_background_video_player = load("res://Other/Game Modes/Meme Mode/background_video_player.tscn").instantiate()
 		memeMode_background_video_player.position = Player.position + Vector2(-960, -540)
 		add_child(memeMode_background_video_player)
@@ -320,12 +354,11 @@ func _ready():
 	Player.block_movement_full = false
 	Player.velocity = Vector2(0, 0)
 	
-	Globals.total_collectibles_level = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
+	Globals.level_collectibles = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
 
 
 #MAIN START
 func _physics_process(delta):
-	
 	if Globals.random_bool(500, 1):
 		var level_all_entities : Array = get_tree().get_nodes_in_group("entity")
 		var level_total_entities : int = len(level_all_entities)
@@ -338,6 +371,7 @@ func _physics_process(delta):
 	# Current level's playtime.
 	level_time = Time.get_ticks_msec() - level_start_time
 	level_time_seconds = level_time / 1000
+	Globals.level_time_seconds = level_time_seconds
 	level_time_minutes = level_time / 60
 	
 	label_level_time.text = str(level_time_seconds) + ":" + str(level_time - level_time_seconds * 1000)
@@ -371,12 +405,24 @@ var level_finished_active : bool = false
 var level_completion_state : int = -1
 
 func level_finished():
+	if mode_score_attack_active and Globals.level_collected_collectibles < Globals.level_collectibles / 2 and not Globals.recorder_playback_active:
+		Globals.message("You need to collect " + str(Globals.level_collectibles / 2 - Globals.level_collected_collectibles) + " more items in this level first!", 0.0, Vector2(0,0), 4, 4)
+		Globals.Player.velocity.x += 500 * -Globals.player_direction_x
+		Globals.Player.velocity.y = -250
+		for level_exit in get_tree().get_nodes_in_group("level_exit"):
+			level_exit.modulate = Color.RED
+			level_exit.sfx_manager.sfx_play(Globals.sfx_electric_disabled, 0.25, randf_range(0.85, 1.15))
+		
+		return
+	
 	if level_finished_active : return
 	#if Globals.levelSet_id == "DEBUG" : return
 	
+	Globals.level_finished.emit()
+	
 	Globals.level_time = level_time
 	
-	if len(get_tree().get_nodes_in_group("collectible")) <= 0:
+	if len(get_tree().get_nodes_in_group("entity")) <= 0:
 		level_completion_state = 3
 	elif len(get_tree().get_nodes_in_group("majorCollectible")) <= 0:
 		level_completion_state = 2
@@ -391,13 +437,20 @@ func level_finished():
 	
 	await get_tree().create_timer(2, true).timeout
 	
-	SaveData.save_level(Globals.level_id, level_completion_state, Globals.level_score, Globals.level_time, [-1, 0, 1])
+	SaveData.save_level(Globals.level_id, level_completion_state, Globals.level_score, Globals.level_time, [-1, 0, 1], mode_challenge_active, mode_score_attack_active, mode_collect_note_active)
 	SaveData.save_levelSet(Globals.levelSet_id)
 	
 	level_finished_active = true # This has to be at the end, because outside behavior depends on this check being delayed.
 	
 	get_tree().paused = true
 
+func level_failed():
+	var screen_results = load("res://Other/Scenes/screen_results_level.tscn").instantiate()
+	screen_results.level_failed = true
+	screen_results.level_id = Globals.level_id
+	screen_results.levelSet_id = Globals.levelSet_id
+	level_finished_active = true
+	Overlay.add_child(screen_results)
 
 func go_to_next_level():
 	if not FileAccess.file_exists(next_level_filepath) : return

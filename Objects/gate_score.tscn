@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bmnsg0hl7qcpu"]
+[gd_scene load_steps=11 format=3 uid="uid://bmnsg0hl7qcpu"]
 
 [ext_resource type="Texture2D" uid="uid://dd278jhul3ero" path="res://Assets/Graphics/other/score_gate.png" id="1_2fe0m"]
 [ext_resource type="Script" uid="uid://b2tyewrcmqcrn" path="res://Scripts/score_gate.gd" id="2_gwd64"]
@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_1ykqn"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_cwmt1"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="7_1ykqn"]
+[ext_resource type="PackedScene" uid="uid://d3vw0viv0fpu7" path="res://Other/Scenes/hint.tscn" id="8_x6p47"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_isqap"]
 size = Vector2(384, 512)
@@ -39,5 +40,10 @@ theme = ExtResource("5_1ykqn")
 [node name="animation_general" parent="text_manager_target_score" instance=ExtResource("4_td8bm")]
 
 [node name="sfx_manager" parent="." instance=ExtResource("7_1ykqn")]
+
+[node name="hint" parent="." instance=ExtResource("8_x6p47")]
+position = Vector2(-160, 160)
+rotation = -1.5708
+scale = Vector2(0.5, 0.5)
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

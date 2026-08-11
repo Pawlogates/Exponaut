@@ -1,8 +1,9 @@
-[gd_scene load_steps=15 format=3 uid="uid://di1xenyk82l12"]
+[gd_scene load_steps=18 format=3 uid="uid://di1xenyk82l12"]
 
 [ext_resource type="Script" uid="uid://dr17mjjcmn50h" path="res://Scripts/touch_controls.gd" id="1_t1308"]
 [ext_resource type="PackedScene" uid="uid://blbk2lbmdmhcp" path="res://Other/Scenes/touch_screen_button_general.tscn" id="2_o5wd6"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="3_mpqjb"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="4_0wtii"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_dnd5w"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mjlqn"]
@@ -22,6 +23,14 @@ size = Vector2(96, 96)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gwtqe"]
 size = Vector2(96, 96)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ms5bs"]
+shader = ExtResource("4_0wtii")
+shader_parameter/hue_value = 0.3
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5em5u"]
+shader = ExtResource("4_0wtii")
+shader_parameter/hue_value = 0.35
 
 [sub_resource type="Animation" id="Animation_ivajr"]
 length = 0.001
@@ -90,132 +99,144 @@ shape = SubResource("RectangleShape2D_mjlqn")
 action = "jump"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/jump"]
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(256, 640, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/jump/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="dash" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(1077.33, 629.333)
+position = Vector2(1045.33, 629.333)
 shape = SubResource("RectangleShape2D_bv16c")
 action = "dash"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/dash"]
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(0, 640, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/dash/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="move_L" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(117.333, 629.333)
+position = Vector2(85.3333, 576)
 shape = SubResource("RectangleShape2D_uxov6")
 action = "move_left"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_L"]
+scale = Vector2(-0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 384, 64, 64)
+region_rect = Rect2(896, 640, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_L/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="move_R" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(309.333, 629.333)
+position = Vector2(341.333, 576)
 shape = SubResource("RectangleShape2D_uglj8")
 action = "move_right"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_R"]
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(64, 384, 64, 64)
+region_rect = Rect2(896, 640, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_R/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="move_UP" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(213.333, 533.333)
+position = Vector2(213.333, 512)
 shape = SubResource("RectangleShape2D_6rvx2")
 action = "move_up"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_UP"]
+rotation = -1.5708
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(896, 640, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_UP/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="move_DOWN" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(213.333, 629.333)
+position = Vector2(213.333, 640)
 shape = SubResource("RectangleShape2D_gwtqe")
 action = "move_down"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_DOWN"]
+rotation = -1.5708
+scale = Vector2(-0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(896, 640, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/move_DOWN/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="attack_main" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(1173.33, 533.333)
+position = Vector2(1173.33, 501.333)
 shape = SubResource("RectangleShape2D_gwtqe")
 action = "attack_main"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/attack_main"]
+material = SubResource("ShaderMaterial_ms5bs")
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(0, 512, 64, 64)
+region_rect = Rect2(128, 640, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/attack_main/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="attack_secondary" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(1077.33, 533.333)
+position = Vector2(1045.33, 501.333)
 shape = SubResource("RectangleShape2D_gwtqe")
 action = "attack_secondary"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/attack_secondary"]
+material = SubResource("ShaderMaterial_5em5u")
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(128, 576, 64, 64)
+region_rect = Rect2(896, 768, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/attack_secondary/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
@@ -226,13 +247,14 @@ shape = SubResource("RectangleShape2D_gwtqe")
 action = "menu"
 
 [node name="Sprite2D" type="Sprite2D" parent="root/menu"]
+scale = Vector2(0.75, 0.75)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
-region_rect = Rect2(64, 448, 64, 64)
+region_rect = Rect2(128, 768, 128, 128)
 
 [node name="Sprite2D" type="Sprite2D" parent="root/menu/Sprite2D"]
 z_index = -1
-scale = Vector2(1.25, 1.25)
+scale = Vector2(2.5, 2.5)
 texture = ExtResource("3_mpqjb")
 region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
@@ -249,7 +271,7 @@ one_shot = true
 autostart = true
 
 [node name="Button" type="Button" parent="."]
-modulate = Color(1, 1, 1, 0.498039)
+modulate = Color(1, 1, 1, 0.25)
 layout_mode = 0
 offset_left = 656.0
 offset_top = 16.0

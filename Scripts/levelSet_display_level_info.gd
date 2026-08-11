@@ -16,6 +16,11 @@ extends Control
 @onready var scan_valid: Area2D = $scan_valid
 @onready var c_show: Timer = $cooldown_show
 
+@onready var mark_mode_score_attack: TextureRect = $mark_mode_score_attack
+
+
+var level_info : Array
+
 var levelSet_id = "none"
 
 var level_number = 0
@@ -28,6 +33,11 @@ var level_time = -1
 var level_time_target = -1
 var level_rank = "none"
 var level_rank_value = -1
+
+var level_mode_challenge = false
+var level_mode_score_attack = false
+var level_mode_collect_note = false
+
 var level_name = "none"
 var level_type = "none"
 var level_creator = "none"
@@ -62,6 +72,8 @@ var center_pos = Vector2(0, 0)
 var mouse_pos = Vector2(0, 0)
 
 func _ready() -> void:
+	level_info = SaveData.get("saved" + "_" + level_id)
+	
 	if Globals.debug_mode:
 		modulate.a = 1.0
 	
@@ -81,6 +93,10 @@ func _ready() -> void:
 	l_creator.text = str(level_creator)
 	l_message.text = str(level_message)
 	#l_difficulty.text = str(level_difficulty)
+	
+	if level_info[5]:
+		mark_mode_score_attack.modulate.a = 1
+		material = Globals.material_rainbow
 
 func _physics_process(delta: float) -> void:
 	center_pos = position + size / 2

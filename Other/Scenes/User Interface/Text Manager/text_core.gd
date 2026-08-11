@@ -6,12 +6,14 @@ extends RichTextLabel
 
 
 func _ready() -> void:
-	if text_main == "none" : text_main = text
+	pass
 
 
 func update_text():
-	if text_main != text : text_main = text
-	text = text.insert(0, text_insert_start)
+	if text_main != "none" : text = text_main
+	if text != "none" : text_main = text
+	print(text)
+	text = text_main.insert(0, text_insert_start)
+	print(text)
 	text = text.insert(len(text), text_insert_end)
-	print(text_insert_end)
 	print(text)

@@ -25,12 +25,7 @@ var block_buttons = false
 func _ready() -> void:
 	await get_tree().create_timer(0.5, false).timeout
 	
-	add_charges(-20)
-	
-	Globals.refreshed4_0.connect(_on_debug_charges_add_pressed)
 	Globals.entity_collected.connect(_on_debug_charges_max_add_pressed)
-	Globals.entity_killed.connect(_on_debug_charges_add_10_pressed)
-	Globals.player_damage.connect(_on_debug_charges_subtract_10_pressed)
 	Globals.projectile_shot.connect(_on_debug_charges_subtract_pressed)
 	
 	check_projectile_charges()
@@ -40,6 +35,8 @@ func _ready() -> void:
 
 
 func check_projectile_charges():
+	if projectile_charges_max > 25 : return
+	
 	var current_slots = projectile_charges_middle.get_children()
 	
 	for new_slot_id in range(projectile_charges_max - 1): # The first slot is not a part of the system that dynamically adds more slots.
@@ -112,19 +109,15 @@ func _on_debug_charges_subtract_pressed() -> void:
 	
 	timer_block_buttons.wait_time = 4
 	timer_block_buttons.start()
-	
-	add_charges(-1)
 
 func _on_debug_charges_max_add_pressed() -> void:
-	add_slots(randi_range(-1, 3))
+	add_slots(randi_range(-1, 2))
 	
 	if block_buttons : return
 	block_buttons = true
 	
 	timer_block_buttons.wait_time = 0.15
 	timer_block_buttons.start()
-	
-	add_slots(1)
 
 func _on_debug_charges_max_subtract_pressed() -> void:
 	if block_buttons : return

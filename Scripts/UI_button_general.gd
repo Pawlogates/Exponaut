@@ -574,4 +574,5 @@ func handle_exceptions_type_late():
 		if SaveData.get("saved_TUTORIAL_6")[0] < 1:
 			await get_tree().create_timer(1.0, true).timeout
 			Globals.spawn_message_object("To UNLOCK the Level Set screen, you need to finish all 6 of the tutorial levels.", Overlay, position + Vector2(0, menu.position.y) + button_container.position + size / 2 + Vector2(0, -32))
+			print(Globals.window_size)
 			queue_free()

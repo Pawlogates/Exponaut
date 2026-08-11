@@ -1,49 +1,85 @@
-[gd_scene load_steps=4 format=3 uid="uid://bvvuh1tlyahup"]
+[gd_scene load_steps=8 format=3 uid="uid://bvvuh1tlyahup"]
 
 [ext_resource type="Script" uid="uid://bvrppeoi1f1gm" path="res://Scripts/mode_scoreAttack.gd" id="1_q63rt"]
-[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_0yjpv"]
 [ext_resource type="Texture2D" uid="uid://bfk3cy4j5p5yy" path="res://Assets/Graphics/other/scoreDisplay_1.png" id="2_4wv6g"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_0ci4s"]
+[ext_resource type="Theme" uid="uid://csdwsl3byrm40" path="res://Other/Themes/text_score_collect.tres" id="3_wwgfj"]
+[ext_resource type="Texture2D" uid="uid://fx4d1yhe2i5i" path="res://Assets/Graphics/other/orb_purple.png" id="4_qwwkr"]
+[ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="5_t082c"]
+[ext_resource type="PackedScene" uid="uid://ij87xy17xpqa" path="res://Objects/Decorations/glow_shadow_orb_heavy.tscn" id="7_t082c"]
 
-[node name="mode_scoreAttack" type="CharacterBody2D"]
+[node name="mode_score_attack" type="CharacterBody2D" groups=["mode_score_attack"]]
 z_index = 100
 script = ExtResource("1_q63rt")
 
-[node name="scoreAttack_penaltyMultiplier" type="Timer" parent="."]
-wait_time = 2.0
+[node name="cooldown_penalty_multiplier" type="Timer" parent="."]
+one_shot = true
 autostart = true
 
-[node name="scoreAttack_timeLeft_reduction" type="Timer" parent="."]
+[node name="cooldown_reduce_score" type="Timer" parent="."]
 wait_time = 0.05
 autostart = true
 
-[node name="TextureRect" type="TextureRect" parent="."]
-unique_name_in_owner = true
-offset_left = -136.0
-offset_top = -112.0
-offset_right = 113.0
-offset_bottom = -48.0
+[node name="score_counter" type="TextureRect" parent="."]
+z_index = 5
+offset_left = -202.0
+offset_top = -46.0
+offset_right = 118.0
+offset_bottom = 50.0
 texture = ExtResource("2_4wv6g")
 expand_mode = 1
 
-[node name="scoreAttack_timeLeft_display" type="Label" parent="."]
-unique_name_in_owner = true
-offset_left = -124.0
-offset_top = -96.0
-offset_right = 132.0
-theme = ExtResource("2_0yjpv")
-theme_override_font_sizes/font_size = 27
-text = "test"
+[node name="label_score" type="Label" parent="."]
+texture_filter = 1
+offset_left = -186.0
+offset_top = -18.0
+offset_right = 134.0
+offset_bottom = 46.0
+theme = ExtResource("3_wwgfj")
+theme_override_font_sizes/font_size = 35
+text = "9999"
 
-[node name="scoreAttack_penaltyMultiplier_display" type="Label" parent="."]
-unique_name_in_owner = true
-modulate = Color(1, 0.45098, 0.12549, 1)
-offset_left = -112.0
-offset_top = -48.0
-offset_right = 144.0
-offset_bottom = 48.0
-theme = ExtResource("2_0yjpv")
-theme_override_font_sizes/font_size = 20
+[node name="label_penalty_multiplier" type="Label" parent="."]
+modulate = Color(0.941871, 0.360495, 0, 1)
+z_index = 10
+texture_filter = 2
+offset_left = -368.0
+offset_top = -128.0
+offset_right = -112.0
+offset_bottom = 128.0
+theme = ExtResource("3_0ci4s")
+theme_override_constants/outline_size = 12
+theme_override_constants/shadow_outline_size = 16
+theme_override_font_sizes/font_size = 32
 text = "x1"
+horizontal_alignment = 1
+vertical_alignment = 1
 
-[connection signal="timeout" from="scoreAttack_penaltyMultiplier" to="." method="_on_score_attack_penalty_multiplier_timeout"]
-[connection signal="timeout" from="scoreAttack_timeLeft_reduction" to="." method="_on_score_attack_time_left_reduction_timeout"]
+[node name="shadow_orb" type="TextureRect" parent="label_penalty_multiplier"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+layout_mode = 0
+offset_left = 96.0
+offset_top = 96.0
+offset_right = 160.0
+offset_bottom = 160.0
+texture = ExtResource("5_t082c")
+expand_mode = 1
+
+[node name="bg" type="TextureRect" parent="label_penalty_multiplier"]
+z_index = -2
+layout_mode = 0
+offset_left = 96.0
+offset_top = 96.0
+offset_right = 160.0
+offset_bottom = 160.0
+texture = ExtResource("4_qwwkr")
+expand_mode = 1
+
+[node name="glow_shadowOrbHeavy" parent="." instance=ExtResource("7_t082c")]
+position = Vector2(-118, 42)
+range_z_max = 50
+range_item_cull_mask = 513
+
+[connection signal="timeout" from="cooldown_penalty_multiplier" to="." method="_on_score_attack_penalty_multiplier_timeout"]
+[connection signal="timeout" from="cooldown_reduce_score" to="." method="_on_score_attack_time_left_reduction_timeout"]

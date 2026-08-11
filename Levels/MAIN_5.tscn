@@ -16,7 +16,6 @@ camera_boundary_left = -480.0
 camera_boundary_right = 1900.0
 camera_boundary_bottom = 240.0
 camera_boundary_top = -1280.0
-next_level_filepath = "C:/Projects/Exponaut (repository)/Exponaut/Levels/MAIN_10.tscn"
 levelSet_id = "MAIN"
 level_number = 5
 delete_background_layers = true

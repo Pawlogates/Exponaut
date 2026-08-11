@@ -12,6 +12,7 @@
 [node name="screen_results_level" type="CanvasLayer" groups=["screen_results_level"]]
 process_mode = 3
 layer = 11
+visible = false
 script = ExtResource("1_w4h15")
 
 [node name="cooldown_show_results" type="Timer" parent="."]
@@ -114,9 +115,9 @@ unique_name_in_owner = true
 self_modulate = Color(1, 1, 1, 0)
 z_index = 1
 custom_minimum_size = Vector2(640, 64)
-offset_top = 768.0
+offset_top = 700.0
 offset_right = 1920.0
-offset_bottom = 864.0
+offset_bottom = 844.0
 size_flags_horizontal = 4
 
 [node name="label_rank" parent="container_rank" instance=ExtResource("4_6ulxu")]
@@ -183,10 +184,11 @@ color = Color(0, 0, 0, 1)
 [node name="text_manager" parent="." instance=ExtResource("8_dvvxr")]
 modulate = Color(1, 1, 1, 0.588235)
 offset_left = 64.0
-offset_top = 896.0
+offset_top = 880.0
+offset_bottom = -104.0
 text_full = "[anim_rotate_around_y_fade_out]PRESS SPACE TO CONTINUE..."
 text_animation_sync = false
-text_font_size = 48
+text_font_size = 46
 cooldown_create_message = 4.0
 character_anim_speed_scale = 2.0
 character_anim_backwards = true

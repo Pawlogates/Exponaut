@@ -6,7 +6,9 @@ var scene_filepath = Globals.scene_entity_editor
 func _ready() -> void:
 	pass
 
-func _process(_delta: float) -> void:
+func _physics_process(_delta: float) -> void:
+	if Globals.gameState_typing : return
+	
 	if Input.is_action_just_pressed("quickselect"):
 		check()
 

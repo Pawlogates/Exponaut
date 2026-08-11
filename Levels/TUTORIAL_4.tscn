@@ -21,6 +21,7 @@ camera_boundary_top = -1280.0
 next_level_filepath = "res://Levels/TUTORIAL_2.tscn"
 levelSet_id = "TUTORIAL"
 level_number = 4
+force_mode_score_attack_disable = true
 delete_background_layers = true
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_txnpv")]
@@ -65,7 +66,8 @@ target_score = 3000
 
 [node name="info_sign" parent="." index="17" instance=ExtResource("8_qjbpv")]
 position = Vector2(160, 32)
-message_text = "Once understood, the scoring mechanics make you realise that sometimes NOT collecting the collectible, is the correct choice. At least not RIGHT AWAY."
+message_text = "Once understood, the scoring mechanics make you realize that sometimes NOT collecting the collectible, is the correct choice. At least not RIGHT AWAY."
+pause_duration = 10.0
 camera_target_offset = Vector2(480, -64)
 camera_target_rotation = 0.0
 start_hidden = true
@@ -85,10 +87,10 @@ start_hidden_trigger_size_multiplier = 64.0
 
 [node name="info_sign3" parent="." index="19" instance=ExtResource("8_qjbpv")]
 position = Vector2(400, -288)
-message_text = "The trick to ending up with 3000 points here, is to leave the bottom jewel uncollected, and go up to the second one, then quickly drop down on the first one! The blue puzzle object will allow you to retry this as many times as you need."
+message_text = "The trick to ending up with 3000 points here, is to leave the bottom jewel uncollected and go up to the second one, then quickly drop down on the first one! The blue puzzle object will allow you to retry this as many times as you need."
 anim_hide_cooldown = 16.0
 pause_duration = 10.0
-camera_target_offset = Vector2(128, 256)
+camera_target_offset = Vector2(180, -600)
 camera_target_rotation = 0.0
 start_hidden = true
 start_hidden_show_cooldown = 120.0

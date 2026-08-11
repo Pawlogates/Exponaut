@@ -50,7 +50,7 @@ const l_animation_type_main : Array = ["general", "gear"] # The most generally r
 const l_animation_type_limited : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
 const l_animation_type_all : Array = ["general, gear, ui"] # Includes absolutely every animation type.
 
-const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8", "reflect_straight", "rotate_away_up_right"]
+const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8", "reflect_straight", "rotate_away_up_right", "rotate_away_up_right_scale_up"]
 const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2"]
 const l_animation_name_general_all : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
 
@@ -176,6 +176,7 @@ const material_cycle_yellow_orange = preload("res://Other/Materials/cycle_yellow
 const material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres")
 const material_score_value_rainbow2 = preload("res://Other/Materials/score_value_rainbow2.tres")
 const material_score_bonus_rainbow2 = preload("res://Other/Materials/score_bonus_rainbow2.tres")
+const material_tileset_hue_shift = preload("res://Other/Materials/tileset_hue_shift.tres")
 
 const style_button_menu = "res://Other/Styles/button_menu.tres"
 const style_button_menu2 = "res://Other/Styles/button_menu2.tres"
@@ -437,7 +438,8 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	
 	Globals.message_debug("Changing the Main Scene to %s" % scene_filepath)
 	
-	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
+	#if anim_name != "none" : await Overlay.animation(anim_name, 0.25, false, opposite_bool(instant), anim_delay)
+	if anim_name != "none" : await Overlay.animation(anim_name, 0.25, false, true, 0, false, "res://Other/Scenes/transition_gears.tscn", 1.0, Vector2(0, 0))
 	
 	main_scene_previous_filepath = main_scene_filepath
 	main_scene_next_filepath = scene_filepath
@@ -476,21 +478,35 @@ var level_collected_majorCollectibles_module : int = 0
 var level_collected_majorCollectibles_key : int = 0
 var level_killed_enemies : int = 0
 
+# The word "total" refers to the current level set.
 var total_score : int = 0 # Current save slot's total score, combined across all overworld segments and all of the overworld's level set levels.
+var true_total_score : int = 0 # Score combined across every level set's total score.
+
 var total_collected_collectibles : int = 0 # Collectibles collected in the current level set.
 var total_collected_majorCollectibles_module : int = 0
 var total_collected_majorCollectibles_key : int = 0
 var total_killed_enemies : int = 0
 
-var total_collectibles_level : int = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
-var total_majorCollectibles_module_level : int = 0
-var total_majorCollectibles_key_level : int = 0
-var total_enemies_level : int = 0
+var level_collectibles : int = 0 # Total collectible count at the start of a level, not updated ever again, and independent on player progress.
+var level_majorCollectibles_module : int = 0
+var level_majorCollectibles_key : int = 0
+var level_enemies : int = 0
 
-var total_collectibles_levelSet : int = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
-var total_majorCollectibles_module_levelSet : int = 0
-var total_majorCollectibles_key_levelSet : int = 0
-var total_enemies_levelSet : int = 0
+var left_level_collectibles : int = 0 # Total collectibles existing right now in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var left_level_majorCollectibles_module : int = 0
+var left_level_majorCollectibles_key : int = 0
+var left_level_enemies : int = 0
+
+var total_collectibles : int = 0 # Total collectible count at the start of a level, not updated ever again, and independent on player progress.
+var total_majorCollectibles_module : int = 0
+var total_majorCollectibles_key : int = 0
+var total_enemies : int = 0
+
+var left_total_collectibles : int = 0 # Total collectibles existing right now in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var left_total_majorCollectibles_module : int = 0
+var left_total_majorCollectibles_key : int = 0
+var left_total_enemies : int = 0
+
 
 var weapon : Dictionary = {"apply_default" : true} # All the property values needed to construct the main projectile.
 var secondaryWeapon = "none" # The name of the secondary projectile, which there is a specific amount of, unlike the complex main projectile that can have an uncountable amount of variation.
@@ -501,7 +517,11 @@ var weapon_blocked = false
 var gravity = 1.0
 
 var level_time = 0.0 # Current level's playtime.
+var level_time_seconds : int = 0
 var level_damage_taken = 0.0 # Current level's player damage.
+
+
+var mode_score_attack_active : bool = true
 
 
 # Signals:
@@ -702,8 +722,11 @@ var test3
 var test4
 
 
-# Recording:
+# Alternative controls.
+var mobile_touch_controls_active : bool = false
 
+
+# Recording:
 var recording_autostart = false
 
 var recorder_recording_active : bool = false
@@ -1168,12 +1191,12 @@ func set_pause(state : bool = true):
 
 @onready var window_size : Vector2 = Vector2(-1, -1)
 
-func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none"], add_position : Vector2 = window_size * 0, button_size_multiplier : Vector2 = Vector2(1, 1)):
+func spawn_menu(menu_scene = scene_menu_main, l_disable_buttons : Array = ["none"], add_position : Vector2 = window_size * 0, button_size_multiplier : Vector2 = Vector2(1, 1), manual_request : bool = false, force_info_delete : bool = false):
 	if gameState_justStarted : update_player_info(true)
 	else : update_player_info()
 	
 	if SaveData.player_name == "none" : Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
-	else : spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier"], [l_disable_buttons, button_size_multiplier])
+	else : spawn_scenes(Overlay, menu_scene, 1, add_position, -1, Color(0, 0, 0, 0), Vector2(0, 0), 0, ["l_disable_buttons", "button_size_multiplier", "manual_request", "force_info_delete"], [l_disable_buttons, button_size_multiplier, manual_request, force_info_delete])
 
 func handle_spawn_menu(manual_request : bool = false):
 	if len(get_tree().get_nodes_in_group("menu_main")) > 0:
@@ -1183,18 +1206,21 @@ func handle_spawn_menu(manual_request : bool = false):
 		
 		if gameState_scoring_focus:
 			if gameState_level:
-				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
+				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 300), Vector2(1, 1), manual_request)
 				return
 			elif gameState_levelSet_screen:
-				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 350))
+				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 340), Vector2(1, 1), manual_request)
 				return
 		
 		elif gameState_level:
 			spawn_menu()
 			return
 	
-	if gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+	if gameState_level:
+		return
+	
+	elif gameState_levelSet_screen:
+		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 340), Vector2(1, 1), manual_request)
 		return
 	
 	elif gameState_start_screen:
@@ -1535,12 +1561,19 @@ func node_exists(group_name : String):
 
 
 func restart_level():
+	if is_instance_valid(World):
+		if level_time_seconds < 90:
+			if not World.level_finished_active and not SaveData.get("saved_" + level_id)[0] >= 1:
+				if Globals.level_id == "TUTORIAL_4" or Globals.level_id == "TUTORIAL_5" or Globals.level_id == "TUTORIAL_6":
+					message("Give it a bit more time! Make sure to read the hints that appear every so often in these levels. You can do it! Also... Press ESC to close the menu.", 0, Vector2(0, 0), 8, 4)
+					return
+	
 	get_tree().call_group("entity", "queue_free")
 	get_tree().paused = true
 	
 	reset_values_level()
 	
-	Overlay.animation("fade_black", true, 1.0, true)
+	await Overlay.animation("black_fade_in", 0.25, false, true, 0, false, "res://Other/Scenes/transition_gears.tscn", 1.0, Vector2(0, 0))
 	
 	get_tree().reload_current_scene()
 
@@ -1549,7 +1582,7 @@ func reset_values_level():
 	combo_score = 0
 	combo_tier = 1
 	combo_streak = 0
-	player_health = World.player_start_health
+	if is_instance_valid(World) : player_health = World.player_start_health
 
 
 func get_recording_level_best_score(level_id : String, player_name : String = SaveData.player_name):
@@ -1788,3 +1821,9 @@ func spawn_message_object(message_text : String = "message", target : Node = mai
 	message_object.message_text = message_text
 	message_object.randomize_effects = randomize_effects
 	target.add_child(message_object)
+
+
+func get_random_bool(true_chance : float = 50.0):
+	var rolled_float : float = randf_range(0.0, 100)
+	if rolled_float < true_chance : return true
+	else : return false

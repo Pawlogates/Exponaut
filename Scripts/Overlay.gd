@@ -19,7 +19,7 @@ func _physics_process(_delta: float) -> void:
 
 
 # Called from anywhere outside of this script. Example: animation("black_fade_in", 1.0, false, true)
-func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true, delay : float = 0.25, await_delay : float = 0.25):
+func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true, delay : float = 0.25, await_delay : float = 0.25, transition_filepath : String = "none", transition_anim_speed : float = 1.0, transition_add_scale : Vector2 = Vector2(0, 0)):
 	animation_player.speed_scale = speed
 	
 	if delay : await get_tree().create_timer(delay, true).timeout
@@ -28,6 +28,12 @@ func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_
 		animation_player.play_backwards(str(anim_name))
 	else:
 		animation_player.play(str(anim_name))
+	
+	if transition_filepath != "none":
+		var transition : Node = await Globals.spawn_scenes(self, transition_filepath)
+		#if anim_name == "black_fade_out" : transition.scale.x = -1
+		transition.scale += transition_add_scale
+		if transition_anim_speed != -1 : transition.anim_speed = transition_anim_speed
 	
 	if await_finished : await animation_player.animation_finished
 	

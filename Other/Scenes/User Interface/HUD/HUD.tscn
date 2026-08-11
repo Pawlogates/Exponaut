@@ -1,8 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://venyptfcari1"]
+[gd_scene load_steps=7 format=3 uid="uid://venyptfcari1"]
 
 [ext_resource type="Script" uid="uid://6oq0agwanlkd" path="res://Other/Scenes/User Interface/HUD/HUD_manager.gd" id="1_fblkw"]
 [ext_resource type="PackedScene" uid="uid://cpuihqge2yjh4" path="res://Other/Scenes/User Interface/HUD/player_main.tscn" id="1_iqrlt"]
-[ext_resource type="Theme" uid="uid://dcxfejhbbj3pi" path="res://Other/Themes/button_menu.tres" id="2_2eo37"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="4_l7t4o"]
 [ext_resource type="PackedScene" uid="uid://4rdhbwr8gea4" path="res://Other/Scenes/User Interface/score_display.tscn" id="4_yr68u"]
 [ext_resource type="PackedScene" uid="uid://bgdbvshlvmes1" path="res://Other/Scenes/User Interface/HUD/info_downRight.tscn" id="5_7reqh"]
@@ -51,12 +50,12 @@ offset_bottom = 1046.0
 [node name="animation_ui" parent="." instance=ExtResource("9_v8p1v")]
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-custom_minimum_size = Vector2(400, 200)
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_top = -200.0
-offset_right = 400.0
+offset_right = 320.0
+offset_bottom = -92.0
 grow_vertical = 0
 
 [node name="filler_TotalCollectibles_collected" type="CenterContainer" parent="VBoxContainer"]
@@ -65,9 +64,9 @@ layout_mode = 2
 [node name="filler_TotalCollectibles_collected" type="Label" parent="VBoxContainer/filler_TotalCollectibles_collected"]
 custom_minimum_size = Vector2(320, 40)
 layout_mode = 2
-theme = ExtResource("2_2eo37")
+theme = ExtResource("4_l7t4o")
 theme_override_font_sizes/font_size = 22
-text = "Collectibles collected"
+text = "Collectibles:"
 horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
@@ -79,9 +78,8 @@ layout_mode = 2
 unique_name_in_owner = true
 custom_minimum_size = Vector2(128, 64)
 layout_mode = 2
-theme = ExtResource("2_2eo37")
+theme = ExtResource("4_l7t4o")
 text = "0"
 horizontal_alignment = 1
-vertical_alignment = 1
 
 [connection signal="animation_finished" from="animation_ui" to="." method="_on_animation_ui_animation_finished"]

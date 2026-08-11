@@ -74,3 +74,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "opacity_fade_in":
 		await get_tree().create_timer(0.5, false).timeout
 		$AnimationPlayer.play("opacity_fade_out")
+	elif anim_name == "opacity_fade_out":
+		queue_free()

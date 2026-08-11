@@ -166,7 +166,10 @@ func _on_focus_exited():
 	%glow_root.modulate.a = 1.0
 
 
+var hovered : bool = false
+
 func _on_mouse_entered():
+	hovered = true
 	if is_instance_valid(icon_main) : icon_main.scale = Vector2(0.6, 0.6)
 	
 	if unlocked:
@@ -179,9 +182,11 @@ func _on_mouse_entered():
 	%decoration_glow.modulate.a = 0.5
 	
 	update_level_info()
-	show_display_level_info()
+	await get_tree().create_timer(0.5, true).timeout
+	if hovered : show_display_level_info()
 
 func _on_mouse_exited():
+	hovered = false
 	if is_instance_valid(icon_main) : icon_main.scale = Vector2(0.5, 0.5)
 	
 	if unlocked:
@@ -192,6 +197,8 @@ func _on_mouse_exited():
 		Globals.message("This level is locked.")
 	
 	%decoration_glow.modulate.a = 1.0
+	
+	await get_tree().create_timer(0.25, true).timeout
 	
 	if screen_levelSet.has_node("display_level_info"):
 		for display in get_tree().get_nodes_in_group("levelSet_display"):

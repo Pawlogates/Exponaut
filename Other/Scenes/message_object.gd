@@ -20,7 +20,7 @@ func _ready() -> void:
 		if randomize_effects and Globals.random_bool(1, 1):
 			text_manager.text_full = "[anim_rotate_away_up_right]" + message_text
 			text_manager.character_anim_backwards = true
-			text_manager.character_anim_speed_scale = randf_range(1, 2.5)
+			text_manager.character_anim_speed_scale = randf_range(1, 2.0)
 			text_manager.text_animation_sync = Globals.random_bool(1, 1)
 		else:
 			text_manager.text_full = message_text
@@ -28,7 +28,7 @@ func _ready() -> void:
 		text_manager.create_message()
 	
 	
-	if randomize_effects : animation_all.speed_scale = randf_range(1, 2.5)
+	if randomize_effects : animation_all.speed_scale = randf_range(1, 2.0)
 	animation_all.play("general/appear_move_up_slow")
 	
 	await get_tree().create_timer(10, true).timeout

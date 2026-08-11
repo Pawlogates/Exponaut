@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://c0gwsftnbx0kh"]
+[gd_scene load_steps=11 format=3 uid="uid://c0gwsftnbx0kh"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_2m4u5"]
 [ext_resource type="Script" uid="uid://cu4icie6i5b5x" path="res://Scripts/leaf.gd" id="2_ber6o"]
+[ext_resource type="AnimationLibrary" uid="uid://bkfdcrnwgreqf" path="res://Other/Particles/leaf_fall_down.tres" id="3_r0u68"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0npte"]
 atlas = ExtResource("1_2m4u5")
@@ -53,64 +54,9 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="Animation" id="Animation_ihg6s"]
-length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
-
-[sub_resource type="Animation" id="Animation_pp4ka"]
-resource_name = "falling"
-length = 8.0
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:position:x")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 2, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 1.4, -116, 177, -1, 22, 1.1, -68, -87, -0.7, 0, 0.6, 0, 86, -1, -43, 1.4, 19, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2.2, 4.3, 6.1, 8)
-}
-tracks/1/type = "bezier"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position:y")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1296, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 8)
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_40unu"]
-_data = {
-&"RESET": SubResource("Animation_ihg6s"),
-&"falling": SubResource("Animation_pp4ka")
-}
-
 [node name="leaf_root" type="Node2D"]
+modulate = Color(0.321584, 0.640845, 0.348459, 1)
+z_index = 101
 
 [node name="leaf" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6i24x")
@@ -120,13 +66,7 @@ script = ExtResource("2_ber6o")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="leaf"]
 libraries = {
-"": SubResource("AnimationLibrary_40unu")
+&"": ExtResource("3_r0u68")
 }
-autoplay = "falling"
 
-[node name="Timer" type="Timer" parent="leaf"]
-wait_time = 8.0
-one_shot = true
-autostart = true
-
-[connection signal="timeout" from="leaf/Timer" to="leaf" method="_on_timer_timeout"]
+[connection signal="animation_finished" from="leaf/AnimationPlayer" to="leaf" method="_on_animation_player_animation_finished"]

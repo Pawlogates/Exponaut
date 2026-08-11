@@ -50,7 +50,7 @@ func _ready() -> void:
 		Globals.dm("Made a Text Manager Character's simple background visible.", "GREEN")
 		bg.visible = true
 		bg.color = bg_simple_color
-		bg.size.x += 4
+		bg.size.x *= 2
 	else:
 		Globals.dm("Deleted a Text Manager Character's simple background.", "RED")
 		bg.queue_free()
@@ -62,11 +62,34 @@ func _ready() -> void:
 	await get_tree().create_timer(0.5, true).timeout
 	
 	if character.text.is_valid_int():
-		custom_minimum_size.x = 22
+		custom_minimum_size.x = 20
 		character.theme = load("res://Other/Themes/text_score_display.tres")
 	
-	if character.text == "m":
-		custom_minimum_size.x = 22
+	if character.text == "m" or character.text == "C":
+		custom_minimum_size.x = 28
+	elif character.text == "w":
+		custom_minimum_size.x = 26
+	elif character.text == "i" or character.text == "I" or character.text == "." or character.text == "," or character.text == ":" or character.text == "-":
+		custom_minimum_size.x = 14
+	elif character.text == "M" or character.text == "O" or character.text == "W":
+		custom_minimum_size.x = 34
+	elif character.text == "H" or character.text == "Q" or character.text == "S" or character.text == "L":
+		custom_minimum_size.x = 24
+	elif character.text == "N" or character.text == "R" or character.text == "G" or character.text == "E":
+		custom_minimum_size.x = 28
+	elif character.text == "X" or character.text == "G":
+		custom_minimum_size.x = 26
+	elif character.text == "D" or character.text == "U" or character.text == "A":
+		custom_minimum_size.x = 28
+	elif character.text == "T" or character.text == "F" or character.text == "P" or character.text == "K" or character.text == "Y" or character.text == "V":
+		custom_minimum_size.x = 26
+	
+	if not character["theme_override_font_sizes/normal_font_size"] == 46 and not character.text.is_valid_int():
+		if custom_minimum_size.x >= 16:
+			custom_minimum_size.x = 16
+		if character.text in ["i", "t", "l", "r"] : custom_minimum_size.x = 10
+		elif character.text in ["d", "c", "k"] : custom_minimum_size.x = 12
+		elif character.text in ["o"] : custom_minimum_size.x = 16
 
 func _process(delta: float) -> void:
 	if removable:

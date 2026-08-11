@@ -878,7 +878,7 @@ func handle_attack_main():
 	elif dead : return
 	elif Globals.weapon_blocked : return
 	
-	if Input.is_action_pressed("attack_secondary"):
+	if Input.is_action_pressed("attack_secondary") or not Globals.mobile_touch_controls_active and Input.is_action_pressed("RMB"):
 		if c_attack.time_left > 0.0 : return
 		c_attack.start()
 		
@@ -896,7 +896,7 @@ func handle_attack_main():
 			sprite.flip_h = (direction_x < 0)
 	
 	
-	elif Input.is_action_just_pressed("attack_main"):
+	elif Input.is_action_just_pressed("attack_main") or not Globals.mobile_touch_controls_active and Input.is_action_just_pressed("LMB"):
 		if c_attack.time_left > 0.0 : return
 		c_attack.wait_time = 0.1
 		c_attack.start()

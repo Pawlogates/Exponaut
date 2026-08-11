@@ -1,0 +1,61 @@
+[gd_scene load_steps=3 format=3 uid="uid://d3vw0viv0fpu7"]
+
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="1_2op3p"]
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="2_lixv7"]
+
+[node name="hint" type="Node2D"]
+
+[node name="root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="animation_all" parent="root" instance=ExtResource("1_2op3p")]
+autoplay = "general/loop_up_down_slight"
+
+[node name="main" type="Node2D" parent="root"]
+
+[node name="ColorRect" type="ColorRect" parent="root/main"]
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 59.0
+offset_bottom = 6.0
+rotation = -0.523599
+
+[node name="ColorRect2" type="ColorRect" parent="root/main"]
+offset_left = -45.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -24.0
+rotation = 0.523599
+
+[node name="bg" type="Node2D" parent="root"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+position = Vector2(0, -4)
+
+[node name="ColorRect" type="ColorRect" parent="root/bg"]
+offset_left = -1.0
+offset_top = -2.0
+offset_right = 59.0
+offset_bottom = 6.0
+rotation = -0.523599
+
+[node name="ColorRect2" type="ColorRect" parent="root/bg"]
+offset_left = -45.0
+offset_top = -32.0
+offset_right = 15.0
+offset_bottom = -24.0
+rotation = 0.523599
+
+[node name="TextureRect" type="TextureRect" parent="root"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -64.0
+offset_top = -68.0
+offset_right = 64.0
+offset_bottom = 60.0
+texture = ExtResource("2_lixv7")
+expand_mode = 1

@@ -174,7 +174,7 @@ func create_entries(f_level_id : String = "all"):
 				await get_tree().create_timer(0.025, true).timeout
 	
 	else:
-		entry_create(["No recordings have been submitted.", -1, -1, -1, -1])
+		entry_create(["Leaderboard offline.", -1, -1, -1, -1])
 	
 	sort_entries("score")
 	

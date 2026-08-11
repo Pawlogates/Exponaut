@@ -9,7 +9,7 @@ extends Control
 
 @export var cooldown_next_character : float = 0.05
 @export var cooldown_remove_message : float = -1.0
-@export var cooldown_create_message : float = -1.0
+@export var cooldown_create_message : float = 0.25
 
 @export var character_anim_speed_scale : float = 1.0
 @export var character_anim_backwards : bool = false
@@ -20,6 +20,8 @@ extends Control
 
 @export var text_offset = Vector2(0, 0)
 
+
+var number_messages_created : int = 0
 
 var text_visible = "none"
 
@@ -64,10 +66,12 @@ var current_character_is_rule_name = false
 var current_rule = "none"
 
 func create_message(message : String = text_full):
-	if message == "none" : return
-	
-	text_full = message
+	if message == "" : return
+	if message == "none" : message = text_full
 	print(text_full)
+	
+	number_messages_created += 1
+	var message_number = number_messages_created
 	
 	if cooldown_create_message != -1.0 and not cooldown_create_message == 0.0:
 		Globals.message_debug(str("Text Manager's message creation has been delayed by %s") % cooldown_create_message, 3)
@@ -83,6 +87,14 @@ func create_message(message : String = text_full):
 	character_id = 0
 	
 	for character in message:
+		
+		# Used to prevent message text from leaking into other messages if they were requested before the previous one had finished being generated.
+		if number_messages_created != message_number:
+			for node in $row1.get_children():
+				node.queue_free()
+			
+			return
+		
 		if current_character_is_rule_name:
 			current_rule += character
 			
@@ -126,10 +138,10 @@ func add_letter(character):
 		if current_rule == str("[anim_%s]" % anim_name):
 			
 			if is_instance_valid(letter.character) and is_instance_valid(letter.animation_player):
-					letter.animation_player.speed_scale = character_anim_speed_scale
-					
-					if character_anim_backwards : letter.animation_player.play_backwards(anim_name)
-					else : letter.animation_player.play(anim_name)
+				letter.animation_player.speed_scale = character_anim_speed_scale
+				
+				if character_anim_backwards : letter.animation_player.play_backwards(anim_name)
+				else : letter.animation_player.play(anim_name)
 	
 	#if not current_rule == "[anim_fade_out_up]" and not current_rule == "[/]" and not current_rule == "":
 	
@@ -170,3 +182,28 @@ var debug_available = true
 
 func _on_cooldown_debug_available_timeout() -> void:
 	debug_available = true
+
+
+func message(new_text_full : String = "none", new_text_alignment : int = -1, new_text_animation_sync : bool = text_animation_sync, new_text_font_size : int = -1, new_cooldown_next_character : float = -1.0, new_cooldown_remove_message : float = -1.0, new_cooldown_create_message : float = -1.0, new_character_anim_speed_scale : float = -1.0, new_character_anim_backwards : bool = character_anim_backwards, new_text_animation_add_offset : float = -1.0, new_character_bg_simple : bool = character_bg_simple, new_character_bg_simple_color : Color = Color(-1, -1, -1, -1), new_text_offset = Vector2(-1, -1)):
+	if new_text_full != "none" : text_full = new_text_full
+	
+	if new_text_alignment != -1 : text_alignment = new_text_alignment
+	text_animation_sync = new_text_animation_sync
+	if new_text_font_size != -1 : text_font_size = new_text_font_size
+	
+	if new_cooldown_next_character != -1 : cooldown_next_character = new_cooldown_next_character
+	if new_cooldown_remove_message != -1 : cooldown_remove_message = new_cooldown_remove_message
+	if new_cooldown_create_message != -1 : cooldown_create_message = new_cooldown_create_message
+	
+	if new_character_anim_speed_scale != -1 : character_anim_speed_scale = new_character_anim_speed_scale
+	character_anim_backwards = new_character_anim_backwards
+	if text_animation_add_offset != -1 : text_animation_add_offset = new_text_animation_add_offset
+	
+	character_bg_simple = new_character_bg_simple
+	if new_character_bg_simple_color != Color(-1, -1, -1, -1) : character_bg_simple_color = new_character_bg_simple_color
+	
+	if new_text_offset.x != -1 : text_offset.x = new_text_offset.x
+	if new_text_offset.y != -1 : text_offset.y = new_text_offset.y
+	
+	create_message()
+	Globals.message_debug("Text Manager message has been requested by a Button.")

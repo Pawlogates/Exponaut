@@ -1,10 +1,12 @@
-[gd_scene load_steps=11 format=3 uid="uid://4f80mle80wo6"]
+[gd_scene load_steps=14 format=3 uid="uid://4f80mle80wo6"]
 
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_sd4uq"]
 [ext_resource type="Texture2D" uid="uid://cgij2ayo7erbd" path="res://Assets/Graphics/sprites/sprites_userInterface.png" id="2_j8vbx"]
 [ext_resource type="Script" uid="uid://x8n15ou3pdrt" path="res://Scripts/levelSet_display_level_info.gd" id="2_rumxb"]
 [ext_resource type="Texture2D" uid="uid://clag2hx0qe4c5" path="res://s1.png" id="2_wfxt5"]
 [ext_resource type="PackedScene" uid="uid://4olk0q7d1acn" path="res://Objects/Decorations/line.tscn" id="5_rumxb"]
+[ext_resource type="Shader" uid="uid://cmxevu6p4n1ey" path="res://Other/Shaders/hueShift_effect.gdshader" id="6_8ag1f"]
+[ext_resource type="Texture2D" uid="uid://citsenyef5rc0" path="res://Assets/Graphics/icons/on_death_spawn_entity_quantity.png" id="7_8ag1f"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rumxb"]
 atlas = ExtResource("2_j8vbx")
@@ -138,6 +140,10 @@ _data = {
 &"RESET": SubResource("Animation_qyyig"),
 &"show": SubResource("Animation_rumxb")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_n12jr"]
+shader = ExtResource("6_8ag1f")
+shader_parameter/hue_value = -0.65
 
 [node name="display_level_info" type="Control" groups=["levelSet_display"]]
 process_mode = 1
@@ -331,6 +337,51 @@ autostart = true
 libraries = {
 &"": SubResource("AnimationLibrary_8ag1f")
 }
+speed_scale = 4.0
+
+[node name="mark_mode_score_attack" type="TextureRect" parent="."]
+modulate = Color(1, 1, 1, 0.33)
+z_index = 10
+material = SubResource("ShaderMaterial_n12jr")
+layout_mode = 0
+offset_left = 576.0
+offset_top = 64.0
+offset_right = 704.0
+offset_bottom = 192.0
+texture = ExtResource("7_8ag1f")
+
+[node name="Label" type="Label" parent="mark_mode_score_attack"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 128.0
+offset_right = 160.0
+offset_bottom = 176.0
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/font_size = 16
+text = "SCORE ATTACK MODE"
+horizontal_alignment = 1
+
+[node name="shadow" type="TextureRect" parent="mark_mode_score_attack"]
+modulate = Color(0, 0, 0, 1)
+z_index = -1
+layout_mode = 0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 124.0
+offset_bottom = 124.0
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("7_8ag1f")
+
+[node name="Label" type="Label" parent="mark_mode_score_attack/shadow"]
+layout_mode = 0
+offset_left = -32.0
+offset_top = 128.0
+offset_right = 160.0
+offset_bottom = 176.0
+theme = ExtResource("1_sd4uq")
+theme_override_font_sizes/font_size = 16
+text = "SCORE ATTACK MODE"
+horizontal_alignment = 1
 
 [connection signal="timeout" from="cooldown_preview" to="." method="_on_cooldown_preview_timeout"]
 [connection signal="area_entered" from="scan_valid" to="." method="_on_scan_valid_area_entered"]

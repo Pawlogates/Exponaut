@@ -58,74 +58,75 @@ func _process(_delta):
 			modulate = Color.WHITE
 			sprite.modulate.a = 1
 	
-	if Input.is_action_just_released("attack_main") and not charged and not started:
-		Globals.projectile_shot.emit()
-		charged_shot_buffer.stop()
-		x = rng.randf_range(0, 2)
-		audio_stream_player_2d.set_pitch_scale(x)
-		audio_stream_player_2d.play()
+	if Input.is_action_just_released("attack_main") or Input.is_action_just_released("LMB"):
+		if not charged and not started:
+			Globals.projectile_shot.emit()
+			charged_shot_buffer.stop()
+			x = rng.randf_range(0, 2)
+			audio_stream_player_2d.set_pitch_scale(x)
+			audio_stream_player_2d.play()
+			
+			charged_shot.visible = false
+			
+			if Input.is_action_pressed("move_down") and projectile_shot == false:
+				direction_y = 1
+				
+				shot_anim.play("shot_animDOWN")
+				player_projectile_phaser.visible = true
+				projectile_shot = true
+				
+				can_collect = true
+				await get_tree().create_timer(0.5, false).timeout
+				upward_shot = true
+			
+			elif Globals.player_direction_x_active == -1 and projectile_shot == false:
+					shot_anim.play("shot_animL")
+					player_projectile_phaser.visible = true
+					projectile_shot = true
+			
+			elif Globals.player_direction_x_active == 1 and projectile_shot == false:
+					shot_anim.play("shot_animR")
+					player_projectile_phaser.visible = true
+					projectile_shot = true
 		
-		charged_shot.visible = false
-		
-		if Input.is_action_pressed("move_down") and projectile_shot == false:
+		elif charged and not started and not projectile_shot and Input.is_action_pressed("move_down"):
 			direction_y = 1
 			
-			shot_anim.play("shot_animDOWN")
+			damage_value = 3
+			started = true
+			charged_shot.visible = false
+			audio_stream_player_2d.play()
 			player_projectile_phaser.visible = true
+			shot_anim.play("shot_anim_CHARGED_DOWN")
+			charged_shot_buffer.stop()
 			projectile_shot = true
 			
 			can_collect = true
 			await get_tree().create_timer(0.5, false).timeout
 			upward_shot = true
-
-		elif Globals.player_direction_x_active == -1 and projectile_shot == false:
-				shot_anim.play("shot_animL")
-				player_projectile_phaser.visible = true
-				projectile_shot = true
-	
-		elif Globals.player_direction_x_active == 1 and projectile_shot == false:
-				shot_anim.play("shot_animR")
-				player_projectile_phaser.visible = true
-				projectile_shot = true
-	
-	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Input.is_action_pressed("move_down"):
-		direction_y = 1
-		
-		damage_value = 3
-		started = true
-		charged_shot.visible = false
-		audio_stream_player_2d.play()
-		player_projectile_phaser.visible = true
-		shot_anim.play("shot_anim_CHARGED_DOWN")
-		charged_shot_buffer.stop()
-		projectile_shot = true
-		
-		can_collect = true
-		await get_tree().create_timer(0.5, false).timeout
-		upward_shot = true
 	
 	
-	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.player_direction_x_active == 1:
-		damage_value = 3
-		started = true
-		charged_shot.visible = false
-		audio_stream_player_2d.play()
-		player_projectile_phaser.visible = true
-		shot_anim.play("shot_anim_CHARGED_R")
-		Globals.projectile_shot.emit()
-		charged_shot_buffer.stop()
-		projectile_shot = true
+		elif charged and not started and not projectile_shot and Globals.player_direction_x_active == 1:
+			damage_value = 3
+			started = true
+			charged_shot.visible = false
+			audio_stream_player_2d.play()
+			player_projectile_phaser.visible = true
+			shot_anim.play("shot_anim_CHARGED_R")
+			Globals.projectile_shot.emit()
+			charged_shot_buffer.stop()
+			projectile_shot = true
 	
-	elif charged == true and Input.is_action_just_released("attack_main") and charged and not started and not projectile_shot and Globals.player_direction_x_active == -1:
-		damage_value = 3
-		started = true
-		charged_shot.visible = false
-		audio_stream_player_2d.play()
-		player_projectile_phaser.visible = true
-		shot_anim.play("shot_anim_CHARGED_L")
-		Globals.projectile_shot.emit()
-		charged_shot_buffer.stop()
-		projectile_shot = true
+		elif charged and not started and not projectile_shot and Globals.player_direction_x_active == -1:
+			damage_value = 3
+			started = true
+			charged_shot.visible = false
+			audio_stream_player_2d.play()
+			player_projectile_phaser.visible = true
+			shot_anim.play("shot_anim_CHARGED_L")
+			Globals.projectile_shot.emit()
+			charged_shot_buffer.stop()
+			projectile_shot = true
 
 
 func _on_timer_timeout():

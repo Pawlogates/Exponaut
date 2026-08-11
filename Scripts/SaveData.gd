@@ -5,7 +5,7 @@ var player_name : String = "none"
 
 # Level Set data: - [START]
 const default_saved_levelSet = [-1, 0, 0]
-const default_saved_level = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+const default_saved_level = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
 const default_info_levelSet = ["Main Levels", 12, "Pawlogates", "none", "none", Globals.d_backgrounds + "/bg_levelSet_MAIN.png", "res://Other/Scenes/Level Set/levelSet_decoration_MAIN.tscn"]
 const default_info_level = ["Level name", 0, -460, 40, 180000, 60, "Level description", "creator", "difficulty", "type"]
 const default_unlock_levelSet = [true, "none", "none", "none", "none", "none", "none", "none"]
@@ -20,25 +20,25 @@ var saved_TUTORIAL = [-1, 0, 0] # [unlock state, score rank, time rank]
 
 # Saved level progress:
 # saved_[levelSet_id]_[level_number] : [state, score, time, major_collectibles] States: -1 - Locked. 0 - Unfinished. 1 - Finished. 2 - All major collectibles collected. 3 - All collectibles collected. Note: Values in major_collectibles represent: 0 - Not collected. 1 - Collected.
-var saved_TUTORIAL_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_TUTORIAL_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var saved_TUTORIAL_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_TUTORIAL_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_TUTORIAL_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_TUTORIAL_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_TUTORIAL_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_TUTORIAL_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
-var info_TUTORIAL = ["Tutorial Levels", 6, "Pawlogates", "none", "none", Globals.d_backgrounds + "/bg_levelSet_TUTORIAL.png", "res://Other/Scenes/Level Set/levelSet_decoration_TUTORIAL.tscn"]
+var info_TUTORIAL = ["Tutorial Levels", 6, "Pawlogates", "none", "none", "res://thumbnail.png", "res://Other/Scenes/Level Set/levelSet_decoration_TUTORIAL.tscn"]
 
 # Level information (static):
 # info_[levelSet_id]_[level_number] : [name, icon_number, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
-const info_TUTORIAL_1 = ["Training Tunnel", 0, 320, -320, 40000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_2 = ["Look Before You Leap", 2, 320, -256, 60000, 60, "something", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_3 = ["Sour Taste", 1, 320, -192, 80000, 60, "hello", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_4 = ["The Missing Piece", 0, 384, -320, 3000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_5 = ["Order of Operations", 2, 384, -256, 2000, 60, "something", "Pawlogates", "beginner", "regular"]
-const info_TUTORIAL_6 = ["Chain of Command", 3, 384, -192, 3000, 60, "hello", "Pawlogates", "beginner", "regular"]
+const info_TUTORIAL_1 = ["Training Tunnel", 0, 440, -20, 40000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
+const info_TUTORIAL_2 = ["Look Before You Leap", 2, 440, 50, 120000, 60, "So that's what the projectiles are for...", "Pawlogates", "beginner", "regular"]
+const info_TUTORIAL_3 = ["Sour Taste", 1, 440, 120, 80000, 60, "Collect every score item, or else!", "Pawlogates", "beginner", "regular"]
+const info_TUTORIAL_4 = ["The Missing Piece", 0, 520, -20, 3000, 60, "Learn about COMBO SCORE.", "Pawlogates", "beginner", "regular"]
+const info_TUTORIAL_5 = ["Order of Operations", 2, 520, 50, 2000, 60, "Learn about STARTING A COMBO STREAK", "Pawlogates", "beginner", "regular"]
+const info_TUTORIAL_6 = ["Chain of Command", 3, 520, 120, 3000, 60, "Learn about INCREASING THE COMBO SCORE MULTIPLIER.", "Pawlogates", "beginner", "regular"]
 
 # Level set unlock methods (static):
 # unlock_[levelSet_id] : [previous, portal_in_level_id, key_in_level_id, score_in_level_id, score_in_levelSet_id, score_in_overworld_levelSet_id, time_in_level_id, time_in_levelSet_id] Note: Set an unlock method to "false" or "none" if it should be ignored. If all are set to "false" or "none", the level set will be unlocked from the start.
@@ -73,16 +73,16 @@ var saved_MAIN = [-1, 0, 0] # [unlock state, score rank, time rank]
 
 # Saved level progress:
 # saved_[levelSet_id]_[level_number] : [state, score, time, major_collectibles] States: -1 - Locked. 0 - Unfinished. 1 - Finished. 2 - All major collectibles collected. 3 - All collectibles collected. Note: Values in major_collectibles represent: 0 - Not collected. 1 - Collected.
-var saved_MAIN_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_8 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_9 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_MAIN_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var saved_MAIN_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_8 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_9 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_MAIN_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
@@ -90,7 +90,7 @@ var info_MAIN = ["Main Levels", 10, "Pawlogates", "none", "none", Globals.d_back
 
 # Level information (static):
 # info_[levelSet_id]_[level_number] : [name, icon_number, icon_position_x, icon_position_y, score_target, time_target, creator, message, difficulty]
-const info_MAIN_1 = ["Training Tunnel", 0, -320, -256, 40000, 60, "Calm before the storm?", "Pawlogates", "beginner", "regular"]
+const info_MAIN_1 = ["Turbulent Trek", 0, -320, -256, 40000, 60, "Avoid the pointy stuff.", "Pawlogates", "beginner", "regular"]
 const info_MAIN_2 = ["Valley of Vigor", 2, -360, 80, 75000, 60, "Don't look down, just go there.", "Pawlogates", "beginner", "regular"]
 const info_MAIN_3 = ["Toggle Land", 1, 280, 60, 250000, 60, "It's a black and white situation. Just watch you still complicate it...", "Pawlogates", "beginner", "regular"]
 const info_MAIN_4 = ["Carrots and Sticks", 1, 180, 40, 80000, 60, "You won't stay a rabbit person after this.", "Pawlogates", "beginner", "regular"]
@@ -142,16 +142,16 @@ var saved_BONUS = [-1, 0, 0] # [unlock state, score rank, time rank]
 
 # Saved level progress:
 # saved_[levelSet_id]_[level_number] : [state, score, time, major_collectibles] States: -1 - Locked. 0 - Unfinished. 1 - Finished. 2 - All major collectibles collected. 3 - All collectibles collected. Note: Values in major_collectibles represent: 0 - Not collected. 1 - Collected.
-var saved_BONUS_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_8 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_9 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_BONUS_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var saved_BONUS_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_8 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_9 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_BONUS_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
@@ -211,16 +211,16 @@ var saved_DEBUG = [-1, 0, 0] # [unlock state, score rank, time rank]
 
 # Saved level progress:
 # saved_[levelSet_id]_[level_number] : [state, score, time, major_collectibles] States: -1 - Locked. 0 - Unfinished. 1 - Finished. 2 - All major collectibles collected. 3 - All collectibles collected. Note: Values in major_collectibles represent: 0 - Not collected. 1 - Collected.
-var saved_DEBUG_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_8 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_9 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-var saved_DEBUG_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
+var saved_DEBUG_1 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_2 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_3 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_4 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_5 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_6 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_7 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_8 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_9 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
+var saved_DEBUG_10 = [-1, 0, -1, [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], false, false, false]
 
 # Level set information (static):
 # info_[levelSet_id] : [levelSet_name, level_quantity, levelSet_author, levelSet_message, levelSet_difficulty, levelSet_background_filepath, levelSet_decoration_filepath]
@@ -900,7 +900,7 @@ func create_dir_saves():
 	dir.make_dir("levelState")
 
 
-func save_level(level_id : String, state : int, score : float, time : float, major_collectibles : Array):
+func save_level(level_id : String, state : int, score : float, time : float, major_collectibles : Array, finished_in_challenge_mode : bool = false, finished_in_score_attack_mode : bool = false, finished_in_collect_note_mode : bool = false):
 	if Globals.recorder_playback_active:
 		print("Level results were not saved because it was requested during playback.")
 		return
@@ -920,6 +920,10 @@ func save_level(level_id : String, state : int, score : float, time : float, maj
 	if state > level_data[0] : level_data[0] = state
 	if score > level_data[1] : level_data[1] = score
 	if time > level_data[2] : level_data[2] = time
+	
+	if finished_in_challenge_mode : level_data[4] = finished_in_challenge_mode
+	if finished_in_score_attack_mode : level_data[5] = finished_in_score_attack_mode
+	if finished_in_collect_note_mode : level_data[6] = finished_in_collect_note_mode
 	
 	var slot_position : int = 0
 	for slot in level_data[3]:

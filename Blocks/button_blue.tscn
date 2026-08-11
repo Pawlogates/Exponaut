@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://bfgw2irxn04m4"]
+[gd_scene load_steps=11 format=3 uid="uid://bfgw2irxn04m4"]
 
 [ext_resource type="Script" uid="uid://paaly4yxp46h" path="res://Scripts/button_entity.gd" id="1_o0ceg"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_1oryq"]
 [ext_resource type="AudioStream" uid="uid://bilg5ydaxop7y" path="res://Assets/Sounds/sfx/button_pressed.wav" id="3_857rv"]
+[ext_resource type="PackedScene" uid="uid://d3vw0viv0fpu7" path="res://Other/Scenes/hint.tscn" id="4_ufgj1"]
 
 [sub_resource type="Animation" id="Animation_47lem"]
 length = 0.001
@@ -93,6 +94,10 @@ collision_mask = 9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_blue/Area2D"]
 shape = SubResource("RectangleShape2D_iushe")
+
+[node name="hint" parent="button_blue" instance=ExtResource("4_ufgj1")]
+position = Vector2(0, -16)
+scale = Vector2(0.25, 0.25)
 
 [node name="Timer" type="Timer" parent="."]
 unique_name_in_owner = true

@@ -2,6 +2,7 @@ extends Control
 
 @onready var label_total_score: Label = $label_total_score
 @onready var background: TextureRect = %background
+@onready var label_info: Label = $label_info
 
 
 var levelSet_id = Globals.levelSet_id
@@ -35,9 +36,17 @@ func _ready():
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
-	await get_tree().create_timer(0.1, false).timeout
+	await get_tree().create_timer(0.25, true).timeout
 	
 	Globals.levelSet_loaded.emit()
+	
+	await get_tree().create_timer(1, true).timeout
+	
+	Globals.set_pause(false)
+	
+	await get_tree().create_timer(12, true).timeout
+	
+	label_info.queue_free()
 
 func _physics_process(delta: float) -> void:
 	pass

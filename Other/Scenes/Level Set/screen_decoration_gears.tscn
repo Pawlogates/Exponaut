@@ -14,6 +14,7 @@ anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
 [node name="decoration_gear" parent="." instance=ExtResource("1_l8myi")]
 position = Vector2(-968, 212)
@@ -86,6 +87,7 @@ offset_top = 404.0
 offset_right = 1040.0
 offset_bottom = 944.0
 rotation = -0.279048
+mouse_filter = 2
 texture = ExtResource("3_o1adl")
 
 [node name="TextureRect2" type="TextureRect" parent="."]
@@ -97,6 +99,7 @@ offset_top = -148.0
 offset_right = 568.0
 offset_bottom = 392.0
 rotation = 0.333093
+mouse_filter = 2
 texture = ExtResource("3_o1adl")
 
 [node name="TextureRect3" type="TextureRect" parent="."]
@@ -108,6 +111,7 @@ offset_top = -148.0
 offset_right = 568.0
 offset_bottom = 392.0
 rotation = 0.333093
+mouse_filter = 2
 texture = ExtResource("3_o1adl")
 
 [node name="TextureRect4" type="TextureRect" parent="."]
@@ -119,6 +123,7 @@ offset_top = -1044.0
 offset_right = 1024.0
 offset_bottom = -504.0
 rotation = 1.34764
+mouse_filter = 2
 texture = ExtResource("3_o1adl")
 
 [node name="TextureRect5" type="TextureRect" parent="."]
@@ -130,4 +135,5 @@ offset_top = 4.00002
 offset_right = 2920.0
 offset_bottom = 544.0
 rotation = 3.43593
+mouse_filter = 2
 texture = ExtResource("3_o1adl")

@@ -37,7 +37,7 @@ extends Node2D
 @export var randomize_anim_reverse2 : bool = false
 
 @export var randomize_modulate_dark : bool = false
-@export var randomize_modulate_dark_chance : float = 20.0
+@export var randomize_modulate_dark_chance : float = 50.0
 @export var randomize_opacity : bool = false
 
 
@@ -56,7 +56,7 @@ func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 3 to a Decoration Core, with the target function being 'debug_show_anim_names'.")
 	Globals.debug3.connect(debug_show_anim_names)
 	
-	if Globals.gameState_level : randomize_modulate_dark_chance = 75.0
+	#if Globals.gameState_level : randomize_modulate_dark_chance = 75.0
 	
 	if decoration == null : return
 	
@@ -151,12 +151,12 @@ func randomize_anim():
 	
 	
 	if randomize_modulate_dark:
-		if Globals.random_bool(100 - randomize_modulate_dark_chance, randomize_modulate_dark_chance):
+		if Globals.get_random_bool(randomize_modulate_dark_chance):
 			modulate = Color(0, 0, 0, 1)
 	
 	if randomize_opacity:
 		var rolled_value = randf_range(0, 1)
-		modulate = Color(rolled_value, rolled_value, rolled_value, 1)
+		modulate.a = rolled_value
 
 func set_randomize_everything():
 	randomize_anim_name = true

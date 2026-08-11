@@ -1116,7 +1116,7 @@ func handle_collectable(body): # The main function of the "collectible" entity t
 		Globals.total_collected_collectibles += 1
 	
 	Globals.combo_streak += 1 # These values need to be modified before the "handle_award_score" function goes off, due to many of the visual effects being based on them.
-	Globals.entity_collected.emit()
+	Globals.entity_collected.emit() # CRAZY LAG SOURCE
 	
 	if award_score and on_collected_award_score : handle_award_score()
 	

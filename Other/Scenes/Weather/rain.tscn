@@ -21,7 +21,8 @@ _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 2
 
 [node name="weather_rain" type="Node2D"]
-position = Vector2(0, -1000)
+process_mode = 1
+z_index = 502
 script = ExtResource("1_7oq6u")
 weather_type = "rain"
 
