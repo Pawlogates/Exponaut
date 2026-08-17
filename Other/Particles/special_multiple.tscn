@@ -4,6 +4,7 @@
 [ext_resource type="Script" uid="uid://d3vcybacof1m8" path="res://Scripts/particles_special_multiple.gd" id="1_muh0l"]
 
 [node name="particles_special_multiple" type="Node2D"]
+modulate = Color(1, 1, 1, 0.5)
 script = ExtResource("1_muh0l")
 
 [node name="particles_special" parent="." instance=ExtResource("1_ffggo")]

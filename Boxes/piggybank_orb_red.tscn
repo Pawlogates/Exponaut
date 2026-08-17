@@ -6,7 +6,6 @@
 [node name="piggybank_orb_red" instance=ExtResource("1_bgohy")]
 collectable = false
 hittable = true
-family = "enemy"
 damage_from_entity = true
 damage_from_entity_contact = false
 damage_from_player = true

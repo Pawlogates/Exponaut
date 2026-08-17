@@ -3,6 +3,7 @@
 [ext_resource type="Script" uid="uid://tsi24yfmbmkx" path="res://Scripts/godrays.gd" id="1_dcrxb"]
 
 [node name="godrays" type="ColorRect"]
+visible = false
 z_index = 50
 offset_left = -608.0
 offset_top = -32.0

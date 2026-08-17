@@ -95,6 +95,18 @@ var movement_type_id = 0
 
 var gravity = Globals.gravity
 
+# Zones (water, wind, etc.):
+var inside_wind : int = 0 # If above 0, the item is affected by wind.
+var inside_wind_direction_x : int = 0
+var inside_wind_direction_y : int = 0
+var inside_wind_multiplier_x : float = 1.0
+var inside_wind_multiplier_y : float = 1.0
+
+# Zones (water, wind, etc.):
+var inside_water : int = 0 # If above 0, the item is affected by water.
+var inside_water_multiplier_x : float = 1.0
+var inside_water_multiplier_y : float = 1.0
+
 var rng = RandomNumberGenerator.new()
 
 # Active direction can't ever be equal to 0.
@@ -115,6 +127,8 @@ var sprite_start_modulate = Color(-1, -1, -1, -1)
 var collected = false
 var dead = false
 var destroyed = false
+var is_hidden : bool = false
+var delete_on_load : bool = false # Used when loading a saved level state. Some edge cases can occur, like an entity being collected but not having yet been deleted at the time of a level state save.
 
 var invulnerable = false
 @onready var timer_invulnerable: Timer = $timer_invulnerable
@@ -185,7 +199,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var jump_velocity_y = -600
 @export var jump_velocity_x = 400 # This is only used when a modified jump is executed, and is ignored when the normal jump is activated (which is most of the time, an exception being one of the general timer behaviors for example).
 @export var acceleration = 200
-@export var friction = 400
+@export var friction = 500
 @export var fall_speed = 1000
 
 @export var always_max_speed = false
@@ -196,7 +210,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var damage_from_entity = false
 @export var damage_from_entity_contact = true # Only takes effect if "damage_from_entity" is true.
 @export var damage_from_player = false
-@export var damage_from_player_contact = true
+@export var damage_from_player_contact = false
 
 @export var damage_to_entity = false
 @export var damage_to_entity_contact = true
@@ -205,6 +219,10 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
 @export var pushable_by_entity = true
 @export var pushable_by_player = true
+
+@export var can_press_button_floor : bool = true
+@export var can_press_button_wall : bool = true
+@export var can_press_button_bg : bool = true
 
 @export var cooldown_attack_limit : float = 1.5
 
@@ -284,6 +302,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_ledge_death = false
 
 @export var on_spawn_delete_if_stuck : bool = false
+@export var on_spawn_add_position_range : Array = [Vector2(-32, 32), Vector2(-32, 32)]
 
 # Behavior triggered on touching the wall:
 @export var on_hit_change_direction_x_copy_entity = false
@@ -343,7 +362,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_timeout_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_timeout_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_timeout_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_timeout_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_timeout_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 
 @export var on_timeout_change_direction_x = false
 @export var on_timeout_change_direction_x_cooldown = 2.5
@@ -359,6 +378,8 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var collidable_cooldown = 0.05
 
 
+@export var on_death_rotate_sprite : int = 0
+
 # Behavior triggered on entity death:
 @export var on_death_spawn_entity = false
 @export var on_death_spawn_entity_chance : float = 100.0
@@ -367,7 +388,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_death_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_death_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_death_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_death_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_death_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_death_spawn_entity_cooldown = 0.5
 
 @export var on_death_spawn_entity2 = false
@@ -377,7 +398,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_death_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_death_spawn_entity2_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_death_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_death_spawn_entity2_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_death_spawn_entity2_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_death_spawn_entity2_cooldown = 0.5
 
 @export var on_death_spawn_entity3 = false
@@ -387,7 +408,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_death_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_death_spawn_entity3_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_death_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_death_spawn_entity3_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_death_spawn_entity3_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_death_spawn_entity3_cooldown = 0.5
 
 @export var on_death_toggle_toggleBlocks = false
@@ -403,7 +424,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_hit_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_hit_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_hit_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_hit_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_hit_spawn_entity_cooldown = 0.5
 
 @export var on_hit_spawn_entity2 = false
@@ -413,7 +434,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_hit_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_hit_spawn_entity2_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_hit_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_hit_spawn_entity2_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_hit_spawn_entity2_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_hit_spawn_entity2_cooldown = 0.5
 
 @export var on_hit_spawn_entity3 = false
@@ -423,7 +444,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_hit_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_hit_spawn_entity3_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_hit_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_hit_spawn_entity3_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_hit_spawn_entity3_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_hit_spawn_entity3_cooldown = 0.5
 
 
@@ -446,7 +467,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_patrolling_spotted_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_patrolling_spotted_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_patrolling_spotted_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_patrolling_spotted_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_patrolling_spotted_spawn_entity_cooldown = 0.5
 
 @export var on_patrolling_spotted_spawn_entity2 = false
@@ -455,7 +476,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_patrolling_spotted_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_patrolling_spotted_spawn_entity2_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_patrolling_spotted_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity2_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_patrolling_spotted_spawn_entity2_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_patrolling_spotted_spawn_entity2_cooldown = 0.5
 
 @export var on_patrolling_spotted_spawn_entity3 = false
@@ -464,7 +485,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_patrolling_spotted_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_patrolling_spotted_spawn_entity3_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_patrolling_spotted_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_patrolling_spotted_spawn_entity3_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_patrolling_spotted_spawn_entity3_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_patrolling_spotted_spawn_entity3_cooldown = 0.5
 
 
@@ -647,30 +668,33 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var t_trigger_ascend = -1
 
 @export var t_trigger_spawn_entity = -1
+@export var t_trigger_spawn_entity_chance : float = 100.0
 @export_file("*.tscn") var t_trigger_spawn_entity_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var t_trigger_spawn_entity_quantity = 1
 @export var t_trigger_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var t_trigger_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var t_trigger_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var t_trigger_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var t_trigger_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var t_trigger_spawn_entity_cooldown = 0.5
 
 @export var t_trigger_spawn_entity2 = -1
+@export var t_trigger_spawn_entity2_chance : float = 100.0
 @export_file("*.tscn") var t_trigger_spawn_entity2_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var t_trigger_spawn_entity2_quantity = 1
 @export var t_trigger_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
 @export var t_trigger_spawn_entity2_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var t_trigger_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
-@export var t_trigger_spawn_entity2_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var t_trigger_spawn_entity2_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var t_trigger_spawn_entity2_cooldown = 0.5
 
 @export var t_trigger_spawn_entity3 = -1
+@export var t_trigger_spawn_entity3_chance : float = 100.0
 @export_file("*.tscn") var t_trigger_spawn_entity3_scene_filepath = "res://Enemies/togglebot.tscn"
 @export var t_trigger_spawn_entity3_quantity = 1
 @export var t_trigger_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
 @export var t_trigger_spawn_entity3_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var t_trigger_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
-@export var t_trigger_spawn_entity3_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var t_trigger_spawn_entity3_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var t_trigger_spawn_entity3_cooldown = 0.5
 
 
@@ -716,7 +740,7 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var on_collected_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_collected_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_collected_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_collected_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_collected_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_collected_spawn_entity_cooldown = 0.5
 
 @export var on_collected_spawn_entity2 = false
@@ -726,7 +750,7 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var on_collected_spawn_entity2_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_collected_spawn_entity2_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_collected_spawn_entity2_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_collected_spawn_entity2_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_collected_spawn_entity2_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_collected_spawn_entity2_cooldown = 0.5
 
 @export var on_collected_spawn_entity3 = false
@@ -736,12 +760,12 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var on_collected_spawn_entity3_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_collected_spawn_entity3_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_collected_spawn_entity3_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_collected_spawn_entity3_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_collected_spawn_entity3_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_collected_spawn_entity3_cooldown = 0.5
 
 @export var remove_delay = 1.0
 
-@export var on_floor_bounce = false
+@export var on_floor_bounce = true
 @export var on_floor_bounce_velocity_multiplier : float = 0.5
 @export var on_wall_bounce = true
 @export var on_wall_bounce_velocity_multiplier : float = 0.5
@@ -756,7 +780,7 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var on_landed_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_landed_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_landed_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_landed_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_landed_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_landed_spawn_entity_cooldown = 0.5
 
 @export var on_floor_spawn_entity : bool = false
@@ -766,7 +790,7 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var on_floor_spawn_entity_pos_offset : Vector2 = Vector2(0, 0)
 @export var on_floor_spawn_entity_pos_offset_range : Array = [Vector2(-32, -32), Vector2(32, 32)]
 @export var on_floor_spawn_entity_add_velocity : Vector2 = Vector2(0, 0)
-@export var on_floor_spawn_entity_add_velocity_range : Array = [Vector2(-400, -800), Vector2(400, -50)]
+@export var on_floor_spawn_entity_add_velocity_range : Array = [Vector2(-200, -800), Vector2(200, -50)]
 @export var on_floor_spawn_entity_cooldown = 0.5
 
 @export var variable_speed = false
@@ -793,6 +817,9 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var on_death_anim_speed : float = 1.0
 
 @export var anim_advance_position_x : bool = true
+
+@export var on_spawn_sprite_anim_name_color : String = "none"
+@export var on_spawn_sprite_anim_name_general : String = "none"
 
 @export var can_change_sprite_anim : bool = false
 @export var sprite_anim_speed_copy_velocity_x : bool = false
@@ -837,8 +864,8 @@ var unique_number = randi_range(0, 999)
 
 @export var on_collected_spawn_star_chance : float = 100.0
 @export var on_collected_spawn_star2_chance : float = 100.0
-@export var on_collected_spawn_orb_orange_chance : float = 100.0
-@export var on_collected_spawn_orb_blue_chance : float = 100.0
+@export var on_collected_spawn_orb_orange_chance : float = 33.3
+@export var on_collected_spawn_orb_blue_chance : float = 33.3
 @export var on_collected_spawn_homing_square_chance : float = 100.0
 @export var on_collected_spawn_dust_chance : float = 100.0
 @export var on_collected_spawn_dead_chance : float = 100.0
@@ -846,14 +873,25 @@ var unique_number = randi_range(0, 999)
 @export var on_collected_spawn_leaf_chance : float = 100.0
 @export var on_collected_spawn_leaf2_chance : float = 100.0
 
+@export var on_hit_spawn_star_chance : float = 100.0
+@export var on_hit_spawn_star2_chance : float = 100.0
+@export var on_hit_spawn_orb_orange_chance : float = 33.3
+@export var on_hit_spawn_orb_blue_chance : float = 33.3
+@export var on_hit_spawn_homing_square_chance : float = 100.0
+@export var on_hit_spawn_dust_chance : float = 10.0
+@export var on_hit_spawn_dead_chance : float = 100.0
+@export var on_hit_spawn_oneShot_chance : float = 10.0
+@export var on_hit_spawn_leaf_chance : float = 100.0
+@export var on_hit_spawn_leaf2_chance : float = 100.0
+
 @export var on_death_spawn_star_chance : float = 100.0
 @export var on_death_spawn_star2_chance : float = 100.0
-@export var on_death_spawn_orb_orange_chance : float = 50.0
-@export var on_death_spawn_orb_blue_chance : float = 50.0
+@export var on_death_spawn_orb_orange_chance : float = 33.3
+@export var on_death_spawn_orb_blue_chance : float = 33.3
 @export var on_death_spawn_homing_square_chance : float = 100.0
 @export var on_death_spawn_dust_chance : float = 10.0
 @export var on_death_spawn_dead_chance : float = 100.0
-@export var on_death_spawn_oneShot_chance : float = 10.0
+@export var on_death_spawn_oneShot_chance : float = 100.0
 @export var on_death_spawn_leaf_chance : float = 100.0
 @export var on_death_spawn_leaf2_chance : float = 100.0
 
@@ -996,25 +1034,25 @@ func basic_on_spawn():
 	delete_unneeded_nodes()
 	
 	if on_timeout_jump:
-		c_jump.wait_time = on_timeout_jump_cooldown
+		c_jump.wait_time = on_timeout_jump_cooldown + randf_range(-0.1, 0.1)
 		c_jump.start()
 	if on_timeout_spawn_entity:
-		c_spawn_entity.wait_time = on_timeout_spawn_entity_cooldown
+		c_spawn_entity.wait_time = on_timeout_spawn_entity_cooldown + randf_range(-0.1, 0.1)
 		c_spawn_entity.start()
 	if on_timeout_death:
-		c_death.wait_time = on_timeout_death_cooldown
+		c_death.wait_time = on_timeout_death_cooldown + randf_range(-0.1, 0.1)
 		c_death.start()
 	if on_timeout_change_ignore_gravity:
-		c_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown
+		c_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown + randf_range(-0.1, 0.1)
 		c_change_ignore_gravity.start()
 	if on_timeout_change_invincible:
-		c_change_invincible.wait_time = on_timeout_change_invincible_cooldown
+		c_change_invincible.wait_time = on_timeout_change_invincible_cooldown + randf_range(-0.1, 0.1)
 		c_change_invincible.start()
 	if on_timeout_change_direction_x:
-		c_change_direction_x.wait_time = on_timeout_change_direction_x_cooldown
+		c_change_direction_x.wait_time = on_timeout_change_direction_x_cooldown + randf_range(-0.1, 0.1)
 		c_change_direction_x.start()
 	if on_timeout_change_movement_type:
-		c_change_movement_type.wait_time = on_timeout_change_movement_type_cooldown
+		c_change_movement_type.wait_time = on_timeout_change_movement_type_cooldown + randf_range(-0.1, 0.1)
 		c_change_movement_type.start()
 	#if on_timeout_action:
 		#c_action.wait_time = on_timeout_action_cooldown
@@ -1031,11 +1069,11 @@ func basic_on_spawn():
 		cooldown_sfx_idle.start()
 	
 	if on_timeout_death:
-		c_death.wait_time = on_timeout_death_cooldown
+		c_death.wait_time = on_timeout_death_cooldown + randf_range(-0.1, 0.1)
 		c_death.start()
 	
 	if on_timeout_change_ignore_gravity:
-		c_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown
+		c_change_ignore_gravity.wait_time = on_timeout_change_ignore_gravity_cooldown + randf_range(-0.1, 0.1)
 		c_change_ignore_gravity.start()
 	
 	await get_tree().create_timer(1.0, true).timeout
@@ -1048,9 +1086,6 @@ func basic_on_inactive():
 	if entity_editor_preview : return
 	if always_active : return
 	if not is_ready : print("entity is not ready") ; return
-	
-	if not effect_thrownAway_active and not reset_puzzle and not reset_puzzle_inside_zone:
-		spawn_await_screen_entered()
 	
 	active = false
 	
@@ -1206,28 +1241,18 @@ func delete_unneeded_nodes():
 
 func save():
 	var save_dict = {
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
-		"pos_x" : position.x, # Note: Unfortunately, Vector2 is not supported by JSON.
-		"pos_y" : position.y,
+		"scene_filepath" : get_scene_file_path(),
+		"parent_node" : get_parent().get_path(),
+		"master_scene_filepath" : "none",
+		"position_x" : position.x, # Note: Unfortunately, Vector2 is not supported by JSON.
+		"position_y" : position.y,
 		"start_pos_x" : start_pos.x,
 		"start_pos_y" : start_pos.y,
-		"test" : [position.x, position.y],
-		"collected" : collected,
-		"dead" : dead,
-		"destroyed" : destroyed,
 		"health_value" : health_value,
-	
+		"dead" : dead,
+		"collected" : collected,
+		"destroyed" : destroyed,
+		"delete_on_load" : delete_on_load,
 	}
+	
 	return save_dict
-
-
-func spawn_await_screen_entered():
-	var offscreen_manager = load("res://Other/Scenes/on_onscreen_spawn_master_node.tscn").instantiate()
-	offscreen_manager.master_filepath = scene_file_path
-	offscreen_manager.master_position = position
-	offscreen_manager.master_velocity = velocity
-	offscreen_manager.master_health_value = health_value
-	offscreen_manager.position = position
-	Globals.World.add_child(offscreen_manager)
-	queue_free()

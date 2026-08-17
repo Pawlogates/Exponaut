@@ -6,8 +6,7 @@ extends CharacterBody2D
 
 @export var camera_speed_multiplier : float = 1.0
 
-@export var speed_x = 400.0
-@export var speed_y = 400.0
+@export var speed = 400.0
 @export var jump_velocity = -575.0
 @export var acceleration = 1200.0
 @export var friction = 1200.0
@@ -26,15 +25,18 @@ extends CharacterBody2D
 @export var dash_hitbox_pos_offset : Vector2 = Vector2(-1, -1)
 
 
-var base_speed_x = speed_x
-var base_speed_y = speed_y
+var entity_name : String = "Player"
+
+var base_speed = speed
 var base_jump_velocity = jump_velocity
 var base_acceleration = acceleration
 var base_friction = friction
 var base_gravity_multiplier = gravity_multiplier
+var base_speed_multiplier_x = speed_multiplier_x
+var base_speed_multiplier_y = speed_multiplier_y
 
-@export var speed_multiplier_x = 1.0
-@export var speed_multiplier_y = 1.0
+@export var speed_multiplier_x : float = 1.0
+@export var speed_multiplier_y : float = 1.0
 
 @export var ability_jump = true
 @export var ability_air_jump = true
@@ -151,6 +153,10 @@ var lethalBall_released = false
 
 var can_collect = true # Whether the entity (player in this case) can collect another entity.
 
+var can_press_button_floor : bool = true
+var can_press_button_wall : bool = true
+var can_press_button_bg : bool = true
+
 var last_checkpoint_pos = Vector2(-1, -1)
 
 var family = "Player"
@@ -165,6 +171,8 @@ signal player_just_left_wind
 
 
 func _ready():
+	Globals.refreshed1_0.connect(debug_info)
+	
 	if collision_size == Vector2(-1, -1) : collision_size = collision_main.shape.extents
 	if collision_pos_offset == Vector2(-1, -1) : collision_pos_offset = collision_main.position
 	if hitbox_size == Vector2(-1, -1) : hitbox_size = collision_hitbox.shape.extents
@@ -176,12 +184,13 @@ func _ready():
 	
 	camera.position_smoothing_speed *= camera_speed_multiplier
 	
-	base_speed_x = speed_x
-	base_speed_y = speed_y
+	base_speed = speed
 	base_jump_velocity = jump_velocity
 	base_acceleration = acceleration
 	base_friction = friction
 	base_gravity_multiplier = gravity_multiplier
+	base_speed_multiplier_x = speed_multiplier_x
+	base_speed_multiplier_y = speed_multiplier_y
 	
 	Globals.player_position = position
 	Globals.player_direction_x_active = 1
@@ -244,12 +253,6 @@ func _process(delta):
 	if on_wall:
 		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 4, Color(0, 1, 0, 0), Vector2(-0.5, -0.5), 10)
 	
-	if Globals.debug_mode:
-		if Input.is_action_pressed("LMB"):
-			if block_movement : return
-			position = get_global_mouse_position()
-			velocity.y = 0
-	
 	update_can() # The word "can" does too.
 	
 	get_basic_player_values()
@@ -293,10 +296,9 @@ func _process(delta):
 			if flight:
 				handle_flight(delta)
 			
-			handle_inside_zone()
-			
 			if not block_movement_full:
 				move_and_slide() #MAIN MOVEMENT
+				handle_inside_zone()
 		
 		update_sprite()
 	
@@ -510,7 +512,7 @@ func _on_cooldown_state_idle_timeout(): # Walking anim weight is disabled here, 
 
 
 func handle_friction(delta):
-	if not direction_x:
+	if not direction_x and not inside_wind:
 		velocity.x = move_toward(velocity.x, 0, friction * inside_water_multiplier_x * delta)
 
 
@@ -525,10 +527,10 @@ func handle_air_acceleration(delta):
 	if direction_x != 0:
 		# Reduce slowdown while under influence of heavy wind (conveyor belts).
 		if just_left_wind:
-			velocity.x = move_toward(velocity.x, speed_x * 2 * direction_x, air_acceleration / 3 * delta)
+			velocity.x = move_toward(velocity.x, speed * 2 * direction_x, air_acceleration / 3 * delta)
 		# Normal
 		else:
-			velocity.x = move_toward(velocity.x, speed_x * direction_x, air_acceleration * delta)
+			velocity.x = move_toward(velocity.x, speed * direction_x, air_acceleration * delta)
 	
 	if not recently_bounced:
 		if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
@@ -546,11 +548,12 @@ func handle_move_x(delta):
 		state_idle = 1
 		return
 	
-	if inside_wind:
-		if inside_wind_multiplier_x == direction_x:
-			speed_x = base_speed_x * inside_wind_multiplier_x
+	if not inside_wind : velocity.x = move_toward(velocity.x, direction_x * speed, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
 	else:
-		velocity.x = move_toward(velocity.x, direction_x * speed_x, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
+		if direction_x == inside_wind_direction_x:
+			velocity.x = move_toward(velocity.x, direction_x * speed * 4, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
+		else:
+			velocity.x = move_toward(velocity.x, direction_x * speed / 2, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
 	
 	if not recently_bounced:
 		if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
@@ -572,7 +575,7 @@ func handle_jump(delta):
 		if block_movement : return
 		dash_end_slowdown_await_jump = false
 		dash_end_slowdown_canceled = true
-		velocity.x = base_speed_x * 6 * direction_x
+		velocity.x = base_speed * 6 * direction_x
 		Globals.spawn_scenes(World, Globals.scene_effect_dust, 1, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(1, 1), 10)
 		Globals.spawn_scenes(World, Globals.scene_particle_special, 12, position + Vector2(24 * Globals.player_direction_x_active, 0), 1, Color(0, 1, 0, 0), Vector2(0, 0), 10)
 		
@@ -683,9 +686,9 @@ func handle_wall_jump():
 		print(("player wall jump"))
 		
 		if Globals.player_direction_x:
-			velocity.x = on_wall_normal.x * speed_x
+			velocity.x = on_wall_normal.x * speed
 		else:
-			velocity.x = on_wall_normal.x * speed_x / 2
+			velocity.x = on_wall_normal.x * speed / 2
 		
 		if inside_water:
 			velocity.y = jump_velocity * 1 * inside_water_multiplier_x
@@ -757,9 +760,9 @@ func handle_crouch():
 			
 			crouch_walk_multiplier = 0.6
 			if ability_crouch_walk:
-				speed_x = base_speed_x * crouch_walk_multiplier
+				speed = base_speed * crouch_walk_multiplier
 			else:
-				speed_x = 0
+				speed = 0
 			
 			raycast_top.enabled = false
 		
@@ -769,7 +772,7 @@ func handle_crouch():
 			crouch_active = false
 			
 			crouch_walk_multiplier = 0.4
-			speed_x = base_speed_x * crouch_walk_multiplier
+			speed = base_speed * crouch_walk_multiplier
 			
 			raycast_top.enabled = false
 	
@@ -786,7 +789,7 @@ func handle_crouch():
 		crouch_walk_active = false
 		c_crouch_walk.stop()
 		c_crouch_walk_correct_collision.stop()
-		speed_x = base_speed_x
+		speed = base_speed
 		crouch_walk_multiplier = 1
 		raycast_top.enabled = true
 		state_crouch_walk = 0
@@ -826,7 +829,7 @@ func dash():
 	
 	collision_hitbox.shape.extents = dash_hitbox_size
 	collision_hitbox.position = dash_hitbox_pos_offset
-	print(dash_hitbox_size)
+	
 	raycast_top.enabled = false
 
 
@@ -1124,6 +1127,8 @@ func _on_cooldown_secondaryAttack_timeout():
 var stuck = false
 
 func handle_stuck():
+	if debug_movement or Globals.gameState_debug : return
+	
 	if stuck:
 		raycast_top.target_position.x = 16 * Globals.player_direction_x_active
 		raycast_bottom.target_position.x = 16 * Globals.player_direction_x_active
@@ -1158,6 +1163,8 @@ func _on_stuck_check_timeout():
 		confirm_timer_isActive = true
 
 func _on_stuck_confirm_timeout():
+	if debug_movement or Globals.gameState_debug : return
+	
 	if velocity.y == jump_velocity or velocity[1] == 0:
 		stuck = true
 		Globals.message_debug("The stuck_confirm timer just went off while a rare stuck case is possible - [velocity.y = jump_velocity] or [velocity = Vector2(0, 0)]. Now the 'stuck' variable becomes true and will be cancelled right after, unless any of the raycasts detect collision.") 
@@ -1176,6 +1183,13 @@ func _on_stuck_confirm_timeout():
 #Debug movement type that lets you freely move in any direction_x. Press CTRL + C to activate it. (needs Globals.debug_mode to be true)
 #Hold RMB to move a lot slower. Hold SHIFT to move very fast.
 func handle_debug_movement(delta):
+	camera.effect(Vector2(0, 0), Vector2(0.75, 0.75), 0, 1)
+	camera.position_smoothing_speed = 5.0
+	
+	if Input.is_action_pressed("LMB"):
+		position = get_global_mouse_position()
+		velocity.y = 0
+	
 	if Input.is_action_pressed("move_right"):
 		if Input.is_action_pressed("attack_secondary"):
 			global_position.x += 250 * delta
@@ -1278,8 +1292,10 @@ func handle_spawn_dust():
 
 # Zones (water, wind, bouncy, etc.)
 var inside_wind = 0 # If above 0, the player is affected by wind.
-var inside_wind_multiplier_x = 0
+var inside_wind_direction_x : int = 0
+var inside_wind_direction_y : int = 0
 var inside_wind_multiplier_y = 0
+var inside_wind_multiplier_x = 0
 
 var inside_water = 0
 var inside_water_multiplier_x = 1.0
@@ -1287,8 +1303,8 @@ var inside_water_multiplier_y = 1.0
 
 func handle_inside_zone():
 	if inside_wind:
-		velocity.x += 10 * inside_wind_multiplier_x
-		velocity.y += 10 * inside_wind_multiplier_y
+		velocity.x += inside_wind_direction_x * 5 * inside_wind_multiplier_x
+		velocity.y += inside_wind_direction_y * 5 * inside_wind_multiplier_y
 		recently_left_wind = false
 	else:
 		if abs(velocity.x) > 1000 and not recently_left_wind:
@@ -1546,12 +1562,21 @@ var attack_melee_active : bool = false
 var attack_throw_active : bool = false
 @onready var timer_attack_throw: Timer = $attack_throw/timer_attack_throw
 
+@onready var hitbox_extra: Area2D = $attack_melee/attack/hitbox_extra
+@onready var collision_extra: CollisionShape2D = $attack_melee/attack/hitbox_extra/collision_extra
+@onready var decoration_collision_extra_particles: Node2D = $attack_melee/attack/hitbox_extra/collision_extra/decoration_collision_extra_particles
+
 func attack_melee():
 	if timer_block_attack_melee.time_left > 0.0 : return
 	
 	attack_melee_decoration_collision_particles.visible = true
 	
 	sprite.stop()
+	
+	if attack_melee_current_id != "none":
+		hitbox_extra.monitorable = false
+		hitbox_extra.monitoring = false
+		decoration_collision_extra_particles.visible = false
 	
 	if attack_melee_current_id == "none":
 		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'smash_down' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
@@ -1566,7 +1591,7 @@ func attack_melee():
 	elif attack_melee_current_id == "smash_down" or attack_melee_current_id == "spin_down_ender":
 		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'kick_up' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
 		attack_melee_current_id = "kick_up"
-		attack_melee_set_hitbox(Vector2(128, 192), Vector2(64, -64))
+		attack_melee_set_hitbox(Vector2(128, 192), Vector2(64, -32))
 		
 		sprite.play("kick_up")
 		timer_windup.wait_time = 0.25
@@ -1609,8 +1634,20 @@ func attack_melee():
 		var target : Node = entity.get_parent()
 		if target.is_in_group("entity"):
 			target.attack_melee_block_movement = false
+	
+	await get_tree().create_timer(0.15, true).timeout
+	
+	collision_extra.disabled = false
+	hitbox_extra.monitorable = true
+	hitbox_extra.monitoring = true
+	decoration_collision_extra_particles.visible = true
+	hitbox_extra.scale.x = Globals.player_direction_x_active
 
 func stop_attack_melee():
+	hitbox_extra.monitorable = false
+	hitbox_extra.monitoring = false
+	decoration_collision_extra_particles.visible = false
+	
 	attack_melee_active = false
 	attack_melee_current_id = "none"
 	
@@ -1635,6 +1672,11 @@ func handle_attack_melee(): # The word "handle" refers to a function being execu
 	attack_melee_decoration_collision_particles.visible = attack_melee_active and timer_windup.time_left == 0.0 and timer_end_attack_melee.time_left > 0.0 # Will be true if the windup timer is finished and the attack timer is active.
 	
 	if not attack_melee_active : return
+	
+	if attack_melee_current_id != "smash_down":
+		hitbox_extra.monitorable = false
+		hitbox_extra.monitoring = false
+		decoration_collision_extra_particles.visible = false
 	
 	if attack_melee_current_id == "smash_down" and not sprite.is_playing():
 		if Input.is_action_pressed("attack_main"):
@@ -1667,6 +1709,20 @@ func handle_attack_melee(): # The word "handle" refers to a function being execu
 			timer_block_attack_melee.start()
 			timer_end_attack_melee.start()
 	
+	# Extra collision:
+	for entity in hitbox_extra.get_overlapping_areas():
+		var target : Node = entity.get_parent()
+		if not "invulnerable" in target : continue
+		if not "is_ready" in target : continue
+		
+		if not target.invulnerable and target.is_ready:
+			attack_melee_hit(target, 0.25, Vector2(250, 500), 1.0, 10)
+		
+		hitbox_extra.monitorable = false
+		hitbox_extra.monitoring = false
+		decoration_collision_extra_particles.visible = false
+	
+	# Regular collision:
 	for entity in attack_melee_hitbox.get_overlapping_areas():
 		if timer_windup.time_left > 0.0 : return
 		
@@ -1674,35 +1730,37 @@ func handle_attack_melee(): # The word "handle" refers to a function being execu
 		if not "invulnerable" in target : continue
 		if not "is_ready" in target : continue
 		
-		if target.is_in_group("entity") and not target.invulnerable and not target.dead and not target.collected and not target.is_in_group("entity_editor_preview"):
+		if target.is_in_group("entity") and not target.invulnerable and not target.collected and not target.is_in_group("entity_editor_preview"):
 			if "entity_name" in target : print(target.entity_name)
 			if attack_melee_current_id == "smash_down":
 				if timer_end_attack_melee.time_left < 2.0:
 					# Handle the short kick at the start of smash down.
-					attack_melee_hit(target, 0.3, Vector2(600, -200), 0.85, 25)
+					attack_melee_hit(target, 0.3, Vector2(600, -350), 0.85, 25)
 					if not target.invulnerable and target.is_ready:
 						Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.RED, Vector2(-0.75, -0.75), 10)
 						Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
 						sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 				
 				else:
-					attack_melee_hit(target, 0.3, Vector2(600, -200), 0.85, 40)
+					attack_melee_hit(target, 0.3, Vector2(600, -350), 0.85, 40)
 					if not target.invulnerable and target.is_ready:
 						Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.RED, Vector2(-0.75, -0.75), 10)
 						Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
 			
 			elif attack_melee_current_id == "spin_down":
-				attack_melee_hit(target, 0.1, Vector2(100, -100), 0.85, randi_range(2, 4))
+				attack_melee_hit(target, 0.1, Vector2(100, -100), 0.85, randi_range(25, 30))
 			
 			elif attack_melee_current_id == "kick_up":
-				attack_melee_hit(target, 0.5, Vector2(300, -600), 4, 60)
+				attack_melee_hit(target, 0.5, Vector2(250, -750), 3, 60)
 			
 			elif attack_melee_current_id == "slide":
-				attack_melee_hit(target, 0.5, Vector2(1200, -400), 4, 75)
+				attack_melee_hit(target, 0.5, Vector2(1200, -400), 3, 75)
 				sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 
 func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocity : Vector2 = Vector2(400, -600), invulnerable_duration_multiplier : float = 0.85, f_damage_value : int = 25):
 	#Globals.spawn_message_object(str(timer_block_attack_melee.time_left), World, position + Vector2(200, -0))
+	
+	decoration_collision_extra_particles.visible = false
 	
 	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
 	if target.invulnerable : return
@@ -1720,7 +1778,7 @@ func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocit
 	target.modulate = Color.RED
 	
 	if target.entity_type == "enemy" or target.entity_type == "box" or target.can_move:
-		target.handle_hit(self, f_damage_value * (1 + 0.1 * Globals.player_level))
+		target.handle_hit(self, f_damage_value)
 		
 		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
 		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
@@ -1728,7 +1786,7 @@ func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocit
 		sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 		if attack_melee_current_id == "spin_down" : $sfx_manager_spin_down.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 		
-	if target.entity_type == "enemy" : await Globals.effect_melee_freeze(clamp(freeze_duration * invulnerable_duration_multiplier, 0.05, 1.0))
+	if target.entity_type == "enemy" : await Globals.effect_melee_freeze(clamp(freeze_duration * invulnerable_duration_multiplier, 0.05, 0.75))
 	
 	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
 	
@@ -1737,7 +1795,10 @@ func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocit
 		target.attack_melee_block_movement = false
 		#await get_tree().create_timer(0.1, true).timeout
 	
-	target.velocity = Vector2(add_velocity.x * randf_range(0.95, 1.05) * Globals.player_direction_x_active, add_velocity.y * randf_range(0.95, 1.05))
+	if target.on_wall : target.velocity = Vector2(-add_velocity.x * randf_range(0.95, 1.05) * Globals.player_direction_x_active, add_velocity.y * randf_range(0.95, 1.05))
+	elif target.on_floor : target.velocity = Vector2(add_velocity.x * randf_range(0.95, 1.05) * Globals.player_direction_x_active, 1.25 * add_velocity.y * randf_range(0.95, 1.05))
+	else : target.velocity = Vector2(add_velocity.x * randf_range(0.95, 1.05) * Globals.player_direction_x_active, add_velocity.y * randf_range(0.95, 1.05))
+	
 	target.modulate = Color.WHITE
 
 func attack_throw():
@@ -1779,3 +1840,10 @@ func attack_melee_set_hitbox(collision_size : Vector2 = Vector2(64, 64), collisi
 func set_hitbox(state : bool = true):
 	hitbox_main.monitorable = state
 	hitbox_main.monitoring = state
+
+
+func debug_info():
+	print(Engine.get_frames_per_second())
+	Globals.spawn_message_object(str(Engine.get_frames_per_second()))
+	if Globals.gameState_debug or Globals.debug_mode:
+		if Globals.weapon_secondary == "none" : Globals.weapon_secondary = "tie_charged"

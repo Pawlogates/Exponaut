@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dpm11fdo256ld"]
+[gd_scene load_steps=10 format=3 uid="uid://dpm11fdo256ld"]
 
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_3want"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_hx14x"]
+[ext_resource type="PackedScene" uid="uid://bvtf5e5h4p4lp" path="res://Objects/Decorations/smooth_edge.tscn" id="3_j80m3"]
+[ext_resource type="PackedScene" uid="uid://4jjg3v3m1ni1" path="res://Objects/spawner_basic.tscn" id="4_7lbkk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_aqgws"]
 atlas = ExtResource("2_hx14x")
@@ -103,7 +105,10 @@ _data = {
 &"loop": SubResource("Animation_d8vw1")
 }
 
-[node name="deco_toxicWaterfall" type="Container"]
+[node name="deco_toxicWaterfall" type="Node2D"]
+modulate = Color(1, 1, 1, 0.25)
+
+[node name="deco_toxicWaterfall" type="Container" parent="."]
 z_index = -1
 texture_filter = 1
 clip_contents = true
@@ -112,34 +117,53 @@ offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="deco_toxicWaterfall"]
 position = Vector2(32, 32)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.276017
 
-[node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+[node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="deco_toxicWaterfall/AnimatedSprite2D"]
 position = Vector2(0, 64)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.747781
 
-[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="AnimatedSprite2D"]
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="deco_toxicWaterfall/AnimatedSprite2D"]
 self_modulate = Color(1, 1, 1, 0)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.807471
 
-[node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="AnimatedSprite2D/AnimatedSprite2D2"]
+[node name="AnimatedSprite2D_filler" type="AnimatedSprite2D" parent="deco_toxicWaterfall/AnimatedSprite2D/AnimatedSprite2D2"]
 position = Vector2(0, 64)
 sprite_frames = SubResource("SpriteFrames_a8t04")
 autoplay = "default"
 frame_progress = 0.525694
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="deco_toxicWaterfall"]
 libraries = {
 &"": SubResource("AnimationLibrary_tpxjg")
 }
 autoplay = "loop"
 
 [node name="handle_offscreen" parent="." instance=ExtResource("2_3want")]
+position = Vector2(-32, -32)
+
+[node name="edge" parent="." instance=ExtResource("3_j80m3")]
+modulate = Color(0.215686, 0.662745, 0.329412, 1)
+position = Vector2(64, 0)
+rotation = 1.5708
+
+[node name="edge2" parent="." instance=ExtResource("3_j80m3")]
+modulate = Color(0.215686, 0.662745, 0.329412, 1)
+position = Vector2(-64, 0)
+rotation = -1.5708
+
+[node name="spawner_basic" parent="." instance=ExtResource("4_7lbkk")]
+scene_filepath = "uid://dyfacu7kmv2uk"
+add_scale_range = [Vector2(-0.75, -0.75), Vector2(0.1, 0.1)]
+on_timeout_spawn_scene_chance = 10.0
+on_timeout_spawn_scene_quantity_range = [1, 2]
+on_timeout_set_cooldown_range = [0.25, 8.0]
+add_modulate_base = Color(0.175178, 0.587471, 0, 1)

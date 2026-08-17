@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="1_l8myi"]
 [ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="2_o1adl"]
-[ext_resource type="Texture2D" uid="uid://dvov3hse2b0mc" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_o1adl"]
+[ext_resource type="Texture2D" uid="uid://imi7vi6bnaqt" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_o1adl"]
 
 [node name="screen_decoration_gears" type="Control"]
 z_index = 50

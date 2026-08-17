@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvtf5e5h4p4lp"]
+
+[ext_resource type="Texture2D" uid="uid://bujvyo22wwe5o" path="res://Assets/Graphics/tilesets/tileset_decorations2.png" id="1_xdgqn"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m27in"]
+atlas = ExtResource("1_xdgqn")
+region = Rect2(1664, 1088, 64, 64)
+
+[node name="edge" type="Sprite2D"]
+texture = SubResource("AtlasTexture_m27in")

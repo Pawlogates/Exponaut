@@ -21,7 +21,7 @@ var level_rank_value = 1
 @export var checkpoint_offset = Vector2(320, -64)
 
 func _ready():
-	if Globals.level_number == -1 : level_id = "DEBUG_7"
+	#if Globals.level_number == -1 : level_id = "DEBUG_7"
 	
 	level_filePath = str("res://Levels/%s.tscn" % level_id)
 	
@@ -82,7 +82,7 @@ func _on_area_entered(area):
 	
 	print("Entered an ACTIVE shrine portal")
 	
-	if not Globals.is_valid_entity(area) : return
+	if not Globals.is_node_valid_player(area) : return
 	if entered : return
 	
 	Globals.transition_next = 0

@@ -16,17 +16,10 @@ func _ready():
 
 
 func _on_area_2d_area_entered(area):
-	print(area.get_groups())
-	if not pressed and area.is_in_group("player_exact") and not area.get_parent().is_in_group("weightless"):
-		button_pressed()
-	
-	elif not pressed and area.get_parent().is_in_group("special_block") and not area.get_parent().is_in_group("weightless"):
-		#var block = area.get_parent()
-		button_pressed()
-	
-	elif not pressed and area.is_in_group("entity_hitbox") and not area.get_parent().is_in_group("weightless"):
-		#var block = area.get_parent()
-		button_pressed()
+	if Globals.is_node_valid(area):
+		
+		if not pressed:
+			button_pressed()
 
 
 func button_pressed():

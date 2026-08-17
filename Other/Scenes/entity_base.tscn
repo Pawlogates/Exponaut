@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://wgtcgh1uo037"]
+[gd_scene load_steps=17 format=3 uid="uid://wgtcgh1uo037"]
 
 [ext_resource type="Script" uid="uid://bk66d2tjq15q" path="res://Scripts/entity.gd" id="1_wx0ek"]
 [ext_resource type="PackedScene" uid="uid://v151qvyxpbng" path="res://Other/Scenes/sprite.tscn" id="2_1y7wk"]
@@ -10,9 +10,10 @@
 [ext_resource type="Script" uid="uid://12wkcbpatg3w" path="res://Enemies/general_timers_core.gd" id="7_fjle6"]
 [ext_resource type="PackedScene" uid="uid://wn4ag4k6r2t5" path="res://Other/Entity Behaviors/scan_patrolling_vision.tscn" id="7_spxko"]
 [ext_resource type="PackedScene" uid="uid://drbm0wuk71bi" path="res://Other/Scenes/scan_stuck.tscn" id="10_5wk4g"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="11_uskie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
-size = Vector2(63, 63)
+size = Vector2(62, 62)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
 size = Vector2(32, 32)
@@ -27,7 +28,6 @@ size = Vector2(2048, 2048)
 size = Vector2(64, 64)
 
 [node name="base" type="CharacterBody2D" groups=["entity", "persistent"]]
-z_index = 2
 collision_layer = 4
 floor_max_angle = 1.0472
 script = ExtResource("1_wx0ek")
@@ -120,8 +120,8 @@ anchors_preset = 0
 mouse_filter = 2
 
 [node name="scan_ledge" type="RayCast2D" parent="."]
-position = Vector2(32, 0)
-target_position = Vector2(0, 64)
+position = Vector2(32, -32)
+target_position = Vector2(0, 70)
 
 [node name="cooldown_collidable" type="Timer" parent="."]
 wait_time = 0.05
@@ -220,6 +220,10 @@ one_shot = true
 [node name="cooldown_toggle_hitbox" type="Timer" parent="."]
 wait_time = 0.1
 autostart = true
+
+[node name="handle_offscreen" parent="." instance=ExtResource("11_uskie")]
+visible = true
+scale = Vector2(2, 2)
 
 [connection signal="timeout" from="timeout_basic/cooldown_jump" to="." method="_on_cooldown_jump_timeout"]
 [connection signal="timeout" from="timeout_basic/cooldown_change_direction_x" to="." method="_on_cooldown_change_direction_x_timeout"]

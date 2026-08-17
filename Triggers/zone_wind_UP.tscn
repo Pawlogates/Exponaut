@@ -3,6 +3,5 @@
 [ext_resource type="PackedScene" uid="uid://crvdbmttd2gt5" path="res://Triggers/zone_base.tscn" id="1_ffqel"]
 
 [node name="wind_UP" instance=ExtResource("1_ffqel")]
-wind_direction_X = 0
-wind_direction_Y = -1
-wind_strength_Y = 5.0
+inside_wind_direction_x = 0
+inside_wind_direction_y = -1

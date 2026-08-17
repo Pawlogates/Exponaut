@@ -20,20 +20,25 @@ func _ready():
 	
 	Overlay.animation("black_fade_out", 1.0, false, false)
 	
-	SaveData.load_levelSet(Globals.levelSet_id)
+	if levelSet_id != "none" and levelSet_id != "all":
+		SaveData.load_levelSet(Globals.levelSet_id)
 	
 	print(Globals.levelSet_id)
 	
 	if levelSet_id != "none":
-		levelSet_saved = SaveData.get("saved_" + levelSet_id)
-		levelSet_info = SaveData.get("info_" + levelSet_id)
-		levelSet_unlock = SaveData.get("unlock_" + levelSet_id)
+		if levelSet_id != "all":
+			levelSet_saved = SaveData.get("saved_" + levelSet_id)
+			levelSet_info = SaveData.get("info_" + levelSet_id)
+			levelSet_unlock = SaveData.get("unlock_" + levelSet_id)
 		
 		place_level_icons(levelSet_id)
-		print(levelSet_info)
-		background.texture = load(levelSet_info[5])
-	
-	label_total_score.text = str(int(SaveData.get_total_score(levelSet_id)))
+		
+		if levelSet_id != "all":
+			background.texture = load(levelSet_info[5])
+			label_total_score.text = str(int(SaveData.get_total_score(levelSet_id)))
+		else:
+			background.texture = load("res://Assets/Graphics/backgrounds/bg_cosmos_red.png")
+			label_total_score.text = "literally every level :pinched_fingers: :ok_hand:"
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
@@ -46,7 +51,15 @@ func _physics_process(delta: float) -> void:
 
 
 func place_level_icons(levelSet_id):
-	for level_number in range(1, SaveData.get("info_" + levelSet_id)[1] + 1):
-		var level_icon = Globals.scene_levelSet_level_icon.instantiate()
-		level_icon.level_number = level_number
-		$level_icon_container.add_child(level_icon)
+	if levelSet_id == "all":
+		for level_filename in Globals.get_files("res://Levels"):
+			var level_icon = Globals.scene_levelSet_level_icon.instantiate()
+			level_icon.level_number = -1
+			level_icon.icon_level_filepath = "res://Levels/" + level_filename
+			$level_icon_container.add_child(level_icon)
+	
+	else:
+		for level_number in range(1, SaveData.get("info_" + levelSet_id)[1] + 1):
+			var level_icon = Globals.scene_levelSet_level_icon.instantiate()
+			level_icon.level_number = level_number
+			$level_icon_container.add_child(level_icon)

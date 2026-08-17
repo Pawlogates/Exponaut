@@ -224,5 +224,5 @@ script = ExtResource("2_lgd3i")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_dduox")
+&"": SubResource("AnimationLibrary_dduox")
 }

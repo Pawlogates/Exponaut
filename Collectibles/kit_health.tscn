@@ -4,7 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://cypmue75lyx5w" path="res://Assets/Graphics/sprites/packed/collectibles/kit_health.tres" id="2_j5soa"]
 
 [node name="kit_health" instance=ExtResource("1_w2s4c")]
-score_value = 10
+score_value = 0
 is_healthItem = true
 heal_player = true
 heal_value = 25

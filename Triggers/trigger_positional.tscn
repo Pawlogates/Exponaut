@@ -8,6 +8,8 @@ size = Vector2(64, 64)
 [node name="trigger_positional" type="Area2D" groups=["trigger_camera"]]
 collision_layer = 8
 collision_mask = 8
+monitoring = false
+monitorable = false
 script = ExtResource("1_q443k")
 
 [node name="collision_main" type="CollisionShape2D" parent="."]

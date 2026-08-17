@@ -6,11 +6,13 @@ extends Node2D
 
 var message_text : String = "none"
 var add_position : Vector2 = Vector2(0, 0)
+var add_scale : Vector2 = Vector2(0, 0)
 var message_anim_speed : float = 1.0
 
 
 func _ready() -> void:
 	text_manager.position += add_position
+	text_manager.scale += add_scale
 	text_manager.text_font_size = randi_range(16, 24)
 	
 	if message_text != "none":

@@ -28,6 +28,7 @@ unique_name_in_owner = true
 libraries = {
 &"animation_button": ExtResource("3_geodn")
 }
+speed_scale = 0.15
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="button_block_blue_UP"]
 shape = SubResource("RectangleShape2D_gk7p3")

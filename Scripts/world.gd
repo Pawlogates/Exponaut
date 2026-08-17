@@ -90,9 +90,16 @@ var bg_instant_offset = true
 
 @export var overworld_level_id = "none"
 
+# Game modes:
+@export var force_mode_score_attack_enable = false
+@export var force_mode_score_attack_disable = false
 
-@export var force_mode_scoreAttack = false
-@export var force_mode_memeMode = false
+@export var force_mode_meme = false
+
+var mode_challenge_active : bool = false
+var mode_score_attack_active : bool = false
+var mode_collect_note_active : bool = false
+
 
 @export var delete_background_layers = false
 
@@ -119,9 +126,24 @@ var is_ready : bool = false
 
 @export var randomized_deco_fade_offset : Vector2 = Vector2(-1, -1)
 
+@export var force_mode_debug_enable = false
+@export var force_mode_debug_disable = false
+
+@export var debug_show_unloader_range : bool = false
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	if force_mode_debug_enable : Globals.debug_mode = true
+	elif force_mode_debug_disable : Globals.debug_mode = false
+	
+	if Globals.mode_score_attack_active and not force_mode_score_attack_disable or force_mode_score_attack_enable:
+		Globals.spawn_scenes(self, load("res://Other/Game Modes/mode_score_attack.tscn"), 1, Vector2(0, 0), -1)
+		mode_score_attack_active = true
+	
+	#weather_rain = Globals.get_random_bool(75)
+	#weather_leaves = true
+	
 	if Globals.game_state_roguelord:
 		Player.position.x += randi_range(-1000, 1000)
 		Player.position.y += randi_range(-400, 100)
@@ -185,8 +207,6 @@ func _ready():
 	Globals.combo_multiplier = 0
 	
 	Globals.level_started.emit()
-	
-	if on_start_camera_effect : Globals.Player.camera.effect(Vector2(randi_range(-1000, 4000), randi_range(8000, -2000)), Vector2(4, 4), randi_range(-15, 15), 10)
 	
 	#if Globals.gameState_debug: # False if the game is currently being worked on.
 		#SaveData.delete_progress()
@@ -280,12 +300,19 @@ func _ready():
 		var level_transition_target = get_tree().get_first_node_in_group("level_transition" + str(Globals.transition_next))
 		
 		Player.position = level_transition_target.position + level_transition_target.transition_pos_offset
+		if on_start_camera_effect:
+			var camera_effect_direction : Vector2 = level_transition_target.camera_effect_direction
+			if camera_effect_direction != Vector2(0, 0):
+				Globals.Player.camera.effect(Vector2(randi_range(1000, 4000) * camera_effect_direction.x, randi_range(4000, 2000) * camera_effect_direction.y), Vector2(4, 4), randi_range(-15, 15), 10)
+			else:
+				Globals.Player.camera.effect(Vector2(randi_range(1000, 4000), randi_range(4000, 2000)), Vector2(4, 4), randi_range(-15, 15), 10)
+		
 		print("transition", Globals.transition_next)
 	
 	Globals.Player.camera.position_smoothing_enabled = false
 	
 	
-	if force_mode_memeMode:
+	if force_mode_meme:
 		$/root/World/HUD.visible = false
 		
 		var meme_mode_SubViewportContainer = SubViewportContainer
@@ -343,7 +370,7 @@ func _ready():
 		background.queue_free()
 		foreground.queue_free()
 	
-	if force_mode_memeMode:
+	if force_mode_meme:
 		var memeMode_background_video_player = load("res://Other/Game Modes/Meme Mode/background_video_player.tscn").instantiate()
 		memeMode_background_video_player.position = Player.position + Vector2(-960, -540)
 		add_child(memeMode_background_video_player)
@@ -359,19 +386,22 @@ func _ready():
 	if Globals.level_id != "overworld_factory":
 		SaveData.never_saved = false
 	
-	
 	await get_tree().create_timer(1.5, false).timeout
 	
-	Overlay.animation("black_fade_out", 0.25, false, false, 0)
+	if not Globals.gameState_justStarted : await Overlay.animation("black_fade_out", 1.0, false, false, 0, false, "res://Other/Scenes/transition_gears.tscn", 2.0, Vector2(-2, 0))
 	
-	Globals.spawn_message_object("A new wave has started! Current wave level: %s." % Globals.player_level, 1.0)
+	if Globals.game_state_roguelord : Globals.spawn_message_object("A new wave has started! Current wave level: %s." % Globals.player_level, 1.0)
 	
 	Player.block_movement_full = false
 	Player.velocity = Vector2(0, 0)
 	
-	Globals.total_collectibles_level = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
+	Globals.level_collectibles = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
 	
 	Globals.set_mouse_mode(false)
+	
+	await get_tree().create_timer(4.0, false).timeout
+	
+	Overlay.screen_hide()
 	
 	if Globals.game_state_roguelord:
 		await get_tree().create_timer(randf_range(24, 48 + Globals.player_level * 8), false).timeout

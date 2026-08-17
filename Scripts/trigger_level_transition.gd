@@ -8,6 +8,7 @@ var enabled = true # Whether or not the transition should be one-way.
 @export var transition_next = -1
 @export var transition_pos_offset = Vector2(0, 0)
 @export var valid_target : bool = true
+@export var camera_effect_direction : Vector2 = Vector2(0, 0)
 
 
 func _ready() -> void:
@@ -15,7 +16,7 @@ func _ready() -> void:
 
 
 func _on_area_entered(area):
-	if not Globals.is_valid_entity(area) : return
+	if not Globals.is_node_valid_player(area) : return
 	if target_level_filepath == "none" : return
 	if not active or entered : return
 	entered = true
@@ -25,8 +26,7 @@ func _on_area_entered(area):
 	Globals.transition_triggered = true
 	SaveData.save_playerData(false)
 	
-	#Overlay.animation("black_fade_in")
-	get_tree().change_scene_to_packed(target_level)
+	Globals.change_main_scene(target_level)
 	
 	Globals.dm("Player has entered a level transition leading to: " + str(target_level_filepath))
 	

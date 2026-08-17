@@ -1,9 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://dsctrhykwjmwb"]
+[gd_scene load_steps=3 format=3 uid="uid://dsctrhykwjmwb"]
 
 [ext_resource type="Script" uid="uid://cj8poulm4h8xq" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.gd" id="1_tpcbj"]
+[ext_resource type="PackedScene" uid="uid://cn8875lxwen70" path="res://Other/Scenes/debug_show_size_general.tscn" id="2_y30ex"]
 
-[node name="handle_offscreen" type="Node2D"]
+[node name="handle_offscreen" type="Node2D" groups=["unloader"]]
+visible = false
 script = ExtResource("1_tpcbj")
 
 [node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(12, 12)
 rect = Rect2(-100, -100, 200, 200)
+
+[node name="debug_size" parent="scan_visible" instance=ExtResource("2_y30ex")]
+offset_left = -110.0
+offset_top = -110.0
+offset_right = 110.0
+offset_bottom = 110.0
+color = Color(0, 1, 0, 0.0980392)
+
+[connection signal="screen_exited" from="scan_visible" to="." method="on_screen_exited"]

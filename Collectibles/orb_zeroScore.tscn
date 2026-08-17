@@ -4,6 +4,7 @@
 [ext_resource type="SpriteFrames" uid="uid://c7v0pqujkeomb" path="res://Assets/Graphics/sprites/packed/collectibles/collectible_orb_blue.tres" id="2_4kauy"]
 
 [node name="orb_zeroScore" instance=ExtResource("1_sofbr")]
+scale = Vector2(0.75, 0.75)
 score_value = 0
 on_collected_anim_name = "none"
 on_collected_effect_thrownAway = true

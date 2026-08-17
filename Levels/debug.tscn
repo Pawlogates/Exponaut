@@ -1,4 +1,4 @@
-[gd_scene load_steps=120 format=3 uid="uid://c42npvd5td777"]
+[gd_scene load_steps=119 format=3 uid="uid://c42npvd5td777"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_5agn5"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_h35e0"]
@@ -103,7 +103,6 @@
 [ext_resource type="PackedScene" uid="uid://byymdvbfugma2" path="res://Objects/Decorations/deco_clipped_black_gear_2_RIGHT.tscn" id="100_vtf34"]
 [ext_resource type="PackedScene" uid="uid://bwgekhrjg7e48" path="res://Objects/Decorations/deco_clipped_black_gear_3_LEFT_DOWN.tscn" id="101_qg47m"]
 [ext_resource type="PackedScene" uid="uid://2y43xaryl123" path="res://Objects/Decorations/deco_clipped_black_gear_3_RIGHT_UP.tscn" id="102_4l8t6"]
-[ext_resource type="PackedScene" uid="uid://bhljhbso02gbt" path="res://Enemies/robot_jumper.tscn" id="103_01cv7"]
 [ext_resource type="PackedScene" uid="uid://cvwfwuqqw6vpo" path="res://Triggers/trigger_camera_old.tscn" id="105_cxa0i"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_7p0oe"]
@@ -347,6 +346,7 @@ layer_4/tile_data = PackedInt32Array(393273, 458752, 12, 589767, 327680, 8053063
 
 [node name="tileset_objects" parent="." index="3" instance=ExtResource("3_wupxo")]
 position = Vector2(1, 0)
+layer_0/tile_data = PackedInt32Array(4, 5, 65536, -393223, 5, 131072, -589822, 5, 196608)
 
 [node name="tileset_objects_precise" parent="." index="4" instance=ExtResource("5_6k4f8")]
 tile_set = SubResource("TileSet_8dv7h")
@@ -360,22 +360,7 @@ tile_set = SubResource("TileSet_8dv7h")
 [node name="Music Manager" parent="." index="10"]
 layer1_fade_direction = 0
 
-[node name="robot_jumper" parent="." index="16" instance=ExtResource("103_01cv7")]
-position = Vector2(-824, -624)
-
-[node name="robot_jumper2" parent="." index="17" instance=ExtResource("103_01cv7")]
-position = Vector2(-428, -636)
-
-[node name="robot_jumper3" parent="." index="18" instance=ExtResource("103_01cv7")]
-position = Vector2(209, -497)
-
-[node name="robot_jumper4" parent="." index="19" instance=ExtResource("103_01cv7")]
-position = Vector2(657, -179)
-
-[node name="robot_jumper5" parent="." index="20" instance=ExtResource("103_01cv7")]
-position = Vector2(-239, -313)
-
-[node name="trigger_positional" parent="." index="21" instance=ExtResource("105_cxa0i")]
+[node name="trigger_positional" parent="." index="16" instance=ExtResource("105_cxa0i")]
 scale = Vector2(32, 8)
 maxOffset_Y = -250
 zoomCamera = false

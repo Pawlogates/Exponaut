@@ -1,11 +1,25 @@
-[gd_scene load_steps=2 format=3 uid="uid://ekexbeexschj"]
+[gd_scene load_steps=3 format=3 uid="uid://ekexbeexschj"]
 
 [ext_resource type="Script" uid="uid://1wry1k0olnlr" path="res://Other/Scenes/on_onscreen_spawn_master_node.gd" id="1_nx7bk"]
+[ext_resource type="PackedScene" uid="uid://cn8875lxwen70" path="res://Other/Scenes/debug_show_size_general.tscn" id="2_hd4td"]
 
-[node name="offscreen_manager" type="Node2D"]
+[node name="offscreen_manager" type="Node2D" groups=["loader", "persistent"]]
+visible = false
 script = ExtResource("1_nx7bk")
 
 [node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
+scale = Vector2(4, 4)
 rect = Rect2(-50, -50, 100, 100)
 
-[connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]
+[node name="debug_size" parent="scan_visible" instance=ExtResource("2_hd4td")]
+offset_left = -55.0
+offset_top = -55.0
+offset_right = 55.0
+offset_bottom = 55.0
+color = Color(1, 1, 0, 0.196078)
+
+[node name="cooldown_check_if_visible" type="Timer" parent="."]
+autostart = true
+
+[connection signal="screen_entered" from="scan_visible" to="." method="on_screen_entered"]
+[connection signal="timeout" from="cooldown_check_if_visible" to="." method="_on_cooldown_check_if_visible_timeout"]

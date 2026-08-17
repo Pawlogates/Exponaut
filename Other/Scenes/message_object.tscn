@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="1_kvqn5"]
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="2_rbxiv"]
 
-[node name="message_object" type="Node2D"]
+[node name="message_object" type="Node2D" groups=["message_object"]]
 z_index = 999
 script = ExtResource("1_20757")
 

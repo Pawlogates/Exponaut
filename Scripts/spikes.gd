@@ -11,7 +11,7 @@ func _process(_delta):
 	pass
 
 func _on_area_entered(area):
-	if not Globals.is_valid_entity(area) : return
+	if not Globals.is_node_valid_entity(area) : return
 	
 	var target : Node = area.get_parent()
 	

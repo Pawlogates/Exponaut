@@ -421,8 +421,6 @@ func save_playerData(save_player_position):
 
 
 func load_playerData():
-	return
-	
 	var filepath : String = Globals.d_playerData.replace("[replace_with_slot_id]", slot_current) + "/playerData" + ".save"
 	
 	if not FileAccess.file_exists(filepath):
@@ -758,14 +756,19 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 		
 		var saved_object_properties = json.get_data()
 		
-		var new_object = load(saved_object_properties["filename"]).instantiate()
-		get_node(saved_object_properties["parent"]).add_child(new_object)
+		var new_object = load(saved_object_properties["scene_filepath"]).instantiate()
+		get_node(saved_object_properties["parent_node"]).add_child(new_object)
 		
-		new_object.position = Vector2(saved_object_properties["pos_x"], saved_object_properties["pos_y"])
-		new_object.start_pos = Vector2(saved_object_properties["start_pos_x"], saved_object_properties["start_pos_y"])
+		if "position_x" in saved_object_properties:
+			new_object.position = Vector2(saved_object_properties["position_x"], saved_object_properties["position_y"])
+			new_object.start_pos = Vector2(saved_object_properties["start_pos_x"], saved_object_properties["start_pos_y"])
+		else:
+			new_object.position = Vector2(saved_object_properties["m_position_x"], saved_object_properties["m_position_y"])
+			new_object.m_position = Vector2(saved_object_properties["m_position_x"], saved_object_properties["m_position_y"])
+			new_object.m_start_pos = Vector2(saved_object_properties["m_start_pos_x"], saved_object_properties["m_start_pos_y"])
 		
 		for x in saved_object_properties.keys():
-			if x == "filename" or x == "parent" or x == "pos_x" or x == "pos_y" or x == "start_pos_x" or x == "start_pos_y":
+			if x == "scene_filepath" or x == "parent_node" or x == "position_x" or x == "position_y" or x == "start_pos_x" or x == "start_pos_y" or x == "m_position_x" or x == "m_position_y" or x == "m_start_pos_x" or x == "m_start_pos_y":
 				continue
 			
 			new_object.set(x, saved_object_properties[x])

@@ -1,19 +1,22 @@
 extends CanvasLayer
 
 # Note: The "lv" stands for "visible layer", and "lh" stands for "hidden layer" (it's reversed on purpose, for naming consistency reasons).
-@onready var lv_main : ParallaxLayer = $bg_main_A/layer
-@onready var lv_front : ParallaxLayer = $bg_front_A/layer
-@onready var lv_front2 : ParallaxLayer = $bg_front2_A/layer
-@onready var lv_back : ParallaxLayer = $bg_back_A/layer
-@onready var lv_back2 : ParallaxLayer = $bg_back2_A/layer
+@onready var lv_main : ParallaxLayer = $bg_main_B/layer
+@onready var lv_front : ParallaxLayer = $bg_front_B/layer
+@onready var lv_front2 : ParallaxLayer = $bg_front2_B/layer
+@onready var lv_back : ParallaxLayer = $bg_back_B/layer
+@onready var lv_back2 : ParallaxLayer = $bg_back2_B/layer
 
-@onready var lh_main : ParallaxLayer = $bg_main_B/layer
-@onready var lh_front : ParallaxLayer = $bg_front_B/layer
-@onready var lh_front2 : ParallaxLayer = $bg_front2_B/layer
-@onready var lh_back : ParallaxLayer = $bg_back_B/layer
-@onready var lh_back2 : ParallaxLayer = $bg_back2_B/layer
+@onready var lh_main : ParallaxLayer = $bg_main_A/layer
+@onready var lh_front : ParallaxLayer = $bg_front_A/layer
+@onready var lh_front2 : ParallaxLayer = $bg_front2_A/layer
+@onready var lh_back : ParallaxLayer = $bg_back_A/layer
+@onready var lh_back2 : ParallaxLayer = $bg_back2_A/layer
 
-@onready var tv_main : TextureRect = lv_main.get_child(0) # The "tv" stands for "visible texture".
+# The "tv" stands for "visible texture".
+# Before the first background transition is triggered, the layers are flipped.
+# This is because it's a unique case where lv's are actually visible in the game when the transition starts.
+@onready var tv_main : TextureRect = lv_main.get_child(0)
 @onready var tv_front : TextureRect = lv_front.get_child(0)
 @onready var tv_front2 : TextureRect = lv_front2.get_child(0)
 @onready var tv_back : TextureRect = lv_back.get_child(0)
@@ -85,7 +88,8 @@ var l_back2_modulate = Color(1, 1, 1, 1)
 
 @onready var cooldown_check_fade: Timer = $cooldown_check_fade
 
-var fade_multiplier : float = 0.25
+var fade_multiplier : float = 1.0
+var first_time : bool = true
 
 # Not the case for now: # Note: If the filepath value is left as default ("bg_empty.png"), the layer will be deleted on "_ready()".
 @onready var bg_main_edge_top_filepath = "res://Assets/Graphics/backgrounds/bg_edge_black.png"
@@ -101,7 +105,7 @@ var fade_multiplier : float = 0.25
 @export var bg_back2_repeat_y = true
 
 
-@export var randomize : bool = true
+@export var randomize : bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -111,9 +115,9 @@ func _ready():
 	Globals.bg_change_finished.connect(on_bg_change_finished)
 	
 	Globals.debug1.connect(debug_simplify)
-	Globals.debug2.connect(debug_toggle_active)
+	Globals.debug2.connect(debug_highlight_layers)
 	Globals.debug3.connect(debug_toggle_fully)
-	Globals.debug4.connect(debug_highlight_layers)
+	Globals.debug4.connect(debug_toggle_active)
 	
 	for layer_node_name in list_l_node_name:
 		var bg_layer = get_node(layer_node_name)
@@ -127,17 +131,15 @@ func _ready():
 	for layer_node_name in list_l_A_node_name:
 		var bg_layer = get_node(layer_node_name)
 		bg_layer.visible = true
+		bg_layer.offset.y = -960
 	
 	for layer_node_name in list_l_B_node_name:
 		var bg_layer = get_node(layer_node_name)
-		bg_layer.visible = false
+		bg_layer.visible = true
+		bg_layer.offset.y = -960
 	
-	for layer_node_name in list_l_node_name:
-		var bg_layer = get_node(layer_node_name)
-		bg_layer.offset.y = -400
-	
-	#$bg_back2_A.offset.y -= 200
-	#$bg_back2_B.offset.y -= 200
+	$bg_back2_A.offset.y -= 200
+	$bg_back2_B.offset.y -= 200
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
@@ -153,10 +155,17 @@ var bg_fade_active : bool = false
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	for f_layer in list_l_A_node_name:
-		get_node(f_layer).visible = true
-	for f_layer in list_l_B_node_name:
-		get_node(f_layer).visible = true
+	for layer_name in list_l_node_name:
+		var node = get_node(layer_name + "/layer")
+		node.rotation_degrees = lerp(node.rotation_degrees, 0.0, delta)
+		node.modulate.r = lerp(node.modulate.r, 1.0, delta)
+		node.modulate.g = lerp(node.modulate.g, 1.0, delta)
+		node.modulate.b = lerp(node.modulate.b, 1.0, delta)
+	
+	#for f_layer in list_l_A_node_name:
+		#get_node(f_layer).visible = true
+	#for f_layer in list_l_B_node_name:
+		#get_node(f_layer).visible = true
 	
 	if bg_fade_active:
 		lv_main.modulate.a = move_toward(lv_main.modulate.a, 1.0, delta * fade_multiplier)
@@ -167,7 +176,7 @@ func _process(delta):
 		
 		lh_main.modulate.a = move_toward(lh_main.modulate.a, 0, delta * fade_multiplier)
 		lh_front.modulate.a = move_toward(lh_front.modulate.a, 0, delta * fade_multiplier)
-		lh_front2.modulate.a = move_toward(lh_front2.modulate.a, 0, delta * fade_multiplier)
+		lh_front2.modulate.a = move_toward(lh_front2.modulate.a, 0,delta * fade_multiplier)
 		lh_back.modulate.a = move_toward(lh_back.modulate.a, 0, delta * fade_multiplier)
 		lh_back2.modulate.a = move_toward(lh_back2.modulate.a, 0, delta * fade_multiplier)
 
@@ -175,10 +184,13 @@ func _process(delta):
 signal bg_fade_finished
 
 func on_trigger_bg_change_entered():
+	if bg_fade_active : return
+	
 	toggle_layer_id()
+	
 	for trigger in get_tree().get_nodes_in_group("trigger_bg_change"):
 		trigger.modulate = Color.PURPLE
-	await get_tree().create_timer(0.5, true).timeout
+	await get_tree().create_timer(0.25, true).timeout
 	bg_update_texture_filepath()
 	bg_update_other()
 	bg_fade_active = true
@@ -188,6 +200,11 @@ func on_trigger_bg_change_entered():
 	bg_fade_active = false
 	for trigger in get_tree().get_nodes_in_group("trigger_bg_change"):
 		trigger.modulate = Color.WHITE
+	
+	first_time = false
+	
+	if Globals.World.level_type == "debug":
+		pass
 
 
 func on_trigger_bg_move_entered():
@@ -199,6 +216,8 @@ func on_bg_change_finished():
 
 
 func debug_highlight_layers():
+	if not Globals.debug_mode : return
+	
 	if not debug_available : return
 	debug_available = false
 	$cooldown_debug_available.start()
@@ -235,6 +254,8 @@ func debug_highlight_layers():
 var fully_active = false
 
 func debug_toggle_fully():
+	if not Globals.debug_mode : return
+	
 	if not debug_available : return
 	debug_available = false
 	$cooldown_debug_available.start()
@@ -273,6 +294,9 @@ func debug_toggle_fully():
 
 
 func toggle_layer_id():
+	if first_time:
+		return
+	
 	for layer_name in list_l_B_node_name:
 		
 		Globals.dm("Currently targeted layer_name: " + layer_name + ".", "YELLOW", 1)
@@ -326,11 +350,32 @@ func bg_update_texture_filepath():
 	lv_back_filepath = Globals.bg_back_filepath
 	lv_back2_filepath = Globals.bg_back2_filepath
 	
-	tv_main.texture = load(lv_main_filepath)
-	tv_front.texture = load(lv_front_filepath)
-	tv_front2.texture = load(lv_front2_filepath)
-	tv_back.texture = load(lv_back_filepath)
-	tv_back2.texture = load(lv_back2_filepath)
+	if first_time:
+		for layer_name in list_l_B_node_name:
+			var bg_layer = get_node(layer_name + "/layer")
+			bg_layer.modulate.a = 0.0
+		for layer_name in list_l_A_node_name:
+			var bg_layer = get_node(layer_name + "/layer")
+			bg_layer.modulate.a = 1.0
+		
+		tv_main.texture = load(lv_main_filepath)
+		tv_front.texture = load(lv_front_filepath)
+		tv_front2.texture = load(lv_front2_filepath)
+		tv_back.texture = load(lv_back_filepath)
+		tv_back2.texture = load(lv_back2_filepath)
+		
+		tv_main.texture = load(Globals.bg_main_filepath)
+		tv_front.texture = load(Globals.bg_front_filepath)
+		tv_front2.texture = load(Globals.bg_front2_filepath)
+		tv_back.texture = load(Globals.bg_back_filepath)
+		tv_back2.texture = load(Globals.bg_back2_filepath)
+	
+	else:
+		tv_main.texture = load(lv_main_filepath)
+		tv_front.texture = load(lv_front_filepath)
+		tv_front2.texture = load(lv_front2_filepath)
+		tv_back.texture = load(lv_back_filepath)
+		tv_back2.texture = load(lv_back2_filepath)
 
 
 var debug_available = true
@@ -383,6 +428,8 @@ func bg_update_other():
 var debug_simplify_active : bool = false
 
 func debug_simplify():
+	if not Globals.debug_mode : return
+	
 	if not debug_simplify_active:
 		bg_fade_active = false
 		
@@ -404,7 +451,8 @@ func debug_simplify():
 		for layer_node_name in list_l_A_node_name:
 			var bg_layer = get_node(layer_node_name)
 			bg_layer.visible = true
-			bg_layer.scroll_base_offset.y = 200
+			bg_layer.scroll_base_offset.y = -1240
+			bg_layer.scroll_base_offset.x = -620
 			
 			bg_layer.get_child(0).get_child(0).get_child(0).text = layer_node_name
 			bg_layer.get_child(0).get_child(0).self_modulate = Color.DARK_GOLDENROD
@@ -412,7 +460,8 @@ func debug_simplify():
 		for layer_node_name in list_l_B_node_name:
 			var bg_layer = get_node(layer_node_name)
 			bg_layer.visible = true
-			bg_layer.scroll_base_offset.y = 800
+			bg_layer.scroll_base_offset.y = -1080
+			bg_layer.scroll_base_offset.x = -540
 			
 			bg_layer.get_child(0).get_child(0).get_child(0).text = layer_node_name
 			bg_layer.get_child(0).get_child(0).self_modulate = Color.DARK_SLATE_BLUE
@@ -438,7 +487,7 @@ func debug_simplify():
 		for layer_node_name in list_l_A_node_name:
 			var bg_layer = get_node(layer_node_name)
 			bg_layer.visible = true
-			bg_layer.scroll_base_offset.y = 200
+			bg_layer.scroll_base_offset.y = -1080
 			
 			bg_layer.get_child(0).get_child(0).get_child(0).text = layer_node_name
 			bg_layer.get_child(0).get_child(0).self_modulate = Color.DARK_GOLDENROD
@@ -446,7 +495,7 @@ func debug_simplify():
 		for layer_node_name in list_l_B_node_name:
 			var bg_layer = get_node(layer_node_name)
 			bg_layer.visible = true
-			bg_layer.scroll_base_offset.y = 800
+			bg_layer.scroll_base_offset.y = -1080
 			
 			bg_layer.get_child(0).get_child(0).get_child(0).text = layer_node_name
 			bg_layer.get_child(0).get_child(0).self_modulate = Color.DARK_SLATE_BLUE
@@ -454,6 +503,8 @@ func debug_simplify():
 	debug_simplify_active = Globals.opposite_bool(debug_simplify_active)
 
 func debug_toggle_active():
+	if not Globals.debug_mode : return
+	
 	on_trigger_bg_change_entered()
 
 
@@ -502,3 +553,11 @@ func handle_randomize():
 			bg_layer.modulate.a = 1
 			bg_texture.modulate.a = 1
 			bg_texture.get_parent().motion_offset.y = -400
+
+func on_player_melee_hit(add_rotation : float = 0.0):
+	for layer_name in list_l_node_name:
+		var node = get_node(layer_name + "/layer")
+		node.rotation_degrees = add_rotation * randf_range(0.95, 1.05)
+		node.modulate.r *= 0.85
+		node.modulate.g *= 0.85
+		node.modulate.b *= 0.85

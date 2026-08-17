@@ -12,7 +12,7 @@ var active : bool = false
 @export var anim_hide_cooldown : float = 8.0
 @export var anim_speed_scale : float = 1.0
 
-@export var pause_duration : float = 6.0
+@export var pause_duration : float = 4.0
 
 @export var camera_target_offset : Vector2 = Vector2(64, 64)
 @export var camera_target_zoom : Vector2 = Vector2(3, 3)
@@ -34,7 +34,8 @@ func _physics_process(delta: float) -> void:
 	if active : modulate.a = move_toward(modulate.a, 1, delta)
 
 func _on_area_2d_area_entered(area):
-	if not Globals.is_valid_entity(area) : return
+	if not Globals.is_node_valid_player(area) : return
+	if Globals.Player.debug_movement : return
 	
 	if start_hidden:
 		set_active_after_cooldown()

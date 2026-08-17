@@ -172,6 +172,7 @@ var ready_show = false # Whether the level info display is ready to be made visi
 func _on_cooldown_show_timeout() -> void:
 	ready_show = true
 	if not Globals.debug_mode:
+		$AnimationPlayer.speed_scale = 4.0
 		$AnimationPlayer.play("show")
 	
 	Globals.message_debug("Valid level info display position found and applied " + str(position), 3)

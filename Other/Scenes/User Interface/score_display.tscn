@@ -145,7 +145,7 @@ theme = ExtResource("1_i4dtr")
 theme_override_colors/font_shadow_color = Color(0, 0, 0, 1)
 theme_override_constants/shadow_offset_x = 3
 theme_override_constants/shadow_offset_y = 3
-theme_override_font_sizes/font_size = 48
+theme_override_font_sizes/font_size = 40
 text = "0"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -260,7 +260,7 @@ on_entity_collected_rotate = true
 [node name="decoration_gear3" parent="." instance=ExtResource("5_0xwbr")]
 modulate = Color(0, 0, 0, 1)
 z_index = 25
-position = Vector2(64, 56)
+position = Vector2(40, 64)
 scale = Vector2(0.2, 0.2)
 anim_speed2 = 0.25
 anim_reverse2 = true

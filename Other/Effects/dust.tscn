@@ -197,7 +197,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"default",
-"speed": 20.0
+"speed": 15.0
 }]
 
 [node name="effect_dust" type="AnimatedSprite2D"]

@@ -10,10 +10,10 @@ func greenButton_pressed():
 	if blockType == "green":
 		activated = true
 		if blockDirection == 0:
-			%AnimationPlayer.play("green_move_left")
+			%AnimationPlayer.play("animation_button/green_move_left")
 		
 		elif blockDirection == 1:
-			%AnimationPlayer.play("green_move_right")
+			%AnimationPlayer.play("animation_button/green_move_right")
 
 func blueButton_pressed():
 	if blockType == "blue":
@@ -35,19 +35,19 @@ func blueButton_back():
 	if blockType == "blue":
 		activated = false
 		if blockDirection == 0:
-			%AnimationPlayer.play("blue_back_up")
+			%AnimationPlayer.play("animation_button/blue_back_up")
 		
 		elif blockDirection == 1:
-			%AnimationPlayer.play("blue_back_down")
+			%AnimationPlayer.play("animation_button/blue_back_down")
 
 func greenButton_back():
 	if blockType == "green":
 		activated = false
 		if blockDirection == 0:
-			%AnimationPlayer.play("green_back_left")
+			%AnimationPlayer.play("animation_button/green_back_left")
 		
 		elif blockDirection == 1:
-			%AnimationPlayer.play("green_back_right")
+			%AnimationPlayer.play("animation_button/green_back_right")
 
 func redButton_back():
 	if blockType == "red":

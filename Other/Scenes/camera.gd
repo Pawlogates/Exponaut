@@ -27,3 +27,6 @@ func effect(camera_target_offset : Vector2 = Vector2(-1, -1), camera_target_zoom
 	if camera_target_offset != Vector2(-1, -1) : target_offset = camera_target_offset
 	if camera_target_zoom != Vector2(-1, -1) : target_zoom = camera_target_zoom
 	if camera_target_rotation != -1 : target_rotation = camera_target_rotation
+	#if camera_target_rotation != -1 and camera_target_rotation:
+		#if is_instance_valid(Globals.World):
+			#Globals..World.background.on_player_melee_hit(-camera_target_rotation / 4)

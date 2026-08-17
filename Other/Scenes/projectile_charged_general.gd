@@ -178,6 +178,9 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 				target.velocity.y = -250 * randf_range(0.9, 1.1)
 			elif direction_y == -1:
 				target.velocity.y = -500 * randf_range(0.9, 1.1)
+	
+	if target.entity_type == "enemy" or target.entity_type == "box" or target.can_move:
+		target.handle_hit(self, damage_value)
 
 func toggle_direction_x():
 	direction_x *= -1

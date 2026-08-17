@@ -20,12 +20,12 @@ extends Node2D
 
 
 # Last music track's filepath - [START]
-var layer1_last_filepath = null
-var layer2_last_filepath = null
-var layer3_last_filepath = null
-var layer4_last_filepath = null
+var layer1_last_filepath = "none"
+var layer2_last_filepath = "none"
+var layer3_last_filepath = "none"
+var layer4_last_filepath = "none"
 
-var layer1_alt_last_filepath = null
+var layer1_alt_last_filepath = "none"
 # Last music track's filepath - [END]
 
 var print_limit = 25 # The debug message will be printed only once every 25 calls.
@@ -97,11 +97,11 @@ var random_cooldown_fade_range : float = 600.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if Globals.gameState_debug:
-		layer1_max_volume = 0.1
-		layer2_max_volume = 0.1
-		layer3_max_volume = 0.1
-		layer4_max_volume = 0.1
+	#if Globals.gameState_debug:
+		#layer1_max_volume = 0.1
+		#layer2_max_volume = 0.1
+		#layer3_max_volume = 0.1
+		#layer4_max_volume = 0.1
 	
 	Globals.play_music_random.connect(play_music_random)
 	Globals.refreshed0_5.connect(update_is_playing)
@@ -119,8 +119,8 @@ func _ready():
 	layer4_last_filepath = Globals.get_filepath(layer4.stream)
 	
 	if enabled:
-		update_layer_all_music_file()
-		layer_play("all", true)
+		await update_layer_all_music_file()
+		layer_play("all")
 	
 	if random_cooldown_toggle_fade:
 		randomize_cooldown_toggle_fade("all")
@@ -310,22 +310,24 @@ func update_layer_all_music_file():
 			layer4.stream = load(layer4_music_filepath)
 
 
-func layer_play(target_id : String, interrupt : bool = false):
+func layer_play(target_id : String):
 	if target_id == "all":
-		
-		if interrupt:
-			layer1.play()
-			layer1_alt.play()
-			layer2.play()
-			layer3.play()
-			layer4.play()
-		
+		layer1.play()
+		layer1_alt.play()
+		layer2.play()
+		layer3.play()
+		layer4.play()
+	
+	else:
+		if target_id != "1_alt":
+			print(get("layer" + target_id + "_music_filepath"), " - " + "layer" + target_id + "_music_filepath")
+			if get("layer" + target_id + "_music_filepath") != get("layer" + target_id + "_last_filepath"):
+				var layer : Node = get_node("layer" + target_id)
+				layer.play()
 		else:
-			if not layer1.playing : layer1.play()
-			if not layer1_alt.playing : layer1_alt.play()
-			if not layer2.playing : layer2.play()
-			if not layer3.playing : layer3.play()
-			if not layer4.playing : layer4.play()
+			if get("layer" + target_id + "_music_filepath") != get("layer" + target_id + "_last_filepath"):
+				var layer : Node = get_node("layer1").get_node("layer" + target_id)
+				layer.play()
 	
 	
 	layer1_last_filepath = Globals.get_filepath(layer1.stream)
@@ -345,36 +347,36 @@ func music_change(filepath, smooth_transition : bool = true, volume : float = 1.
 	
 	if not smooth_transition or layer_id != "1":
 		set("layer" + layer_id + "_music_filepath", filepath)
-		update_layer_all_music_file()
+		await update_layer_all_music_file()
 		layer_play(layer_id)
+	
+	if layer_id != "1" : return
 	
 	if layer1_fade_direction and layer1_alt_fade_direction or not layer1_fade_direction and not layer1_alt_fade_direction:
 		layer1_fade_direction = 1
 		layer1_alt_fade_direction = 0
 	
-	else:
+	if layer1_fade_direction and not layer1_alt_fade_direction:
+		if filepath == layer1_music_filepath : return
 		
-		if layer1_fade_direction and not layer1_alt_fade_direction:
-			if filepath == layer1_music_filepath : return
-			
-			layer1_alt_music_filepath = filepath
-			update_layer_all_music_file()
-			layer1_fade_active = true
-			layer1_fade_direction = 0
-			layer1_alt_fade_active = true
-			layer1_alt_fade_direction = 1
-			layer_play("all")
+		layer1_alt_music_filepath = filepath
+		await update_layer_all_music_file()
+		layer1_fade_active = true
+		layer1_fade_direction = 0
+		layer1_alt_fade_active = true
+		layer1_alt_fade_direction = 1
+		layer_play("1_alt")
+	
+	elif layer1_alt_fade_direction and not layer1_fade_direction:
+		if filepath == layer1_alt_music_filepath : return
 		
-		elif layer1_alt_fade_direction and not layer1_fade_direction:
-			if filepath == layer1_alt_music_filepath : return
-			
-			layer1_music_filepath = filepath
-			update_layer_all_music_file()
-			layer1_fade_active = true
-			layer1_fade_direction = 1
-			layer1_alt_fade_active = true
-			layer1_alt_fade_direction = 0
-			layer_play("all")
+		layer1_music_filepath = filepath
+		await update_layer_all_music_file()
+		layer1_fade_active = true
+		layer1_fade_direction = 1
+		layer1_alt_fade_active = true
+		layer1_alt_fade_direction = 0
+		layer_play("1")
 	
 	if not smooth_transition:
 		layer1.volume_linear = volume

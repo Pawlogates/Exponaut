@@ -1,0 +1,37 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdmkripn4wvbk"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_f1mon"]
+[ext_resource type="SpriteFrames" uid="uid://j2i2jftj1ger" path="res://Assets/Graphics/sprites/packed/boxes/piggybank.tres" id="2_qtsal"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w657n"]
+size = Vector2(64, 64)
+
+[node name="piggybank_coins_timed" instance=ExtResource("1_f1mon")]
+collectable = false
+hittable = true
+damage_from_entity = true
+damage_from_entity_contact = false
+damage_from_player = true
+can_move = true
+ignore_gravity = false
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
+on_death_spawn_entity_quantity = 3
+on_death_spawn_entity2 = true
+on_death_spawn_entity2_scene_filepath = "uid://cspg2oh1u0j5d"
+on_death_spawn_entity2_quantity = 5
+on_hit_spawn_entity = true
+on_hit_spawn_entity_scene_filepath = "uid://cspg2oh1u0j5d"
+breakable = true
+start_animation = "none"
+on_death_anim_name = "general/rotate_away_up_right"
+on_death_anim_speed = 4.0
+sfx_self_bounced_filepath = "uid://db6fe34iafg2g"
+entity_name = "piggybank_coins_timed"
+entity_type = "box"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_qtsal")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_w657n")

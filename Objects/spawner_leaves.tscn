@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0uqkpslulq6o"]
+
+[ext_resource type="PackedScene" uid="uid://4jjg3v3m1ni1" path="res://Objects/spawner_basic.tscn" id="1_oodg0"]
+
+[node name="spawner_basic" instance=ExtResource("1_oodg0")]
+scene_filepath_keywords = ["leaf"]
+on_timeout_spawn_scene_quantity_range = [1, 2]
+on_timeout_set_cooldown_range = [0.25, 8.0]

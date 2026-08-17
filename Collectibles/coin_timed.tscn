@@ -7,24 +7,57 @@
 size = Vector2(32, 32)
 
 [node name="coin_timed" instance=ExtResource("1_bmcnr")]
-scale = Vector2(0.75, 0.75)
-score_value = 10
 damage_from_entity_contact = false
-damage_from_player_contact = false
 damage_to_entity = true
 damage_to_entity_contact = false
 can_move = true
 ignore_gravity = false
 on_timeout_death = true
-on_floor_bounce = true
+on_timeout_death_cooldown = 8.0
 start_animation = "none"
+on_spawn_sprite_anim_name_color = "pulse_red_normal_long_loop"
 on_collected_effect_thrownAway = true
+on_collected_spawn_star_chance = 5.0
+on_collected_spawn_star2_chance = 5.0
+on_collected_spawn_orb_orange_chance = 5.0
+on_collected_spawn_orb_blue_chance = 5.0
+on_collected_spawn_homing_square_chance = 5.0
+on_collected_spawn_dust_chance = 5.0
+on_collected_spawn_dead_chance = 5.0
+on_collected_spawn_oneShot_chance = 5.0
+on_collected_spawn_leaf_chance = 5.0
+on_collected_spawn_leaf2_chance = 5.0
+on_hit_spawn_star_chance = 5.0
+on_hit_spawn_star2_chance = 5.0
+on_hit_spawn_orb_orange_chance = 5.0
+on_hit_spawn_orb_blue_chance = 5.0
+on_hit_spawn_homing_square_chance = 5.0
+on_hit_spawn_dust_chance = 5.0
+on_hit_spawn_dead_chance = 5.0
+on_hit_spawn_oneShot_chance = 5.0
+on_hit_spawn_leaf_chance = 5.0
+on_hit_spawn_leaf2_chance = 5.0
+on_death_spawn_star_chance = 5.0
+on_death_spawn_star2_chance = 5.0
+on_death_spawn_orb_orange_chance = 5.0
+on_death_spawn_orb_blue_chance = 5.0
+on_death_spawn_homing_square_chance = 5.0
+on_death_spawn_dust_chance = 5.0
+on_death_spawn_dead_chance = 5.0
+on_death_spawn_leaf_chance = 5.0
+on_death_spawn_leaf2_chance = 5.0
 sfx_self_collected_filepath = "uid://vm1ccgk5h0ag"
 sfx_self_hit_filepath = "uid://bvklt3ov80jdg"
+sfx_self_death_filepath = "uid://bm23uqpid2hgu"
 entity_name = "coin_timed"
 
 [node name="sprite" parent="." index="1"]
+modulate = Color(66, 2, 2, 1)
 sprite_frames = ExtResource("2_syj8d")
+outline_width = 2
+
+[node name="animation_color" parent="sprite" index="18"]
+speed_scale = 2.0
 
 [node name="collision_main" parent="." index="2"]
 shape = SubResource("RectangleShape2D_gymcb")

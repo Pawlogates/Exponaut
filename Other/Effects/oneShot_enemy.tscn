@@ -40,11 +40,12 @@ animations = [{
 }]
 
 [node name="hitDeath_effect" type="Node2D"]
-z_index = -5
+z_index = -2
 scale = Vector2(1.5, 1.5)
 script = ExtResource("1_oragp")
 
 [node name="hitDeath_effect" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.344, 0.344, 0.344, 0.5)
 sprite_frames = SubResource("SpriteFrames_yf8ew")
 autoplay = "default"
 frame_progress = 0.0724674

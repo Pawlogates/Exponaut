@@ -1,12 +1,12 @@
-[gd_scene load_steps=19 format=3 uid="uid://dxfav0g51rvb5"]
+[gd_scene load_steps=17 format=3 uid="uid://dxfav0g51rvb5"]
 
 [ext_resource type="Script" uid="uid://ccfnsh1jy4vri" path="res://Scripts/remove_general.gd" id="1_gkdny"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_s638s"]
 [ext_resource type="Script" uid="uid://bcclqgg52nucd" path="res://Scripts/particleEmit_general.gd" id="3_37vkn"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_j1y38"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_cucmf"]
 atlas = ExtResource("2_s638s")
-region = Rect2(256, 1056, 32, 32)
+region = Rect2(288, 1056, 32, 32)
 
 [sub_resource type="Curve" id="Curve_d62vd"]
 _limits = [-20.0, 20.0, 0.0, 1.0]
@@ -36,27 +36,21 @@ orbit_velocity_min = -0.05
 orbit_velocity_max = 0.05
 gravity = Vector3(0, 98, 0)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_agekp"]
-load_path = "res://.godot/imported/sprites_other.png-b94f1904300734566d6e12af7c8ca356.ctex"
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_cucmf"]
-atlas = SubResource("CompressedTexture2D_agekp")
-region = Rect2(288, 1056, 32, 32)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqjey"]
 atlas = ExtResource("2_s638s")
 region = Rect2(320, 1056, 32, 32)
 
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r13ns"]
-load_path = "res://.godot/imported/sprites_other.png-b94f1904300734566d6e12af7c8ca356.ctex"
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_6o6f1"]
-atlas = SubResource("CompressedTexture2D_r13ns")
+atlas = ExtResource("2_s638s")
 region = Rect2(384, 1056, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b6bst"]
-atlas = SubResource("CompressedTexture2D_agekp")
+atlas = ExtResource("2_s638s")
 region = Rect2(416, 1056, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j1y38"]
+atlas = ExtResource("2_s638s")
+region = Rect2(256, 1056, 32, 32)
 
 [sub_resource type="Animation" id="Animation_e7ha0"]
 length = 0.001
@@ -76,6 +70,7 @@ tracks/0/keys = {
 [sub_resource type="Animation" id="Animation_navwh"]
 resource_name = "fade_out"
 length = 10.0
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -83,10 +78,10 @@ tracks/0/path = NodePath(".:modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 10),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 0.3, 10),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6uhyl"]
@@ -98,28 +93,16 @@ _data = {
 [node name="particles_feathers" type="Node2D"]
 script = ExtResource("1_gkdny")
 
-[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
-z_index = 5
-emitting = false
-amount = 1
-texture = SubResource("AtlasTexture_j1y38")
-lifetime = 10.0
-one_shot = true
-speed_scale = 0.5
-fixed_fps = 60
-visibility_rect = Rect2(-2000, -500, 4000, 2000)
-process_material = SubResource("ParticleProcessMaterial_gjg8p")
-script = ExtResource("3_37vkn")
-
 [node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
 z_index = 5
 emitting = false
 amount = 1
 texture = SubResource("AtlasTexture_cucmf")
-lifetime = 10.0
+lifetime = 7.0
 one_shot = true
 speed_scale = 0.6
-fixed_fps = 60
+explosiveness = 0.05
+fixed_fps = 120
 visibility_rect = Rect2(-2000, -500, 4000, 2000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 script = ExtResource("3_37vkn")
@@ -129,10 +112,11 @@ z_index = 5
 emitting = false
 amount = 1
 texture = SubResource("AtlasTexture_hqjey")
-lifetime = 10.0
+lifetime = 7.0
 one_shot = true
-speed_scale = 0.5
-fixed_fps = 60
+speed_scale = 0.7
+explosiveness = 0.15
+fixed_fps = 120
 visibility_rect = Rect2(-2000, -500, 4000, 2000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 script = ExtResource("3_37vkn")
@@ -142,10 +126,11 @@ z_index = 5
 emitting = false
 amount = 1
 texture = SubResource("AtlasTexture_6o6f1")
-lifetime = 10.0
+lifetime = 7.0
 one_shot = true
-speed_scale = 0.7
-fixed_fps = 60
+speed_scale = 0.8
+explosiveness = 0.2
+fixed_fps = 120
 visibility_rect = Rect2(-2000, -500, 4000, 2000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 script = ExtResource("3_37vkn")
@@ -155,10 +140,24 @@ z_index = 5
 emitting = false
 amount = 1
 texture = SubResource("AtlasTexture_b6bst")
-lifetime = 10.0
+lifetime = 7.0
 one_shot = true
-speed_scale = 0.5
-fixed_fps = 60
+speed_scale = 0.9
+explosiveness = 0.1
+fixed_fps = 120
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+process_material = SubResource("ParticleProcessMaterial_gjg8p")
+script = ExtResource("3_37vkn")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+z_index = 5
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_j1y38")
+lifetime = 7.0
+one_shot = true
+explosiveness = 0.25
+fixed_fps = 120
 visibility_rect = Rect2(-2000, -500, 4000, 2000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 script = ExtResource("3_37vkn")

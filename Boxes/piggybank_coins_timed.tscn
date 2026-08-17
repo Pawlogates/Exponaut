@@ -9,23 +9,22 @@ size = Vector2(64, 64)
 [node name="piggybank_coins_timed" instance=ExtResource("1_w657n")]
 collectable = false
 hittable = true
-family = "enemy"
 damage_from_entity = true
 damage_from_entity_contact = false
 damage_from_player = true
-damage_from_player_contact = false
-damage_to_player_contact = false
 can_move = true
 ignore_gravity = false
 on_death_spawn_entity = true
 on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
-on_death_spawn_entity_quantity = 10
+on_death_spawn_entity_quantity = 7
 on_hit_spawn_entity = true
+on_hit_spawn_entity_chance = 50.0
 on_hit_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
-on_hit_spawn_entity_quantity = 2
 breakable = true
 start_animation = "none"
 on_death_anim_name = "general/rotate_away_up_right"
+on_death_anim_speed = 4.0
+sfx_self_bounced_filepath = "uid://db6fe34iafg2g"
 entity_name = "piggybank_coins_timed"
 entity_type = "box"
 

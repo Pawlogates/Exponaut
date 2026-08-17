@@ -59,7 +59,7 @@ const l_animation_type_main : Array = ["general", "gear"] # The most generally r
 const l_animation_type_limited : Array = ["general", "gear"] # Only includes animations that are suitable for general decorations (with no specific properties like the CanvasLayer node's "offset").
 const l_animation_type_all : Array = ["general, gear, ui"] # Includes absolutely every animation type.
 
-const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8", "reflect_straight", "rotate_away_up_right"]
+const l_animation_name_general_main : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8", "reflect_straight", "rotate_away_up_right", "rotate_away_up_right_scale_up"]
 const l_animation_name_general_limited : Array = ["loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2"]
 const l_animation_name_general_all : Array = ["rotate_around_y_fade_out", "fade_out_up", "loop_scale", "loop_up_down", "loop_up_down_slight", "loop_right_left", "loop_right_left_x2", "loop_right_left_x4", "loop_right_left_x8"]
 
@@ -205,6 +205,7 @@ const material_cycle_yellow_orange = preload("res://Other/Materials/cycle_yellow
 const material_neon_hueShift = preload("res://Other/Materials/neon_hueShift.tres")
 const material_score_value_rainbow2 = preload("res://Other/Materials/score_value_rainbow2.tres")
 const material_score_bonus_rainbow2 = preload("res://Other/Materials/score_bonus_rainbow2.tres")
+const material_tileset_hue_shift = preload("res://Other/Materials/tileset_hue_shift.tres")
 
 const style_button_menu = "res://Other/Styles/button_menu.tres"
 const style_button_menu2 = "res://Other/Styles/button_menu2.tres"
@@ -223,7 +224,7 @@ const style_button_round_toggle = "res://Other/Styles/button_round_toggle.tres"
 const scene_start_screen = preload("res://Other/Scenes/start_screen.tscn")
 const scene_levelSet_screen = preload("res://Other/Scenes/Level Set/levelSet_screen.tscn")
 
-const scene_debug_level = preload("res://Levels/debug_level.tscn")
+const scene_debug_level = preload("res://Levels/debug.tscn")
 
 
 # Other scenes:
@@ -299,6 +300,8 @@ var entity_editor_preview : Node
 
 
 func _ready() -> void:
+	debug4.connect(on_debug4)
+	
 	# Entity Editor - [START]
 	var f_entity_editor_preview = load("res://Other/Scenes/entity_editor_preview.tscn").instantiate()
 	f_entity_editor_preview.entity_editor_preview = true
@@ -343,16 +346,16 @@ func _ready() -> void:
 	
 	gameState_changed.connect(on_gameState_changed)
 	
-	#if not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
-		#refreshed0_5.connect(on_refreshed0_5)
-		#refreshed1_0.connect(on_refreshed1_0)
-		#refreshed2_0.connect(on_refreshed2_0)
-		#refreshed4_0.connect(on_refreshed4_0)
-		#
-		#refresh0_5()
-		#refresh1_0()
-		#refresh2_0()
-		#refresh4_0()
+	if true or not gameState_debug: # Timers created by the script cause errors when the script is modified at runtime.
+		refreshed0_5.connect(on_refreshed0_5)
+		refreshed1_0.connect(on_refreshed1_0)
+		refreshed2_0.connect(on_refreshed2_0)
+		refreshed4_0.connect(on_refreshed4_0)
+		
+		refresh0_5()
+		refresh1_0()
+		refresh2_0()
+		refresh4_0()
 	
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
@@ -366,6 +369,7 @@ func _ready() -> void:
 	await get_tree().create_timer(2.0, true).timeout
 	
 	update_window_size(true)
+	gameState_justStarted = false
 	
 	await get_tree().create_timer(2.0, true).timeout
 	
@@ -374,39 +378,15 @@ func _ready() -> void:
 	await get_tree().create_timer(4.0, true).timeout
 	
 	Globals.server_to_dirpath(Globals.d_recordings_online)
-	
-	gameState_justStarted = false
 
 func _physics_process(delta):
 	get_mouse_position()
 	handle_zoom(delta)
-
-func _input(event: InputEvent) -> void:
-	handle_actions() # Handles global functions executed on triggering an action.
 	
-	if event is InputEventScreenTouch:
-		if len(get_tree().get_nodes_in_group("mobile_touch_controls")) == 0:
-			Globals.spawn_scenes(Overlay, "res://Other/Scenes/touch_controls.tscn", 1, Vector2(0, 0), -1)
-
-
-func handle_actions():
-	if Input.is_action_just_pressed("restart"):
-		reload_level_scene(false)
-	
-	if Input.is_action_just_pressed("menu_start_screen"):
-		change_main_scene(scene_start_screen)
-	
-	elif Input.is_action_just_pressed("menu"):
-		handle_spawn_menu(true)
-	
-	
-	elif Input.is_action_just_pressed("pause"):
-		toggle_pause()
-	
-	
-	elif Input.is_action_just_pressed("debug_mode"):
-		
+	# Combined actions (two keys or more) need to be here, as they seem to duplicate inputs when put in _input().
+	if Input.is_action_just_pressed("debug_mode"):
 		debug_mode = opposite_bool(debug_mode)
+		
 		SaveData.delete_file("player_info.json", DirAccess.open(dirpath_userdata))
 		SaveData.player_name = "none"
 		
@@ -441,6 +421,29 @@ func handle_actions():
 		dm("Debug collision visibility has been set to: " + str(get_tree().debug_collisions_hint), clamp(int(get_tree().debug_collisions_hint) * 5, 1, 5))
 		
 		if World.has_node("background") : World.get_node("background").queue_free()
+
+func _input(event: InputEvent) -> void:
+	handle_actions() # Handles global functions executed on triggering an action.
+	
+	if event is InputEventScreenTouch:
+		if len(get_tree().get_nodes_in_group("mobile_touch_controls")) == 0:
+			Globals.spawn_scenes(Overlay, "res://Other/Scenes/touch_controls.tscn", 1, Vector2(0, 0), -1)
+
+
+func handle_actions():
+	if Input.is_action_just_pressed("restart"):
+		if not Input.is_action_pressed("alt"):
+			reload_level_scene(false)
+	
+	if Input.is_action_just_pressed("menu_start_screen"):
+		change_main_scene(scene_start_screen)
+	
+	elif Input.is_action_just_pressed("menu"):
+		handle_spawn_menu(true)
+	
+	
+	elif Input.is_action_just_pressed("pause"):
+		toggle_pause()
 	
 	
 	handle_debug_actions()
@@ -495,8 +498,8 @@ func change_main_scene(scene_filepath, instant : bool = false, anim_name : Strin
 	
 	Globals.message_debug("Changing the Main Scene to %s" % scene_filepath)
 	
-	#if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
-	if anim_name != "none" : await Overlay.animation(anim_name, 1.0, false, opposite_bool(instant), anim_delay)
+	#if anim_name != "none" : await Overlay.animation(anim_name, 0.25, false, opposite_bool(instant), anim_delay)
+	if anim_name != "none" : await Overlay.animation(anim_name, 0.25, false, true, 0, false, "res://Other/Scenes/transition_gears.tscn", 1.0, Vector2(0, 0))
 	
 	#await get_tree().create_timer(0.5, true).timeout
 	
@@ -539,21 +542,34 @@ var level_collected_majorCollectibles_module : int = 0
 var level_collected_majorCollectibles_key : int = 0
 var level_killed_enemies : int = 0
 
+# The word "total" refers to the current level set.
 var total_score : int = 0 # Current save slot's total score, combined across all overworld segments and all of the overworld's level set levels.
+var true_total_score : int = 0 # Score combined across every level set's total score.
+
 var total_collected_collectibles : int = 0 # Collectibles collected in the current level set.
 var total_collected_majorCollectibles_module : int = 0
 var total_collected_majorCollectibles_key : int = 0
 var total_killed_enemies : int = 0
 
-var total_collectibles_level : int = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
-var total_majorCollectibles_module_level : int = 0
-var total_majorCollectibles_key_level : int = 0
-var total_enemies_level : int = 0
+var level_collectibles : int = 0 # Total collectible count at the start of a level, not updated ever again, and independent on player progress.
+var level_majorCollectibles_module : int = 0
+var level_majorCollectibles_key : int = 0
+var level_enemies : int = 0
 
-var total_collectibles_levelSet : int = 0 # Total collectibles in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
-var total_majorCollectibles_module_levelSet : int = 0
-var total_majorCollectibles_key_levelSet : int = 0
-var total_enemies_levelSet : int = 0
+var left_level_collectibles : int = 0 # Total collectibles existing right now in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var left_level_majorCollectibles_module : int = 0
+var left_level_majorCollectibles_key : int = 0
+var left_level_enemies : int = 0
+
+var total_collectibles : int = 0 # Total collectible count at the start of a level, not updated ever again, and independent on player progress.
+var total_majorCollectibles_module : int = 0
+var total_majorCollectibles_key : int = 0
+var total_enemies : int = 0
+
+var left_total_collectibles : int = 0 # Total collectibles existing right now in the current level, counted on entering a level and updated occasionally during gameplay (for instance, when destroying a box containing collectibles).
+var left_total_majorCollectibles_module : int = 0
+var left_total_majorCollectibles_key : int = 0
+var left_total_enemies : int = 0
 
 # Entity Editor - [START]
 var weapon_main : String = "melee_tie_spinner"
@@ -694,6 +710,9 @@ var qs_item_saved_saw_small : Dictionary = {"item_level" : -1}
 var gravity = 1.0
 
 var level_time = 0.0 # Current level's playtime.
+var level_time_seconds : int = 0
+var level_time_minutes : int = 0
+var level_time_hours : int = 0
 var level_damage_taken = 0.0 # Current level's player damage.
 
 
@@ -874,7 +893,9 @@ var load_levelState = true
 
 
 # Game modes:
-var mode_scoreAttack = false
+var mode_challenge_active : bool = false
+var mode_score_attack_active : bool = false
+var mode_collect_note_active : bool = false
 
 
 # Transition refers to a trigger that is usually placed at the borders of overworld levels to connect them. Note that the transition trigger needs to be named %"Transition[id]", and its id (int) has to match the id of the transition placed in another overworld level.
@@ -897,7 +918,6 @@ var test4
 
 
 # Recording:
-
 var recording_autostart = false
 
 var recorder_recording_active : bool = false
@@ -908,6 +928,8 @@ signal recorder_stopped_recording
 signal recorder_started_playback
 signal recorder_stopped_playback
 
+# Alternative controls.
+var mobile_touch_controls_active : bool = false
 
 # Text displays:
 # Only one message can be displayed at a time. Message display is located in the (global) Overlay node.
@@ -1068,7 +1090,7 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 		if filepath is String : node = load(filepath).instantiate()
 		else : node = filepath.instantiate()
 		
-		if master_node != target : node.master_node = master_node
+		if "master_node" in node : if master_node != target : node.master_node = master_node
 		
 		if pos_offset : node.position += pos_offset
 		
@@ -1089,6 +1111,8 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 			node.scale.y += randf_range(add_scale_range[0].y, add_scale_range[1].y)
 		
 		if add_scale_range_equal : node.scale.y = node.scale.x
+		
+		if is_instance_valid(node) and is_instance_valid(master_node) : if master_node.scale.x < 1.0 : node.scale /= 0.5
 		
 		if add_modulate != Color(0, 0, 0, 0) : node.modulate += add_modulate
 		if add_z_index != 0 : node.z_index += add_z_index
@@ -1221,6 +1245,7 @@ func handle_debug_actions():
 		
 		elif Input.is_action_just_pressed("C"):
 			Player.debug_movement = opposite_bool(Player.debug_movement)
+			Player.camera.position_smoothing_speed = 1.0
 		
 		if Input.is_action_just_pressed("1"):
 			delete_all_entities()
@@ -1262,7 +1287,8 @@ func handle_debug_actions():
 			Overlay.hud_player_experience.on_level_next()
 		
 		elif Input.is_action_just_pressed("6"):
-			change_main_scene(load("res://Levels/debug.tscn"))
+			levelSet_id = "all"
+			change_main_scene(scene_levelSet_screen)
 		
 		elif Input.is_action_just_pressed("8"):
 			if get_window().content_scale_mode == Window.CONTENT_SCALE_MODE_VIEWPORT:
@@ -1420,10 +1446,11 @@ func on_refreshed1_0():
 	pass
 
 func on_refreshed2_0():
-	if debug_mode and World and World.has_node("background") : World.get_node("background").queue_free() ; dm("Deleted all background layers.")
+	pass
 
 func on_refreshed4_0():
-	next_reassign_camera = true
+	pass
+	#next_reassign_camera = true
 
 
 var camera_manual_active = false
@@ -1515,7 +1542,7 @@ func get_filepath(file):
 	
 	else:
 		if file is Resource : return file.get_path()
-		if file is String : return load(file).get_path()
+		elif file is String : return load(file).get_path()
 
 
 func reload_level_scene(keep_player_pos : bool = false):
@@ -1523,7 +1550,7 @@ func reload_level_scene(keep_player_pos : bool = false):
 		if not entity.is_in_group("entity_editor_preview"):
 			entity.queue_free()
 	
-	await Overlay.animation("black_fade_in", 1.0, false, true)
+	await Overlay.animation("black_fade_in", 0.25, false, true, 0, false, "res://Other/Scenes/transition_gears.tscn", 1.0, Vector2(0, 0))
 	
 	if is_instance_valid(World):
 		reload_scene_files_general()
@@ -1537,9 +1564,12 @@ func reload_level_scene(keep_player_pos : bool = false):
 		#World.get_tree().reload_current_scene()
 		get_tree().reload_current_scene()
 		
-		await get_tree().create_timer(1.0, false).timeout
+		await get_tree().create_timer(5.0, false).timeout
 		
 		if keep_player_pos : Player.position = previous_player_pos
+		load_levelSet = true
+		load_levelState = true
+		load_playerData = true
 	
 	else:
 		get_tree().reload_current_scene()
@@ -1547,17 +1577,23 @@ func reload_level_scene(keep_player_pos : bool = false):
 		main_scene_changed.emit()
 
 
-func is_valid_entity(target_node : Node, valid_group_names : Array = ["Player"]):
+func is_node_valid(target_node : Node, valid_group_names : Array = ["player_hitbox", "entity_hitbox"]):
 	if target_node.is_in_group("scan_patrolling_vision") : return false
 	
 	var valid = false
 	
 	for group_name in valid_group_names:
-		if target_node.get_parent().is_in_group(group_name) : valid = true
+		if target_node.is_in_group(group_name) : valid = true
 	
 	if valid : return true
 	else : return false
 
+func is_node_valid_player(target_node : Node, valid_group_names : Array = ["player_hitbox"]):
+	return is_node_valid(target_node, valid_group_names)
+
+
+func is_node_valid_entity(target_node : Node, valid_group_names : Array = ["entity_hitbox"]):
+	return is_node_valid(target_node, valid_group_names)
 
 func set_mouse_mode(visible : bool = true):
 	if visible : Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -1777,6 +1813,16 @@ func get_suffix(text : String, type : String = "int"):
 func set_nodes(target_node : Node, node_type, state_active : bool):
 	update_main_scene()
 	
+	if node_type == Timer:
+		for node in target_node.get_children():
+			if node is Timer : node.paused = opposite_bool(state_active)
+			for sub_node in node.get_children():
+				if sub_node is Timer : node.paused = opposite_bool(state_active)
+				for sub_sub_node in sub_node.get_children():
+					if sub_sub_node is Timer : node.paused = opposite_bool(state_active)
+					for sub_sub_sub_node in sub_sub_node.get_children():
+						if sub_sub_sub_node is Timer : node.paused = opposite_bool(state_active)
+	
 	if node_type == Button:
 		for node in target_node.get_children():
 			if node is Button : node.disabled = opposite_bool(state_active)
@@ -1944,11 +1990,15 @@ func handle_debug_tools():
 			Overlay.get_node("debug_display_messages").delete_messages(true)
 
 
-func spawn_message_object(message_text = "message", message_anim_speed : float = 4.0, target : Node = main_scene, add_position : Vector2 = Player.position):
+func spawn_message_object(message_text = "message", message_anim_speed : float = 4.0, target : Node = main_scene, add_position : Vector2 = Player.position, add_scale : Vector2 = Vector2(0, 0), spawn_delay : float = 0.0):
+	if spawn_delay : await get_tree().create_timer(spawn_delay, true).timeout
+	#if not is_inside_tree() : return
+	
 	message_text = str(message_text)
 	
 	var message_object = load("res://Other/Scenes/message_object.tscn").instantiate()
 	message_object.add_position = add_position
+	message_object.add_scale = add_scale
 	message_object.message_text = message_text
 	message_object.message_anim_speed = message_anim_speed
 	target.add_child(message_object)
@@ -2003,11 +2053,38 @@ func effect_melee_freeze(duration : float = 0.25):
 	for entity in get_tree().get_nodes_in_group("entity"):
 		entity.block_movement = true
 	
-	Globals.Player.camera.effect((Player.position - Globals.player_position) * 2, Vector2(1.25, 1.25), randi_range(-10, 10), 4)
+	Globals.Player.camera.effect((Player.position - Globals.player_position) * 2, Vector2(1.25, 1.25), randi_range(-5, 5), 4)
 	
 	await get_tree().create_timer(duration, true).timeout
 	
 	for entity in get_tree().get_nodes_in_group("entity"):
 		entity.block_movement = false
 	
-	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
+	if "level_type" in main_scene : Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
+
+
+func on_debug1():
+	pass
+
+func on_debug2():
+	pass
+
+func on_debug3():
+	pass
+
+func on_debug4():
+	spawn_message_object("Level objects: " + str(get_entity_count()), 1.0, main_scene, Globals.Player.camera.position + Globals.Player.position)
+	spawn_message_object("Total objects: " + str(get_tree().get_node_count()), 4.0, main_scene, Globals.Player.camera.position + Globals.Player.position + Vector2(0, 128), Vector2(-0.5, -0.5))
+
+
+func unloader_spawn_message_object():
+	await get_tree().create_timer(randf_range(0.25, 0.5), false).timeout
+	Globals.spawn_message_object("Removed an entity and spawned a loader on offscreen. " + str(get_entity_count()), 1.0, Globals.main_scene, Globals.Player.camera.position + Globals.Player.position + Vector2(0, randi_range(-128, 128)))
+
+func loader_spawn_message_object():
+	await get_tree().create_timer(randf_range(0.25, 0.5), false).timeout
+	Globals.spawn_message_object("Spawned an entity on onscreen. " + str(get_entity_count()), 1.0, Globals.main_scene, Globals.Player.camera.position + Globals.Player.position + Vector2(0, randi_range(-128, 128)))
+
+
+func get_entity_count():
+	return Globals.main_scene.get_child_count() - len(get_tree().get_nodes_in_group("message_object")) - len(get_tree().get_nodes_in_group("loader"))

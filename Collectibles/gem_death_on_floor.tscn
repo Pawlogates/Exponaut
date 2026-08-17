@@ -1,0 +1,101 @@
+[gd_scene load_steps=14 format=3 uid="uid://cspg2oh1u0j5d"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_4qgf6"]
+[ext_resource type="Texture2D" uid="uid://d0c1wtyv5l07k" path="res://Assets/Graphics/sprites/sprites_general.png" id="2_n6x5u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0wq67"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(96, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1205s"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(160, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eireg"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(224, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wjrj4"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(288, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yyghu"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(352, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hnwcf"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(416, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iou0n"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(480, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84kbs"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(544, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iqayu"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(608, 128, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eicuo"]
+atlas = ExtResource("2_n6x5u")
+region = Rect2(672, 128, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_itbk8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0wq67")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1205s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eireg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wjrj4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yyghu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hnwcf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iou0n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84kbs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iqayu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eicuo")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 10.0
+}]
+
+[node name="gem_timed" instance=ExtResource("1_4qgf6")]
+scale = Vector2(0.5, 0.5)
+score_value = 250
+fall_speed = 250
+can_move = true
+ignore_gravity = false
+on_floor_death = true
+on_floor_bounce = false
+start_animation = "none"
+on_collected_anim_name = "general/rotate_around_y_fade_out"
+on_death_anim_name = "general/reflect_straight"
+entity_name = "gem_timed"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_itbk8")
+
+[node name="scan_stuck" parent="." index="21"]
+scale = Vector2(0.5, 0.5)

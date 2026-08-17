@@ -60,6 +60,19 @@ var level_missing : bool = false # Whether the level filepath points to a missin
 
 
 func _ready():
+	if level_number == -1:
+		level_name = icon_level_filepath
+		position = Vector2(randi_range(-800, 800), randi_range(-400, 400))
+		level_icon_id = randi_range(0, 10)
+		if is_instance_valid(icon_main) : icon_main.region_rect = Rect2(128 * level_icon_id, 640, 128, 128)
+		%AnimationPlayer.advance((abs(position.x) / 100))
+		Globals.spawn_message_object(icon_level_filepath.replace("res://Levels/", ""), 0.5, self, Vector2(200, 0), Vector2(-0.5, -0.5))
+		if "TUTORIAL" in icon_level_filepath : modulate = Color.PINK
+		elif "MAIN" in icon_level_filepath : modulate = Color.BLUE
+		elif "BONUS" in icon_level_filepath : modulate = Color.PURPLE
+		elif "DEBUG" in icon_level_filepath : modulate = Color.GOLD
+		return
+	
 	await get_tree().create_timer(0.5, true).timeout
 	
 	update_level_info()
@@ -203,6 +216,7 @@ func _on_mouse_exited():
 
 func update_level_info():
 	if Globals.levelSet_id == "none" : return
+	if level_number == -1 : return
 	
 	levelSet_id = Globals.levelSet_id
 	level_id = levelSet_id + "_" + str(level_number)

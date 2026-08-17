@@ -10,8 +10,12 @@ func _ready() -> void:
 	master_node = get_parent()
 
 func _physics_process(delta: float) -> void:
+	if is_instance_valid(master_node) : return
+	
 	if scan.is_colliding():
-		if is_instance_valid(master_node) and "block_movement" in master_node:
+		if scan.get_collider() == master_node : return
+		
+		if "block_movement" in master_node:
 			master_node.block_movement = true
 			master_node.position.x += randi_range(-4, 4)
 			master_node.position.y += randi_range(-12, 4)

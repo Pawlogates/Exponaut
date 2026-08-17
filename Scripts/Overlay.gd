@@ -26,22 +26,27 @@ func _physics_process(_delta: float) -> void:
 
 
 # Called from anywhere outside of this script. Example: animation("black_fade_in", 1.0, false, true)
-func animation(anim_name : String = "black_fade_in", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true, delay : float = 0.25, await_delay : float = 0.25):
+func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true, delay : float = 0.25, await_delay : float = 0.25, transition_filepath : String = "none", transition_anim_speed : float = 1.0, transition_add_scale : Vector2 = Vector2(0, 0)):
+	if Globals.gameState_debug : speed *= 4 ; transition_anim_speed *= 4
+	
 	animation_player.speed_scale = speed
 	
 	if delay : await get_tree().create_timer(delay, true).timeout
-	
-	if not play_backwards:
-		if anim_name == "black_fade_in" : screen_hide()
-		elif anim_name == "black_fade_out" : screen_black()
 	
 	if play_backwards:
 		animation_player.play_backwards(str(anim_name))
 	else:
 		animation_player.play(str(anim_name))
+
+	if transition_filepath != "none":
+		var transition : Array = await Globals.spawn_scenes(self, transition_filepath)
+		#if anim_name == "black_fade_out" : transition.scale.x = -1
+		for node in transition:
+			node.scale += transition_add_scale
+			if transition_anim_speed != -1 : node.anim_speed = transition_anim_speed
 	
 	if await_finished : await animation_player.animation_finished
-	
+
 	if await_delay : await get_tree().create_timer(await_delay, true).timeout
 
 

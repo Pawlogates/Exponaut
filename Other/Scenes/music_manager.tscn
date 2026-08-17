@@ -11,7 +11,6 @@ script = ExtResource("1_5q24m")
 [node name="layer1" type="AudioStreamPlayer" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("2_ss5m0")
-volume_db = -18.739
 
 [node name="cooldown_toggle_fade" type="Timer" parent="layer1"]
 one_shot = true

@@ -65,7 +65,7 @@ func _process(delta: float) -> void:
 
 
 func _on_scan_area_entered(area: Area2D) -> void:
-	if not Globals.is_valid_entity(area) : return
+	if not Globals.is_node_valid_player(area) : return
 	if not is_hidden : return
 	if entered : return
 	
@@ -122,7 +122,7 @@ func uncover_connected():
 
 
 func _on_scan_exact_area_entered(area: Area2D) -> void:
-	if not Globals.is_valid_entity(area) : return
+	if not Globals.is_node_valid_player(area) : return
 	if not is_hidden : return
 	
 	uncover(true)

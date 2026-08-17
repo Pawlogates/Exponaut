@@ -69,3 +69,12 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "opacity_fade_in":
 		await get_tree().create_timer(0.5, false).timeout
 		animation_all.play("opacity_fade_out")
+
+
+func _on_animation_all_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "general/fade_out_up":
+		queue_free()
+	
+	if anim_name == "color/scale_and_opacity_up":
+		await get_tree().create_timer(0.5, false).timeout
+		animation_all.play("general/fade_out_up")

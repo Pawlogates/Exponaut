@@ -7,7 +7,7 @@ load_path = "res://.godot/imported/sprites_other.png-b94f1904300734566d6e12af7c8
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1q6u3"]
 atlas = SubResource("CompressedTexture2D_am125")
-region = Rect2(256, 1024, 32, 32)
+region = Rect2(896, 1024, 32, 32)
 
 [sub_resource type="Curve" id="Curve_qk6pp"]
 _limits = [-25.0, 25.0, 0.0, 1.0]
@@ -31,7 +31,7 @@ load_path = "res://.godot/imported/sprites_other.png-b94f1904300734566d6e12af7c8
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_th81k"]
 atlas = SubResource("CompressedTexture2D_327yk")
-region = Rect2(288, 1024, 32, 32)
+region = Rect2(992, 1024, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_32ely"]
 atlas = SubResource("CompressedTexture2D_327yk")
@@ -43,27 +43,28 @@ region = Rect2(384, 1024, 32, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_luchd"]
 atlas = SubResource("CompressedTexture2D_327yk")
-region = Rect2(480, 1024, 32, 32)
+region = Rect2(928, 1024, 32, 32)
 
 [node name="weather_leaves" type="Node2D"]
-position = Vector2(0, -1000)
+process_mode = 1
+z_index = 501
 script = ExtResource("1_rmu0k")
 weather_type = "leaves"
 
 [node name="GPUParticles2D" type="GPUParticles2D" parent="."]
 z_index = 5
-amount = 12
+amount = 6
 texture = SubResource("AtlasTexture_1q6u3")
 lifetime = 10.0
 fixed_fps = 60
-visibility_rect = Rect2(-2000, -500, 4000, 2000)
+visibility_rect = Rect2(-4000, 0, 8000, 4000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 
 [node name="GPUParticles2D2" type="GPUParticles2D" parent="."]
-amount = 12
+amount = 6
 texture = SubResource("AtlasTexture_th81k")
 lifetime = 10.0
-visibility_rect = Rect2(-2000, -500, 4000, 2000)
+visibility_rect = Rect2(-4000, 0, 8000, 4000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 
 [node name="GPUParticles2D3" type="GPUParticles2D" parent="."]
@@ -71,7 +72,7 @@ z_index = -5
 amount = 12
 texture = SubResource("AtlasTexture_32ely")
 lifetime = 10.0
-visibility_rect = Rect2(-2000, -500, 4000, 2000)
+visibility_rect = Rect2(-4000, 0, 8000, 4000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 
 [node name="GPUParticles2D4" type="GPUParticles2D" parent="."]
@@ -79,22 +80,21 @@ z_index = -6
 amount = 12
 texture = SubResource("AtlasTexture_ykene")
 lifetime = 10.0
-visibility_rect = Rect2(-2000, -500, 4000, 2000)
+visibility_rect = Rect2(-4000, 0, 8000, 4000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 
 [node name="GPUParticles2D5" type="GPUParticles2D" parent="."]
 z_index = -7
-amount = 12
+amount = 6
 texture = SubResource("AtlasTexture_luchd")
 lifetime = 10.0
-visibility_rect = Rect2(-2000, -500, 4000, 2000)
+visibility_rect = Rect2(-4000, 0, 8000, 4000)
 process_material = SubResource("ParticleProcessMaterial_gjg8p")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 4.0
 
 [node name="Timer2" type="Timer" parent="."]
-wait_time = 2.1
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer2" to="." method="_on_timer_2_timeout"]

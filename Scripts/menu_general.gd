@@ -324,6 +324,7 @@ func _on_btn_quit_game_pressed(block_buttons_time : float = 1.0) -> void:
 
 func _on_btn_start_new_game_pressed(block_buttons_time : float = 1.0) -> void:
 	SaveData.wipe_slot(SaveData.slot_current)
+	await get_tree().create_timer(1.0, true).timeout
 	Globals.change_main_scene(Globals.scene_start_area)
 
 func _on_btn_continue_pressed(block_buttons_time : float = 1.0) -> void:

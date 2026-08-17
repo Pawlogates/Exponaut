@@ -17,7 +17,6 @@ ignore_gravity = false
 on_floor_change_velocity = true
 patrolling = true
 breakable = true
-on_floor_bounce = true
 start_animation = "none"
 can_change_sprite_anim = true
 on_death_effect_thrownAway = true

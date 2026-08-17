@@ -6,20 +6,18 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gymcb"]
 size = Vector2(32, 32)
 
-[node name="coin_timed" instance=ExtResource("1_gymcb")]
+[node name="coin" instance=ExtResource("1_gymcb")]
 score_value = 10
 damage_from_entity_contact = false
-damage_from_player_contact = false
 damage_to_entity = true
 damage_to_entity_contact = false
 can_move = true
 ignore_gravity = false
-on_floor_bounce = true
 start_animation = "none"
 on_collected_effect_thrownAway = true
 sfx_self_collected_filepath = "uid://vm1ccgk5h0ag"
 sfx_self_hit_filepath = "uid://bvklt3ov80jdg"
-entity_name = "coin_timed"
+entity_name = "coin"
 
 [node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_qnf5l")

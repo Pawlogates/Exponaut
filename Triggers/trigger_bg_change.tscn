@@ -6,12 +6,21 @@
 size = Vector2(64, 64)
 
 [node name="trigger_bg_change" type="Area2D" groups=["trigger", "trigger_bg_change"]]
+z_index = 10
 collision_layer = 8
 collision_mask = 8
 input_pickable = false
 script = ExtResource("1_3hbpa")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="collision" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_jb7dg")
+
+[node name="debug_rect" type="ColorRect" parent="."]
+visible = false
+z_index = 5
+offset_left = -32.0
+offset_top = -32.0
+offset_right = 32.0
+offset_bottom = 32.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

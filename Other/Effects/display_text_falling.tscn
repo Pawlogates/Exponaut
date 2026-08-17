@@ -167,3 +167,5 @@ vertical_alignment = 1
 
 [node name="animation_all" parent="container_main/label_text" instance=ExtResource("4_7vrt1")]
 speed_scale = 4.0
+
+[connection signal="animation_finished" from="container_main/label_text/animation_all" to="." method="_on_animation_all_animation_finished"]

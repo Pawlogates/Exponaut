@@ -6,16 +6,11 @@
 [node name="gem_level_portal" instance=ExtResource("1_vjqak")]
 collectable = false
 hittable = true
-health_value = 50
-family = "enemy"
-damage_to_player = false
-damage_to_player_contact = false
+health_value = 25
+damage_from_player = true
 ignore_gravity = false
 on_hit_death = true
 breakable = true
-breakable_on_death_spawn_entity_scene_filepath = "uid://bq2hygqo7c6kk"
-breakable_on_death_spawn_entity_quantity = 25
-breakable_on_death_spawn_entity_pos_offset_range = [Vector2(-64, -64), Vector2(64, 64)]
 on_hit_gain_movement = "normal"
 breakable_advanced_portal_on_death_open = true
 breakable_advanced_portal_level_id = "MAIN_1"
@@ -23,5 +18,5 @@ on_hit_disable_anim = true
 entity_name = "gem_level_portal"
 entity_type = "box"
 
-[node name="sprite" parent="." index="0"]
+[node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_psgc5")

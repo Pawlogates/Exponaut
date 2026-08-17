@@ -7,12 +7,17 @@
 size = Vector2(32, 32)
 
 [node name="rock" instance=ExtResource("1_eblmw")]
-modulate = Color(0.31802, 0.31802, 0.31802, 1)
+modulate = Color(2.763, 2.21, 2.762, 1)
 collectable = false
-score_value = 45
+hittable = true
+damage_from_player = true
+damage_from_player_contact = false
+damage_to_entity = true
+damage_to_entity_contact = false
+damage_to_player = true
 can_move = true
 ignore_gravity = false
-on_floor_bounce = true
+immortal = true
 start_animation = "none"
 sprite_rotation_copy_velocity_x = true
 entity_name = "rock"

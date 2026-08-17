@@ -610,20 +610,6 @@ tracks/6/keys = {
 "update": 1,
 "values": [true, true, false, false]
 }
-tracks/7/type = "method"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"toggle_direction_y"
-}]
-}
 
 [sub_resource type="Animation" id="Animation_qtgx2"]
 resource_name = "shot_anim_CHARGED_L"
@@ -706,20 +692,6 @@ tracks/6/keys = {
 "update": 1,
 "values": [true, true, false, false]
 }
-tracks/7/type = "method"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"toggle_direction_x"
-}]
-}
 
 [sub_resource type="Animation" id="Animation_q8vbr"]
 resource_name = "shot_anim_CHARGED_R"
@@ -801,20 +773,6 @@ tracks/6/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1),
 "update": 0,
 "values": [true, true, false, false]
-}
-tracks/7/type = "method"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath(".")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0.5),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [],
-"method": &"toggle_direction_x"
-}]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_25126"]

@@ -5,7 +5,8 @@ extends Area2D
 @onready var label_value: Label = $label_value
 
 
-var active = false
+var enabled = false # Becomes enabled about a second after the main scene is loaded.
+var active = false # Becomes active when the player enters it's area of effect.
 
 var trigger_value = 0.0
 
@@ -36,10 +37,16 @@ var zoomValue = 1.0
 @export var camera_zoom = false
 @export var camera_add_zoom : Vector2 = Vector2(2, 2) # In addition to the base zoom value ("Vector2(1,1)").
 
+@export var camera_effect_speed : float = 1.0
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	await get_tree().create_timer(1.0, true).timeout
+	enabled = true
+	monitorable = true
+	monitoring = true
+	
 	label_value.position += Vector2(randi_range(-64, 64), randi_range(-128, 128))
 
 
@@ -58,7 +65,7 @@ func _process(delta: float) -> void:
 		label_value.visible = false
 	
 	for area in get_overlapping_areas():
-		if Globals.is_valid_entity(area):
+		if Globals.is_node_valid_player(area):
 			if horizontal:
 				if right_to_left:
 					width = collision_main.shape.size.x
@@ -84,27 +91,27 @@ func _process(delta: float) -> void:
 					distance_y = area.get_parent().position.y - (position.y - (height / 2 * scale.y))
 					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
 					trigger_value = clamp(distance_y / (height * scale.y), 0, 1)
-			
+			print(trigger_value)
 			if trigger_value < min_value : trigger_value = min_value
 			elif trigger_value > max_value : trigger_value = max_value
 			
 			if reset_camera_offset:
-				Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1), -1, 1)
+				Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1), -1, camera_effect_speed)
 				
-				if reset_camera_zoom : Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1), -1, 1)
+				if reset_camera_zoom : Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1), -1, camera_effect_speed)
 				return
 				
 			if reset_camera_zoom:
-				Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1), -1, 1)
+				Globals.Player.camera.effect(Vector2(-1, -1), Vector2(1, 1), -1, camera_effect_speed)
 				
-				if reset_camera_offset : Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1), -1, 1)
+				if reset_camera_offset : Globals.Player.camera.effect(Vector2(0, 0), Vector2(-1, -1), -1, camera_effect_speed)
 				return
 			
 			if camera_offset:
-				Globals.Player.camera.effect(camera_add_offset * trigger_value, Vector2(-1, -1), 0, 1)
+				Globals.Player.camera.effect(camera_add_offset * trigger_value, Vector2(-1, -1), 0, camera_effect_speed)
 			
 			if camera_zoom:
-				Globals.Player.camera.effect(Vector2(-1, -1), camera_add_zoom * trigger_value + Vector2(1, 1), -1, 1)
+				Globals.Player.camera.effect(Vector2(-1, -1), camera_add_zoom * trigger_value + Vector2(1, 1), -1, camera_effect_speed)
 
 func _on_timer_timeout():
 	if player_inside : return
@@ -114,7 +121,9 @@ func _on_timer_timeout():
 var player_inside : bool = false
 
 func _on_area_entered(area: Area2D) -> void:
-	if not Globals.is_valid_entity(area) : return
+	if not enabled : return
+	print(Globals.is_node_valid_player(area))
+	if not Globals.is_node_valid_player(area) : return
 	player_inside = true
 	if active : return
 	if Globals.Player.block_movement : return # Needed for when a message sign triggers a camera effect.
@@ -123,7 +132,7 @@ func _on_area_entered(area: Area2D) -> void:
 	active = true
 
 func _on_area_exited(area: Area2D) -> void:
-	if not Globals.is_valid_entity(area) : return
+	if not Globals.is_node_valid_player(area) : return
 	player_inside = false
 	if not active : return
 	if Globals.Player.block_movement : return

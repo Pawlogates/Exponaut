@@ -2,8 +2,19 @@ extends entity_basic
 
 func _ready():
 	set_hitbox(false)
-	
 	scan_visible.visible = true
+	
+	if sprite_rotation_copy_velocity_x:
+		sprite.rotation_degrees = unique_number
+	
+	if on_spawn_sprite_anim_name_color != "none":
+		animation_color.play(on_spawn_sprite_anim_name_color)
+	
+	if on_spawn_sprite_anim_name_general != "none":
+		animation_color.play(on_spawn_sprite_anim_name_general)
+	
+	if entity_type == "enemy":
+		position += Vector2(randi_range(on_spawn_add_position_range[0].x, on_spawn_add_position_range[0].y), randi_range(on_spawn_add_position_range[1].x, on_spawn_add_position_range[1].y))
 	
 	if Globals.game_state_roguelord:
 		z_index = 100
@@ -60,6 +71,7 @@ func _ready():
 	if on_spawn_effect_grow:
 		effect_grow = true
 		sprite.scale *= Vector2(0.5, 0.5)
+		animation_color.play("pulse_white_short")
 	
 	if on_spawn_randomize_everything : Globals.spawn_scenes(self, load("res://Objects/entity_randomizator.tscn"))
 	
@@ -74,17 +86,17 @@ func _ready():
 	c_attack_limit.wait_time = cooldown_attack_limit
 	
 	if general_timers_enabled:
-		general_timers_core.t1.wait_time = t1_cooldown
+		general_timers_core.t1.wait_time = t1_cooldown + randf_range(-0.1, 0.1)
 		general_timers_core.t1.start()
-		general_timers_core.t2.wait_time = t2_cooldown
+		general_timers_core.t2.wait_time = t2_cooldown + randf_range(-0.1, 0.1)
 		general_timers_core.t2.start()
-		general_timers_core.t3.wait_time = t3_cooldown
+		general_timers_core.t3.wait_time = t3_cooldown + randf_range(-0.1, 0.1)
 		general_timers_core.t3.start()
-		general_timers_core.t4.wait_time = t4_cooldown
+		general_timers_core.t4.wait_time = t4_cooldown + randf_range(-0.1, 0.1)
 		general_timers_core.t4.start()
-		general_timers_core.t5.wait_time = t5_cooldown
+		general_timers_core.t5.wait_time = t5_cooldown + randf_range(-0.1, 0.1)
 		general_timers_core.t5.start()
-		general_timers_core.t6.wait_time = t6_cooldown
+		general_timers_core.t6.wait_time = t6_cooldown + randf_range(-0.1, 0.1)
 		general_timers_core.t6.start()
 	
 	if on_spawn_sfx_death:
@@ -169,11 +181,14 @@ func _ready():
 	
 	if on_spawn_show_text:
 		text_show()
+	
+	if delete_on_load : queue_free()
 
 @onready var debug_label : Label
 @onready var debug_label2 : Label
 @onready var debug_label3 : Label
 @onready var debug_label4 : Label
+@onready var debug_label5 : Label
 
 var attack_melee_block_movement : bool = false
 
@@ -193,12 +208,18 @@ func _process(delta):
 	if sprite_glow_shadow:
 		glow_shadow.visible = on_floor # If the entity is on floor, the shadow will be set to visible, otherwise to not visible (because both "on_floor" and "visible" are a boolean).
 	
+	if dead : sprite.modulate.a = 0.5
+	
 	if sprite_rainbow_hue_shift:
 		if not collected : sprite.material.set_shader_parameter("hue_value", sprite.material.get_shader_parameter("hue_value") + randf_range(-0.001, 0.0015))
 	
 	if is_instance_valid(scan_ledge):
 		if direction_active_x > 0 : scan_ledge.position.x = collision_main.shape.size.x / 2
 		elif direction_active_x < 0 : scan_ledge.position.x = -collision_main.shape.size.x / 2
+	
+	if dead:
+		if on_death_rotate_sprite:
+			sprite.rotation_degrees = on_death_rotate_sprite
 	
 	if can_move:
 		
@@ -221,6 +242,7 @@ func _process(delta):
 			debug_label2.text = "Direction x/y: " + str(direction_x) + "/" + str(direction_y)
 			debug_label3.text = "Movement type: " + movement_type
 			debug_label4.text = "Entity name: " + entity_name
+			debug_label5.text = "Entity hp: " + str(health_value)
 		
 		else:
 			var new_debug_label = Label.new()
@@ -242,12 +264,18 @@ func _process(delta):
 			add_child(new_debug_label)
 			new_debug_label.position.y = 48
 			debug_label4 = new_debug_label
+			
+			new_debug_label = Label.new()
+			add_child(new_debug_label)
+			new_debug_label.position.y = 64
+			debug_label5 = new_debug_label
 	
 	else:
 		if is_instance_valid(debug_label) : debug_label.queue_free()
 		if is_instance_valid(debug_label2) : debug_label2.queue_free()
 		if is_instance_valid(debug_label3) : debug_label3.queue_free()
 		if is_instance_valid(debug_label4) : debug_label4.queue_free()
+		if is_instance_valid(debug_label5) : debug_label5.queue_free()
 	
 	
 	#if dead : modulate.a = move_toward(modulate.a, 0.5, delta / 4)
@@ -352,31 +380,25 @@ func _process(delta):
 	else:
 		sprite_animation()
 	
-	if abs(velocity.x) < 250:
+	if abs(velocity.x) < 100:
 		
 		if pushable_by_player:
 			if inside_player > 0:
 				if Player.direction_x:
 					velocity.x += Globals.player_direction_x_active * 200
 				else:
-					velocity.x += Globals.player_direction_x_active * 5
+					velocity.x += Globals.player_direction_x_active * 10
 		
 		if pushable_by_entity:
 			if inside_entity > 0 and is_instance_valid(inside_entity_last):
-				if abs(inside_entity_last.velocity.x) < 250 and abs(inside_entity_last.velocity.x) > 5:
-					if abs(inside_entity_last.velocity.x) < 75:
-						if abs(inside_entity_last.velocity_last_x) > 0:
-							velocity.x += randf_range(-1, 4)
-						elif abs(inside_entity_last.velocity_last_x) < 0:
-							velocity.x += randf_range(-4, 1)
-					else:
-						if abs(inside_entity_last.velocity_last_x) > 0:
-							velocity.x += randf_range(-10, abs(inside_entity_last.velocity.x)) / 10
-						elif abs(inside_entity_last.velocity_last_x) < 0:
-							velocity.x += randf_range(-abs(inside_entity_last.velocity.x), 10) / 10
+				var push_direction_x : int = 1
+				if inside_entity_last.position.x > position.x : push_direction_x = -1
 				
-				if abs(velocity.x) > abs(inside_entity_last.velocity.x) * 1.1:
-					velocity.x = inside_entity_last.velocity.x * 1.1
+				if abs(inside_entity_last.velocity.x) < 250 and abs(inside_entity_last.velocity.x) > 5:
+					velocity.x += delta * push_direction_x * randf_range(10000, 15000)
+				
+				#if abs(velocity.x) > abs(inside_entity_last.velocity.x) * 1.1:
+					#velocity.x = inside_entity_last.velocity.x * 1.1
 	
 	
 	if can_move and not block_movement and not attack_melee_block_movement or effect_thrownAway_active : move_and_slide()
@@ -392,6 +414,9 @@ func _process(delta):
 	
 	if can_move:
 		update_velocity_last()
+	
+	if is_hidden:
+		modulate.a = 0.0
 
 
 func handle_gravity(delta):
@@ -533,7 +558,7 @@ var set_not_collidable = false
 func inside_check_enter(area):
 	if not is_ready : return
 	if area.get_parent() == self : return
-	if not Globals.is_valid_entity(area, ["Player", "entity"]) : return
+	if not Globals.is_node_valid(area) : return
 	
 	
 	var target : Node
@@ -580,20 +605,142 @@ func inside_check_enter(area):
 	
 	if target.is_in_group("Player") and not pushable_by_player : return
 	if target.is_in_group("entity"):
-		if not pushable_by_entity and target.entity_type != "projectile": return
+		if not pushable_by_entity: return
 		else:
 			if not target.can_move : return
 			if target.dead : return
 			if target.collected : return
 	
 	if target.is_in_group("entity"):
-		if abs(target.velocity.x) > 300:
-			if Globals.get_random_bool(5) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, Vector2(position.x + randf_range(-4, 4), position.y - 16 + randf_range(-4, 4)), 1, Color(0, 0, 0, -0.75), Vector2(-0.95, -0.95), 10)
+		if abs(target.velocity.x) >= 100:
+			if Globals.get_random_bool(25) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, Vector2(position.x + randf_range(-4, 4), position.y - 16 + randf_range(-4, 4)), 1, Color(0, 0, 0, -0.75), Vector2(-0.95, -0.95), 10)
 			sfx_manager.sfx_play(sfx_self_hit_filepath, 0.25)
 			
-			velocity.x += target.velocity.x * 0.9
-			if target.velocity.x > 0 : velocity.x = clamp(velocity.x, velocity.x / 4, target.velocity.x)
-			elif target.velocity.x < 0 : velocity.x = clamp(velocity.x, target.velocity.x, velocity.x / 4)
+			velocity.x += target.velocity.x * randf_range(0.9, 1.1)
+			velocity.y = -150 * randf_range(0.9, 1.1)
+			if target.velocity.x > 0 : velocity.x = clamp(velocity.x, target.velocity.x, target.velocity.x)
+			elif target.velocity.x < 0 : velocity.x = clamp(velocity.x, target.velocity.x, target.velocity.x)
+			if on_wall : velocity.x *= -2
+		
+		else:
+			velocity.x += target.direction_x * 100
+		
+		if target.direction_y:
+			if abs(velocity.y) < 25:
+				velocity.y += target.direction_y * target.velocity.y * 4
+				if velocity.y > 0 : velocity.y *= -1
+				
+				if target.velocity.y > 0 : velocity.y = clamp(velocity.y, velocity.y / 4, direction_y * target.velocity.y * 2)
+				elif target.velocity.y < 0 : velocity.y = clamp(velocity.y, direction_y * target.velocity.y * 2, velocity.y / 4)
+				
+				sfx_manager.sfx_play("res://Assets/Sounds/sfx/collect3.wav")
+	
+	if target.is_in_group("Player"):
+		
+		if Globals.player_direction_x:
+			Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, Vector2(position.x, position.y - 16), 1, Color(0, 0, 0, 1), Vector2(-1.5, -1.5) + Vector2(0.1, 0.1) * abs(Player.velocity.x / 100), 10)
+			
+			if abs(Player.velocity.x) > 1800:
+				Globals.spawn_scenes(World, Globals.scene_particle_special, 25, position)
+				sfx_manager.sfx_play(sfx_self_hit_filepath, 1.0)
+			elif abs(Player.velocity.x) > 900:
+				Globals.spawn_scenes(World, Globals.scene_particle_special, 10, position)
+				sfx_manager.sfx_play(sfx_self_hit_filepath, 0.75)
+			elif abs(Player.velocity.x) > 300:
+				sfx_manager.sfx_play(sfx_self_hit_filepath, 0.5)
+			else:
+				sfx_manager.sfx_play(sfx_self_hit_filepath, 0.25)
+			
+			velocity.y = Player.velocity.y * 1.25 + randf_range(50, -150)
+			
+			if abs(Player.velocity.x) > 250:
+				velocity.x += Player.velocity.x * 1.1 + randf_range(-5, 5)
+			else:
+				velocity.x += Globals.player_direction_x_active * 250 + randf_range(-5, 5)
+		
+		else:
+			
+			if abs(Player.velocity.x) > 250:
+				velocity.x += Player.velocity.x * 0.9 + randf_range(-5, 5)
+			else:
+				velocity.x += Globals.player_direction_x_active * 100 + randf_range(-5, 5)
+	
+	
+	if collidable and is_collidable:
+		
+		if inside_player > 0:
+			Globals.message_debug("Player entered an entity " + "(" + entity_name + ").")
+		else:
+			Globals.message_debug("An entity " + "(" + target.entity_name + "). has entered another entity " + "(" + entity_name + ").")
+		
+		if enteredFromAboveAndNotMoving_enable and target.position.y <= position.y and abs(target.velocity.x) < 25:
+				
+				direction_x = 0
+				direction_y = -300
+				#velocity.y = enteredFromAboveAndNotMoving_velocity
+		
+		elif on_entityEntered_change_direction_copyEntity:
+			
+			direction_x = target.direction_x
+		
+		elif on_entityEntered_change_direction_basedOnPosition:
+			
+			if target.position.x > position.x:
+				direction_x = 1
+				
+			else:
+				direction_x = -1
+
+
+func inside_check_exit(body):
+	if body.get_parent() == self : return
+	if not Globals.is_node_valid(body) : return
+	
+	
+	var target : Node
+	
+	if body.get_parent().is_in_group("Player"):
+		target = Player
+		
+		inside_player -= 1
+		inside_player_last = target
+		inside_player_all.erase(target)
+	
+	elif body.get_parent().is_in_group("entity"):
+		target = body.get_parent()
+		
+		inside_entity -= 1
+		inside_entity_last = target
+		inside_entity_all.erase(target)
+	
+	else:
+		return
+	
+	
+	#if not inside_player and not inside_entity:
+		#direction_x = 0
+	
+	return
+	
+	if not can_move or collected or dead : return
+	
+	if target.is_in_group("Player") and not pushable_by_player : return
+	if target.is_in_group("entity"):
+		if not pushable_by_entity: return
+		else:
+			if not target.can_move : return
+			if target.dead : return
+			if target.collected : return
+	
+	if target.is_in_group("entity"):
+		if abs(target.velocity.x) >= 100:
+			if Globals.get_random_bool(25) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1, Vector2(position.x + randf_range(-4, 4), position.y - 16 + randf_range(-4, 4)), 1, Color(0, 0, 0, -0.75), Vector2(-0.95, -0.95), 10)
+			sfx_manager.sfx_play(sfx_self_hit_filepath, 0.25)
+			
+			velocity.x += target.velocity.x * 4.5 * randf_range(0.9, 1.1)
+			velocity.y = -200 * randf_range(0.9, 1.1)
+			#if target.velocity.x > 0 : velocity.x = clamp(velocity.x, target.velocity.x / 2, target.velocity.x)
+			#elif target.velocity.x < 0 : velocity.x = clamp(velocity.x, target.velocity.x, target.velocity.x / 2)
 		
 		else:
 			velocity.x += target.direction_x * 100
@@ -637,60 +784,6 @@ func inside_check_enter(area):
 				velocity.x += Player.velocity.x * 0.9 + randf_range(-5, 5)
 			else:
 				velocity.x += Globals.player_direction_x_active * 100 + randf_range(-5, 5)
-	
-	
-	if collidable and is_collidable:
-		
-		if inside_player > 0:
-			Globals.message_debug("Player entered an entity " + "(" + entity_name + ").")
-		else:
-			Globals.message_debug("An entity " + "(" + target.entity_name + "). has entered another entity " + "(" + entity_name + ").")
-		
-		if enteredFromAboveAndNotMoving_enable and target.position.y <= position.y and abs(target.velocity.x) < 25:
-				
-				direction_x = 0
-				velocity.y = enteredFromAboveAndNotMoving_velocity
-		
-		elif on_entityEntered_change_direction_copyEntity:
-			
-			direction_x = target.direction_x
-		
-		elif on_entityEntered_change_direction_basedOnPosition:
-			
-			if target.position.x > position.x:
-				direction_x = 1
-				
-			else:
-				direction_x = -1
-
-
-func inside_check_exit(body):
-	if body.get_parent() == self : return
-	if not Globals.is_valid_entity(body, ["Player", "entity"]) : return
-	
-	
-	var target : Node
-	
-	if body.get_parent().is_in_group("Player"):
-		target = Player
-		
-		inside_player -= 1
-		inside_player_last = target
-		inside_player_all.erase(target)
-	
-	elif body.get_parent().is_in_group("entity"):
-		target = body.get_parent()
-		
-		inside_entity -= 1
-		inside_entity_last = target
-		inside_entity_all.erase(target)
-	
-	else:
-		return
-	
-	
-	#if not inside_player and not inside_entity:
-		#direction_x = 0
 
 
 var handle_gravity_in_movement_type = false # If true, the gravity is not handled for every movement type, and needs to be called by each movement type's function.
@@ -709,6 +802,8 @@ func handle_movement(delta):
 		velocity.y = lerp(velocity.y, float(jump_velocity_y), delta)
 	else:
 		handle_gravity(delta) # Also handles every type of "can_move".
+	
+	handle_inside_zone(delta)
 
 
 # Movement types:
@@ -1106,20 +1201,10 @@ func _on_animation_player_animation_finished(anim_name):
 		Globals.message_debug("Special collectible has been deleted after the collect animation finished.")
 		delete_entity()
 
-
-#AREAS (water, wind, etc.)
-var inside_wind = 0 # If above 0, the item is affected by wind.
-var insideWind_direction_X = 0
-var insideWind_direction_Y = 0
-var insideWind_strength_X = 1.0
-var insideWind_strength_Y = 1.0
-
-var inside_water = 0
-var insideWater_multiplier = 1
-
 func handle_inside_zone(delta):
 	if inside_wind:
-		velocity.x += speed / 5 * insideWind_direction_X * insideWind_strength_X * delta
+		velocity.x += inside_wind_direction_x * 2.5 * inside_wind_multiplier_x * speed * delta
+		velocity.y += inside_wind_direction_y * 2.5 * inside_wind_multiplier_y * speed * delta
 
 
 func handle_collectable(target : Node): # The main function of the "collectible" entity type. The word "collectable" refers to a MAIN BEHAVIOR type, while "collectible" is (most of the time) the entity TYPE of ones with that main behavior type.
@@ -1158,6 +1243,7 @@ func handle_collectable(target : Node): # The main function of the "collectible"
 	
 	if not collectable_multiple:
 		collected = true
+		delete_on_load = true
 		handle_effects_collected()
 		
 	else:
@@ -1187,7 +1273,7 @@ func handle_collectable(target : Node): # The main function of the "collectible"
 	
 	if majorCollectible_key:
 		var value = Globals.combo_tier
-		Globals.collected_majorCollectibles_key += value
+		Globals.level_collected_majorCollectibles_key += value
 	
 	
 	if heal_player:
@@ -1231,7 +1317,7 @@ func spawn_display_score(value : int):
 	
 	node.position = position + Vector2(randi_range(-50, 50), randi_range(-50, 50))
 	node.value = value
-	node.scale += Vector2(1, 1) * randf_range(-0.1, 0.1) - (Vector2(1, 1) - scale)
+	node.scale += Vector2(1, 1) * randf_range(-0.1, 0.1)
 	node.z_index += Globals.combo_streak
 	
 	World.add_child(node)
@@ -1295,15 +1381,21 @@ func handle_death(type : String = "normal"):
 	if dead : return
 	
 	dead = true
+	delete_on_load = true
 	if collectable : collected = true
 	#if collidable : destroyed = true
 	
+	friction *= 4
+	
+	if entity_type == "box" : can_move = false
+	
+	if on_death_rotate_sprite : sprite.rotation_degrees = on_death_rotate_sprite
 	
 	if Globals.game_state_roguelord:
 		if Globals.get_random_bool(0.1):
 			spawn_entity("res://Collectibles/random_item_weapon.tscn", randi_range(1, 3))
 	
-	if experience_value:
+	if experience_value and entity_type == "enemy":
 		if is_instance_valid(Overlay.hud_player_experience):
 			Overlay.hud_player_experience.experience_increase(experience_value + (randi_range(0, Globals.player_level * Globals.player_level)) + randi_range(-experience_value * 0.05, experience_value * 0.05))
 	
@@ -1434,7 +1526,7 @@ func handle_breakable(target):
 			if Input.is_action_pressed("jump"):
 				target.velocity.y = breakable_on_hit_player_velocity_y_jump
 				if not dead : velocity = Vector2(0, 0)
-				handle_effects_bounce()
+				handle_effects_bounce_player()
 				handle_damage(target.damage_value, "break")
 				
 				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y), "YELLOW", 0.5)
@@ -1442,7 +1534,7 @@ func handle_breakable(target):
 			else:
 				target.velocity.y = breakable_on_hit_player_velocity_y
 				if not dead : velocity = Vector2(0, 0)
-				handle_effects_bounce()
+				handle_effects_bounce_player()
 				handle_damage(target.damage_value, "break")
 				
 				Globals.dm("Target's velocity.y was within the range required by this entity to bounce off of. Adding velocity.y to the target: " + str(breakable_on_hit_player_velocity_y_jump), "YELLOW", 0.5)
@@ -1456,13 +1548,15 @@ func handle_breakable(target):
 
 func handle_damage(value, type : String = "normal", source : Node = self):
 	if not immortal:
-		if source.family == "Player" and family == "enemy":
-			if damage_from_player:
-				health_value -= value ; health_value = clamp(health_value, 0, 9999)
+		if source.family == "Player":
+			if family == "enemy" or damage_from_player:
+				if damage_from_player:
+					health_value -= value ; health_value = clamp(health_value, 0, 9999)
 				
-		elif source.family == "enemy" and family == "Player":
-			if damage_from_entity:
-				health_value -= value ; health_value = clamp(health_value, 0, 9999)
+		elif source.family == "enemy":
+			if family == "Player" or damage_from_entity:
+				if damage_from_entity:
+					health_value -= value ; health_value = clamp(health_value, 0, 9999)
 	
 	state_damage = true
 	t_state_damage.start()
@@ -1484,7 +1578,7 @@ func handle_damage(value, type : String = "normal", source : Node = self):
 	
 	if Globals.get_random_bool(5):
 		if source != self and not source.is_in_group("player_projectile"):
-			Globals.Player.camera.effect((position - Globals.player_position) * 2, Vector2(3, 3), randi_range(-10, 10), 4)
+			Globals.Player.camera.effect((position - Globals.player_position) * 2, Vector2(1.5, 1.5), randi_range(-7, 7), 4)
 			await get_tree().create_timer(0.2, true).timeout
 			Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
 
@@ -1522,6 +1616,11 @@ func effect_death_normal():
 	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, randf_range(0.75, 1.25))
 	
 	handle_particles_death()
+
+func handle_effects_bounce_player():
+	handle_particles_general()
+	
+	sfx_manager.sfx_play(sfx_self_bounced_filepath, 1.0, randf_range(0.75, 1.25))
 
 func effect_death_instant():
 	sfx_manager.sfx_play(sfx_self_death_filepath, 1.0, randf_range(0.75, 1.25))
@@ -1599,12 +1698,13 @@ func handle_effects_hit(target : Node, f_damage_value : int = target.damage_valu
 	sprite.self_modulate = sprite_start_modulate
 
 func handle_effects_bounce():
-	sfx_manager.sfx_play(sfx_self_bounced_filepath, 0.25, 2)
+	sfx_manager.sfx_play(sfx_self_bounced_filepath, 0.5, 2)
 	Globals.spawn_scenes(World, Globals.scene_particle_star, randi_range(0, 3), position, 4, Color.WHITE, Vector2(-0.75, -0.75))
 	
-	if sprite.scale == Vector2(1, 1):
+	if sprite.scale == Vector2(1, 1) and not on_death_rotate_sprite:
 		animation_general.stop()
-		animation_all.speed_scale = 4.0
+		if sprite_rotation_copy_velocity_x : animation_all.speed_scale = 8.0
+		else : animation_all.speed_scale = 4.0
 		animation_all.play("other_general/air_jumped")
 
 
@@ -1645,17 +1745,18 @@ func sprite_animation():
 		sprite.speed_scale = clamp(abs(velocity.x / 920), 0, 1)
 	
 	if sprite_rotation_copy_velocity_x:
-		if velocity.x > 0:
-			if velocity.x > 15:
-				sprite.rotation_degrees = -velocity.x + unique_number
-			else:
-				sprite.rotation_degrees = randf_range(-25, 25) + unique_number
-		
-		elif velocity.x < 0:
-			if velocity.x < -15:
-				sprite.rotation_degrees = -velocity.x + unique_number
-			else:
-				sprite.rotation_degrees = randf_range(-25, 25) + unique_number
+		sprite.rotation_degrees += velocity.x / 25
+		#if velocity.x > 0:
+			#if velocity.x > 25:
+				#sprite.rotation_degrees = -velocity.x / 100 + unique_number
+			#else:
+				#sprite.rotation_degrees = randf_range(-2, 2) + unique_number
+		#
+		#elif velocity.x < 0:
+			#if velocity.x < -25:
+				#sprite.rotation_degrees = velocity.x / 100 + unique_number
+			#else:
+				#sprite.rotation_degrees = randf_range(-2, 2) + unique_number
 	
 	basic_sprite_flipDirection()
 	
@@ -1870,6 +1971,7 @@ func handle_reset_puzzle():
 	Globals.World.camera.enabled = false
 	
 	Globals.level_score = reset_puzzle_saved_score
+	Globals.combo_score = 0
 	Globals.score_reduced.emit()
 	
 	reset_puzzle_delete_entities2()
@@ -2139,7 +2241,7 @@ func handle_on_floor():
 		if just_landed:
 			spawn_entity_general("on_landed_spawn_entity")
 			
-			Player.camera.effect(Vector2(-1, -1), Vector2(2, 2), randf_range(-10, 10), 1)
+			Player.camera.effect(Vector2(-1, -1), Vector2(2, 2), randf_range(-7, 7), 1)
 			await get_tree().create_timer(0.1, true).timeout
 			Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 0.1)
 	
@@ -2212,12 +2314,12 @@ func t6_trigger() -> void:
 func t_trigger(id : int = 0):
 	# If a general timer times out, the behaviors with matching id will execute.
 	
-	if t1_on_timeout_randomize_cooldown : general_timers_core.t1.wait_time = randf_range(0.25, 12)
-	if t2_on_timeout_randomize_cooldown : general_timers_core.t2.wait_time = randf_range(0.25, 12)
-	if t3_on_timeout_randomize_cooldown : general_timers_core.t3.wait_time = randf_range(0.25, 12)
-	if t4_on_timeout_randomize_cooldown : general_timers_core.t4.wait_time = randf_range(0.25, 12)
-	if t5_on_timeout_randomize_cooldown : general_timers_core.t5.wait_time = randf_range(0.25, 12)
-	if t6_on_timeout_randomize_cooldown : general_timers_core.t6.wait_time = randf_range(0.25, 12)
+	if t1_on_timeout_randomize_cooldown : general_timers_core.t1.wait_time = randf_range(0.25 * t1_cooldown, 2 * t1_cooldown)
+	if t2_on_timeout_randomize_cooldown : general_timers_core.t2.wait_time = randf_range(0.25 * t2_cooldown, 2 * t2_cooldown)
+	if t3_on_timeout_randomize_cooldown : general_timers_core.t3.wait_time = randf_range(0.25 * t3_cooldown, 2 * t3_cooldown)
+	if t4_on_timeout_randomize_cooldown : general_timers_core.t4.wait_time = randf_range(0.25 * t4_cooldown, 2 * t4_cooldown)
+	if t5_on_timeout_randomize_cooldown : general_timers_core.t5.wait_time = randf_range(0.25 * t5_cooldown, 2 * t5_cooldown)
+	if t6_on_timeout_randomize_cooldown : general_timers_core.t6.wait_time = randf_range(0.25 * t6_cooldown, 2 * t6_cooldown)
 	
 	
 	if t_trigger_ascend == id:
@@ -2289,6 +2391,9 @@ func just_handle():
 	
 	just_landed = false
 
+func on_just_bounced():
+	pass
+
 
 func _on_cooldown_attack_limit_timeout() -> void:
 	block_spawn_entity = false
@@ -2309,30 +2414,41 @@ func _on_cooldown_change_movement_type_timeout() -> void:
 
 
 func handle_particles_general():
-	if Globals.get_random_bool(on_collected_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0)
+	var particles_add_scale : Vector2 = Vector2(0, 0)
+	if scale.x < 1.0 : particles_add_scale = Vector2(-0.5, -0.5)
+	
+	if Globals.get_random_bool(on_collected_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
 
 func handle_particles_hit():
-	if Globals.get_random_bool(on_collected_spawn_star_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_star2_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance / 4) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0)
-	if Globals.get_random_bool(on_collected_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0.2, 0.2, 0.2, 1))
+	var particles_add_scale : Vector2 = Vector2(0, 0)
+	if scale.x < 1.0 : particles_add_scale = Vector2(-0.5, -0.5)
+	
+	if Globals.get_random_bool(on_collected_spawn_star_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_star2_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance / 4) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0.2, 0.2, 0.2, -0.2), particles_add_scale)
 
 func handle_particles_death():
-	if Globals.get_random_bool(on_death_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_death_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_death_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_death_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0)
-	if Globals.get_random_bool(on_death_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0)
-	if Globals.get_random_bool(on_death_spawn_leaf_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf, 1 + 1 * Globals.combo_tier, position, 12.0)
-	if Globals.get_random_bool(on_death_spawn_leaf2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf2, 1 + 1 * Globals.combo_tier, position, 12.0)
+	var particles_add_scale : Vector2 = Vector2(0, 0)
+	if scale.x < 1.0 : particles_add_scale = Vector2(-0.5, -0.5)
+	
+	if Globals.get_random_bool(on_death_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_leaf_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_leaf2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf2, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0.2, 0.2, 0.2, -0.2), particles_add_scale)
 
 func _on_cooldown_toggle_hitbox_timeout() -> void:
+	return
 	if not is_ready : return
 	
 	if not always_active : set_hitbox(Globals.opposite_bool(hitbox.monitoring))
@@ -2381,3 +2497,8 @@ func spawn_message(message_text : String = "none", mesage_cooldown_remove_messag
 func update_velocity_last():
 	if abs(velocity.x) > 5.0 : velocity_last_x = velocity.x
 	if abs(velocity.y) > 5.0 : velocity_last_y = velocity.y
+
+
+func kill():
+	health_value = 0
+	handle_death()

@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://b4xa4j618bi3v"]
+
+[ext_resource type="PackedScene" uid="uid://4jjg3v3m1ni1" path="res://Objects/spawner_basic.tscn" id="1_wnq7u"]
+
+[node name="spawner_dust" instance=ExtResource("1_wnq7u")]
+scene_filepath = "uid://cnt86kihikjm6"
+add_position_range = [Vector2(-32, -16), Vector2(32, 48)]
+add_scale_range = [Vector2(-0.75, -0.75), Vector2(0.5, 0.5)]
+on_timeout_set_cooldown_range = [0.01, 0.25]
+add_modulate_base = Color(0.568627, 0.313726, 0.509804, 1)
+add_z_index = 5
+
+[node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="." index="1"]
+rect = Rect2(-200, -200, 400, 400)
+
+[connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]
+[connection signal="screen_exited" from="scan_visible" to="." method="_on_scan_visible_screen_exited"]

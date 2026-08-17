@@ -14,7 +14,7 @@ var multiplier_label_target_font_size : float = 16.0
 @onready var bg_comboScore = $Control/bg_comboScore
 
 
-func _process(delta):
+func _physics_process(delta):
 	count_score()
 	
 	multiplier_label["theme_override_font_sizes/font_size"] = move_toward(multiplier_label["theme_override_font_sizes/font_size"], multiplier_label_target_font_size, delta)
@@ -74,7 +74,7 @@ func count_score():
 	elif display_difference > 0:
 		displayScore += 1 * count_direction
 	
-	score_label.text = str(displayScore)
+	score_label.text = str(displayScore) + "$"
 
 
 func _ready():

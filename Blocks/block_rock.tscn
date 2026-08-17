@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://bhphhktr25qmt"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_iixns"]
+[ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="2_k8av7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ste1q"]
+atlas = ExtResource("2_k8av7")
+region = Rect2(768, 576, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_twoia"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ste1q")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ste1q"]
+size = Vector2(190, 190)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k8av7"]
+size = Vector2(224, 224)
+
+[node name="rock" instance=ExtResource("1_iixns")]
+collision_layer = 5
+collectable = false
+hittable = true
+collidable = true
+speed = 500
+damage_from_player = true
+damage_from_player_contact = false
+damage_to_entity = true
+damage_to_entity_contact = false
+damage_to_player = true
+pushable_by_entity = false
+pushable_by_player = false
+can_move = true
+ignore_gravity = false
+immortal = true
+on_floor_bounce = false
+on_wall_bounce = false
+start_animation = "none"
+entity_name = "block_rock"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_twoia")
+
+[node name="collision_main" parent="." index="2"]
+shape = SubResource("RectangleShape2D_ste1q")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_k8av7")
+
+[node name="Label" type="Label" parent="." index="21"]
+offset_right = 40.0
+offset_bottom = 22.3333
+
+[node name="scan_stuck" parent="." index="22"]
+scale = Vector2(2, 2)
