@@ -7,7 +7,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
 size = Vector2(64, 64)
 
-[node name="button_block_blue_UP_root" type="Node2D" groups=["Persist", "button_block"]]
+[node name="button_block_blue_UP_root" type="Node2D" groups=["button_block"]]
 z_index = -1
 script = ExtResource("1_bnexn")
 blockType = "blue"

@@ -3,4 +3,5 @@
 [ext_resource type="Script" uid="uid://ckcvw46w7c4if" path="res://Other/Scenes/debug_show_size_general.gd" id="1_kauof"]
 
 [node name="debug_size" type="ColorRect"]
+visible = false
 script = ExtResource("1_kauof")

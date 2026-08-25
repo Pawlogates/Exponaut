@@ -68,8 +68,8 @@ func on_text_confirmed():
 	
 	animation_all.play("general/scale_down_left_back_in")
 	
-	Globals.handle_spawn_menu(false)
-		
+	Globals.handle_spawn_menu(true)
+	
 	await get_tree().create_timer(0.5, true).timeout
 	effect_hide_active = true
 	await get_tree().create_timer(4, true).timeout

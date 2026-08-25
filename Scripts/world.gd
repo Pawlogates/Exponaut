@@ -131,6 +131,8 @@ var is_ready : bool = false
 
 @export var debug_show_unloader_range : bool = false
 
+var camera_effect_direction : Vector2 = Vector2(0, 0)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -300,14 +302,18 @@ func _ready():
 		var level_transition_target = get_tree().get_first_node_in_group("level_transition" + str(Globals.transition_next))
 		
 		Player.position = level_transition_target.position + level_transition_target.transition_pos_offset
-		if on_start_camera_effect:
-			var camera_effect_direction : Vector2 = level_transition_target.camera_effect_direction
-			if camera_effect_direction != Vector2(0, 0):
-				Globals.Player.camera.effect(Vector2(randi_range(1000, 4000) * camera_effect_direction.x, randi_range(4000, 2000) * camera_effect_direction.y), Vector2(4, 4), randi_range(-15, 15), 10)
-			else:
-				Globals.Player.camera.effect(Vector2(randi_range(1000, 4000), randi_range(4000, 2000)), Vector2(4, 4), randi_range(-15, 15), 10)
-		
 		print("transition", Globals.transition_next)
+		
+		camera_effect_direction = level_transition_target.camera_effect_direction
+	
+	if on_start_camera_effect:
+		if camera_effect_direction != Vector2(0, 0):
+			Globals.Player.camera.effect(Vector2(randi_range(250, 2000) * camera_effect_direction.x, randi_range(4000, 2000) * camera_effect_direction.y), Vector2(4, 4), randi_range(-15, 15), 10)
+		else:
+			if Globals.get_random_bool(10):
+				Globals.Player.camera.effect(Vector2(randi_range(250, 4000) * Globals.player_direction_x_active, randi_range(-1000, -2000)), Vector2(4, 4), randi_range(-15, 15), 10)
+			else:
+				Globals.Player.camera.effect(Vector2(randi_range(250, 4000) * Globals.player_direction_x_active, randi_range(1000, 2000)), Vector2(4, 4), randi_range(-15, 15), 10)
 	
 	Globals.Player.camera.position_smoothing_enabled = false
 	
@@ -346,8 +352,6 @@ func _ready():
 	
 	label_level_time = Overlay.HUD.label_level_time
 	
-	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0)
-	
 	#if not Globals.transition_triggered:
 		#save_game()
 	
@@ -356,12 +360,12 @@ func _ready():
 	if level_type == "overworld" and Globals.level_id != "none":
 		
 		if Globals.load_levelState:
-			SaveData.load_levelState(Globals.level_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
+			if not Globals.gameState_justStarted:
+				SaveData.load_levelState(Globals.level_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
 	
 	Globals.load_levelState = true
 	Globals.load_playerData = true
 	Globals.load_levelSet = true
-	
 	
 	Globals.Player.camera.position_smoothing_enabled = true
 	
@@ -387,6 +391,9 @@ func _ready():
 		SaveData.never_saved = false
 	
 	await get_tree().create_timer(1.5, false).timeout
+	
+	if Globals.gameState_debug : Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 10.0)
+	else : Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 0.01)
 	
 	if not Globals.gameState_justStarted : await Overlay.animation("black_fade_out", 1.0, false, false, 0, false, "res://Other/Scenes/transition_gears.tscn", 2.0, Vector2(-2, 0))
 	

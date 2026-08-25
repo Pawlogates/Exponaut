@@ -67,7 +67,7 @@ func _on_btn_increase_level_pressed() -> void:
 
 
 func on_level_next(effects : bool = true):
-	if effects : Globals.spawn_message_object("LEVEL UP! Melee damage and ??? have increased.", 0.5, self, Vector2(960, 0))
+	if effects : Globals.spawn_message_object("LEVEL UP!", 1.0, self, Vector2(960, 0))
 	
 	experience_current = 0
 	level_current += 1
@@ -101,5 +101,5 @@ func experience_increase(value : int = 125):
 	experience_current += value
 	
 	bar_bg.color = Color.BLACK.blend(Color.GOLD * percentage_experience_next / 75)
-	Globals.spawn_scenes(container_bar, load("res://Other/Effects/display_text_falling.tscn"), 1, Vector2(randi_range(-240, 240), randi_range(-32, -128)) + Vector2(experience_bar_length / 2, 64 + 2 * level_current), 20, Color(0, 0, 0, 0), Vector2(-0.9, -0.9) + Vector2(0.025, 0.025) * level_current, 10, ["text_message", "gravity", "rotation_speed", "rotation_degrees", "font_basic"], ["+" + str(value) + " exp", -50, 1 * level_current, randi_range(0, 360), true])
+	Globals.spawn_scenes(container_bar, load("res://Other/Effects/display_text_falling.tscn"), 1, Vector2(randi_range(-240, 240), randi_range(-32, -128)) + Vector2(experience_bar_length / 2, 64 + 2 * level_current), 20, Color(0, 0, 0, 0), clamp(Vector2(-0.9, -0.9) + Vector2(0.00025, 0.00025) * value, Vector2(-0.9, -0.9), Vector2(0, 0)), 10, ["text_message", "gravity", "rotation_speed", "rotation_degrees", "font_basic"], ["+" + str(value) + " exp", -50, 1 * level_current, randi_range(0, 360), true])
 	Globals.spawn_scenes(container_bar, Globals.scene_particle_special, 1)

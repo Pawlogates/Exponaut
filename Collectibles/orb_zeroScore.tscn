@@ -8,7 +8,7 @@ scale = Vector2(0.75, 0.75)
 score_value = 0
 on_collected_anim_name = "none"
 on_collected_effect_thrownAway = true
-sfx_self_collected_filepath = "uid://br4vgarvwnes0"
+sfx_self_collected_filepath = "uid://d4hytvyyjnlug"
 entity_name = "orb_zeroScore"
 
 [node name="sprite" parent="." index="1"]

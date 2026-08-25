@@ -107,6 +107,9 @@ var first_time : bool = true
 
 @export var randomize : bool = false
 
+@export var layer_all_modulate : Color = Color(1, 1, 1, 1)
+@export var layer_all_add_modulate : Color = Color(0, 0, 0, 0)
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -122,7 +125,14 @@ func _ready():
 	for layer_node_name in list_l_node_name:
 		var bg_layer = get_node(layer_node_name)
 		
-		for node in bg_layer.get_child(0).get_child(0).get_children():
+		for node in bg_layer.get_child(0).get_children(): # texture node
+			if node is TextureRect:
+				#var previous_modulate : Color = node.modulate
+				node.modulate = layer_all_modulate
+				node.modulate += layer_all_add_modulate
+				#node.modulate.a = previous_modulate.a
+		
+		for node in bg_layer.get_child(0).get_child(0).get_children(): # debug label
 			if node is Label:
 				node.visible = false
 	
@@ -190,6 +200,7 @@ func on_trigger_bg_change_entered():
 	
 	for trigger in get_tree().get_nodes_in_group("trigger_bg_change"):
 		trigger.modulate = Color.PURPLE
+	
 	await get_tree().create_timer(0.25, true).timeout
 	bg_update_texture_filepath()
 	bg_update_other()

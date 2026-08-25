@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://ehvt23nw5ar7"]
+[gd_scene load_steps=16 format=3 uid="uid://8km3lnrbxebj"]
 
-[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_8rsds"]
-[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="2_vex7o"]
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_cywtm"]
+[ext_resource type="SpriteFrames" uid="uid://bgfn75cett8p4" path="res://Assets/Graphics/sprites/packed/enemies/enemy_hedgehog.tres" id="2_mivqk"]
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_3bigr"]
 
 [sub_resource type="Animation" id="Animation_snhod"]
 length = 0.001
@@ -501,29 +502,32 @@ _data = {
 &"rotate_around_y_fade_out": SubResource("Animation_75qk4")
 }
 
-[node name="robot_jumper" instance=ExtResource("1_8rsds")]
+[node name="togglebot" instance=ExtResource("1_cywtm")]
 collision_layer = 0
+patrolling_anim_while_queued = true
 collectable = false
 hittable = true
-score_value = 150
+health_value = 200
+score_value = 100
+movement_type = "follow_player_x_if_spotted"
 speed = 100
-jump_velocity_y = -550
-friction = 800
 family = "enemy"
 damage_from_player = true
+damage_to_entity = true
 damage_to_player = true
+pushable_by_entity = false
+pushable_by_player = false
 can_move = true
 ignore_gravity = false
-can_jump_in_air = false
+on_ledge_turn = true
 on_death_spawn_entity = true
 on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
 on_death_spawn_entity_quantity = 4
 on_hit_spawn_entity = true
 on_hit_spawn_entity_chance = 5.0
 on_hit_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
+patrolling = true
 breakable = true
-general_timers_enabled = true
-t_trigger_jump = 1
 start_animation = "none"
 can_change_sprite_anim = true
 on_death_effect_thrownAway = true
@@ -535,19 +539,22 @@ entity_name = "togglebot"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="1"]
-outline_color = Color(1, 1, 0, 1)
+modulate = Color(1.105, 2.762, 3.315, 1)
+sprite_frames = ExtResource("2_mivqk")
+animation = &"walk"
+frame_progress = 0.756857
 
 [node name="animation_general" parent="sprite" index="17"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w5jm")
 }
 
-[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("2_vex7o")]
+[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_3bigr")]
 z_index = -4
 position = Vector2(-21, -5)
 scale = Vector2(0.085, 0.085)
 
-[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("2_vex7o")]
+[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("3_3bigr")]
 z_index = -4
 position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)

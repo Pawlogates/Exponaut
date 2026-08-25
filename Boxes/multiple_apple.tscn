@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://u3ayfq6lh62g"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_bfp4h"]
+[ext_resource type="SpriteFrames" uid="uid://bk6i8kjys6o28" path="res://Assets/Graphics/sprites/packed/boxes/box_rotApples.tres" id="2_k3001"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w657n"]
+size = Vector2(64, 64)
+
+[node name="multiple_apple" instance=ExtResource("1_bfp4h")]
+collectable = false
+hittable = true
+damage_from_entity = true
+damage_from_entity_contact = false
+damage_from_player = true
+ignore_gravity = false
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://5ykb23ewx1om"
+on_death_spawn_entity_quantity = 5
+breakable = true
+start_animation = "general/shake_slight"
+on_death_anim_name = "general/rotate_away_up_right"
+on_death_anim_speed = 4.0
+entity_name = "piggybank_coins_timed"
+entity_type = "box"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_k3001")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_w657n")
+
+[node name="cooldown_toggle_hitbox" parent="." index="22"]
+autostart = false

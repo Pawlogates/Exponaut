@@ -24,7 +24,6 @@ on_death_rotate_sprite = 180
 on_wall_bounce_velocity_multiplier = 1.0
 start_animation = "none"
 can_change_sprite_anim = true
-on_death_effect_shrink = false
 on_wall_sprite_anim_reflect_straight = true
 entity_name = "batron"
 entity_type = "enemy"

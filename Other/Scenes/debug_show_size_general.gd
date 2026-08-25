@@ -14,6 +14,9 @@ func _ready() -> void:
 	if master_node is VisibleOnScreenNotifier2D:
 		position = master_node.rect.position * margin
 		size = master_node.rect.size * margin
+	
+	modulate.a /= 4
+	visible = true
 
 func _physics_process(delta: float) -> void:
 	if not Globals.debug_mode : queue_free()

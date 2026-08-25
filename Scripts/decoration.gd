@@ -210,9 +210,9 @@ func randomize_type_gear():
 		
 	var scene = load("res://Objects/Decorations/gear.tscn")
 	
-	var rolled_geat_type = randi_range(1, 5)
-	if rolled_geat_type > 1: # If "x" is equal to anything but "1", because there is no "decoration_gear1.tscn" file, only "decoration_gear.tscn", "decoration_gear2.tscn", etc.
-		scene = load(str("res://Objects/Decorations/gear%s.tscn" % rolled_geat_type))
+	var rolled_gear_type = randi_range(1, 5)
+	if rolled_gear_type > 1: # If "x" is equal to anything but "1", because there is no "decoration_gear1.tscn" file, only "decoration_gear.tscn", "decoration_gear2.tscn", etc.
+		scene = load(str("res://Objects/Decorations/gear%s.tscn" % rolled_gear_type))
 	
 	decoration.queue_free()
 	add_child(scene.instantiate())

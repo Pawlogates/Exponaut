@@ -136,3 +136,5 @@ func on_combo_tier_updated():
 
 func on_not_enough_score():
 	animation_general.play("shake")
+	await get_tree().create_timer(1.0, true).timeout
+	animation_general.stop()

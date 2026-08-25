@@ -1,0 +1,62 @@
+[gd_scene load_steps=4 format=3 uid="uid://cebuur1n4vjo0"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_w4xhm"]
+[ext_resource type="SpriteFrames" uid="uid://is2w5wmf8tpv" path="res://Assets/Graphics/sprites/packed/enemies/friendly_butterfly.tres" id="2_f4qwx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cjaao"]
+size = Vector2(22, 22)
+
+[node name="butterfly_apples" instance=ExtResource("1_w4xhm")]
+texture_filter = 3
+collision_layer = 0
+collectable = false
+hittable = true
+health_value = 1
+score_value = 250
+movement_type = "wave_x"
+speed = 100
+family = "enemy"
+damage_from_entity_contact = false
+damage_from_player = true
+damage_to_entity_contact = false
+damage_to_player_contact = false
+can_move = true
+on_death_change_ignore_gravity = true
+speed_multiplier_y = 3.0
+acceleration_multiplier_y = 0.33
+on_hit_change_velocity_y = false
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://cp2fvwcb40i4y"
+on_death_spawn_entity_quantity = 5
+on_death_spawn_entity_add_velocity_range = [Vector2(-300, -600), Vector2(300, -150)]
+on_death_spawn_entity2 = true
+on_death_spawn_entity2_scene_filepath = "uid://5ykb23ewx1om"
+on_death_spawn_entity2_quantity = 3
+on_death_spawn_entity2_pos_offset_range = [Vector2(-48, -48), Vector2(64, 32)]
+on_death_delete_instantly = true
+breakable = true
+on_wall_bounce_velocity_multiplier = 1.0
+start_animation = "none"
+can_change_sprite_anim = true
+on_death_spawn_orb_orange_chance = 100.0
+on_death_spawn_orb_blue_chance = 50.0
+on_death_spawn_homing_square_chance = 0.0
+on_death_spawn_dust_chance = 0.0
+on_death_spawn_dead_chance = 0.0
+on_death_spawn_oneShot_chance = 0.0
+on_wall_sprite_anim_reflect_straight = true
+entity_name = "butterfly"
+entity_type = "box"
+
+[node name="sprite" parent="." index="1"]
+modulate = Color(2, 3, 1, 1)
+texture_filter = 1
+sprite_frames = ExtResource("2_f4qwx")
+animation = &"attack"
+frame_progress = 0.979328
+
+[node name="collision_main" parent="." index="2"]
+shape = SubResource("RectangleShape2D_cjaao")
+
+[node name="scan_stuck" parent="." index="21"]
+scale = Vector2(0.5, 0.5)

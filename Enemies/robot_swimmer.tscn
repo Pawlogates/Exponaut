@@ -23,7 +23,6 @@ t1_on_timeout_randomize_cooldown = true
 t_trigger_jump_and_move = 1
 start_animation = "none"
 can_change_sprite_anim = true
-on_death_effect_shrink = false
 on_wall_sprite_anim_reflect_straight = true
 entity_name = "swimmer"
 entity_type = "enemy"

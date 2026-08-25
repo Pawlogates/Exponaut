@@ -1,7 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctkto3f1mjxpo"]
+[gd_scene load_steps=10 format=3 uid="uid://ctkto3f1mjxpo"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_6awp8"]
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_266xq"]
+[ext_resource type="PackedScene" uid="uid://bvtf5e5h4p4lp" path="res://Objects/Decorations/smooth_edge.tscn" id="3_w0iou"]
+[ext_resource type="PackedScene" uid="uid://4jjg3v3m1ni1" path="res://Objects/spawner_basic.tscn" id="4_oh3cb"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_77bbj"]
 atlas = ExtResource("1_6awp8")
@@ -148,3 +150,21 @@ autoplay = "loop"
 
 [node name="handle_offscreen" parent="." instance=ExtResource("2_266xq")]
 position = Vector2(-32, -32)
+
+[node name="edge" parent="." instance=ExtResource("3_w0iou")]
+modulate = Color(0.40866, 0.528841, 0.951124, 1)
+position = Vector2(64, 0)
+rotation = 1.5708
+
+[node name="edge2" parent="." instance=ExtResource("3_w0iou")]
+modulate = Color(0.40866, 0.528841, 0.951124, 1)
+position = Vector2(-64, 0)
+rotation = -1.5708
+
+[node name="spawner_basic" parent="." instance=ExtResource("4_oh3cb")]
+scene_filepath = "uid://dyfacu7kmv2uk"
+add_scale_range = [Vector2(-0.75, -0.75), Vector2(0.1, 0.1)]
+on_timeout_spawn_scene_chance = 10.0
+on_timeout_spawn_scene_quantity_range = [1, 2]
+on_timeout_set_cooldown_range = [0.25, 8.0]
+add_modulate_base = Color(0.398641, 0.649871, 0.927718, 1)

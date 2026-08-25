@@ -1,0 +1,47 @@
+[gd_scene load_steps=4 format=3 uid="uid://dq3ck8pjriyrx"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_uyav8"]
+[ext_resource type="SpriteFrames" uid="uid://bk6i8kjys6o28" path="res://Assets/Graphics/sprites/packed/boxes/box_rotApples.tres" id="2_1bb34"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w657n"]
+size = Vector2(64, 64)
+
+[node name="multiple_apple" instance=ExtResource("1_uyav8")]
+collectable = false
+hittable = true
+damage_from_entity = true
+damage_from_entity_contact = false
+damage_from_player = true
+ignore_gravity = false
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://5ykb23ewx1om"
+on_death_spawn_entity_quantity = 5
+on_death_spawn_entity2 = true
+on_death_spawn_entity2_scene_filepath = "uid://bq2hygqo7c6kk"
+on_death_spawn_entity2_quantity = 3
+on_death_spawn_entity2_pos_offset_range = [Vector2(-128, -128), Vector2(128, 32)]
+on_death_spawn_entity3 = true
+on_death_spawn_entity3_scene_filepath = "uid://b5ij2v01jbsf6"
+on_death_spawn_entity3_quantity = 10
+on_hit_spawn_entity = true
+on_hit_spawn_entity_chance = 25.0
+on_hit_spawn_entity_scene_filepath = "uid://b5ij2v01jbsf6"
+on_hit_spawn_entity2 = true
+on_hit_spawn_entity2_chance = 25.0
+on_hit_spawn_entity2_scene_filepath = "uid://5ykb23ewx1om"
+breakable = true
+start_animation = "general/shake_slight"
+on_death_anim_name = "general/rotate_away_up_right"
+on_death_anim_speed = 4.0
+entity_name = "piggybank_coins_timed"
+entity_type = "box"
+
+[node name="sprite" parent="." index="1"]
+position = Vector2(-1, -1)
+sprite_frames = ExtResource("2_1bb34")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_w657n")
+
+[node name="cooldown_toggle_hitbox" parent="." index="22"]
+autostart = false

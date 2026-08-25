@@ -900,7 +900,7 @@ var mode_collect_note_active : bool = false
 
 # Transition refers to a trigger that is usually placed at the borders of overworld levels to connect them. Note that the transition trigger needs to be named %"Transition[id]", and its id (int) has to match the id of the transition placed in another overworld level.
 var transition_triggered = false # True if player has just left a level through a level transition (overworld areas are connected through transitions). The value is set back to false when starting a level, right after the level checks whether to spawn the player at a transition or a checkpoint/start point.
-var transition_next = 0 # The player will be placed at the transition with this id (%"Transition[id]").
+var transition_next = -1 # The player will be placed at the transition with this id (%"Transition[id]").
 var transition_offset = Vector2(0, 0) # Spawn position offset.
 
 
@@ -1076,7 +1076,7 @@ func prepare_list_all(directory_path : String, exclude : Array):
 	return list
 
 
-func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0, 0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = [], add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale_range_equal : bool = true, spawn_cooldown : float = 0.0, spawn_cooldown_range : Array = [0.0, 0.0], master_node : Node = target):
+func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vector2 = Vector2(0, 0), remove_cooldown : float = 10.0, add_modulate : Color = Color(0, 0, 0, 0), add_scale : Vector2 = Vector2(0.0, 0.0), add_z_index : int = 0, properties_name : Array = [], properties_value : Array = [], add_velocity : Vector2 = Vector2(0, 0), add_velocity_range : Array = [Vector2(0, 0), Vector2(0, 0)], pos_offset_range : Array = [Vector2(0, 0), Vector2(0, 0)], add_scale_range : Array = [Vector2(0.0, 0.0), Vector2(0.0, 0.0)], add_scale_range_equal : bool = true, spawn_cooldown : float = 0.0, spawn_cooldown_range : Array = [0.0, 0.0], master_node : Node = target):
 	if not is_instance_valid(target) : return
 	
 	var spawned_nodes : Array
@@ -1112,11 +1112,15 @@ func spawn_scenes(target : Node, filepath, quantity : int = 1, pos_offset : Vect
 		
 		if add_scale_range_equal : node.scale.y = node.scale.x
 		
-		if is_instance_valid(node) and is_instance_valid(master_node) : if master_node.scale.x < 1.0 : node.scale /= 0.5
+		# What the hell is this...?
+		#if is_instance_valid(node) and is_instance_valid(master_node) : if master_node.scale.x < 1.0 : node.scale /= 0.5
 		
 		if add_modulate != Color(0, 0, 0, 0) : node.modulate += add_modulate
 		if add_z_index != 0 : node.z_index += add_z_index
 		
+		#print_stack()
+		#if node.name != "homing_square" : print(node.name, " - ", add_scale_range)
+		#if node.name != "homing_square" : print(add_scale)
 		
 		var y = -1
 		for property_name in properties_name:
@@ -1363,7 +1367,7 @@ func handle_spawn_menu(manual_request : bool = false):
 		return
 	
 	elif gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["start_new_game", "continue","next_level", "retry", "resume", "select_level_set", "settings", "quit_to_main_menu", "close", "touch_controls"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+		spawn_menu(scene_menu_main, ["start_new_game", "continue","next_level", "retry", "resume", "settings", "quit_to_main_menu", "close", "touch_controls"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 		return
 	
 	elif gameState_start_screen:
@@ -1567,6 +1571,7 @@ func reload_level_scene(keep_player_pos : bool = false):
 		await get_tree().create_timer(5.0, false).timeout
 		
 		if keep_player_pos : Player.position = previous_player_pos
+		
 		load_levelSet = true
 		load_levelState = true
 		load_playerData = true
@@ -1577,13 +1582,17 @@ func reload_level_scene(keep_player_pos : bool = false):
 		main_scene_changed.emit()
 
 
-func is_node_valid(target_node : Node, valid_group_names : Array = ["player_hitbox", "entity_hitbox"]):
+func is_node_valid(target_node : Node, valid_group_names : Array = ["player_hitbox", "entity_hitbox", "player_projectile"]):
 	if target_node.is_in_group("scan_patrolling_vision") : return false
 	
 	var valid = false
 	
 	for group_name in valid_group_names:
 		if target_node.is_in_group(group_name) : valid = true
+	
+	if "effect_thrownAway_active" in target_node:
+		if target_node.effect_thrownAway_active:
+			valid = false
 	
 	if valid : return true
 	else : return false
@@ -2002,6 +2011,9 @@ func spawn_message_object(message_text = "message", message_anim_speed : float =
 	message_object.message_text = message_text
 	message_object.message_anim_speed = message_anim_speed
 	target.add_child(message_object)
+
+func smo(message_text = "message", message_anim_speed : float = 4.0, target : Node = main_scene, add_position : Vector2 = Player.position, add_scale : Vector2 = Vector2(0, 0), spawn_delay : float = 0.0):
+	spawn_message_object(message_text, message_anim_speed, target, add_position, add_scale, spawn_delay)
 
 
 func reload_scene_files_general():

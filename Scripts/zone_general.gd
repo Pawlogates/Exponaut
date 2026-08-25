@@ -22,6 +22,8 @@ func _on_area_entered(area):
 	if Globals.is_node_valid(area):
 		var target : Node = area.get_parent()
 		
+		if not "inside_water" in target : return
+		
 		if zone_type == "wind":
 			target.inside_wind += 1
 			target.inside_wind_direction_x = inside_wind_direction_x
@@ -60,6 +62,8 @@ func _on_area_entered(area):
 func _on_area_exited(area):
 	if Globals.is_node_valid(area):
 		var target : Node = area.get_parent()
+		
+		if not "inside_water" in target : return
 		
 		if zone_type == "wind":
 			target.inside_wind -= 1

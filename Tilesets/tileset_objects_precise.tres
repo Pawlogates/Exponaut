@@ -84,7 +84,7 @@
 [ext_resource type="PackedScene" uid="uid://cdpdpup0uxl3d" path="res://Collectibles/carrot.tscn" id="81_qcmkb"]
 [ext_resource type="PackedScene" uid="uid://cuxplgh41ahnt" path="res://Collectibles/orb_zeroScore.tscn" id="81_y0h4a"]
 [ext_resource type="PackedScene" uid="uid://chykfjtli3g53" path="res://Objects/Decorations/glow_orb_soft.tscn" id="82_21xtf"]
-[ext_resource type="PackedScene" uid="uid://bq2hygqo7c6kk" path="res://Collectibles/apple.tscn" id="82_a4wbo"]
+[ext_resource type="PackedScene" uid="uid://bq2hygqo7c6kk" path="res://Collectibles/apple_floating.tscn" id="82_a4wbo"]
 [ext_resource type="PackedScene" uid="uid://ev6ylwrrq8ku" path="res://Collectibles/cheese.tscn" id="82_khxj4"]
 [ext_resource type="PackedScene" uid="uid://ukaq30esmehe" path="res://Collectibles/puzzle_reset_zone.tscn" id="83_fe1vg"]
 [ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="83_jahqh"]

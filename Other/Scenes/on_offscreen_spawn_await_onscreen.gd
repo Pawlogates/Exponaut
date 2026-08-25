@@ -13,7 +13,10 @@ func _ready() -> void:
 	
 	visible = true
 	
-	await get_tree().create_timer(0.05, true).timeout
+	if Globals.level_time_seconds > 10:
+		await get_tree().create_timer(0.05, true).timeout
+	else:
+		await get_tree().create_timer(1.0, true).timeout
 	
 	active = true
 	visible = true

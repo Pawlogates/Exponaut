@@ -13,7 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="11_uskie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
-size = Vector2(62, 62)
+size = Vector2(63, 63)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
 size = Vector2(32, 32)
@@ -222,7 +222,6 @@ wait_time = 0.1
 autostart = true
 
 [node name="handle_offscreen" parent="." instance=ExtResource("11_uskie")]
-visible = true
 scale = Vector2(2, 2)
 
 [connection signal="timeout" from="timeout_basic/cooldown_jump" to="." method="_on_cooldown_jump_timeout"]

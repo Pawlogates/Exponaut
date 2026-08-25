@@ -42,10 +42,12 @@ shape = SubResource("RectangleShape2D_fshcs")
 debug_color = Color(0.135035, 0.638434, 0.297034, 0.42)
 
 [node name="sprite" parent="." instance=ExtResource("2_uwqpd")]
+z_index = 0
 position = Vector2(0, -40)
 scale = Vector2(0.5, 0.5)
 sprite_frames = ExtResource("2_2jh15")
-animation = &"smash_down"
+animation = &"damage"
+frame_progress = 0.685728
 outline_width = 2
 
 [node name="cooldown_crouch_walk" type="Timer" parent="sprite"]

@@ -37,7 +37,7 @@ func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_
 		animation_player.play_backwards(str(anim_name))
 	else:
 		animation_player.play(str(anim_name))
-
+	
 	if transition_filepath != "none":
 		var transition : Array = await Globals.spawn_scenes(self, transition_filepath)
 		#if anim_name == "black_fade_out" : transition.scale.x = -1
@@ -46,8 +46,10 @@ func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_
 			if transition_anim_speed != -1 : node.anim_speed = transition_anim_speed
 	
 	if await_finished : await animation_player.animation_finished
-
+	
 	if await_delay : await get_tree().create_timer(await_delay, true).timeout
+	
+	#screen_hide()
 
 
 func reassign_general():

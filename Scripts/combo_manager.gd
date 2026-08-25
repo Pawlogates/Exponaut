@@ -64,6 +64,8 @@ func reset_combo_tier():
 
 
 func refresh_combo_streak_timer(duration : float = 2.5):
+	#if not duration > timer_combo_streak_active.time_left : return
+	
 	timer_combo_streak_active.wait_time = duration
 	timer_combo_streak_active.start()
 
@@ -110,7 +112,7 @@ func on_entity_collected():
 
 func on_entity_hit():
 	check_combo_tier()
-	refresh_combo_streak_timer(0.5)
+	refresh_combo_streak_timer(1.5)
 
 func on_entity_killed():
 	check_combo_tier()

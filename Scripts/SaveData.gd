@@ -720,6 +720,7 @@ func save_levelState(level_id : String = Globals.level_id, quicksave_slot_id : i
 # Set the "quicksave" property value to 0 for normal behaviour.
 func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value of "none" will cause it to load a state file matching the current level's overworld id, while values from 1 to 4 will cause it to load a matching quicksave file (levelState_quicksave1, levelState_quicksave2, etc.)
 	if not Globals.load_levelState : return
+	#if Globals.gameState_debug : return
 	
 	var filepath : String
 	

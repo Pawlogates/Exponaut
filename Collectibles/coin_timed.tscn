@@ -31,7 +31,6 @@ on_hit_spawn_star_chance = 5.0
 on_hit_spawn_star2_chance = 5.0
 on_hit_spawn_orb_orange_chance = 5.0
 on_hit_spawn_orb_blue_chance = 5.0
-on_hit_spawn_homing_square_chance = 5.0
 on_hit_spawn_dust_chance = 5.0
 on_hit_spawn_dead_chance = 5.0
 on_hit_spawn_oneShot_chance = 5.0

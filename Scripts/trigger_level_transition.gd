@@ -25,7 +25,7 @@ func _on_area_entered(area):
 	
 	Globals.transition_triggered = true
 	SaveData.save_playerData(false)
-	
+	print(target_level)
 	Globals.change_main_scene(target_level)
 	
 	Globals.dm("Player has entered a level transition leading to: " + str(target_level_filepath))

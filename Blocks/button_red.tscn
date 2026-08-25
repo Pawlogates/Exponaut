@@ -62,7 +62,7 @@ size = Vector2(64, 32)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iushe"]
 size = Vector2(60, 20)
 
-[node name="button_red_root" type="Node2D" groups=["Persist", "button", "button_red"]]
+[node name="button_red_root" type="Node2D" groups=["button", "button_red"]]
 z_index = -1
 script = ExtResource("1_mgsvc")
 button_type = "red"

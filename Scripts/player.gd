@@ -418,7 +418,8 @@ func handle_gravity(delta):
 					velocity.y += fall_speed * 4.0 * delta * gravity_multiplier
 			
 			else:
-				if velocity.y < -200 : velocity.y = -200
+				if not recently_bounced:
+					if velocity.y < -200 : velocity.y = -200
 				
 				if inside_water:
 					velocity.y += fall_speed * 1 * delta * gravity_multiplier * inside_water_multiplier_x
@@ -472,7 +473,7 @@ func handle_gravity(delta):
 
 
 func update_sprite():
-	if direction_x:
+	if direction_x and not state_damage:
 		sprite.flip_h = (direction_x < 0)
 	
 	else:
@@ -498,7 +499,7 @@ func sprite_animation():
 	if state_jump >= x : queued_anim = "jump"; x = state_jump
 	if state_fall >= x : queued_anim = "fall"; x = state_fall
 	if state_shoot >= x : queued_anim = "shoot"; x = state_shoot
-	if state_damage >= x : queued_anim = "damaged"; x = state_damage
+	if state_damage >= x : queued_anim = "damage"; x = state_damage
 	if state_crouch >= x : queued_anim = "crouch"; x = state_crouch
 	if state_crouch_walk >= x : queued_anim = "crouch_walk"; x = state_crouch_walk
 	if state_death >= x : queued_anim = "death"; x = state_death
@@ -522,12 +523,15 @@ func handle_air_slowdown(delta):
 
 
 func handle_air_acceleration(delta):
-	if is_on_floor() or recently_bounced: return
+	if is_on_floor() : return
 	
 	if direction_x != 0:
 		# Reduce slowdown while under influence of heavy wind (conveyor belts).
 		if just_left_wind:
-			velocity.x = move_toward(velocity.x, speed * 2 * direction_x, air_acceleration / 3 * delta)
+			velocity.x = move_toward(velocity.x, speed * 4 * direction_x, air_acceleration / 3 * delta)
+		# Bounced off an entity.
+		elif recently_bounced:
+			velocity.x = move_toward(velocity.x, speed * direction_x, air_acceleration * delta)
 		# Normal
 		else:
 			velocity.x = move_toward(velocity.x, speed * direction_x, air_acceleration * delta)
@@ -935,10 +939,6 @@ func playSound_shoot():
 		$shoot4.play()
 
 
-func _on_attacked_timer_timeout():
-	state_damage = false
-
-
 func _on_dash_check_timeout():
 	if can_stand_up == 0:
 		safe_standUp.emit()
@@ -1011,8 +1011,9 @@ func handle_attack_secondary():
 			
 			sfx_manager.sfx_play(Globals.sfx_slash)
 			
-			if direction_x != 0:
-				sprite.flip_h = (direction_x < 0)
+			if not state_damage:
+				if direction_x != 0:
+					sprite.flip_h = (direction_x < 0)
 		
 		elif Input.is_action_just_pressed("attack_secondary"):
 			if block_movement : return
@@ -1027,8 +1028,9 @@ func handle_attack_secondary():
 			
 			add_child(scene)
 			
-			if direction_x != 0:
-				sprite.flip_h = (direction_x < 0)
+			if not state_damage:
+				if direction_x != 0:
+					sprite.flip_h = (direction_x < 0)
 			
 			#SHOOTING ANIMATION
 			state_shoot = 1
@@ -1507,7 +1509,7 @@ func _on_timer_state_shoot_timeout() -> void:
 
 
 func _on_timer_state_damage_timeout() -> void:
-	pass # Replace with function body.
+	state_damage = 0
 
 
 func _on_timer_invincible_timeout() -> void:
@@ -1547,7 +1549,33 @@ func handle_wall_run(delta):
 
 
 func handle_damage(value : int = -1, source : Node = self):
-	Globals.player_damage.emit(value, source)
+	Globals.player_damage.emit(value, source) # Sends a signal to the health bar ui element.
+	
+	if direction_x_active != 0:
+		sprite.flip_h = (direction_x_active > 0)
+	
+	if Globals.player_direction_x_active > 0 : sprite.rotation_degrees = 45
+	else : sprite.rotation_degrees = -45
+	
+	state_damage = 1
+	block_movement_full = true
+	for entity in get_tree().get_nodes_in_group("entity"):
+		entity.block_movement = true
+	Globals.Player.camera.effect((position - Globals.player_position) * 2, Vector2(2.5, 2.5), randi_range(-15, 15), 1)
+	await get_tree().create_timer(0.5, true).timeout
+	Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
+	for entity in get_tree().get_nodes_in_group("entity"):
+		entity.block_movement = false
+	block_movement_full = false
+	state_damage = 0
+	sprite.rotation_degrees = 0
+	
+	if not is_instance_valid(source) : return
+	
+	if source.position.x > position.x : velocity.x = -750
+	elif source.position.x < position.x : velocity.x = 750
+	on_just_bounced()
+	velocity.y = -500
 
 
 var attack_melee_active : bool = false
@@ -1581,7 +1609,7 @@ func attack_melee():
 	if attack_melee_current_id == "none":
 		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'smash_down' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
 		attack_melee_current_id = "smash_down"
-		attack_melee_set_hitbox(Vector2(192, 32), Vector2(64, 48))
+		attack_melee_set_hitbox(Vector2(192, 96), Vector2(64, 32))
 		
 		sprite.play("smash_down")
 		timer_windup.wait_time = 0.33
@@ -1596,7 +1624,7 @@ func attack_melee():
 		sprite.play("kick_up")
 		timer_windup.wait_time = 0.25
 		timer_block_attack_melee.wait_time = 0.5
-		timer_end_attack_melee.wait_time = 2
+		timer_end_attack_melee.wait_time = 1.0
 	
 	elif attack_melee_current_id == "kick_up":
 		#Globals.spawn_message_object(str("attack_melee_current_id was set to 'slide' (changed from %s)." % attack_melee_current_id), World, position + Vector2(0, -400))
@@ -1710,68 +1738,78 @@ func handle_attack_melee(): # The word "handle" refers to a function being execu
 			timer_end_attack_melee.start()
 	
 	# Extra collision:
-	for entity in hitbox_extra.get_overlapping_areas():
-		var target : Node = entity.get_parent()
-		if not "invulnerable" in target : continue
-		if not "is_ready" in target : continue
-		
-		if not target.invulnerable and target.is_ready:
-			attack_melee_hit(target, 0.25, Vector2(250, 500), 1.0, 10)
-		
-		hitbox_extra.monitorable = false
-		hitbox_extra.monitoring = false
-		decoration_collision_extra_particles.visible = false
+	if hitbox_extra.monitoring:
+		for entity in hitbox_extra.get_overlapping_areas():
+			if not hitbox_extra.monitoring : return
+			
+			var target : Node = entity.get_parent()
+			if not "invulnerable" in target : continue
+			if not "is_ready" in target : continue
+			
+			if not target.invulnerable and target.is_ready:
+				attack_melee_hit(target, 0.25, Vector2(250, 500), 1.0, 10)
+			
+			hitbox_extra.monitorable = false
+			hitbox_extra.monitoring = false
+			decoration_collision_extra_particles.visible = false
 	
 	# Regular collision:
-	for entity in attack_melee_hitbox.get_overlapping_areas():
-		if timer_windup.time_left > 0.0 : return
-		
-		var target : Node = entity.get_parent()
-		if not "invulnerable" in target : continue
-		if not "is_ready" in target : continue
-		
-		if target.is_in_group("entity") and not target.invulnerable and not target.collected and not target.is_in_group("entity_editor_preview"):
-			if "entity_name" in target : print(target.entity_name)
-			if attack_melee_current_id == "smash_down":
-				if timer_end_attack_melee.time_left < 2.0:
-					# Handle the short kick at the start of smash down.
-					attack_melee_hit(target, 0.3, Vector2(600, -350), 0.85, 25)
-					if not target.invulnerable and target.is_ready:
-						Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.RED, Vector2(-0.75, -0.75), 10)
-						Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
-						sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+	if attack_melee_hitbox.monitoring:
+		for entity in attack_melee_hitbox.get_overlapping_areas():
+			if not attack_melee_hitbox.monitoring : return
+			
+			if timer_windup.time_left > 0.0 : return
+			
+			var target : Node = entity.get_parent()
+			if not "invulnerable" in target : continue
+			if not "is_ready" in target : continue
+			
+			if target.is_in_group("entity") and not target.invulnerable and not target.collected and not target.is_in_group("entity_editor_preview"):
+				if "entity_name" in target : print(target.entity_name)
+				if attack_melee_current_id == "smash_down":
+					if timer_end_attack_melee.time_left < 2.0:
+						# Handle the short kick at the start of smash down.
+						attack_melee_hit(target, 0.3, Vector2(600, -350), 0.85, 25)
+						if not target.invulnerable and target.is_ready and not target.dead:
+							Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.RED, Vector2(-0.75, -0.75), 10)
+							Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 96, 0), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
+							sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+					
+					else:
+						attack_melee_hit(target, 0.3, Vector2(600, -350), 0.85, 40)
+						if not target.invulnerable and target.is_ready and not target.dead:
+							Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.RED, Vector2(-0.75, -0.75), 10)
+							Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
 				
-				else:
-					attack_melee_hit(target, 0.3, Vector2(600, -350), 0.85, 40)
-					if not target.invulnerable and target.is_ready:
-						Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.RED, Vector2(-0.75, -0.75), 10)
-						Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, position + Vector2(Globals.player_direction_x_active * 64, 32), 4, Color.BLUE, Vector2(-0.75, -0.75), 10)
-			
-			elif attack_melee_current_id == "spin_down":
-				attack_melee_hit(target, 0.1, Vector2(100, -100), 0.85, randi_range(25, 30))
-			
-			elif attack_melee_current_id == "kick_up":
-				attack_melee_hit(target, 0.5, Vector2(250, -750), 3, 60)
-			
-			elif attack_melee_current_id == "slide":
-				attack_melee_hit(target, 0.5, Vector2(1200, -400), 3, 75)
-				sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
+				elif attack_melee_current_id == "spin_down":
+					attack_melee_hit(target, 0.1, Vector2(100, -100), 0.85, randi_range(25, 30))
+				
+				elif attack_melee_current_id == "kick_up":
+					attack_melee_hit(target, 0.5, Vector2(250, -750), 3, 60)
+				
+				elif attack_melee_current_id == "slide":
+					attack_melee_hit(target, 0.5, Vector2(1200, -400), 3, 75)
+					sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 
 func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocity : Vector2 = Vector2(400, -600), invulnerable_duration_multiplier : float = 0.85, f_damage_value : int = 25):
 	#Globals.spawn_message_object(str(timer_block_attack_melee.time_left), World, position + Vector2(200, -0))
+	
+	if not is_instance_valid(target) : return
 	
 	decoration_collision_extra_particles.visible = false
 	
 	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
 	if target.invulnerable : return
 	if not target.is_ready : return
+	if "hittable_if_dead" in target:
+		if target.dead and not target.hittable_if_dead : return
 	
 	target.invulnerable = true
 	if invulnerable_duration_multiplier > 1.0 : target.timer_invulnerable.wait_time = freeze_duration * invulnerable_duration_multiplier
 	else : target.timer_invulnerable.wait_time = freeze_duration
 	target.timer_invulnerable.start()
 	
-	if target.entity_type == "enemy":
+	if target.entity_type == "enemy" or target.entity_type == "box":
 		Player.block_movement_full = true
 		target.attack_melee_block_movement = true
 	
@@ -1787,13 +1825,17 @@ func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocit
 		if attack_melee_current_id == "spin_down" : $sfx_manager_spin_down.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 		
 	if target.entity_type == "enemy" : await Globals.effect_melee_freeze(clamp(freeze_duration * invulnerable_duration_multiplier, 0.05, 0.75))
+	elif target.entity_type == "box" : await get_tree().create_timer(0.25, true).timeout
+	
+	if not is_instance_valid(target) : Globals.smo("wtf") ; return
 	
 	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
 	
-	if target.entity_type == "enemy":
-		Player.block_movement_full = false
-		target.attack_melee_block_movement = false
-		#await get_tree().create_timer(0.1, true).timeout
+	#if target.entity_type == "enemy" or target.entity_type == "box":
+	Player.block_movement_full = false
+	target.attack_melee_block_movement = false
+	#Globals.smo("unpaused")
+	#await get_tree().create_timer(0.1, true).timeout
 	
 	if target.on_wall : target.velocity = Vector2(-add_velocity.x * randf_range(0.95, 1.05) * Globals.player_direction_x_active, add_velocity.y * randf_range(0.95, 1.05))
 	elif target.on_floor : target.velocity = Vector2(add_velocity.x * randf_range(0.95, 1.05) * Globals.player_direction_x_active, 1.25 * add_velocity.y * randf_range(0.95, 1.05))
@@ -1843,7 +1885,7 @@ func set_hitbox(state : bool = true):
 
 
 func debug_info():
-	print(Engine.get_frames_per_second())
-	Globals.spawn_message_object(str(Engine.get_frames_per_second()))
+	#print(Engine.get_frames_per_second())
+	#Globals.spawn_message_object(str(Engine.get_frames_per_second()))
 	if Globals.gameState_debug or Globals.debug_mode:
 		if Globals.weapon_secondary == "none" : Globals.weapon_secondary = "tie_charged"

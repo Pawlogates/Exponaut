@@ -1,7 +1,8 @@
-[gd_scene load_steps=15 format=3 uid="uid://ehvt23nw5ar7"]
+[gd_scene load_steps=16 format=3 uid="uid://bh63kyuem67yy"]
 
-[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_8rsds"]
-[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="2_vex7o"]
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_lwd8d"]
+[ext_resource type="SpriteFrames" uid="uid://b1qdjut2q8ia1" path="res://Assets/Graphics/sprites/packed/enemies/enemy_frog.tres" id="2_gh0ty"]
+[ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_f1l6v"]
 
 [sub_resource type="Animation" id="Animation_snhod"]
 length = 0.001
@@ -501,13 +502,13 @@ _data = {
 &"rotate_around_y_fade_out": SubResource("Animation_75qk4")
 }
 
-[node name="robot_jumper" instance=ExtResource("1_8rsds")]
+[node name="slime_jumper" instance=ExtResource("1_lwd8d")]
 collision_layer = 0
 collectable = false
 hittable = true
 score_value = 150
-speed = 100
-jump_velocity_y = -550
+movement_type = "move_x"
+jump_velocity_y = -700
 friction = 800
 family = "enemy"
 damage_from_player = true
@@ -515,39 +516,41 @@ damage_to_player = true
 can_move = true
 ignore_gravity = false
 can_jump_in_air = false
+on_timeout_jump_velocity = -700.0
 on_death_spawn_entity = true
-on_death_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
-on_death_spawn_entity_quantity = 4
-on_hit_spawn_entity = true
-on_hit_spawn_entity_chance = 5.0
-on_hit_spawn_entity_scene_filepath = "uid://ck8hejss7023o"
+on_death_spawn_entity_scene_filepath = "uid://cebuur1n4vjo0"
+on_death_spawn_entity_add_velocity_range = [Vector2(-200, -100), Vector2(200, -50)]
 breakable = true
+on_death_block_movement = true
 general_timers_enabled = true
-t_trigger_jump = 1
+t1_cooldown = 4.0
+t_trigger_jump_and_move = 1
+on_wall_bounce = false
 start_animation = "none"
 can_change_sprite_anim = true
 on_death_effect_thrownAway = true
 on_death_decoration_nodes_effect_thrownAway = true
-idle_sfx = true
 idle_sfx_randomize_cooldown = true
 on_wall_sprite_anim_reflect_straight = true
-entity_name = "togglebot"
+entity_name = "slime_jumper"
 entity_type = "enemy"
 
 [node name="sprite" parent="." index="1"]
-outline_color = Color(1, 1, 0, 1)
+modulate = Color(0.933333, 1, 0.27451, 1)
+sprite_frames = ExtResource("2_gh0ty")
+outline_color = Color(1, 0.458824, 0, 1)
 
 [node name="animation_general" parent="sprite" index="17"]
 libraries = {
 &"": SubResource("AnimationLibrary_5w5jm")
 }
 
-[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("2_vex7o")]
+[node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_f1l6v")]
 z_index = -4
 position = Vector2(-21, -5)
 scale = Vector2(0.085, 0.085)
 
-[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("2_vex7o")]
+[node name="decoration_gear5" parent="sprite/container_effect_thrownAway" index="1" instance=ExtResource("3_f1l6v")]
 z_index = -4
 position = Vector2(15, 2)
 scale = Vector2(0.085, 0.085)

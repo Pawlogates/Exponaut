@@ -1,24 +1,18 @@
-extends Sprite2D
+extends Node2D
 
-@onready var collect_particles = $".."
-@onready var animation_player = $"../AnimationPlayer"
+@onready var sprite = $Sprite2D
+@onready var animation_player = $AnimationPlayer
 
-var rng = RandomNumberGenerator.new()
-
-var x = rng.randfn(0, 1)
-var y = rng.randf_range(0, 3.6) * 100
-var z = rng.randf_range(1, 2)
+@export var anim_speed : float = -1.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	if collect_particles.scale == Vector2(1, 1):
-		while x <= 0.4 and x >= -0.4:
-			x = rng.randfn(0, 1)
-		
-		collect_particles.scale = Vector2(x, x)
-		
-	collect_particles.rotation_degrees = (y)
-	animation_player.speed_scale = z
+	#await get_tree().create_timer(1, true).timeout
+	
+	if anim_speed == -1.0 : anim_speed = randf_range(0.5, 4.0)
+	rotation_degrees = randi_range(0, 360)
+	
+	animation_player.speed_scale = anim_speed
 	animation_player.play("afterSpawn")
 
 
@@ -28,4 +22,4 @@ func _process(_delta):
 
 
 func _on_animation_player_animation_finished(_anim_name):
-	collect_particles.queue_free()
+	queue_free()

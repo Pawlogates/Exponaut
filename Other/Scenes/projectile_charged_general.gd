@@ -43,9 +43,10 @@ var bouncy = false
 var can_collect = true
 var can_move = true
 var collected = false
-var entity_type = "projectile"
+var entity_type = "projectile_tie"
 var dead = false
 var damage_value = 15
+var direction_active_x : int = 1
 
 
 func _ready():
@@ -103,6 +104,7 @@ func _process(_delta):
 		charged_shot_buffer.stop()
 		projectile_shot = true
 		
+		charged = true
 		can_collect = true
 		await get_tree().create_timer(0.5, false).timeout
 		upward_shot = true
@@ -129,6 +131,8 @@ func _process(_delta):
 		Globals.projectile_shot.emit()
 		charged_shot_buffer.stop()
 		projectile_shot = true
+	
+	direction_active_x = direction_x
 
 
 func _on_timer_timeout():
@@ -150,6 +154,10 @@ func _on_animation_player_animation_started(anim_name):
 		direction_x = 1
 		await get_tree().create_timer(0.5, false).timeout
 		direction_x = -1
+	
+	
+	if anim_name == "shot_animR" or anim_name == "shot_animL":
+		charged = true
 
 
 var direction_x = 0
@@ -161,26 +169,34 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	var target = area.get_parent()
 	
 	if projectile_shot:
+		if target.entity_type == "enemy" or target.entity_type == "box" or target.can_move:
+			target.handle_hit(self, damage_value)
+		
 		if target.can_move and not target.dead:
+			#await get_tree().create_timer(0.1, false).timeout
 			if target.entity_type == "enemy":
 				if abs(target.velocity.y) <= 50:
 					target.handle_hit(self, damage_value * (1 + 0.1 * Globals.player_level))
-					Globals.Player.camera.effect((target.position - Globals.player_position) * 2, Vector2(1.5, 1.5), randi_range(-10, 10), 4)
-					await get_tree().create_timer(0.25, true).timeout
-					Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
+					
+					#Globals.Player.camera.effect((target.position - Globals.player_position) * 2, Vector2(1.5, 1.5), randi_range(-10, 10), 4)
+					#await get_tree().create_timer(0.25, true).timeout
+					#Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 1)
 					
 					Globals.spawn_scenes(Globals.World, Globals.scene_effect_hit_enemy, 1, target.position)
 			
 			target.velocity.x = direction_x * 500 * randf_range(0.9, 1.1)
 			target.velocity.y = -250 * randf_range(0.9, 1.1)
 			
-			if direction_y == 1:
-				target.velocity.y = -250 * randf_range(0.9, 1.1)
-			elif direction_y == -1:
-				target.velocity.y = -500 * randf_range(0.9, 1.1)
-	
-	if target.entity_type == "enemy" or target.entity_type == "box" or target.can_move:
-		target.handle_hit(self, damage_value)
+			if not charged:
+				if direction_y == 1:
+					target.velocity.y = -250 * randf_range(0.9, 1.1)
+				elif direction_y == -1:
+					target.velocity.y = -500 * randf_range(0.9, 1.1)
+			else:
+				if direction_y == 1:
+					target.velocity.y = -500 * randf_range(0.9, 1.1)
+				elif direction_y == -1:
+					target.velocity.y = -1000 * randf_range(0.9, 1.1)
 
 func toggle_direction_x():
 	direction_x *= -1

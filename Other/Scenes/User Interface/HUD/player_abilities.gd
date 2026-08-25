@@ -27,11 +27,11 @@ func _ready() -> void:
 	
 	add_charges(-20)
 	
-	Globals.refreshed4_0.connect(_on_debug_charges_add_pressed)
-	Globals.entity_collected.connect(_on_debug_charges_max_add_pressed)
-	Globals.entity_killed.connect(_on_debug_charges_add_10_pressed)
-	Globals.player_damage.connect(_on_debug_charges_subtract_10_pressed)
-	Globals.projectile_shot.connect(_on_debug_charges_subtract_pressed)
+	Globals.refreshed4_0.connect(on_refreshed4_0)
+	Globals.entity_collected.connect(on_entity_collected)
+	Globals.entity_killed.connect(on_entity_killed)
+	Globals.player_damage.connect(on_player_damage)
+	Globals.projectile_shot.connect(on_projectile_shot)
 	
 	check_projectile_charges()
 
@@ -211,3 +211,15 @@ func debug_show():
 	$"debug_charges_max -".visible = true
 	$slots_max.visible = true
 	$slots_active.visible = true
+
+
+func on_refreshed4_0():
+	pass
+func on_entity_collected():
+	pass
+func on_entity_killed():
+	pass
+func on_player_damage():
+	pass
+func on_projectile_shot():
+	pass

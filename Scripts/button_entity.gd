@@ -116,17 +116,3 @@ func reset_button():
 func press_button():
 	%AnimationPlayer.play("button_pressed_DOWN")
 	pressed = true
-
-
-#SAVE
-func save():
-	print(pressed)
-	var save_dict = {
-		"filename" : get_scene_file_path(),
-		"parent" : get_parent().get_path(),
-		"pos_x" : position.x, # Vector2 is not supported by JSON
-		"pos_y" : position.y,
-		"pressed" : pressed,
-	}
-	return save_dict
-#!SAVE

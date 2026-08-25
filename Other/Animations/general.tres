@@ -1,4 +1,4 @@
-[gd_resource type="AnimationLibrary" load_steps=19 format=3 uid="uid://dti27low163p0"]
+[gd_resource type="AnimationLibrary" load_steps=21 format=3 uid="uid://dti27low163p0"]
 
 [sub_resource type="Animation" id="Animation_snhod"]
 length = 0.001
@@ -951,6 +951,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id="Animation_ssudg"]
 resource_name = "shake"
+loop_mode = 1
 step = 0.01
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -963,6 +964,40 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
 "update": 0,
 "values": [Vector2(-5, 5), Vector2(-2, -5), Vector2(5, 0), Vector2(-5, 5), Vector2(3, -4), Vector2(1, 5), Vector2(-10, 10), Vector2(-4, -10), Vector2(10, 0), Vector2(-10, 10), Vector2(6, -8), Vector2(2, 10), Vector2(-10, 10), Vector2(-4, 10), Vector2(5, 0), Vector2(-5, 5), Vector2(3, -4), Vector2(1, 2), Vector2(-3, 2), Vector2(-2, -1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ulq5r"]
+resource_name = "shake_slight"
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.306667, 0.361, 0.406667, 0.456667, 0.506667, 0.556667, 0.6, 0.65, 0.71, 0.75, 0.8, 0.85, 0.906667, 0.956667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-1, -1), Vector2(-1, -2), Vector2(2, 0), Vector2(-1, 1), Vector2(3, -1), Vector2(1, 2), Vector2(-2, 2), Vector2(-1, -2), Vector2(2, 0), Vector2(-2, 2), Vector2(2, -1), Vector2(2, 2), Vector2(-2, 2), Vector2(-1, 2), Vector2(1, 0), Vector2(-1, 1), Vector2(3, -2), Vector2(1, 2), Vector2(-1, 2), Vector2(-2, -1), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_f87d6"]
+resource_name = "shake_weak"
+loop_mode = 1
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05, 0.1, 0.15, 0.2, 0.25, 0.306667, 0.361, 0.406667, 0.456667, 0.506667, 0.556667, 0.6, 0.65, 0.71, 0.75, 0.8, 0.85, 0.906667, 0.956667, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(-5, 5), Vector2(-1, -2), Vector2(5, 0), Vector2(-1, 1), Vector2(3, -1), Vector2(1, 2), Vector2(-2, 2), Vector2(-1, -2), Vector2(2, 0), Vector2(-2, 2), Vector2(6, -8), Vector2(2, 2), Vector2(-2, 2), Vector2(-4, 10), Vector2(1, 0), Vector2(-5, 5), Vector2(3, -4), Vector2(1, 2), Vector2(-1, 2), Vector2(-2, -1), Vector2(0, 0)]
 }
 
 [resource]
@@ -984,5 +1019,7 @@ _data = {
 &"rotate_away_up_right_scale_up": SubResource("Animation_mem6h"),
 &"scale_down_left_back_in": SubResource("Animation_6gli3"),
 &"scale_up_right_back_out": SubResource("Animation_5fc6u"),
-&"shake": SubResource("Animation_ssudg")
+&"shake": SubResource("Animation_ssudg"),
+&"shake_slight": SubResource("Animation_ulq5r"),
+&"shake_weak": SubResource("Animation_f87d6")
 }
