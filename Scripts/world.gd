@@ -118,6 +118,8 @@ func _ready():
 	
 	Globals.exit_activated.connect(level_finished)
 	
+	Globals.level_time_seconds = 0
+	
 	if Globals.mode_score_attack_active and not force_mode_score_attack_disable or force_mode_score_attack_enable:
 		Globals.spawn_scenes(self, load("res://Other/Game Modes/mode_score_attack.tscn"), 1, Vector2(0, 0), -1)
 		mode_score_attack_active = true
@@ -445,6 +447,8 @@ func level_finished():
 	get_tree().paused = true
 
 func level_failed():
+	if Globals.recorder_playback_active : return
+	
 	var screen_results = load("res://Other/Scenes/screen_results_level.tscn").instantiate()
 	screen_results.level_failed = true
 	screen_results.level_id = Globals.level_id

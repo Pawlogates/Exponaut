@@ -13,6 +13,8 @@ extends Control
 @onready var btn_change_source_online: Button = $container_bottom/container_top_menu/btn_change_source_online
 @onready var btn_change_source_local_best: Button = $container_bottom/container_top_menu/btn_change_source_local_best
 @onready var btn_change_player_name: Button = $btn_change_player_name
+@onready var label_please_refresh: Label = $label_please_refresh
+@onready var label_player_entry_position: Label = $label_player_entry_position
 
 
 var level_id : String = "none"
@@ -33,13 +35,17 @@ var entry_data : Array
 
 var recording_data_start_info : Dictionary
 
-
 var list_entry_filename : Array
 
 var source : String = "online" # "local, local_best, online
 
+var player_entry_position : int = -1 # The entry position of the best entry with a matching "player_name" (stored in SaveData).
+var total_entries : int = 0
+
 
 func _ready() -> void:
+	Globals.gameState_changed.connect(on_gameState_changed)
+	
 	btn_toggle_show_unnamed.visible = false
 	btn_toggle_show_developer.visible = false
 	btn_change_player_name.visible = false
@@ -71,12 +77,30 @@ func _ready() -> void:
 	
 	await get_tree().create_timer(2, true).timeout
 	
+	Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	var particle_stars = await Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	particle_stars.rotation_degrees = 180
+	
 	await create_entries(level_id)
-	Globals.server_to_dirpath(Globals.d_recordings_online)
+	
+	Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	particle_stars = await Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	particle_stars.rotation_degrees = 180
+	
 	await get_tree().create_timer(1.0, false).timeout
-	Globals.update_recordings_best()
+	await Globals.update_recordings_best()
+	
+	Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	particle_stars = await Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	particle_stars.rotation_degrees = 180
+	
 	await get_tree().create_timer(2.0, false).timeout
-	Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
+	await Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
+	
+	Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	particle_stars = await Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_special_multiple, 1, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
+	particle_stars.rotation_degrees = 180
+	Globals.spawn_scenes(btn_play_random_recording, Globals.scene_particle_star, 8, btn_play_random_recording.size / 2, 4, Color(0, 0, 0, 0), Vector2(1, 1))
 
 func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("menu"):
@@ -108,18 +132,23 @@ func entry_create(entry_data : Array, is_unnamed : bool = false, is_developer : 
 	entry.level_damage_taken = entry_data[3]
 	entry.entry_position = entry_data[4]
 	
-	if len(container_main.get_children()) == 0 : entry.target_modulate = Color.GOLD
-	elif len(container_main.get_children()) == 1 : entry.target_modulate = Color.LIGHT_CYAN
-	elif len(container_main.get_children()) == 2 : entry.target_modulate = Color.SADDLE_BROWN
-	else : entry.target_modulate = Color(1, 1, 1, 1 / float(-1 + len(container_main.get_children())))
+	#if len(container_main.get_children()) == 0 : entry.target_modulate = Color.GOLD
+	#elif len(container_main.get_children()) == 1 : entry.target_modulate = Color.LIGHT_CYAN
+	#elif len(container_main.get_children()) == 2 : entry.target_modulate = Color.SADDLE_BROWN
+	#else : entry.target_modulate = Color(1, 1, 1, 1 / float(-4 + len(container_main.get_children())))
 	
 	entry.scale *= 0.4
 	
 	container_main.add_child(entry)
+	container_main.move_child(entry, 0)
+	
+	total_entries += 1
 
 
 func create_entries(f_level_id : String = "all"):
 	Globals.set_nodes(self, Button, false)
+	
+	btn_play_random_recording.disabled = false
 	
 	var source_dirpath : String = "none"
 	
@@ -132,6 +161,12 @@ func create_entries(f_level_id : String = "all"):
 	elif source == "online":
 		list_entry_filename = Globals.get_files(Globals.d_recordings_online)
 		source_dirpath = Globals.d_recordings_online
+		
+		if is_instance_valid(label_please_refresh):
+			if len(list_entry_filename) < 250 : label_please_refresh.visible = true
+			else : label_please_refresh.visible = false
+	
+	total_entries = 0
 	
 	if len(list_entry_filename) > 0:
 		for entry_filename in list_entry_filename:
@@ -141,7 +176,7 @@ func create_entries(f_level_id : String = "all"):
 			entry_filepath = source_dirpath + "/" + entry_filename
 			entry_filedata = Globals.filepath_to_data(entry_filepath)
 			if entry_filedata == null : continue
-			entry_data = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], randi_range(1, 999)]
+			entry_data = [entry_filedata[0]["player_name"], entry_filedata[-1]["level_score"], entry_filedata[-1]["level_time"], entry_filedata[-1]["level_damage_taken"], total_entries + 1]
 			list_entry_data.append(entry_data)
 			
 			recording_data_start_info = entry_filedata[0]
@@ -168,13 +203,17 @@ func create_entries(f_level_id : String = "all"):
 				if len(container_main.get_children()) < 10:
 					await get_tree().create_timer(0.25, true).timeout
 				else:
-					await get_tree().create_timer(10 / len(container_main.get_children()), true).timeout
+					await get_tree().create_timer(4 / len(container_main.get_children()), true).timeout
 			
 			else:
-				await get_tree().create_timer(0.025, true).timeout
+				if show_unnamed:
+					await get_tree().create_timer(0.025, true).timeout
+			
+			label_player_entry_position.text = "The leaderboard is loading...\n\n" + "Your position:\n" + "unset" + " / " + str(total_entries)
 	
 	else:
-		entry_create(["Leaderboard offline.", -1, -1, -1, -1])
+		entry_create(["No recordings.", -1, -1, -1, -1])
+		Globals.server_to_dirpath(Globals.d_recordings_online)
 	
 	sort_entries("score")
 	
@@ -190,8 +229,10 @@ func create_entries(f_level_id : String = "all"):
 func delete_entries():
 	for entry in container_main.get_children():
 		entry.queue_free()
-		Globals.spawn_scenes(self, Globals.scene_particle_star, 4, entry.position + entry.size / 2 + Vector2(randi_range(-400, 400), 0))
-		Globals.spawn_scenes(self, Globals.scene_particle_splash, 4, entry.position + entry.size / 2 + Vector2(randi_range(-200, 200), 0), 4, Color.WHITE, Vector2(0, 0), 25, ["rotation_degrees"], [randi_range(0, 360)])
+		
+		if entry.entry_position < 10:
+			Globals.spawn_scenes(self, Globals.scene_particle_star, 4, entry.position + entry.size / 2 + Vector2(randi_range(-400, 400), 0))
+			Globals.spawn_scenes(self, Globals.scene_particle_splash, 4, entry.position + entry.size / 2 + Vector2(randi_range(-200, 200), 0), 4, Color.WHITE, Vector2(0, 0), 25, ["rotation_degrees"], [randi_range(0, 360)])
 
 
 func _on_btn_change_level_right_pressed() -> void:
@@ -237,9 +278,14 @@ func _on_btn_close_pressed() -> void:
 	Globals.handle_spawn_menu(true)
 
 
+var previous_best_player_entry_score : int = 0
+
 func sort_entries(type : String = "score"):
 	var highest_entry_position : int = 1
 	var list_entry : Array = container_main.get_children() # List of entries with position currently not set.
+	
+	player_entry_position = -1
+	previous_best_player_entry_score = 0
 	
 	for entry_quantity in container_main.get_children(): # Run through the loop as many times as there are entries in total for the level.
 		var highest_level_score : int = 0
@@ -250,6 +296,12 @@ func sort_entries(type : String = "score"):
 		for entry in list_entry:
 			if entry.level_score >= highest_level_score:
 				entry.entry_position = highest_entry_position
+				
+				if entry.player_name == SaveData.player_name:
+					if entry.level_score > previous_best_player_entry_score:
+						player_entry_position = entry.entry_position
+						previous_best_player_entry_score = entry.level_score
+				
 				container_main.move_child(entry, highest_entry_position)
 				entry.update_info()
 				list_entry.erase(entry)
@@ -257,11 +309,16 @@ func sort_entries(type : String = "score"):
 				highest_entry_position += 1
 				continue
 	
+	if player_entry_position != -1:
+		label_player_entry_position.text = SaveData.player_name + "\n\n" + "Your position:\n" + str(player_entry_position) + " / " + str(total_entries)
+	else:
+		label_player_entry_position.text = SaveData.player_name + "\n\n" + "Your position:\n" + "unset" + " / " + str(total_entries)
+	
 	for entry in container_main.get_children():
 		if entry.entry_position == 1 : entry.target_modulate = Color.GOLD
 		elif entry.entry_position == 2 : entry.target_modulate = Color.LIGHT_CYAN
 		elif entry.entry_position == 3 : entry.target_modulate = Color.SADDLE_BROWN
-		else : entry.target_modulate = Color(1, 1, 1, 1 / float(-1 + len(container_main.get_children())))
+		else : entry.target_modulate = Color(1, 1, 1, 1 / float(entry.entry_position))
 
 
 @onready var btn_toggle_show_unnamed: Button = $btn_toggle_show_unnamed
@@ -296,4 +353,29 @@ func is_entry_developer(recording_data_start_info : Dictionary):
 func _on_btn_change_player_name_pressed() -> void:
 	SaveData.player_name = "none"
 	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
+	queue_free()
+
+
+@onready var btn_play_random_recording: Button = $btn_play_random_recording
+@onready var shadow: Button = $btn_play_random_recording/shadow
+
+func _on_btn_play_random_recording_pressed() -> void:
+	container_main.get_children().pick_random()._on_btn_watch_replay_pressed()
+
+
+func _on_btn_play_random_recording_mouse_entered() -> void:
+	btn_play_random_recording.scale = Vector2(1.1, 1.1)
+	btn_play_random_recording.position.x -= 15
+	btn_play_random_recording.position.y -= 5
+	btn_play_random_recording.modulate = Color.ORANGE
+
+
+func _on_btn_play_random_recording_mouse_exited() -> void:
+	btn_play_random_recording.scale = Vector2(1.0, 1.0)
+	btn_play_random_recording.position.x += 15
+	btn_play_random_recording.position.y += 5
+	btn_play_random_recording.modulate = Color.WHITE
+
+
+func on_gameState_changed():
 	queue_free()

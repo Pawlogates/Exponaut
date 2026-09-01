@@ -45,12 +45,23 @@ func _physics_process(delta: float) -> void:
 
 func _on_btn_watch_replay_pressed() -> void:
 	if not FileAccess.file_exists(entry_filepath):
+		await get_tree().create_timer(1.0, true).timeout
 		Globals.message("The recording has been deleted (happens during leaderboard refresh...), please refresh the leaderboard and try again.")
+		await get_tree().create_timer(0.5, true).timeout
 		return
 	
 	get_tree().get_first_node_in_group("leaderboard_level").delete()
+	
 	await get_tree().create_timer(1.0, true).timeout
-	recorder_level.start_playback(entry_filepath)
+	
+	if not FileAccess.file_exists(entry_filepath):
+		await get_tree().create_timer(1.0, true).timeout
+		Globals.message("The recording has been deleted (happens during leaderboard refresh...), please refresh the leaderboard and try again.")
+		await get_tree().create_timer(0.5, true).timeout
+		return
+	
+	else:
+		recorder_level.start_playback(entry_filepath)
 
 
 func update_info():

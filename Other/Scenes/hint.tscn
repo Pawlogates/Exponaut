@@ -10,6 +10,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_filter = 2
 
 [node name="animation_all" parent="root" instance=ExtResource("1_2op3p")]
 autoplay = "general/loop_up_down_slight"
@@ -22,6 +23,7 @@ offset_top = -2.0
 offset_right = 59.0
 offset_bottom = 6.0
 rotation = -0.523599
+mouse_filter = 2
 
 [node name="ColorRect2" type="ColorRect" parent="root/main"]
 offset_left = -45.0
@@ -29,6 +31,7 @@ offset_top = -32.0
 offset_right = 15.0
 offset_bottom = -24.0
 rotation = 0.523599
+mouse_filter = 2
 
 [node name="bg" type="Node2D" parent="root"]
 modulate = Color(0, 0, 0, 1)
@@ -41,6 +44,7 @@ offset_top = -2.0
 offset_right = 59.0
 offset_bottom = 6.0
 rotation = -0.523599
+mouse_filter = 2
 
 [node name="ColorRect2" type="ColorRect" parent="root/bg"]
 offset_left = -45.0
@@ -48,6 +52,7 @@ offset_top = -32.0
 offset_right = 15.0
 offset_bottom = -24.0
 rotation = 0.523599
+mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="root"]
 modulate = Color(0, 0, 0, 1)
@@ -57,5 +62,6 @@ offset_left = -64.0
 offset_top = -68.0
 offset_right = 64.0
 offset_bottom = 60.0
+mouse_filter = 2
 texture = ExtResource("2_lixv7")
 expand_mode = 1

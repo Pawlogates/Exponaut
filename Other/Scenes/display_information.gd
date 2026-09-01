@@ -11,8 +11,8 @@ func _ready() -> void:
 		if Globals.node_exists("screen_results_level") and Globals.gameState_level:
 			position += Vector2(1675, 525)
 	
-	#if not Globals.gameState_levelSet_screen:
-		#if Globals.random_bool(1, 4) : queue_free()
+	if not Globals.gameState_levelSet_screen:
+		if Globals.random_bool(1, 3) : queue_free()
 	
 	if Globals.gameState_level or Globals.gameState_levelSet_screen:
 		
@@ -25,7 +25,7 @@ func _ready() -> void:
 						position.y += 325
 					else:
 						position.x += 65
-						position.y += -200
+						position.y += -185
 					
 				else:
 					if not menu.manual_request:

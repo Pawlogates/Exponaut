@@ -181,7 +181,7 @@ color = Color(0, 0, 0, 1)
 
 [node name="count_sfx_manager" parent="." instance=ExtResource("6_v7v63")]
 
-[node name="text_manager" parent="." instance=ExtResource("8_dvvxr")]
+[node name="message_continue" parent="." instance=ExtResource("8_dvvxr")]
 modulate = Color(1, 1, 1, 0.588235)
 offset_left = 64.0
 offset_top = 880.0
@@ -189,7 +189,7 @@ offset_bottom = -104.0
 text_full = "[anim_rotate_around_y_fade_out]PRESS SPACE TO CONTINUE..."
 text_animation_sync = false
 text_font_size = 46
-cooldown_create_message = 4.0
+cooldown_create_message = 8.0
 character_anim_speed_scale = 2.0
 character_anim_backwards = true
 

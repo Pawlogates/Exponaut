@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://b6qswotncgfjk"]
+[gd_scene load_steps=15 format=3 uid="uid://b6qswotncgfjk"]
 
 [ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="1_31nnm"]
 [ext_resource type="Script" uid="uid://l0b1e8ll85n5" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.gd" id="1_smdru"]
@@ -8,6 +8,16 @@
 [ext_resource type="PackedScene" uid="uid://c18ilvvgo4lyp" path="res://Other/Scenes/User Interface/Menus/menu_leaderboard_button_change_source.tscn" id="4_bu7xr"]
 [ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="5_1qj11"]
 [ext_resource type="PackedScene" uid="uid://d3vw0viv0fpu7" path="res://Other/Scenes/hint.tscn" id="8_xcvuo"]
+[ext_resource type="Shader" uid="uid://5wt7uyqwtbe" path="res://Other/Shaders/rainbow_effect2.gdshader" id="9_inrld"]
+[ext_resource type="Texture2D" uid="uid://5133ouyu2ink" path="res://Assets/Graphics/icons/on_death_spawn_entity_velocity.png" id="10_q3lku"]
+[ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/other/star.png" id="11_0cuwm"]
+[ext_resource type="PackedScene" uid="uid://bgcgpxrksdo80" path="res://Other/Scenes/animation_gear.tscn" id="12_o5kb1"]
+[ext_resource type="Texture2D" uid="uid://d2x6dinwyyaye" path="res://Assets/Graphics/other/star2.png" id="13_j8uh0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_q3lku"]
+shader = ExtResource("9_inrld")
+shader_parameter/strength = 0.1
+shader_parameter/speed = 0.25
 
 [node name="menu_leaderboard_level" type="Control" groups=["leaderboard", "leaderboard_level"]]
 layout_mode = 3
@@ -251,6 +261,7 @@ offset_left = -3409.0
 offset_top = -1720.0
 offset_right = -1489.0
 offset_bottom = -640.0
+rotation = 0.174533
 scale = Vector2(4, 4)
 mouse_filter = 2
 color = Color(0, 0, 0, 0.443137)
@@ -311,9 +322,224 @@ theme = ExtResource("3_yq05p")
 theme_override_font_sizes/font_size = 24
 text = "change player name"
 
+[node name="btn_play_random_recording" type="Button" parent="."]
+material = SubResource("ShaderMaterial_q3lku")
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 100.0
+offset_top = -50.0
+offset_right = 500.0
+offset_bottom = 50.0
+grow_horizontal = 0
+grow_vertical = 2
+size_flags_horizontal = 6
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 32
+text = "Play a RANDOM recording!"
+
+[node name="shadow" type="Button" parent="btn_play_random_recording"]
+z_index = -1
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 404.0
+offset_bottom = 104.0
+size_flags_horizontal = 6
+mouse_filter = 2
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Play a RANDOM recording!"
+
+[node name="shadow2" type="Button" parent="btn_play_random_recording"]
+z_index = -1
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 396.0
+offset_bottom = 96.0
+size_flags_horizontal = 6
+mouse_filter = 2
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Play a RANDOM recording!"
+
+[node name="shadow3" type="Button" parent="btn_play_random_recording"]
+z_index = -1
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = 4.0
+offset_top = -4.0
+offset_right = 404.0
+offset_bottom = 96.0
+size_flags_horizontal = 6
+mouse_filter = 2
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Play a RANDOM recording!"
+
+[node name="shadow4" type="Button" parent="btn_play_random_recording"]
+z_index = -1
+custom_minimum_size = Vector2(400, 100)
+layout_mode = 0
+offset_left = -4.0
+offset_top = 4.0
+offset_right = 396.0
+offset_bottom = 104.0
+size_flags_horizontal = 6
+mouse_filter = 2
+theme = ExtResource("3_yq05p")
+theme_override_font_sizes/font_size = 32
+disabled = true
+text = "Play a RANDOM recording!"
+
+[node name="hint" parent="btn_play_random_recording" instance=ExtResource("8_xcvuo")]
+position = Vector2(192, -32)
+
+[node name="label_please_refresh" type="Label" parent="."]
+z_index = 50
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -555.0
+offset_top = 150.0
+offset_right = -27.0
+offset_bottom = 278.0
+grow_vertical = 2
+theme = ExtResource("2_budsj")
+theme_override_font_sizes/font_size = 24
+text = "Leaderboard is missing entries.
+Please REFRESH the online leaderboard."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="label_player_entry_position" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = -580.0
+offset_top = -100.0
+offset_bottom = 100.0
+grow_vertical = 2
+theme = ExtResource("2_budsj")
+theme_override_font_sizes/font_size = 40
+text = "The leaderboard is loading...
+(player entry pos) / (total)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="bg_icon" type="TextureRect" parent="label_player_entry_position"]
+modulate = Color(1, 0.380392, 0, 0.129412)
+z_index = -5
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.785398
+pivot_offset = Vector2(200, 200)
+texture = ExtResource("10_q3lku")
+
+[node name="bg_icon_shadow" type="TextureRect" parent="label_player_entry_position"]
+modulate = Color(0, 0, 0, 0.666667)
+z_index = -10
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -160.0
+offset_top = -160.0
+offset_right = 160.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+rotation = 0.785398
+pivot_offset = Vector2(160, 160)
+texture = ExtResource("10_q3lku")
+
+[node name="bg_stars" type="Control" parent="label_player_entry_position"]
+modulate = Color(1, 1, 1, 0.0392157)
+z_index = -6
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bg_star" type="TextureRect" parent="label_player_entry_position/bg_stars"]
+z_index = -7
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -225.0
+offset_top = -225.0
+offset_right = 225.0
+offset_bottom = 225.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(240, 240)
+texture = ExtResource("11_0cuwm")
+expand_mode = 1
+
+[node name="animation_gear" parent="label_player_entry_position/bg_stars/bg_star" instance=ExtResource("12_o5kb1")]
+autoplay = "rotate_forwardAndBack"
+
+[node name="bg_star2" type="TextureRect" parent="label_player_entry_position/bg_stars"]
+z_index = -8
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -250.0
+offset_top = -250.0
+offset_right = 250.0
+offset_bottom = 250.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(250, 250)
+texture = ExtResource("13_j8uh0")
+
+[node name="animation_gear" parent="label_player_entry_position/bg_stars/bg_star2" instance=ExtResource("12_o5kb1")]
+autoplay = "rotate"
+
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_left" to="." method="_on_btn_change_level_left_pressed"]
 [connection signal="pressed" from="container_top/container_top_menu/btn_change_level_right" to="." method="_on_btn_change_level_right_pressed"]
 [connection signal="pressed" from="btn_close" to="." method="_on_btn_close_pressed"]
 [connection signal="pressed" from="btn_toggle_show_unnamed" to="." method="_on_btn_toggle_show_unnamed_pressed"]
 [connection signal="pressed" from="btn_toggle_show_developer" to="." method="_on_btn_toggle_show_developer_pressed"]
 [connection signal="pressed" from="btn_change_player_name" to="." method="_on_btn_change_player_name_pressed"]
+[connection signal="mouse_entered" from="btn_play_random_recording" to="." method="_on_btn_play_random_recording_mouse_entered"]
+[connection signal="mouse_exited" from="btn_play_random_recording" to="." method="_on_btn_play_random_recording_mouse_exited"]
+[connection signal="pressed" from="btn_play_random_recording" to="." method="_on_btn_play_random_recording_pressed"]

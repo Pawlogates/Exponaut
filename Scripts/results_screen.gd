@@ -1,23 +1,24 @@
 extends CanvasLayer
 
-@onready var sfx_manager: Node2D = $sfx_manager
-@onready var container_results: VBoxContainer = $container_results
-@onready var label_score: RichTextLabel = $container_results/label_score
-@onready var label_score_total: RichTextLabel = $container_results/label_score_total
-@onready var label_time: RichTextLabel = $container_results/label_time
-@onready var label_time_total: RichTextLabel = $container_results/label_time_total
-@onready var container_majorCollectables: HBoxContainer = %container_majorCollectables
-
 @onready var container_rank: VBoxContainer = %container_rank
 @onready var label_rank: RichTextLabel = $container_rank/label_rank
 @onready var label_score_segment: RichTextLabel = $container_rank/label_score_segment
 @onready var label_score_target: RichTextLabel = $container_rank/label_score_target
 
+@onready var label_score: RichTextLabel = $container_results/label_score
+@onready var label_score_total: RichTextLabel = $container_results/label_score_total
+@onready var label_time: RichTextLabel = $container_results/label_time
+@onready var label_time_total: RichTextLabel = $container_results/label_time_total
+@onready var container_majorCollectables: HBoxContainer = %container_majorCollectables
+@onready var label_score_previous_best: RichTextLabel = $container_results/label_score_previous_best
+@onready var label_time_previous_best: RichTextLabel = $container_results/label_time_previous_best
+
 @onready var animation_ui: AnimationPlayer = $animation_ui
 @onready var container_level_finished: Control = $container_level_finished
 @onready var label_level_finished: Control = $container_level_finished/text_core
-@onready var label_score_previous_best: RichTextLabel = $container_results/label_score_previous_best
-@onready var label_time_previous_best: RichTextLabel = $container_results/label_time_previous_best
+@onready var sfx_manager: Node2D = $sfx_manager
+@onready var container_results: VBoxContainer = $container_results
+@onready var message_continue: Control = $message_continue
 
 
 var level_id : String = "DEBUG_-1"
@@ -58,7 +59,7 @@ func _ready():
 			label_level_finished.text_main = "THAT SCORE REALLY GOT TO YOU, HUH?"
 			label_level_finished.update_text()
 		else:
-			label_level_finished["theme_override_font_sizes/normal_font_size"] = 80
+			label_level_finished["theme_override_font_sizes/normal_font_size"] = 75
 			label_level_finished.text_main = "YOU GOT SCORE ATTACKED TO DEATH, BUMMER!"
 			label_level_finished.update_text()
 	
@@ -79,8 +80,8 @@ func _ready():
 			label_level_finished.text_main = "YOU CALL THAT A SCORE?"
 			label_level_finished.update_text()
 		elif Globals.get_random_bool(25):
-			label_level_finished["theme_override_font_sizes/normal_font_size"] = 80
-			label_level_finished.text_main = "DAMN, I WAS STARTING TO LOSE HOPE HONESTLY..."
+			label_level_finished["theme_override_font_sizes/normal_font_size"] = 75
+			label_level_finished.text_main = "I WAS STARTING TO LOSE HOPE HONESTLY..."
 			label_level_finished.update_text()
 		elif Globals.get_random_bool(25):
 			label_level_finished.text_main = "FINALLY..."
@@ -92,28 +93,30 @@ func _ready():
 			label_level_finished.text_main = "I GUESS..."
 			label_level_finished.update_text()
 	
-	if level_failed:
-		$text_manager.cooldown_create_message = randf_range(0.5, 2.5)
-		$text_manager.character_anim_speed_scale = randf_range(1.0, 8.0)
+	
+	if level_failed and is_instance_valid(message_continue):
+		message_continue.cooldown_create_message = randf_range(0.5, 2.5)
+		message_continue.character_anim_speed_scale = randf_range(1.0, 8.0)
 		var l_animation_name : Array = ["rotate_around_y_fade_out", "rotate_away_up_right", "rotate_away_up_right_scale_up"]
-		$text_manager.text_full = $text_manager.text_full.replace("rotate_around_y_fade_out", l_animation_name.pick_random())
-		$text_manager.character_bg_simple = Globals.get_random_bool(25)
+		message_continue.text_full = message_continue.text_full.replace("rotate_around_y_fade_out", l_animation_name.pick_random())
+		message_continue.character_bg_simple = Globals.get_random_bool(25)
 		
-		if Globals.get_random_bool(10) : $text_manager.cooldown_next_character = randf_range(0.01, 0.25)
-		else : $text_manager.cooldown_next_character = randf_range(0.005, 0.1)
-		var list_message_end : Array = [" TRY AGAIN...", " RESTART.", " RETRY.", " RESTART THE LEVEL.", " TRY AGAIN. YOU CAN DO IT!", " GIVE AN ENCORE!", "... ENCORE?", " HAVE ANOTHER CRACK AT THIS!", " SHOW HOW MUCH THIS WAS SIMPLY A ONE-TIME ACCIDENT.", " DO IT CORRECTLY THIS TIME... HOPEFULLY.", " TO MAKE UP FOR THIS... TRULY HORRID PERFORMANCE.", "... MAN, AT THIS POINT I GOTTA SAY, ITS PRETTY HOPELESS.", "... OH COME ON! THERE'S NO WAY YOU FUMBLED IT QUITE THIS BADLY ON ACCIDENT... RIGHT?"]
+		if Globals.get_random_bool(10) : message_continue.cooldown_next_character = randf_range(0.01, 0.25)
+		else : message_continue.cooldown_next_character = randf_range(0.005, 0.1)
+		var list_message_end : Array = [" TRY AGAIN...", " RESTART.", " RETRY.", " RESTART THE LEVEL.", " TRY AGAIN. YOU CAN DO IT!", " GIVE AN ENCORE!", "... ENCORE?", " HAVE ANOTHER CRACK AT THIS!", " SHOW HOW MUCH THIS WAS SIMPLY A ONE-TIME ACCIDENT.", " DO IT CORRECTLY THIS TIME... HOPEFULLY.", " MAKE UP FOR THIS... TRULY HORRID PERFORMANCE.", "... MAN, AT THIS POINT I GOTTA SAY, ITS PRETTY HOPELESS.", "... OH COME ON! THERE'S NO WAY YOU FUMBLED IT QUITE THIS BADLY ON ACCIDENT... RIGHT?"]
 		var message_end : String
 		if Globals.get_random_bool(20) : message_end = [" TRY AGAIN...", " RESTART.", " RETRY.", " RESTART THE LEVEL.", " TRY AGAIN. YOU CAN DO IT!"].pick_random()
-		elif Globals.get_random_bool(10) : message_end = [" TRY AGAIN...", " RESTART.", " RETRY.", " RESTART THE LEVEL.", " TRY AGAIN. YOU CAN DO IT!", " TO GIVE AN ENCORE!", "... ENCORE?", " HAVE ANOTHER CRACK AT THIS!", " SHOW HOW MUCH THIS WAS SIMPLY A ONE-TIME ACCIDENT.", " DO IT CORRECTLY THIS TIME... HOPEFULLY."].pick_random()
+		elif Globals.get_random_bool(10) : message_end = [" TRY AGAIN...", " RESTART.", " RETRY.", " RESTART THE LEVEL.", " TRY AGAIN. YOU CAN DO IT!", " GIVE AN ENCORE!", "... ENCORE?", " HAVE ANOTHER CRACK AT THIS!", " SHOW HOW MUCH THIS WAS SIMPLY A ONE-TIME ACCIDENT.", " DO IT CORRECTLY THIS TIME... HOPEFULLY."].pick_random()
 		else : message_end = list_message_end.pick_random()
-		if len(message_end) > 40 : $text_manager.text_font_size = 26 ; $text_manager.scale *= 0.85 ; $text_manager.position.x += 110
-		else : $text_manager.text_font_size = 46
+		if len(message_end) > 40 : message_continue.text_font_size = 26 ; message_continue.scale *= 0.85 ; message_continue.position.x += 110
+		else : message_continue.text_font_size = 46
 		
-		$text_manager.text_full = $text_manager.text_full.replace(" CONTINUE...", message_end)
-		$text_manager.create_message()
+		message_continue.text_full = message_continue.text_full.replace(" CONTINUE...", message_end)
+		message_continue.create_message()
 	
 	else:
-		if Globals.level_id == "TUTORIAL_6" : $text_manager.queue_free()
+		if Globals.level_id == "TUTORIAL_6":
+			if is_instance_valid(message_continue) : message_continue.queue_free()
 	
 	Globals.gameState_changed.connect(delete)
 	
@@ -167,10 +170,11 @@ func _ready():
 	
 	if Globals.random_bool(3, 1) or Globals.level_id == "TUTORIAL_2" or Globals.level_id == "TUTORIAL_3":
 		Globals.server_to_dirpath(Globals.d_recordings_online)
-		await get_tree().create_timer(2.0, false).timeout
-		Globals.update_recordings_best()
-		await get_tree().create_timer(4.0, false).timeout
-		Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
+	
+	await get_tree().create_timer(2.0, false).timeout
+	await Globals.update_recordings_best()
+	await get_tree().create_timer(4.0, false).timeout
+	Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
 
 
 var level_score_displayed = 0
@@ -179,7 +183,7 @@ func _physics_process(delta):
 	if Globals.level_time_seconds < 2 : return
 	
 	if show_results_active and level_failed:
-		container_level_finished.position.y = lerp(container_level_finished.position.y, -290.0, delta * 2)
+		container_level_finished.position.y = lerp(container_level_finished.position.y, -305.0, delta * 2)
 	
 	if Input.is_action_just_pressed("jump"):
 		if Input.is_action_pressed("move_up") : return
@@ -233,11 +237,11 @@ func _on_cooldown_show_results_timeout() -> void:
 	if level_failed:
 		if Globals.get_random_bool(25) and Globals.level_collected_collectibles:
 			Globals.restart_level()
-			$text_manager.text_full = "TRY AGAIN!"
-			$text_manager.cooldown_create_message = randf_range(0.05, 0.5)
-			$text_manager.character_anim_speed_scale = randf_range(4.0, 8.0)
-			$text_manager.cooldown_next_character = randf_range(0.005, 0.01)
-			$text_manager.create_message()
+			message_continue.text_full = "TRY AGAIN!"
+			message_continue.cooldown_create_message = randf_range(0.05, 0.5)
+			message_continue.character_anim_speed_scale = randf_range(4.0, 8.0)
+			message_continue.cooldown_next_character = randf_range(0.005, 0.01)
+			message_continue.create_message()
 			return
 		
 		else:
@@ -345,8 +349,12 @@ func on_score_displayed_set():
 	
 	await get_tree().create_timer(2.0, true).timeout
 	
-	#Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.tscn"), 1, Vector2(0, 0), -1)
-	Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 300), Vector2(1, 1), false)
+	if Globals.level_id != "TUTORIAL_6" and SaveData.get("saved_" + Globals.level_id)[0] <= 2 and not level_failed and Globals.level_collectibles > 10: # Checks whether the level has been fully cleared already.
+		Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.tscn"), 1, Vector2(0, 0), -1)
+		message_continue.queue_free()
+	
+	else:
+		Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 300), Vector2(1, 1), false)
 
 
 @onready var count_sfx_manager: Node2D = $count_sfx_manager

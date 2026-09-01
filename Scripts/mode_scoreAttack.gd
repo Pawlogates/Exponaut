@@ -38,7 +38,7 @@ func _ready():
 	if Globals.level_collectibles in [0, -1]:
 		await get_tree().create_timer(2.5, true).timeout
 	else:
-		await get_tree().create_timer(0.5, true).timeout
+		await get_tree().create_timer(1.0, true).timeout
 	
 	active = true
 	visible = true
@@ -81,7 +81,7 @@ func _process(delta):
 	if penalty_multiplier > 64 : label_penalty_multiplier.modulate = Color.ORANGE
 	if game_over : label_penalty_multiplier.modulate = Color.RED
 	
-	if Globals.combo_tier == 5:
+	if Globals.combo_tier >= 10:
 		
 		if penalty_multiplier != 1:
 			Globals.spawn_scenes(self, Globals.scene_particle_special2_multiple)
@@ -112,7 +112,7 @@ var max_combo_tier = false
 func _on_score_attack_penalty_multiplier_timeout():
 	if game_over : return
 	
-	if not max_combo_tier:
+	if active and not max_combo_tier:
 		penalty_multiplier *= 2
 		if penalty_multiplier > 64:
 			label_penalty_multiplier.position.x -= 16
@@ -159,7 +159,9 @@ func enemyHit_reset_penaltyMultiplier():
 
 func _on_score_attack_time_left_reduction_timeout():
 	if not game_over:
-		penalty_total += penalty_base * penalty_multiplier
+		if active and not max_combo_tier:
+			penalty_total += penalty_base * penalty_multiplier
+		
 		score = 1000 + Globals.level_score - penalty_total
 		if score < 0 : score = 0
 	

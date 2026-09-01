@@ -1206,7 +1206,7 @@ func handle_spawn_menu(manual_request : bool = false):
 		
 		if gameState_scoring_focus:
 			if gameState_level:
-				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 300), Vector2(1, 1), manual_request)
+				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Select Level Set", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 285), Vector2(1, 1), manual_request)
 				return
 			elif gameState_levelSet_screen:
 				spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 340), Vector2(1, 1), manual_request)
@@ -1217,7 +1217,9 @@ func handle_spawn_menu(manual_request : bool = false):
 			return
 	
 	if gameState_level:
-		return
+		if not gameState_justStarted and level_time_seconds > 10:
+			print(level_time_seconds)
+			spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 285), Vector2(1, 1), manual_request)
 	
 	elif gameState_levelSet_screen:
 		spawn_menu(scene_menu_main, ["Start New Game", "Continue", "Resume game", "Level Set Screen", "Back to Overworld", "Settings", "Quit to Main Menu", "Close", "Touch Controls", "next_level", "retry"], Vector2(0, 340), Vector2(1, 1), manual_request)
@@ -1665,6 +1667,8 @@ func update_recordings_best():
 	#for f_levelSet_id in l_levelSet_id:
 	var f_levelSet_id : String = levelSet_id
 	for level_number in range(1, SaveData.get("info_" + f_levelSet_id)[1] + 1):
+		#await get_tree().create_timer(0.05, true).timeout
+		
 		var f_level_id = f_levelSet_id + "_" + str(level_number)
 		if SaveData.get("saved_" + f_level_id)[0] == -1 : continue
 		
@@ -1674,7 +1678,7 @@ func update_recordings_best():
 		var recording_level_best_score_filedata = filepath_to_data(recording_level_best_score_filepath)
 		save_file(recording_level_best_score_filepath.replace("recordings/local", "recordings/local/best"), recording_level_best_score_filedata)
 		
-		await get_tree().create_timer(0.05, true).timeout
+		#await get_tree().create_timer(0.05, true).timeout
 
 
 func dirpath_to_server(dirpath : String, server_route : String = "upload"):

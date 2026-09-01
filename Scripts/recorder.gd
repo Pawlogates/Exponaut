@@ -657,6 +657,9 @@ func stop_playback():
 	Globals.dm("Playback has finished - %s." % playback_filename)
 	
 	Engine.time_scale = 1.0
+	
+	if Globals.node_exists("screen_results_level") : return
+	Globals.exit_activated.emit()
 
 
 func update_playback_filepath(type : String = "level"):
@@ -770,6 +773,10 @@ func playback_advance(delta : float):
 			return
 	
 	elif current_entry["type"] == "start_info":
+		if current_entry["screen_refreshrate"] > 185 : playback_speed_multiplier = 4
+		elif current_entry["screen_refreshrate"] > 125 : playback_speed_multiplier = 3
+		elif current_entry["screen_refreshrate"] > 65 : playback_speed_multiplier = 2
+		
 		Globals.change_main_scene(current_entry["scene_filepath"])
 		await get_tree().create_timer(5.0, true).timeout
 	

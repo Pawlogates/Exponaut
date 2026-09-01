@@ -58,7 +58,7 @@ func message_show(message_text, pause_duration : float = 4.0, message_add_pos : 
 	
 	if not is_instance_valid(Globals.Player) : return
 	
-	if pause_duration: # Set to "0.0" to disable all pause and camera-related effects.
+	if pause_duration and not Globals.recorder_playback_active: # Set to "0.0" to disable all pause and camera-related effects.
 		get_tree().paused = true
 		Overlay.animation("black_transparent_fade_in")
 		Globals.Player.camera.effect(camera_target_offset, camera_target_zoom, camera_target_rotation, camera_start_speed_multiplier)

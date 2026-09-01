@@ -42,6 +42,7 @@ offset_bottom = 128.0
 [node name="label_info_player_name" type="Label" parent="playback_info/playback_info_top"]
 layout_mode = 2
 theme = ExtResource("3_b84cl")
+theme_override_font_sizes/font_size = 32
 text = "none"
 vertical_alignment = 1
 
@@ -49,6 +50,7 @@ vertical_alignment = 1
 modulate = Color(1, 1, 1, 0.415686)
 layout_mode = 2
 theme = ExtResource("3_b84cl")
+theme_override_font_sizes/font_size = 32
 text = "none"
 vertical_alignment = 1
 

@@ -96,7 +96,11 @@ func _ready() -> void:
 	
 	if level_info[5]:
 		mark_mode_score_attack.modulate.a = 1
-		material = Globals.material_rainbow
+		#mark_mode_score_attack.material = Globals.material_rainbow
+		#mark_mode_score_attack.material.set_shader_parameter("strength", 0.1)
+	
+	elif level_id in ["TUTORIAL_4", "TUTORIAL_5", "TUTORIAL_6"]:
+		mark_mode_score_attack.modulate.a = 0
 
 func _physics_process(delta: float) -> void:
 	center_pos = position + size / 2

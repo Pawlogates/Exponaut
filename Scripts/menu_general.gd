@@ -70,6 +70,11 @@ func _ready() -> void:
 		for node in get_tree().get_nodes_in_group("menu_main"):
 			if node != self : node.queue_free()
 	
+	await get_tree().create_timer(1.0, true).timeout
+	
+	if Globals.node_exists("screen_results_level"):
+		if Globals.node_exists("UI_button_resume") : get_tree().get_first_node_in_group("UI_button_resume").queue_free()
+	
 	await get_tree().create_timer(randf_range(15, 30), true).timeout
 	
 	Globals.message("Press ESC to close the menu.", 0, Vector2(0, 105), 6, 4)
@@ -305,6 +310,7 @@ func _on_btn_resume_game_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
 	
 	Globals.handle_pause()
+	delete_menu()
 
 func _on_btn_level_set_screen_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
@@ -450,6 +456,7 @@ func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
 
 func delete_menu(): # Will add some menu deletion effect making heavy use of the general tween tool (doesn't exist yet) for each button.
 	get_tree().paused = false
+	Globals.set_mouse_mode(false)
 	
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = false
 	
