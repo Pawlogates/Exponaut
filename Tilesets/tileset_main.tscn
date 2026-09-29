@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://c04omo3n0mpkt" path="res://Tilesets/tileset_main.tres" id="1_m3yry"]
 [ext_resource type="Script" uid="uid://cho1ckpr6qcei" path="res://Tilesets/tileset_main.gd" id="2_c51kl"]
 
-[node name="tileset_main" type="TileMap"]
+[node name="tileset_main" type="TileMap" groups=["tileset"]]
 texture_filter = 1
 tile_set = ExtResource("1_m3yry")
 rendering_quadrant_size = 64

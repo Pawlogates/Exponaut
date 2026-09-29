@@ -1,8 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://cs7hc4rry3lqm"]
+[gd_scene load_steps=11 format=3 uid="uid://cs7hc4rry3lqm"]
 
 [ext_resource type="Script" uid="uid://paaly4yxp46h" path="res://Scripts/button_entity.gd" id="1_mgsvc"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_fcsny"]
 [ext_resource type="AudioStream" uid="uid://bilg5ydaxop7y" path="res://Assets/Sounds/sfx/button_pressed.wav" id="3_bscmb"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="4_cg6di"]
 
 [sub_resource type="Animation" id="Animation_47lem"]
 length = 0.001
@@ -102,6 +103,8 @@ one_shot = true
 [node name="sound_buttonPressed" type="AudioStreamPlayer2D" parent="."]
 unique_name_in_owner = true
 stream = ExtResource("3_bscmb")
+
+[node name="handle_offscreen" parent="." instance=ExtResource("4_cg6di")]
 
 [connection signal="area_entered" from="button_red/Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

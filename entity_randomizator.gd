@@ -87,5 +87,3 @@ func _ready():
 				entity.set(property_name, randf_range(2, 24))
 			elif property_name == "text_next_character_cooldown":
 				entity.set(property_name, randf_range(0.01, 2))
-	
-	SaveData.save_file(Globals.dirpath_saves + "/" + "properties.json", d_properties_all, true)

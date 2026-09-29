@@ -1,10 +1,10 @@
 extends Node2D
 
-@onready var sfx: AudioStreamPlayer = $sfx
-@onready var sfx1: AudioStreamPlayer = $sfx1
-@onready var sfx2: AudioStreamPlayer = $sfx2
-@onready var sfx3: AudioStreamPlayer = $sfx3
-@onready var sfx4: AudioStreamPlayer = $sfx4
+@onready var sfx: Node = $sfx
+@onready var sfx1: Node = $sfx1
+@onready var sfx2: Node = $sfx2
+@onready var sfx3: Node = $sfx3
+@onready var sfx4: Node = $sfx4
 
 # As soon as any of these variables are assigned an audio file, the sfx manager will try to use them and clear the variable.
 var q_sfx_file : AudioStreamMP3 # Usually only the "sfx" variable is used. Other ones are used if more than one instance of the same file is assigned to the main sfx player, but they can also be assigned audio files directly to create combined sound effects made from fading in and out of sfx1, 2, 3 and 4.
@@ -67,7 +67,7 @@ func sfx_combined_fade(delta):
 
 func handle_play_sound(sfx_player : Node, filepath : String, volume : float = 1.0, pitch : float = 1.0):
 	sfx_player.stream = load(filepath)
-	if Globals.gameState_debug : sfx_player.volume_linear = volume * 0.1
-	else : sfx_player.volume_linear = volume * 0.75
-	sfx_player.pitch_scale = pitch
+	if Globals.gameState_debug : sfx_player.volume_linear = volume * 0.25
+	else : sfx_player.volume_linear = volume * randf_range(0.95, 1.05)
+	sfx_player.pitch_scale = pitch * randf_range(0.95, 1.05)
 	sfx_player.play()

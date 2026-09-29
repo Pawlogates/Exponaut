@@ -1,7 +1,10 @@
-[gd_resource type="Theme" format=3 uid="uid://8i27k6tj1d3o"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://8i27k6tj1d3o"]
+
+[ext_resource type="FontFile" uid="uid://lvrd1x5lxqb8" path="res://Other/Fonts/SairaStencil_SemiCondensed-Medium.ttf" id="1_idsnt"]
 
 [resource]
-default_font_size = 24
+default_font = ExtResource("1_idsnt")
+default_font_size = 40
 Button/constants/outline_size = 4
 Button/font_sizes/font_size = 24
 Label/colors/font_shadow_color = Color(0, 0, 0, 0.7)

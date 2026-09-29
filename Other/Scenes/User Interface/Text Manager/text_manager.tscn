@@ -30,3 +30,4 @@ one_shot = true
 one_shot = true
 
 [connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]
+[connection signal="timeout" from="cooldown_create_message" to="." method="_on_cooldown_create_message_timeout"]

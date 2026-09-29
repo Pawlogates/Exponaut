@@ -1,9 +1,10 @@
-[gd_scene load_steps=8 format=3 uid="uid://bftpinyt3ba4w"]
+[gd_scene load_steps=9 format=3 uid="uid://bftpinyt3ba4w"]
 
 [ext_resource type="Script" uid="uid://bo73bryxhfnk8" path="res://Other/Scenes/display_information.gd" id="1_fvvwl"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_ky7ft"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="3_2twy5"]
 [ext_resource type="PackedScene" uid="uid://41015ioi3b3" path="res://Other/Scenes/User Interface/Menus/menu_single_button_display_information.tscn" id="3_fvvwl"]
+[ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="5_rgd4f"]
 [ext_resource type="Texture2D" uid="uid://bl3hgxl8owky7" path="res://Assets/Graphics/icons/icon_discord.png" id="5_yy13d"]
 
 [sub_resource type="Gradient" id="Gradient_2twy5"]
@@ -32,7 +33,7 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_bottom = 40.0
+offset_bottom = 64.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
@@ -50,15 +51,17 @@ offset_bottom = -24.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ky7ft")
+theme_override_constants/paragraph_spacing = -4
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
-theme_override_constants/outline_size = 7
+theme_override_constants/outline_size = 10
 theme_override_constants/shadow_outline_size = 0
-theme_override_font_sizes/font_size = 18
-text = "Want to share your replay with
-others, or find new scoring strategies?
+theme_override_font_sizes/font_size = 22
+text = "Please let me know what you
+think about the game!
 
-Feel free to join the
+You can message me on discord
+directly (pawlogates), or join the
 Exponaut discord server!
 
 The game's development progress
@@ -72,17 +75,16 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 16.0
-offset_top = 280.0
+offset_top = 384.0
 offset_right = -16.0
-offset_bottom = 40.0
+offset_bottom = 52.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_ky7ft")
 theme_override_constants/shadow_offset_x = 0
 theme_override_constants/shadow_offset_y = 0
-theme_override_constants/outline_size = 7
-theme_override_constants/shadow_outline_size = 0
-theme_override_font_sizes/font_size = 24
+theme_override_constants/outline_size = 10
+theme_override_font_sizes/font_size = 32
 text = "Thanks for playing!"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -123,18 +125,20 @@ position = Vector2(384, 0)
 rotation = 1.5708
 
 [node name="half" type="Polygon2D" parent="outline/border2"]
+scale = Vector2(1.03913, 1)
 color = Color(0.433006, 0, 0.0703824, 1)
 polygon = PackedVector2Array(0, 4, 384, 16, 384, -3.05176e-05, 0, 0)
 
 [node name="half2" type="Polygon2D" parent="outline/border2"]
-position = Vector2(384, 16)
+position = Vector2(402.987, 16)
 rotation = -3.14159
+scale = Vector2(1.04944, 1)
 color = Color(0.510217, 1.3236e-07, 0.09022, 1)
 polygon = PackedVector2Array(0, 3.05176e-05, 384, 16, 384, 16, 0, 16)
 
 [node name="border3" type="Node2D" parent="outline"]
 modulate = Color(0.505344, 0.505344, 0.505344, 1)
-position = Vector2(360, 400)
+position = Vector2(360, 436.364)
 rotation = 3.14159
 
 [node name="half" type="Polygon2D" parent="outline/border3"]
@@ -155,12 +159,15 @@ position = Vector2(8, 0)
 rotation = 1.5708
 
 [node name="half" type="Polygon2D" parent="outline/border4"]
+position = Vector2(-2.27861e-08, 0)
+scale = Vector2(1.06516, 1)
 color = Color(0.433006, 0, 0.0703824, 1)
 polygon = PackedVector2Array(6.99382e-07, 16, 384, 0, 384, -3.05176e-05, 3.49691e-07, 8)
 
 [node name="half2" type="Polygon2D" parent="outline/border4"]
-position = Vector2(384, 16)
+position = Vector2(418.352, 16.0001)
 rotation = -3.14159
+scale = Vector2(1.08946, 1)
 color = Color(0.510217, 1.3236e-07, 0.09022, 1)
 polygon = PackedVector2Array(24, 1.23978e-05, 384, 7.99994, 384, 16, 0, 16)
 vertex_colors = PackedColorArray(0.324505, 8.63345e-07, 0.0425609, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1)
@@ -205,7 +212,7 @@ polygon = PackedVector2Array(0, 3.05176e-05, 384, 16, 384, 16, 0, 16)
 
 [node name="border3" type="Node2D" parent="outline2"]
 modulate = Color(0.505344, 0.505344, 0.505344, 1)
-position = Vector2(360, 400)
+position = Vector2(360, 430)
 rotation = 3.14159
 
 [node name="half" type="Polygon2D" parent="outline2/border3"]
@@ -226,12 +233,15 @@ position = Vector2(8, 0)
 rotation = 1.5708
 
 [node name="half" type="Polygon2D" parent="outline2/border4"]
+position = Vector2(-2.71039e-08, 0)
+scale = Vector2(1.07751, 1)
 color = Color(0.433006, 0, 0.0703824, 1)
 polygon = PackedVector2Array(6.99382e-07, 16, 384, 0, 384, -3.05176e-05, 3.49691e-07, 8)
 
 [node name="half2" type="Polygon2D" parent="outline2/border4"]
-position = Vector2(384, 16)
+position = Vector2(427.618, 16.0001)
 rotation = -3.14159
+scale = Vector2(1.11359, 1)
 color = Color(0.510217, 1.3236e-07, 0.09022, 1)
 polygon = PackedVector2Array(24, 1.23978e-05, 384, 7.99994, 384, 16, 0, 16)
 vertex_colors = PackedColorArray(0.324505, 8.63345e-07, 0.0425609, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1, 0.509804, 0, 0.0901961, 1)
@@ -258,7 +268,7 @@ anim_speed2 = 1.0
 [node name="decoration_gear3" parent="." instance=ExtResource("3_2twy5")]
 modulate = Color(0.277528, 0.277528, 0.277528, 1)
 z_index = 4
-position = Vector2(360, 360)
+position = Vector2(384, 400)
 scale = Vector2(0.2, 0.2)
 anim_speed2 = 1.0
 
@@ -266,17 +276,20 @@ anim_speed2 = 1.0
 z_index = 500
 layout_mode = 0
 offset_left = 48.0
-offset_top = 432.0
+offset_top = 496.0
 offset_right = 336.0
-offset_bottom = 528.0
+offset_bottom = 592.0
 theme = ExtResource("1_ky7ft")
 underline = 1
 uri = "https://discord.gg/TCYFZfZ373"
 
 [node name="menu_single_button" parent="." instance=ExtResource("3_fvvwl")]
 layout_mode = 1
-offset_top = 416.0
-offset_bottom = 160.0
+offset_top = 472.0
+offset_bottom = 216.0
+
+[node name="text_manager" parent="menu_single_button/container_buttons/UI_button_general" index="1"]
+character_theme = ExtResource("5_rgd4f")
 
 [node name="Button" type="Button" parent="."]
 layout_mode = 0
@@ -288,11 +301,12 @@ text = "Close"
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -8
-position = Vector2(192, 568)
+position = Vector2(192, 624)
 scale = Vector2(0.25, 0.25)
 texture = ExtResource("5_yy13d")
 
 [node name="info_secondary" type="Label" parent="."]
+visible = false
 z_index = -10
 layout_mode = 0
 offset_left = 8.0
@@ -300,9 +314,9 @@ offset_top = 8.0
 offset_right = 376.0
 offset_bottom = 408.0
 theme = ExtResource("1_ky7ft")
-theme_override_font_sizes/font_size = 12
+theme_override_font_sizes/font_size = 16
 text = "Your GOAL is to traverse the vast and interconnected
-overworld of Exponaut, in order to reach THE EXPONAUTORIUM...
+overworld of Exponaut - The Iterarrium, in order to reach THE EXPONAUTORIUM...
 
 Controls:
 Z / SPACE - Jump
@@ -339,3 +353,5 @@ mouse_filter = 2
 color = Color(0, 0, 0, 0.368627)
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
+
+[editable path="menu_single_button"]

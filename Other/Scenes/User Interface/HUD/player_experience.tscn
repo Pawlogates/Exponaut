@@ -103,6 +103,7 @@ color = Color(0, 0, 0, 1)
 anchors_preset = 0
 offset_left = -2.0
 offset_right = -2.0
+mouse_filter = 2
 
 [node name="edge_bottom" type="TextureRect" parent="container_bar/bar_bg/deco_edge_left"]
 layout_mode = 0
@@ -110,6 +111,7 @@ offset_left = 32.0
 offset_right = 64.0
 offset_bottom = 32.0
 scale = Vector2(-1, 1)
+mouse_filter = 2
 texture = SubResource("AtlasTexture_qagyq")
 
 [node name="edge_top" type="TextureRect" parent="container_bar/bar_bg/deco_edge_left"]
@@ -119,6 +121,7 @@ offset_top = 23.0
 offset_right = 64.0
 offset_bottom = 55.0
 scale = Vector2(-1, -1)
+mouse_filter = 2
 texture = SubResource("AtlasTexture_wm5ey")
 
 [node name="deco_edge_right" type="Control" parent="container_bar/bar_bg"]
@@ -128,6 +131,7 @@ offset_top = 24.0
 offset_right = 528.0
 offset_bottom = 24.0
 scale = Vector2(-1, -1)
+mouse_filter = 2
 
 [node name="edge_top" type="TextureRect" parent="container_bar/bar_bg/deco_edge_right"]
 layout_mode = 0
@@ -136,6 +140,7 @@ offset_top = 1.0
 offset_right = 64.0
 offset_bottom = 33.0
 scale = Vector2(-1, 1)
+mouse_filter = 2
 texture = SubResource("AtlasTexture_qagyq")
 
 [node name="edge_bottom" type="TextureRect" parent="container_bar/bar_bg/deco_edge_right"]
@@ -145,6 +150,7 @@ offset_top = 24.0
 offset_right = 64.0
 offset_bottom = 56.0
 scale = Vector2(-1, -1)
+mouse_filter = 2
 texture = SubResource("AtlasTexture_wm5ey")
 
 [node name="deco_middle" type="Control" parent="container_bar/bar_bg"]
@@ -152,12 +158,14 @@ anchors_preset = 0
 offset_left = -6.0
 offset_right = -6.0
 pivot_offset = Vector2(36, 0)
+mouse_filter = 2
 
 [node name="middle_bottom" type="TextureRect" parent="container_bar/bar_bg/deco_middle"]
 layout_mode = 0
 offset_left = 36.0
 offset_right = 196.0
 offset_bottom = 32.0
+mouse_filter = 2
 texture = SubResource("AtlasTexture_an3ak")
 
 [node name="middle_top" type="TextureRect" parent="container_bar/bar_bg/deco_middle"]
@@ -167,6 +175,7 @@ offset_top = 23.0
 offset_right = 196.0
 offset_bottom = 55.0
 scale = Vector2(1, -1)
+mouse_filter = 2
 texture = SubResource("AtlasTexture_an3ak")
 
 [node name="shadow" parent="container_bar" instance=ExtResource("4_qagyq")]
@@ -187,6 +196,7 @@ layout_mode = 0
 offset_left = 416.0
 offset_right = 496.0
 offset_bottom = 80.0
+mouse_filter = 2
 
 [node name="btn_increase_level" type="Button" parent="debug"]
 light_mask = 0
@@ -195,6 +205,7 @@ offset_left = 416.0
 offset_top = 96.0
 offset_right = 496.0
 offset_bottom = 176.0
+mouse_filter = 2
 
 [node name="increase_value" type="TextEdit" parent="debug"]
 light_mask = 0
@@ -208,6 +219,7 @@ offset_right = 272.0
 offset_bottom = -128.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 text = "15"
 
 [node name="sfx_manager" parent="." instance=ExtResource("3_8c1nd")]

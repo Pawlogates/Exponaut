@@ -67,7 +67,8 @@ func _ready():
 		#portal_particle.modulate.b = randf_range(0.1, 1)
 		add_child(portal_particle)
 	
-	await get_tree().create_timer(10, false).timeout
+	if not Globals.gameState_debug and not Globals.debug_mode : await get_tree().create_timer(10, false).timeout
+	
 	$AnimationPlayer.play("portal_open")
 	$AnimationPlayer2.play("fadeIn_info")
 
@@ -76,19 +77,24 @@ func _process(delta: float) -> void:
 
 
 func _on_area_entered(area):
-	if not active:
+	if Globals.level_time_seconds < 30 : return
+	
+	if not active and not Globals.gameState_debug and not Globals.debug_mode:
 		print("Entered a shrine portal but it was inactive.")
 		return
 	
-	print("Entered an ACTIVE shrine portal")
-	
 	if not Globals.is_node_valid_player(area) : return
 	if entered : return
+	
+	print("Entered an ACTIVE shrine portal")
+	
+	Globals.set_pause(true)
 	
 	Globals.transition_next = 0
 	entered = true
 	print(str(level_filePath) + " is the file path of the level this portal is taking you to.")
 	
+	print("portal offset: ", checkpoint_offset)
 	checkpoint_activated(checkpoint_offset)
 	
 	Globals.change_main_scene(level_filePath)
@@ -96,9 +102,13 @@ func _on_area_entered(area):
 #func _physics_process(delta: float) -> void:
 	#print(level_info)
 
-func checkpoint_activated(offset):
+func checkpoint_activated(pos_offset : Vector2 = Vector2(320, -64)):
 	if Globals.World.level_type == "overworld":
-		SaveData.save_playerData(true)
+		SaveData.save_levelState(Globals.level_id)
+		var entered_direction : int
+		if Globals.Player.velocity.x <= 0 : entered_direction = 1
+		else : entered_direction = -1
+		SaveData.save_playerData(true, position + Vector2(pos_offset.x * entered_direction, pos_offset.y)) # The argument affects whether or not the saved overworld position will also be updated.
 
 
 func _on_timer_timeout():
@@ -113,7 +123,7 @@ func save():
 		"pos_x" : position.x,
 		"pos_y" : position.y,
 		"level_id" : level_id,
-		"level_filePath" : level_filePath,
+		"level_filepath" : level_filePath,
 		"particle_quantity" : particle_quantity,
 		
 	}

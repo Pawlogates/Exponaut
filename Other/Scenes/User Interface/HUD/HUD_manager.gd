@@ -12,6 +12,8 @@ extends CanvasLayer
 
 var active = false
 
+# Add major node targets (like Player or hud_player_health) in Overlay, not here.
+
 
 func _ready() -> void:
 	Globals.gameState_changed.connect(on_gameState_changed)
@@ -19,11 +21,19 @@ func _ready() -> void:
 	Globals.reset_puzzle_finished.connect(on_reset_puzzle_finished)
 	Globals.level_started.connect(on_level_started)
 	
+	label_level_time = %label_level_time
+	
+	Globals.reassign_general()
+	
 	animation_player.play("show")
 	
 	await get_tree().create_timer(1.0, true).timeout
 	
 	update_collected_collectibles()
+
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("0"):
+		animation_player.play("hide")
 
 
 func _on_animation_ui_animation_finished(anim_name: StringName) -> void:

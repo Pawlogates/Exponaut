@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ce1g16bi5tcc8"]
+[gd_scene load_steps=9 format=3 uid="uid://ce1g16bi5tcc8"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_wgx0h"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="2_ogswb"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="3_epu6t"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vm1q5"]
 atlas = ExtResource("1_wgx0h")
@@ -36,7 +37,7 @@ animations = [{
 size = Vector2(64, 64)
 
 [node name="conveyorBelt_R_start" type="StaticBody2D"]
-z_index = 1
+z_index = 2
 collision_layer = 3
 collision_mask = 3
 
@@ -55,3 +56,5 @@ shape = SubResource("RectangleShape2D_xcl5b")
 
 [node name="wind_R" parent="." instance=ExtResource("2_ogswb")]
 position = Vector2(0, -32)
+
+[node name="handle_offscreen" parent="." instance=ExtResource("3_epu6t")]

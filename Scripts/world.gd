@@ -80,6 +80,7 @@ var bg_instant_offset = true
 # Weather effects:
 @export var weather_rain = false
 @export var weather_leaves = false
+@export var weather_slow_orbs : bool = true
 
 @export var next_level_filepath : String = "default"
 
@@ -102,6 +103,8 @@ var mode_collect_note_active : bool = false
 
 
 @export var delete_background_layers = false
+
+@export var entity_bg_shadow_opacity : float = 0.25
 
 @export var neon_hueShift = 0.6
 @export var neon_fade = false
@@ -130,12 +133,105 @@ var is_ready : bool = false
 @export var force_mode_debug_disable = false
 
 @export var debug_show_unloader_range : bool = false
+@export var debug_force_camera_zoom : bool = false
+@export var debug_force_camera_zoom_value : float = -1.0
+@export var debug_hide_screen_transitions : bool = false
 
 var camera_effect_direction : Vector2 = Vector2(0, 0)
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	#debug_hide_screen_transitions = true
+	#debug_force_camera_zoom = true
+	#debug_force_camera_zoom_value = 0.1
+	#debug_show_unloader_range = true
+	
+	# Game state must always be changed right after changing the main scene (scene tree root).
+	Globals.gameState_level = true
+	Globals.gameState_levelSet_screen = false
+	Globals.gameState_start_screen = false
+	
+	Globals.gameState_changed.emit()
+	
+	Globals.exit_activated.connect(on_exit_activated)
+	Globals.level_finished.connect(on_level_finished)
+	
+	level_filepath = scene_file_path
+	
+	Globals.level_entity_count = Globals.get_node_count("entity")
+	
+	Overlay.screen_black()
+	
+	for node in Globals.get_nodes("loader") : node.queue_free()
+	for node in Globals.get_nodes("loader_chunk") : node.queue_free()
+	
+	await Globals.await_timer(0.25)
+	
+	if level_type == "levelSet":
+		Globals.levelSet_id = levelSet_id
+		Globals.level_number = level_number
+		Globals.level_id = levelSet_id + "_" + str(level_number) # This line makes sense, but looks off.
+		Globals.level_type = level_type
+		Globals.level_name = SaveData.get("info_" + Globals.level_id)[0]
+		
+		if next_level_filepath == "default":
+			next_level_filepath = scene_file_path.replace(Globals.level_id, Globals.levelSet_id + "_" + str(level_number + 1))
+	
+	elif level_type == "overworld":
+		Globals.levelSet_id = levelSet_id
+		Globals.level_number = -1 # Because its an overworld segment.
+		Globals.level_id = levelSet_id + "_overworld_" + overworld_level_id
+		Globals.level_type = level_type
+		Globals.level_name = overworld_level_id # Because its an overworld segment.
+	
+	elif level_type == "debug":
+		pass
+	
+	#var level_state_filepath : String = Globals.d_levelState.replace("[replace_with_slot_id]", SaveData.slot_current) + "/levelState_" + Globals.level_id + ".save"
+	#if FileAccess.file_exists(level_state_filepath):
+	
+	if level_type == "overworld" and Globals.level_id != "none":
+		#Globals.load_levelState = false
+		if Globals.load_levelState:
+			if not Globals.gameState_justStarted:
+				await SaveData.load_levelState(Globals.level_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
+				if level_filepath == SaveData.saved_last_level_filepath : await SaveData.load_playerData(Globals.opposite_bool(Globals.transition_triggered))
+	
+	Globals.load_levelState = true
+	Globals.load_playerData = true
+	Globals.load_levelSet = true
+	
+	
+	if Globals.get_node_count("entity") > 100:
+		var chunk_size : Vector2 = Vector2(2048, 2048)
+		for x in 24:
+			for y in 24:
+				
+				var new_chunk : Node = load("res://Other/Scenes/on_spawn_create_chunk.tscn").instantiate()
+				new_chunk.position = chunk_size * Vector2(x - 12, y - 12 / 2)
+				new_chunk.chunk_number = x + y
+				add_child(new_chunk)
+	
+	Globals.debug_show_unloader_range = debug_show_unloader_range
+	Globals.debug_force_camera_zoom = debug_force_camera_zoom
+	Globals.debug_force_camera_zoom_value = debug_force_camera_zoom_value
+	Globals.debug_hide_screen_transitions = debug_hide_screen_transitions
+	
+	if delete_background_layers:
+		bg_deleted = true
+		background.queue_free()
+		foreground.queue_free()
+	
+	Overlay.screen_black()
+	if Globals.gameState_justStarted or not is_instance_valid(Overlay.HUD):
+		Globals.main_scene_changed.emit()
+		Overlay.screen_black()
+		await get_tree().create_timer(0.5, true).timeout
+	Overlay.screen_black()
+	
+	Globals.reassign_general()
+	
 	if force_mode_debug_enable : Globals.debug_mode = true
 	elif force_mode_debug_disable : Globals.debug_mode = false
 	
@@ -154,8 +250,6 @@ func _ready():
 	
 	set_process(false)
 	set_physics_process(false)
-	
-	Globals.level_finished.connect(level_finished)
 	
 	if Globals.node_exists("entity_editor_preview"):
 		get_tree().get_first_node_in_group("entity_editor_preview").reassign_general()
@@ -187,16 +281,9 @@ func _ready():
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 	
-	level_filepath = scene_file_path
-	
 	uncover_matching_id.connect(on_uncover_matching_id)
 	
 	Player.block_movement_full = true
-	
-	Globals.gameState_level = true
-	Globals.gameState_levelSet_screen = false
-	Globals.gameState_start_screen = false
-	Globals.gameState_changed.emit()
 	
 	get_tree().paused = false
 	
@@ -214,25 +301,6 @@ func _ready():
 		#SaveData.delete_progress()
 		#Globals.message_debug("Deleted all save files on entering a level.")
 	
-	if level_type == "levelSet":
-		Globals.levelSet_id = levelSet_id
-		Globals.level_number = level_number
-		Globals.level_id = levelSet_id + "_" + str(level_number) # This line makes sense, but looks off.
-		Globals.level_type = level_type
-		Globals.level_name = SaveData.get("info_" + Globals.level_id)[0]
-		
-		if next_level_filepath == "default":
-			next_level_filepath = scene_file_path.replace(Globals.level_id, Globals.levelSet_id + "_" + str(level_number + 1))
-	
-	elif level_type == "overworld":
-		Globals.levelSet_id = levelSet_id
-		Globals.level_number = -1 # Because its an overworld segment.
-		Globals.level_id = levelSet_id + "_overworld_" + overworld_level_id
-		Globals.level_type = level_type
-		Globals.level_name = overworld_level_id # Because its an overworld segment.
-	
-	elif level_type == "debug":
-		pass
 	
 	Globals.material_neon_hueShift.set_shader_parameter("Shift_Hue", neon_hueShift)
 	
@@ -240,8 +308,10 @@ func _ready():
 		play_music_random()
 	
 	
-	if Globals.level_id != "factory_a_1": # This should not be the main way to check whether the current game was started for the first time.
+	if Globals.level_id != "MAIN_overworld_factory": # This should not be the main way to check whether the current game was started for the first time.
 		Globals.worldState_leftStartArea = true
+	elif Globals.gameState_debug:
+		Globals.worldState_leftStartArea = false
 	
 	
 	if camera_boundary_left != 0.0 or camera_boundary_right != 0.0 or camera_boundary_top != 0.0 or camera_boundary_bottom != 0.0:
@@ -290,11 +360,15 @@ func _ready():
 		Globals.Player.camera.add_child(load(Globals.scene_weather_rain).instantiate())
 	if weather_leaves:
 		Globals.Player.camera.add_child(load(Globals.scene_weather_leaves).instantiate())
+	if weather_slow_orbs:
+		Globals.World.add_child(load("res://Other/Scenes/Weather/slow_orbs.tscn").instantiate())
+	
 	
 	#Globals.cheated_state = false
 	
 	if bg_instant_transitions:
-		$background/animation_fade.speed_scale = 5.0
+		if is_instance_valid(background):
+			background.animation_fade.speed_scale = 5.0
 	
 	
 	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
@@ -308,12 +382,12 @@ func _ready():
 	
 	if on_start_camera_effect:
 		if camera_effect_direction != Vector2(0, 0):
-			Globals.Player.camera.effect(Vector2(randi_range(250, 2000) * camera_effect_direction.x, randi_range(4000, 2000) * camera_effect_direction.y), Vector2(4, 4), randi_range(-15, 15), 10)
+			Globals.Player.camera.effect(Vector2(randi_range(250, 2000) * camera_effect_direction.x, randi_range(4000, 2000) * camera_effect_direction.y), Vector2(4, 4), randi_range(-15, 15), 2)
 		else:
 			if Globals.get_random_bool(10):
-				Globals.Player.camera.effect(Vector2(randi_range(250, 4000) * Globals.player_direction_x_active, randi_range(-1000, -2000)), Vector2(4, 4), randi_range(-15, 15), 10)
+				Globals.Player.camera.effect(Vector2(randi_range(250, 4000) * Globals.player_direction_x_active, randi_range(-1000, -2000)), Vector2(4, 4), randi_range(-15, 15), 2)
 			else:
-				Globals.Player.camera.effect(Vector2(randi_range(250, 4000) * Globals.player_direction_x_active, randi_range(1000, 2000)), Vector2(4, 4), randi_range(-15, 15), 10)
+				Globals.Player.camera.effect(Vector2(randi_range(250, 4000) * Globals.player_direction_x_active, randi_range(1000, 2000)), Vector2(4, 4), randi_range(-15, 15), 2)
 	
 	Globals.Player.camera.position_smoothing_enabled = false
 	
@@ -344,35 +418,38 @@ func _ready():
 		else:
 			$whiteBlocks_make_rainbow.play("fade_in")
 	
+	await get_tree().create_timer(1, true).timeout
+	
+	if not is_instance_valid(Overlay.HUD):
+		await get_tree().create_timer(0.5, true).timeout
+		await Globals.reassign_general()
+	
+	if not is_instance_valid(Overlay.HUD):
+		await get_tree().create_timer(0.5, true).timeout
+		await Globals.reassign_general()
+	
 	await get_tree().create_timer(0.25, true).timeout
 	
-	is_ready = true
+	if Globals.gameState_justStarted : await get_tree().create_timer(1.25, true).timeout
+	
 	set_process(true)
 	set_physics_process(true)
 	
-	label_level_time = Overlay.HUD.label_level_time
+	Overlay.HUD = get_tree().get_first_node_in_group("HUD")
+	if is_instance_valid(Overlay.HUD) : label_level_time = Overlay.HUD.label_level_time
 	
 	#if not Globals.transition_triggered:
 		#save_game()
 	
+	
+	if is_instance_valid(Globals.Player) : Globals.Player.camera.position_smoothing_enabled = true
+	
 	Globals.transition_triggered = false
 	
-	if level_type == "overworld" and Globals.level_id != "none":
-		
-		if Globals.load_levelState:
-			if not Globals.gameState_justStarted:
-				SaveData.load_levelState(Globals.level_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
-	
-	Globals.load_levelState = true
-	Globals.load_playerData = true
-	Globals.load_levelSet = true
-	
-	Globals.Player.camera.position_smoothing_enabled = true
-	
-	if delete_background_layers:
-		bg_deleted = true
-		background.queue_free()
-		foreground.queue_free()
+	#if delete_background_layers:
+		#bg_deleted = true
+		#background.queue_free()
+		#foreground.queue_free()
 	
 	if force_mode_meme:
 		var memeMode_background_video_player = load("res://Other/Game Modes/Meme Mode/background_video_player.tscn").instantiate()
@@ -383,24 +460,41 @@ func _ready():
 	
 	bg_instant_transitions = false
 	
-	SaveData.save_levelState()
+	#var level_state_filepath : String = Globals.d_levelState.replace("[replace_with_slot_id]", SaveData.slot_current) + "/levelState_" + Globals.level_id + ".save"
+	#if not FileAccess.file_exists(level_state_filepath):
+		#SaveData.save_levelState()
 	
 	Globals.worldState_justStartedNewGame = false
 	
 	if Globals.level_id != "overworld_factory":
 		SaveData.never_saved = false
 	
-	await get_tree().create_timer(1.5, false).timeout
+	if Globals.get_node_count("entity") > 100 : await get_tree().create_timer(7.5, false).timeout
+	else : await get_tree().create_timer(0.5, false).timeout
 	
-	if Globals.gameState_debug : Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 10.0)
-	else : Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 0.01)
+	# Check if chunk generators are finished.
+	for x in 10:
 	
-	if not Globals.gameState_justStarted : await Overlay.animation("black_fade_out", 1.0, false, false, 0, false, "res://Other/Scenes/transition_gears.tscn", 2.0, Vector2(-2, 0))
+		if len(Globals.get_nodes("chunker")) == 0:
+			is_ready = true
+			break
+		
+		else:
+			print("Chunk generators are still not done, retrying the world node's 'is_ready' check.")
+			await Globals.await_timer(2.0)
+	
+	
+	if is_instance_valid(Globals.Player):
+		if Globals.gameState_debug : Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 2.0)
+		else : Globals.Player.camera.effect(Vector2(0, 0), Vector2(1, 1), 0, 0.01)
+	
+	if not Globals.gameState_justStarted : Overlay.animation("black_fade_out", 1.0, false, false, 0, false, "res://Other/Scenes/transition_gears.tscn", 2.0, Vector2(-2, 0))
 	
 	if Globals.game_state_roguelord : Globals.spawn_message_object("A new wave has started! Current wave level: %s." % Globals.player_level, 1.0)
 	
-	Player.block_movement_full = false
-	Player.velocity = Vector2(0, 0)
+	if is_instance_valid(Globals.Player):
+		Player.block_movement_full = false
+		Player.velocity = Vector2(0, 0)
 	
 	Globals.level_collectibles = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
 	
@@ -417,6 +511,11 @@ func _ready():
 
 #MAIN START
 func _physics_process(delta):
+	#print(Globals.transition_triggered)
+	#if Input.is_action_just_pressed("alt"):
+		#SaveData.load_playerData(Globals.opposite_bool(Globals.transition_triggered))
+	
+	#print("TOTAL CHUNKS: ", Globals.get_node_count("loader_chunk"))
 	
 	if Globals.random_bool(500, 1):
 		var level_all_entities : Array = get_tree().get_nodes_in_group("entity")
@@ -428,21 +527,26 @@ func _physics_process(delta):
 					Globals.spawn_scenes(self, Globals.scene_particle_splash, 1, x.position)
 	
 	# Current level's playtime.
-	level_time = Time.get_ticks_msec() - level_start_time
-	level_time_seconds = level_time / 1000
-	Globals.level_time = level_time_seconds
-	level_time_minutes = level_time_seconds / 60
+	if is_instance_valid(label_level_time):
+		level_time = Time.get_ticks_msec() - level_start_time
+		Globals.level_time = level_time
+		level_time_seconds = level_time / 1000
+		Globals.level_time_seconds = level_time_seconds
+		level_time_minutes = level_time_seconds / 60
+		Globals.level_time_minutes = level_time_minutes
+		
+		if level_time_seconds >= 100 : label_level_time.visible_characters = 9
+		elif level_time_seconds >= 10 : label_level_time.visible_characters = 8
+		else : label_level_time.visible_characters = 7
+		
+		label_level_time.text = str(level_time_seconds) + " : " + str(level_time - level_time_seconds * 1000) + "00000000000000000"
+		
+		if level_time_seconds > 60 : label_level_time.modulate = Color.RED ; label_level_time.scale = Vector2(2, 2)
+		elif level_time_seconds > 45 : label_level_time.modulate = Color.PINK ; label_level_time.scale = Vector2(1.5, 1.5)
+		else : label_level_time.modulate = Color.WHITE ; label_level_time.scale = Vector2(1, 1)
 	
-	if level_time_seconds >= 100 : label_level_time.visible_characters = 9
-	elif level_time_seconds >= 10 : label_level_time.visible_characters = 8
-	else : label_level_time.visible_characters = 7
-	
-	label_level_time.text = str(level_time_seconds) + " : " + str(level_time - level_time_seconds * 1000) + "00000000000000000"
-	
-	if level_time_seconds > 60 : label_level_time.modulate = Color.RED ; label_level_time.scale = Vector2(2, 2)
-	elif level_time_seconds > 45 : label_level_time.modulate = Color.PINK ; label_level_time.scale = Vector2(1.5, 1.5)
-	else : label_level_time.modulate = Color.WHITE ; label_level_time.scale = Vector2(1, 1)
-	
+	else:
+		Globals.reassign_general()
 	
 	if reset_puzzle_line_visible : queue_redraw()
 #MAIN END
@@ -452,7 +556,10 @@ var reset_puzzle_line_start = Vector2(0, 0)
 var reset_puzzle_line_end = Vector2(0, 0)
 
 func _draw():
+	print(line_active)
+	print(line_start_pos)
 	if reset_puzzle_line_visible : draw_line(reset_puzzle_line_start, reset_puzzle_line_end, Globals.l_button_color.pick_random(), 5.0, true)
+	if line_active : draw_line(line_start_pos, line_end_pos, Globals.l_button_color.pick_random(), 5.0, true)
 
 
 var night_toggle = true
@@ -469,12 +576,17 @@ func handle_player_death():
 		retry_checkpoint()
 
 
-var level_finished_active : bool = false
+var level_finished : bool = false
+var exit_activated : bool = false
 var level_completion_state : int = -1
 
-func level_finished():
-	if level_finished_active : return
+func on_level_finished():
+	Globals.smo(str(level_finished, " ", exit_activated))
+	if level_finished : return
+	if exit_activated : return
 	#if Globals.levelSet_id == "DEBUG" : return
+	
+	exit_activated = true
 	
 	Globals.level_time = level_time
 	
@@ -496,7 +608,7 @@ func level_finished():
 	SaveData.save_level(Globals.level_id, level_completion_state, Globals.level_score, Globals.level_time, [-1, 0, 1])
 	SaveData.save_levelSet(Globals.levelSet_id)
 	
-	level_finished_active = true # This has to be at the end, because outside behavior depends on this check being delayed.
+	level_finished = true # This has to be at the end, because outside behavior depends on this check being delayed.
 	
 	get_tree().paused = true
 
@@ -514,33 +626,33 @@ func go_to_next_level():
 	Globals.collected_in_cycle = 0
 
 
-func retry_loadSave(afterDelay):
-	await get_tree().create_timer(0.1, false).timeout
-	Globals.player_health = player_start_health
-	
-	
-	if afterDelay:
-		Player.dead = true
-		
-		var star = Globals.scene_particle_star.instantiate()
-		star.position = Globals.player_pos
-		add_child(star)
-		star = Globals.scene_particle_star.instantiate()
-		star.position = Globals.player_pos
-		add_child(star)
-		star = Globals.scene_particle_star.instantiate()
-		star.position = Globals.player_pos
-		add_child(star)
-		
-		await get_tree().create_timer(2, false).timeout
-	
-	
-	Player.dead = false
-	
-	Player.scale.x = 1
-	Player.scale.y = 1
-	
-	load_game()
+#func retry_loadSave(afterDelay):
+	#await get_tree().create_timer(0.1, false).timeout
+	#Globals.player_health = player_start_health
+	#
+	#
+	#if afterDelay:
+		#Player.dead = true
+		#
+		#var star = Globals.scene_particle_star.instantiate()
+		#star.position = Globals.player_pos
+		#add_child(star)
+		#star = Globals.scene_particle_star.instantiate()
+		#star.position = Globals.player_pos
+		#add_child(star)
+		#star = Globals.scene_particle_star.instantiate()
+		#star.position = Globals.player_pos
+		#add_child(star)
+		#
+		#await get_tree().create_timer(2, false).timeout
+	#
+	#
+	#Player.dead = false
+	#
+	#Player.scale.x = 1
+	#Player.scale.y = 1
+	#
+	#load_game()
 
 
 func bg_move(delta):
@@ -640,40 +752,40 @@ func save_game():
 	Globals.levelState_saved.emit()
 
 
-func load_game():
-	if SaveData.never_saved:
-		return
-	
-	if not FileAccess.file_exists("user://savegame.save"):
-		return # Error! We don't have a save to load.
-
-	var save_nodes = get_tree().get_nodes_in_group("Persist")
-	for i in save_nodes:
-		#if i.is_in_group(Globals.loadingZone_current) or i.is_in_group("loadingZone0"):
-		i.queue_free()
-
-	var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.READ)
-	while save_gameFile.get_position() < save_gameFile.get_length():
-		var json_string = save_gameFile.get_line()
-
-		var json = JSON.new()
-
-		var parse_result = json.parse(json_string)
-		if not parse_result == OK:
-			print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
-			continue
-		
-		var node_data = json.get_data()
-		
-		#if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "loadingZone0":
-		var new_object = load(node_data["filename"]).instantiate()
-		get_node(node_data["parent"]).add_child(new_object)
-		new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
-		
-		for i in node_data.keys():
-			if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
-				continue
-			new_object.set(i, node_data[i])
+#func load_game():
+	#if SaveData.never_saved:
+		#return
+	#
+	#if not FileAccess.file_exists("user://savegame.save"):
+		#return # Error! We don't have a save to load.
+#
+	#var save_nodes = get_tree().get_nodes_in_group("Persist")
+	#for i in save_nodes:
+		##if i.is_in_group(Globals.loadingZone_current) or i.is_in_group("loadingZone0"):
+		#i.queue_free()
+#
+	#var save_gameFile = FileAccess.open("user://savegame.save", FileAccess.READ)
+	#while save_gameFile.get_position() < save_gameFile.get_length():
+		#var json_string = save_gameFile.get_line()
+#
+		#var json = JSON.new()
+#
+		#var parse_result = json.parse(json_string)
+		#if not parse_result == OK:
+			#print("JSON Parse Error: ", json.get_error_message(), " in ", json_string, " at line ", json.get_error_line())
+			#continue
+		#
+		#var node_data = json.get_data()
+		#
+		##if "loadingZone" in node_data and node_data["loadingZone"] == Globals.loadingZone_current or "loadingZone" in node_data and node_data["loadingZone"] == "loadingZone0":
+		#var new_object = load(node_data["filename"]).instantiate()
+		#get_node(node_data["parent"]).add_child(new_object)
+		#new_object.position = Vector2(node_data["pos_x"], node_data["pos_y"])
+		#
+		#for i in node_data.keys():
+			#if i == "filename" or i == "parent" or i == "pos_x" or i == "pos_y":
+				#continue
+			#new_object.set(i, node_data[i])
 		
 		#else:
 			#continue
@@ -683,14 +795,14 @@ func load_game():
 	#Player.position.y = Globals.saved_player_posY
 	#Globals.level_score = Globals.saved_level_score
 	
-	Globals.level_score = Globals.saved_level_score
-	Player.position = Vector2(Globals.saved_player_posX, Globals.saved_player_posY)
-	
-	Globals.combo_score = 0
-	Globals.combo_tier = 1
-	Globals.collected_in_cycle = 0
-	
-	Globals.saveState_loaded.emit()
+	#Globals.level_score = Globals.saved_level_score
+	#Player.position = Vector2(Globals.saved_player_posX, Globals.saved_player_posY)
+	#
+	#Globals.combo_score = 0
+	#Globals.combo_tier = 1
+	#Globals.collected_in_cycle = 0
+	#
+	#Globals.saveState_loaded.emit()
 
 
 func _on_quickload_limiter_timeout():
@@ -788,13 +900,15 @@ func change_main_scene_menu_start():
 func retry_checkpoint():
 	await Overlay.animation("black_fade_in", 1, false, true)
 	
-	SaveData.load_levelState(Globals.level_id)
-	SaveData.load_playerData()
+	if level_type == "overworld" : await SaveData.load_levelState(Globals.level_id)
+	elif level_type == "levelSet" : await SaveData.load_levelState(Globals.level_id, 1)
+	
+	await SaveData.load_playerData(true)
 	
 	Globals.level_collected_collectibles = 0
 	
 	Player.block_movement_full = true
-	Player.position = Player.last_checkpoint_pos
+	#Player.position = Player.last_checkpoint_pos
 	Player.velocity = Vector2(0, 0)
 	
 	await get_tree().create_timer(0.25, false).timeout
@@ -811,6 +925,10 @@ func retry_checkpoint():
 	Globals.update_player_health.emit()
 	
 	Overlay.animation("black_fade_out", 1, false, false)
+	
+	await get_tree().create_timer(1.05, false).timeout
+	
+	Globals.player_respawned.emit()
 
 
 func effect_stars():
@@ -1005,3 +1123,19 @@ func rl_spawn_scenes(scene_filepath : String, quantity : int = 1):
 func set_triggers_camera(state : bool = true):
 	for trigger in get_tree().get_nodes_in_group("trigger_camera"):
 		trigger.active = state
+
+
+func on_exit_activated():
+	pass
+	#level_finished = true
+
+
+var line_active : bool = false
+var line_start_pos : Vector2 = Vector2(-1, -1)
+var line_end_pos : Vector2 = Vector2(-1, -1)
+
+func spawn_line(f_start_pos : Vector2 = Vector2(-1, -1), f_end_pos : Vector2 = Vector2(-1, -1)):
+	line_active = true
+	line_start_pos = f_start_pos
+	line_end_pos = f_end_pos
+	queue_redraw()

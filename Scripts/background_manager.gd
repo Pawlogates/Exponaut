@@ -34,11 +34,11 @@ extends CanvasLayer
 @onready var l_back_edge_top : ParallaxLayer = $bg_back_edge_top/layer
 @onready var l_back2_edge_top : ParallaxLayer = $bg_back2_edge_top/layer
 
-@onready var t_main_edge_top : TextureRect = l_main_edge_top.get_child(0)
-@onready var t_front_edge_top : TextureRect = l_front_edge_top.get_child(0)
-@onready var t_front2_edge_top : TextureRect = l_front2_edge_top.get_child(0)
-@onready var t_back_edge_top : TextureRect = l_back_edge_top.get_child(0)
-@onready var t_back2_edge_top : TextureRect = l_back2_edge_top.get_child(0)
+#@onready var t_main_edge_top : TextureRect = l_main_edge_top.get_child(0)
+#@onready var t_front_edge_top : TextureRect = l_front_edge_top.get_child(0)
+#@onready var t_front2_edge_top : TextureRect = l_front2_edge_top.get_child(0)
+#@onready var t_back_edge_top : TextureRect = l_back_edge_top.get_child(0)
+#@onready var t_back2_edge_top : TextureRect = l_back2_edge_top.get_child(0)
 
 var currently_visible_id = "A"
 
@@ -79,11 +79,11 @@ var l_back2_target = Vector2(0, 0)
 # Color transition:
 var transition_color_active = false
 
-var l_main_modulate = Color(1, 1, 1, 1)
-var l_front_modulate = Color(1, 1, 1, 1)
-var l_front2_modulate = Color(1, 1, 1, 1)
-var l_back_modulate = Color(1, 1, 1, 1)
-var l_back2_modulate = Color(1, 1, 1, 1)
+@export var l_main_modulate = Color(1, 1, 1, 1)
+@export var l_front_modulate = Color(1, 1, 1, 1)
+@export var l_front2_modulate = Color(1, 1, 1, 1)
+@export var l_back_modulate = Color(1, 1, 1, 1)
+@export var l_back2_modulate = Color(1, 1, 1, 1)
 
 
 @onready var cooldown_check_fade: Timer = $cooldown_check_fade
@@ -131,6 +131,11 @@ func _ready():
 				node.modulate = layer_all_modulate
 				node.modulate += layer_all_add_modulate
 				#node.modulate.a = previous_modulate.a
+				
+				if bg_layer.get_child(0).modulate.a <= 0.05:
+					node.texture = null
+					node.visible = false
+					bg_layer.visible = false
 		
 		for node in bg_layer.get_child(0).get_child(0).get_children(): # debug label
 			if node is Label:
@@ -158,6 +163,22 @@ func _ready():
 	if randomize:
 		_on_cooldown_randomize_texture_filepath_timeout()
 		#$cooldown_randomize_texture_filepath.start()
+	
+	await get_tree().create_timer(4.0, true).timeout
+	
+	for layer_node_name in list_l_node_name:
+		var bg_layer = get_node(layer_node_name)
+		for node in bg_layer.get_child(0).get_children(): # texture node
+			if node is TextureRect:
+				#var previous_modulate : Color = node.modulate
+				node.modulate = layer_all_modulate
+				node.modulate += layer_all_add_modulate
+				#node.modulate.a = previous_modulate.a
+				
+				if bg_layer.get_child(0).modulate.a <= 0.05:
+					node.texture = null
+					node.visible = false
+					bg_layer.visible = false
 
 
 @onready var animation_fade: AnimationPlayer = %animation_fade
@@ -350,7 +371,7 @@ func toggle_layer_id():
 
 
 func bg_update_texture_filepath():
-	if not FileAccess.file_exists(Globals.bg_main_filepath) : return
+	if not ResourceLoader.exists(Globals.bg_main_filepath) : return
 	
 	Globals.dm("Updating textures for all Background layers.", "LIME_GREEN")
 	Globals.dm("Main layer's filepath: " + load(Globals.bg_main_filepath).get_path())
@@ -410,11 +431,11 @@ func bg_update_other():
 	bg_back_edge_top_filepath = Globals.bg_back_edge_top_filepath
 	bg_back2_edge_top_filepath = Globals.bg_back2_edge_top_filepath
 	
-	t_main_edge_top.texture = load(bg_main_edge_top_filepath)
-	t_front_edge_top.texture = load(bg_front_edge_top_filepath)
-	t_front2_edge_top.texture = load(bg_front2_edge_top_filepath)
-	t_back_edge_top.texture = load(bg_back_edge_top_filepath)
-	t_back2_edge_top.texture = load(bg_back2_edge_top_filepath)
+	#t_main_edge_top.texture = load(bg_main_edge_top_filepath)
+	#t_front_edge_top.texture = load(bg_front_edge_top_filepath)
+	#t_front2_edge_top.texture = load(bg_front2_edge_top_filepath)
+	#t_back_edge_top.texture = load(bg_back_edge_top_filepath)
+	#t_back2_edge_top.texture = load(bg_back2_edge_top_filepath)
 	
 	
 	bg_main_repeat_y = Globals.bg_main_repeat_y
@@ -572,3 +593,48 @@ func on_player_melee_hit(add_rotation : float = 0.0):
 		node.modulate.r *= 0.85
 		node.modulate.g *= 0.85
 		node.modulate.b *= 0.85
+
+func _on_cooldown_handle_hidden_timeout() -> void:
+	handle_hidden()
+
+
+func handle_hidden():
+	for bg_node_name in list_l_node_name:
+		if not is_instance_valid(get_node(bg_node_name)) : continue
+		
+		var bg = get_node(bg_node_name)
+		var bg_layer = bg.get_child(0)
+		
+		for node in bg_layer.get_children():
+			if node is TextureRect:
+				if node.texture == load("res://Assets/Graphics/backgrounds/bg_empty.png"):
+					node.texture == null
+					node.visible = false
+	
+	for bg_node_name in list_l_node_name:
+		var bg = get_node(bg_node_name)
+		var bg_layer = bg.get_child(0)
+		
+		if bg_layer.modulate.a <= 0.05:
+			bg.process_mode = 4
+			bg_layer.process_mode = 4
+			bg.visible = false
+			bg_layer.visible = false
+			
+			for node in bg_layer.get_children():
+				if node is TextureRect:
+					node.texture = null
+					node.process_mode = 4
+					node.visible = false
+		
+		else:
+			bg.process_mode = 0
+			bg_layer.process_mode = 0
+			bg.visible = true
+			bg_layer.visible = true
+			
+			for node in bg_layer.get_children():
+				if node is TextureRect:
+					#node.texture = null
+					node.process_mode = 0
+					node.visible = true

@@ -15,6 +15,14 @@ func _ready() -> void:
 	if Globals.combo_tier >= 5:
 		label_score.material = Globals.material_score_value_rainbow2
 		label_score.material.set_shader_parameter("strength", 0.5)
+	
+	await get_tree().create_timer(20.0, true).timeout
+	
+	queue_free()
+
+func _physics_process(delta: float) -> void:
+	pass
+
 
 func display_score():
 	label_score.text = str(value) + "$"

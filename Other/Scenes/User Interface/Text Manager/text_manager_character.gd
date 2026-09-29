@@ -1,7 +1,8 @@
 extends Control
 
 @onready var character: RichTextLabel = $character
-@onready var animation_player: AnimationPlayer = $character/animation_general
+@onready var animation_general: AnimationPlayer = $character/animation_general
+@onready var animation_gear: AnimationPlayer = $character/animation_gear
 @onready var sfx: AudioStreamPlayer2D = $sfx
 @onready var cooldown_sfx: Timer = $cooldown_sfx
 @onready var bg: ColorRect = $character/bg
@@ -46,41 +47,74 @@ var rolled_pivot_offset = Vector2(randi_range(-1000, 1000), randi_range(-1000, 1
 
 
 func _ready() -> void:
-	z_index = 251
-	await get_tree().create_timer(0.25, true).timeout
-	
 	if bg_simple:
 		Globals.dm("Made a Text Manager Character's simple background visible.", "GREEN")
 		bg.visible = true
 		bg.color = bg_simple_color
-		bg.size.x += 4
+		call_deferred("adjust_bg_size")
+	
 	else:
-		Globals.dm("Deleted a Text Manager Character's simple background.", "RED")
-		bg.queue_free()
+		if not Globals.debug_mode:
+			Globals.dm("Deleted a Text Manager Character's simple background.", "RED")
+			bg.queue_free()
 	
-	if is_inside_tree() : await get_tree().create_timer(0.25, true).timeout
-	
-	if character.text.is_valid_int():
-		custom_minimum_size.x = 22
-		character.custom_minimum_size.x = 22
-		character.theme = load("res://Other/Themes/text_score_display.tres")
-	
-	if character.text == "m":
-		custom_minimum_size.x = 22
-		character.custom_minimum_size.x = 22
-	elif character.text == "i" or character.text == "t":
-		custom_minimum_size.x = 12
-		character.custom_minimum_size.x = 12
+	if is_inside_tree() : await get_tree().create_timer(0.05, true).timeout
 	
 	visible = true
+	
+	if is_inside_tree() : await get_tree().create_timer(0.5, true).timeout
+	
+	if not theme:
+		if character.text.is_valid_int():
+			custom_minimum_size.x = 24
+			character.theme = load("res://Other/Themes/text_score_display.tres")
+	else:
+		character.theme = theme
+		character.position += Vector2(4, 8)
+		character["theme_override_font_sizes/normal_font_size"] = 28
+		custom_minimum_size.x = 20
+	
+	if Globals.debug_mode : bg.color = Globals.l_color_all.pick_random()
+	
+	#if character.text == "m" or character.text == "C":
+		#custom_minimum_size.x = 28
+	#elif character.text == "w":
+		#custom_minimum_size.x = 26
+	#elif character.text == "i" or character.text == "h" or character.text == "t" or character.text == "I" or character.text == "." or character.text == "," or character.text == ":" or character.text == "-":
+		#custom_minimum_size.x = 180
+	#elif character.text == "M" or character.text == "O" or character.text == "W":
+		#custom_minimum_size.x = 34
+	#elif character.text == "H" or character.text == "Q" or character.text == "S" or character.text == "L":
+		#custom_minimum_size.x = 24
+	#elif character.text == "N" or character.text == "R" or character.text == "G" or character.text == "E":
+		#custom_minimum_size.x = 28
+	#elif character.text == "X" or character.text == "G":
+		#custom_minimum_size.x = 26
+	#elif character.text == "D" or character.text == "U" or character.text == "A":
+		#custom_minimum_size.x = 28
+	#elif character.text == "T" or character.text == "F" or character.text == "P" or character.text == "K" or character.text == "Y" or character.text == "V":
+		#custom_minimum_size.x = 14
+	
+	#if not character["theme_override_font_sizes/normal_font_size"] == 46 and not character.text.is_valid_int():
+	
+	if character.text in ["i", "t", "l", "r"] : custom_minimum_size.x = 10
+	elif character.text in ["d", "k", "n"] : custom_minimum_size.x = 12
+	elif character.text in ["o", "a", "e", "c", "g", "p", "s", "h"] : custom_minimum_size.x = 14
+	
+	#custom_minimum_size.y = 28
+	#custom_maximum_size.y = 28
 
 func _process(delta: float) -> void:
 	if removable:
 		character.modulate.a = move_toward(character.modulate.a, 0, delta * 2)
-		character.rotation_degrees = move_toward(character.rotation_degrees, rolled_rotation, delta * 25)
+		character.rotation_degrees = move_toward(character.rotation_degrees, rolled_rotation, delta * 10)
 		character.pivot_offset.x = move_toward(character.pivot_offset.x, rolled_pivot_offset.x, delta * 10)
 		character.pivot_offset.y = move_toward(character.pivot_offset.y, rolled_pivot_offset.y, delta * 10)
 
 
 func _on_cooldown_sfx_timeout() -> void:
 	sfx.play()
+
+
+func adjust_bg_size():
+	bg.size.x *= 2

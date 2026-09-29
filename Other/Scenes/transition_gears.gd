@@ -7,6 +7,11 @@ var anim_speed : float = 1.0
 func _ready() -> void:
 	animation_player.speed_scale = anim_speed
 	animation_player.play("move_right")
+	
+	await get_tree().create_timer(20.0, true).timeout
+	
+	queue_free()
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	await get_tree().create_timer(1.0, true).timeout
 	queue_free()

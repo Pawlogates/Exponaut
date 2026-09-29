@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://cas2yqhxmu78i" path="res://Other/Scenes/User Interface/Debug/await_recorder.gd" id="1_k1v1m"]
 
-[node name="await_recorder" type="Node2D"]
+[node name="await_recorder" type="Node2D" groups=["await_recorder"]]
 script = ExtResource("1_k1v1m")

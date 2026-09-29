@@ -41,7 +41,7 @@ var layer1_alt_is_playing = false
 # Is the layer currently playing its music track - [END]
 
 
-@export_file("*.mp3", "*.wav") var layer1_music_filepath = "none"
+@export_file("*.mp3", "*.wav") var layer1_music_filepath = "res://Assets/Sounds/ambience/mysterious_loop.mp3"
 @export_file("*.mp3", "*.wav")  var layer2_music_filepath = "none"
 @export_file("*.mp3", "*.wav")  var layer3_music_filepath = "none"
 @export_file("*.mp3", "*.wav")  var layer4_music_filepath = "none"
@@ -289,23 +289,23 @@ func handle_layer4_fade(delta):
 
 
 func update_layer_all_music_file():
-	if layer1_music_filepath != "none" and FileAccess.file_exists(layer1_music_filepath):
+	if layer1_music_filepath != "none" and ResourceLoader.exists(layer1_music_filepath):
 		if load(layer1_music_filepath).get_path() != layer1_last_filepath:
 			layer1.stream = load(layer1_music_filepath)
 	
-	if layer1_alt_music_filepath != "none" and FileAccess.file_exists(layer1_alt_music_filepath):
+	if layer1_alt_music_filepath != "none" and ResourceLoader.exists(layer1_alt_music_filepath):
 		if load(layer1_alt_music_filepath).get_path() != layer1_alt_last_filepath:
 			layer1_alt.stream = load(layer1_alt_music_filepath)
 	
-	if layer2_music_filepath != "none" and FileAccess.file_exists(layer2_music_filepath):
+	if layer2_music_filepath != "none" and ResourceLoader.exists(layer2_music_filepath):
 		if load(layer2_music_filepath).get_path() != layer2_last_filepath:
 			layer2.stream = load(layer2_music_filepath)
 	
-	if layer3_music_filepath != "none" and FileAccess.file_exists(layer3_music_filepath):
+	if layer3_music_filepath != "none" and ResourceLoader.exists(layer3_music_filepath):
 		if load(layer3_music_filepath).get_path() != layer3_last_filepath:
 			layer3.stream = load(layer3_music_filepath)
 	
-	if layer4_music_filepath != "none" and FileAccess.file_exists(layer4_music_filepath):
+	if layer4_music_filepath != "none" and ResourceLoader.exists(layer4_music_filepath):
 		if load(layer4_music_filepath).get_path() != layer4_last_filepath:
 			layer4.stream = load(layer4_music_filepath)
 
@@ -339,11 +339,14 @@ func layer_play(target_id : String):
 
 # Only the first layer can have its music tracks smoothly transition between eachother.
 func music_change(filepath, smooth_transition : bool = true, volume : float = 1.0, layer_id : String = "1"):
-	if not FileAccess.file_exists(filepath) : return
+	if not ResourceLoader.exists(filepath) : return
 	
 	Globals.dm("Changing main music layer's music track file to: " + Globals.get_filepath(filepath), "PINK")
 	
 	var layer = get("layer" + layer_id)
+	
+	if not smooth_transition:
+		layer1.volume_linear = volume
 	
 	if not smooth_transition or layer_id != "1":
 		set("layer" + layer_id + "_music_filepath", filepath)
@@ -377,9 +380,6 @@ func music_change(filepath, smooth_transition : bool = true, volume : float = 1.
 		layer1_alt_fade_active = true
 		layer1_alt_fade_direction = 0
 		layer_play("1")
-	
-	if not smooth_transition:
-		layer1.volume_linear = volume
 
 
 # This function should not set anything to "true", as that should be done at the time of reassigning a music track file.

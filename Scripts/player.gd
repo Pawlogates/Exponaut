@@ -161,6 +161,8 @@ var last_checkpoint_pos = Vector2(-1, -1)
 
 var family = "Player"
 
+var is_ready : bool = false
+
 
 # Emitted when player lands on the ground.
 signal player_just_landed
@@ -171,7 +173,10 @@ signal player_just_left_wind
 
 
 func _ready():
-	Globals.refreshed1_0.connect(debug_info)
+	Globals.refreshed0_5.connect(on_refreshed0_5)
+	Globals.refreshed1_0.connect(on_refreshed1_0)
+	Globals.refreshed2_0.connect(on_refreshed2_0)
+	Globals.refreshed4_0.connect(on_refreshed4_0)
 	
 	if collision_size == Vector2(-1, -1) : collision_size = collision_main.shape.extents
 	if collision_pos_offset == Vector2(-1, -1) : collision_pos_offset = collision_main.position
@@ -216,25 +221,43 @@ func _ready():
 	Globals.combo_reset.connect(on_combo_reset)
 	
 	await get_tree().create_timer(1.0, true).timeout
-	if World.camera_boundary_left != 0.0 or World.camera_boundary_right != 0.0 or World.camera_boundary_top != 0.0 or World.camera_boundary_bottom != 0.0:
-		camera.limit_left = World.camera_boundary_left
-		camera.limit_right = World.camera_boundary_right
-		camera.limit_bottom = World.camera_boundary_bottom
-		camera.limit_top = World.camera_boundary_top
+	
+	if is_instance_valid(Globals.World):
+		if World.camera_boundary_left != 0.0 or World.camera_boundary_right != 0.0 or World.camera_boundary_top != 0.0 or World.camera_boundary_bottom != 0.0:
+			camera.limit_left = World.camera_boundary_left
+			camera.limit_right = World.camera_boundary_right
+			camera.limit_bottom = World.camera_boundary_bottom
+			camera.limit_top = World.camera_boundary_top
+	
+	is_ready = true
 
 func _process(delta):
+	#print(Globals.settings_level_object_active_range / Globals.Player.camera.zoom.x + 800)
+	
+	if Input.is_action_just_pressed("alt"):
+		get_tree().call_group("anim_sync", "sync")
+		#for loader in get_tree().get_nodes_in_group("loader"):
+			#loader._on_cooldown_check_if_visible_timeout()
+	
+	#if Input.is_action_just_pressed("9"):
+		#queue_free()
+	#
+	#debug_movement = true
+	
 	# delete this hack as soon as possible... and replace it
 	# hack - [start]
-	if dead:
-		#sprite.position.y = 36
-		sprite.modulate = Color.RED
-		#sprite.rotation_degrees = move_toward(sprite.rotation_degrees, 100 * randi_range(-20, 20), delta * 100 * randf_range(-4, 4))
-	elif sprite.modulate != Color(0,0,0,0):
-		#sprite.position.y = -24
-		sprite.modulate.r = move_toward(sprite.modulate.r, 1, delta / 4)
-		sprite.modulate.g = move_toward(sprite.modulate.g, 1, delta / 4)
-		sprite.modulate.b = move_toward(sprite.modulate.b, 1, delta / 4)
-		#sprite.rotation_degrees = 0
+	
+	if is_instance_valid(sprite):
+		if dead:
+			#sprite.position.y = 36
+			sprite.modulate = Color.RED
+			#sprite.rotation_degrees = move_toward(sprite.rotation_degrees, 100 * randi_range(-20, 20), delta * 100 * randf_range(-4, 4))
+		elif sprite.modulate != Color(0,0,0,0):
+			#sprite.position.y = -24
+			sprite.modulate.r = move_toward(sprite.modulate.r, 1, delta / 4)
+			sprite.modulate.g = move_toward(sprite.modulate.g, 1, delta / 4)
+			sprite.modulate.b = move_toward(sprite.modulate.b, 1, delta / 4)
+			#sprite.rotation_degrees = 0
 	
 	if dead:
 		if on_floor:
@@ -302,8 +325,9 @@ func _process(delta):
 		
 		update_sprite()
 	
-	if not state_damage and not dead and velocity.y == 0 and is_on_floor() and not on_floor and not state_shoot and not crouch_walk_active and not crouch_active:
-		if not attack_melee_active : sprite.play("idle")
+	if is_instance_valid(sprite):
+		if not state_damage and not dead and velocity.y == 0 and is_on_floor() and not on_floor and not state_shoot and not crouch_walk_active and not crouch_active:
+			if not attack_melee_active : sprite.play("idle")
 	
 	handle_spawn_dust()
 	
@@ -474,7 +498,8 @@ func handle_gravity(delta):
 
 func update_sprite():
 	if direction_x and not state_damage:
-		sprite.flip_h = (direction_x < 0)
+		if is_instance_valid(sprite):
+			sprite.flip_h = (direction_x < 0)
 	
 	else:
 		if on_floor or flight:
@@ -488,6 +513,8 @@ func update_sprite():
 	sprite_animation()
 
 func sprite_animation():
+	if not is_instance_valid(sprite) : return
+	
 	if attack_melee_active : return
 	if sprite.animation == "crouch" and sprite.frame != 0: return
 	
@@ -597,6 +624,8 @@ func handle_jump(delta):
 			can_jump = false
 			
 			sfx(Globals.sfx_player_jump, 1.0, 1.0)
+			
+			if not is_instance_valid(sprite) : return
 			
 			if not dash_active:
 			
@@ -751,6 +780,8 @@ func _on_timer_state_shoot():
 
 # Player crouch/dash logic:
 func handle_crouch():
+	if not is_instance_valid(sprite) : return
+	
 	if can_dash and is_on_floor():
 		if Input.is_action_pressed("crouch") and on_floor:
 			if block_movement : return
@@ -1397,6 +1428,7 @@ func reduce_health(value : int, source : Node):
 		dead = true
 		World.retry_checkpoint()
 		Globals.player_health = health_value
+		Globals.player_death.emit()
 		
 		if Globals.World.level_type == "debug" : Globals.message("You can't die in these levels! Just have some fun <3 (also press CTRL + R to restart a level)")
 		
@@ -1411,7 +1443,6 @@ func increase_health(value):
 
 func kill():
 	Globals.player_health = 0
-	dead = true
 	sfx(Globals.sfx_player_death, 1.0, 0.0)
 	reduce_health(9999, self)
 
@@ -1595,6 +1626,11 @@ var attack_throw_active : bool = false
 @onready var decoration_collision_extra_particles: Node2D = $attack_melee/attack/hitbox_extra/collision_extra/decoration_collision_extra_particles
 
 func attack_melee():
+	decoration_collision_extra_particles.set_state(true)
+	attack_melee_decoration_collision_particles.set_state(true)
+	
+	if not is_instance_valid(sprite) : return
+	
 	if timer_block_attack_melee.time_left > 0.0 : return
 	
 	attack_melee_decoration_collision_particles.visible = true
@@ -1663,15 +1699,19 @@ func attack_melee():
 		if target.is_in_group("entity"):
 			target.attack_melee_block_movement = false
 	
+	hitbox_extra.scale.x = Globals.player_direction_x_active
+	
 	await get_tree().create_timer(0.15, true).timeout
 	
 	collision_extra.disabled = false
 	hitbox_extra.monitorable = true
 	hitbox_extra.monitoring = true
 	decoration_collision_extra_particles.visible = true
-	hitbox_extra.scale.x = Globals.player_direction_x_active
 
 func stop_attack_melee():
+	decoration_collision_extra_particles.set_state(false)
+	attack_melee_decoration_collision_particles.set_state(false)
+	
 	hitbox_extra.monitorable = false
 	hitbox_extra.monitoring = false
 	decoration_collision_extra_particles.visible = false
@@ -1692,12 +1732,25 @@ var attack_melee_current_id : String = "none"
 var attack_melee_damage_value : int = 25 # This value is often changed right before an attack.
 
 func handle_attack_melee(): # The word "handle" refers to a function being executed every frame.
-	if Input.is_action_just_pressed("attack_main"):
-		if block_movement : return
-		attack_melee()
+	if not Globals.mobile_touch_controls_active:
+		if Input.is_action_just_pressed("attack_main"):
+			if block_movement : return
+			attack_melee()
+			decoration_collision_extra_particles.set_state(true)
+			attack_melee_decoration_collision_particles.set_state(true)
+		
+		attack_melee_hitbox.scale.x = Globals.player_direction_x_active
+		attack_melee_decoration_collision_particles.visible = attack_melee_active and timer_windup.time_left == 0.0 and timer_end_attack_melee.time_left > 0.0 # Will be true if the windup timer is finished and the attack timer is active.
 	
-	attack_melee_hitbox.scale.x = Globals.player_direction_x_active
-	attack_melee_decoration_collision_particles.visible = attack_melee_active and timer_windup.time_left == 0.0 and timer_end_attack_melee.time_left > 0.0 # Will be true if the windup timer is finished and the attack timer is active.
+	else:
+		if Input.is_action_just_pressed("touch_screen_attack_main"):
+			if block_movement : return
+			attack_melee()
+			decoration_collision_extra_particles.set_state(true)
+			attack_melee_decoration_collision_particles.set_state(true)
+		
+		attack_melee_hitbox.scale.x = Globals.player_direction_x_active
+		attack_melee_decoration_collision_particles.visible = attack_melee_active and timer_windup.time_left == 0.0 and timer_end_attack_melee.time_left > 0.0 # Will be true if the windup timer is finished and the attack timer is active.
 	
 	if not attack_melee_active : return
 	
@@ -1742,7 +1795,10 @@ func handle_attack_melee(): # The word "handle" refers to a function being execu
 		for entity in hitbox_extra.get_overlapping_areas():
 			if not hitbox_extra.monitoring : return
 			
+			if not Globals.is_node_valid_entity(entity) : continue
+			
 			var target : Node = entity.get_parent()
+			
 			if not "invulnerable" in target : continue
 			if not "is_ready" in target : continue
 			
@@ -1760,7 +1816,10 @@ func handle_attack_melee(): # The word "handle" refers to a function being execu
 			
 			if timer_windup.time_left > 0.0 : return
 			
+			if not Globals.is_node_valid_entity(entity) : continue
+			
 			var target : Node = entity.get_parent()
+			
 			if not "invulnerable" in target : continue
 			if not "is_ready" in target : continue
 			
@@ -1824,10 +1883,15 @@ func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocit
 		sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 		if attack_melee_current_id == "spin_down" : $sfx_manager_spin_down.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 		
-	if target.entity_type == "enemy" : await Globals.effect_melee_freeze(clamp(freeze_duration * invulnerable_duration_multiplier, 0.05, 0.75))
+	if target.entity_type == "enemy":
+		var hit_pos : Vector2
+		hit_pos = (target.position + position) / 2 + Vector2(randi_range(-4, 4) + 24 * Globals.player_direction_x_active, randi_range(-12, 12))
+		if Globals.get_random_bool(100) : Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, hit_pos, 4, Color.WHITE, randf_range(0.75, 1.25) * Vector2(-0.5, -0.5), 10)
+		await Globals.effect_melee_freeze(clamp(freeze_duration * invulnerable_duration_multiplier, 0.05, 0.75))
+	
 	elif target.entity_type == "box" : await get_tree().create_timer(0.25, true).timeout
 	
-	if not is_instance_valid(target) : Globals.smo("wtf") ; return
+	if not is_instance_valid(target) : Globals.smo("this can't happen") ; return
 	
 	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
 	
@@ -1885,7 +1949,42 @@ func set_hitbox(state : bool = true):
 
 
 func debug_info():
-	#print(Engine.get_frames_per_second())
-	#Globals.spawn_message_object(str(Engine.get_frames_per_second()))
+	#print(str(Engine.get_frames_per_second()))
 	if Globals.gameState_debug or Globals.debug_mode:
 		if Globals.weapon_secondary == "none" : Globals.weapon_secondary = "tie_charged"
+
+
+func on_refreshed0_5():
+	if is_instance_valid(Globals.World) and Globals.level_time_seconds > 10:
+		if World.camera_boundary_left != 0.0:
+			if position.x > World.camera_boundary_right or position.y > World.camera_boundary_bottom:
+				speed /= 4
+				gravity /= 4
+	
+	#if Input.is_action_pressed("e"):
+		#for x in Globals.get_nodes("loader_chunk"):
+			#print(x.list_scene_data)
+	
+	#for x in Globals.get_nodes("loader"):
+		#x.queue_free()
+
+func on_refreshed1_0():
+	debug_info()
+	
+	#if Globals.get_random_bool(5):
+		#Globals.smo(str(Globals.get_entity_count()), 2, World, position, Vector2(12, 12))
+		#Globals.spawn_message_object("Level entities: " + str(Globals.get_node_count("entity")) + " (" + str(len(get_tree().get_nodes_in_group("loader"))) + " loaders, " + str(len(get_tree().get_nodes_in_group("loader_chunk"))) + " loader chunks.", 1.0,Globals. main_scene, Globals.Player.camera.position + Globals.Player.position + Vector2(randf_range(-200, 200), randf_range(-200, 200)), Vector2(0.5, 0.5) / camera.zoom.x / camera.zoom.x)
+		
+		#for x in Globals.get_nodes("loader"):
+			#print(x.chunk.chunk_position)
+		
+		#for x in Globals.get_nodes("entity"):
+			#if is_instance_valid(x):
+				#if is_instance_valid(x.loader_node):
+					#print(x.loader_node.chunk)
+
+func on_refreshed2_0():
+	pass
+
+func on_refreshed4_0():
+	pass

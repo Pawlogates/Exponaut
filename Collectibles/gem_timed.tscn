@@ -88,6 +88,7 @@ fall_speed = 250
 can_move = true
 ignore_gravity = false
 on_floor_death = true
+on_death_delete_instantly = true
 start_animation = "none"
 on_collected_anim_name = "general/rotate_around_y_fade_out"
 entity_name = "gem_timed"
@@ -95,5 +96,5 @@ entity_name = "gem_timed"
 [node name="sprite" parent="." index="1"]
 sprite_frames = SubResource("SpriteFrames_itbk8")
 
-[node name="scan_stuck" parent="." index="20"]
+[node name="scan_stuck" parent="." index="21"]
 scale = Vector2(0.5, 0.5)

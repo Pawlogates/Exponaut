@@ -245,7 +245,7 @@ script = ExtResource("1_xupot")
 metadata/_edit_horizontal_guides_ = []
 
 [node name="screen_color" type="ColorRect" parent="."]
-z_index = 500
+z_index = 1250
 offset_right = 1920.0
 offset_bottom = 1080.0
 mouse_filter = 2
@@ -283,12 +283,14 @@ position = Vector2(7, 6)
 [node name="ColorRect" type="ColorRect" parent="info_direction/arrow_up"]
 offset_right = 128.0
 offset_bottom = 128.0
+mouse_filter = 2
 color = Color(0.144063, 0.144063, 0.144063, 1)
 
 [node name="ColorRect6" type="ColorRect" parent="info_direction/arrow_up"]
 z_index = -1
 offset_right = 132.0
 offset_bottom = 132.0
+mouse_filter = 2
 
 [node name="ColorRect7" type="ColorRect" parent="info_direction/arrow_up"]
 z_index = -1
@@ -296,6 +298,7 @@ offset_left = -4.0
 offset_top = -4.0
 offset_right = 132.0
 offset_bottom = 132.0
+mouse_filter = 2
 color = Color(1, 1, 1, 0.624)
 
 [node name="ColorRect2" type="ColorRect" parent="info_direction/arrow_up"]
@@ -303,6 +306,7 @@ offset_left = 60.6274
 offset_top = 15.2426
 offset_right = 68.6274
 offset_bottom = 111.243
+mouse_filter = 2
 
 [node name="ColorRect3" type="ColorRect" parent="info_direction/arrow_up"]
 offset_left = 60.6274
@@ -310,6 +314,7 @@ offset_top = 15.2426
 offset_right = 66.6274
 offset_bottom = 47.2426
 rotation = -0.785398
+mouse_filter = 2
 
 [node name="ColorRect4" type="ColorRect" parent="info_direction/arrow_up"]
 offset_left = 64.6274
@@ -317,6 +322,7 @@ offset_top = 11.2426
 offset_right = 70.6274
 offset_bottom = 43.2426
 rotation = 0.785398
+mouse_filter = 2
 
 [node name="arrow_down" type="Node2D" parent="info_direction"]
 position = Vector2(135, 280)
@@ -325,6 +331,7 @@ rotation = 3.14159
 [node name="ColorRect" type="ColorRect" parent="info_direction/arrow_down"]
 offset_right = 128.0
 offset_bottom = 128.0
+mouse_filter = 2
 color = Color(0.144, 0.144, 0.144, 1)
 
 [node name="ColorRect6" type="ColorRect" parent="info_direction/arrow_down"]
@@ -333,6 +340,7 @@ offset_left = -4.0
 offset_top = -4.0
 offset_right = 132.0
 offset_bottom = 132.0
+mouse_filter = 2
 color = Color(1, 1, 1, 0.624)
 
 [node name="ColorRect7" type="ColorRect" parent="info_direction/arrow_down"]
@@ -341,12 +349,14 @@ offset_left = -4.0
 offset_top = -4.0
 offset_right = 128.0
 offset_bottom = 128.0
+mouse_filter = 2
 
 [node name="ColorRect2" type="ColorRect" parent="info_direction/arrow_down"]
 offset_left = 60.1299
 offset_top = 17.0
 offset_right = 68.1299
 offset_bottom = 113.0
+mouse_filter = 2
 
 [node name="ColorRect3" type="ColorRect" parent="info_direction/arrow_down"]
 offset_left = 60.1299
@@ -354,6 +364,7 @@ offset_top = 17.0
 offset_right = 66.1299
 offset_bottom = 49.0
 rotation = -0.785398
+mouse_filter = 2
 
 [node name="ColorRect4" type="ColorRect" parent="info_direction/arrow_down"]
 offset_left = 64.13
@@ -361,6 +372,7 @@ offset_top = 13.0
 offset_right = 70.13
 offset_bottom = 45.0
 rotation = 0.785398
+mouse_filter = 2
 
 [node name="attack_main" type="Node2D" parent="info_direction"]
 position = Vector2(287, 78)
@@ -369,6 +381,7 @@ rotation = 1.5708
 [node name="ColorRect" type="ColorRect" parent="info_direction/attack_main"]
 offset_right = 128.0
 offset_bottom = 128.0
+mouse_filter = 2
 color = Color(0.144, 0.144, 0.144, 1)
 
 [node name="ColorRect6" type="ColorRect" parent="info_direction/attack_main"]
@@ -377,6 +390,7 @@ offset_left = -4.0
 offset_top = -4.0
 offset_right = 132.0
 offset_bottom = 132.0
+mouse_filter = 2
 color = Color(1, 1, 1, 0.624)
 
 [node name="ColorRect7" type="ColorRect" parent="info_direction/attack_main"]
@@ -385,12 +399,14 @@ offset_left = -4.0
 offset_top = -4.0
 offset_right = 128.0
 offset_bottom = 128.0
+mouse_filter = 2
 
 [node name="ColorRect2" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.1299
 offset_top = 17.0
 offset_right = 68.1299
 offset_bottom = 113.0
+mouse_filter = 2
 
 [node name="ColorRect3" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.1299
@@ -398,6 +414,7 @@ offset_top = 17.0
 offset_right = 66.1299
 offset_bottom = 49.0
 rotation = -0.785398
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect4" type="ColorRect" parent="info_direction/attack_main"]
@@ -406,6 +423,7 @@ offset_top = 13.0
 offset_right = 70.13
 offset_bottom = 45.0
 rotation = 0.785398
+mouse_filter = 2
 
 [node name="ColorRect5" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.13
@@ -413,6 +431,7 @@ offset_top = 112.757
 offset_right = 68.13
 offset_bottom = 208.757
 scale = Vector2(1, -1)
+mouse_filter = 2
 
 [node name="ColorRect8" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.1299
@@ -421,6 +440,7 @@ offset_right = 66.1299
 offset_bottom = 144.757
 rotation = -0.785398
 scale = Vector2(1, -1)
+mouse_filter = 2
 
 [node name="ColorRect9" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 64.13
@@ -429,6 +449,7 @@ offset_right = 70.13
 offset_bottom = 140.757
 rotation = 0.785398
 scale = Vector2(1, -1)
+mouse_filter = 2
 
 [node name="ColorRect10" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.1299
@@ -436,6 +457,7 @@ offset_top = 17.0
 offset_right = 68.1299
 offset_bottom = 113.0
 rotation = -0.371575
+mouse_filter = 2
 
 [node name="ColorRect11" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.1299
@@ -443,6 +465,7 @@ offset_top = 17.0
 offset_right = 66.1299
 offset_bottom = 49.0
 rotation = -1.15697
+mouse_filter = 2
 
 [node name="ColorRect12" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 64.13
@@ -450,6 +473,7 @@ offset_top = 13.0
 offset_right = 70.13
 offset_bottom = 45.0
 rotation = 0.413823
+mouse_filter = 2
 
 [node name="ColorRect13" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.13
@@ -458,6 +482,7 @@ offset_right = 68.13
 offset_bottom = 208.757
 rotation = -0.371575
 scale = Vector2(1, -1)
+mouse_filter = 2
 
 [node name="ColorRect14" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 60.1299
@@ -466,6 +491,7 @@ offset_right = 66.1299
 offset_bottom = 144.757
 rotation = -1.15697
 scale = Vector2(1, -1)
+mouse_filter = 2
 
 [node name="ColorRect15" type="ColorRect" parent="info_direction/attack_main"]
 offset_left = 64.13
@@ -474,6 +500,7 @@ offset_right = 70.13
 offset_bottom = 140.757
 rotation = 0.413823
 scale = Vector2(1, -1)
+mouse_filter = 2
 
 [node name="Label" type="Label" parent="."]
 visible = false

@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://c386fqjqax7c" path="res://Tilesets/tileset_objects.tres" id="1_evuef"]
 
-[node name="tileset_objects" type="TileMap"]
+[node name="tileset_objects" type="TileMap" groups=["tileset"]]
 visibility_layer = 2
 texture_filter = 1
 tile_set = ExtResource("1_evuef")

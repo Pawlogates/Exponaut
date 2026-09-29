@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7hg582m3ldgv"]
+
+[ext_resource type="Script" uid="uid://suhkjg7esgsm" path="res://Other/Scenes/on_onscreen_spawn_chunk.gd" id="1_4gkd7"]
+
+[node name="on_onscreen_spawn_chunk" type="Node" groups=["loader_chunk"]]
+process_mode = 3
+script = ExtResource("1_4gkd7")

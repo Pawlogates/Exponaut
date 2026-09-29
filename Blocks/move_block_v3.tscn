@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cl2nni7hap2aj"]
+[gd_scene load_steps=8 format=3 uid="uid://cl2nni7hap2aj"]
 
+[ext_resource type="Script" uid="uid://b31na4nsohsvv" path="res://Blocks/handle_anim_sync.gd" id="1_3hfbs"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_cau4q"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_q07jd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
 size = Vector2(64, 64)
@@ -88,20 +90,25 @@ _data = {
 &"moveV_loop": SubResource("Animation_2p6nt")
 }
 
-[node name="move_block" type="StaticBody2D"]
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_3hfbs")
+
+[node name="block" type="StaticBody2D" parent="."]
 collision_layer = 3
 collision_mask = 3
 
-[node name="collision" type="CollisionShape2D" parent="."]
+[node name="collision" type="CollisionShape2D" parent="block"]
 shape = SubResource("RectangleShape2D_gk7p3")
 
-[node name="sprite" type="Sprite2D" parent="collision"]
+[node name="sprite" type="Sprite2D" parent="block"]
 texture = ExtResource("1_cau4q")
 region_enabled = true
 region_rect = Rect2(64, 896, 64, 64)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="collision"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="block"]
 libraries = {
 &"": SubResource("AnimationLibrary_1356v")
 }
 autoplay = "moveV_loop"
+
+[node name="handle_offscreen" parent="." instance=ExtResource("2_q07jd")]

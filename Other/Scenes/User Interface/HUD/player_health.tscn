@@ -9,7 +9,7 @@
 atlas = ExtResource("1_04vke")
 region = Rect2(512, 0, 256, 64)
 
-[node name="player_health" type="Control" groups=["hud_abilities_health"]]
+[node name="player_health" type="Control" groups=["hud_player_health"]]
 z_index = 1
 layout_mode = 3
 anchors_preset = 0
@@ -604,6 +604,7 @@ offset_left = 112.0
 offset_top = 96.0
 offset_right = 160.0
 offset_bottom = 144.0
+mouse_filter = 2
 theme = ExtResource("3_wts6p")
 text = "+"
 
@@ -614,6 +615,7 @@ offset_left = 176.0
 offset_top = 96.0
 offset_right = 224.0
 offset_bottom = 144.0
+mouse_filter = 2
 theme = ExtResource("3_wts6p")
 text = "-"
 clip_text = true

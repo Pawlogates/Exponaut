@@ -35,7 +35,7 @@ var zoomValue = 1.0
 @export var camera_add_offset : Vector2 = Vector2(256, -128)
 
 @export var camera_zoom = false
-@export var camera_add_zoom : Vector2 = Vector2(2, 2) # In addition to the base zoom value ("Vector2(1,1)").
+@export var camera_add_zoom : Vector2 = Vector2(1.5, 1.5) # In addition to the base zoom value ("Vector2(1,1)").
 
 @export var camera_effect_speed : float = 1.0
 
@@ -91,7 +91,7 @@ func _process(delta: float) -> void:
 					distance_y = area.get_parent().position.y - (position.y - (height / 2 * scale.y))
 					#trigger_value = clamp(1.2 * distance_X / width / scale[0] * 2, -1, 1) * -1
 					trigger_value = clamp(distance_y / (height * scale.y), 0, 1)
-			print(trigger_value)
+			
 			if trigger_value < min_value : trigger_value = min_value
 			elif trigger_value > max_value : trigger_value = max_value
 			
@@ -122,7 +122,6 @@ var player_inside : bool = false
 
 func _on_area_entered(area: Area2D) -> void:
 	if not enabled : return
-	print(Globals.is_node_valid_player(area))
 	if not Globals.is_node_valid_player(area) : return
 	player_inside = true
 	if active : return

@@ -232,7 +232,7 @@ func _on_btn_show_available_pressed() -> void:
 		menu_choices.container_buttons.add_child(button_choice)
 
 
-func _on_btn_close_pressed() -> void:
+func _on_btn_close_pressed(duration : float = 1.0) -> void:
 	queue_free()
 
 

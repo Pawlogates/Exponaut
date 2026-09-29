@@ -16,7 +16,9 @@ var effect_hide_rotation : int = randi_range(-360, 360)
 
 
 func _ready() -> void:
+	SaveData.player_name = "none"
 	Globals.gameState_typing = true
+	if Globals.gameState_level : Globals.set_pause(true)
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
 	for node in get_tree().get_nodes_in_group("menu_player_name"):
@@ -27,8 +29,15 @@ func _ready() -> void:
 	
 	if start_pos == Vector2(-1, -1):
 		start_pos = position
+	
+	if Globals.gameState_debug:
+		await Globals.await_timer(0.5)
+		on_text_confirmed()
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("confirm"):
+		on_text_confirmed()
+	
 	#if effect_hide_active:
 		#position += effect_hide_direction * 1500 * delta
 		#rotation_degrees = lerp(rotation_degrees, float(effect_hide_rotation), delta)
@@ -50,11 +59,14 @@ func _on_insert_player_name_text_changed() -> void:
 	sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.8, 1.2))
 
 func on_text_confirmed():
-	if insert_player_name.text != "":
+	SaveData.player_name = "none"
+	
+	if insert_player_name.text != "" and insert_player_name.text != "\n":
 		SaveData.player_name = insert_player_name.text
 	else:
-		SaveData.player_name = Globals.l_color_all.pick_random().replace(" ", "").replace("_", "") + str(randi_range(0, 9999))
-		SaveData.player_name = SaveData.player_name
+		SaveData.player_name = Globals.l_color_all.pick_random() + str(randi_range(0, 9999))
+	
+	SaveData.player_name = SaveData.player_name.replace(" ", "").replace("_", "").replace("\n", "")
 	
 	var filepath = "user://player_info.json"
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
@@ -64,12 +76,13 @@ func on_text_confirmed():
 	
 	
 	Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
+	Globals.set_pause(false)
 	Globals.gameState_typing = false
 	
 	animation_all.play("general/scale_down_left_back_in")
 	
+	await get_tree().create_timer(0.5, true).timeout
 	Globals.handle_spawn_menu(true)
-	
 	await get_tree().create_timer(0.5, true).timeout
 	effect_hide_active = true
 	await get_tree().create_timer(4, true).timeout

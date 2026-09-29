@@ -13,6 +13,14 @@ animations = [{
 "texture": SubResource("AtlasTexture_3bwap")
 }],
 "loop": true,
+"name": &"collected",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3bwap")
+}],
+"loop": true,
 "name": &"idle",
 "speed": 10.0
 }]

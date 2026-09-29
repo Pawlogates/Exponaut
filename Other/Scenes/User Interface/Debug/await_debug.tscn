@@ -2,5 +2,5 @@
 
 [ext_resource type="Script" uid="uid://cqadg6wy31k8o" path="res://await_debug.gd" id="1_p5r51"]
 
-[node name="await_debug" type="Node2D"]
+[node name="await_debug" type="Node2D" groups=["await_debug"]]
 script = ExtResource("1_p5r51")

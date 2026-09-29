@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://3ggahom0go77"]
 
-[ext_resource type="Script" uid="uid://hyt7g7hh0wov" path="res://Scripts/deco_waterfall.gd" id="1_sgbs0"]
+[ext_resource type="Script" uid="uid://df0ennof8ebxv" path="res://Objects/Decorations/deco_tile_general.gd" id="1_1mbjm"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_n4wd6"]
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="3_1mbjm"]
 
@@ -105,6 +105,7 @@ _data = {
 }
 
 [node name="deco_smog" type="Node2D"]
+script = ExtResource("1_1mbjm")
 
 [node name="deco_smog" type="Container" parent="."]
 z_index = -1
@@ -114,7 +115,6 @@ offset_left = -32.0
 offset_top = -32.0
 offset_right = 32.0
 offset_bottom = 32.0
-script = ExtResource("1_sgbs0")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="deco_smog"]
 position = Vector2(32, 32)
@@ -148,4 +148,3 @@ libraries = {
 autoplay = "loop"
 
 [node name="handle_offscreen" parent="." instance=ExtResource("3_1mbjm")]
-position = Vector2(-32, -32)

@@ -1,11 +1,13 @@
-[gd_scene load_steps=9 format=3 uid="uid://4rdhbwr8gea4"]
+[gd_scene load_steps=11 format=3 uid="uid://4rdhbwr8gea4"]
 
 [ext_resource type="Theme" uid="uid://cfdyinxw562my" path="res://Other/Themes/text_score_display.tres" id="1_i4dtr"]
 [ext_resource type="Script" uid="uid://cla8cu6o1fwtt" path="res://Scripts/score_display.gd" id="2_y2l1u"]
 [ext_resource type="PackedScene" uid="uid://dux1wg1jiqqc2" path="res://Objects/Decorations/shadow_line_double.tscn" id="3_arwg1"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="3_kn86t"]
 [ext_resource type="PackedScene" uid="uid://wy6nwo2heb78" path="res://Objects/Decorations/shadow_line.tscn" id="4_d0w44"]
-[ext_resource type="PackedScene" uid="uid://bqld15rk5235o" path="res://Objects/Decorations/decoration_gear2.tscn" id="5_0xwbr"]
+[ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="7_f11yj"]
+[ext_resource type="PackedScene" uid="uid://c8qxhrm2pefrh" path="res://Objects/Decorations/gear2.tscn" id="8_qnjsb"]
+[ext_resource type="PackedScene" uid="uid://bl2ur1bnb511d" path="res://Objects/Decorations/deco_highlight_shine_around.tscn" id="9_k7jlq"]
 
 [sub_resource type="Animation" id="Animation_k00jd"]
 resource_name = "comboScore_show"
@@ -15,8 +17,9 @@ _data = {
 &"comboScore_show": SubResource("Animation_k00jd")
 }
 
-[node name="ScoreDisplay" type="Node2D"]
+[node name="ScoreDisplay" type="Node2D" groups=["score_display"]]
 process_mode = 3
+position = Vector2(32, 32)
 script = ExtResource("2_y2l1u")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -27,16 +30,16 @@ libraries = {
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
-offset_left = -5.0
-offset_top = 5.0
-offset_right = 379.0
-offset_bottom = 133.0
+offset_right = 384.0
+offset_bottom = 128.0
+mouse_filter = 2
 
 [node name="bg_score" type="Control" parent="Control"]
 z_index = -1
 anchors_preset = 0
 offset_right = 384.0
 offset_bottom = 64.0
+mouse_filter = 2
 
 [node name="ColorRect" type="ColorRect" parent="Control/bg_score"]
 z_index = -1
@@ -46,6 +49,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0, 0, 0, 1)
 metadata/_edit_use_anchors_ = true
 
@@ -61,6 +65,7 @@ offset_top = -2.0
 offset_right = -7.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.140447, 0.140447, 0.140447, 1)
 metadata/_edit_use_anchors_ = true
 
@@ -77,6 +82,7 @@ offset_right = -8.0
 offset_bottom = -1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.140447, 0.140447, 0.140447, 1)
 metadata/_edit_use_anchors_ = true
 
@@ -93,6 +99,7 @@ offset_right = 2.0
 offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.140447, 0.140447, 0.140447, 1)
 metadata/_edit_use_anchors_ = true
 
@@ -108,6 +115,7 @@ offset_top = -6.0
 offset_bottom = -8.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 color = Color(0.140447, 0.140447, 0.140447, 1)
 metadata/_edit_use_anchors_ = true
 
@@ -116,6 +124,7 @@ z_index = -2
 anchors_preset = 0
 offset_right = 384.0
 offset_bottom = 64.0
+mouse_filter = 2
 
 [node name="ColorRect2" type="ColorRect" parent="Control/bg_comboScore"]
 z_index = -1
@@ -125,6 +134,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 metadata/_edit_use_anchors_ = true
 
 [node name="Score" type="Label" parent="Control"]
@@ -227,9 +237,9 @@ metadata/_edit_use_anchors_ = true
 
 [node name="shadow" parent="." instance=ExtResource("3_arwg1")]
 z_index = -4
-offset_left = 104.0
+offset_left = 100.0
 offset_top = 56.0
-offset_right = 104.0
+offset_right = 100.0
 offset_bottom = 56.0
 scale = Vector2(1, 3)
 
@@ -250,25 +260,48 @@ offset_right = 192.0
 offset_bottom = -112.0
 scale = Vector2(2, 2)
 
-[node name="decoration_gear" parent="." instance=ExtResource("5_0xwbr")]
-z_index = 25
-position = Vector2(24, 8)
-scale = Vector2(0.25, 0.25)
-anim_speed2 = 0.1
-on_entity_collected_rotate = true
+[node name="Combo Manager" parent="." instance=ExtResource("7_f11yj")]
 
-[node name="decoration_gear3" parent="." instance=ExtResource("5_0xwbr")]
-modulate = Color(0, 0, 0, 1)
-z_index = 25
-position = Vector2(40, 64)
-scale = Vector2(0.2, 0.2)
-anim_speed2 = 0.25
-anim_reverse2 = true
-on_entity_collected_rotate = true
+[node name="deco_tetronaut" type="Node2D" parent="."]
 
-[node name="decoration_gear2" parent="." instance=ExtResource("5_0xwbr")]
-z_index = -10
-position = Vector2(288, 56)
-scale = Vector2(0.2, 0.2)
-anim_reverse2 = true
-on_entity_collected_rotate = true
+[node name="gear12" parent="deco_tetronaut" instance=ExtResource("8_qnjsb")]
+z_index = -500
+position = Vector2(310, 51)
+scale = Vector2(0.5, 0.5)
+
+[node name="gear13" parent="deco_tetronaut" instance=ExtResource("8_qnjsb")]
+z_index = -500
+position = Vector2(58, 51)
+scale = Vector2(0.5, 0.5)
+
+[node name="gear14" parent="deco_tetronaut" instance=ExtResource("8_qnjsb")]
+modulate = Color(0.67069, 0.67069, 0.67069, 1)
+z_index = -500
+position = Vector2(187, -53)
+scale = Vector2(0.5, 0.5)
+
+[node name="gear" parent="deco_tetronaut" instance=ExtResource("8_qnjsb")]
+modulate = Color(0.237539, 0.237539, 0.237539, 1)
+z_index = -499
+position = Vector2(184, 138)
+rotation = 0.523599
+scale = Vector2(0.5, 0.5)
+
+[node name="gear11" parent="deco_tetronaut/gear" instance=ExtResource("8_qnjsb")]
+position = Vector2(-117.086, -54.7987)
+
+[node name="gear3" parent="deco_tetronaut" instance=ExtResource("8_qnjsb")]
+modulate = Color(0.237539, 0.237539, 0.237539, 1)
+z_index = -499
+position = Vector2(228, 75)
+rotation = -1.5708
+scale = Vector2(0.5, 0.5)
+
+[node name="gear11" parent="deco_tetronaut/gear3" instance=ExtResource("8_qnjsb")]
+position = Vector2(-102, -68)
+
+[node name="deco_highlight_shine_around" parent="deco_tetronaut" instance=ExtResource("9_k7jlq")]
+modulate = Color(1, 1, 1, 0.196078)
+z_index = -1000
+position = Vector2(188, 36)
+scale = Vector2(0.75, 0.75)

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://4jjg3v3m1ni1"]
+[gd_scene load_steps=3 format=3 uid="uid://4jjg3v3m1ni1"]
 
 [ext_resource type="Script" uid="uid://c6ql1eukhdelh" path="res://Objects/spawner_basic.gd" id="1_pvbpf"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_xkf3g"]
 
 [node name="spawner_basic" type="Node2D"]
 script = ExtResource("1_pvbpf")
@@ -9,4 +10,11 @@ script = ExtResource("1_pvbpf")
 wait_time = 0.25
 one_shot = true
 
+[node name="scan_visible" type="VisibleOnScreenNotifier2D" parent="."]
+rect = Rect2(-200, -200, 400, 400)
+
+[node name="handle_offscreen" parent="." instance=ExtResource("2_xkf3g")]
+
 [connection signal="timeout" from="cooldown_spawn_scene" to="." method="_on_cooldown_spawn_scene_timeout"]
+[connection signal="screen_entered" from="scan_visible" to="." method="_on_scan_visible_screen_entered"]
+[connection signal="screen_exited" from="scan_visible" to="." method="_on_scan_visible_screen_exited"]

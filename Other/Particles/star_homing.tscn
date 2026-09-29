@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://cq63i6jcww5xg"]
+
+[ext_resource type="Script" uid="uid://1hl4vbwgyrso" path="res://Other/Particles/star_homing.gd" id="1_jbqhx"]
+[ext_resource type="Texture2D" uid="uid://ck64g1sjqi7f7" path="res://Assets/Graphics/other/star.png" id="2_v3ehp"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_h7lpv"]
+
+[node name="star_homing" type="CharacterBody2D"]
+z_index = 4096
+script = ExtResource("1_jbqhx")
+
+[node name="sprite" type="Sprite2D" parent="."]
+texture = ExtResource("2_v3ehp")
+
+[node name="sfx_manager" parent="." instance=ExtResource("3_h7lpv")]

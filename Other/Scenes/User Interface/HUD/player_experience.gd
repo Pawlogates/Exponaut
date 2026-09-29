@@ -31,6 +31,8 @@ func _ready() -> void:
 	on_level_next(false)
 
 func _physics_process(delta: float) -> void:
+	#for x in 20 : if not x : return
+	
 	container_bar.modulate.r = move_toward(container_bar.modulate.r, 1, delta)
 	container_bar.modulate.g = move_toward(container_bar.modulate.g, 1, delta)
 	container_bar.modulate.b = move_toward(container_bar.modulate.b, 1, delta)
@@ -85,7 +87,7 @@ func on_level_next(effects : bool = true):
 	if effects:
 		Globals.spawn_scenes(container_bar, Globals.scene_particle_star, level_current, Vector2(experience_bar_length / 2, 8))
 		Globals.spawn_scenes(container_bar, Globals.scene_particle_special, level_current, Vector2(experience_bar_length / 2, 8), 5, Color.WHITE, Vector2(0, 0), 11, ["rotation_degrees"], [180])
-		Globals.spawn_scenes(Globals.World, Globals.scene_particle_homing_square, level_current, Globals.Player.position, 10, Globals.l_color_all.pick_random(), Vector2(0, 0), 10)
+		if is_instance_valid(Globals.World) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_homing_square, level_current, Globals.Player.position, 10, Globals.l_color_all.pick_random(), Vector2(0, 0), 10)
 		Globals.spawn_scenes(container_bar, load("res://Other/Effects/display_text_falling.tscn"), 1, Vector2(experience_bar_length / 2, 128 - 4 * level_current), 20, Color(0, 0, 0, 0), Vector2(0.5, 0.5) + Vector2(0.025, 0.025) * level_current, 10, ["text_message", "gravity", "rotation_speed", "rotation_degrees"], [str(level_current), -50, 0.1 * level_current, 45])
 		
 		$sfx_manager.sfx_play(Globals.sfx_medium_effect3, 2, 2)

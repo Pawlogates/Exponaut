@@ -12,6 +12,7 @@ health_value = 150
 score_value = 150
 movement_type = "follow_player_x_if_spotted"
 family = "enemy"
+damage_from_player = true
 can_move = true
 ignore_gravity = false
 on_floor_change_velocity = true
@@ -27,7 +28,6 @@ entity_type = "enemy"
 
 [node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_tjh66")
-animation = &"walk"
 
 [node name="decoration_gear4" parent="sprite/container_effect_thrownAway" index="0" instance=ExtResource("3_aecn6")]
 z_index = -4

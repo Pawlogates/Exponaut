@@ -432,6 +432,7 @@ script = ExtResource("3_aq2ip")
 text_manager_message = "JOIN!"
 text_manager_cooldown_create_message = 3.0
 decoration_base_size = Vector2(160, 64)
+decoration_base_position = Vector2(0, 0)
 ignore_mouse = true
 edge_decoration1_filepath = "none"
 edge_decoration2_filepath = "none"

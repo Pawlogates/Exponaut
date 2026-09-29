@@ -154,6 +154,7 @@ _data = {
 }
 
 [node name="debug_message" type="Label"]
+texture_filter = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = -1896.0

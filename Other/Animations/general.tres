@@ -295,6 +295,7 @@ tracks/5/keys = {
 resource_name = "loop_right_left"
 length = 4.0
 loop_mode = 1
+step = 0.1
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -302,9 +303,9 @@ tracks/0/path = NodePath(".:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(-64, -0.25, 0, 1, 0, 64, -1, 0, 1, 0, -64, -1, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, 0, 0, 0.6, 69.5, 64, -0.5, 0, 0.77, -15.5, -64.5, -0.66, 15, 1, 0, 0, -0.2, -41.5, 0, 0),
+"times": PackedFloat32Array(0, 1.33, 2.66, 4)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -329,9 +330,9 @@ tracks/0/path = NodePath(".:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(-128, -0.25, 0, 1, 0, 128, -1, 0, 1, 0, -128, -1, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.5, 94.8122, 128, -1, 0, 1, 0, -128, -1, 0, 1, 0, 0, -0.333333, -65.9999, 0.25, 0),
+"times": PackedFloat32Array(0, 1.33, 2.66, 4)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -340,9 +341,9 @@ tracks/1/path = NodePath(".:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1.03333, 2.83333, 4)
 }
 
 [sub_resource type="Animation" id="Animation_lar64"]
@@ -356,9 +357,9 @@ tracks/0/path = NodePath(".:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(-256, -0.25, 0, 1, 0, 256, -1, 0, 1, 0, -256, -1, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.333333, 200.206, 256, -1, 0, 1, 0, -256, -1, 0, 1, 0, 0, -0.3, -126.037, 0.25, 0),
+"times": PackedFloat32Array(0, 1.33, 2.66, 4)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -367,9 +368,9 @@ tracks/1/path = NodePath(".:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 3.03333, 4)
 }
 
 [sub_resource type="Animation" id="Animation_bv2i4"]
@@ -383,9 +384,9 @@ tracks/0/path = NodePath(".:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(-512, -0.25, 0, 1, 0, 512, -1, 0, 1, 0, -512, -1, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.366667, 371.798, 512, -1, 0, 1, 0, -512, -1, 0, 1, 0, 0, -0.287256, -337.384, 0.25, 0),
+"times": PackedFloat32Array(0, 1.33, 2.66, 4)
 }
 tracks/1/type = "bezier"
 tracks/1/imported = false
@@ -394,9 +395,9 @@ tracks/1/path = NodePath(".:position:y")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 2.96667, 4)
 }
 
 [sub_resource type="Animation" id="Animation_m044x"]

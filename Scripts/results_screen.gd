@@ -40,11 +40,13 @@ var score_current : bool = true # Whether the score was aquired right now, or is
 
 
 func _ready():
+	if Globals.level_id == "TUTORIAL_6" : $text_manager.queue_free()
+	
 	Globals.gameState_changed.connect(delete)
 	
 	Globals.set_mouse_mode(true)
 	
-	set_process(false)
+	set_physics_process(false)
 	
 	level_data = SaveData.get("saved_" + level_id)
 	
@@ -68,6 +70,7 @@ func _ready():
 	container_rank.modulate.a = 0
 	
 	animation_ui.play("show")
+	visible = true
 	
 	label_score_previous_best.text = str(int(level_previous_best_score))
 	label_score_previous_best.update_text()
@@ -85,11 +88,22 @@ func _ready():
 	
 	label_time.text = str(int(level_time / 1000)) + " s"
 	label_time.update_text()
+	
+	if Globals.random_bool(3, 1) or Globals.level_id == "TUTORIAL_2" or Globals.level_id == "TUTORIAL_3":
+		Globals.server_to_dirpath(Globals.d_recordings_online)
+		await get_tree().create_timer(2.0, false).timeout
+		Globals.update_recordings_best()
+		await get_tree().create_timer(4.0, false).timeout
+		Globals.dirpath_to_server(Globals.d_recordings_local_best, "leaderboard/upload")
 
 
 var level_score_displayed = 0
 
-func _process(delta):
+func _physics_process(delta):
+	if Input.is_action_just_pressed("jump"):
+		if Globals.levelSet_id != "MAIN" : continue_next_level()
+		else : continue_overworld()
+	
 	if Input.is_action_just_pressed("menu"):
 		if not Globals.node_exists("leaderboard"):
 			queue_free()
@@ -99,6 +113,8 @@ func _process(delta):
 	label_score.modulate.r = move_toward(label_score.modulate.r, 1, delta)
 	label_score.modulate.g = move_toward(label_score.modulate.g, 1, delta)
 	label_score.modulate.b = move_toward(label_score.modulate.b, 1, delta)
+	
+	label_score.visible = true
 
 
 func delete():
@@ -112,7 +128,7 @@ func _on_cooldown_show_results_timeout() -> void:
 	container_majorCollectables.modulate.a = 1
 	container_level_finished.modulate.a = 0
 	
-	set_process(true)
+	set_physics_process(true)
 
 
 var level_score_displayed_set : bool = false
@@ -189,12 +205,6 @@ func on_score_displayed_set():
 	label_time_total.text = str(int(total_time / 1000)) + " s"
 	label_time_total.update_text()
 	
-	await get_tree().create_timer(1.0, true).timeout
-	
-	Globals.dirpath_to_server(Globals.d_recordings_local_best)
-	
-	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.tscn"), 1, Vector2(0, 0), -1)
-	#Globals.spawn_menu(Globals.scene_menu_main, ["Start New Game", "Continue", "Resume game", "Select Level Set", "Quit Game", "Back to Overworld", "Enable Score Attack mode", "Settings", "Quit to Main Menu", "Close", "Touch Controls"], Vector2(0, 350))
 	
 	var rank_data = SaveData.calculate_rank_level(level_id)
 	rank = rank_data[0]
@@ -211,6 +221,12 @@ func on_score_displayed_set():
 	
 	label_score_segment.text = str(rank_score_segment) + " (the score difference between each rank)"
 	label_score_segment.update_text()
+	
+	
+	await get_tree().create_timer(2.0, true).timeout
+	
+	#Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_leaderboard_level.tscn"), 1, Vector2(0, 0), -1)
+	Globals.handle_spawn_menu(false)
 
 
 @onready var count_sfx_manager: Node2D = $count_sfx_manager
@@ -230,3 +246,23 @@ func effects_count_segment_break(type : int = 1, font_size : int = 48):
 	elif type == 3:
 		count_sfx_manager.sfx_play(Globals.sfx_jewel_collect3)
 		Globals.spawn_scenes(label_score, Globals.scene_particle_star, 8, label_score.size / 2)
+
+func continue_next_level():
+	if Globals.level_id == "TUTORIAL_6" : return
+	
+	if SaveData.player_name != "none":
+		if is_instance_valid(Globals.World) and SaveData.player_name != "none" and Globals.level_score != 0 and level_score_displayed > 0 or is_instance_valid(Globals.World) and Globals.levelSet_id != "TUTORIAL":
+			
+			if Globals.level_id == "TUTORIAL_6":
+				await Globals.change_main_scene(Globals.scene_levelSet_screen)
+				queue_free()
+			
+			else:
+				await Globals.change_main_scene(Globals.World.next_level_filepath)
+				queue_free()
+	
+	else:
+		Globals.message("Press ENTER to confirm the player name and continue.")
+
+func continue_overworld():
+	Globals.back_to_overworld()

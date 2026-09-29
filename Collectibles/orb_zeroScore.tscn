@@ -13,3 +13,4 @@ entity_name = "orb_zeroScore"
 
 [node name="sprite" parent="." index="1"]
 sprite_frames = ExtResource("2_4kauy")
+animation = &"collected"

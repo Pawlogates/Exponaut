@@ -1,0 +1,13 @@
+[gd_scene load_steps=2 format=3 uid="uid://cpt80jo2eec4m"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_spxko"]
+size = Vector2(64, 64)
+
+[node name="scan_always_active" type="Area2D" groups=["scan_always_active"]]
+collision_layer = 64
+collision_mask = 64
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_spxko")
+debug_color = Color(0.702762, 0.272784, 1, 0)

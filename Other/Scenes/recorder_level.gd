@@ -34,7 +34,7 @@ func on_level_finished():
 		playback_info.visible = false
 		return
 	
-	if Globals.World.level_finished_active:
+	if Globals.World.level_finished:
 		Globals.handle_spawn_menu(true)
 		Globals.message("You're a clever little gamer arent you...")
 		return

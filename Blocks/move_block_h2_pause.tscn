@@ -1,6 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://cytob2sm8ydgc"]
+[gd_scene load_steps=8 format=3 uid="uid://cytob2sm8ydgc"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_46f62"]
+[ext_resource type="Script" uid="uid://b31na4nsohsvv" path="res://Blocks/handle_anim_sync.gd" id="1_s8xru"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_kvvxu"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
 size = Vector2(64, 64)
@@ -40,7 +42,7 @@ step = 0.05
 tracks/0/type = "bezier"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../collision:position:x")
+tracks/0/path = NodePath(".:position:x")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -55,22 +57,27 @@ _data = {
 &"moveH_loop": SubResource("Animation_2p6nt")
 }
 
-[node name="move_block" type="StaticBody2D"]
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_s8xru")
+
+[node name="block" type="StaticBody2D" parent="."]
 z_index = 1
 collision_layer = 3
 collision_mask = 3
 
-[node name="collision" type="CollisionShape2D" parent="."]
-shape = SubResource("RectangleShape2D_gk7p3")
-
-[node name="sprite" type="Sprite2D" parent="collision"]
+[node name="sprite" type="Sprite2D" parent="block"]
 texture = ExtResource("1_46f62")
 region_enabled = true
 region_rect = Rect2(0, 896, 64, 64)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="collision"]
+[node name="collision" type="CollisionShape2D" parent="block"]
+shape = SubResource("RectangleShape2D_gk7p3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="block"]
 libraries = {
 &"": SubResource("AnimationLibrary_1356v")
 }
 autoplay = "moveH_loop"
 speed_scale = 0.5
+
+[node name="handle_offscreen" parent="." instance=ExtResource("2_kvvxu")]

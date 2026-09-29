@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://ctkto3f1mjxpo"]
+[gd_scene load_steps=11 format=3 uid="uid://ctkto3f1mjxpo"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_6awp8"]
+[ext_resource type="Script" uid="uid://df0ennof8ebxv" path="res://Objects/Decorations/deco_tile_general.gd" id="1_oh3cb"]
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_266xq"]
 [ext_resource type="PackedScene" uid="uid://bvtf5e5h4p4lp" path="res://Objects/Decorations/smooth_edge.tscn" id="3_w0iou"]
 [ext_resource type="PackedScene" uid="uid://4jjg3v3m1ni1" path="res://Objects/spawner_basic.tscn" id="4_oh3cb"]
@@ -106,6 +107,7 @@ _data = {
 }
 
 [node name="deco_waterfall" type="Node2D"]
+script = ExtResource("1_oh3cb")
 
 [node name="deco_waterfall" type="Container" parent="."]
 texture_filter = 1
@@ -149,7 +151,6 @@ libraries = {
 autoplay = "loop"
 
 [node name="handle_offscreen" parent="." instance=ExtResource("2_266xq")]
-position = Vector2(-32, -32)
 
 [node name="edge" parent="." instance=ExtResource("3_w0iou")]
 modulate = Color(0.40866, 0.528841, 0.951124, 1)

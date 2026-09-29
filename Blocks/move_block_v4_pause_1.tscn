@@ -1,13 +1,18 @@
-[gd_scene load_steps=6 format=3 uid="uid://bahkr2nr1f34c"]
+[gd_scene load_steps=8 format=3 uid="uid://bahkr2nr1f34c"]
 
+[ext_resource type="Script" uid="uid://b31na4nsohsvv" path="res://Blocks/handle_anim_sync.gd" id="1_as3en"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_s42ea"]
+[ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_s4ygy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
+size = Vector2(64, 64)
 
 [sub_resource type="Animation" id="Animation_3507k"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("CollisionShape2D:position")
+tracks/0/path = NodePath("../CollisionShape2D:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -63,24 +68,26 @@ _data = {
 &"moveV_loop": SubResource("Animation_2p6nt")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
-size = Vector2(64, 64)
-
 [node name="move_blockV" type="StaticBody2D"]
 z_index = 1
 collision_layer = 3
 collision_mask = 3
+script = ExtResource("1_as3en")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="handle_offscreen" parent="." instance=ExtResource("2_s4ygy")]
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Node2D"]
 texture = ExtResource("1_s42ea")
 region_enabled = true
 region_rect = Rect2(64, 896, 64, 64)
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D"]
+shape = SubResource("RectangleShape2D_gk7p3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Node2D"]
 libraries = {
 &"": SubResource("AnimationLibrary_1356v")
 }
 autoplay = "moveV_loop"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D"]
-shape = SubResource("RectangleShape2D_gk7p3")

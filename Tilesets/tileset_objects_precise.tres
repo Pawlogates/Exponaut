@@ -12,8 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://cicdmjrqn10qb" path="res://Objects/Decorations/deco_chainLong_V_bg.tscn" id="13_ayso7"]
 [ext_resource type="PackedScene" uid="uid://c5otdvm7o5jdy" path="res://Objects/Decorations/deco_tile_chain_H.tscn" id="14_m4klu"]
 [ext_resource type="PackedScene" uid="uid://cwylhbfoqohrq" path="res://Objects/one_way_up.tscn" id="15_4xsi2"]
+[ext_resource type="PackedScene" uid="uid://diquw0tnwudui" path="res://Collectibles/coin_floating.tscn" id="16_fe1vg"]
 [ext_resource type="PackedScene" uid="uid://do4845rlxd1y4" path="res://Blocks/move_block_v_pause.tscn" id="16_thyes"]
 [ext_resource type="PackedScene" uid="uid://bdjd80p8f5n7h" path="res://Blocks/move_block_h_pause.tscn" id="17_0slay"]
+[ext_resource type="PackedScene" uid="uid://bq2hygqo7c6kk" path="res://Collectibles/apple_floating.tscn" id="17_iuwn5"]
 [ext_resource type="PackedScene" uid="uid://c6a6e6sqb52cr" path="res://Blocks/move_block_v2.tscn" id="18_g3mfw"]
 [ext_resource type="PackedScene" uid="uid://cfv0k77wv0jto" path="res://Blocks/move_block_h2.tscn" id="19_5h37f"]
 [ext_resource type="PackedScene" uid="uid://fsjwmefaqk18" path="res://Blocks/resetButton_blue.tscn" id="20_6katf"]
@@ -73,7 +75,6 @@
 [ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="76_cg430"]
 [ext_resource type="PackedScene" uid="uid://btrwya6rdrl5j" path="res://Collectibles/orb_green.tscn" id="76_khxj4"]
 [ext_resource type="PackedScene" uid="uid://4dddq1sty5h7" path="res://Collectibles/orb_red.tscn" id="77_44psg"]
-[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration_main.tscn" id="77_apmmm"]
 [ext_resource type="PackedScene" uid="uid://ipxu84h85b68" path="res://Collectibles/rock.tscn" id="78_w3nap"]
 [ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="78_ww1t5"]
 [ext_resource type="PackedScene" uid="uid://disgtpe2dwcq6" path="res://Collectibles/jewel_red.tscn" id="79_a7gk6"]
@@ -84,7 +85,7 @@
 [ext_resource type="PackedScene" uid="uid://cdpdpup0uxl3d" path="res://Collectibles/carrot.tscn" id="81_qcmkb"]
 [ext_resource type="PackedScene" uid="uid://cuxplgh41ahnt" path="res://Collectibles/orb_zeroScore.tscn" id="81_y0h4a"]
 [ext_resource type="PackedScene" uid="uid://chykfjtli3g53" path="res://Objects/Decorations/glow_orb_soft.tscn" id="82_21xtf"]
-[ext_resource type="PackedScene" uid="uid://bq2hygqo7c6kk" path="res://Collectibles/apple_floating.tscn" id="82_a4wbo"]
+[ext_resource type="PackedScene" uid="uid://5ykb23ewx1om" path="res://Collectibles/apple.tscn" id="82_a4wbo"]
 [ext_resource type="PackedScene" uid="uid://ev6ylwrrq8ku" path="res://Collectibles/cheese.tscn" id="82_khxj4"]
 [ext_resource type="PackedScene" uid="uid://ukaq30esmehe" path="res://Collectibles/puzzle_reset_zone.tscn" id="83_fe1vg"]
 [ext_resource type="PackedScene" uid="uid://c0uqoiwqio8u8" path="res://Objects/Decorations/glow_shadow_fog.tscn" id="83_jahqh"]
@@ -126,7 +127,6 @@
 [ext_resource type="PackedScene" uid="uid://rpgaf3ib74ux" path="res://Enemies/scannot.tscn" id="104_8hd6h"]
 [ext_resource type="PackedScene" uid="uid://bj2ap2m7h7t47" path="res://Enemies/hopper.tscn" id="105_colf5"]
 [ext_resource type="PackedScene" uid="uid://dk7a7juo42qwa" path="res://Enemies/entity_randomized.tscn" id="108_y6jnx"]
-[ext_resource type="PackedScene" uid="uid://b17i5uq6owibc" path="res://Boxes/piggybank_coins_timed.tscn" id="110_b33ec"]
 [ext_resource type="PackedScene" uid="uid://xtsa3kj57iry" path="res://Boxes/gem_level_portal.tscn" id="111_0kb8g"]
 [ext_resource type="PackedScene" uid="uid://bkcka0v37j3sl" path="res://Boxes/piggybank_orb_red.tscn" id="112_fndqm"]
 [ext_resource type="PackedScene" uid="uid://crlaglwdng51c" path="res://Boxes/piggybank_orb_green.tscn" id="113_qcqlf"]
@@ -169,6 +169,8 @@ scenes/19/scene = ExtResource("82_khxj4")
 scenes/20/scene = ExtResource("84_44psg")
 scenes/21/scene = ExtResource("85_816uw")
 scenes/22/scene = ExtResource("86_n2x1u")
+scenes/23/scene = ExtResource("16_fe1vg")
+scenes/24/scene = ExtResource("17_iuwn5")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_bdx2g"]
 resource_name = "switches"
@@ -224,7 +226,6 @@ scenes/6/scene = ExtResource("30_7d4ed")
 scenes/7/scene = ExtResource("48_iuwn5")
 scenes/8/scene = ExtResource("50_at0f1")
 scenes/9/scene = ExtResource("49_raahg")
-scenes/10/scene = ExtResource("77_apmmm")
 scenes/11/scene = ExtResource("78_ww1t5")
 scenes/12/scene = ExtResource("108_y6jnx")
 
@@ -255,7 +256,6 @@ scenes/24/scene = ExtResource("64_colf5")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_5yba0"]
 resource_name = "boxes"
-scenes/1/scene = ExtResource("110_b33ec")
 scenes/2/scene = ExtResource("111_0kb8g")
 scenes/3/scene = ExtResource("112_fndqm")
 scenes/4/scene = ExtResource("113_qcqlf")

@@ -1,0 +1,28 @@
+[gd_scene load_steps=2 format=3 uid="uid://tcuaifom54x3"]
+
+[ext_resource type="PackedScene" uid="uid://cb5cc7v6w566u" path="res://Objects/Decorations/shine_ray.tscn" id="1_w6hg6"]
+
+[node name="highlight_shine_around" type="Node2D"]
+
+[node name="shine_ray" parent="." instance=ExtResource("1_w6hg6")]
+position = Vector2(-2.29749, -32)
+
+[node name="shine_ray4" parent="." instance=ExtResource("1_w6hg6")]
+position = Vector2(24, -16)
+rotation = 1.0472
+
+[node name="shine_ray5" parent="." instance=ExtResource("1_w6hg6")]
+position = Vector2(-28, -16)
+rotation = -1.0472
+
+[node name="shine_ray2" parent="." instance=ExtResource("1_w6hg6")]
+position = Vector2(24, 16)
+rotation = 2.0944
+
+[node name="shine_ray3" parent="." instance=ExtResource("1_w6hg6")]
+position = Vector2(-28, 16)
+rotation = -2.0944
+
+[node name="shine_ray6" parent="." instance=ExtResource("1_w6hg6")]
+position = Vector2(-2.29749, 32)
+rotation = 3.14159

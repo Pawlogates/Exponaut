@@ -2,7 +2,7 @@ extends Node2D
 
 @export var type = "gear" # The DECORATION node's name should always match this value, because of how animation players are dynamically added to the decoration core (the one that has this script attached to it).
 
-@onready var decoration : Node2D = get_child(3)
+@onready var decoration : Node
 
 @onready var animation_general : AnimationPlayer
 @onready var animation_gear : AnimationPlayer
@@ -44,6 +44,8 @@ var start_scale : Vector2 = Vector2(-1, -1)
 @export var randomize_modulate_dark_chance : float = 20.0
 @export var randomize_opacity : bool = false
 
+@export var on_spawn_delete : bool = false # Temporarily applied for gears that impact perfomance for long stretches of time.
+
 
 var is_near_edge = 0 # Directional ("-1" = left, "1" = right).
 var near_edge_offset = 0
@@ -59,6 +61,14 @@ var effect_thrownAway_velocity = Vector2(randi_range(-1000, 1000), randi_range(-
 func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 3 to a Decoration Core, with the target function being 'debug_show_anim_names'.")
 	Globals.debug3.connect(debug_show_anim_names)
+	
+	if on_spawn_delete : queue_free()
+	
+	if get_child(3) is Node2D:
+		decoration = get_child(3)
+	else:
+		decoration = null
+	
 	if on_entity_collected_rotate : Globals.entity_collected.connect(on_entity_collected)
 	
 	if start_scale == Vector2(-1, -1) : start_scale = scale
@@ -214,7 +224,7 @@ func randomize_type_gear():
 	if rolled_gear_type > 1: # If "x" is equal to anything but "1", because there is no "decoration_gear1.tscn" file, only "decoration_gear.tscn", "decoration_gear2.tscn", etc.
 		scene = load(str("res://Objects/Decorations/gear%s.tscn" % rolled_gear_type))
 	
-	decoration.queue_free()
+	if is_instance_valid(decoration) : decoration.queue_free()
 	add_child(scene.instantiate())
 	reassign_general()
 

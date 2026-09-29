@@ -55,9 +55,11 @@ offset_top = -184.0
 offset_right = 320.0
 offset_bottom = -56.0
 grow_vertical = 0
+mouse_filter = 2
 
 [node name="filler_TotalCollectibles_collected" type="CenterContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="filler_TotalCollectibles_collected" type="Label" parent="VBoxContainer/filler_TotalCollectibles_collected"]
 custom_minimum_size = Vector2(240, 40)
@@ -71,6 +73,7 @@ autowrap_mode = 2
 
 [node name="TotalCollectibles_collected" type="CenterContainer" parent="VBoxContainer"]
 layout_mode = 2
+mouse_filter = 2
 
 [node name="TotalCollectibles_collected" type="Label" parent="VBoxContainer/TotalCollectibles_collected"]
 unique_name_in_owner = true

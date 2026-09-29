@@ -10,6 +10,7 @@ health_value = 25
 damage_from_player = true
 ignore_gravity = false
 on_hit_death = true
+on_death_delete_instantly = true
 breakable = true
 breakable_advanced_portal_on_death_open = true
 breakable_advanced_portal_level_id = "MAIN_1"

@@ -67,10 +67,12 @@ func _ready():
 		if is_instance_valid(icon_main) : icon_main.region_rect = Rect2(128 * level_icon_id, 640, 128, 128)
 		%AnimationPlayer.advance((abs(position.x) / 100))
 		Globals.spawn_message_object(icon_level_filepath.replace("res://Levels/", ""), 0.5, self, Vector2(200, 0), Vector2(-0.5, -0.5))
-		if "TUTORIAL" in icon_level_filepath : modulate = Color.PINK
-		elif "MAIN" in icon_level_filepath : modulate = Color.BLUE
-		elif "BONUS" in icon_level_filepath : modulate = Color.PURPLE
-		elif "DEBUG" in icon_level_filepath : modulate = Color.GOLD
+		if "TUTORIAL" in icon_level_filepath : modulate = Color.PINK * 2
+		elif "MAIN" in icon_level_filepath : modulate = Color.BLUE * 2
+		elif "BONUS" in icon_level_filepath : modulate = Color.GOLD * 2
+		elif "rl_debug.tscn" in icon_level_filepath : modulate = Color.PURPLE * 2 ; scale *= 2 ; z_index += 1001
+		elif "debug.tscn" in icon_level_filepath : modulate = Color.RED * 2 ; scale *= 2 ; icon_main.material = load('res://Other/Materials/rainbow.tres') ; z_index += 1001
+		elif "DEBUG" in icon_level_filepath : modulate = Color.RED * 2 ; scale *= 1.25
 		return
 	
 	await get_tree().create_timer(0.5, true).timeout

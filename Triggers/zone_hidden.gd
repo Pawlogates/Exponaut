@@ -65,6 +65,7 @@ func _process(delta: float) -> void:
 
 
 func _on_scan_area_entered(area: Area2D) -> void:
+	print("HEREEEE ", Globals.is_node_valid_player(area))
 	if not Globals.is_node_valid_player(area) : return
 	if not is_hidden : return
 	if entered : return
@@ -88,6 +89,7 @@ func _on_timer_hidden_timeout() -> void:
 
 
 func uncover(master_zone : bool = false):
+	print("UNCOVERING")
 	if not is_hidden : return
 	is_hidden = false
 	

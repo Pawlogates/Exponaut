@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://b2tyewrcmqcrn" path="res://Scripts/score_gate.gd" id="2_gwd64"]
 [ext_resource type="PackedScene" uid="uid://iqc2mtwkiuud" path="res://Other/Scenes/User Interface/Text Manager/text_manager.tscn" id="4_cwmt1"]
 [ext_resource type="PackedScene" uid="uid://b2a845i4npe34" path="res://Other/Scenes/animation_general.tscn" id="4_td8bm"]
-[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_1ykqn"]
+[ext_resource type="Theme" uid="uid://d14ynkscdpslh" path="res://Other/Themes/main.tres" id="5_1ykqn"]
 [ext_resource type="PackedScene" uid="uid://chhjmdc7imc7k" path="res://Other/Scenes/animation_color.tscn" id="5_cwmt1"]
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="7_1ykqn"]
 
@@ -14,7 +14,7 @@ size = Vector2(384, 512)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_xuirp"]
 size = Vector2(256, 512)
 
-[node name="score_gate" type="StaticBody2D"]
+[node name="score_gate" type="StaticBody2D" groups=["gate_score"]]
 script = ExtResource("2_gwd64")
 
 [node name="sprite" type="Sprite2D" parent="."]

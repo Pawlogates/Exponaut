@@ -1,0 +1,55 @@
+[gd_scene load_steps=4 format=3 uid="uid://bsjbayfmd3qou"]
+
+[ext_resource type="Script" uid="uid://bsljgpoppjk8c" path="res://Other/Scenes/on_spawn_create_chunk.gd" id="1_fkgcl"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="2_3jju4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3jju4"]
+size = Vector2(2048, 2048)
+
+[node name="on_spawn_create_chunk" type="Node2D" groups=["chunker"]]
+process_mode = 3
+script = ExtResource("1_fkgcl")
+
+[node name="scan_entered" type="Area2D" parent="."]
+z_index = 251
+collision_layer = 0
+collision_mask = 64
+
+[node name="collision" type="CollisionShape2D" parent="scan_entered"]
+shape = SubResource("RectangleShape2D_3jju4")
+
+[node name="label_list_scene_data" type="Label" parent="."]
+z_index = 1001
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1000.0
+offset_top = -1000.0
+offset_right = 1000.0
+offset_bottom = 1000.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_3jju4")
+text = "INACTIVE"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="rect_size" type="ColorRect" parent="."]
+z_index = 501
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -1024.0
+offset_top = -1024.0
+offset_right = 1024.0
+offset_bottom = 1024.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(1, 1, 1, 0.352941)
+
+[connection signal="area_entered" from="scan_entered" to="scan_entered" method="_on_area_entered"]
+[connection signal="area_exited" from="scan_entered" to="scan_entered" method="_on_area_exited"]

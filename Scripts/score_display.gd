@@ -5,6 +5,8 @@ var comboScore_deco_speed = 25
 var last_combo_tier : int = 1
 var multiplier_label_target_font_size : float = 16.0
 
+var target_pos : Vector2 = Vector2(64, 64)
+
 @onready var score_label = %Score
 @onready var multiplier_label = %Multiplier
 @onready var streak_label = %Streak
@@ -13,12 +15,30 @@ var multiplier_label_target_font_size : float = 16.0
 @onready var bg_score = $Control/bg_score
 @onready var bg_comboScore = $Control/bg_comboScore
 
+@onready var decoration_gear: Node2D = $decoration_gear
+@onready var decoration_gear_3: Node2D = $decoration_gear3
+@onready var decoration_gear_2: Node2D = $decoration_gear2
+
+@onready var deco_highlight_shine_around: Node2D = $deco_highlight_shine_around
+
+@onready var deco_tetronaut: Node2D = $deco_tetronaut
+
 
 func _physics_process(delta):
+	if Globals.gameState_tetronaut:
+		position = position.lerp(target_pos, delta)
+		deco_highlight_shine_around.modulate.a = lerp(deco_highlight_shine_around.modulate.a, 0.025, delta / 4)
+		deco_highlight_shine_around.scale = deco_highlight_shine_around.scale.lerp(Vector2(0.85, 0.85), delta * 4)
+		modulate.r = lerp(modulate.r, 1.0, delta)
+		modulate.g = lerp(modulate.r, 1.0, delta)
+		modulate.b = lerp(modulate.r, 1.0, delta)
+	
 	count_score()
 	
-	multiplier_label["theme_override_font_sizes/font_size"] = move_toward(multiplier_label["theme_override_font_sizes/font_size"], multiplier_label_target_font_size, delta)
+	if not is_instance_valid(multiplier_label) : return
 	
+	multiplier_label["theme_override_font_sizes/font_size"] = move_toward(multiplier_label["theme_override_font_sizes/font_size"], multiplier_label_target_font_size, delta)
+
 	if Globals.combo_streak > 0:
 		multiplier_label.text = str("x", Globals.combo_tier)
 		multiplier_label.material = Globals.material_rainbow
@@ -74,7 +94,7 @@ func count_score():
 	elif display_difference > 0:
 		displayScore += 1 * count_direction
 	
-	score_label.text = str(displayScore) + "$"
+	if is_instance_valid(score_label) : score_label.text = str(displayScore) + "$"
 
 
 func _ready():
@@ -90,6 +110,16 @@ func _ready():
 	Globals.combo_refreshed.connect(on_combo_refreshed)
 	
 	Globals.not_enough_score.connect(on_not_enough_score)
+	
+	
+	if Globals.gameState_tetronaut:
+		target_pos.x = Globals.window_size.x / 2 - $Control.size.x / 2
+		target_pos.y += 10
+		decoration_gear.position.x -= 48
+		decoration_gear_3.position.x -= 48
+	
+	else:
+		deco_tetronaut.queue_free()
 
 
 func score_correct_saved():
@@ -111,15 +141,25 @@ func comboScore_updated(new_speed):
 
 func on_entity_collected():
 	comboScore_updated(25)
+	
+	if Globals.gameState_tetronaut:
+		position.y += 5
+		deco_highlight_shine_around.modulate.a += 0.1
+		deco_highlight_shine_around.scale *= 1.01
+		if Globals.get_random_bool(10) : deco_highlight_shine_around.modulate = Globals.l_color_all.pick_random()
+		
+		if Globals.get_random_bool(25) : modulate.r += randf_range(-0.25, 0.5)
+		if Globals.get_random_bool(25) : modulate.g += randf_range(-0.25, 0.5)
+		if Globals.get_random_bool(25) : modulate.b += randf_range(-0.25, 0.5)
 
 func on_entity_hit():
-	comboScore_updated(25)
+	comboScore_updated(70)
 
 func on_entity_killed():
-	comboScore_updated(25)
+	comboScore_updated(10)
 
 func on_combo_refreshed(_time):
-	comboScore_updated(12.5)
+	comboScore_updated(25)
 
 
 func on_gameState_changed():

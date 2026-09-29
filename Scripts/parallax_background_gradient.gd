@@ -11,6 +11,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if not is_instance_valid(Globals.World) : return
+	if not is_instance_valid(Globals.World.camera) : return
+	
 	if Globals.World.camera.zoom.x == 1:
 		main_layer.motion_offset.x += 100 * delta
 		main_layer.motion_offset.y += 20 * delta

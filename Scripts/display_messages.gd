@@ -30,19 +30,19 @@ func message_show(message_text, pause_duration : float = 4.0, message_add_pos : 
 		bg.size.x = 24 * len(message_text) + 24
 		bg.position.x = (container_message.size.x - bg.size.x) / 2
 		
-		$container_message/bg/decoration_gear.visible = false
-		$container_message/bg/decoration_gear2.visible = false
-		$container_message/bg/decoration_gear3.visible = false
-		$container_message/bg/decoration_gear4.visible = false
+		#$container_message/bg/decoration_gear.visible = false
+		#$container_message/bg/decoration_gear2.visible = false
+		#$container_message/bg/decoration_gear3.visible = false
+		#$container_message/bg/decoration_gear4.visible = false
 	
 	else:
 		bg.size.x = container_message.size.x
 		bg.position.x = 0 + message_add_pos.x
 		
-		$container_message/bg/decoration_gear.visible = true
-		$container_message/bg/decoration_gear2.visible = true
-		$container_message/bg/decoration_gear3.visible = true
-		$container_message/bg/decoration_gear4.visible = true
+		#$container_message/bg/decoration_gear.visible = true
+		#$container_message/bg/decoration_gear2.visible = true
+		#$container_message/bg/decoration_gear3.visible = true
+		#$container_message/bg/decoration_gear4.visible = true
 	
 	bg.size.y = container_message.size.y
 	
@@ -59,7 +59,7 @@ func message_show(message_text, pause_duration : float = 4.0, message_add_pos : 
 	if not is_instance_valid(Globals.Player) : return
 	
 	if pause_duration: # Set to "0.0" to disable all pause and camera-related effects.
-		Globals.effect_melee_freeze(4.0)
+		Globals.effect_melee_freeze(pause_duration * 0.75)
 		Globals.Player.block_movement = true
 		Globals.Player.set_hitbox(false)
 		Globals.World.set_triggers_camera(false)
@@ -84,6 +84,8 @@ func message_show(message_text, pause_duration : float = 4.0, message_add_pos : 
 
 func _on_timer_hide_timeout():
 	animation_player.play("hide")
+	#await get_tree().create_timer(8.0, true).timeout
+	#queue_free()
 
 
 func on_gameState_changed():

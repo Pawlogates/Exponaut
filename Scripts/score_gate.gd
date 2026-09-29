@@ -31,8 +31,8 @@ func _on_area_2d_area_entered(area):
 			animation_color.play("fade_out")
 			$sfx_manager.sfx_play(Globals.sfx_medium_effect3, 1.0, 0.75)
 			
-			Globals.Player.combo_manager.reset_combo_tier()
-			Globals.combo_score -= target_score
+			Overlay.hud_combo_manager.reset_combo_tier()
+			Globals.combo_score = 0
 			Globals.level_score -= target_score
 			if Globals.level_score < 0 : Globals.level_score = 0
 			

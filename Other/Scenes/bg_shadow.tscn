@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://dhxow1xk6mgay"]
+
+[ext_resource type="Texture2D" uid="uid://c61ibs417d5ae" path="res://Assets/Graphics/other/glow_orb_strong.png" id="1_xbf0j"]
+
+[node name="bg_shadow" type="TextureRect"]
+modulate = Color(0, 0, 0, 1)
+z_index = -10
+offset_left = -128.0
+offset_top = -128.0
+offset_right = 128.0
+offset_bottom = 128.0
+mouse_filter = 2
+texture = ExtResource("1_xbf0j")
+expand_mode = 1

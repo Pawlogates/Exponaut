@@ -4,7 +4,7 @@ extends Node2D
 @onready var scan_visible: VisibleOnScreenNotifier2D = $scan_visible
 
 
-@export_file("*.tscn") var scene_filepath : String = "default"
+@export_file("*.tscn") var scene_filepath : String = "random"
 @export var scene_filepath_keywords : Array = ["none"]
 
 @export var add_position_range : Array = [Vector2(-32, -16), Vector2(32, 0)]
@@ -24,7 +24,12 @@ extends Node2D
 
 @export var add_z_index : int = 1
 
+@export var cooldown_delete : float = 8.0
+
+@export var randomize_scene : int = false
+
 var master_node : Node = self
+var number_spawned : int = 0
 
 func _ready() -> void:
 	master_node = get_parent()
@@ -41,10 +46,12 @@ func restart_cooldown_spawn_scene():
 	cooldown_spawn_scene.start()
 
 func spawn_scene():
-	if scene_filepath == "default":
-		scene_filepath = "res://Other/Particles/" + Globals.get_files("res://Other/Particles").pick_random()
+	if not number_spawned: # If spawned a scene 0 times so far.
+		if scene_filepath == "random" : randomize_scene = true
 	
-	var new_scenes : Array = await Globals.spawn_scenes(Globals.World, scene_filepath, 1, master_node.position + position, 2.0, add_modulate, Vector2(0, 0), add_z_index, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], add_position_range, add_scale_range, true, 0, [0.0, 0.1], self)
+	if randomize_scene : scene_filepath = "res://Other/Particles/" + Globals.get_files("res://Other/Particles").pick_random()
+	
+	var new_scenes : Array = await Globals.spawn_scenes(Globals.World, scene_filepath, 1, master_node.position + position, cooldown_delete, add_modulate, Vector2(0, 0), add_z_index, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], add_position_range, add_scale_range, true, 0, [0.0, 0.1], self)
 	for new_scene in new_scenes:
 		if add_scale_equal : new_scene.scale.y = new_scene.scale.x
 		if add_modulate_base != Color.WHITE : new_scene.modulate = add_modulate_base
@@ -52,6 +59,8 @@ func spawn_scene():
 		if add_modulate_variance:
 			var new_scene_modulate : Color = new_scene.modulate
 			new_scene.modulate += Color(randf_range(-add_modulate_variance, add_modulate_variance), randf_range(-add_modulate_variance, add_modulate_variance), randf_range(-add_modulate_variance, add_modulate_variance), 0)
+	
+	number_spawned += 1
 
 func _on_scan_visible_screen_entered() -> void:
 	Globals.set_nodes(self, Timer, true)

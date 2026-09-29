@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://c02kit5x5oqd3" path="res://await_general.gd" id="1_x38n2"]
 
-[node name="await_quickselect" type="Node2D"]
+[node name="await_quickselect" type="Node2D" groups=["await_quickselect"]]
 script = ExtResource("1_x38n2")
 scene_filepath = "uid://tolmaonlxbva"
 node_group_name = "quickselect_screen"

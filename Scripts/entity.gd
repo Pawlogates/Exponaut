@@ -1,8 +1,17 @@
 extends entity_basic
 
 func _ready():
+	Globals.refreshed4_0.connect(on_refreshed4_0)
+	
+	if Globals.level_time_seconds > 30 : use_own_unloader = true
+	
+	if breakable_advanced_portal_on_death_open or effect_thrownAway_active or reset_puzzle or reset_puzzle_inside_zone or entity_editor_preview or on_collected_unlock_item_name != "none" : never_unload = true
+	
+	#if not can_move:
+		#handle_offscreen.scale *= 0.25
+	
 	#print_stack()
-	if delete_on_load : queue_free()
+	if delete_on_load : delete_entity()
 	
 	set_hitbox(false)
 	scan_visible.visible = true
@@ -62,10 +71,10 @@ func _ready():
 		return
 	
 	if always_active : set_hitbox(true)
-	
+	if breakable_advanced_portal_on_death_open : print("PORTAL ", start_pos)
 	if start_pos == Vector2(-1, -1) : start_pos = position
 	if start_scale == Vector2(-1, -1) : start_scale = scale
-	
+	if breakable_advanced_portal_on_death_open : print("PORTAL ", start_pos)
 	if sprite_start_pos == Vector2(-1, -1) : sprite_start_pos = sprite.position
 	if sprite_start_scale == Vector2(-1, -1) : sprite_start_scale = sprite.scale
 	if sprite_start_modulate == Color(-1, -1, -1, -1) : sprite_start_modulate = sprite.modulate
@@ -93,6 +102,8 @@ func _ready():
 	basic_on_spawn()
 	reassign_general()
 	reassign_movement_type_id()
+	
+	if effect_thrownAway_active or reset_puzzle or reset_puzzle_inside_zone or entity_editor_preview or on_collected_unlock_item_name != "none" : never_unload = true
 	
 	c_attack_limit.wait_time = cooldown_attack_limit
 	
@@ -163,6 +174,8 @@ func _ready():
 	
 	if on_spawn_move_delay != 0.0 : await get_tree().create_timer(on_spawn_move_delay, true).timeout
 	
+	if effect_thrownAway_active or reset_puzzle or reset_puzzle_inside_zone or entity_editor_preview or on_collected_unlock_item_name != "none" : never_unload = true
+	
 	if on_spawn_velocity != Vector2(-1, -1):
 		if on_spawn_copy_direction_x_player : velocity = on_spawn_velocity * Vector2(Globals.player_direction_x, 1)
 		elif on_spawn_copy_direction_x_active_player : velocity = on_spawn_velocity * Vector2(Globals.player_direction_x_active, 1)
@@ -189,9 +202,20 @@ func _ready():
 		if not reset_puzzle_first_time : await Globals.World.reset_puzzle_all_nodes_ready
 		reset_puzzle_queue()
 	
+	if breakable_advanced_portal_on_death_open or effect_thrownAway_active or reset_puzzle or reset_puzzle_inside_zone or entity_editor_preview or on_collected_unlock_item_name != "none":
+		never_unload = true
 	
 	if on_spawn_show_text:
 		text_show()
+	
+	if entity_type == "enemy" or Globals.get_random_bool(20):
+		var spawned_nodes : Array = await Globals.spawn_scenes(self, load("res://Other/Scenes/bg_shadow.tscn"), 1, Vector2(0, 0), -1)
+		bg_shadow = spawned_nodes[0]
+		
+		bg_shadow.modulate.a = Globals.World.entity_bg_shadow_opacity
+	
+	#if not never_unload and not is_instance_valid(loader_node):
+		#queue_free()
 
 @onready var debug_label : Label
 @onready var debug_label2 : Label
@@ -206,7 +230,16 @@ var attack_melee_block_movement : bool = false
 
 
 func _process(delta):
-	if entity_name == "butterfly" : print("yes")
+	if delete_queued:
+		#print(visible)
+		visible = false
+	
+	#if Globals.level_time_seconds > 4:
+		#if not scan_visible.is_on_screen():
+			#set_process(false)
+			#set_physics_process(false)
+	
+	#if entity_name == "butterfly" : print("yes")
 	#if is_ready : sprite.modulate = Color.BLUE
 	#else : sprite.modulate = Color.GREEN
 	
@@ -221,7 +254,8 @@ func _process(delta):
 	if entity_editor_preview : return
 	
 	if sprite_glow_shadow:
-		glow_shadow.visible = on_floor # If the entity is on floor, the shadow will be set to visible, otherwise to not visible (because both "on_floor" and "visible" are a boolean).
+		if is_instance_valid(sprite):
+			glow_shadow.visible = on_floor # If the entity is on floor, the shadow will be set to visible, otherwise to not visible (because both "on_floor" and "visible" are a boolean).
 	
 	if dead : sprite.modulate.a = 0.5
 	
@@ -309,6 +343,9 @@ func _process(delta):
 		if is_instance_valid(debug_label3) : debug_label3.queue_free()
 		if is_instance_valid(debug_label4) : debug_label4.queue_free()
 		if is_instance_valid(debug_label5) : debug_label5.queue_free()
+		if is_instance_valid(debug_label6) : debug_label6.queue_free()
+		if is_instance_valid(debug_label7) : debug_label7.queue_free()
+		if is_instance_valid(debug_label8) : debug_label8.queue_free()
 	
 	
 	#if dead : modulate.a = move_toward(modulate.a, 0.5, delta / 4)
@@ -409,6 +446,8 @@ func _process(delta):
 			sprite.play("attack")
 		elif velocity.x == 0:
 			sprite.play("idle")
+		
+		basic_sprite_flipDirection()
 	
 	else:
 		sprite_animation()
@@ -519,10 +558,10 @@ func _on_hitbox_area_entered(area: Area2D) -> void:
 		if not rotten or target.family != "Player":
 			if target.is_in_group("entity"):
 				if not can_move:
-					handle_collectable(target)
+					handle_collected(target)
 			
 			else:
-				handle_collectable(target)
+				handle_collected(target)
 	
 	# Tries to HIT the entity.
 	#if family == "Player" and target.family == "enemy" or family == "enemy" and target.family == "Player":
@@ -1104,6 +1143,8 @@ func reassign_general():
 
 
 func _on_cooldown_collidable_timeout() -> void:
+	if not is_instance_valid(sprite) : return
+	
 	is_collidable = true
 	if sprite.modulate == Color.WHITE : sprite.modulate = sprite_start_modulate
 
@@ -1288,11 +1329,13 @@ func spawn_portal():
 	portal.level_id = breakable_advanced_portal_level_id
 	portal.particle_quantity = breakable_advanced_portal_particle_quantity
 	portal.position = start_pos
+	portal.checkpoint_offset = breakable_advanced_portal_checkpoint_offset
 	
 	World.add_child(portal)
 
 
 func _on_animation_player_animation_finished(anim_name):
+	return # unused
 	if anim_name == "collect_special" or anim_name == "rotate_away_up_right":
 		Globals.message_debug("Special collectible has been deleted after the collect animation finished.")
 		delete_entity()
@@ -1303,11 +1346,13 @@ func handle_inside_zone(delta):
 		velocity.y += inside_wind_direction_y * 2.5 * inside_wind_multiplier_y * speed * delta
 
 
-func handle_collectable(target : Node): # The main function of the "collectible" entity type. The word "collectable" refers to a MAIN BEHAVIOR type, while "collectible" is (most of the time) the entity TYPE of ones with that main behavior type.
+func handle_collected(target : Node): # The main function of the "collectible" entity type. The word "collectable" refers to a MAIN BEHAVIOR type, while "collectible" is (most of the time) the entity TYPE of ones with that main behavior type.
 	if dead : return
 	if is_friendly(target) : return
 	
 	Globals.dm("Attempting to COLLECT an entity", "LIGHT_GREEN")
+	
+	if is_instance_valid(bg_shadow) : bg_shadow.queue_free()
 	
 	if experience_value:
 		if is_instance_valid(Overlay.hud_player_experience):
@@ -1357,7 +1402,10 @@ func handle_collectable(target : Node): # The main function of the "collectible"
 		Globals.total_collected_collectibles += 1
 	
 	Globals.combo_streak += 1 # These values need to be modified before the "handle_award_score" function goes off, due to many of the visual effects being based on them.
-	Globals.entity_collected.emit()
+	if reset_puzzle:
+		Globals.entity_hit.emit()
+	else:
+		Globals.entity_collected.emit()
 	
 	if award_score and on_collected_award_score : handle_award_score()
 	
@@ -1501,6 +1549,8 @@ func handle_death(type : String = "normal"):
 	#if collidable : destroyed = true
 	
 	friction *= 4
+	
+	if is_instance_valid(bg_shadow) : bg_shadow.queue_free()
 	
 	#if entity_type == "box" : can_move = false
 	
@@ -1721,6 +1771,8 @@ func handle_damage(value, type : String = "normal", source : Node = self):
 
 
 func handle_effects_death(type : String = "normal"): # Death types: "normal", "break", "self_destruct", "self_destruct_timed", "crush", "burn", "electrocute".
+	print_stack()
+	
 	if type == "normal" : effect_death_normal()
 	elif type == "instant" : effect_death_instant()
 	elif type == "break" : effect_death_break()
@@ -1745,8 +1797,9 @@ func handle_effects_death(type : String = "normal"): # Death types: "normal", "b
 		effect_shrink = true
 		effect_grow = false
 	
-	animation_all.speed_scale = on_death_anim_speed
-	if on_death_anim_name != "none" : animation_all.play(on_death_anim_name)
+	if type == "normal":
+		animation_all.speed_scale = on_death_anim_speed
+		if on_death_anim_name != "none" : animation_all.play(on_death_anim_name)
 
 
 func effect_death_normal():
@@ -1774,8 +1827,8 @@ func effect_death_self_destruct():
 	handle_particles_death()
 	
 	animation_all.stop()
-	animation_all.speed_scale = 2.0
-	animation_all.play("general/rotate_away_up_right")
+	animation_all.speed_scale = on_death_anim_speed * randf_range(0.75, 1.25)
+	animation_all.play(on_death_anim_name)
 
 func effect_death_self_destruct_timed():
 	pass
@@ -1800,7 +1853,9 @@ func effect_death_random():
 
 
 func handle_effects_hit(target : Node, f_damage_value : int = target.damage_value): # Should be renamed to "handle_effects_hit_self".
+	print("HIT")
 	if collected : return
+	if dead : return
 	
 	#Globals.spawn_message_object(str(target.family) + " " + (family))
 	
@@ -2024,7 +2079,7 @@ func _on_cooldown_patrolling_change_direction_timeout() -> void:
 	if direction_x : direction_x *= -1
 	else : direction_x = direction_active_x * -1
 	
-	if direction_x : direction_active_x = direction_x
+	direction_active_x = direction_x
 	
 	if not patrolling_change_direction_cooldown == -1 : c_patrolling_change_direction.start()
 
@@ -2313,6 +2368,7 @@ func spawn_entity(scene_filepath : String, quantity : int = 1, add_velocity : Ve
 			entity.z_index = spawn_entity_add_z_index
 	
 	for entity in spawned_scenes:
+		entity.use_own_unloader = true
 		entity.modulate.r *= randf_range(0.75, 1.1)
 		entity.modulate.g *= randf_range(0.75, 1.1)
 		entity.modulate.b *= randf_range(0.75, 1.1)
@@ -2601,35 +2657,35 @@ func spawn_particles_collected():
 	var particles_add_scale : Vector2 = Vector2(0, 0)
 	if scale.x < 1.0 : particles_add_scale = Vector2(-0.5, -0.5)
 	
-	if Globals.get_random_bool(on_collected_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_collected_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, randi_range(1, 1 + 1 * Globals.combo_tier), position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, randi_range(1, 3), position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, randi_range(1, 1 + 1 * Globals.combo_tier / 2), position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, randi_range(1, 2), position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_collected_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier / 2, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
 
 func handle_particles_hit():
 	var particles_add_scale : Vector2 = Vector2(0, 0)
 	if scale.x < 1.0 : particles_add_scale = Vector2(-0.5, -0.5)
 	
-	if Globals.get_random_bool(on_hit_spawn_star_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_hit_spawn_star2_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_hit_spawn_orb_orange_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_hit_spawn_orb_blue_chance / 4) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_hit_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_hit_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0.2, 0.2, 0.2, -0.2), particles_add_scale)
+	if Globals.get_random_bool(on_hit_spawn_star_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_hit_spawn_star2_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_hit_spawn_orb_orange_chance / 4) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_hit_spawn_orb_blue_chance / 4) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_hit_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier / 2, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_hit_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier / 2, position, 12.0, Color(0.2, 0.2, 0.2, -0.2), particles_add_scale)
 
 func handle_particles_death():
 	var particles_add_scale : Vector2 = Vector2(0, 0)
 	if scale.x < 1.0 : particles_add_scale = Vector2(-0.5, -0.5)
 	
-	if Globals.get_random_bool(on_death_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_death_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_star_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_star2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_star, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
 	if Globals.get_random_bool(on_death_spawn_orb_orange_chance) : Globals.spawn_scenes(World, Globals.scene_particle_special2, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_death_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_death_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_death_spawn_leaf_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_death_spawn_leaf2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf2, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
-	if Globals.get_random_bool(on_death_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier, position, 12.0, Color(0.2, 0.2, 0.2, -0.2), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_orb_blue_chance) : Globals.spawn_scenes(World, Globals.scene_orb_blue, 1 + 1 * Globals.combo_tier / 2, position, 4.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_homing_square_chance) : Globals.spawn_scenes(World, Globals.scene_particle_homing_square, 1 + 1 * Globals.combo_tier / 2, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_leaf_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf, 1 + 1 * Globals.combo_tier / 2, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_leaf2_chance) : Globals.spawn_scenes(World, Globals.scene_particle_leaf2, 1 + 1 * Globals.combo_tier / 2, position, 12.0, Color(0, 0, 0, 0), particles_add_scale)
+	if Globals.get_random_bool(on_death_spawn_oneShot_chance) : Globals.spawn_scenes(World, Globals.scene_effect_oneShot_enemy, 1 + 1 * Globals.combo_tier / 2, position, 12.0, Color(0.2, 0.2, 0.2, -0.2), particles_add_scale)
 
 func handle_particles_collected():
 	if Globals.combo_streak <= 3:
@@ -2665,6 +2721,7 @@ func _on_timer_invulnerable_timeout() -> void:
 
 
 func spawn_text_damage(damage_value : int):
+	print("TEXT")
 	var effect_text : Node2D = load("res://Other/Effects/effect_text.tscn").instantiate()
 	effect_text.position = position + Vector2(randi_range(-100, 100), randi_range(-100, 100))
 	effect_text.text_message = str(damage_value)
@@ -2717,7 +2774,6 @@ func handle_inside_entity():
 			if can_move and can_move_x:
 				position.x += randf_range(0.01, 0.5) * inside_enemy_last.direction_active_x
 				velocity.x += randf_range(0.025, 0.075) * inside_enemy_last.velocity_last_x
-				print(inside_enemy_last.velocity_last_x)
 
 
 func handle_delete_instantly():
@@ -2730,3 +2786,43 @@ func handle_delete_instantly():
 	set_hitbox(false, true)
 	handle_particles_general()
 	delete_entity()
+
+
+var last_animation_all_name : String = "none"
+
+func on_refreshed4_0():
+	if Globals.World.is_ready:
+		if not never_unload and not use_own_unloader:
+			if not is_instance_valid(loader_node) : delete_entity()
+	
+	if not Globals.get_random_bool(50) : return
+	await get_tree().create_timer(randf_range(1.0, 2.0), true).timeout
+	if delete_queued or reset_puzzle_inside_zone : return
+	
+	if dead or collected:
+		if animation_all.current_animation == last_animation_all_name:
+			animation_all.play(on_collected_anim_name)
+			Globals.smo("This should never have happened (an entity deletion failsafe condition).", 0.5)
+		
+		last_animation_all_name = animation_all.current_animation
+
+
+func _on_animation_all_animation_finished(anim_name: StringName) -> void:
+	print(anim_name, " ", on_collected_anim_name, " ", on_death_anim_name)
+	if anim_name in [on_collected_anim_name, on_death_anim_name, "collect_special", "rotate_away_up_right"]:
+		Globals.message_debug("Special collectible has been deleted after the collect animation finished.")
+		delete_entity()
+
+
+func _on_animation_general_animation_finished(anim_name: StringName) -> void:
+	print(anim_name, " ", on_collected_anim_name, " ", on_death_anim_name)
+	if anim_name in [on_collected_anim_name, on_death_anim_name, "collect_special", "rotate_away_up_right"]:
+		Globals.message_debug("Special collectible has been deleted after the collect animation finished.")
+		delete_entity()
+
+
+func _on_animation_color_animation_finished(anim_name: StringName) -> void:
+	print(anim_name, " ", on_collected_anim_name, " ", on_death_anim_name)
+	if anim_name in [on_collected_anim_name, on_death_anim_name, "collect_special", "rotate_away_up_right"]:
+		Globals.message_debug("Special collectible has been deleted after the collect animation finished.")
+		delete_entity()

@@ -1,0 +1,63 @@
+[gd_scene format=3 uid="uid://w20bmqsqkfcq"]
+
+[node name="background_screen_lines_diagonal" type="ColorRect"]
+offset_left = -40.0
+offset_top = -10.0
+offset_right = 2360.0
+offset_bottom = 1090.0
+mouse_filter = 2
+color = Color(0.484767, 0.840584, 1, 1)
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 240.0
+offset_top = 1232.0
+offset_right = 1968.0
+offset_bottom = 1408.0
+rotation = -1.0472
+mouse_filter = 2
+
+[node name="ColorRect2" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -592.0
+offset_top = 1232.0
+offset_right = 1136.0
+offset_bottom = 1408.0
+rotation = -1.0472
+mouse_filter = 2
+
+[node name="ColorRect3" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = -176.0
+offset_top = 1232.0
+offset_right = 1552.0
+offset_bottom = 1408.0
+rotation = -1.0472
+mouse_filter = 2
+
+[node name="ColorRect4" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 656.0
+offset_top = 1232.0
+offset_right = 2384.0
+offset_bottom = 1408.0
+rotation = -1.0472
+mouse_filter = 2
+
+[node name="ColorRect5" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1072.0
+offset_top = 1232.0
+offset_right = 2800.0
+offset_bottom = 1408.0
+rotation = -1.0472
+mouse_filter = 2
+
+[node name="ColorRect6" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 1488.0
+offset_top = 1232.0
+offset_right = 3216.0
+offset_bottom = 1408.0
+rotation = -1.0472
+mouse_filter = 2

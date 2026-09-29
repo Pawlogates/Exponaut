@@ -37,6 +37,11 @@ func _ready() -> void:
 	rotation_speed = randf_range(0, 4)
 	
 	main_label.material.set_shader_parameter("strength", 0.25 + 0.05 * Globals.combo_streak)
+	
+	
+	await get_tree().create_timer(20.0, true).timeout
+	
+	queue_free()
 
 func _physics_process(delta: float) -> void:
 	if not ignore_gravity:

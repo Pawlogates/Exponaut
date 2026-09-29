@@ -18,16 +18,20 @@ func _ready() -> void:
 	Globals.player_damage.connect(change_health_value)
 	Globals.player_heal.connect(change_health_value)
 	Globals.update_player_health.connect(update_display)
+	Globals.refreshed0_5.connect(update_display)
+	
 	update_display()
 
-#func _physics_process(delta: float) -> void:
+#func _physics_process(_delta: float) -> void:
 	#pass
+	#label_hp.text = str(Engine.get_frames_per_second())
 
 
 func update_display(): # The "health" variable represents the visible health value on the player's HUD. The "Globals.player_health" is the actual player health.
 	if health == Globals.player_health : return
 	
 	label_hp.text = str(health)
+	#label_hp.text = str(Engine.get_frames_per_second())
 	
 	if health < 8:
 		health_middle.visible = false

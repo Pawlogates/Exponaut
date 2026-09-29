@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://c04omo3n0mpkt" path="res://Tilesets/tileset_main.tres" id="1_aays4"]
 [ext_resource type="Script" uid="uid://cho1ckpr6qcei" path="res://Tilesets/tileset_main.gd" id="2_kahqn"]
 
-[node name="tileset_main_small" type="TileMap"]
+[node name="tileset_main_small" type="TileMap" groups=["tileset"]]
 light_mask = 512
 texture_filter = 1
 scale = Vector2(0.5, 0.5)

@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=3 uid="uid://khwkcn1r3jdh"]
+
+[ext_resource type="Script" uid="uid://dnr3tvbdd5nqh" path="res://Tetronaut/block_general.gd" id="1_k6scl"]
+[ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="1_yxpgx"]
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="3_ejtyp"]
+[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="4_bhnqr"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ejtyp"]
+size = Vector2(30, 30)
+
+[node name="block_general" type="Control" groups=["tn_block"]]
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 64.0
+offset_bottom = 64.0
+mouse_filter = 1
+script = ExtResource("1_k6scl")
+
+[node name="menu_bg" parent="." instance=ExtResource("1_yxpgx")]
+layout_mode = 1
+offset_right = 8.0
+offset_bottom = 8.0
+outline_color = Color(0.0923971, 0.0923971, 0.0923971, 1)
+randomize_basic = false
+
+[node name="bg" type="ColorRect" parent="menu_bg"]
+z_index = -1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(1, 0, 0.341176, 1)
+
+[node name="animation_all" parent="menu_bg" instance=ExtResource("3_ejtyp")]
+
+[node name="hitbox" type="Area2D" parent="."]
+
+[node name="collision" type="CollisionShape2D" parent="hitbox"]
+position = Vector2(36, 36)
+shape = SubResource("RectangleShape2D_ejtyp")
+
+[node name="sfx_manager" parent="." instance=ExtResource("4_bhnqr")]
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="area_entered" from="hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="area_exited" from="hitbox" to="." method="_on_hitbox_area_exited"]

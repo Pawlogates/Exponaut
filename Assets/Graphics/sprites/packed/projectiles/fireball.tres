@@ -20,6 +20,28 @@ animations = [{
 "texture": SubResource("AtlasTexture_iy1p4")
 }],
 "loop": true,
+"name": &"collected",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ox23k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iy1p4")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ox23k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iy1p4")
+}],
+"loop": true,
 "name": &"idle",
 "speed": 5.0
 }]

@@ -71,6 +71,23 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_jmgxb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_10ee7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nb0lg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k8b74")
+}],
+"loop": true,
+"name": &"collected",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_kramp")
 }, {
 "duration": 1.0,

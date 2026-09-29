@@ -31,6 +31,13 @@ func _ready():
 	
 	await get_tree().create_timer(1.0, true).timeout
 
+func _physics_process(delta: float) -> void:
+	if Input.is_action_just_pressed("9"):
+		var mytheme = load("res://Other/Themes/basic.tres")
+		var newfont_fp : String = Globals.get_files("res://Other/Fonts").pick_random()
+		print("res://Other/Fonts/" + newfont_fp)
+		mytheme.default_font = load("res://Other/Fonts/" + newfont_fp)
+
 
 func display_stretch_viewport_on():
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_VIEWPORT

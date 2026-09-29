@@ -3530,7 +3530,8 @@ texture_region_size = Vector2i(64, 64)
 23:17/0 = 0
 
 [resource]
-physics_layer_0/collision_layer = 3
+physics_layer_0/collision_layer = 0
+physics_layer_0/collision_mask = 0
 sources/0 = SubResource("TileSetAtlasSource_dtpej")
 sources/1 = SubResource("TileSetAtlasSource_k488f")
 sources/2 = SubResource("TileSetAtlasSource_1taey")

@@ -119,7 +119,7 @@ script = ExtResource("2_7u465")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="leaf2"]
 libraries = {
-"": SubResource("AnimationLibrary_40unu")
+&"": SubResource("AnimationLibrary_40unu")
 }
 autoplay = "falling"
 

@@ -40,4 +40,5 @@ func create_display_item(item_info : Array):
 
 func delete():
 	Globals.Player.block_movement = false
+	Globals.set_mouse_mode(false)
 	queue_free()

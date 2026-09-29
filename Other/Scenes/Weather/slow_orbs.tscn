@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://cewwoy4e6ipx4"]
+
+[ext_resource type="Script" uid="uid://by1rdht61o6ej" path="res://Other/Scenes/Weather/slow_orbs.gd" id="1_lol0k"]
+
+[node name="slow_orbs" type="Node2D"]
+script = ExtResource("1_lol0k")
+
+[node name="cooldown_spawn_slow_orb" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="cooldown_spawn_slow_orb" to="." method="_on_cooldown_spawn_slow_orb_timeout"]

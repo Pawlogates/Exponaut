@@ -1,0 +1,92 @@
+[gd_scene load_steps=12 format=3 uid="uid://dolbhtphaiptk"]
+
+[ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_ok603"]
+[ext_resource type="Script" uid="uid://bcclqgg52nucd" path="res://Scripts/particle_emitter_general.gd" id="2_k8f37"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cucmf"]
+atlas = ExtResource("1_ok603")
+region = Rect2(288, 1056, 32, 32)
+
+[sub_resource type="Curve" id="Curve_d62vd"]
+_limits = [-20.0, 20.0, 0.0, 1.0]
+_data = [Vector2(0, -20), 0.0, 0.0, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ptoeu"]
+curve = SubResource("Curve_d62vd")
+
+[sub_resource type="Curve" id="Curve_qk6pp"]
+_limits = [-25.0, 25.0, 0.0, 1.0]
+_data = [Vector2(0, 25), 0.0, -20.0, 0, 0, Vector2(0.2, -5), -15.0, 0.0, 0, 0, Vector2(0.4, 20), 0.0, 0.0, 0, 0, Vector2(0.6, -10), 0.0, 0.0, 0, 0, Vector2(0.8, 10), 0.0, 0.0, 0, 0, Vector2(1, -25), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_wmtav"]
+curve_x = SubResource("Curve_qk6pp")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_gjg8p"]
+particle_flag_disable_z = true
+angle_min = -45.0
+angle_max = 45.0
+angle_curve = SubResource("CurveTexture_ptoeu")
+directional_velocity_min = -10.0
+directional_velocity_max = 10.0
+directional_velocity_curve = SubResource("CurveXYZTexture_wmtav")
+orbit_velocity_min = -0.05
+orbit_velocity_max = 0.05
+gravity = Vector3(0, 98, 0)
+
+[sub_resource type="Animation" id="Animation_6qqvu"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_r867t"]
+resource_name = "opacity_fade_in_and_out"
+length = 16.0
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 14, 16)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6bi70"]
+_data = {
+&"RESET": SubResource("Animation_6qqvu"),
+&"opacity_fade_in_and_out": SubResource("Animation_r867t")
+}
+
+[node name="health" type="GPUParticles2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 5
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_cucmf")
+lifetime = 7.0
+one_shot = true
+speed_scale = 0.6
+explosiveness = 0.05
+fixed_fps = 120
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+process_material = SubResource("ParticleProcessMaterial_gjg8p")
+script = ExtResource("2_k8f37")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6bi70")
+}

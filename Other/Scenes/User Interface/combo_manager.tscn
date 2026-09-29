@@ -1,9 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://bhjuxvebimqov"]
 
 [ext_resource type="Script" uid="uid://coupdpnhilc0d" path="res://Scripts/combo_manager.gd" id="1_bhqmy"]
-[ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="2_f8dp8"]
+[ext_resource type="PackedScene" uid="uid://dloynfdy6r54w" path="res://Other/Scenes/sfx_manager_global.tscn" id="2_f8dp8"]
 
-[node name="Combo Manager" type="Node2D"]
+[node name="Combo Manager" type="Node2D" groups=["combo_manager"]]
 script = ExtResource("1_bhqmy")
 
 [node name="timer_combo_streak_active" type="Timer" parent="."]

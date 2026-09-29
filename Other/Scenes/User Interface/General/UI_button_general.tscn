@@ -437,6 +437,7 @@ mouse_filter = 2
 theme = ExtResource("2_u3asm")
 
 [node name="text_manager" parent="." instance=ExtResource("3_nk4sl")]
+z_index = 501
 texture_filter = 2
 layout_mode = 1
 

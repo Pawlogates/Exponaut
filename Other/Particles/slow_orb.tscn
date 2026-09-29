@@ -1,0 +1,69 @@
+[gd_scene load_steps=8 format=3 uid="uid://vcc1h451x7px"]
+
+[ext_resource type="Material" uid="uid://d1c1f4phlnsxv" path="res://Other/particle_behavior/slow_orb.tres" id="2_6bi70"]
+[ext_resource type="Script" uid="uid://bcclqgg52nucd" path="res://Scripts/particle_emitter_general.gd" id="2_6qqvu"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_r867t"]
+load_path = "res://.godot/imported/sprites_other.png-b94f1904300734566d6e12af7c8ca356.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6qqvu"]
+atlas = SubResource("CompressedTexture2D_r867t")
+region = Rect2(896, 1024, 32, 32)
+
+[sub_resource type="Animation" id="Animation_6qqvu"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_r867t"]
+resource_name = "opacity_fade_in_and_out"
+length = 16.0
+step = 0.1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate:a")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0, 0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 14, 16)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_6bi70"]
+_data = {
+&"RESET": SubResource("Animation_6qqvu"),
+&"opacity_fade_in_and_out": SubResource("Animation_r867t")
+}
+
+[node name="slow_orb" type="GPUParticles2D"]
+modulate = Color(1, 1, 1, 0)
+z_index = 5
+emitting = false
+amount = 1
+texture = SubResource("AtlasTexture_6qqvu")
+lifetime = 30.0
+interp_to_end = 1.0
+one_shot = true
+speed_scale = 0.6
+explosiveness = 0.05
+fixed_fps = 120
+visibility_rect = Rect2(-2000, -500, 4000, 2000)
+process_material = ExtResource("2_6bi70")
+script = ExtResource("2_6qqvu")
+anim_fade_in = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_6bi70")
+}

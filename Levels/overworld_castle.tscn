@@ -1,16 +1,11 @@
-[gd_scene load_steps=14 format=3 uid="uid://bnjk7tocp8gce"]
+[gd_scene load_steps=9 format=3 uid="uid://bnjk7tocp8gce"]
 
 [ext_resource type="PackedScene" uid="uid://pu6px63ietmi" path="res://Other/Scenes/world.tscn" id="1_rfky8"]
 [ext_resource type="PackedScene" uid="uid://b6sm67hlya8p" path="res://Tilesets/tileset_main.tscn" id="2_k51p6"]
 [ext_resource type="PackedScene" uid="uid://cdppta5y51e08" path="res://Tilesets/tileset_objects.tscn" id="3_clf1f"]
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="5_xcgb7"]
-[ext_resource type="Texture2D" uid="uid://buwqadivlxhsm" path="res://Assets/Graphics/backgrounds/bg_cavern_blue.png" id="6_l27g5"]
-[ext_resource type="Texture2D" path="res://Assets/Graphics/backgrounds/bg_empty_a.png" id="7_uwmml"]
-[ext_resource type="Texture2D" path="res://Assets/Graphics/backgrounds/bg_empty_b.png" id="8_gnmnd"]
 [ext_resource type="PackedScene" uid="uid://dfnugj71ly62a" path="res://Triggers/trigger_music_change.tscn" id="9_r4ylj"]
-[ext_resource type="AudioStream" uid="uid://n3l8lgynqx44" path="res://Assets/Sounds/music/castle5.mp3" id="10_cuh1t"]
 [ext_resource type="PackedScene" uid="uid://wq51rhe2d7iu" path="res://Triggers/trigger_bg_move.tscn" id="11_0nix5"]
-[ext_resource type="Texture2D" uid="uid://dsqa3f4pw5rov" path="res://Assets/Graphics/backgrounds/bg_mountains.png" id="12_gtmr5"]
 [ext_resource type="PackedScene" uid="uid://c2kcgkyekwmah" path="res://Triggers/trigger_level_transition.tscn" id="13_ga1ly"]
 [ext_resource type="PackedScene" uid="uid://cyx2xypyj6fwx" path="res://Triggers/zone_wind_R.tscn" id="14_xtj7n"]
 
@@ -36,38 +31,15 @@ layer_2/enabled = false
 layer_3/enabled = false
 layer_4/enabled = false
 
-[node name="tileset_objectsSmall" parent="." index="2"]
-_import_path = NodePath("")
-unique_name_in_owner = false
-process_mode = 0
-process_priority = 0
-process_physics_priority = 0
-process_thread_group = 0
-physics_interpolation_mode = 0
-auto_translate_mode = 0
-editor_description = ""
-layer_1/enabled = false
-layer_2/enabled = false
-layer_3/enabled = false
-layer_4/enabled = false
-script = null
-
-[node name="bg_previous" parent="." index="8"]
-z_index = -9
-
-[node name="Triggers" type="Node2D" parent="." index="13"]
+[node name="Triggers" type="Node2D" parent="." index="10"]
 
 [node name="trigger_bgChange21" parent="Triggers" index="0" instance=ExtResource("5_xcgb7")]
 position = Vector2(-1952, 992)
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("6_l27g5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange24" parent="Triggers" index="1" instance=ExtResource("9_r4ylj")]
 position = Vector2(-1904, 944)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove10" parent="Triggers" index="2" instance=ExtResource("11_0nix5")]
 position = Vector2(-2000, 1040)
@@ -76,14 +48,10 @@ scale = Vector2(3, 3)
 [node name="trigger_bgChange23" parent="Triggers" index="3" instance=ExtResource("5_xcgb7")]
 position = Vector2(448, 1024)
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("6_l27g5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange26" parent="Triggers" index="4" instance=ExtResource("9_r4ylj")]
 position = Vector2(496, 976)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove12" parent="Triggers" index="5" instance=ExtResource("11_0nix5")]
 position = Vector2(400, 1072)
@@ -92,14 +60,10 @@ scale = Vector2(3, 3)
 [node name="trigger_bgChange24" parent="Triggers" index="6" instance=ExtResource("5_xcgb7")]
 position = Vector2(3168, 800)
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("6_l27g5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange27" parent="Triggers" index="7" instance=ExtResource("9_r4ylj")]
 position = Vector2(3216, 752)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove13" parent="Triggers" index="8" instance=ExtResource("11_0nix5")]
 position = Vector2(3120, 848)
@@ -108,14 +72,10 @@ scale = Vector2(3, 3)
 [node name="trigger_bgChange25" parent="Triggers" index="9" instance=ExtResource("5_xcgb7")]
 position = Vector2(4672, 960)
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("6_l27g5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange28" parent="Triggers" index="10" instance=ExtResource("9_r4ylj")]
 position = Vector2(4720, 912)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove14" parent="Triggers" index="11" instance=ExtResource("11_0nix5")]
 position = Vector2(4624, 1008)
@@ -124,14 +84,10 @@ scale = Vector2(3, 3)
 [node name="trigger_bgChange26" parent="Triggers" index="12" instance=ExtResource("5_xcgb7")]
 position = Vector2(-3072, 896)
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("12_gtmr5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange29" parent="Triggers" index="13" instance=ExtResource("9_r4ylj")]
 position = Vector2(-3024, 848)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove15" parent="Triggers" index="14" instance=ExtResource("11_0nix5")]
 position = Vector2(-3120, 944)
@@ -140,14 +96,10 @@ scale = Vector2(3, 3)
 [node name="trigger_bgChange27" parent="Triggers" index="15" instance=ExtResource("5_xcgb7")]
 position = Vector2(-4512, 64)
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("12_gtmr5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange30" parent="Triggers" index="16" instance=ExtResource("9_r4ylj")]
 position = Vector2(-4464, 16)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove16" parent="Triggers" index="17" instance=ExtResource("11_0nix5")]
 position = Vector2(-4560, 112)
@@ -156,14 +108,10 @@ scale = Vector2(3, 3)
 [node name="trigger_bgChange22" parent="Triggers" index="18" instance=ExtResource("5_xcgb7")]
 position = Vector2(-1056, 928)
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("6_l27g5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange25" parent="Triggers" index="19" instance=ExtResource("9_r4ylj")]
 position = Vector2(-1008, 880)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove11" parent="Triggers" index="20" instance=ExtResource("11_0nix5")]
 position = Vector2(-1104, 976)
@@ -171,123 +119,64 @@ scale = Vector2(3, 3)
 
 [node name="trigger_bgChange28" parent="Triggers" index="21" instance=ExtResource("5_xcgb7")]
 scale = Vector2(3, 3)
-Background_filePath = ExtResource("6_l27g5")
-Background_a_filePath = ExtResource("7_uwmml")
-Background_b_filePath = ExtResource("8_gnmnd")
 
 [node name="trigger_musicChange31" parent="Triggers" index="22" instance=ExtResource("9_r4ylj")]
 position = Vector2(48, -48)
 scale = Vector2(3, 3)
-music_file = ExtResource("10_cuh1t")
 
 [node name="trigger_bgMove17" parent="Triggers" index="23" instance=ExtResource("11_0nix5")]
 position = Vector2(-48, 48)
 scale = Vector2(3, 3)
 
-[node name="Areas" type="Node2D" parent="." index="14"]
+[node name="Areas" type="Node2D" parent="." index="11"]
 
-[node name="areaTransition1" parent="." index="15" instance=ExtResource("13_ga1ly")]
+[node name="areaTransition1" parent="." index="12" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(-3264, 1216)
 scale = Vector2(24, 2)
-target_area = "res://Levels/overworld_glades.tscn"
-next_transition = 1
-spawn_position = Vector2(-3072, 896)
 
-[node name="areaTransition2" parent="." index="16" instance=ExtResource("13_ga1ly")]
+[node name="areaTransition2" parent="." index="13" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(-4512, 64)
 scale = Vector2(3, 10)
-target_area = "res://Levels/overworld_ascent.tscn"
-next_transition = 2
 
-[node name="areaTransition3" parent="." index="17" instance=ExtResource("13_ga1ly")]
+[node name="areaTransition3" parent="." index="14" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(-1824, 1216)
 scale = Vector2(1, 2)
-target_area = "res://Levels/overworld_glades.tscn"
-next_transition = 3
-spawn_position = Vector2(-1984, 960)
 
-[node name="areaTransition6" parent="." index="18" instance=ExtResource("13_ga1ly")]
+[node name="areaTransition6" parent="." index="15" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(-1248, 1216)
 scale = Vector2(1, 2)
-target_area = "res://Levels/overworld_glades.tscn"
-next_transition = 6
-spawn_position = Vector2(-1152, 960)
 
-[node name="areaTransition7" parent="." index="19" instance=ExtResource("13_ga1ly")]
+[node name="areaTransition7" parent="." index="16" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(544, 1216)
 scale = Vector2(3, 2)
-target_area = "res://Levels/overworld_glades.tscn"
-next_transition = 7
-spawn_position = Vector2(448, 1024)
 
-[node name="areaTransition8" parent="." index="20" instance=ExtResource("13_ga1ly")]
+[node name="areaTransition8" parent="." index="17" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(3264, 1216)
 scale = Vector2(2, 2)
-target_area = "res://Levels/overworld_glades.tscn"
-next_transition = 8
-spawn_position = Vector2(3200, 832)
 
-[node name="areaTransition9" parent="." index="21" instance=ExtResource("13_ga1ly")]
+[node name="areaTransition9" parent="." index="18" instance=ExtResource("13_ga1ly")]
 unique_name_in_owner = true
 position = Vector2(4640, 1184)
 scale = Vector2(3, 3)
-target_area = "res://Levels/overworld_glades.tscn"
-next_transition = 9
-spawn_position = Vector2(4672, 960)
 
-[node name="wind_area" parent="." index="22" instance=ExtResource("14_xtj7n")]
+[node name="wind_area" parent="." index="19" instance=ExtResource("14_xtj7n")]
 position = Vector2(-1088, -304)
 scale = Vector2(10, 1)
 
-[node name="wind_area2" parent="." index="23" instance=ExtResource("14_xtj7n")]
+[node name="wind_area2" parent="." index="20" instance=ExtResource("14_xtj7n")]
 position = Vector2(-1760, -304)
 scale = Vector2(5, 1)
 
-[node name="wind_area3" parent="." index="24" instance=ExtResource("14_xtj7n")]
+[node name="wind_area3" parent="." index="21" instance=ExtResource("14_xtj7n")]
 position = Vector2(-2368, -304)
 scale = Vector2(4, 1)
 
-[node name="wind_area4" parent="." index="25" instance=ExtResource("14_xtj7n")]
+[node name="wind_area4" parent="." index="22" instance=ExtResource("14_xtj7n")]
 position = Vector2(2304, 336)
 scale = Vector2(2, 1)
-
-[connection signal="area_entered" from="tileset_objects/spikes_UP" to="tileset_objects/spikes_UP" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/fire" to="tileset_objects/fire" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123974" to="tileset_objects/@Area2D@123974" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123975" to="tileset_objects/@Area2D@123975" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123976" to="tileset_objects/@Area2D@123976" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123977" to="tileset_objects/@Area2D@123977" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123978" to="tileset_objects/@Area2D@123978" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123980" to="tileset_objects/@Area2D@123980" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123981" to="tileset_objects/@Area2D@123981" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123982" to="tileset_objects/@Area2D@123982" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@123984" to="tileset_objects/@Area2D@123984" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124022" to="tileset_objects/@Area2D@124022" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124023" to="tileset_objects/@Area2D@124023" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124024" to="tileset_objects/@Area2D@124024" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124025" to="tileset_objects/@Area2D@124025" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124028" to="tileset_objects/@Area2D@124028" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124029" to="tileset_objects/@Area2D@124029" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124037" to="tileset_objects/@Area2D@124037" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124039" to="tileset_objects/@Area2D@124039" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124046" to="tileset_objects/@Area2D@124046" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124047" to="tileset_objects/@Area2D@124047" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124063" to="tileset_objects/@Area2D@124063" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124064" to="tileset_objects/@Area2D@124064" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124065" to="tileset_objects/@Area2D@124065" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124066" to="tileset_objects/@Area2D@124066" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124067" to="tileset_objects/@Area2D@124067" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124068" to="tileset_objects/@Area2D@124068" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124069" to="tileset_objects/@Area2D@124069" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124070" to="tileset_objects/@Area2D@124070" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124071" to="tileset_objects/@Area2D@124071" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124072" to="tileset_objects/@Area2D@124072" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124073" to="tileset_objects/@Area2D@124073" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124074" to="tileset_objects/@Area2D@124074" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@124075" to="tileset_objects/@Area2D@124075" method="_on_area_entered"]

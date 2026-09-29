@@ -145,6 +145,7 @@ outline_top_width = 4.0
 outline_bottom_width = 4.0
 outline_left_width = 4.0
 outline_right_width = 4.0
+fill_color = Color(0.139413, 0.00774045, 0.159176, 1)
 
 [connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
 [connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

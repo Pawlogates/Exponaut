@@ -1,0 +1,93 @@
+[gd_scene load_steps=6 format=3 uid="uid://e6ndvfmhlmua"]
+
+[ext_resource type="Script" uid="uid://lu6cdiu3gwm0" path="res://Tetronaut/tetronaut.gd" id="1_73w1c"]
+[ext_resource type="PackedScene" uid="uid://bk3vsi6vqnc1q" path="res://Other/Scenes/User Interface/Menus/menu_bg.tscn" id="2_4xolu"]
+[ext_resource type="PackedScene" uid="uid://w20bmqsqkfcq" path="res://Tetronaut/background_screen_lines_diagonal.tscn" id="3_h7kgs"]
+[ext_resource type="PackedScene" uid="uid://dsm3djnlkc1b3" path="res://Tetronaut/background_screen.tscn" id="4_nibva"]
+[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="5_vyusn"]
+
+[node name="tetronaut" type="Control" groups=["tn_main"]]
+custom_minimum_size = Vector2(1600, 900)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -800.0
+offset_top = -450.0
+offset_right = 800.0
+offset_bottom = 450.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_73w1c")
+
+[node name="container_blocks" type="Control" parent="."]
+custom_minimum_size = Vector2(1600, 900)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="menu_bg" parent="." instance=ExtResource("2_4xolu")]
+modulate = Color(0.0980392, 0.133333, 0.282353, 1)
+z_index = 1000
+layout_mode = 1
+outline_top_width = 16.0
+outline_bottom_width = 16.0
+outline_left_width = 16.0
+outline_right_width = 16.0
+margin = Vector2(32, 32)
+fill_add_z_index = -1000
+
+[node name="cooldown_spawn_block_chains" type="Timer" parent="."]
+one_shot = true
+
+[node name="background_screen_lines_diagonal" parent="." instance=ExtResource("3_h7kgs")]
+z_index = -500
+layout_mode = 0
+offset_left = 1776.0
+offset_top = -106.0
+offset_right = 4576.0
+offset_bottom = 994.0
+scale = Vector2(-1, 1)
+
+[node name="background_screen" parent="." instance=ExtResource("4_nibva")]
+modulate = Color(1, 1, 1, 0.0705882)
+z_index = 50
+layout_mode = 1
+offset_left = -176.0
+offset_top = -106.0
+offset_right = -176.0
+offset_bottom = -106.0
+
+[node name="Label" type="Label" parent="."]
+z_index = 1500
+layout_mode = 0
+offset_left = -128.0
+offset_top = 942.0
+offset_right = 1728.0
+offset_bottom = 1034.33
+theme = ExtResource("5_vyusn")
+theme_override_font_sizes/font_size = 32
+text = "Use your mouse to drag the pieces around, placing them on top of other pieces!"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="."]
+modulate = Color(0.615686, 0.615686, 0.615686, 0.752941)
+z_index = 1500
+layout_mode = 0
+offset_left = -128.0
+offset_top = 918.0
+offset_right = 1712.0
+offset_bottom = 1010.0
+theme = ExtResource("5_vyusn")
+theme_override_font_sizes/font_size = 20
+text = "Also... absolutely never, ever, under no circumstance,                                                                                                     should you EVER even consider pressing SHIFT + ESC."
+horizontal_alignment = 1
+
+[connection signal="timeout" from="cooldown_spawn_block_chains" to="." method="_on_cooldown_spawn_block_chains_timeout"]

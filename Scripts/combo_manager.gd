@@ -4,50 +4,54 @@ extends Node2D
 
 @onready var sfx_manager: Node2D = $sfx_manager
 
+var combo_tier_requirement_multiplier : int = 1
+
 func _ready():
 	Globals.combo_end.connect(reset_combo_tier)
 	Globals.entity_collected.connect(on_entity_collected)
 	Globals.entity_hit.connect(on_entity_hit)
 	Globals.entity_killed.connect(on_entity_killed)
 	Globals.combo_refreshed.connect(on_combo_refreshed)
-
+	
+	if Globals.gameState_tetronaut:
+		combo_tier_requirement_multiplier = 25
 
 func check_combo_tier():
-	if Globals.combo_streak > 100:
+	if Globals.combo_streak > 100 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 11
 	
-	elif Globals.combo_streak > 50:
+	elif Globals.combo_streak > 50 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 10
 	
-	elif Globals.combo_streak > 45:
+	elif Globals.combo_streak > 45 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 9
 	
-	elif Globals.combo_streak > 40:
+	elif Globals.combo_streak > 40 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 8
 	
-	elif Globals.combo_streak > 30:
+	elif Globals.combo_streak > 30 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 7
 	
-	elif Globals.combo_streak > 25:
+	elif Globals.combo_streak > 25 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 6
 	
-	elif Globals.combo_streak > 20:
+	elif Globals.combo_streak > 20 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 5
 		
-	elif Globals.combo_streak > 15:
+	elif Globals.combo_streak > 15 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 4
 	
-	elif Globals.combo_streak > 10:
+	elif Globals.combo_streak > 10 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 3
 	
-	elif Globals.combo_streak > 5:
+	elif Globals.combo_streak > 5 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 2
 	
-	elif Globals.combo_streak >= 0:
+	elif Globals.combo_streak >= 0 * combo_tier_requirement_multiplier:
 		Globals.combo_tier = 1
 	
 	
-	if Globals.combo_streak == 20:
+	if Globals.combo_streak == 20 * combo_tier_requirement_multiplier:
 		Globals.max_scoreMultiplier_reached.emit()
 
 
@@ -94,13 +98,19 @@ func reset_combo_cycle_long():
 func _on_timer_combo_streak_active_timeout():
 	var combo_score_value_display = Globals.scene_effect_score_bonus.instantiate()
 	combo_score_value_display.value = Globals.combo_score
-	combo_score_value_display.position = Globals.Player.position
+	if is_instance_valid(Globals.Player):
+		combo_score_value_display.position = Globals.Player.position
+	else:
+		combo_score_value_display.position = Globals.window_size / 2
 	
 	if Globals.combo_streak == 1 : combo_score_value_display.gravity_based_on_combo_streak = false ; combo_score_value_display.ignore_gravity = true ; combo_score_value_display.slow = true ; combo_score_value_display.gravity_based_on_combo_streak = false
 	elif Globals.combo_streak < 5 : combo_score_value_display.gravity_based_on_combo_streak = false ; combo_score_value_display.ignore_gravity = false ; combo_score_value_display.slow = true ; combo_score_value_display.gravity_based_on_combo_streak = false
 	else : combo_score_value_display.gravity_based_on_combo_streak = false ; combo_score_value_display.ignore_gravity = false ; combo_score_value_display.slow = true ; combo_score_value_display.gravity_based_on_combo_streak = false
 	
-	Globals.World.add_child(combo_score_value_display)
+	if is_instance_valid(Globals.World):
+		Globals.World.add_child(combo_score_value_display)
+	else:
+		Globals.main_scene.add_child(combo_score_value_display)
 	
 	reset_combo_tier()
 	Globals.dm("Combo streak finished.")
@@ -112,7 +122,7 @@ func on_entity_collected():
 
 func on_entity_hit():
 	check_combo_tier()
-	refresh_combo_streak_timer(1.5)
+	refresh_combo_streak_timer(1.0)
 
 func on_entity_killed():
 	check_combo_tier()

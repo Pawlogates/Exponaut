@@ -4,7 +4,7 @@ var active = false
 
 
 func _ready():
-	await get_tree().create_timer(5, false).timeout
+	await get_tree().create_timer(15, false).timeout
 	active = true
 
 
@@ -26,8 +26,6 @@ func reset_all_checkpoints():
 
 
 func checkpoint_activated():
-	Globals.message("Saving...", 0.0, Vector2(256, 0), 4.0)
-	
 	Globals.Player.last_checkpoint_pos = position
 	
 	if Globals.World.level_type == "overworld":
@@ -36,3 +34,7 @@ func checkpoint_activated():
 	
 	else:
 		SaveData.save_levelState()
+	
+	await get_tree().create_timer(2, false).timeout
+	
+	Globals.message("Saving...", 0.0, Vector2(256, 0), 4.0)

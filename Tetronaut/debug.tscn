@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://q4etbe0pmfuc"]
+
+[ext_resource type="Script" uid="uid://cvwvjgor583lu" path="res://Tetronaut/debug.gd" id="1_1nmj4"]
+[ext_resource type="PackedScene" uid="uid://cnl3u7qcwj0nk" path="res://Other/Scenes/camera.tscn" id="2_mfowp"]
+
+[node name="debug" type="Node2D"]
+script = ExtResource("1_1nmj4")
+
+[node name="camera" parent="." instance=ExtResource("2_mfowp")]

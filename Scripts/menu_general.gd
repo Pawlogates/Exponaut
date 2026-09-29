@@ -32,7 +32,14 @@ var is_ready : bool = false # This is true if the menu has been fully generated 
 func _ready() -> void:
 	print("Spawned a menu.")
 	
-	get_tree().paused = false
+	var btn_continue : Button = get_tree().get_first_node_in_group("UI_button_continue")
+	if SaveData.load_playerData():
+		btn_continue.disabled = false
+		btn_continue.modulate = Color.WHITE
+	else:
+		btn_continue.disabled = true
+	
+	if Globals.gameState_level : Globals.set_pause(true)
 	
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = true
 	
@@ -284,7 +291,7 @@ func handle_button_pressed_general(p_block_buttons_time): # The "p" stands for "
 func _on_btn_resume_game_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
 	
-	Globals.toggle_pause()
+	delete_menu()
 
 func _on_btn_level_set_screen_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
@@ -295,15 +302,7 @@ func _on_btn_level_set_screen_pressed(block_buttons_time : float = 1.0) -> void:
 func _on_btn_back_to_overworld_pressed(block_buttons_time : float = 1.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
 	
-	var saved_level = SaveData.saved_last_level_filepath
-	
-	#DEBUG
-	if saved_level == "none":
-		saved_level = "res://Levels/overworld_infected_glades.tscn"
-	
-	Overlay.animation("black_fade_in", 1.0, false, true)
-	Globals.transition_triggered = false
-	get_tree().change_scene_to_packed(load(saved_level))
+	Globals.back_to_overworld()
 
 func _on_btn_enable_score_attack_mode_pressed(block_buttons_time : float = 1.0) -> void: # The argument here is useless, and can be safely replaced by any float value in each "_on_btn_[button]_pressed" function.
 	if handle_button_pressed_general(block_buttons_time) : return
@@ -316,25 +315,54 @@ func _on_btn_quit_to_main_menu_pressed(block_buttons_time : float = 1.0) -> void
 	
 	Globals.change_main_scene(Globals.scene_start_screen)
 
-func _on_btn_quit_game_pressed(block_buttons_time : float = 1.0) -> void:
+func _on_btn_quit_game_pressed(block_buttons_time : float = 10.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
 	
 	Overlay.animation("black_fade_in", 0.5, false, true)
 	get_tree().quit()
 
-func _on_btn_start_new_game_pressed(block_buttons_time : float = 1.0) -> void:
+func _on_btn_start_new_game_pressed(block_buttons_time : float = 999.0) -> void:
+	if handle_button_pressed_general(block_buttons_time) : return
+	
 	SaveData.wipe_slot(SaveData.slot_current)
-	await get_tree().create_timer(1.0, true).timeout
-	Globals.change_main_scene(Globals.scene_start_area)
+	
+	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
+	
+	SaveData.player_name = "none"
+	
+	await get_tree().create_timer(0.25, true).timeout
+	
+	var game_started : bool = false
+	while not game_started:
+		print("checking name")
+		await get_tree().create_timer(0.5, true).timeout
+	
+		if SaveData.player_name != "none":
+			game_started = true
+			await get_tree().create_timer(0.25, true).timeout
+			Globals.change_main_scene(Globals.scene_start_area)
 
-func _on_btn_continue_pressed(block_buttons_time : float = 1.0) -> void:
-	Globals.change_main_scene(SaveData.saved_last_level_filepath)
+func _on_btn_continue_pressed(block_buttons_time : float = 10.0) -> void:
+	if Globals.gameState_start_screen:
+		if handle_button_pressed_general(block_buttons_time) : return
+		
+		SaveData.load_playerData()
+		SaveData.load_levelSet()
+		
+		Globals.change_main_scene(SaveData.saved_last_level_filepath)
+	
+	elif Globals.gameState_level:
+		_on_btn_back_to_overworld_pressed()
 
 func _on_btn_select_level_set_pressed(block_buttons_time : float = 1.0) -> void:
+	if handle_button_pressed_general(block_buttons_time) : return
+	
 	Globals.spawn_menu(Globals.scene_menu_select_levelSet, [], Globals.window_size / 2)
 	delete_menu()
 
-func _on_btn_close_pressed() -> void:
+func _on_btn_close_pressed(block_buttons_time : float = 1.0) -> void:
+	if handle_button_pressed_general(block_buttons_time) : return
+	
 	delete_menu()
 
 # MAIN MENU - [END]
@@ -412,8 +440,12 @@ func _on_cooldown_toggle_button_destabilize_modulate_reversed_timeout() -> void:
 
 func delete_menu(): # Will add some menu deletion effect making heavy use of the general tween tool (doesn't exist yet) for each button.
 	print("Attempting to delete a menu.")
+	if not is_ready : return
+	
 	if is_instance_valid(Globals.Player) : Globals.Player.block_movement = false
-	if is_ready : queue_free()
+	Globals.set_mouse_mode(false)
+	Globals.set_pause(false)
+	queue_free()
 
 
 func _on_btn_level_chain_pressed() -> void:

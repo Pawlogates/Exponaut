@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://6de4l2jqacgu"]
+
+[ext_resource type="Script" uid="uid://bgh0skvr1k7ja" path="res://Tetronaut/block_chain.gd" id="1_4pyoy"]
+
+[node name="block_chain" type="Control" groups=["tn_block_chain"]]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_4pyoy")
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]

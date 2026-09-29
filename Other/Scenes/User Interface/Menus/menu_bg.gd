@@ -15,7 +15,10 @@ extends Control
 @export var outline_left_width : float = 8
 @export var outline_right_width : float = 8
 
-@export var outline_duplicate_edges : bool = false
+@export var outline_color : Color = Color.WHITE
+@export var fill_color : Color = Color(-1, -1, -1, -1)
+
+@export var duplicate_edges : bool = false
 
 
 var edge_top_left : Node
@@ -73,13 +76,18 @@ var is_ready : bool = false
 @export var randomize_outline_overflow : bool = true
 
 @export var margin : Vector2 = Vector2(0, 0)
-@export var bg_z_index : int = -10
+@export var fill_add_z_index : int = -1
 
 
 func _ready() -> void:
-	fill.z_index = bg_z_index
-	
 	await get_tree().create_timer(0.05, true).timeout
+	
+	if fill_color != Color(-1, -1, -1, -1) : fill.color = fill_color
+	
+	if outline_top_width > 8 : duplicate_edges = true
+	
+	fill.size += Vector2(0, outline_bottom_width / 2)
+	if fill_add_z_index != -1 : fill.z_index += fill_add_z_index
 	
 	if randomize_speed_multiplier:
 		speed_multiplier1 = randi_range(0.05, 4)
@@ -107,63 +115,78 @@ func _ready() -> void:
 	outline_left.size.x = outline_left_width
 	outline_right.size.x = outline_right_width
 	
-	var edge_temp : Array
-	edge_temp = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
-	edge_top_left = edge_temp[0]
-	edge_temp = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
-	edge_top_right = edge_temp[0]
-	edge_temp = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
-	edge_bottom_left = edge_temp[0]
-	edge_temp = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
-	edge_bottom_right = edge_temp[0]
+	var spawned_edge_top_left : Array = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	var spawned_edge_top_right : Array = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	var spawned_edge_bottom_left : Array = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+	var spawned_edge_bottom_right : Array  = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
 	
-	if outline_top_width != 8:
+	edge_top_left = spawned_edge_top_left[0]
+	edge_top_right = spawned_edge_top_right[0]
+	edge_bottom_left = spawned_edge_bottom_left[0]
+	edge_bottom_right = spawned_edge_bottom_right[0]
+	
+	edge_top_left.modulate = outline_color
+	edge_top_right.modulate = outline_color
+	edge_bottom_left.modulate = outline_color
+	edge_bottom_right.modulate = outline_color
+	
+	if duplicate_edges:
+		var copy : Node
 		
-		if outline_duplicate_edges:
-			
-			var copy : Node
-			
-			for x in 4:
-				copy = edge_top_left.duplicate()
-				copy.rotation_degrees = 90 * x
-				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-				else : copy.position += Vector2(0, 64) * scale
-				outline_top.add_child(copy)
-			
-			for x in 4:
-				copy = edge_top_right.duplicate()
-				copy.rotation_degrees = 90 * x
-				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-				else : copy.position += Vector2(0, 64) * scale
-				copy.position.y -= 32 * scale.y
-				copy.position.x -= 24 * scale.x
-				outline_right.add_child(copy)
-			
-			for x in 4:
-				copy = edge_bottom_left.duplicate()
-				copy.rotation_degrees = 90 * x
-				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-				else : copy.position += Vector2(0, 64) * scale
-				copy.position.y -= 56 * scale.y
-				copy.position.x -= 0 * scale.x
-				outline_bottom.add_child(copy)
-			
-			for x in 4:
-				copy = edge_bottom_right.duplicate()
-				copy.rotation_degrees = 90 * x
-				if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
-				elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
-				elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
-				else : copy.position += Vector2(0, 64) * scale
-				copy.position.y -= 12 * scale.y
-				copy.position.x -= 24 * scale.x
-				outline_right.add_child(copy)
+		for x in 4:
+			copy = edge_top_left.duplicate()
+			copy.modulate *= 0.66
+			copy.modulate.a = 1
+			copy.z_index = 1
+			copy.rotation_degrees = 90 * x
+			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
+			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
+			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
+			else : copy.position += Vector2(0, 64) * scale
+			outline_top.add_child(copy)
+		
+		for x in 4:
+			copy = edge_top_right.duplicate()
+			copy.modulate *= 0.66
+			copy.modulate.a = 1
+			copy.z_index = 1
+			copy.rotation_degrees = 90 * x
+			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
+			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
+			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
+			else : copy.position += Vector2(0, 64) * scale
+			copy.position.y -= 32 * scale.y
+			copy.position.x -= 24 * scale.x
+			outline_right.add_child(copy)
+		
+		for x in 4:
+			copy = edge_bottom_left.duplicate()
+			copy.modulate *= 0.66
+			copy.modulate.a = 1
+			copy.z_index = 1
+			copy.rotation_degrees = 90 * x
+			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, 32) * scale
+			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, 0) * scale
+			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, 32) * scale
+			else : copy.position += Vector2(0, 64) * scale
+			copy.position.y -= 56 * scale.y
+			copy.position.x -= 0 * scale.x
+			outline_bottom.add_child(copy)
+		
+		for x in 4:
+			copy = edge_bottom_right.duplicate()
+			copy.modulate *= 0.66
+			copy.modulate.a = 1
+			copy.z_index = 1
+			copy.rotation_degrees = 90 * x
+			if copy.rotation_degrees == 0 : copy.position += Vector2(-32, -32) * scale
+			elif copy.rotation_degrees == 90 : copy.position += Vector2(0, -64) * scale
+			elif copy.rotation_degrees == 180 : copy.position += Vector2(32, -32) * scale
+			else : copy.position += Vector2(0, 0) * scale
+			copy.position += size
+			copy.position.y += 0 * scale.y
+			copy.position.x -= 32 * scale.x
+			add_child(copy)
 		
 		#edge_top_left.visible = false
 		#edge_top_right.visible = false
@@ -236,18 +259,6 @@ func _ready() -> void:
 		outline_left_overflow = Globals.random_bool(9, 1)
 		outline_right_overflow = Globals.random_bool(9, 1)
 	
-	
-	if outline_top_width != 8:
-		edge_top_left.scale *= outline_left_width / 8
-		edge_top_right.scale *= outline_top_width / 8
-		edge_bottom_left.scale *= outline_bottom_width / 8
-		edge_bottom_right.scale *= outline_right_width / 8
-		
-		edge_top_left.position += Vector2(-32, 1) * outline_left_width / 8
-		edge_top_right.position += Vector2(-8, -24) * outline_top_width / 8
-		edge_bottom_left.position += Vector2(1, 24) * outline_bottom_width / 8
-		edge_bottom_right.position += Vector2(24, -8) * outline_right_width / 8
-	
 	is_ready = true
 
 
@@ -295,8 +306,10 @@ func deco_create():
 		
 		if Globals.random_bool(3, 1):
 			for x in randi_range(1, 4):
-				new_edge = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				var new_edges : Array = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				new_edge = new_edges[0]
 				new_edge.rotation_degrees = 90 * randi_range(0, 3)
+				new_edge.modulate = outline_color
 				
 				if Globals.debug_mode:
 					var info = Label.new()
@@ -324,8 +337,10 @@ func deco_create():
 		
 		if Globals.random_bool(3, 1):
 			for x in randi_range(0, 3):
-				new_edge = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				var new_edges : Array = await Globals.spawn_scenes(outline_top, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				new_edge = new_edges[0]
 				new_edge.rotation_degrees = 90 * randi_range(0, 3)
+				new_edge.modulate = outline_color
 				new_edge.position.x = outline_bottom.size.x
 				new_edge.position.y = edge_bottom_right_start_pos.y + 8
 				
@@ -346,8 +361,10 @@ func deco_create():
 		
 		if Globals.random_bool(3, 1):
 			for x in randi_range(0, 3):
-				new_edge = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				var new_edges : Array = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				new_edge = new_edges[0]
 				new_edge.rotation_degrees = 90 * randi_range(0, 3)
+				new_edge.modulate = outline_color
 				new_edge.position.x = edge_bottom_left_start_pos.x - 32
 				new_edge.position.y = edge_bottom_left_start_pos.y - 24
 				
@@ -368,8 +385,10 @@ func deco_create():
 		
 		if Globals.random_bool(3, 1):
 			for x in randi_range(0, 3):
-				new_edge = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				var new_edges : Array = await Globals.spawn_scenes(outline_bottom, edge_top_left_filepath, 1, Vector2(0, 0), -1)
+				new_edge = new_edges[0]
 				new_edge.rotation_degrees = 90 * randi_range(0, 3)
+				new_edge.modulate = outline_color
 				
 				if Globals.debug_mode:
 					var info = Label.new()

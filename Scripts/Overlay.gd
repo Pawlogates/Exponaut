@@ -6,11 +6,15 @@ extends CanvasLayer
 @onready var hud_player_health : Node
 @onready var hud_player_abilities : Node
 
+@onready var hud_combo_manager : Node
+@onready var hud_score_display : Node
+
 @onready var screen_color = $screen_color
 @onready var animation_player = $AnimationPlayer
 
 func _ready():
 	Globals.gameState_changed.connect(reassign_general)
+	Globals.refreshed2_0.connect(on_refreshed2_0)
 	
 	reassign_general()
 	await get_tree().create_timer(1.0, true).timeout
@@ -19,15 +23,19 @@ func _ready():
 	if Globals.gameState_debug:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
-	screen_color.color.a = 0.0
+	if is_instance_valid(screen_color) : screen_color.color.a = 0.0
 
 func _physics_process(_delta: float) -> void:
-	pass
+	if Input.is_action_just_pressed("0"):
+		screen_color.visible = false
 
 
 # Called from anywhere outside of this script. Example: animation("black_fade_in", 1.0, false, true)
 func animation(anim_name : String = "black_fade_out", speed : float = 1.0, play_backwards : bool = false, await_finished : bool = true, delay : float = 0.25, await_delay : float = 0.25, transition_filepath : String = "none", transition_anim_speed : float = 1.0, transition_add_scale : Vector2 = Vector2(0, 0)):
-	if Globals.gameState_debug : speed *= 4 ; transition_anim_speed *= 4
+	if Globals.gameState_debug : speed *= 2 ; transition_anim_speed *= 2
+	if Globals.debug_hide_screen_transitions : speed *= 4 ; transition_anim_speed *= 4
+	
+	screen_color.visible = true
 	
 	animation_player.speed_scale = speed
 	
@@ -58,12 +66,22 @@ func reassign_general():
 	hud_player_health = get_tree().get_first_node_in_group("hud_player_health")
 	hud_player_abilities = get_tree().get_first_node_in_group("hud_player_abilities")
 	hud_player_experience = get_tree().get_first_node_in_group("hud_player_experience")
+	
+	hud_combo_manager = get_tree().get_first_node_in_group("combo_manager")
+	hud_score_display = get_tree().get_first_node_in_group("score_display")
 
 
 func screen_black():
 	animation_player.stop()
-	screen_color.color = Color.BLACK # Using the "modulate" property on the full-screen object should be the last resort.
+	screen_color.visible = true
+	if is_instance_valid(screen_color) : screen_color.color = Color.BLACK # Using the "modulate" property on the full-screen object should be the last resort.
 
 func screen_hide():
 	animation_player.stop()
-	screen_color.color = Color(1, 1, 1, 0)
+	screen_color.visible = false
+	if is_instance_valid(screen_color) : screen_color.color = Color(1, 1, 1, 0)
+
+
+func on_refreshed2_0():
+	if Globals.debug_hide_screen_transitions:
+		if is_instance_valid(screen_color) : screen_color.visible = false

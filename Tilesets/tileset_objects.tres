@@ -1,8 +1,7 @@
-[gd_resource type="TileSet" load_steps=162 format=3 uid="uid://c386fqjqax7c"]
+[gd_resource type="TileSet" load_steps=160 format=3 uid="uid://c386fqjqax7c"]
 
 [ext_resource type="PackedScene" uid="uid://cujuoar1ksmaa" path="res://Collectibles/item_tie_charged.tscn" id="1_1eeih"]
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7gg22"]
-[ext_resource type="PackedScene" uid="uid://bq2hygqo7c6kk" path="res://Collectibles/apple_floating.tscn" id="5_byj5m"]
 [ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Blocks/move_block_h.tscn" id="5_f8l16"]
 [ext_resource type="PackedScene" uid="uid://bc4lqr8ajy0k8" path="res://Objects/Decorations/deco_waterfall_bg.tscn" id="6_77evu"]
 [ext_resource type="PackedScene" uid="uid://va38cadkefjo" path="res://Blocks/move_block_v.tscn" id="7_pvlly"]
@@ -21,6 +20,7 @@
 [ext_resource type="PackedScene" uid="uid://bdjd80p8f5n7h" path="res://Blocks/move_block_h_pause.tscn" id="17_bsyvx"]
 [ext_resource type="PackedScene" uid="uid://c6a6e6sqb52cr" path="res://Blocks/move_block_v2.tscn" id="18_t1q83"]
 [ext_resource type="PackedScene" uid="uid://cfv0k77wv0jto" path="res://Blocks/move_block_h2.tscn" id="19_j0ohk"]
+[ext_resource type="PackedScene" uid="uid://bq2hygqo7c6kk" path="res://Collectibles/apple_floating.tscn" id="20_1eeih"]
 [ext_resource type="PackedScene" uid="uid://fsjwmefaqk18" path="res://Blocks/resetButton_blue.tscn" id="20_lvi3k"]
 [ext_resource type="PackedScene" uid="uid://dc4sqs8vg7pni" path="res://Blocks/resetButton_green.tscn" id="21_v3rp7"]
 [ext_resource type="PackedScene" uid="uid://bh7qc60j36us4" path="res://Blocks/resetButton_red.tscn" id="22_a324p"]
@@ -91,7 +91,6 @@
 [ext_resource type="PackedScene" uid="uid://blm45t8prhk5g" path="res://Triggers/zone_wind_DOWN.tscn" id="76_hnosd"]
 [ext_resource type="PackedScene" uid="uid://4dddq1sty5h7" path="res://Collectibles/orb_red.tscn" id="77_4ma8r"]
 [ext_resource type="PackedScene" uid="uid://bixrhaa8e5a4r" path="res://Collectibles/jewel_pineapple_timed.tscn" id="77_mrtos"]
-[ext_resource type="PackedScene" uid="uid://c0qu8d3gh4i0p" path="res://Other/Scenes/Random Decoration/random_decoration_main.tscn" id="77_rg5m4"]
 [ext_resource type="PackedScene" uid="uid://bsyt67dvo5nja" path="res://Other/Scenes/Random Decoration/random_decoration_column.tscn" id="78_2cubl"]
 [ext_resource type="PackedScene" uid="uid://b1yp3474kdoii" path="res://Collectibles/puzzle_reset_zone_x.tscn" id="79_2kxln"]
 [ext_resource type="PackedScene" uid="uid://cxoirmq0nsnci" path="res://Collectibles/kit_health.tscn" id="79_t1q83"]
@@ -146,19 +145,18 @@
 [ext_resource type="PackedScene" uid="uid://pa5481yr0icw" path="res://Enemies/robot_jumper_instant_explosion_on_landed.tscn" id="117_8yrnu"]
 [ext_resource type="PackedScene" uid="uid://2dwv1vxnsnk" path="res://Enemies/robot_swimmer.tscn" id="118_rrovp"]
 [ext_resource type="PackedScene" uid="uid://cytob2sm8ydgc" path="res://Blocks/move_block_h2_pause.tscn" id="119_8uspj"]
-[ext_resource type="PackedScene" uid="uid://b17i5uq6owibc" path="res://Boxes/piggybank_coins_timed.tscn" id="125_i413d"]
 [ext_resource type="PackedScene" uid="uid://d31rvxjwakyyf" path="res://Boxes/piggybank_coins.tscn" id="130_bhnpr"]
 [ext_resource type="PackedScene" uid="uid://bdmkripn4wvbk" path="res://Boxes/piggybank_coins_and_gems.tscn" id="140_ucbij"]
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_w16yt"]
 resource_name = "collectibles"
 scenes/1/scene = ExtResource("72_g2ic1")
-scenes/2/scene = ExtResource("5_byj5m")
+scenes/2/scene = ExtResource("74_77evu")
 scenes/3/scene = ExtResource("73_f8l16")
-scenes/4/scene = ExtResource("74_77evu")
 scenes/5/scene = ExtResource("87_q0rrt")
 scenes/6/scene = ExtResource("77_mrtos")
 scenes/7/scene = ExtResource("79_t1q83")
+scenes/8/scene = ExtResource("20_1eeih")
 scenes/15/scene = ExtResource("86_1p4cu")
 scenes/18/scene = ExtResource("81_uxcaa")
 scenes/19/scene = ExtResource("82_ixusj")
@@ -237,7 +235,6 @@ scenes/6/scene = ExtResource("30_31gdt")
 scenes/7/scene = ExtResource("48_u1w51")
 scenes/8/scene = ExtResource("50_uphpl")
 scenes/9/scene = ExtResource("49_14gli")
-scenes/10/scene = ExtResource("77_rg5m4")
 scenes/11/scene = ExtResource("78_2cubl")
 scenes/12/scene = ExtResource("105_q3fc0")
 
@@ -274,7 +271,6 @@ scenes/27/scene = ExtResource("119_8uspj")
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_5yba0"]
 resource_name = "boxes"
 scenes/1/scene = ExtResource("130_bhnpr")
-scenes/2/scene = ExtResource("125_i413d")
 scenes/3/scene = ExtResource("140_ucbij")
 scenes/4/scene = ExtResource("96_laggj")
 scenes/5/scene = ExtResource("97_laggj")

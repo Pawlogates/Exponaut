@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="4_8dfgd"]
 
 [node name="menu_player_name" type="Control" groups=["menu_player_name"]]
-z_index = 250
+z_index = 2501
 custom_minimum_size = Vector2(800, 400)
 layout_mode = 3
 anchors_preset = 8

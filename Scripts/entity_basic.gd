@@ -47,11 +47,19 @@ extends CharacterBody2D
 
 @onready var text_container: Control = $text_container
 
+@onready var handle_offscreen: Node = $handle_offscreen
+
+
+var block_spawn_entity = false
+
+var master_node : Node = self
+var loader_node : Node
+var use_own_unloader : bool = false
+
+var bg_shadow : Node
+
 
 # Patrolling - [START]
-var block_spawn_entity = false
-var master_node : Node = self
-
 @onready var scan_patrolling_vision: Area2D = $scan_patrolling_vision
 @onready var collision_patrolling: CollisionShape2D = $scan_patrolling_vision/collision_patrolling
 @onready var c_patrolling_target_spotted_queue: Timer = $cooldown_patrolling_target_spotted_queue
@@ -174,6 +182,8 @@ var effect_collected_multiple_active = false
 
 var item_weapon_info : Array = ["none", -1.0, -1, -1]
 
+var never_unload : bool = false
+
 
 # Start of properties.
 @export_group("Main interactions.") # Section start.
@@ -249,12 +259,12 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var ignore_gravity = true
 @export var on_death_change_ignore_gravity = false
 
-@export var on_spawn_move_delay : float = 0.0
+@export var on_spawn_move_delay : float = 0.25
 @export var on_spawn_velocity : Vector2 = Vector2(-1, -1)
 @export var on_spawn_velocity_range : Array = [Vector2(-1, -1), Vector2(-1, -1)]
 
 @export var ignore_collision = false
-@export var on_death_change_ignore_collision = true
+@export var on_death_change_ignore_collision = false
 
 @export var can_jump_in_air : bool = true
 
@@ -304,7 +314,7 @@ var item_weapon_info : Array = ["none", -1.0, -1, -1]
 @export var on_ledge_death = false
 
 @export var on_spawn_delete_if_stuck : bool = false
-@export var on_spawn_add_position_range : Array = [Vector2(-32, 32), Vector2(-32, 32)]
+@export var on_spawn_add_position_range : Array = [Vector2(-16, 16), Vector2(-8, 8)]
 
 # Behavior triggered on being hit by another entity or the player:
 @export var on_hit_change_direction_x_copy_entity = false
@@ -1018,7 +1028,7 @@ func remove_if_corpse():
 	if dead or collected or destroyed:
 		Globals.dm("Attempting to remove a dead entity on it leaving the screen.", 1)
 		if len(container_effect_thrownAway.get_children()):
-			Globals.dm("The dead entity has a potentially still visible segments. Waiting additional 4 seconds.", 2)
+			Globals.dm("The dead entity has potentially still visible segments. Waiting additional 4 seconds.", 2)
 			await get_tree().create_timer(4, false).timeout
 		
 		delete_entity()
@@ -1096,7 +1106,7 @@ func basic_on_spawn():
 func basic_on_inactive():
 	if entity_editor_preview : return
 	if always_active : return
-	if not is_ready : print("entity is not ready") ; return
+	if not is_ready : print("Attempted to set an entity state to inactive, but the entity was not yet ready (its 'is_ready' property is false).") ; return
 	
 	active = false
 	
@@ -1212,6 +1222,10 @@ func synchronize_animation():
 var delete_queued : bool = false # The entity will be deleted as soon as its not visible and doesn't currently make any sound.
 
 func delete_entity():
+	if entity_name == "coin_timed":
+		print(entity_editor_preview, " ", reset_puzzle_delete_node_queued)
+		print(delete_queued)
+	
 	if entity_editor_preview : return
 	if reset_puzzle_delete_node_queued : return
 	
@@ -1267,3 +1281,8 @@ func save():
 	}
 	
 	return save_dict
+
+
+func on_refreshed_2_0():
+	if dead:
+		animation_all.pl

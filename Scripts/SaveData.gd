@@ -358,17 +358,23 @@ func _physics_process(_delta: float) -> void:
 
 
 # Player-related information, mostly used in the overworld levels.
-func save_playerData(save_player_position):
+func save_playerData(save_player_position : bool = true, save_player_position_value : Vector2 = Vector2(-1, -1)):
 	Globals.reassign_general()
 	saved_last_level_filepath = Globals.World.level_filepath
-	
+	print("PORTALSAVEPOS ", save_player_position)
+	print("PORTALSAVEPOS ", save_player_position_value)
+	print(Globals.Player.position)
 	if save_player_position: # Doesn't save current player position if a save is triggered by entering a portal.
-		if Globals.Player.last_checkpoint_pos == Vector2(0, 0):
-			saved_position_x = Globals.player.position[0]
-			saved_position_y = Globals.player.position[1]
+		if save_player_position_value == Vector2(-1, -1):
+			if Globals.Player.last_checkpoint_pos == Vector2(0, 0):
+				saved_position_x = Globals.Player.position.x
+				saved_position_y = Globals.Player.position.y
+			else:
+				saved_position_x = Globals.Player.last_checkpoint_pos.x
+				saved_position_y = Globals.Player.last_checkpoint_pos.y
 		else:
-			saved_position_x = Globals.Player.last_checkpoint_pos[0]
-			saved_position_y = Globals.Player.last_checkpoint_pos[1]
+			saved_position_x = save_player_position_value.x
+			saved_position_y = save_player_position_value.y
 	
 	saved_health = int(Globals.player_health)
 	saved_score = Globals.level_score
@@ -420,12 +426,13 @@ func save_playerData(save_player_position):
 	save_file(Globals.d_playerData.replace("[replace_with_slot_id]", slot_current) + "/playerData" + ".save", "data_playerData")
 
 
-func load_playerData():
+func load_playerData(apply_player_pos : bool = false):
+	#print_stack()
 	var filepath : String = Globals.d_playerData.replace("[replace_with_slot_id]", slot_current) + "/playerData" + ".save"
 	
 	if not FileAccess.file_exists(filepath):
 		Globals.message_debug("Couldn't find the playerData.save file.")
-		return
+		return false
 		
 	var file = FileAccess.open(filepath, FileAccess.READ)
 	while file.get_position() < file.get_length():
@@ -475,6 +482,12 @@ func load_playerData():
 		#saved_propertyName = data["saved_propertyName"]
 		
 		never_saved = data["never_saved"]
+	
+	if Globals.gameState_level and is_instance_valid(Globals.Player):
+		if apply_player_pos:
+			Globals.Player.position = Vector2(SaveData.saved_position_x, SaveData.saved_position_y)
+	
+	return true
 
 
 # Resets saved player-related properties (applied in overworld levels):
@@ -515,18 +528,32 @@ func reset_playerData(slot_id : String = slot_current, levelSet_id : String = Gl
 
 
 func delete_playerData(slot_id : String = slot_current, property_name : String = "all"):
-	var dir : DirAccess
 	var dirpath : String = Globals.d_playerData.replace("[replace_with_slot_id]", slot_id)
-	
-	if FileAccess.file_exists(dirpath) : dir = DirAccess.open(dirpath)
-	else : Globals.dm("The 'playerData' save file directory doesn't exist.") ; return
-	
+	var dir = DirAccess.open(dirpath)
+	print("delete_playerData")
+	print(dirpath)
+	print("OK")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if dir.current_is_dir():
+				print("Found directory: " + file_name)
+			else:
+				print("Found file: " + file_name)
+			file_name = dir.get_next()
+	else:
+		print("Nothing was found at the specified path.")
+		Globals.dm("The 'playerData' save file directory doesn't exist.")
+		return
+	print("YES")
 	if slot_id == "all":
 		for filename in dir.get_files():
 			delete_file(filename, dir)
+			Globals.dm("Deleted file: '%s'." % filename)
 	
 	else:
-		delete_file("playerData_" + slot_id, dir)
+		delete_file("playerData.save", dir)
 
 
 # Data is what you get when opening a json. This function is called at the end of a main save/load function.
@@ -665,7 +692,8 @@ func save_levelState(level_id : String = Globals.level_id, quicksave_slot_id : i
 	
 	var file = FileAccess.open(filepath, FileAccess.WRITE)
 	
-	var persistent_nodes = get_tree().get_nodes_in_group("persistent")
+	#var persistent_nodes = get_tree().get_nodes_in_group("persistent") + get_tree().get_nodes_in_group("loader") + get_tree().get_nodes_in_group("loader_chunk")
+	var persistent_nodes = get_tree().get_nodes_in_group("loader") + get_tree().get_nodes_in_group("loader_chunk")
 	for node in persistent_nodes:
 		
 		# Check the node is an instanced scene so it can be instanced again during load.
@@ -693,25 +721,26 @@ func save_levelState(level_id : String = Globals.level_id, quicksave_slot_id : i
 	
 	Globals.reassign_general()
 	
-	if quicksave_slot_id == -1:
+	if is_instance_valid(Globals.Player):
+		if quicksave_slot_id == -1:
+			
+			if Globals.Player.last_checkpoint_pos == Vector2(-1, -1):
+				levelState_player_position_x = Globals.Player.position.x
+				levelState_player_position_y = Globals.Player.position.y
+			else:
+				levelState_player_position_x = Globals.Player.last_checkpoint_pos[0]
+				levelState_player_position_y = Globals.Player.last_checkpoint_pos[1]
+			
+			levelState_player_velocity_x = Globals.Player.velocity.x
+			levelState_player_velocity_y = Globals.Player.velocity.y
 		
-		if Globals.Player.last_checkpoint_pos == Vector2(-1, -1):
-			levelState_player_position_x = Globals.Player.position.x
-			levelState_player_position_y = Globals.Player.position.y
 		else:
-			levelState_player_position_x = Globals.Player.last_checkpoint_pos[0]
-			levelState_player_position_y = Globals.Player.last_checkpoint_pos[1]
-		
-		levelState_player_velocity_x = Globals.Player.velocity.x
-		levelState_player_velocity_y = Globals.Player.velocity.y
-	
-	else:
-		
-		levelState_slot_player_position_x[quicksave_slot_id] = Globals.Player.position.x
-		levelState_slot_player_position_y[quicksave_slot_id] = Globals.Player.position.y
-		
-		levelState_slot_player_velocity_x[quicksave_slot_id] = Globals.Player.velocity.x
-		levelState_slot_player_velocity_y[quicksave_slot_id] = Globals.Player.velocity.y
+			
+			levelState_slot_player_position_x[quicksave_slot_id] = Globals.Player.position.x
+			levelState_slot_player_position_y[quicksave_slot_id] = Globals.Player.position.y
+			
+			levelState_slot_player_velocity_x[quicksave_slot_id] = Globals.Player.velocity.x
+			levelState_slot_player_velocity_y[quicksave_slot_id] = Globals.Player.velocity.y
 	
 	
 	Globals.levelState_saved.emit()
@@ -719,6 +748,8 @@ func save_levelState(level_id : String = Globals.level_id, quicksave_slot_id : i
 
 # Set the "quicksave" property value to 0 for normal behaviour.
 func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value of "none" will cause it to load a state file matching the current level's overworld id, while values from 1 to 4 will cause it to load a matching quicksave file (levelState_quicksave1, levelState_quicksave2, etc.)
+	print("Level state load was requested.")
+	
 	if not Globals.load_levelState : return
 	#if Globals.gameState_debug : return
 	
@@ -728,7 +759,6 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 		filepath = Globals.d_levelState.replace("[replace_with_slot_id]", slot_current) + "/levelState_" + level_id + ".save"
 	else:
 		filepath = Globals.d_levelState.replace("[replace_with_slot_id]", slot_current) + "/quicksave_" + str(quicksave_slot_id) + ".save"
-	
 	
 	if not FileAccess.file_exists(filepath):
 		Globals.dm(str("Cannot load the levelState save file ('%s')." % filepath))
@@ -740,9 +770,10 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 	
 	
 	# Delete all currently existing persistent nodes.
-	var persistent_nodes = get_tree().get_nodes_in_group("persistent") + get_tree().get_nodes_in_group("Persist")
+	var persistent_nodes = get_tree().get_nodes_in_group("level_object") + get_tree().get_nodes_in_group("loader") + get_tree().get_nodes_in_group("loader_chunk")
 	for node in persistent_nodes:
-		node.queue_free()
+		if not ("never_unload" in node and node.never_unload):
+			node.queue_free()
 	
 	while file.get_position() < file.get_length():
 		var json_string = file.get_line()
@@ -758,20 +789,23 @@ func load_levelState(level_id : String, quicksave_slot_id : int = -1): # Value o
 		var saved_object_properties = json.get_data()
 		
 		var new_object = load(saved_object_properties["scene_filepath"]).instantiate()
+		var new_object_nodepath : String = saved_object_properties["parent_node"]
+		if new_object_nodepath == "/root/Globals" : new_object_nodepath = "/root/World"
 		get_node(saved_object_properties["parent_node"]).add_child(new_object)
 		
 		if "position_x" in saved_object_properties:
 			new_object.position = Vector2(saved_object_properties["position_x"], saved_object_properties["position_y"])
 			new_object.start_pos = Vector2(saved_object_properties["start_pos_x"], saved_object_properties["start_pos_y"])
-		else:
-			new_object.position = Vector2(saved_object_properties["m_position_x"], saved_object_properties["m_position_y"])
+		elif "m_position_x" in saved_object_properties:
 			new_object.m_position = Vector2(saved_object_properties["m_position_x"], saved_object_properties["m_position_y"])
 			new_object.m_start_pos = Vector2(saved_object_properties["m_start_pos_x"], saved_object_properties["m_start_pos_y"])
+		elif "chunk_position_x" in saved_object_properties:
+			new_object.chunk_position = Vector2(saved_object_properties["chunk_position_x"], saved_object_properties["chunk_position_y"])
 		
 		for x in saved_object_properties.keys():
 			if x == "scene_filepath" or x == "parent_node" or x == "position_x" or x == "position_y" or x == "start_pos_x" or x == "start_pos_y" or x == "m_position_x" or x == "m_position_y" or x == "m_start_pos_x" or x == "m_start_pos_y":
 				continue
-			
+			print(saved_object_properties[x])
 			new_object.set(x, saved_object_properties[x])
 	
 	
@@ -818,7 +852,6 @@ func save_file(filepath : String, data_func_name : String, list_data_func_arg : 
 # Functions that delete the game's save files.
 func delete_levelState(slot_id : String = slot_current, level_id : String = "none"): # Target is a filename (levelSet_MAIN.json, levelSet_BONUS.json, etc.).
 	var dirpath : String = Globals.d_levelState.replace("[replace_with_slot_id]", slot_id)
-	
 	var dir = DirAccess.open(dirpath)
 	
 	if dir:
@@ -887,6 +920,8 @@ func calculate_rank_level(level_id):
 func reset_slot(id : String): # Sets variables to their default values.
 	reset_playerData(id, "all")
 	reset_levelSet(id, "all")
+	player_name = "none"
+	Globals.worldState_leftStartArea = false
 
 func delete_slot(id : String): # Deletes save files from the game's data folder.
 	delete_playerData(id, "all")

@@ -1,6 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://nyr7qjtu4enc"]
+[gd_scene load_steps=9 format=3 uid="uid://nyr7qjtu4enc"]
 
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="1_ojdt3"]
+[ext_resource type="Script" uid="uid://be7reaikbpg22" path="res://Objects/Decorations/water_top.gd" id="1_tdlse"]
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_wmccp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8whj6"]
@@ -56,6 +57,7 @@ _data = {
 }
 
 [node name="water_top" type="Node2D"]
+script = ExtResource("1_tdlse")
 
 [node name="water_top" type="Container" parent="."]
 texture_filter = 1

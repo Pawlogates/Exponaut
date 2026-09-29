@@ -7,12 +7,14 @@
 z_index = -2
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2
 
 [node name="line" type="TextureRect" parent="."]
 layout_mode = 0
 offset_left = -32.0
 offset_right = 32.0
 offset_bottom = 64.0
+mouse_filter = 2
 texture = ExtResource("1_lyohf")
 expand_mode = 1
 
@@ -21,6 +23,7 @@ layout_mode = 0
 offset_left = 32.0
 offset_right = 96.0
 offset_bottom = 64.0
+mouse_filter = 2
 texture = ExtResource("2_r1nol")
 expand_mode = 1
 
@@ -29,6 +32,7 @@ layout_mode = 0
 offset_left = -96.0
 offset_right = -32.0
 offset_bottom = 64.0
+mouse_filter = 2
 texture = ExtResource("2_r1nol")
 expand_mode = 1
 flip_h = true

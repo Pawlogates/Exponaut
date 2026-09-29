@@ -532,7 +532,8 @@ region = Rect2(128, 512, 64, 64)
 atlas = ExtResource("4_n748y")
 region = Rect2(192, 512, 64, 64)
 
-[node name="Shrine Portal" type="Area2D" groups=["Persist"]]
+[node name="Shrine Portal" type="Area2D" groups=["persistent"]]
+process_mode = 3
 z_index = 250
 collision_layer = 0
 collision_mask = 8

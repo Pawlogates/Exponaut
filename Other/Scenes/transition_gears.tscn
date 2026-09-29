@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://cnixx2u7pdthu"]
 
-[ext_resource type="Script" uid="uid://draiuovspg0e6" path="res://Other/Scenes/transition_gears.gd" id="1_70qa3"]
+[ext_resource type="Script" uid="uid://b0qlk65ycsduh" path="res://Other/Scenes/transition_gears.gd" id="1_70qa3"]
 [ext_resource type="PackedScene" uid="uid://dlpjl7dfwlbdb" path="res://Objects/Decorations/decoration_gear_random_type.tscn" id="1_lvw08"]
-[ext_resource type="Texture2D" uid="uid://dvov3hse2b0mc" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_4jkb0"]
+[ext_resource type="Texture2D" uid="uid://imi7vi6bnaqt" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_4jkb0"]
 [ext_resource type="PackedScene" uid="uid://cems3m2yqtxcc" path="res://Objects/Decorations/gear_basic.tscn" id="4_ds4dn"]
 
 [sub_resource type="Animation" id="Animation_4jkb0"]
@@ -976,7 +976,7 @@ z_index = 505
 offset_left = -1672.0
 offset_top = 976.0
 offset_right = 3128.0
-offset_bottom = 1516.0
+offset_bottom = 2056.0
 rotation = 0.0872665
 texture = ExtResource("3_4jkb0")
 

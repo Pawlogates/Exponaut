@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://cb5cc7v6w566u"]
+
+[node name="shine_ray" type="Polygon2D"]
+polygon = PackedVector2Array(-64, -256, -16, 0, 16, 0, 64, -256)

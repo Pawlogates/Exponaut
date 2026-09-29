@@ -65,7 +65,7 @@ func _process(delta):
 				elif FileAccess.file_exists("res://Projectiles/" + item_name + ".tscn"):
 					Globals.weapon_secondary = item_name
 				
-				Globals.spawn_message_object("Equipped: %s (press RMB or V to use it)." % Globals.weapon_secondary, 2.0, Overlay, Vector2(960, 540))
+				Globals.spawn_message_object("Equipped: %s (press RMB or V to use it)." % Globals.weapon_secondary, 1.0, Overlay, Vector2(960, 540))
 	
 	else:
 		label_name.modulate.a = move_toward(label_name.modulate.a, 0.0, delta)

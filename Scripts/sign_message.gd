@@ -12,14 +12,14 @@ var active : bool = false
 @export var anim_hide_cooldown : float = 8.0
 @export var anim_speed_scale : float = 1.0
 
-@export var pause_duration : float = 4.0
+@export var pause_duration : float = 8.0
 
 @export var camera_target_offset : Vector2 = Vector2(64, 64)
 @export var camera_target_zoom : Vector2 = Vector2(3, 3)
-@export var camera_target_rotation : float = 10.0
+@export var camera_target_rotation : float = 3.0
 @export var camera_start_speed_multiplier : float = 0.01
 
-@export var start_hidden : bool = false
+@export var start_hidden : bool = true
 @export var start_hidden_show_cooldown : float = 15.0
 @export var start_hidden_trigger_size_multiplier : float = 12.0
 
@@ -36,11 +36,14 @@ func _physics_process(delta: float) -> void:
 func _on_area_2d_area_entered(area):
 	if not Globals.is_node_valid_player(area) : return
 	if Globals.Player.debug_movement : return
+	if entered : return
 	
-	if start_hidden:
-		set_active_after_cooldown()
-	else:
-		active = true
+	if not active:
+		if start_hidden:
+			set_active_after_cooldown()
+			return
+		else:
+			active = true
 	
 	entered = true
 	
@@ -51,6 +54,10 @@ func _on_area_2d_area_entered(area):
 	
 	effect_active = false
 	t_effect_inactive.start()
+	
+	if pause_duration > 0.0 : await get_tree().create_timer(10.0, true).timeout
+	
+	entered = false
 
 
 func _on_timer_effect_inactive_timeout() -> void:

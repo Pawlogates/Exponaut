@@ -3,7 +3,7 @@ extends Control
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	Globals.mobile_touch_controls_active = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -40,4 +40,9 @@ func _input(event):
 
 
 func _on_button_pressed() -> void:
+	Globals.mobile_touch_controls_active = false
+	
+	for node in get_tree().get_nodes_in_group("mobile_touch_controls"):
+		if node != self : node.queue_free()
+	
 	queue_free()

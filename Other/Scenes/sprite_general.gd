@@ -1,6 +1,7 @@
 extends AnimatedSprite2D
 
 var active : bool = false
+var enabled : bool = true
 
 var master_node : Node
 
@@ -13,6 +14,18 @@ var outline_part_quantity : int = 4 # Simple outline means that there are 4 outl
 
 
 func _ready() -> void:
+	if get_parent().is_in_group("entity"):
+		if Globals.get_random_bool(50):
+			enabled = false
+			set_process(false)
+			set_active(false)
+			
+			for node in get_children():
+				if node is AnimatedSprite2D:
+					node.queue_free()
+			
+			return
+	
 	if not outline_simple:
 		outline_part_quantity = 8
 	
@@ -68,6 +81,8 @@ func _ready() -> void:
 			outline_segment.queue_free()
 
 func _process(delta: float) -> void:
+	if not enabled : return
+	
 	if outline_enabled:
 		for x in range(1, outline_part_quantity + 1):
 			var outline_segment : Node = get_node("outline" + str(x))
@@ -84,6 +99,8 @@ func _process(delta: float) -> void:
 
 
 func set_active(state : bool = true):
+	if not enabled : return
+	
 	active = state
 	set_process(state)
 	set_physics_process(false)

@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://q4y4u3wm2et6"]
+[gd_scene load_steps=15 format=3 uid="uid://q4y4u3wm2et6"]
 
 [ext_resource type="Script" uid="uid://bvqjdy74r3ptq" path="res://Scripts/player.gd" id="1_gy5p5"]
 [ext_resource type="SpriteFrames" uid="uid://cuvnanch0b4tb" path="res://Assets/Graphics/sprites/packed/player.tres" id="2_2jh15"]
@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://dgb361xj37pqy" path="res://Other/Scenes/sfx_manager.tscn" id="3_x8fgr"]
 [ext_resource type="PackedScene" uid="uid://r7qbmuile5vd" path="res://Other/Scenes/animation_player_sprite_general.tscn" id="4_x8fgr"]
 [ext_resource type="PackedScene" uid="uid://bvu4du1j206i3" path="res://Other/Scenes/animation_player_sprite_color.tscn" id="5_2jh15"]
-[ext_resource type="PackedScene" uid="uid://bhjuxvebimqov" path="res://Other/Scenes/User Interface/combo_manager.tscn" id="6_2jh15"]
 [ext_resource type="PackedScene" uid="uid://cnl3u7qcwj0nk" path="res://Other/Scenes/camera.tscn" id="7_1fkbh"]
 [ext_resource type="Texture2D" uid="uid://cn1csrscxdsn4" path="res://Assets/Graphics/other/glow_orb.png" id="8_cfian"]
 [ext_resource type="PackedScene" uid="uid://b7mca5p5so5m" path="res://Other/Scenes/decoration_collision_particles.tscn" id="10_fgj3w"]
@@ -32,7 +31,7 @@ texture_filter = 6
 collision_layer = 2
 floor_constant_speed = true
 floor_max_angle = 1.0472
-floor_snap_length = 10.0
+floor_snap_length = 30.0
 safe_margin = 0.1
 script = ExtResource("1_gy5p5")
 
@@ -66,8 +65,6 @@ one_shot = true
 
 [node name="sfx_manager_spin_down" parent="." instance=ExtResource("3_x8fgr")]
 
-[node name="Combo Manager" parent="." instance=ExtResource("6_2jh15")]
-
 [node name="timer_leniency_jump" type="Timer" parent="."]
 wait_time = 0.15
 one_shot = true
@@ -80,7 +77,7 @@ one_shot = true
 position_smoothing_speed = 1.0
 
 [node name="hitbox_main" type="Area2D" parent="." groups=["Player", "player_hitbox"]]
-collision_layer = 8
+collision_layer = 72
 collision_mask = 8
 input_pickable = false
 

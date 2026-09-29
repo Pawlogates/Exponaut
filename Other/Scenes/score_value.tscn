@@ -185,6 +185,7 @@ material = ExtResource("2_b5uee")
 offset_left = -256.0
 offset_right = 256.0
 offset_bottom = 128.0
+scale = Vector2(0.1, 0.1)
 pivot_offset = Vector2(256, 64)
 theme = ExtResource("1_6182f")
 theme_override_font_sizes/font_size = 64

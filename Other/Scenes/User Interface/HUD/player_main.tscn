@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dd6cdje4hw22c" path="res://Other/Scenes/User Interface/HUD/player_abilities.tscn" id="2_a83xg"]
 [ext_resource type="PackedScene" uid="uid://btpbg3blgd3yr" path="res://Other/Scenes/User Interface/HUD/player_experience.tscn" id="4_wanwr"]
 
-[node name="player_main" type="Control"]
+[node name="player_main" type="Control" groups=["hud_player_main"]]
 z_index = 5
 layout_mode = 3
 anchors_preset = 15
@@ -35,7 +35,7 @@ offset_bottom = 63.0
 grow_horizontal = 1
 grow_vertical = 1
 
-[node name="player_experience" parent="." groups=["hud_player_main"] instance=ExtResource("4_wanwr")]
+[node name="player_experience" parent="." instance=ExtResource("4_wanwr")]
 layout_mode = 1
 offset_top = 960.0
 offset_bottom = 960.0

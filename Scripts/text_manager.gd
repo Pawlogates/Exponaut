@@ -5,11 +5,11 @@ extends Control
 @export var text_full = "none" # This is the main text property which should be targeted when instantiating this scene.
 @export var text_alignment = 0
 @export var text_animation_sync = true
-@export var text_font_size : int = 24
+@export var text_font_size : int = 32
 
 @export var cooldown_next_character : float = 0.05
 @export var cooldown_remove_message : float = -1.0
-@export var cooldown_create_message : float = -1.0
+@export var cooldown_create_message : float = 0.25
 
 @export var character_anim_speed_scale : float = 1.0
 @export var character_anim_backwards : bool = false
@@ -18,8 +18,12 @@ extends Control
 @export var character_bg_simple = false
 @export var character_bg_simple_color = Color("BLACK")
 
+@export var character_theme : Theme = preload("res://Other/Themes/basic.tres")
+
 @export var text_offset = Vector2(0, 0)
 
+
+var number_messages_created : int = 0
 
 var text_visible = "none"
 
@@ -35,8 +39,6 @@ func _ready() -> void:
 	Globals.message_debug("Connecting debug signal 1 to a Text Manager, with the target function being 'create_message'.")
 	Globals.debug1.connect(debug_create_message)
 	
-	position += text_offset
-	
 	sfx_limit = 0
 	
 	if text_alignment : $row1.alignment = text_alignment
@@ -49,11 +51,16 @@ func _ready() -> void:
 		
 		for character in $row1.get_children():
 			character.removable = true
-			character.animation_player.stop()
-			if is_inside_tree() : await get_tree().create_timer(clamp(cooldown_next_character, 0.01, 0.25), true).timeout
+			character.animation_general.stop()
+			await get_tree().create_timer(clamp(cooldown_next_character, 0.01, 0.25), true).timeout
 		
-		if is_inside_tree() : await get_tree().create_timer(4, true).timeout
-		queue_free()
+	await get_tree().create_timer(0.5, true).timeout
+	
+	position += text_offset
+	
+	#await get_tree().create_timer(4, true).timeout
+	#
+	#queue_free()
 
 
 func _physics_process(delta: float) -> void:
@@ -64,10 +71,12 @@ var current_character_is_rule_name = false
 var current_rule = "none"
 
 func create_message(message : String = text_full):
-	if message == "none" : return
+	if message == "" : return
+	if message == "none" : message = text_full
+	print(message)
 	
-	text_full = message
-	print(text_full)
+	number_messages_created += 1
+	var message_number = number_messages_created
 	
 	if cooldown_create_message != -1.0 and not cooldown_create_message == 0.0:
 		Globals.message_debug(str("Text Manager's message creation has been delayed by %s") % cooldown_create_message, 3)
@@ -83,6 +92,14 @@ func create_message(message : String = text_full):
 	character_id = 0
 	
 	for character in message:
+		
+		# Used to prevent message text from leaking into other messages if they were requested before the previous one had finished being generated.
+		if number_messages_created != message_number:
+			for node in $row1.get_children():
+				node.queue_free()
+			
+			return
+		
 		if current_character_is_rule_name:
 			current_rule += character
 			
@@ -108,6 +125,8 @@ func add_letter(character):
 	
 	letter.bg_simple = character_bg_simple
 	letter.bg_simple_color = character_bg_simple_color
+	if character_theme != load("res://Other/Themes/basic.tres"):
+		letter.theme = character_theme
 	
 	$row1.add_child(letter)
 	
@@ -122,24 +141,29 @@ func add_letter(character):
 	else:
 		letter.custom_minimum_size *= text_font_size / 24
 	
-	for anim_name in Globals.l_animation_name_general_main:
+	for anim_name in Globals.l_animation_name_all + Globals.l_animation_name_general_all + Globals.l_animation_name_gear_all:
 		if current_rule == str("[anim_%s]" % anim_name):
 			
-			if is_instance_valid(letter.character) and is_instance_valid(letter.animation_player):
-					letter.animation_player.speed_scale = character_anim_speed_scale
-					
-					if character_anim_backwards : letter.animation_player.play_backwards(anim_name)
-					else : letter.animation_player.play(anim_name)
+			if is_instance_valid(letter.character) and is_instance_valid(letter.animation_general):
+				letter.animation_general.speed_scale = character_anim_speed_scale
+				
+				if letter.animation_general.has_animation(anim_name):
+					if character_anim_backwards : letter.animation_general.play_backwards(anim_name)
+					else : letter.animation_general.play(anim_name)
+				
+				elif letter.animation_gear.has_animation(anim_name):
+					if character_anim_backwards : letter.animation_gear.play_backwards(anim_name)
+					else : letter.animation_gear.play(anim_name)
 	
 	#if not current_rule == "[anim_fade_out_up]" and not current_rule == "[/]" and not current_rule == "":
 	
 	if is_instance_valid(letter):
-		if is_instance_valid(letter.animation_player):
+		if is_instance_valid(letter.animation_general):
 			if text_animation_sync:
-				letter.animation_player.advance(float(character_id * character_anim_speed_scale) / 20) # 20
+				letter.animation_general.advance(float(character_id * character_anim_speed_scale) / 20) # 20
 			
 			if text_animation_add_offset != -1.0:
-				letter.animation_player.advance(text_animation_add_offset)
+				letter.animation_general.advance(text_animation_add_offset)
 			
 		#if sfx_limit <= 0:
 			#letter.cooldown_sfx.wait_time = float(character_id) / 20
@@ -170,3 +194,32 @@ var debug_available = true
 
 func _on_cooldown_debug_available_timeout() -> void:
 	debug_available = true
+
+
+func message(new_text_full : String = "none", new_text_alignment : int = -1, new_text_animation_sync : bool = text_animation_sync, new_text_font_size : int = -1, new_cooldown_next_character : float = -1.0, new_cooldown_remove_message : float = -1.0, new_cooldown_create_message : float = -1.0, new_character_anim_speed_scale : float = -1.0, new_character_anim_backwards : bool = character_anim_backwards, new_text_animation_add_offset : float = -1.0, new_character_bg_simple : bool = character_bg_simple, new_character_bg_simple_color : Color = Color(-1, -1, -1, -1), new_text_offset = Vector2(-1, -1)):
+	if new_text_full != "none" : text_full = new_text_full
+	
+	if new_text_alignment != -1 : text_alignment = new_text_alignment
+	text_animation_sync = new_text_animation_sync
+	if new_text_font_size != -1 : text_font_size = new_text_font_size
+	
+	if new_cooldown_next_character != -1 : cooldown_next_character = new_cooldown_next_character
+	if new_cooldown_remove_message != -1 : cooldown_remove_message = new_cooldown_remove_message
+	if new_cooldown_create_message != -1 : cooldown_create_message = new_cooldown_create_message
+	
+	if new_character_anim_speed_scale != -1 : character_anim_speed_scale = new_character_anim_speed_scale
+	character_anim_backwards = new_character_anim_backwards
+	if text_animation_add_offset != -1 : text_animation_add_offset = new_text_animation_add_offset
+	
+	character_bg_simple = new_character_bg_simple
+	if new_character_bg_simple_color != Color(-1, -1, -1, -1) : character_bg_simple_color = new_character_bg_simple_color
+	
+	if new_text_offset.x != -1 : text_offset.x = new_text_offset.x
+	if new_text_offset.y != -1 : text_offset.y = new_text_offset.y
+	
+	create_message()
+	Globals.message_debug("Text Manager message has been requested by a Button.")
+
+
+func _on_cooldown_create_message_timeout() -> void:
+	pass

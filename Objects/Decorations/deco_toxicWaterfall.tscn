@@ -1,5 +1,6 @@
-[gd_scene load_steps=10 format=3 uid="uid://dpm11fdo256ld"]
+[gd_scene load_steps=11 format=3 uid="uid://dpm11fdo256ld"]
 
+[ext_resource type="Script" uid="uid://df0ennof8ebxv" path="res://Objects/Decorations/deco_tile_general.gd" id="1_birtf"]
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="2_3want"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_hx14x"]
 [ext_resource type="PackedScene" uid="uid://bvtf5e5h4p4lp" path="res://Objects/Decorations/smooth_edge.tscn" id="3_j80m3"]
@@ -107,6 +108,7 @@ _data = {
 
 [node name="deco_toxicWaterfall" type="Node2D"]
 modulate = Color(1, 1, 1, 0.25)
+script = ExtResource("1_birtf")
 
 [node name="deco_toxicWaterfall" type="Container" parent="."]
 z_index = -1
@@ -148,7 +150,6 @@ libraries = {
 autoplay = "loop"
 
 [node name="handle_offscreen" parent="." instance=ExtResource("2_3want")]
-position = Vector2(-32, -32)
 
 [node name="edge" parent="." instance=ExtResource("3_j80m3")]
 modulate = Color(0.215686, 0.662745, 0.329412, 1)

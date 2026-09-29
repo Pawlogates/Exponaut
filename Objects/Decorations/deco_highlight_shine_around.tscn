@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bl2ur1bnb511d"]
+
+[ext_resource type="PackedScene" uid="uid://tcuaifom54x3" path="res://Objects/Decorations/highlight_shine_around.tscn" id="1_urn0v"]
+[ext_resource type="PackedScene" uid="uid://cd1ras6qhwjqa" path="res://Other/Scenes/animation_all.tscn" id="2_q4w2p"]
+[ext_resource type="PackedScene" uid="uid://b3t6xctl62uyv" path="res://Objects/Decorations/highlight_shine_around2.tscn" id="3_t63ym"]
+
+[node name="deco_highlight_shine_around" type="Node2D"]
+z_index = -5
+
+[node name="highlight_shine_around" parent="." instance=ExtResource("1_urn0v")]
+
+[node name="animation_all" parent="highlight_shine_around" instance=ExtResource("2_q4w2p")]
+autoplay = "gear/rotate"
+speed_scale = 0.5
+
+[node name="highlight_shine_around2" parent="." instance=ExtResource("3_t63ym")]
+modulate = Color(1, 1, 1, 0.192157)
+
+[node name="animation_all" parent="highlight_shine_around2" instance=ExtResource("2_q4w2p")]
+root_node = NodePath("../..")
+autoplay = "gear/rotate"

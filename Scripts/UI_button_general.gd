@@ -28,7 +28,7 @@ var menu : Node
 @export var text_manager_letter_animation_sync = true
 @export var text_manager_cooldown_create_message : float = -1.0
 @export var text_manager_cooldown_next_character : float = 0.025
-@export var text_manager_text_offset = Vector2(0, 0)
+@export var text_manager_text_offset = Vector2(0, -8)
 @export var text_manager_cooldown_remove_message : float = -1.0
 @export var text_manager_character_anim_speed_scale : float = 1.0
 @export var text_manager_character_anim_backwards : bool = false
@@ -38,7 +38,7 @@ var menu : Node
 @export var decoration_base_size_multiplier = Vector2(1.0, 1.0)
 @export var decoration_base_scale = Vector2(1, 1)
 @export var decoration_base_rotation = 1
-@export var decoration_base_position = Vector2(-32, 0)
+@export var decoration_base_position = Vector2(-24, 0)
 
 @export var adjust_decoration_size : bool = false # Decoration size will match the text manager message length. Base size will be ignored if this is set to "true".
 @export var adjust_decoration_position : bool = false # Causes the decoration to adjust its position based on its parent's horizontal width.
@@ -217,6 +217,8 @@ func spawn_decoration(debug : bool = false):
 		spawn_decoration_gears(true)
 		await get_tree().create_timer(0.05, true).timeout
 		spawn_decoration_edges(true)
+	
+	decoration.position += decoration_base_position
 
 
 func _on_button_down() -> void:
@@ -255,7 +257,7 @@ func _on_button_up() -> void:
 			modulate = Color.RED
 			animation_player.play("rotate_down_and_back")
 	
-	sfx_clicked.play()
+	if not menu.buttons_blocked : sfx_clicked.play()
 
 
 func _on_focus_entered() -> void: # Note: This does NOT trigger on hovering over the button with mouse.

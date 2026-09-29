@@ -1,0 +1,79 @@
+[gd_scene load_steps=6 format=3 uid="uid://dsm3djnlkc1b3"]
+
+[ext_resource type="Script" uid="uid://n0r5hufyw7g7" path="res://Tetronaut/background_screen.gd" id="1_8os1j"]
+[ext_resource type="PackedScene" uid="uid://w20bmqsqkfcq" path="res://Tetronaut/background_screen_lines_diagonal.tscn" id="2_3djxi"]
+
+[sub_resource type="Animation" id="Animation_kim11"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bg_main:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3djxi"]
+resource_name = "loop_left"
+length = 30.0
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("bg_main:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 30),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(-2450, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5jq2s"]
+_data = {
+&"RESET": SubResource("Animation_kim11"),
+&"loop_left": SubResource("Animation_3djxi")
+}
+
+[node name="background_screen" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_8os1j")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_5jq2s")
+}
+speed_scale = 0.5
+
+[node name="bg_main" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 2
+
+[node name="background_screen_lines_diagonal" parent="bg_main" instance=ExtResource("2_3djxi")]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 2464.0
+offset_bottom = 1100.0
+
+[node name="background_screen_lines_diagonal2" parent="bg_main" instance=ExtResource("2_3djxi")]
+layout_mode = 0
+offset_left = 2464.0
+offset_top = 0.0
+offset_right = 4928.0
+offset_bottom = 1100.0

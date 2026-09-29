@@ -8,7 +8,7 @@
 size = Vector2(64, 64)
 
 [node name="button_block_green_RIGHT_root" type="Node2D" groups=["button_block"]]
-z_index = -1
+z_index = 1
 script = ExtResource("1_1vehs")
 blockType = "green"
 blockDirection = 1

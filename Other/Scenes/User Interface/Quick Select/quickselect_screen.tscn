@@ -52,7 +52,6 @@ z_index = 10
 layout_mode = 1
 randomize_basic = false
 margin = Vector2(64, 64)
-bg_z_index = -50
 
 [node name="gear" parent="." instance=ExtResource("4_23pmt")]
 modulate = Color(0, 0, 0, 1)

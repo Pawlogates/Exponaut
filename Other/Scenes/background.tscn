@@ -1,10 +1,9 @@
-[gd_scene load_steps=12 format=3 uid="uid://qvxb24kyh4pu"]
+[gd_scene load_steps=11 format=3 uid="uid://qvxb24kyh4pu"]
 
 [ext_resource type="Script" uid="uid://b01g011s3jleu" path="res://Scripts/background_manager.gd" id="1_buqj4"]
 [ext_resource type="Texture2D" uid="uid://dhbt10x070syd" path="res://Assets/Graphics/backgrounds/fg_fields2.png" id="2_q05dr"]
 [ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="3_84qf3"]
 [ext_resource type="Texture2D" uid="uid://dtovrodgakh45" path="res://Assets/Graphics/backgrounds/bg_empty.png" id="3_txf8u"]
-[ext_resource type="Texture2D" uid="uid://imi7vi6bnaqt" path="res://Assets/Graphics/backgrounds/bg_edge_black.png" id="3_wrhkf"]
 [ext_resource type="Texture2D" uid="uid://bsquinpsfpd47" path="res://Assets/Graphics/backgrounds/fg_factory2.png" id="4_1af2s"]
 [ext_resource type="Texture2D" uid="uid://t1ohobs74ew8" path="res://Assets/Graphics/backgrounds/fg_fields.png" id="4_84qf3"]
 [ext_resource type="Texture2D" uid="uid://fdw5h3d2niml" path="res://Assets/Graphics/backgrounds/bg_fields.png" id="10_tt6fo"]
@@ -121,7 +120,7 @@ libraries = {
 }
 
 [node name="bg_main_A" type="ParallaxBackground" parent="."]
-layer = -10
+layer = -125
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_main_A"]
@@ -130,15 +129,16 @@ motion_scale = Vector2(0.75, 0.1)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_main_A/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
 texture = ExtResource("2_q05dr")
 stretch_mode = 5
-metadata/_edit_use_anchors_ = true
 
 [node name="label_debug" type="Label" parent="bg_main_A/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -155,7 +155,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front_A" type="ParallaxBackground" parent="."]
-layer = -9
+layer = -125
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front_A"]
@@ -165,6 +165,7 @@ motion_scale = Vector2(0.85, 0.12)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_front_A/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -173,6 +174,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_front_A/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -189,7 +191,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front2_A" type="ParallaxBackground" parent="."]
-layer = -8
+layer = -125
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front2_A"]
@@ -199,6 +201,7 @@ motion_scale = Vector2(0.95, 0.15)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_front2_A/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -207,6 +210,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_front2_A/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -223,7 +227,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back_A" type="ParallaxBackground" parent="."]
-layer = -11
+layer = -125
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back_A"]
@@ -233,6 +237,7 @@ motion_scale = Vector2(0.65, 0.06)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_back_A/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -241,6 +246,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_back_A/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -257,7 +263,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back2_A" type="ParallaxBackground" parent="."]
-layer = -12
+layer = -125
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back2_A"]
@@ -267,6 +273,7 @@ motion_scale = Vector2(0.55, 0.03)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_back2_A/layer"]
+light_mask = 0
 texture_filter = 1
 clip_contents = true
 offset_right = 1920.0
@@ -276,6 +283,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_back2_A/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -292,7 +300,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_main_B" type="ParallaxBackground" parent="."]
-layer = -10
+layer = -125
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -302,6 +310,7 @@ motion_scale = Vector2(0.75, 0.1)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_main_B/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -310,6 +319,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_main_B/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -326,7 +336,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front_B" type="ParallaxBackground" parent="."]
-layer = -9
+layer = -125
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -337,6 +347,7 @@ motion_scale = Vector2(0.85, 0.12)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_front_B/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -345,6 +356,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_front_B/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -361,7 +373,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front2_B" type="ParallaxBackground" parent="."]
-layer = -8
+layer = -125
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -372,6 +384,7 @@ motion_scale = Vector2(0.95, 0.15)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_front2_B/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -380,6 +393,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_front2_B/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -396,7 +410,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back_B" type="ParallaxBackground" parent="."]
-layer = -11
+layer = -125
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -407,6 +421,7 @@ motion_scale = Vector2(0.65, 0.06)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_back_B/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -415,6 +430,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_back_B/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -431,7 +447,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back2_B" type="ParallaxBackground" parent="."]
-layer = -12
+layer = -125
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -442,6 +458,7 @@ motion_scale = Vector2(0.55, 0.03)
 motion_mirroring = Vector2(1920, 2160)
 
 [node name="texture" type="TextureRect" parent="bg_back2_B/layer"]
+light_mask = 0
 texture_filter = 1
 offset_right = 1920.0
 offset_bottom = 2160.0
@@ -450,6 +467,7 @@ stretch_mode = 5
 
 [node name="label_debug" type="Label" parent="bg_back2_B/layer/texture"]
 visible = false
+light_mask = 0
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -472,109 +490,15 @@ autostart = true
 wait_time = 4.0
 one_shot = true
 
-[node name="bg_main_edge_top" type="ParallaxBackground" parent="."]
-layer = -10
-visible = false
-scroll_ignore_camera_zoom = true
-
-[node name="layer" type="ParallaxLayer" parent="bg_main_edge_top"]
-texture_repeat = 3
-motion_scale = Vector2(0.75, 0.1)
-motion_mirroring = Vector2(1920, 0)
-
-[node name="texture" type="TextureRect" parent="bg_main_edge_top/layer"]
-texture_filter = 1
-offset_top = 540.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-scale = Vector2(1, -1)
-texture = ExtResource("3_wrhkf")
-stretch_mode = 5
-
-[node name="bg_front_edge_top" type="ParallaxBackground" parent="."]
-layer = -9
-visible = false
-scroll_ignore_camera_zoom = true
-
-[node name="layer" type="ParallaxLayer" parent="bg_front_edge_top"]
-z_index = 1
-texture_repeat = 3
-motion_scale = Vector2(0.85, 0.2)
-motion_mirroring = Vector2(1920, 0)
-
-[node name="texture" type="TextureRect" parent="bg_front_edge_top/layer"]
-texture_filter = 1
-offset_top = 540.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-scale = Vector2(1, -1)
-texture = ExtResource("3_wrhkf")
-stretch_mode = 5
-
-[node name="bg_front2_edge_top" type="ParallaxBackground" parent="."]
-layer = -8
-visible = false
-scroll_ignore_camera_zoom = true
-
-[node name="layer" type="ParallaxLayer" parent="bg_front2_edge_top"]
-z_index = 2
-texture_repeat = 3
-motion_scale = Vector2(0.95, 0.3)
-motion_mirroring = Vector2(1920, 0)
-
-[node name="texture" type="TextureRect" parent="bg_front2_edge_top/layer"]
-texture_filter = 1
-offset_top = 540.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-scale = Vector2(1, -1)
-texture = ExtResource("3_wrhkf")
-stretch_mode = 5
-
-[node name="bg_back_edge_top" type="ParallaxBackground" parent="."]
-layer = -11
-visible = false
-scroll_ignore_camera_zoom = true
-
-[node name="layer" type="ParallaxLayer" parent="bg_back_edge_top"]
-z_index = -1
-texture_repeat = 3
-motion_scale = Vector2(0.65, 0.06)
-motion_mirroring = Vector2(1920, 0)
-
-[node name="texture" type="TextureRect" parent="bg_back_edge_top/layer"]
-texture_filter = 1
-offset_top = 540.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-scale = Vector2(1, -1)
-texture = ExtResource("3_wrhkf")
-stretch_mode = 5
-
-[node name="bg_back2_edge_top" type="ParallaxBackground" parent="."]
-layer = -12
-visible = false
-scroll_ignore_camera_zoom = true
-
-[node name="layer" type="ParallaxLayer" parent="bg_back2_edge_top"]
-z_index = -2
-texture_repeat = 3
-motion_scale = Vector2(0.55, 0.03)
-motion_mirroring = Vector2(1920, 0)
-
-[node name="texture" type="TextureRect" parent="bg_back2_edge_top/layer"]
-texture_filter = 1
-offset_top = 540.0
-offset_right = 1920.0
-offset_bottom = 1080.0
-scale = Vector2(1, -1)
-texture = ExtResource("3_wrhkf")
-stretch_mode = 5
-
 [node name="cooldown_randomize_texture_filepath" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 
+[node name="cooldown_handle_hidden" type="Timer" parent="."]
+wait_time = 8.0
+autostart = true
+
 [connection signal="timeout" from="cooldown_check_fade" to="." method="_on_cooldown_check_fade_timeout"]
 [connection signal="timeout" from="cooldown_debug_available" to="." method="_on_cooldown_debug_available_timeout"]
 [connection signal="timeout" from="cooldown_randomize_texture_filepath" to="." method="_on_cooldown_randomize_texture_filepath_timeout"]
+[connection signal="timeout" from="cooldown_handle_hidden" to="." method="_on_cooldown_handle_hidden_timeout"]

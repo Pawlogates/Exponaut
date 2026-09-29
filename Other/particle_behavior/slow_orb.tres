@@ -1,0 +1,33 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=5 format=3 uid="uid://d1c1f4phlnsxv"]
+
+[sub_resource type="Curve" id="Curve_d62vd"]
+_limits = [-20.0, 20.0, 0.0, 1.0]
+_data = [Vector2(0, -20), 0.0, 0.0, 0, 0, Vector2(1, 20), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_ptoeu"]
+curve = SubResource("Curve_d62vd")
+
+[sub_resource type="Curve" id="Curve_qk6pp"]
+_limits = [-25.0, 25.0, 0.0, 1.0]
+_data = [Vector2(0, 25), 0.0, -20.0, 0, 0, Vector2(0.2, -5), -15.0, 0.0, 0, 0, Vector2(0.4, 20), 0.0, 0.0, 0, 0, Vector2(0.6, -10), 0.0, 0.0, 0, 0, Vector2(0.8, 10), 0.0, 0.0, 0, 0, Vector2(1, -25), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_wmtav"]
+curve_x = SubResource("Curve_qk6pp")
+
+[resource]
+particle_flag_disable_z = true
+angle_min = -45.0
+angle_max = 45.0
+angle_curve = SubResource("CurveTexture_ptoeu")
+angular_velocity_min = -10.0
+angular_velocity_max = 9.99998
+directional_velocity_min = -20.0
+directional_velocity_max = -1.60933e-05
+directional_velocity_curve = SubResource("CurveXYZTexture_wmtav")
+orbit_velocity_min = -0.25
+orbit_velocity_max = 0.25
+gravity = Vector3(0, 98, 0)
+scale_min = 0.05
+scale_max = 0.5

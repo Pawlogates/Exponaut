@@ -80,3 +80,4 @@ libraries = {
 [node name="info_downRight" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0
+mouse_filter = 2

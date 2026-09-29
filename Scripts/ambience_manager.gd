@@ -25,10 +25,10 @@ extends Node2D
 @export var layer3_pitchRange : float = 0.25
 @export var layer4_pitchRange : float = 0.25
 
-@export var layer1_volume_base : float = 1.0
-@export var layer2_volume_base : float = 1.0
-@export var layer3_volume_base : float = 1.0
-@export var layer4_volume_base : float = 1.0
+@export var layer1_volume_base : float = 0.5
+@export var layer2_volume_base : float = 0.5
+@export var layer3_volume_base : float = 0.5
+@export var layer4_volume_base : float = 0.5
 
 @export var layer1_volume_range : float = 0.5
 @export var layer2_volume_range : float = 0.5

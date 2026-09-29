@@ -15,6 +15,8 @@ ignore_gravity = false
 on_timeout_death = true
 on_timeout_death_cooldown = 8.0
 start_animation = "none"
+on_death_anim_name = "general/rotate_away_up_right"
+on_death_anim_speed = 2.0
 on_spawn_sprite_anim_name_color = "pulse_red_normal_long_loop"
 on_collected_effect_thrownAway = true
 on_collected_spawn_star_chance = 5.0
@@ -51,7 +53,6 @@ sfx_self_death_filepath = "uid://bm23uqpid2hgu"
 entity_name = "coin_timed"
 
 [node name="sprite" parent="." index="1"]
-modulate = Color(66, 2, 2, 1)
 sprite_frames = ExtResource("2_syj8d")
 outline_width = 2
 
