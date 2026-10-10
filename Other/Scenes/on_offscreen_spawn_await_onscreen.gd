@@ -25,7 +25,7 @@ func _ready() -> void:
 	await Globals.await_timer(0.5)
 	
 	# In large levels, the entity unloading is handled by loader chunks generated at the start of that level, and not these unloaders.
-	if Globals.get_node_count("entity") > 100:
+	if Globals.get_node_count("entity") > Globals.settings_chunk_entity_threshold:
 		if master_node.is_in_group("entity"):
 			if not ("use_own_unloader" in master_node and master_node.use_own_unloader):
 				queue_free()
@@ -74,6 +74,7 @@ func on_screen_exited():
 	scene_unload()
 
 func scene_unload():
+	print("A scene has been unloaded on offscreen.")
 	#return
 	
 	if number_activated : return

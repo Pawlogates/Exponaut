@@ -132,7 +132,7 @@ func decoration_create():
 		
 		if make_black:
 			deco_part.modulate = Color.BLACK
-			deco_part.modulate.a = randi_range(0.1, 1)
+			deco_part.modulate.a = randf_range(0.1, 1)
 		
 		if not Globals.get_random_bool(deco_skip_chance) : container_decoration.add_child(deco_part)
 

@@ -242,7 +242,7 @@ region_enabled = true
 region_rect = Rect2(0, 384, 64, 64)
 
 [node name="menu" parent="root" instance=ExtResource("2_o5wd6")]
-position = Vector2(1194.67, 85.3333)
+position = Vector2(1173.33, 170.667)
 shape = SubResource("RectangleShape2D_gwtqe")
 action = "menu"
 
@@ -261,7 +261,7 @@ region_rect = Rect2(0, 384, 64, 64)
 
 [node name="inventory" parent="root" instance=ExtResource("2_o5wd6")]
 modulate = Color(1, 0.819608, 0.352941, 1)
-position = Vector2(1066.67, 85.3333)
+position = Vector2(1045.33, 170.667)
 shape = SubResource("RectangleShape2D_gwtqe")
 action = "tab"
 

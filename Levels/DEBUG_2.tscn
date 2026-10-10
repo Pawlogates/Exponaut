@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="10_ooxb1"]
 
 [node name="World" instance=ExtResource("1_y83vn")]
+level_type = "debug"
 levelSet_id = "DEBUG"
 level_number = 2
 
@@ -82,7 +83,3 @@ maxOffset_Y = 0
 camera_baseZoom = 4.0
 minZoom = 4.0
 maxZoom = 4.0
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@36414" to="tileset_objects/@Area2D@36414" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@36415" to="tileset_objects/@Area2D@36415" method="_on_area_entered"]

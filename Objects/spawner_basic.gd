@@ -57,7 +57,7 @@ func spawn_scene():
 		if add_modulate_base != Color.WHITE : new_scene.modulate = add_modulate_base
 		if add_modulate != Color(0, 0, 0, 0) : new_scene.modulate += add_modulate
 		if add_modulate_variance:
-			var new_scene_modulate : Color = new_scene.modulate
+			#var new_scene_modulate : Color = new_scene.modulate
 			new_scene.modulate += Color(randf_range(-add_modulate_variance, add_modulate_variance), randf_range(-add_modulate_variance, add_modulate_variance), randf_range(-add_modulate_variance, add_modulate_variance), 0)
 	
 	number_spawned += 1

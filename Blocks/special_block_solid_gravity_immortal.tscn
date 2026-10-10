@@ -1,0 +1,41 @@
+[gd_scene load_steps=4 format=3 uid="uid://6i1ikibqpeqc"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_yf6d2"]
+[ext_resource type="SpriteFrames" uid="uid://cu0ru2vxc2rbq" path="res://Assets/Graphics/sprites/packed/blocks/white_stone.tres" id="2_ipqbb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w657n"]
+size = Vector2(64, 64)
+
+[node name="solid_block_gravity" instance=ExtResource("1_yf6d2")]
+modulate = Color(0.724643, 0.724643, 0.724643, 1)
+collectable = false
+hittable = true
+collidable = true
+damage_from_entity = true
+damage_from_entity_contact = false
+damage_from_player = true
+pushable_by_entity = false
+pushable_by_player = false
+can_move = true
+ignore_gravity = false
+on_death_spawn_entity = true
+on_death_spawn_entity_scene_filepath = "uid://dw7qsrfk8k15r"
+on_death_spawn_entity_quantity = 5
+on_death_spawn_entity2 = true
+on_death_spawn_entity2_scene_filepath = "uid://5ykb23ewx1om"
+on_death_spawn_entity2_quantity = 5
+on_hit_spawn_entity = true
+on_hit_spawn_entity_chance = 25.0
+on_hit_spawn_entity_scene_filepath = "uid://cuxplgh41ahnt"
+immortal = true
+start_animation = "none"
+on_death_anim_name = "general/rotate_away_up_right"
+on_death_anim_speed = 4.0
+entity_name = "block_solid_gravity"
+entity_type = "block"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_ipqbb")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_w657n")

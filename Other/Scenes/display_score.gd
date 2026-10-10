@@ -20,8 +20,8 @@ func _ready() -> void:
 	
 	queue_free()
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
 
 
 func display_score():

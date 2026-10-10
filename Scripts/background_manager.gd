@@ -105,7 +105,7 @@ var first_time : bool = true
 @export var bg_back2_repeat_y = true
 
 
-@export var randomize : bool = false
+@export var randomize_texture_filepath_all : bool = false
 
 @export var layer_all_modulate : Color = Color(1, 1, 1, 1)
 @export var layer_all_add_modulate : Color = Color(0, 0, 0, 0)
@@ -160,7 +160,7 @@ func _ready():
 	
 	fade_multiplier = 1.0
 	
-	if randomize:
+	if randomize_texture_filepath_all:
 		_on_cooldown_randomize_texture_filepath_timeout()
 		#$cooldown_randomize_texture_filepath.start()
 	
@@ -608,7 +608,7 @@ func handle_hidden():
 		for node in bg_layer.get_children():
 			if node is TextureRect:
 				if node.texture == load("res://Assets/Graphics/backgrounds/bg_empty.png"):
-					node.texture == null
+					node.texture = null
 					node.visible = false
 	
 	for bg_node_name in list_l_node_name:
@@ -624,8 +624,8 @@ func handle_hidden():
 			for node in bg_layer.get_children():
 				if node is TextureRect:
 					node.texture = null
-					node.process_mode = 4
 					node.visible = false
+					node.process_mode = Node.PROCESS_MODE_DISABLED
 		
 		else:
 			bg.process_mode = 0
@@ -636,5 +636,5 @@ func handle_hidden():
 			for node in bg_layer.get_children():
 				if node is TextureRect:
 					#node.texture = null
-					node.process_mode = 0
+					node.process_mode = Node.PROCESS_MODE_INHERIT
 					node.visible = true

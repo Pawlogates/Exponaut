@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://bk1o70r1mo5kw" path="res://Triggers/trigger_bg_change.tscn" id="7_61nr6"]
 
 [node name="World" instance=ExtResource("1_r03ib")]
+level_type = "debug"
 on_start_camera_effect = false
 
 [node name="tileset_main" parent="." index="0" instance=ExtResource("2_61nr6")]
@@ -100,9 +101,3 @@ position = Vector2(736, -1024)
 
 [node name="trigger_bg_change8" parent="." index="26" instance=ExtResource("7_61nr6")]
 position = Vector2(416, -1024)
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@88294" to="tileset_objects/@Area2D@88294" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@88295" to="tileset_objects/@Area2D@88295" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@88296" to="tileset_objects/@Area2D@88296" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@88304" to="tileset_objects/@Area2D@88304" method="_on_area_entered"]

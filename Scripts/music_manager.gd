@@ -150,7 +150,6 @@ func _process(delta):
 			print_limit -= 1
 		
 		else:
-			return
 			Globals.dm("Current main ('1') music layer's volume: " + str(layer1.volume_linear), "PURPLE")
 			Globals.dm("Current main ('1_alt') music layer's volume: " + str(layer1_alt.volume_linear), "DARK_MAGENTA")
 			Globals.dm("Music layer_1's fade direction: " + str(layer1_fade_direction) + " (" + str(layer1_fade_active) + ").", 1, 0.5)
@@ -158,7 +157,7 @@ func _process(delta):
 			Globals.dm("Music layer_1's music track's filepath: " + Globals.get_filepath(layer1_music_filepath), 3, 0.5)
 			Globals.dm("Music layer_1_alt's music track's filepath: " + Globals.get_filepath(layer1_alt_music_filepath), 4, 0.5)
 			
-			print_limit = 25
+			print_limit = 250
 			Globals.dm(str("Message print limit has been reset back to %s." % print_limit))
 
 
@@ -343,7 +342,7 @@ func music_change(filepath, smooth_transition : bool = true, volume : float = 1.
 	
 	Globals.dm("Changing main music layer's music track file to: " + Globals.get_filepath(filepath), "PINK")
 	
-	var layer = get("layer" + layer_id)
+	#var layer = get("layer" + layer_id)
 	
 	if not smooth_transition:
 		layer1.volume_linear = volume

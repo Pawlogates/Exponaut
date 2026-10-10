@@ -123,10 +123,10 @@ func on_player_death():
 	pass
 
 func on_player_respawned():
-	return
-	active = true
-	trigger_instantly = true # unused
-	if await is_on_screen() : on_screen_entered()
+	pass
+	#active = true
+	#trigger_instantly = true # unused
+	#if await is_on_screen() : on_screen_entered()
 
 
 func correct_chunk():

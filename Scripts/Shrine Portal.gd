@@ -23,15 +23,27 @@ var level_rank_value = 1
 func _ready():
 	#if Globals.level_number == -1 : level_id = "DEBUG_7"
 	
-	level_filePath = str("res://Levels/%s.tscn" % level_id)
+	await get_tree().create_timer(0.5, true).timeout
 	
-	await get_tree().create_timer(0,5, false).timeout
-	level_info = SaveData.get("info_"+level_id)
-	shrineGem_portal_level_number = int(level_id.split("_")[-1])
-	level_displayedName = SaveData.get("info_"+level_id)[0]
-	topRankScore = SaveData.get("info_"+level_id)[4]
-	level_completionState = SaveData.get("saved_"+level_id)[0]
-	level_score = SaveData.get("saved_"+level_id)[1]
+	if level_id == "random":
+		level_filePath = "res://Levels/" + Globals.get_files("res://Levels/").pick_random()
+		#level_info = SaveData.get("info_"+level_id)
+		#shrineGem_portal_level_number = int(level_id.split("_")[-1])
+		level_displayedName = level_filePath.replace(".tscn", "")
+		#topRankScore = SaveData.get("info_"+level_id)[4]
+		#level_completionState = SaveData.get("saved_"+level_id)[0]
+		#level_score = SaveData.get("saved_"+level_id)[1]
+		#level_rank = SaveData.calculate_rank_level(level_id)[0]
+	
+	else:
+		level_filePath = str("res://Levels/%s.tscn" % level_id)
+		level_info = SaveData.get("info_"+level_id)
+		shrineGem_portal_level_number = int(level_id.split("_")[-1])
+		level_displayedName = SaveData.get("info_"+level_id)[0]
+		topRankScore = SaveData.get("info_"+level_id)[4]
+		level_completionState = SaveData.get("saved_"+level_id)[0]
+		level_score = SaveData.get("saved_"+level_id)[1]
+		level_rank = SaveData.calculate_rank_level(level_id)[0]
 	
 	print(level_rank)
 	print(level_score)
@@ -39,8 +51,6 @@ func _ready():
 	
 	#level_completionState = LevelTransition.get_node("%SaveData").get("state_" + level_id)
 	#level_score = LevelTransition.get_node("%SaveData").get("score_" + level_id)
-	
-	level_rank = SaveData.calculate_rank_level(level_id)[0]
 	
 	%rank.text = str(level_rank)
 	print(level_rank)
@@ -72,8 +82,8 @@ func _ready():
 	$AnimationPlayer.play("portal_open")
 	$AnimationPlayer2.play("fadeIn_info")
 
-func _process(delta: float) -> void:
-	pass
+#func _process(delta: float) -> void:
+	#pass
 
 
 func _on_area_entered(area):

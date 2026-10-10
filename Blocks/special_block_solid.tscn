@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://cni327synspfe"]
+
+[ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_b5qf5"]
+[ext_resource type="SpriteFrames" uid="uid://cu0ru2vxc2rbq" path="res://Assets/Graphics/sprites/packed/blocks/white_stone.tres" id="2_0gube"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w657n"]
+size = Vector2(64, 64)
+
+[node name="special_block" instance=ExtResource("1_b5qf5")]
+collectable = false
+hittable = true
+collidable = true
+damage_from_entity = true
+damage_from_entity_contact = false
+damage_from_player = true
+pushable_by_entity = false
+pushable_by_player = false
+start_animation = "none"
+on_death_anim_name = "general/rotate_away_up_right"
+on_death_anim_speed = 4.0
+entity_name = "block_solid_gravity"
+entity_type = "block"
+
+[node name="sprite" parent="." index="1"]
+sprite_frames = ExtResource("2_0gube")
+
+[node name="collision_hitbox" parent="hitbox" index="0"]
+shape = SubResource("RectangleShape2D_w657n")

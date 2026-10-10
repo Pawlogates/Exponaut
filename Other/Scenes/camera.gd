@@ -26,7 +26,7 @@ func handle_camera(delta):
 	if speed_multiplier == -0.1 : return
 	
 	offset = lerp(offset, target_offset, delta * speed_multiplier)
-	if Globals.level_time_seconds > 15 : zoom = lerp(zoom, target_zoom + Vector2(0.5, 0.5), delta * speed_multiplier)
+	if Globals.level_time_seconds > 15 : zoom = lerp(zoom, target_zoom + Globals.camera_add_zoom, delta * speed_multiplier)
 	else : zoom = lerp(zoom, target_zoom, delta * speed_multiplier)
 	rotation_degrees = lerp(rotation_degrees, target_rotation, delta * speed_multiplier * 2)
 	

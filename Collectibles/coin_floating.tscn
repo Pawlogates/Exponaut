@@ -12,7 +12,6 @@ damage_from_entity_contact = false
 damage_to_entity = true
 damage_to_entity_contact = false
 ignore_gravity = false
-start_animation = "none"
 on_collected_effect_thrownAway = true
 sfx_self_collected_filepath = "uid://vm1ccgk5h0ag"
 sfx_self_hit_filepath = "uid://bvklt3ov80jdg"

@@ -16,6 +16,14 @@ func _ready():
 		animation_player.play("opacity_fade_in_and_out")
 	
 	emitting = true
+	
+	await Globals.await_timer(30)
+	
+	queue_free()
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	queue_free()

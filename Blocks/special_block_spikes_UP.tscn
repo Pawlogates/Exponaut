@@ -12,7 +12,7 @@ size = Vector2(60, 16)
 
 [node name="special_block_spikes_UP" type="CharacterBody2D" groups=["Persist"]]
 z_index = 1
-collision_layer = 3
+collision_mask = 9
 script = ExtResource("1_4fqa5")
 is_spikeBlock = true
 
@@ -26,7 +26,8 @@ region_rect = Rect2(192, 832, 64, 64)
 shape = SubResource("RectangleShape2D_gk7p3")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 3
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0, -24)

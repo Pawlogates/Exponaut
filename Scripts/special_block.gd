@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+@onready var hitbox_main: Area2D = $Area2D
+
 var direction = 0
 var direction_y = 0
 
@@ -22,7 +24,6 @@ var velocity_x_last = 0.0
 @export var floating = false
 @export var start_floating = false
 @export var breakable = false
-@export var hp = 3
 @export var bouncy = false
 @export var spawns_items = false
 @export var toggles_toggleBlocks = false
@@ -36,7 +37,10 @@ var velocity_x_last = 0.0
 @export var block_movement_onSpawn = true
 @export var movement_type = "normal"
 @export var is_spikeBlock = false
-@export var damageValue = 1
+
+@export var health_value = 3
+@export var damage_value = 15
+@export var damage_to_player : bool = true
 
 @export var destructible_weapon = false
 
@@ -94,92 +98,13 @@ func _physics_process(delta):
 
 
 func _on_area_2d_area_entered(area):
-	if area.is_in_group("player"):
-		
-		if bouncy and not destroyed and area.get_parent().velocity.y > 50:
-			if Input.is_action_pressed("jump"):
-				area.get_parent().velocity.y = -600
-			else:
-				area.get_parent().velocity.y = -300
-			
-			if toggles_toggleBlocks:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
-			
-			
-			if breakable:
-				var effect_dust = Globals.scene_effect_dust.instantiate()
-				effect_dust.global_position = global_position
-				get_parent().add_child(effect_dust)
-				
-				$AudioStreamPlayer2D.play()
-				%AnimationPlayer2.play("destroyed")
-				
-				if spawns_items:
-					call_deferred("spawn_collectibles")
-				
-				await get_tree().create_timer(1, false).timeout
-				queue_free()
-			
-			
-			
-			if not immortal:
-				var dead_effect = Globals.scene_effect_dead_enemy
-				add_child(dead_effect)
-				%AnimatedSprite2D.play("destroyed")
-			
-			Globals.boxBroken.emit()
-		
-		
-		if is_spikeBlock:
-			if damageValue == 1:
-				Globals.playerHit1.emit()
-			elif damageValue == 2:
-				Globals.playerHit2.emit()
-			elif damageValue == 3:
-				Globals.playerHit3.emit()
-			elif damageValue == 100:
-				Globals.kill_player.emit()
-		
-		
-	if area.is_in_group("player_projectile"):
-		if not destroyed:
-			if not immortal:
-				destroyed = true
-			
-			if destructible_weapon:
-				if area.is_in_group("destructive"):
-					var effect_dust = Globals.scene_effect_dust.instantiate()
-					effect_dust.global_position = global_position
-					get_parent().add_child(effect_dust)
-					
-					queue_free()
-			
-			
-			if toggles_toggleBlocks:
-				get_tree().call_group_flags(SceneTree.GROUP_CALL_DEFERRED, "toggleBlock", "toggleBlock_toggle")
-			
-			
-			if breakable:
-				var effect_dust = Globals.dust.instantiate()
-				effect_dust.global_position = global_position
-				get_parent().add_child(effect_dust)
-				
-				$AudioStreamPlayer2D.play()
-				%AnimationPlayer2.play("destroyed")
-				
-				if spawns_items:
-					call_deferred("spawn_collectibles")
-				
-				await get_tree().create_timer(1, false).timeout
-				queue_free()
-			
-			
-			if not immortal and breakable:
-				var dead_effect = Globals.scene_effect_dead_enemy
-				add_child(dead_effect)
-				%AnimatedSprite2D.play("destroyed")
-			
-			Globals.boxBroken.emit()
+	if not Globals.is_node_valid_player(area) : return
+	
+	var target : Node = area.get_parent()
+	
+	if target.is_in_group("Player"):
+		if damage_to_player:
+			Globals.Player.handle_damage(-damage_value, self)
 
 
 #SAVE
@@ -228,6 +153,9 @@ func offScreen_load():
 
 
 func _ready():
+	hitbox_main.area_entered.connect(_on_area_2d_area_entered)
+	z_index -= 1
+	
 	$VisibleOnScreenNotifier2D.visible = true
 	
 	set_process(false)

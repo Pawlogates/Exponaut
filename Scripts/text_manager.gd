@@ -63,8 +63,8 @@ func _ready() -> void:
 	#queue_free()
 
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
 
 
 var current_character_is_rule_name = false
@@ -73,7 +73,7 @@ var current_rule = "none"
 func create_message(message : String = text_full):
 	if message == "" : return
 	if message == "none" : message = text_full
-	print(message)
+	#print(message)
 	
 	number_messages_created += 1
 	var message_number = number_messages_created

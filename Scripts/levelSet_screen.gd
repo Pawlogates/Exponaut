@@ -2,6 +2,7 @@ extends Control
 
 @onready var label_total_score: Label = $label_total_score
 @onready var background: TextureRect = %background
+@onready var label_info: Label = $label_info
 
 
 var levelSet_id = Globals.levelSet_id
@@ -20,42 +21,58 @@ func _ready():
 	
 	Overlay.animation("black_fade_out", 1.0, false, false)
 	
+	if levelSet_id == "none":
+		Globals.levelSet_id = "all"
+		levelSet_id = "all"
+	
+	SaveData.load_levelSet(Globals.levelSet_id)
+	
 	if levelSet_id != "none" and levelSet_id != "all":
-		SaveData.load_levelSet(Globals.levelSet_id)
-	
-	print(Globals.levelSet_id)
-	
-	if levelSet_id != "none":
-		if levelSet_id != "all":
-			levelSet_saved = SaveData.get("saved_" + levelSet_id)
-			levelSet_info = SaveData.get("info_" + levelSet_id)
-			levelSet_unlock = SaveData.get("unlock_" + levelSet_id)
+		levelSet_saved = SaveData.get("saved_" + levelSet_id)
+		levelSet_info = SaveData.get("info_" + levelSet_id)
+		levelSet_unlock = SaveData.get("unlock_" + levelSet_id)
 		
-		place_level_icons(levelSet_id)
+		print(levelSet_info)
+		background.texture = load(levelSet_info[5])
 		
-		if levelSet_id != "all":
-			background.texture = load(levelSet_info[5])
-			label_total_score.text = str(int(SaveData.get_total_score(levelSet_id)))
-		else:
-			background.texture = load("res://Assets/Graphics/backgrounds/bg_cosmos_red.png")
-			label_total_score.text = "literally every level :pinched_fingers: :ok_hand:"
+		label_total_score.text = str(int(SaveData.get_total_score(levelSet_id)))
+	
+	place_level_icons(levelSet_id)
+	
 	
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	
-	await get_tree().create_timer(0.1, false).timeout
+	await get_tree().create_timer(0.25, true).timeout
+	
+	if levelSet_id == "none":
+		Globals.levelSet_id = "all"
+		levelSet_id = "all"
 	
 	Globals.levelSet_loaded.emit()
+	
+	await get_tree().create_timer(1, true).timeout
+	
+	Globals.set_pause(false)
+	
+	await get_tree().create_timer(12, true).timeout
+	
+	if is_instance_valid(label_info) : label_info.queue_free()
 
-func _physics_process(delta: float) -> void:
-	pass
+#func _physics_process(delta: float) -> void:
+	#pass
 
 
-func place_level_icons(levelSet_id):
+func place_level_icons(f_levelSet_id):
+	if levelSet_id == "none":
+		Globals.levelSet_id = "all"
+		levelSet_id = "all"
+	
 	if levelSet_id == "all":
 		for level_filename in Globals.get_files("res://Levels"):
 			var level_icon = Globals.scene_levelSet_level_icon.instantiate()
 			level_icon.level_number = -1
 			level_icon.icon_level_filepath = "res://Levels/" + level_filename
+			#print("res://Levels/" + level_filename)
 			$level_icon_container.add_child(level_icon)
 	
 	else:

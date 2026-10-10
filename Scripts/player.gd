@@ -561,7 +561,10 @@ func handle_air_acceleration(delta):
 			velocity.x = move_toward(velocity.x, speed * direction_x, air_acceleration * delta)
 		# Normal
 		else:
-			velocity.x = move_toward(velocity.x, speed * direction_x, air_acceleration * delta)
+			if Input.is_action_pressed("dash"):
+				velocity.x = move_toward(velocity.x, speed * 1.25 * direction_x, air_acceleration * delta)
+			else:
+				velocity.x = move_toward(velocity.x, speed * direction_x, air_acceleration * delta)
 	
 	if not recently_bounced:
 		if Input.is_action_just_pressed("move_left") or Input.is_action_just_pressed("move_right"):
@@ -579,7 +582,11 @@ func handle_move_x(delta):
 		state_idle = 1
 		return
 	
-	if not inside_wind : velocity.x = move_toward(velocity.x, direction_x * speed, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
+	if not inside_wind:
+		if Input.is_action_pressed("dash"):
+			velocity.x = move_toward(velocity.x, direction_x * speed * 1.5, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
+		else:
+			velocity.x = move_toward(velocity.x, direction_x * speed, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
 	else:
 		if direction_x == inside_wind_direction_x:
 			velocity.x = move_toward(velocity.x, direction_x * speed * 4, acceleration * delta * crouch_walk_multiplier * inside_water_multiplier_x)
@@ -595,7 +602,7 @@ func handle_move_x(delta):
 	state_idle = 0
 
 
-func handle_jump(delta):
+func handle_jump(_delta):
 	if just_landed:
 		if dash_active and can_jump:
 			dash_just_landed = false
@@ -872,7 +879,7 @@ func _on_timer_jump_timeout():
 	pass
 
 
-func _on_hitbox_main_area_entered(area):
+func _on_hitbox_main_area_entered(_area):
 	pass
 
 
@@ -1139,7 +1146,7 @@ func attack_main_spawn_scene(filepath):
 	
 	Globals.projectile_shot.emit()
 
-func secondaryAttack_spawn_scene(filepath):
+func secondaryAttack_spawn_scene(_filepath):
 	pass
 
 
@@ -1284,6 +1291,8 @@ func get_basic_player_values():
 	
 	Globals.player_position = position
 	Globals.player_velocity = velocity
+	if abs(velocity.x) > 500 : Globals.player_velocity_last.x = velocity.x
+	if abs(velocity.y) > 500 : Globals.player_velocity_last.y = velocity.y
 	
 	
 	if is_on_floor():
@@ -1824,7 +1833,7 @@ func handle_attack_melee(): # The word "handle" refers to a function being execu
 			if not "is_ready" in target : continue
 			
 			if target.is_in_group("entity") and not target.invulnerable and not target.collected and not target.is_in_group("entity_editor_preview"):
-				if "entity_name" in target : print(target.entity_name)
+				#if "entity_name" in target : print(target.entity_name)
 				if attack_melee_current_id == "smash_down":
 					if timer_end_attack_melee.time_left < 2.0:
 						# Handle the short kick at the start of smash down.
@@ -1855,6 +1864,9 @@ func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocit
 	
 	if not is_instance_valid(target) : return
 	
+	var hit_pos : Vector2
+	hit_pos = (target.position + position) / 2 + Vector2(randi_range(-4, 4) + 24 * Globals.player_direction_x_active, randi_range(-12, 12))
+	
 	decoration_collision_extra_particles.visible = false
 	
 	if not "timer_invulnerable" in target or not is_instance_valid(target.timer_invulnerable) : return
@@ -1877,16 +1889,22 @@ func attack_melee_hit(target : Node, freeze_duration : float = 0.25, add_velocit
 	if target.entity_type == "enemy" or target.entity_type == "box" or target.can_move:
 		target.handle_hit(self, f_damage_value)
 		
-		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
-		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
-		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special2, 1, target.position, 4, Color.BLUE, Vector2(0, 0), 10)
+		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, 1, hit_pos, 4, Color.BLUE, Vector2(0, 0), 10)
+		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special, 1, hit_pos, 4, Color.BLUE, Vector2(0, 0), 10)
+		if Globals.get_random_bool(20) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special2, 1, hit_pos, 4, Color.BLUE, Vector2(0, 0), 10)
 		sfx_manager.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 		if attack_melee_current_id == "spin_down" : $sfx_manager_spin_down.sfx_play(Globals.sfx_slash, 1, randf_range(0.85, 1.15))
 		
-	if target.entity_type == "enemy":
-		var hit_pos : Vector2
-		hit_pos = (target.position + position) / 2 + Vector2(randi_range(-4, 4) + 24 * Globals.player_direction_x_active, randi_range(-12, 12))
-		if Globals.get_random_bool(100) : Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, hit_pos, 4, Color.WHITE, randf_range(0.75, 1.25) * Vector2(-0.5, -0.5), 10)
+		if target.entity_type == "block":
+			if Globals.get_random_bool(50) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_star, randi_range(1, 3), hit_pos, 4, Color.BLUE, Vector2(0, 0), 10)
+			if Globals.get_random_bool(50) : Globals.spawn_scenes(Globals.World, Globals.scene_particle_special, randi_range(1, 5), hit_pos, 4, Color.BLUE, Vector2(0, 0), 10)
+	
+	if target.entity_type in ["enemy", "box", "block"]:
+		if target.entity_type == "block":
+			if Globals.get_random_bool(50) : Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, hit_pos, 4, Color.WHITE, randf_range(0.75, 1.25) * Vector2(-0.5, -0.5), 10)
+		else:
+			if Globals.get_random_bool(75) : Globals.spawn_scenes(Globals.World, Globals.scene_effect_oneShot_enemy, 1, hit_pos, 4, Color.WHITE, randf_range(0.75, 1.25) * Vector2(-0.5, -0.5), 10)
+		
 		await Globals.effect_melee_freeze(clamp(freeze_duration * invulnerable_duration_multiplier, 0.05, 0.75))
 	
 	elif target.entity_type == "box" : await get_tree().create_timer(0.25, true).timeout
@@ -1936,11 +1954,11 @@ func spawn_messages_timers():
 	#Globals.spawn_message_object(str("block timer was set to %s." % timer_block_attack_melee.wait_time), World, position + Vector2(0, -300))
 	#Globals.spawn_message_object(str("end timer was set to %s." % timer_end_attack_melee.wait_time), World, position + Vector2(600, -300))
 
-func attack_melee_set_hitbox(collision_size : Vector2 = Vector2(64, 64), collision_position : Vector2 = Vector2(-1, 0)):
-	if collision_size.x != -1 : attack_melee_collision.shape.size.x = collision_size.x
-	if collision_size.y != -1 : attack_melee_collision.shape.size.y = collision_size.y
-	if collision_position.x != -1 : attack_melee_collision.position.x = collision_position.x
-	if collision_position.y != -1 : attack_melee_collision.position.y = collision_position.y
+func attack_melee_set_hitbox(f_collision_size : Vector2 = Vector2(64, 64), f_collision_position : Vector2 = Vector2(-1, 0)):
+	if f_collision_size.x != -1 : attack_melee_collision.shape.size.x = f_collision_size.x
+	if f_collision_size.y != -1 : attack_melee_collision.shape.size.y = f_collision_size.y
+	if f_collision_position.x != -1 : attack_melee_collision.position.x = f_collision_position.x
+	if f_collision_position.y != -1 : attack_melee_collision.position.y = f_collision_position.y
 
 
 func set_hitbox(state : bool = true):

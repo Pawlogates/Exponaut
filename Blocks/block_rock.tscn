@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://bhphhktr25qmt"]
+[gd_scene load_steps=7 format=3 uid="uid://1qb8wcw7ipdf"]
 
 [ext_resource type="PackedScene" uid="uid://wgtcgh1uo037" path="res://Other/Scenes/entity_base.tscn" id="1_iixns"]
 [ext_resource type="Texture2D" uid="uid://g0wmlcu4ls5y" path="res://Assets/Graphics/tilesets/tileset.png" id="2_k8av7"]
@@ -31,7 +31,6 @@ hittable = true
 collidable = true
 speed = 500
 damage_from_player = true
-damage_from_player_contact = false
 damage_to_entity = true
 damage_to_entity_contact = false
 damage_to_player = true

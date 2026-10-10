@@ -96,6 +96,7 @@ const l_temporary_powerUp = ["none", "higher_jump", "increased_speed", "teleport
 @onready var l_collectible = []
 @onready var l_enemy = []
 @onready var l_box = []
+@onready var l_block = []
 @onready var l_projectile = []
 
 @onready var l_entity = []
@@ -104,6 +105,7 @@ const l_temporary_powerUp = ["none", "higher_jump", "increased_speed", "teleport
 @onready var l_sprite_collectible = []
 @onready var l_sprite_enemy = []
 @onready var l_sprite_box = []
+@onready var l_sprite_block = []
 @onready var l_sprite_projectile = []
 
 @onready var l_sprite_entity = []
@@ -288,7 +290,9 @@ var entity_editor_icon_on_timeout_death_cooldown = "res://Assets/Graphics/icons/
 
 # Entity editor - [END]
 
-const scene_start_area = preload("res://Levels/overworld_factory.tscn")
+var scene_start_area = preload("res://Levels/overworld_factory.tscn")
+var scene_starship_nexus = load("res://Levels/nexus_starship.tscn")
+var scene_first_level = preload("res://Levels/MAIN_1.tscn")
 
 
 # Various lists (General):
@@ -505,7 +509,7 @@ func reassign_general():
 
 
 # Do not change the required type of the "scene_filepath" variable, as there may still be calls passing it as a [PackedScene].
-func change_main_scene(scene_filepath, instant : bool = false, anim_name : String = "black_fade_in", anim_delay : float = 0.0):
+func change_main_scene(scene_filepath, _instant : bool = false, anim_name : String = "black_fade_in", _anim_delay : float = 0.0):
 	if scene_filepath is PackedScene:
 		var scene = scene_filepath.instantiate()
 		scene_filepath = scene.scene_file_path
@@ -546,6 +550,7 @@ var player_health : int = 100
 
 var player_position : Vector2 = Vector2(0, 0)
 var player_velocity : Vector2 = Vector2(0, 0)
+var player_velocity_last : Vector2 = Vector2(0, 0) # Last velocity before the player had stopped moving.
 
 var player_direction_x : int = 0 # Only horizontal.
 var player_direction_x_active : int = 1 # Can never be equal to 0 (standing still).
@@ -810,6 +815,9 @@ var settings_quicksaves = false
 var settings_volume_music = 0.6
 var settings_volume_sfx = 0.4
 var settings_level_object_active_range : int = 1000
+var settings_chunk_entity_threshold : int = 250
+
+var camera_add_zoom : Vector2 = Vector2(0.5, 0.5)
 
 
 var save_player_position_x = player_position[0]
@@ -877,12 +885,14 @@ var gameState_level = false
 var gameState_levelSet_screen = false
 var gameState_start_screen = false
 
-var gameState_debug = false # This should only ever be equal to "true" if the game is currently being edited.
+var gameState_debug = true # This should only ever be equal to "true" if the game is currently being edited.
 
 var gameState_typing = false # Should be true when the player is inputting text. Used to block the function of "letter" keys, like "P", used to pause the game.
 var gameState_justStarted = true
 
-var gameState_scoring_focus = true
+var gameState_portalord : bool = true
+var gameState_leaderlord : bool = false
+var gameState_roguelord : bool = false
 
 var gameState_tetronaut : bool = false
 
@@ -1008,20 +1018,21 @@ func dm(text, importance = "none", remove_cooldown : float = -1.0): # This funct
 
 
 # Randomization:
-func randomize_everything():
+#func randomize_everything():
 	# Prepare lists:
 	
 	# Sprites:
-	l_sprite_entity = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
-	
-	# Entities:
-	l_sprite_collectible = prepare_list_all("Collectibles", [])
-	l_sprite_enemy = prepare_list_all("Enemies", [])
-	l_sprite_box = prepare_list_all("Boxes", [])
-	l_sprite_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
-	
-	
-	l_entity = l_collectible + l_box + l_enemy + l_projectile
+	#l_sprite_entity = prepare_list_all("Assets/Graphics/sprites/packed/collectibles", [])
+	#
+	## Entities:
+	#l_sprite_collectible = prepare_list_all("Collectibles", [])
+	#l_sprite_enemy = prepare_list_all("Enemies", [])
+	#l_sprite_box = prepare_list_all("Boxes", [])
+	#l_sprite_block = prepare_list_all("Blocks", [])
+	#l_sprite_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
+	#
+	#
+	#l_entity = l_collectible + l_box + l_block + l_enemy + l_projectile
 	
 	
 	##properties
@@ -1183,7 +1194,7 @@ func spawn_scenes_delete(p_spawned_nodes, p_remove_cooldown):
 			node.queue_free()
 
 
-func anim_glow(target : Node, material, duration):
+func anim_glow(target : Node, _f_material, _duration):
 	var tween1 = Tween
 	var tween2 = Tween
 	var tween3 = Tween
@@ -1304,14 +1315,14 @@ func handle_debug_actions():
 			dm("Debug camera manual mode has been set to: " + str(camera_manual_active), clamp(int(camera_manual_active) * 5, 1, 5))
 		
 		elif Input.is_action_just_pressed("3"):
-			if is_instance_valid(Overlay) and get_random_bool(33):
+			if is_instance_valid(Overlay) and get_random_bool(50):
 				if is_instance_valid(Overlay.HUD) : Overlay.HUD.visible = opposite_bool(Overlay.HUD.visible)
-			if is_instance_valid(World) and get_random_bool(33):
+			if is_instance_valid(World) and get_random_bool(50):
 				if is_instance_valid(World.tileset_main) : World.tileset_main.visible = opposite_bool(World.tileset_main.visible)
 		
 		elif Input.is_action_just_pressed("4"):
-			if Engine.time_scale == 1.0:
-				Engine.time_scale = randf_range(0.1, 0.5)
+			if get_random_bool(75):
+				Engine.time_scale = randf_range(0.1, 4.0)
 			else:
 				Engine.time_scale = 1.0
 			
@@ -1399,16 +1410,16 @@ func handle_spawn_menu(manual_request : bool = false):
 		return
 	
 	if gameState_level and is_instance_valid(Globals.World):
-		if manual_request : spawn_menu(scene_menu_main, ["start_new_game", "next_level", "retry", "select_level_set", "quit_game", "score_attack_mode", "settings", "close", "touch_controls"])
+		if manual_request : spawn_menu(scene_menu_main, ["continue", "start_new_game", "next_level", "retry", "select_level_set", "quit_game", "score_attack_mode", "settings", "close", "touch_controls"])
 		elif Globals.World.level_finished : spawn_menu(scene_menu_main, ["resume", "start_new_game", "next_level", "retry", "select_level_set", "quit_to_main_menu", "quit_game", "score_attack_mode", "back_to_overworld", "settings", "close", "touch_controls"])
 		return
 	
 	elif gameState_levelSet_screen:
-		spawn_menu(scene_menu_main, ["settings", "leaderboard", "start_new_game", "continue","next_level", "retry", "resume", "settings", "quit_to_main_menu", "close", "touch_controls"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
+		spawn_menu(scene_menu_main, ["settings", "leaderboard", "start_new_game", "continue", "level_set_screen", "next_level", "retry", "resume", "settings", "quit_game", "close", "touch_controls"], Vector2(window_size.x / -3.5, window_size.y / 2.5), Vector2(0.75, 0.75))
 		return
 	
 	elif gameState_start_screen:
-		spawn_menu(scene_menu_main, ["settings", "leaderboard", "resume", "level_set_screen", "next_level", "retry", "score_attack_mode", "back_to_overworld", "quit_to_main_menu","close", "touch_controls"])
+		spawn_menu(scene_menu_main, ["settings", "leaderboard", "resume", "level_set_screen", "next_level", "retry", "score_attack_mode", "back_to_overworld", "quit_to_main_menu", "close", "touch_controls"])
 		return
 
 
@@ -1668,8 +1679,8 @@ func is_node_valid_player(target_node : Node, valid_group_names : Array = ["play
 func is_node_valid_entity(target_node : Node, valid_group_names : Array = ["entity_hitbox"]):
 	return is_node_valid(target_node, valid_group_names)
 
-func set_mouse_mode(visible : bool = true):
-	if visible : Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
+func set_mouse_mode(state : bool = true):
+	if state : Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	else : Input.mouse_mode = Input.MOUSE_MODE_CONFINED_HIDDEN
 
 
@@ -1740,6 +1751,7 @@ func get_files(dirpath : String, keyword : String = "none"):
 					if keyword in filename:
 						list_filename.append(filename)
 	
+	print(list_filename)
 	return list_filename
 
 func filepath_to_data(filepath : String):
@@ -1787,16 +1799,16 @@ func node_exists(group_name : String):
 
 
 func restart_level():
-	return
+	pass
 	#get_tree().call_group("entity", "queue_free")
-	get_tree().call_group("persistent", "queue_free")
-	get_tree().paused = true
-	
-	reset_values_level()
-	
-	await Overlay.animation("black_fade_in", 1.0, false, true)
-	
-	get_tree().reload_current_scene()
+	#get_tree().call_group("persistent", "queue_free")
+	#get_tree().paused = true
+	#
+	#reset_values_level()
+	#
+	#await Overlay.animation("black_fade_in", 1.0, false, true)
+	#
+	#get_tree().reload_current_scene()
 
 func reset_values_level():
 	level_score = 0
@@ -1806,12 +1818,12 @@ func reset_values_level():
 	player_health = World.player_start_health
 
 
-func get_recording_level_best_score(level_id : String, player_name : String = SaveData.player_name):
+func get_recording_level_best_score(f_level_id : String, player_name : String = SaveData.player_name):
 	var recording_level_best_score_filepath : String = "none"
 	var level_best_score : int = 0
 	
 	for entry_filename in Globals.get_files(Globals.d_recordings_local):
-		if not player_name + "_" + level_id in entry_filename : continue
+		if not player_name + "_" + f_level_id in entry_filename : continue
 		
 		var entry_filepath : String = Globals.d_recordings_local + "/" + entry_filename
 		var entry_filedata = Globals.filepath_to_data(entry_filepath)
@@ -1914,7 +1926,7 @@ func update_recordings_best():
 		delete_file(d_recordings_local_best + "/" + filename)
 	
 	for f_levelSet_id in l_levelSet_id:
-		for level_number in range(1, SaveData.get("info_" + f_levelSet_id)[1] + 1):
+		for f_level_number in range(1, SaveData.get("info_" + f_levelSet_id)[1] + 1):
 			var f_level_id = f_levelSet_id + "_" + str(level_number)
 			
 			var recording_level_best_score_filepath : String = get_recording_level_best_score(f_level_id)
@@ -1984,7 +1996,7 @@ func server_to_dirpath(dirpath : String):
 		push_error("Could not request leaderboard list")
 
 
-func _on_list_received(result, response_code, headers, body, http: HTTPRequest) -> void:
+func _on_list_received(_result, response_code, _headers, body, http: HTTPRequest) -> void:
 	if response_code != 200:
 		push_error("Leaderboard list request failed")
 		http.queue_free()
@@ -2029,7 +2041,7 @@ func _download_next() -> void:
 		_download_next()
 
 
-func _on_file_downloaded(result, response_code, headers, body, http: HTTPRequest) -> void:
+func _on_file_downloaded(_result, response_code, _headers, _body, http: HTTPRequest) -> void:
 	http.queue_free()
 	
 	if not current_index >= len(pending_files):
@@ -2118,11 +2130,12 @@ func reload_lists_general():
 	l_collectible = prepare_list_all("Collectibles", [])
 	l_enemy = prepare_list_all("Enemies", [])
 	l_box = prepare_list_all("Boxes", [])
+	l_sprite_block = prepare_list_all("Blocks", [])
 	l_projectile = prepare_list_all("Projectiles", ["charged", "lethalBall"])
 	
 	await get_tree().create_timer(0.5, true).timeout
 	
-	l_entity = l_collectible + l_box + l_enemy + l_projectile
+	l_entity = l_collectible + l_box + l_block + l_enemy + l_projectile
 
 
 func effect_melee_freeze(duration : float = 0.25):

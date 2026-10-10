@@ -129,10 +129,11 @@ var velocity_last_y = -25
 
 var start_pos = Vector2(-1, -1) # If equal to Vector2(-1, -1), it will be assigned at _ready().
 var start_scale = Vector2(-1, -1)
+var sprite_start_modulate = Color(-1, -1, -1, -1)
 
 var sprite_start_pos = Vector2(-1, -1)
 var sprite_start_scale = Vector2(-1, -1)
-var sprite_start_modulate = Color(-1, -1, -1, -1)
+var start_modulate = Color(-1, -1, -1, -1)
 
 var collected = false
 var dead = false
@@ -814,6 +815,12 @@ var unlock_item_info : Array = ["none", -1, -1, -1] # [item_name, item_rarity, i
 @export var on_floor_spawn_entity_add_velocity_range : Array = [Vector2(-200, -600), Vector2(200, -50)]
 @export var on_floor_spawn_entity_cooldown = 0.5
 
+@export var on_dash_death : bool = false # Triggered when any entity or the player enters its hitbox during a dash.
+@export var on_dashed_death : bool = false
+
+@export var on_self_dash_death : bool = false # Triggered when the dash starts.
+@export var on_self_dashed_death : bool = false # Triggered when the dash finishes.
+
 @export var variable_speed = false
 
 @export var anim_alternate_walk = false
@@ -1124,7 +1131,7 @@ func basic_on_inactive():
 	sprite.visible = false
 	sprite.set_active(false)
 	
-	collision_main.disabled = true
+	if is_instance_valid(collision_main) : collision_main.disabled = true
 	
 	t_state_attacking.set_paused(true)
 	t_state_damage.set_paused(true)
@@ -1161,7 +1168,8 @@ func basic_on_active():
 	sprite.visible = true
 	sprite.set_active(true)
 	
-	if not ignore_collision : collision_main.disabled = false
+	if not ignore_collision:
+		if is_instance_valid(collision_main) : collision_main.disabled = false
 	
 	t_state_attacking.set_paused(false)
 	t_state_damage.set_paused(false)
@@ -1222,9 +1230,9 @@ func synchronize_animation():
 var delete_queued : bool = false # The entity will be deleted as soon as its not visible and doesn't currently make any sound.
 
 func delete_entity():
-	if entity_name == "coin_timed":
-		print(entity_editor_preview, " ", reset_puzzle_delete_node_queued)
-		print(delete_queued)
+	#if entity_name == "coin_timed":
+		#print(entity_editor_preview, " ", reset_puzzle_delete_node_queued)
+		#print(delete_queued)
 	
 	if entity_editor_preview : return
 	if reset_puzzle_delete_node_queued : return
@@ -1237,10 +1245,10 @@ func delete_entity():
 	queue_free()
 
 
-func set_hitbox(active : bool, deferred : bool = true):
+func set_hitbox(f_active : bool, deferred : bool = true):
 	if deferred:
-		hitbox.set_deferred("monitoring", active)
-		hitbox.set_deferred("monitorable", active)
+		hitbox.set_deferred("monitoring", f_active)
+		hitbox.set_deferred("monitorable", f_active)
 	
 	else:
 		hitbox.set_monitorable(active)
@@ -1284,5 +1292,6 @@ func save():
 
 
 func on_refreshed_2_0():
-	if dead:
-		animation_all.pl
+	pass
+	#if dead:
+		#animation_all.play(on_death_anim_name)

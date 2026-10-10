@@ -11,6 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="10_ropq8"]
 
 [node name="World" instance=ExtResource("1_sdymc")]
+level_type = "debug"
 levelSet_id = "DEBUG"
 level_number = 1
 
@@ -56,6 +57,3 @@ message_text = "Press Q or MIDDLE MOUSE BUTTON to open the entity editor! Here, 
 anim_hide_cooldown = 16.0
 pause_duration = 4.0
 camera_target_zoom = Vector2(8, 8)
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@37989" to="tileset_objects/@Area2D@37989" method="_on_area_entered"]

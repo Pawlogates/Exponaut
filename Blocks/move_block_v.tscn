@@ -91,6 +91,7 @@ _data = {
 }
 
 [node name="block" type="Node2D"]
+z_index = -1
 script = ExtResource("1_e6bny")
 
 [node name="block" type="StaticBody2D" parent="."]
@@ -98,13 +99,13 @@ z_index = 1
 collision_layer = 3
 collision_mask = 3
 
+[node name="collision" type="CollisionShape2D" parent="block"]
+shape = SubResource("RectangleShape2D_gk7p3")
+
 [node name="sprite" type="Sprite2D" parent="block"]
 texture = ExtResource("1_u55vs")
 region_enabled = true
 region_rect = Rect2(64, 896, 64, 64)
-
-[node name="collision" type="CollisionShape2D" parent="block"]
-shape = SubResource("RectangleShape2D_gk7p3")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="block"]
 libraries = {

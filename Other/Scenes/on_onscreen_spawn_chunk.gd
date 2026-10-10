@@ -59,6 +59,8 @@ func on_screen_entered() -> void:
 	scenes_active = true
 	active = false
 	
+	Globals.set_pause(true)
+	
 	if not is_instance_valid(Globals.World) : return
 	
 	
@@ -102,6 +104,8 @@ func on_screen_entered() -> void:
 			if "m_start_pos" in new_loader : new_loader.m_start_pos_x = scene_data[6]
 			if "m_start_pos" in new_loader : new_loader.m_start_pos_y = scene_data[7]
 			if "m_health_value" in new_loader : new_loader.m_health_value = scene_data[8]
+			#print(scene_data)
+			#print(scene_data[8])
 			if "m_dead" in new_loader : new_loader.m_dead = scene_data[9]
 			if "m_collected" in new_loader : new_loader.m_collected = scene_data[10]
 			if "m_destroyed" in new_loader : new_loader.m_destroyed = scene_data[11]
@@ -126,9 +130,10 @@ func on_screen_entered() -> void:
 	#await get_tree().create_timer(randf_range(0.05, 0.1), true).timeout
 	
 	#scenes_active = true
-	active = true
 	
-	#Globals.set_pause(false)
+	Globals.await_timer(0.1)
+	active = true
+	Globals.set_pause(false)
 	
 	#queue_free()
 
@@ -169,6 +174,7 @@ func _on_cooldown_check_if_visible_timeout() -> void:
 	
 	#if Globals.debug_mode and Input.is_action_pressed("alt"):
 		#on_screen_entered()
+	#print(active, " ", Globals.level_time_seconds, " ", is_instance_valid(Globals.World), " ", Globals.World.is_ready)
 	
 	if not active : return
 	if Globals.level_time_seconds < 10 : return
@@ -206,6 +212,8 @@ func save():
 
 
 func is_on_screen():
+	#print(Globals.player_position.distance_to(chunk_position))
+	
 	if Globals.debug_mode:
 		if Globals.player_position.distance_to(chunk_position) < 2500:
 			#print(Globals.player_position.distance_to(chunk_position))
@@ -219,6 +227,7 @@ func is_on_screen():
 	#await get_tree().create_timer(randf_range(0.05, 0.25), true).timeout
 	
 	if is_instance_valid(Globals.Player):
+		#print(int(Globals.player_position.distance_to(chunk_position)), " ", int(Globals.settings_level_object_active_range / Globals.Player.camera.zoom.x + Globals.settings_level_object_active_range * 1.1))
 		
 		if scenes_active:
 			if Globals.player_position.distance_to(chunk_position) < Globals.settings_level_object_active_range / Globals.Player.camera.zoom.x + Globals.settings_level_object_active_range * 1.1 : return true

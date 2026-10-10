@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://dsctrhykwjmwb" path="res://Other/Scenes/on_offscreen_spawn_await_onscreen.tscn" id="11_uskie"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ep4j2"]
-size = Vector2(62, 62)
+size = Vector2(60, 60)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c3p0q"]
 size = Vector2(32, 32)
@@ -26,8 +26,11 @@ size = Vector2(1024, 128)
 size = Vector2(2048, 2048)
 
 [node name="base" type="CharacterBody2D" groups=["entity", "level_object", "persistent"]]
+z_index = -1
 collision_layer = 4
+floor_constant_speed = true
 floor_max_angle = 1.0472
+floor_snap_length = 10.0
 script = ExtResource("1_wx0ek")
 start_animation = "general/loop_up_down_slight"
 sfx_self_reflected_straight_filepath = "uid://v0g8agi72nyb"
@@ -119,7 +122,7 @@ mouse_filter = 2
 
 [node name="scan_ledge" type="RayCast2D" parent="."]
 position = Vector2(32, -32)
-target_position = Vector2(0, 70)
+target_position = Vector2(0, 128)
 
 [node name="cooldown_collidable" type="Timer" parent="."]
 wait_time = 0.05

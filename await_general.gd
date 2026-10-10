@@ -48,7 +48,7 @@ func _ready() -> void:
 		Globals.gameState_changed.connect(on_gameState_changed)
 		on_gameState_delete = true
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if on_action_spawn:
 		if Input.is_action_just_pressed(on_action_name_spawn):
 			spawn_scene()

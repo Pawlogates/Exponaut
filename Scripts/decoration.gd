@@ -101,11 +101,11 @@ func _process(delta: float) -> void:
 	position += delta * effect_thrownAway_velocity / 5
 
 
-func play_anim(randomize_everything : bool = true):
+func play_anim(f_randomize_everything : bool = true):
 	await get_tree().create_timer(0.2, true).timeout
 	reassign_general()
 	
-	if randomize_everything:
+	if f_randomize_everything:
 		set_randomize_everything()
 	
 	randomize_anim() # Won't actually do anything if all properties are set to default values.

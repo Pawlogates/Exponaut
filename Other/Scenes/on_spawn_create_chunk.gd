@@ -74,12 +74,18 @@ func create_chunk():
 	
 	for scan_always_active in scan_entered.get_overlapping_areas():
 		var scene : Node = scan_always_active.get_parent()
+		
 		if not scene.is_in_group("level_object") : continue
 		
 		# Exclude entities affected by any "reset_puzzle" type entities.
 		if "entity_type" in scene:
+			
+			#if scene.entity_type == "block":
+				#print("YES ", scene.entity_type, " ", scene.is_in_group("level_object"), " ", scene.never_unload, " ", scene.effect_thrownAway_active, " ", scene.reset_puzzle, " ", scene.reset_puzzle_inside_zone, " ", scene.entity_editor_preview, " ", scene.on_collected_unlock_item_name)
+			
 			if scene.never_unload or scene.effect_thrownAway_active or scene.reset_puzzle or scene.reset_puzzle_inside_zone or scene.entity_editor_preview or scene.on_collected_unlock_item_name != "none":
 				continue
+		
 		#if scene.is_in_group("entity") : print(scene.start_pos)
 		
 		if scene.is_in_group("entity") : list_scene_data.append([scene.scene_file_path, "/root/Globals", scene.position.x, scene.position.y, scene.velocity.x, scene.velocity.y, scene.start_pos.x, scene.start_pos.y, scene.health_value, scene.dead, scene.collected, scene.destroyed, scene.delete_on_load])

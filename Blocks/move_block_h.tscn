@@ -91,6 +91,7 @@ _data = {
 }
 
 [node name="Node2D" type="Node2D"]
+z_index = -1
 script = ExtResource("1_it46a")
 
 [node name="block" type="StaticBody2D" parent="."]

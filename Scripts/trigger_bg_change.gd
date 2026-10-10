@@ -47,16 +47,23 @@ func _ready():
 	if randomize_bg_back2:
 		if Globals.get_random_bool(10) : bg_back2_filepath = dirpath + "bg_empty.png"
 		else : bg_back2_filepath = dirpath + Globals.get_files(Globals.d_backgrounds, Globals.World.overworld_level_id).pick_random()
+	
+	await Globals.await_timer(10)
+	
+	monitorable = true
+	monitoring = true
+
 
 @onready var collision: CollisionShape2D = $collision
 @onready var debug_rect: ColorRect = $debug_rect
 
-func _process(delta):
+func _process(_delta):
 	if Globals.World.level_type == "debug" : debug_rect.visible = true
 	else : debug_rect.visible = false
 
 func _on_area_entered(area):
 	if not Globals.is_node_valid_player(area) : return
+	if Globals.get_filepath(bg_main_filepath) == Globals.bg_main_filepath : return
 	
 	if single_use and number_activated > 0 : return
 	number_activated += 1

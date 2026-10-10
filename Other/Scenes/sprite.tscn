@@ -4,7 +4,6 @@
 [ext_resource type="Script" uid="uid://cj6o5cuba8ieh" path="res://Other/Scenes/sprite_general.gd" id="2_xb8wd"]
 
 [node name="sprite" type="AnimatedSprite2D"]
-z_index = 1
 texture_filter = 2
 sprite_frames = ExtResource("1_xb8wd")
 animation = &"idle"

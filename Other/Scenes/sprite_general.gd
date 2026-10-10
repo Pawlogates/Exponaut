@@ -15,14 +15,15 @@ var outline_part_quantity : int = 4 # Simple outline means that there are 4 outl
 
 func _ready() -> void:
 	if get_parent().is_in_group("entity"):
-		if Globals.get_random_bool(50):
+		if Globals.get_random_bool(1):
 			enabled = false
 			set_process(false)
 			set_active(false)
 			
 			for node in get_children():
 				if node is AnimatedSprite2D:
-					node.queue_free()
+					if Globals.get_random_bool(75):
+						node.queue_free()
 			
 			return
 	
@@ -80,7 +81,7 @@ func _ready() -> void:
 			
 			outline_segment.queue_free()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not enabled : return
 	
 	if outline_enabled:

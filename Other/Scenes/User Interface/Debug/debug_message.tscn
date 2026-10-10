@@ -1,7 +1,6 @@
-[gd_scene load_steps=7 format=3 uid="uid://bxr2h2i7d58g8"]
+[gd_scene load_steps=6 format=3 uid="uid://bxr2h2i7d58g8"]
 
 [ext_resource type="Script" uid="uid://cwxypnqhxaits" path="res://Other/Scenes/User Interface/Debug/debug_message.gd" id="1_cc4bh"]
-[ext_resource type="Theme" uid="uid://8i27k6tj1d3o" path="res://Other/Themes/basic.tres" id="1_wm2x5"]
 
 [sub_resource type="Animation" id="Animation_ab0j1"]
 length = 0.001
@@ -154,14 +153,13 @@ _data = {
 }
 
 [node name="debug_message" type="Label"]
-texture_filter = 1
 anchors_preset = 10
 anchor_right = 1.0
 offset_right = -1896.0
-offset_bottom = 18.0
+offset_bottom = 20.0
 grow_horizontal = 2
 mouse_filter = 0
-theme = ExtResource("1_wm2x5")
+theme_override_constants/outline_size = 4
 theme_override_font_sizes/font_size = 12
 text = "text"
 script = ExtResource("1_cc4bh")

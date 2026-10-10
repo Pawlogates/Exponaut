@@ -2,13 +2,13 @@
 
 [ext_resource type="Script" uid="uid://c3531le4dc665" path="res://Scripts/button_block.gd" id="1_1vehs"]
 [ext_resource type="Texture2D" uid="uid://cssc22wddrc4e" path="res://Assets/Graphics/sprites/sprites_other.png" id="2_7vy27"]
-[ext_resource type="AnimationLibrary" uid="uid://b472igyujs6hn" path="res://Blocks/animation_button.tres" id="3_xq4vn"]
+[ext_resource type="AnimationLibrary" uid="uid://b472igyujs6hn" path="res://Other/Animations/animation_button.tres" id="3_xq4vn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gk7p3"]
 size = Vector2(64, 64)
 
 [node name="button_block_green_RIGHT_root" type="Node2D" groups=["button_block"]]
-z_index = 1
+z_index = -1
 script = ExtResource("1_1vehs")
 blockType = "green"
 blockDirection = 1

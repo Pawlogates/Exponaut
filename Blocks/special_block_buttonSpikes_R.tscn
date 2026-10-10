@@ -71,7 +71,7 @@ size = Vector2(16, 62)
 
 [node name="special_block_buttonSpikes_R" type="CharacterBody2D" groups=["Persist", "button_block"]]
 z_index = 1
-collision_layer = 3
+collision_mask = 9
 script = ExtResource("1_w7b65")
 SPEED = 150.0
 is_spikeBlock = true
@@ -96,7 +96,8 @@ position = Vector2(-8, 0)
 shape = SubResource("RectangleShape2D_gk7p3")
 
 [node name="Area2D" type="Area2D" parent="."]
-collision_mask = 3
+collision_layer = 8
+collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(24, 0)

@@ -31,7 +31,7 @@ func _ready():
 	
 	await get_tree().create_timer(1.0, true).timeout
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("9"):
 		var mytheme = load("res://Other/Themes/basic.tres")
 		var newfont_fp : String = Globals.get_files("res://Other/Fonts").pick_random()

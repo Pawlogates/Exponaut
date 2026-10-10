@@ -31,7 +31,7 @@ func _ready() -> void:
 	
 	update_collected_collectibles()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Input.is_action_just_pressed("0"):
 		animation_player.play("hide")
 

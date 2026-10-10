@@ -155,7 +155,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front_A" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -124
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front_A"]
@@ -191,7 +191,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front2_A" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -123
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_front2_A"]
@@ -227,7 +227,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back_A" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -126
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back_A"]
@@ -263,7 +263,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back2_A" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -127
 scroll_ignore_camera_zoom = true
 
 [node name="layer" type="ParallaxLayer" parent="bg_back2_A"]
@@ -336,7 +336,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front_B" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -124
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -373,7 +373,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_front2_B" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -123
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -410,7 +410,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back_B" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -126
 visible = false
 scroll_ignore_camera_zoom = true
 
@@ -447,7 +447,7 @@ theme = ExtResource("3_84qf3")
 text = "none"
 
 [node name="bg_back2_B" type="ParallaxBackground" parent="."]
-layer = -125
+layer = -127
 visible = false
 scroll_ignore_camera_zoom = true
 

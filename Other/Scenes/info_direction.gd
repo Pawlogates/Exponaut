@@ -5,7 +5,7 @@ extends Node2D
 @onready var attack_main: Node2D = $attack_main
 
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	if Input.is_action_pressed("move_up"):
 		arrow_up.modulate.a = 1
 	else:

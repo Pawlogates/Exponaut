@@ -12,9 +12,9 @@ var active : bool = false
 @export var anim_hide_cooldown : float = 8.0
 @export var anim_speed_scale : float = 1.0
 
-@export var pause_duration : float = 8.0
+@export var pause_duration : float = 4.0
 
-@export var camera_target_offset : Vector2 = Vector2(64, 64)
+@export var camera_target_offset : Vector2 = Vector2(0, -64)
 @export var camera_target_zoom : Vector2 = Vector2(3, 3)
 @export var camera_target_rotation : float = 3.0
 @export var camera_start_speed_multiplier : float = 0.01

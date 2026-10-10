@@ -61,7 +61,7 @@ func sfx_play(filepath : String, volume : float = 1.0, pitch : float = 1.0): # E
 func sfx_combined_play():
 	pass
 
-func sfx_combined_fade(delta):
+func sfx_combined_fade(_delta):
 	pass
 
 

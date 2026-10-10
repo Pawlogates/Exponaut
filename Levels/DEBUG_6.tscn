@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bmnsg0hl7qcpu" path="res://Objects/gate_score.tscn" id="12_jmerk"]
 
 [node name="World" instance=ExtResource("1_ett3p")]
+level_type = "debug"
 levelSet_id = "DEBUG"
 level_number = 1
 
@@ -54,15 +55,7 @@ message_text = "Look at your score. Now try collecting the items in a different 
 position = Vector2(1504, -288)
 message_text = "The combo system is quite involved... but in short, order of collected items will have a major difference in terms of your score, due to the first item only STARTING the combo streak, and the rest have their value added to the main score, as well as the temporary combo score! The combo score can also be multiplied depending on how many items you've collected while the streak is active. s h o r t"
 anim_hide_cooldown = 12.0
-pause_duration = 8.0
 
 [node name="score_gate" parent="." index="17" instance=ExtResource("12_jmerk")]
 position = Vector2(-448, -192)
 target_score = 12000
-
-[connection signal="area_entered" from="tileset_objects/LevelExit" to="tileset_objects/LevelExit" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@85595" to="tileset_objects/@Area2D@85595" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@85596" to="tileset_objects/@Area2D@85596" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@85597" to="tileset_objects/@Area2D@85597" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@85598" to="tileset_objects/@Area2D@85598" method="_on_area_entered"]
-[connection signal="area_entered" from="tileset_objects/@Area2D@85599" to="tileset_objects/@Area2D@85599" method="_on_area_entered"]

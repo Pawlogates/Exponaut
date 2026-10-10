@@ -250,6 +250,8 @@ func _on_btn_change_level_left_pressed() -> void:
 	btn_change_level_general()
 
 func btn_change_level_general():
+	if levelSet_id != "none" or level_id != "all" : return
+	
 	if level_id.ends_with(str(1)) : btn_change_level_left.disabled = true ; btn_change_level_left.modulate = Color.RED
 	else : btn_change_level_left.disabled = false ; btn_change_level_left.modulate = Color.WHITE
 	
@@ -267,18 +269,20 @@ func refresh_entries(f_level_id : String = "all"):
 	await create_entries(f_level_id)
 
 func update_level_name():
-	if level_id != "none":
+	if levelSet_id != "none" and level_id != "all":
 		label_level_name.text = SaveData.get("info_" + level_id)[0]
 
 
 func delete():
 	is_ready = false
 	await get_tree().create_timer(2, true).timeout
+	Globals.set_pause(false)
 	queue_free()
 
 
 func _on_btn_close_pressed() -> void:
-	Globals.handle_spawn_menu(false)
+	Globals.handle_spawn_menu(true)
+	Globals.set_pause(false)
 	queue_free()
 
 

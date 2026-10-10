@@ -47,6 +47,7 @@ var level_start_time = 0.0
 @export var player_start_health = 100
 
 @export var on_start_camera_effect : bool = true
+@export var camera_add_zoom : Vector2 = Vector2(0.25, 0.25)
 
 var total_keys = 0
 var total_collectibles = 0
@@ -142,10 +143,37 @@ var camera_effect_direction : Vector2 = Vector2(0, 0)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#debug_hide_screen_transitions = true
-	#debug_force_camera_zoom = true
-	#debug_force_camera_zoom_value = 0.1
-	#debug_show_unloader_range = true
+	Globals.camera_add_zoom = camera_add_zoom
+	
+	Globals.level_time_seconds = 0
+	
+	var tileset_main_used_rect : Rect2i = tileset_main.get_used_rect()
+	camera_boundary_left = tileset_main_used_rect.position.x * 64 + 64
+	camera_boundary_top = tileset_main_used_rect.position.y * 64 + 64
+	camera_boundary_right = tileset_main_used_rect.size.x * 64 + camera_boundary_left - 64
+	camera_boundary_bottom = tileset_main_used_rect.size.y * 64 + camera_boundary_top - 64
+	
+	
+	if Globals.gameState_justStarted:
+		debug_hide_screen_transitions = true
+		debug_force_camera_zoom = true
+		debug_force_camera_zoom_value = 0.25
+		debug_show_unloader_range = true
+	
+	else:
+		debug_hide_screen_transitions = false
+		debug_force_camera_zoom = false
+		debug_force_camera_zoom_value = 1.0
+		debug_show_unloader_range = false
+	
+	
+	if Globals.debug_mode or Globals.gameState_debug:
+		# Skip the scene transition and zoom the camera out, to see whats happening at the start of the level.
+		if Input.is_action_pressed("recorder"): # The action name should be renamed to "t".
+			debug_hide_screen_transitions = true
+			debug_force_camera_zoom = true
+			debug_force_camera_zoom_value = 0.25
+			debug_show_unloader_range = true
 	
 	# Game state must always be changed right after changing the main scene (scene tree root).
 	Globals.gameState_level = true
@@ -168,12 +196,14 @@ func _ready():
 	
 	await Globals.await_timer(0.25)
 	
+	Globals.level_collectibles = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
+	
 	if level_type == "levelSet":
 		Globals.levelSet_id = levelSet_id
 		Globals.level_number = level_number
 		Globals.level_id = levelSet_id + "_" + str(level_number) # This line makes sense, but looks off.
 		Globals.level_type = level_type
-		Globals.level_name = SaveData.get("info_" + Globals.level_id)[0]
+		if levelSet_id != "none" : Globals.level_name = SaveData.get("info_" + Globals.level_id)[0]
 		
 		if next_level_filepath == "default":
 			next_level_filepath = scene_file_path.replace(Globals.level_id, Globals.levelSet_id + "_" + str(level_number + 1))
@@ -197,19 +227,24 @@ func _ready():
 			if not Globals.gameState_justStarted:
 				await SaveData.load_levelState(Globals.level_id) # Loads states for all level objects, doesn't conflict with load_saved_playerData().
 				if level_filepath == SaveData.saved_last_level_filepath : await SaveData.load_playerData(Globals.opposite_bool(Globals.transition_triggered))
+				await Globals.await_timer(5.0)
 	
 	Globals.load_levelState = true
 	Globals.load_playerData = true
 	Globals.load_levelSet = true
 	
+	Globals.left_level_collectibles = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
 	
-	if Globals.get_node_count("entity") > 100:
+	await Globals.await_timer(0.75)
+	
+	# CHUNK-BASED UNLOADING:
+	if Globals.get_node_count("entity") > Globals.settings_chunk_entity_threshold:
 		var chunk_size : Vector2 = Vector2(2048, 2048)
 		for x in 24:
 			for y in 24:
 				
 				var new_chunk : Node = load("res://Other/Scenes/on_spawn_create_chunk.tscn").instantiate()
-				new_chunk.position = chunk_size * Vector2(x - 12, y - 12 / 2)
+				new_chunk.position = chunk_size * Vector2(x - 12, float(y - 12) / 2)
 				new_chunk.chunk_number = x + y
 				add_child(new_chunk)
 	
@@ -228,6 +263,7 @@ func _ready():
 		Globals.main_scene_changed.emit()
 		Overlay.screen_black()
 		await get_tree().create_timer(0.5, true).timeout
+	
 	Overlay.screen_black()
 	
 	Globals.reassign_general()
@@ -256,7 +292,7 @@ func _ready():
 	
 	if rl_collectible_quantity:
 		for pickup in range(rl_collectible_quantity):
-			Globals.spawn_scenes(self, load("res://Collectibles/apple.tscn"), 1, Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(0, 0), 1, ["on_spawn_delete_if_stuck"], [true])
+			Globals.spawn_scenes(self, load("res://Collectibles/apple.tscn"), 1, Vector2(randf_range(-rl_level_size.x, rl_level_size.x), randf_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(0, 0), 1, ["on_spawn_delete_if_stuck"], [true])
 	
 	if rl_enemy_quantity:
 		rl_enemy_quantity = rl_enemy_quantity + Globals.player_level * 2
@@ -265,12 +301,12 @@ func _ready():
 	if rl_item_pickup_weapon_quantity:
 		for pickup in range(rl_item_pickup_weapon_quantity):
 			if Globals.get_random_bool(75) : continue
-			Globals.spawn_scenes(self, load("res://Collectibles/random_item_weapon.tscn"), 1, Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["on_spawn_delete_if_stuck"], [true])
+			Globals.spawn_scenes(self, load("res://Collectibles/random_item_weapon.tscn"), 1, Vector2(randf_range(-rl_level_size.x, rl_level_size.x), randf_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["on_spawn_delete_if_stuck"], [true])
 	
 	if rl_property_pickup_bool_quantity:
 		for pickup in range(rl_property_pickup_bool_quantity):
 			if Globals.get_random_bool(75) : continue
-			Globals.spawn_scenes(self, load("res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_bool.tscn"), 1, Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["rl_pickup", "on_spawn_delete_if_stuck"], [true, true])
+			Globals.spawn_scenes(self, load("res://Other/Scenes/Entity Editor/menu_entity_editor_behavior_button_bool.tscn"), 1, Vector2(randf_range(-rl_level_size.x, rl_level_size.x), randf_range(-rl_level_size.y, rl_level_size.y)), -1, Color(0, 0, 0, 0), Vector2(1, 1) * -0.5, 1, ["rl_pickup", "on_spawn_delete_if_stuck"], [true, true])
 	
 	if randomized_deco_fade_offset == Vector2(-1, -1):
 		randomized_deco_fade_offset = Vector2(randf_range(-1, 1), randf_range(-1, 1))
@@ -368,7 +404,8 @@ func _ready():
 	
 	if bg_instant_transitions:
 		if is_instance_valid(background):
-			background.animation_fade.speed_scale = 5.0
+			if "animation_fade" in background and is_instance_valid(background.animation_fade):
+				background.animation_fade.speed_scale = 5.0
 	
 	
 	# REMEMBER TO GIVE EACH TRANSITION A UNIQUE NAME (%) AND HAVE ITS ID BE IN THE NAME AT THE END TOO (areaTransition1, areaTransition2, etc.).
@@ -469,7 +506,7 @@ func _ready():
 	if Globals.level_id != "overworld_factory":
 		SaveData.never_saved = false
 	
-	if Globals.get_node_count("entity") > 100 : await get_tree().create_timer(7.5, false).timeout
+	if Globals.get_node_count("entity") > 500 : await get_tree().create_timer(7.5, false).timeout
 	else : await get_tree().create_timer(0.5, false).timeout
 	
 	# Check if chunk generators are finished.
@@ -496,13 +533,18 @@ func _ready():
 		Player.block_movement_full = false
 		Player.velocity = Vector2(0, 0)
 	
-	Globals.level_collectibles = len(get_tree().get_nodes_in_group("collectible")) - len(get_tree().get_nodes_in_group("exclude_collected"))
-	
 	Globals.set_mouse_mode(false)
 	
 	await get_tree().create_timer(4.0, false).timeout
 	
 	Overlay.screen_hide()
+	
+	await get_tree().create_timer(randf_range(15.0, 45.0), false).timeout
+	
+	Globals.debug_show_unloader_range = false
+	Globals.debug_force_camera_zoom = false
+	Globals.debug_force_camera_zoom_value = 1.0
+	Globals.debug_hide_screen_transitions = false
 	
 	if Globals.game_state_roguelord:
 		await get_tree().create_timer(randf_range(24, 48 + Globals.player_level * 8), false).timeout
@@ -530,7 +572,7 @@ func _physics_process(delta):
 	if is_instance_valid(label_level_time):
 		level_time = Time.get_ticks_msec() - level_start_time
 		Globals.level_time = level_time
-		level_time_seconds = level_time / 1000
+		level_time_seconds = level_time / 1000.0
 		Globals.level_time_seconds = level_time_seconds
 		level_time_minutes = level_time_seconds / 60
 		Globals.level_time_minutes = level_time_minutes
@@ -556,8 +598,9 @@ var reset_puzzle_line_start = Vector2(0, 0)
 var reset_puzzle_line_end = Vector2(0, 0)
 
 func _draw():
-	print(line_active)
-	print(line_start_pos)
+	#print(line_active)
+	#print(line_start_pos)
+	
 	if reset_puzzle_line_visible : draw_line(reset_puzzle_line_start, reset_puzzle_line_end, Globals.l_button_color.pick_random(), 5.0, true)
 	if line_active : draw_line(line_start_pos, line_end_pos, Globals.l_button_color.pick_random(), 5.0, true)
 
@@ -581,12 +624,18 @@ var exit_activated : bool = false
 var level_completion_state : int = -1
 
 func on_level_finished():
-	Globals.smo(str(level_finished, " ", exit_activated))
 	if level_finished : return
 	if exit_activated : return
-	#if Globals.levelSet_id == "DEBUG" : return
 	
 	exit_activated = true
+	
+	#Globals.smo(str(level_finished, " ", exit_activated))
+	
+	if Globals.gameState_roguelord:
+		Globals.change_main_scene(Globals.scene_starship_nexus)
+		return
+	
+	#if Globals.levelSet_id == "DEBUG" : return
 	
 	Globals.level_time = level_time
 	
@@ -1002,15 +1051,15 @@ func screen_shake():
 	tween2.tween_property(self, "playing", false, 0)
 
 
-func _input(event):
-	if get_node_or_null("HUD/touch_controls"):
-		return
-	
-	if "Screen" in str(event):
-		for present_touch_controls in get_tree().get_nodes_in_group("touch_controls"):
-			present_touch_controls.queue_free()
-		
-		var touch_controls = preload("res://Other/Scenes/touch_controls.tscn").instantiate()
+#func _input(event):
+	#if get_node_or_null("HUD/touch_controls"):
+		#return
+	#
+	#if "Screen" in str(event):
+		#for present_touch_controls in get_tree().get_nodes_in_group("touch_controls"):
+			#present_touch_controls.queue_free()
+		#
+		#var touch_controls = preload("res://Other/Scenes/touch_controls.tscn").instantiate()
 		#hud.add_child(touch_controls)
 
 
@@ -1081,7 +1130,7 @@ func get_entity_status_all():
 
 
 func on_uncover_matching_id(id):
-	var uncovered_quantity = 0
+	#var uncovered_quantity = 0
 	
 	for zone_hidden in get_tree().get_nodes_in_group("zone_hidden"):
 		#if not zone_hidden.is_hidden : continue
@@ -1089,7 +1138,7 @@ func on_uncover_matching_id(id):
 		if zone_hidden.connected_id == id:
 			zone_hidden.uncover(false)
 			
-			uncovered_quantity += 1
+			#uncovered_quantity += 1
 
 
 func _on_cooldown_restart_level_timeout() -> void:
@@ -1117,7 +1166,7 @@ func rl_spawn_scenes(scene_filepath : String, quantity : int = 1):
 		if rarity > 1 : new_scene_filepath = scene_filepath + str(rarity) + ".tscn"
 		else : new_scene_filepath = scene_filepath + ".tscn"
 		
-		Globals.spawn_scenes(self, new_scene_filepath, 1, Vector2(0, 0), -1, Color(0, 0, 0, 0), Vector2(1, 1) * randf_range(0.0, 0.25) + Vector2(0.1, 0.1) * rarity, 10, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y)), Vector2(randi_range(-rl_level_size.x, rl_level_size.x), randi_range(-rl_level_size.y, rl_level_size.y))])
+		Globals.spawn_scenes(self, new_scene_filepath, 1, Vector2(0, 0), -1, Color(0, 0, 0, 0), Vector2(1, 1) * randf_range(0.0, 0.25) + Vector2(0.1, 0.1) * rarity, 10, [], [], Vector2(0, 0), [Vector2(0, 0), Vector2(0, 0)], [Vector2(randf_range(-rl_level_size.x, rl_level_size.x), randf_range(-rl_level_size.y, rl_level_size.y)), Vector2(randf_range(-rl_level_size.x, rl_level_size.x), randf_range(-rl_level_size.y, rl_level_size.y))])
 
 
 func set_triggers_camera(state : bool = true):

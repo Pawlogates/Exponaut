@@ -11,5 +11,5 @@ func _on_cooldown_spawn_slow_orb_timeout() -> void:
 	restart_cooldown_spawn_slow_orb()
 
 func restart_cooldown_spawn_slow_orb():
-	cooldown_spawn_slow_orb.wait_time = randf_range(0.01, 2.0)
+	cooldown_spawn_slow_orb.wait_time = randf_range(0.01, 4.0)
 	cooldown_spawn_slow_orb.start()

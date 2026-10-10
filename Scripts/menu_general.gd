@@ -325,22 +325,27 @@ func _on_btn_start_new_game_pressed(block_buttons_time : float = 999.0) -> void:
 	if handle_button_pressed_general(block_buttons_time) : return
 	
 	SaveData.wipe_slot(SaveData.slot_current)
+	SaveData.player_name = "none"
 	
 	Globals.spawn_scenes(Overlay, load("res://Other/Scenes/User Interface/Menus/menu_player_name.tscn"), 1, Vector2(0, 0), -1)
-	
-	SaveData.player_name = "none"
 	
 	await get_tree().create_timer(0.25, true).timeout
 	
 	var game_started : bool = false
 	while not game_started:
-		print("checking name")
+		print("checking player name")
 		await get_tree().create_timer(0.5, true).timeout
-	
+		
 		if SaveData.player_name != "none":
 			game_started = true
+			
 			await get_tree().create_timer(0.25, true).timeout
-			Globals.change_main_scene(Globals.scene_start_area)
+			
+			if Globals.gameState_portalord : Globals.change_main_scene(Globals.scene_start_area)
+			elif Globals.gameState_roguelord : Globals.change_main_scene(Globals.scene_starship_nexus)
+			elif Globals.gameState_leaderlord : Globals.change_main_scene(Globals.scene_first_level)
+			
+			break
 
 func _on_btn_continue_pressed(block_buttons_time : float = 10.0) -> void:
 	if Globals.gameState_start_screen:

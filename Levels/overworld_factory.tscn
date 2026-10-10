@@ -84,18 +84,13 @@ position = Vector2(-288, 64)
 [node name="trigger_bg_change" parent="triggers" index="0" instance=ExtResource("7_nen1n")]
 position = Vector2(-288, 64)
 scale = Vector2(8, 8)
+bg_main_filepath = "uid://6gpbao5jgfea"
+bg_front_filepath = "uid://d0et7w6i6ixfe"
 bg_front2_filepath = "uid://bsquinpsfpd47"
-bg_back_filepath = "uid://d0et7w6i6ixfe"
-bg_back2_filepath = "uid://6gpbao5jgfea"
-bg_main_repeat_y = true
 
 [node name="trigger_bg_change2" parent="triggers" index="1" instance=ExtResource("7_nen1n")]
 position = Vector2(10304, -3712)
 scale = Vector2(24, 24)
-bg_front2_filepath = "uid://bsquinpsfpd47"
-bg_back_filepath = "uid://d0et7w6i6ixfe"
-bg_back2_filepath = "uid://6gpbao5jgfea"
-bg_main_repeat_y = true
 
 [node name="trigger_music_change" parent="triggers" index="2" instance=ExtResource("14_b80mc")]
 position = Vector2(-288, 72)

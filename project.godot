@@ -16,7 +16,7 @@ warnings/check_invalid_track_paths=false
 
 config/name="Exponaut"
 config/version="0.9.5"
-run/main_scene="uid://c370w0v3janyp"
+run/main_scene="uid://bgsdemeswik5q"
 config/features=PackedStringArray("4.4", "Forward Plus")
 boot_splash/use_filter=false
 config/icon="uid://c75ytmnmu5s8f"
@@ -396,5 +396,4 @@ touch_screen_attack_main={
 
 [rendering]
 
-renderer/rendering_method="gl_compatibility"
 textures/vram_compression/import_etc2_astc=true

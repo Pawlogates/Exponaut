@@ -4,7 +4,7 @@ extends Sprite2D
 @onready var animation_player2 = $hit_effect3/AnimationPlayer
 
 
-var hide : bool = false
+var is_hidden : bool = false
 
 
 # Called when the node enters the scene tree for the first time.
@@ -23,4 +23,4 @@ func _on_anim_delay_timeout():
 
 func _on_anim_delay_2_timeout():
 	animation_player2.play("loop")
-	hide = true
+	is_hidden = true

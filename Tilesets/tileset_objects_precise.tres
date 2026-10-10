@@ -1,4 +1,4 @@
-[gd_resource type="TileSet" load_steps=157 format=3 uid="uid://3eelrj6nm5ad"]
+[gd_resource type="TileSet" load_steps=155 format=3 uid="uid://3eelrj6nm5ad"]
 
 [ext_resource type="PackedScene" uid="uid://gfyn23vnn7dt" path="res://Objects/Spikes/spikes_UP.tscn" id="1_7p0oe"]
 [ext_resource type="PackedScene" uid="uid://uy1qact2xjfv" path="res://Blocks/move_block_h.tscn" id="5_0s6s8"]
@@ -45,7 +45,6 @@
 [ext_resource type="PackedScene" uid="uid://bedqky14s4a01" path="res://Blocks/button_block_green_LEFT.tscn" id="44_ab34f"]
 [ext_resource type="PackedScene" uid="uid://cbw7wydf50ye3" path="res://Blocks/button_block_green_RIGHT.tscn" id="45_y0h4a"]
 [ext_resource type="PackedScene" uid="uid://dgl6svqvfsnc0" path="res://Blocks/key_block.tscn" id="46_a4wbo"]
-[ext_resource type="PackedScene" uid="uid://bms6jdadro303" path="res://Blocks/special_block.tscn" id="47_fe1vg"]
 [ext_resource type="PackedScene" uid="uid://doe182qfejctt" path="res://Objects/Teleporter_blue.tscn" id="48_iuwn5"]
 [ext_resource type="PackedScene" uid="uid://qygd1xyixtnc" path="res://Objects/Teleporter_red.tscn" id="49_raahg"]
 [ext_resource type="PackedScene" uid="uid://bx654itr3jjdo" path="res://Objects/Teleporter_green.tscn" id="50_at0f1"]
@@ -61,7 +60,6 @@
 [ext_resource type="PackedScene" uid="uid://cs7hc4rry3lqm" path="res://Blocks/button_red.tscn" id="61_61geq"]
 [ext_resource type="PackedScene" uid="uid://drhvrsgn5k85d" path="res://Objects/Decorations/deco_chainLong_V.tscn" id="62_8a77s"]
 [ext_resource type="PackedScene" uid="uid://b2r3wvp75fxdf" path="res://Objects/Decorations/deco_chainLong_H.tscn" id="63_8hd6h"]
-[ext_resource type="PackedScene" uid="uid://tro6l8nm38dv" path="res://Blocks/special_block_destructibleCube.tscn" id="64_colf5"]
 [ext_resource type="PackedScene" uid="uid://dctah68au68co" path="res://Objects/level_exit.tscn" id="65_y6jnx"]
 [ext_resource type="PackedScene" uid="uid://dpm11fdo256ld" path="res://Objects/Decorations/deco_toxicWaterfall.tscn" id="71_pjijk"]
 [ext_resource type="PackedScene" uid="uid://bp1c8almrnogl" path="res://Collectibles/jewel.tscn" id="72_tky81"]
@@ -251,8 +249,6 @@ scenes/19/scene = ExtResource("36_tky81")
 scenes/20/scene = ExtResource("37_pcd3n")
 scenes/21/scene = ExtResource("38_ipxww")
 scenes/22/scene = ExtResource("39_qcmkb")
-scenes/23/scene = ExtResource("47_fe1vg")
-scenes/24/scene = ExtResource("64_colf5")
 
 [sub_resource type="TileSetScenesCollectionSource" id="TileSetScenesCollectionSource_5yba0"]
 resource_name = "boxes"

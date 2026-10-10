@@ -308,7 +308,7 @@ func _on_mouse_exited() -> void:
 
 var correct_pivot_offset = false
 
-func _on_animation_player_current_animation_changed(name: String) -> void:
+func _on_animation_player_current_animation_changed(anim_name: String) -> void:
 	correct_pivot_offset = true
 
 

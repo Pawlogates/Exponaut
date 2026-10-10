@@ -11,4 +11,4 @@ func _ready() -> void:
 		
 		if "id" in get_parent().get_parent().get_parent().get_parent():
 			glow.range_z_max += 20 + (5 * get_parent().get_parent().get_parent().get_parent().id)
-			glow.range_z_min + glow.range_z_min - 5
+			glow.range_z_min += glow.range_z_min - 5

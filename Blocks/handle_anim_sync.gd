@@ -42,7 +42,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
 	if is_instance_valid(animation_player):
-		if Globals.get_random_bool(100):
+		if true or Globals.get_random_bool(100):
 			current_anim = animation_player.current_animation
 			
 			await Globals.await_timer(randf_range(0.01, 0.1))
@@ -68,19 +68,26 @@ func _ready() -> void:
 		#Globals.set_pause(false)
 
 func _physics_process(_delta: float) -> void:
-	return
-	if is_instance_valid(sprite) : sprite.modulate = Color.RED
-	if is_instance_valid(animation_player) : pass
+	if Globals.debug_mode:
+		if Input.is_action_just_pressed("alt"):
+			sync() ; modulate = Color.RED
+	
+	#return
+	
+	#if is_instance_valid(sprite) : sprite.modulate = Color.RED
+	#if is_instance_valid(animation_player) : pass
 
 
 func sync():
 	if not is_instance_valid(Globals.World) : return
 	if not Globals.World.is_ready : return
-	if not Globals.level_time_seconds < 45 : return
+	if not Globals.level_time_seconds > 30 : return
 	if not is_instance_valid(animation_player) : return
 	
+	var offset_value : float = Globals.World.level_time / 100000.0
+	
 	animation_player.stop()
-	await Globals.await_timer(0.05)
+	#await Globals.await_timer(0.05)
 	animation_player.play(current_anim)
-	await Globals.await_timer(0.05)
-	animation_player.advance(clamp(Globals.World.level_time, 1, 9999999))
+	#await Globals.await_timer(0.05)
+	animation_player.advance(clamp(offset_value, 1, 9999999))

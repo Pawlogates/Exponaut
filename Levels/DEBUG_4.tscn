@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://bpxd8r4jkw7uh" path="res://Objects/sign_message.tscn" id="11_ndbs5"]
 
 [node name="World" instance=ExtResource("1_ljr0p")]
+level_type = "debug"
 levelSet_id = "DEBUG"
 level_number = 1
 
@@ -115,7 +116,6 @@ position = Vector2(2352, 1440)
 can_move = true
 breakable_advanced_portal_particle_quantity = 250
 breakable_advanced_portal_level_id = "MAIN_4"
-on_floor_bounce = true
 on_floor_bounce_velocity_multiplier = 1.05
 
 [node name="info_sign" parent="." index="31" instance=ExtResource("11_ndbs5")]
